@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="44" viewWidth="1024" ai:appVersion="15.0.2.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="44" d:pageWidth="1024" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="34503410" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Rect width="1024" height="44" ai:objID="14eed390" ai:seqID="3">
+        <fill>
+          <LinearGradient x="512" y="0" scaleX="38.328" rotation="90">
+            <GradientEntry ratio="0" color="#007214"/>
+            <GradientEntry ratio="1" color="#003F00"/>
+          </LinearGradient>
+        </fill>
+      </Rect>
+      <Rect y="39" width="1024" height="5" ai:objID="10711620" ai:seqID="4">
+        <fill>
+          <SolidColor/>
+        </fill>
+      </Rect>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeXMP 0 B writeImages 1 B aiEditCap 1 I rasterizeResolution 72 I preserveFilterPolicy 3 I preserveTextPolicy 4 I versionKey 2 B downsampleLinkedImages 0 B includeSymbol 0 I expandBlendsOption 5 I preserveGradientPolicy 4 B includeObjectOutsideArtboard 0 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="HeaderBar.assets/images" globalOffsetH="-32" globalOffsetV="-278" rulerCanvasDiffH="480.5" rulerCanvasDiffV="300.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="9F3469CCD3CFA7250E70996EB29C417D" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

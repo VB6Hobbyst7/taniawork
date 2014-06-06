@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   applicationDPI="160" 
+			   splashScreenImage="DynamicSplashScreen" 
+			   firstView="{s}">
+	
+	<fx:Script>
+		<![CDATA[
+			import views.homeview;
+			[Bindable]
+			public var s:Class = views.homeview;
+
+			
+		]]>
+	</fx:Script>
+	<fx:Style >
+		/* CSS file */
+		@namespace s "library://ns.adobe.com/flex/spark";
+		s|ActionBar
+		{
+			
+			defaultButtonAppearance: normal;
+			skinClass: ClassReference("spark.skins.mobile.ActionBarSkin");
+			textShadowAlpha: .65;
+			textShadowColor: #000000;
+			paddingLeft: 0;
+			paddingRight: 0;
+			paddingTop: 2;
+			chromeColor: #921b05;
+			titleAlign: center;
+			
+		}
+		
+		s|ActionBar #titleDisplay
+		{
+			color: #FFFFFF; /* default color is white */
+			fontSize: 20;
+			fontFamily: "_sans";
+		}
+		s|TabbedViewNavigator #tabBar
+		{
+			chromeColor: #FFFFFF;
+			color: #231F20;
+			fontSize: 12;
+			fontWeight: normal;
+			iconPlacement: top;
+			interactionMode: mouse;
+			fontFamily: "_sans";
+		}
+		
+		
+	</fx:Style>
+	<fx:Declarations>
+	
+	</fx:Declarations>
+</s:ViewNavigatorApplication>

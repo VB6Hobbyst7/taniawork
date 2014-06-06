@@ -1,0 +1,810 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Search Results | Doctor Search | College of Physicians and Surgeons of Ontario</title><meta name="description" content="Doctor Search. Information for the public, including patients, hospitals and the government, about physicians practising in Ontario, with contact information, registration details and discipline findings." />
+<meta name="keywords" content="Doctor Search, CPSO, College of Physicians and Surgeons, Family Doctors, General Practitioners, Find a Doctor, Find a Physician, location, health care, patient care, public register, discipline findings, hearings results" />
+
+        <link rel="stylesheet" href="/css/glbFormatting.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/css/glbLayoutContent.css" type="text/css" media="screen" />
+    <link id="ctl00_ctl01" rel="stylesheet" href="/css/print.css" type="text/css" media="print" /><link id="ctl00_ctl02" rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <!-- Moved from code behind: the jquery must load first -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="/js/global.js"></script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js"></script>
+    
+    <script type="text/javascript" src="/js/superfish/superfish.js"></script>
+    <script type="text/javascript" src="/js/superfish/supersubs.js"></script>
+    <script type="text/javascript" src="/js/superfish/hoverIntent.js"></script>
+    <script type="text/javascript" src="/js/superfish/jquery.bgiframe.min.js"></script>
+    <!-- added for the Consultations tabs, overlay begins -->
+    <script type="text/javascript" src="/js/ui.core.js"></script>
+    <script type="text/javascript" src="/js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/js/jquery.colorbox.js"></script>
+    <link id="ctl00_ctl03" rel="stylesheet" href="/css/colorbox.css" type="text/css" media="screen" />
+    <!-- Google analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36725164-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })(); 
+    </script>
+
+
+
+
+
+
+
+<link id="ctl00_ekcss__css_Empty.css" href="\css\Empty.css" type="text/css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" media="screen" href="/css/prettyPhoto.css"></link><script type="text/javascript" src="/js/simpleswap.js"></script><title>
+	Untitled Page
+</title></head>
+<body>
+    <script type="text/javascript" language="JavaScript">
+        var section = 'Doctors'; //Nav selector
+    </script>
+    <form name="aspnetForm" method="post" action="results.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg3MDg3MTkxMw9kFgJmD2QWBgIBD2QWAmYPFgIeBFRleHQF0gQ8dGl0bGU+U2VhcmNoIFJlc3VsdHMgfCBEb2N0b3IgU2VhcmNoIHwgQ29sbGVnZSBvZiBQaHlzaWNpYW5zIGFuZCBTdXJnZW9ucyBvZiBPbnRhcmlvPC90aXRsZT48bWV0YSBuYW1lPSJkZXNjcmlwdGlvbiIgY29udGVudD0iRG9jdG9yIFNlYXJjaC4gSW5mb3JtYXRpb24gZm9yIHRoZSBwdWJsaWMsIGluY2x1ZGluZyBwYXRpZW50cywgaG9zcGl0YWxzIGFuZCB0aGUgZ292ZXJubWVudCwgYWJvdXQgcGh5c2ljaWFucyBwcmFjdGlzaW5nIGluIE9udGFyaW8sIHdpdGggY29udGFjdCBpbmZvcm1hdGlvbiwgcmVnaXN0cmF0aW9uIGRldGFpbHMgYW5kIGRpc2NpcGxpbmUgZmluZGluZ3MuIiAvPg0KPG1ldGEgbmFtZT0ia2V5d29yZHMiIGNvbnRlbnQ9IkRvY3RvciBTZWFyY2gsIENQU08sIENvbGxlZ2Ugb2YgUGh5c2ljaWFucyBhbmQgU3VyZ2VvbnMsIEZhbWlseSBEb2N0b3JzLCBHZW5lcmFsIFByYWN0aXRpb25lcnMsIEZpbmQgYSBEb2N0b3IsIEZpbmQgYSBQaHlzaWNpYW4sIGxvY2F0aW9uLCBoZWFsdGggY2FyZSwgcGF0aWVudCBjYXJlLCBwdWJsaWMgcmVnaXN0ZXIsIGRpc2NpcGxpbmUgZmluZGluZ3MsIGhlYXJpbmdzIHJlc3VsdHMiIC8+DQpkAgMPFgIfAAUHRG9jdG9yc2QCBQ9kFgYCAw9kFgICAw8WAh4HVmlzaWJsZWdkAgcPZBYCAgMPFgIfAAXgAjxVTD48bGk+PGEgaHJlZj0iL3B1YmxpY3JlZ2lzdGVyL2RlZmF1bHQuYXNweD9pZD0yMDU0Ij5UaGUgUHVibGljIFJlZ2lzdGVyPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OCIgY2xhc3MgPSAnaGVyZScgPkFsbCBEb2N0b3JzIFNlYXJjaDwvYT48L2xpPjxsaT48YSBocmVmPSIvcHVibGljcmVnaXN0ZXIvZGVmYXVsdC5hc3B4P2lkPTIwNTIiPlJlZ2lzdHJhdGlvbiBOdW1iZXIgU2VhcmNoPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9NzM3NiI+T3V0LW9mLUhvc3BpdGFsIFByZW1pc2VzPC9hPjwvbGk+PC9VTD5kAgkPZBYCAgEPZBYGAgUPZBYCZg8WAh8BZ2QCCQ9kFgoCAQ8PFgIeC05hdmlnYXRlVXJsBWBodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9zaGFyZXIucGhwP3U9aHR0cCUzYSUyZiUyZnd3dy5jcHNvLm9uLmNhJTJmcHVibGljcmVnaXN0ZXIlMmZyZXN1bHRzLmFzcHhkZAIDDw8WAh8CBWFodHRwOi8vdHdpdHRlci5jb20vaG9tZT9zdGF0dXM9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBQ8PFgIfAgWPAWh0dHA6Ly93d3cubGlua2VkaW4uY29tL3NoYXJlQXJ0aWNsZT9taW5pPXRydWUmdGl0bGU9VW50aXRsZWQgUGFnZSZzdW1tYXJ5PUNQU08mdXJsPWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBw8PFgIfAgV1aHR0cHM6Ly9tLmdvb2dsZS5jb20vYXBwL3BsdXMveC8/dj1jb21wb3NlJmNvbnRlbnQ9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCCQ8PFgIfAgVVbWFpbHRvOj9zdWJqZWN0PUNQU08mYm9keT1odHRwJTNhJTJmJTJmd3d3LmNwc28ub24uY2ElMmZwdWJsaWNyZWdpc3RlciUyZnJlc3VsdHMuYXNweGRkAg0PZBYCZg9kFgoCAg8PFgIfAAVUPHN0cm9uZz48c3BhbiBjbGFzcz1ibHVlPjE0Njwvc3Bhbj4gcmVzdWx0cyBmb3VuZC48L3N0cm9uZz4gVmlld2luZyAyNiB0byA1MCBvZiAxNDYuZGQCBA8PFgQfAAUdPHN0cm9uZz5TZWFyY2ggQWdhaW48L3N0cm9uZz4fAgUlfi9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OGRkAgYPDxYCHwFoZGQCCA9kFgRmDw8WBh8ABS5OZXh0ICZyYXF1bzsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgHg9Db21tYW5kQXJndW1lbnQFATMfAWdkZAIBDw8WBh8ABQwmbGFxdW87IFByZXYfAWcfAwUBMWRkAg4PZBYEZg8PFgYfAAUuTmV4dCAmcmFxdW87DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB8DBQEzHwFnZGQCAQ8PFgYfAAUMJmxhcXVvOyBQcmV2HwFnHwMFATFkZGTat7gE1nA5RYjcG5yIS99j6+fdmA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBwKUp62KBQKnp+n+CgK3k4fMBAL95unfCwKeuZGKAQL95oHBDAKeufnXBOTbnrCvpzvzD0QPOT40FLRXFGwd" />
+</div>
+    <div id="container">
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <div id="header">
+                <div id="home">
+                    <a href="/" title="The College of Physicians and Surgeons of Ontario | Home"><span><strong>
+                        The College of Physicians and Surgeons of Ontario</strong></span></a></div>
+                <div id="right">
+                    
+    <script type="text/javascript" language="JavaScript">
+    
+      $(document).ready(function() {
+            //Setup search box
+            $('.searchinput').each(function() {
+                var default_value = "Site Search";
+                $(this).css('color', '#666');
+                $(this).focus(function() {
+                    if(this.value == default_value) {
+                        this.value = '';
+                        $(this).css('color', '#333');
+                    }
+                });        
+                $(this).blur(function() {
+                    if(this.value == '') {
+                        $(this).css('color', '#666');
+                        this.value = default_value;
+                    }
+                });         
+                $(this).keypress(function(e) {
+                        if(this.value != '') {
+                        if(e.which == 13){
+                            e.preventDefault();
+                            e.stopPropagation();
+                            CallSearch();
+                        }
+                    }
+                });                          
+            });
+
+            //Setup search button
+            $(".button").click(function () { 
+                CallSearch();
+            });
+
+        });
+
+        //Clear postback cookie and run search
+        function CallSearch() {
+            var objsearchText = $(".searchinput");
+            var searchText;
+            if ((objsearchText.val() != "Site Search")&&(objsearchText != null)) {
+                searchText = objsearchText.val();
+                searchText = searchText.replace(/>/gi, " >");
+                searchText = searchText.replace(/</gi, "< ");
+                objsearchText.value = searchText;
+                
+                document.cookie = 'postbackcookie=';
+                document.location.href = "http://" + document.domain + "/search/?searchtext=" + searchText.replace('alert', '').replace('confirm', '');                    
+            }
+        }   
+    </script>    
+    <div id="search">
+    <div id="searchform" >
+        <input name="ctl00$HeaderSearch$searchinput" type="text" id="ctl00_HeaderSearch_searchinput" value="Site Search" class="searchinput" /> 
+        <input name="ctl00$HeaderSearch$btnSearch" type="button" id="ctl00_HeaderSearch_btnSearch" onclick="CallSearch();" class="button" /> 
+    </div>
+    </div><!-- /search -->
+                    
+<!-- Login --> 
+<div id="login"> 
+    
+    <a id="ctl00_LoginStatus_HyperLink2" href="../membersonly/Login.aspx">Member/Applicant Login</a>
+
+</div> 
+<!-- /Login --> 
+    
+                </div>
+                <!-- /right -->
+            </div>
+            <!-- Navigation -->
+            
+
+            
+             
+            
+            <div id="nav">
+            <ul>
+   	          <span id="ctl00_TopNav1_SubMenuManager"></span>
+   	            <li id="mnavAbout"><a id="ctl00_TopNav1_lnkAboutUs" href="/aboutus">&nbsp;<span>About Us</span></a>
+   	                <ul><li><a href="/aboutus/staff/default.aspx?id=1404">President and Senior Staff</a></li><li><a href="/aboutus/council/default.aspx?id=1406">Council & Committees</a></li><li><a href="/aboutus/strategicplan/default.aspx?id=1432">Strategic Plan</a></li><li><a href="/aboutus/privacy/default.aspx?id=1434">Privacy Code</a></li><li><a href="/aboutus/default.aspx?id=2816">Respect for Human Rights</a></li><li><a href="/aboutus/default.aspx?id=5856">Accessibility Policy</a></li><li><a href="/aboutus/careers/default.aspx?id=1428">Career Opportunities</a></li><li><a href="/aboutus/links/default.aspx?id=1436">Related Links</a></li></ul>
+      	        </li>
+                <li id="mnavWhats"><a id="ctl00_TopNav1_lnkWhatsnew" href="/whatsnew">&nbsp;<span>What's New</span>
+                </a>
+                    <ul><li><a href="/whatsnew/news/default.aspx?id=1444">News Releases</a></li><li><a href="/whatsnew/committeeschedule/default.aspx?id=1448">Discipline Committee Schedule</a></li><li><a href="/whatsnew/councilupdates/default.aspx?id=1454">Council Updates</a></li></ul>
+                </li>
+                <li id="mnavDoctors"><a id="ctl00_TopNav1_lnkDocsearch" href="/publicregister">&nbsp;<span>Public Register</span>
+                </a>
+                    <ul><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048">All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></ul>
+                </li>
+                <li id="mnavPolicies"><a id="ctl00_TopNav1_lnkPolicies" href="/policies">&nbsp;<span>Policies and Publications</span></a>
+                    <ul><li><a href="/policies/guide/default.aspx?id=1696">Practice Guide</a></li><li><a href="/policies/policies/default.aspx?id=1778">Policy</a></li><li><a href="/policies/consultations/default.aspx?id=5282">Consultations</a></li><li><a href="/policies/positions/default.aspx?id=1720">Positions & Initiatives</a></li><li><a href="/policies/guidelines/default.aspx?id=1758">CPGs & Other Guidelines</a></li><li><a href="/policies/legislation/default.aspx?id=1768">Legislation & By-Laws</a></li><li><a href="/policies/complaints/default.aspx?id=2092">Complaints</a></li><li><a href="/policies/publications/default.aspx?id=1776">Publications</a></li></ul>
+                </li>
+                <li id="mnavRegistration"><a id="ctl00_TopNav1_lnkRegistration" href="/registration">&nbsp;<span>Registration</span></a>
+                    <ul><li><a href="/registration/registrationrequirements/Default.aspx?id=6992">Registration Requirements</a></li><li><a href="/registration/applicationreview/default.aspx?id=6988">Applying for Registration</a></li><li><a href="/registration/committee/default.aspx?id=1788">Registration Committee</a></li><li><a href="/registration/registrationpolicies/default.aspx?id=6986">Registration Policies</a></li><li><a href="/registration/applicationsforms/default.aspx?id=6994">Registration Applications and Forms</a></li><li><a href="/registration/international/default.aspx?id=1792">International Medical Graduates</a></li><li><a href="/registration/default.aspx?id=3886">FMRAC Agreement on National Standards</a></li><li><a href="/registration/default.aspx?id=6648">Registration Reports</a></li></ul>
+                </li>
+                <li id="mnavMembers"><a id="ctl00_TopNav1_lnkMembers" href="/members">&nbsp;<span>CPSO Members</span>
+                </a>
+                    <ul><li><a href="/members/membership/default.aspx?id=1872">Membership Info</a></li><li><a href="/members/membership/default.aspx?id=1886">Incorporation Issuance and Renewal</a></li><li><a href="/members/resources/default.aspx?id=1898">Resources</a></li><li><a href="/members/engagement/default.aspx?id=1934">Member Engagement</a></li><li><a href="/members/default.aspx?id=6122">Member Outreach</a></li><li><a href="/members/elections/default.aspx?id=1942">Council Elections</a></li><li><a href="/members/peerassessment/default.aspx?id=1944">Peer Assessment</a></li><li><a href="/members/default.aspx?id=5334">Out-of-Hospital Premises Inspection Program</a></li><li><a href="/members/default.aspx?id=6302">Independent Health Facilities</a></li><li><a href="/members/default.aspx?id=6306">Methadone Program</a></li><li><a href="/members/default.aspx?id=6314">Assessor Resources</a></li></ul>
+                 </li>          
+            
+             </ul>
+            </div>
+       
+
+            <!-- /Navigation -->
+            <!-- Content -->
+            <div id="content">
+                <div id="top">
+                    <div id="topLeft">
+                    </div>
+                    <div id="topRight">
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- Left Nav -->
+                    
+<div id="snav">
+
+    <span id="ctl00_LeftSideNav1_Menu1"></span>
+    
+        <UL><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048" class = 'here' >All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></UL>
+              	
+                
+                
+    
+              </div>
+    
+                    <!-- /Left Nav -->
+                    
+    
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- column selector here -->
+
+       	  <div id="singlecolumn">
+       	       	
+
+    
+
+    <h1>
+        Results</h1>
+
+
+<div class="sharing">
+    <p>Share</p>
+    <ul>
+        <li class="facebook">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="twitter">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="http://twitter.com/home?status=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="linkedin">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;title=Untitled Page&amp;summary=CPSO&amp;url=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="google">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlGoogle" class="google" onclick="window.open (this.href,'gplusshare','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="https://m.google.com/app/plus/x/?v=compose&amp;content=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="email">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlEmail" class="email" href="mailto:?subject=CPSO&amp;body=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="ctl00_ContentPlaceHolder1_MainContentControl1_ContentBlock1">
+	
+</div>
+
+   <div><!-- container for searchheader -->
+                <p class="printdetails"><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_Label1"><strong><span class=blue>146</span> results found.</strong> Viewing 26 to 50 of 146.</span></p>
+       <p class="searchagain">&laquo; <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkSearchAgain" href="default.aspx?id=2048"><strong>Search Again</strong></a></p>
+        <div class="clear"></div>
+        </div>
+        
+        
+   	  	    <div class="search">
+                  <div class="top">
+                        <div class="topLeft"></div><div class="topRight"></div>
+                    </div> 
+                    
+                    
+                                                                
+                                         
+                   		<fieldset>
+                        <legend>                     
+                          <span class="off">
+                            Click on a Physician's Name for Details                         
+                            </span>                        
+                            </legend>
+                        
+                        
+                        <!-- Paging -->
+                        <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivTop" class="paging-top">
+                            <ul>
+                                <li id="next">
+                                    <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext','')">Next &raquo;
+                                </a></li>
+                                
+                                <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev','')">&laquo; Prev</a></li>
+                            </ul>
+                        </div>
+                        <!-- /Paging -->
+
+        <div id="results">
+                   <table width="100%" cellspacing="0">
+                     
+                     <tr>
+                       <th width="32%" align="left" valign="middle">Physician Name, (CPSO#)</th>
+                       <th width="36%" align="left" valign="middle">Primary Practice Location</th>
+                       <!-- <th width="16%" align="center" valign="middle">Accepting New Patients?</th> -->
+                       <th width="32%" align="center" valign="middle">Disciplinary Info  &amp; Restrictions</th>
+                     </tr>
+
+
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2082896">Catford, Erika Adele </a> (#82896)
+               
+               
+               
+               
+           </td>
+           <td>
+               100 Colborne St W<br />Suite 400<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Y9<br />Phone:&nbsp;(705) 330-3520<br />Fax:&nbsp;(705) 330-3521</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2084905">Chawla, Anjana </a> (#84905)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl02_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Lindsay</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Orillia Soldier's Memorial Hospital<br />170 Colborne Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201&nbsp;Ext.&nbsp;6415</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2029397">Chong, Daniel Ng Fen Kwee </a> (#29397)
+               
+               
+               
+               
+           </td>
+           <td>
+               Orillia Soldiers Memorial Hospital<br />170 Colborne Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2022822">Collins, David Christopher </a> (#22822)
+               
+               
+               
+               
+           </td>
+           <td>
+               Unit 111<br />210 Memorial Avenue<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 7V1<br />Phone:&nbsp;(705) 325-4434<br />Fax:&nbsp;(705) 325-7221</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2050278">Collins, David Scott </a> (#50278)
+               
+               
+               
+               
+           </td>
+           <td>
+               Unit 3B<br />575 West Street South<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 7N6<br />Phone:&nbsp;(705) 326-1031<br />Fax:&nbsp;(705) 326-9112</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2052404">Collins, Peter Ian </a> (#52404)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl06_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Orillia                       , Petawawa                      </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               C A M H<br />250 College Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 1R8<br />Phone:&nbsp;(416) 979-6847</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2090379">Colpitts, Melanie Helena </a> (#90379)
+               
+               
+               
+               
+           </td>
+           <td>
+               17 Dunedin Street<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5T3<br />Phone:&nbsp;(705) 327-9143<br />Fax:&nbsp;(705) 327-9189</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2065235">Cooper, Robert Avery </a> (#65235)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl08_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Orillia</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Dufferin St Clair Community Clinic<br />1680 Dufferin Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M6H 3M1<br />Phone:&nbsp;(416) 658-6666</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2029084">Crawford, Gordon Alexander </a> (#29084)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl09_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Barrie                        , Orillia                       </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Georgian Professional Centre<br />125 Bell Farm Road<br />Suite 304<br />Barrie&nbsp;ON&nbsp;&nbsp;L4M 6L2<br />Phone:&nbsp;(705) 722-3172<br />Fax:&nbsp;(705) 722-1065</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2074507">Crewe, Shawn Gordon </a> (#74507)
+               
+               
+               
+               
+           </td>
+           <td>
+               Unit 9<br />575 West Street South<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 7N6<br />Phone:&nbsp;(705) 326-9401<br />Fax:&nbsp;(705) 326-3279</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2058399">Daniel, Peter Edward </a> (#58399)
+               
+               
+               
+               
+           </td>
+           <td>
+               16 O'Brien Street<br />Suite 201<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5S2<br />Phone:&nbsp;(705) 326-4401<br />Fax:&nbsp;(705) 326-5212</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2097189">Daraei, Nemat Allah </a> (#97189)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 106<br />210 Memorial Avenue<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 7V1<br />Phone:&nbsp;(705) 327-6576<br />Fax:&nbsp;(705) 327-6579</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2028310">Deimling, John Peter </a> (#28310)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 206B<br />119 Memorial Avenue<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5X1<br />Phone:&nbsp;(705) 326-2308<br />Fax:&nbsp;(705) 326-3141</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2070571">Desjardins, Nina Leah </a> (#70571)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl14_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Barrie</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               North Simcoe ACT Team<br />76 Nottawasaga Street<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 3J4<br />Phone:&nbsp;(705) 427-3503<br />Fax:&nbsp;(866) 837-7216</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2086458">Dharssi, Karim </a> (#86458)
+               
+               
+               
+               
+           </td>
+           <td>
+               100 Colborne St W, Ste 400<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Y9<br />Phone:&nbsp;(705) 326-8335<br />Fax:&nbsp;(705) 326-6365</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2032301">Donald, Shirley Fern </a> (#32301)
+               
+               
+               
+               
+           </td>
+           <td>
+               Orillia Soldiers Memorial Hospital<br />170 Colborne Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2094586">El Gwaidy, Nivine Adly Faheem </a> (#94586)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 112A<br />210 Memorial Avenue<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 7V1<br />Phone:&nbsp;(705) 329-1882<br />Fax:&nbsp;(705) 329-0840</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2078599">Fadavi, Ziba </a> (#78599)
+               
+               
+               
+               
+           </td>
+           <td>
+               Orillia Soldiers Memorial Hospital<br />Department of Anatomical Pathology<br />170 Colborne Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201&nbsp;Ext.&nbsp;3597<br />Fax:&nbsp;(705) 325-2870</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2083380">Fagan, Stephen Joseph </a> (#83380)
+               
+               
+               
+               
+           </td>
+           <td>
+               Unit 103<br />119 Memorial Avenue<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5X1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2056013">Francis, Michael Lee </a> (#56013)
+               
+               
+               
+               
+           </td>
+           <td>
+               260 Mississaga Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 3B8<br />Phone:&nbsp;(705) 325-2300<br />Fax:&nbsp;(705) 325-2300</td>
+           <!-- <td></td> -->
+           <td align="center">
+                     <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl20_lnkExtraInfo" href="details.aspx?view=4&amp;id=%2056013">Details </a><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl20_lnkArrowRight"> &raquo;</span></td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2088193">Gagnon, Antoine </a> (#88193)
+               
+               
+               
+               
+           </td>
+           <td>
+               Soldier Memorial Hospital<br />170 colborne street west<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2065482">Gallagher, Julie Anne </a> (#65482)
+               
+               
+               
+               
+           </td>
+           <td>
+               119 Memorial Ave.<br />Suite 103<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5X1<br />Phone:&nbsp;(705) 326-3549<br />Fax:&nbsp;(705) 326-9529</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2076420">Gilchrist, Andrew David </a> (#76420)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl23_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Orillia                       </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Royal Victoria Hospital<br />201 Georgian Drive<br />Barrie&nbsp;ON&nbsp;&nbsp;L4M 6M2<br />Phone:&nbsp;(705) 728-9802&nbsp;Ext.&nbsp;46550</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2060676">Gile, David Stuart </a> (#60676)
+               
+               
+               
+               
+           </td>
+           <td>
+               Orillia Soldiers Hospital<br />170 Colborne Street West<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 2Z3<br />Phone:&nbsp;(705) 325-2201</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2071688">Gordon, Michelle Marie </a> (#71688)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl25_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Parry Sound</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               17 Dunedin Street<br />Orillia&nbsp;ON&nbsp;&nbsp;L3V 5T3<br />Phone:&nbsp;(705) 327-9143<br />Fax:&nbsp;(705) 327-9189</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            </table>
+                   
+                   
+            
+                       
+                 </div>
+        
+        
+        
+                   
+                 </fieldset>    
+                 
+      <div id="btm">
+          	<div id="btmLeft"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          	<div id="btmRight"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          </div>
+                </div>               
+                
+                <!-- Paging -->
+                <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivBottom" class="paging-btm">
+                        <ul>
+                            <li id="next"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext2','')">Next &raquo;
+                                </a></li>
+                            
+                            <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev2','')">&laquo; Prev</a></li>
+                        </ul>
+                </div>
+                    <!-- /Paging -->
+</div>
+
+<!-- /singlecolumn -->
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+                <div id="btm">
+                    <div id="btmLeft">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                    <div id="btmRight">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                </div>
+            </div>
+            <!-- id=Content -->
+            <!-- Back to Top -->
+            <div class="clear">
+            </div>
+            <div class="backToTop">
+                <p>
+                    <a href="#container">Back to Top</a></p>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- /Wrapper -->
+        <!-- Footer -->
+        
+<div id="footer">
+    <div id="fnav">
+        <p>
+            <a id="ctl00_Footer1_lnkHome" href="/">Home</a>
+            |
+            <a id="ctl00_Footer1_lnkAboutUs" href="/aboutus">About Us</a>
+            |
+            <a id="ctl00_Footer1_lnkWhatsnew" href="/whatsnew">What’s New</a>
+            |
+            <a id="ctl00_Footer1_lnkDocsearch" href="/publicregister">Public Register</a>
+            |
+            <a id="ctl00_Footer1_lnkPolicies" href="/policies">Policies &amp; Publications</a>
+            |
+            <a id="ctl00_Footer1_lnkRegistration" href="/registration">Registration</a>
+            |
+            <a id="ctl00_Footer1_lnkMembers" href="/members">CPSO Members</a>
+            |
+            <a id="ctl00_Footer1_lnkSitemap" href="/sitemap">Site Map</a>
+            |
+            <a id="ctl00_Footer1_lnkSearch" href="/search">Search</a>
+            |
+            <a id="ctl00_Footer1_lnkPrivacy" href="/privacy">Privacy</a>
+            |
+            <a id="ctl00_Footer1_lnkContactus" href="/contactus">Contact Us</a></p>
+    </div>
+    <div class="clear">
+    </div>
+    <div id="copyright">
+        <p>
+            80 College Street, Toronto, Ontario, M5G 2E2
+        </p>
+    </div>
+    <div class="social">
+        <table>
+            <tr>
+                <td valign="middle">
+                    <p><nobr>Follow CPSO</nobr></p>
+                </td>
+                <td valign="middle">
+                    <ul class="social-follow">                                                
+                        <li class="facebook">
+                            <a id="ctl00_Footer1_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook'); return false;" href="https://www.facebook.com/pages/College-of-Physicians-and-Surgeons-of-Ontario/144601285573797"></a>
+                        </li>
+                        <li class="twitter">
+                            <a id="ctl00_Footer1_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter');return false;" href="https://twitter.com/cpso_ca"></a>
+                        </li>
+                        <li class="linkedin">
+                            <a id="ctl00_Footer1_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'LinkedIn'); return false;" href="http://www.linkedin.com/groups/College-Physicians-Surgeons-Ontario-4760466"></a>
+                        </li>                        
+                        <!--<li class="rss" style="visibility:hidden"><a href="/RSS/Default.aspx">RSS</a></li>-->
+                    </ul>                        
+                </td>
+            </tr>
+        </table>        
+    </div>
+</div>
+
+        <!-- /Footer -->
+        <div id="containerBtm">
+            <img src="../../images/blank.gif" alt=" " height="5px" /></div>
+    </div>
+    <div class="spacer">
+    </div>
+    </form>
+</body>
+</html>

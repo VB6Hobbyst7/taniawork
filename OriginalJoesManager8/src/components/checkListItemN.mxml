@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:views="views.*"
+				creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import events.ScrollingEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.MoveEvent;
+			import spark.components.Button;
+			import spark.components.List;
+			import spark.events.ListEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var bcolor:String = "#FFFFFF";
+			[Bindable]
+			public var clickStatus:String = "none";
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var niceinterval:String = "";
+			private var FLAGSTATE:int = 2;
+			[Bindable]
+			public var editmode:uint = 0;
+			[Bindable]
+			public var estatus:Number = -1;
+
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function init(event:FlexEvent):void
+			{
+				editmode = data.editmode;
+				var s:String = "";
+				
+				listoftemps = new ArrayCollection();
+				for (var i:Number = -20; i < 61; i++){
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+				var s3:String = data.interval;
+				var ar:Array = s3.split(",");
+				
+				var stop:String = "";
+				niceinterval = "";
+				if (ar[0] == "y"){
+					niceinterval = niceinterval + "M|";
+				}
+				if (ar[1] == "y"){
+					niceinterval = niceinterval + "Tu|";
+				}
+				if (ar[2] == "y"){
+					niceinterval = niceinterval + "W|";
+				}
+				if (ar[3] == "y"){
+					niceinterval = niceinterval + "Th|";
+				}
+				if (ar[4] == "y"){
+					niceinterval = niceinterval + "F|";
+				}
+				if (ar[5] == "y"){
+					niceinterval = niceinterval + "Sa|";
+				}
+				if (ar[6] == "y"){
+					niceinterval = niceinterval + "Su|";
+				}	
+			}
+			public function emode(u:uint):void {
+				data.estatus = u;
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:BorderContainer width="100%" visible="{data.editmode == 0}" 
+					   height="65" borderAlpha="0" 
+					   backgroundAlpha="0">
+		<s:Group width="95%" height="100%" horizontalCenter="0">
+			<s:Label left="0" color="#000000" fontSize="15" maxDisplayedLines="1"
+					 maxWidth="300" text="{data.name}" verticalCenter="-21"></s:Label>
+			<s:VGroup left="0" width="35%" verticalCenter="9">
+				<s:HGroup>
+					<s:Label right="5" color="#0089B6"  fontSize="15" text="{data.datestart}"></s:Label>
+					<s:Label left="0" color="#000000" fontSize="15" text="|" verticalCenter="0"></s:Label>
+					<s:Label right="5" color="#B30F0F" fontSize="15" text="{data.dateend}"></s:Label>
+				</s:HGroup>
+				<s:Label right="5" color="#4D4D4D" fontSize="15" text="{niceinterval}"></s:Label>
+			</s:VGroup>
+			<s:HGroup right="2" bottom="2" gap="0">
+				<s:Label left="0" color="#1BB73F" fontSize="15" text="{data.goodcount}"
+						 verticalCenter="0"></s:Label>
+				<s:Label left="0" color="#000000" fontSize="15" text="|" verticalCenter="0"></s:Label>
+				<s:Label left="0" color="#B30F0F" fontSize="15" text="{data.badcount}"
+						 verticalCenter="0"></s:Label>
+			</s:HGroup>
+		</s:Group>
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" height="65"  borderAlpha="0" 
+					   visible="{data.editmode == 1}"
+					  backgroundAlpha="0">
+		<s:Group width="95%" height="100%" horizontalCenter="0">
+			<s:Label left="0" color="#000000" fontSize="15" maxDisplayedLines="1" 
+					 maxWidth="300" text="{data.name}" verticalCenter="-21"></s:Label>
+			<s:HGroup  bottom="1" right="1" gap="20">
+				
+				
+				
+				<s:Image  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event);"
+						  click="emode(2);" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/ItemActions_times2.png')"
+												source240dpi="@Embed('assets/pocketicons/ItemActions_times2@2x.png')"
+												source320dpi="@Embed('assets/pocketicons/ItemActions_times2@2x.png')"/>
+					</s:source>
+				</s:Image>
+				
+				<s:Image  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event);"
+						  click="emode(0);" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/ItemActions_DeleteTrashCan.png')"
+												source240dpi="@Embed('assets/pocketicons/ItemActions_DeleteTrashCan@2x.png')"
+												source320dpi="@Embed('assets/pocketicons/ItemActions_DeleteTrashCan@2x.png')"/>
+					</s:source>
+				</s:Image>
+				
+				
+				<s:Image  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event);"
+						  click="emode(1);" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/LeftSideMenu_Settings.png')"
+												source240dpi="@Embed('assets/pocketicons/LeftSideMenu_Settings@2x.png')"
+												source320dpi="@Embed('assets/pocketicons/LeftSideMenu_Settings@2x.png')"/>
+					</s:source>
+				</s:Image>
+				
+				
+			</s:HGroup>
+		</s:Group>
+	</s:BorderContainer>
+	<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0"
+					   borderAlpha="1"  borderColor="#dcdcdc" height="1" />
+</s:ItemRenderer>

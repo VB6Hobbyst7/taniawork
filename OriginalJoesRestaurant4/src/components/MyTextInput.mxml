@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" height="{textInput.height}">
+
+	<!-- temporary hack waiting for skin bug to be fixed -->
+	
+	<fx:Metadata>
+		[Event(name="change", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+
+			public function set text(text:String):void
+			{
+				textInput.text = text;
+			}
+		
+			public function get text():String
+			{
+				return textInput.text;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:TextInput   autoCapitalize="sentence" id="textInput" width="100%" styleName="inputField" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0"
+				 change="dispatchEvent(event)"
+				 focusSkin="skins.TextInputFocusSkin" color="{enabled?0x000000:0xA1A1A1}"/>
+	
+	<s:Line bottom="0" left="0" right="0">
+		<s:stroke>
+			<s:SolidColorStroke color="#DCDCDC"/>
+		</s:stroke>
+	</s:Line>
+	
+</s:Group>

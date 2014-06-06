@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="start()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var messageout:String = "";
+			[Bindable]
+			public var deviceout:String = "";
+			[Bindable]
+			public var ti:Timer = new Timer(10000,0);
+			
+			public function start():void {
+				ti = new Timer(1000,0);
+				ti.addEventListener(TimerEvent.TIMER, afterti);
+				ti.start();
+			}
+			public function afterti(ev:TimerEvent):void {
+				ti.stop();
+				ti.removeEventListener(TimerEvent.TIMER_COMPLETE, afterti);
+				
+				getChecklists.send();
+				
+				
+			}
+			protected function afterChecklists(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				try{
+					var temparray:ArrayCollection = event.result[0].res;
+					for (var i:uint = 0; i < temparray.length; i++){
+						var tempmessage:String = 'Please Begin : '+temparray[i].name;
+						var tempdevice:String = "";
+						var storearray:ArrayCollection = new ArrayCollection();
+						try{
+							storearray = temparray[i].stores;
+						}
+						catch(e:Error){
+							storearray.addItem( temparray[i].stores.store);
+						}
+						
+						for (var j:uint = 0; j < storearray.length; j++){
+							tempdevice = storearray[j];
+							
+							
+							var ht:HTTPService = new HTTPService();
+							ht.url = 'http://markbieber.ca/ojs/sendMessage.php';
+							ht.method = "GET";
+							ht.resultFormat = 'array';
+							var ob:Object = {badge:4,device:tempdevice,message:tempmessage};
+							ht.request = ob;	
+							ht.send();
+							
+							
+							
+						}
+						
+						
+					}
+					
+				}
+				catch(e:Error){
+					
+				}
+				
+				var stop:String = "";
+				
+				
+				
+				
+				
+			//	ti = new Timer(10000,0);
+				//ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);
+			//	ti.start();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="sendPublicMessage" method="GET" 
+					   resultFormat="array" 
+					   url="http://markbieber.ca/ojs/sendMessageAll.php" >
+			<s:request xmlns="">
+				<badge>{4}</badge>		
+				<message>{messageout}</message>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="sendPrivateMessage" method="GET" 
+					   resultFormat="array" 
+					   url="http://markbieber.ca/ojs/sendMessage.php" >
+			<s:request xmlns="">
+				<badge>{4}</badge>		
+				<message>{messageout}</message>		
+				<device>{deviceout}</device>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getChecklistsForPush.php"
+					    result="afterChecklists(event)">
+		</s:HTTPService>
+	</fx:Declarations>
+	
+</s:WindowedApplication>

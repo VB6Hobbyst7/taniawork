@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	ADOBE SYSTEMS INCORPORATED
+	Copyright 2010 Adobe Systems Incorporated
+	All Rights Reserved.
+
+	NOTICE: Adobe permits you to use, modify, and distribute this file
+	in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008"
+	scaleGridLeft="6" scaleGridRight="294" scaleGridTop="6" scaleGridBottom="194">
+    
+	<!-- Content Shading -->
+	<Rect x="0" y="0" width="300" height="200"
+			radiusX="5" radiusY="5">
+		<fill>
+			<LinearGradient  rotation="90">
+				<GradientEntry ratio="0" color="#010101" alpha="0.3"/>
+				<GradientEntry ratio="0.13" color="#FFFFFF" alpha="0"/>
+				<GradientEntry ratio="0.87" color="#FFFFFF" alpha="0"/>
+				<GradientEntry ratio="1" color="#010101" alpha="0.3"/>
+			</LinearGradient>
+		</fill>
+	</Rect>
+	<!-- Content Highlight -->
+	<Rect x="0.5" y="0.5" width="299" height="199"
+			radiusX="5" radiusY="5">
+		<stroke>
+			<SolidColorStroke color="#FFFFFF" alpha="0.4"
+								weight="1"/>
+		</stroke>
+	</Rect>
+</Graphic>

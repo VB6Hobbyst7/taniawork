@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:d="dao.*" xmlns:u="utils.*" 
+		xmlns:c="components.*"  activate="activ()"
+		title="">
+	
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			
+			import flash.sensors.Geolocation;
+			
+			import model.Expense;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.transitions.CrossFadeViewTransition;
+			
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var checklistidout:String = "";
+			[Bindable]
+			public var citemsdata:ArrayCollection = new ArrayCollection();
+			
+			protected var locationDirty:Boolean = false;
+			public function activ():void {
+				
+			}
+			
+		
+			protected function geoUtil_locationUpdateHandler(event:Event):void
+			{
+				busy = false;
+				locationDirty = false;
+				data.location=geoUtil.location;
+				data.longitude=geoUtil.longitude;
+				data.latitude=geoUtil.latitude;
+			}
+			
+			protected function gpsButton_clickHandler():void
+			{
+				busy = true;
+				geoUtil.getLocation();
+			}
+			
+		
+			
+			public function dataChange(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				busy = true;
+				citemsdata = new ArrayCollection();
+				if (this.data != null){
+					if (this.data.id != 0){
+						checklistidout = this.data.id.toString();
+						getCheckListItems.send();
+						this.title = this.data.name;
+					}
+				
+				}
+			}
+			public function afterGetChecklistItems(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				citemsdata = new ArrayCollection();
+				try{
+					citemsdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						citemsdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						citemsdata.addItem({id:-1,checklistid:-1,name:"Empty Checklist Contact Manager",type:"-1",alert:"-1"});
+					}
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+		
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<u:GeolocationUtil id="geoUtil" locationUpdate="geoUtil_locationUpdateHandler(event)"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+		<s:HTTPService id="getCheckListItems" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListItems.php"
+					   result="afterGetChecklistItems(event)" >
+			<s:request xmlns="">
+				<idout>{checklistidout}</idout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+
+	
+	
+	<s:VGroup paddingTop="20" paddingLeft="20" paddingBottom="20" paddingRight="20" width="100%" height="100%" gap="20">
+		<s:List id="cListList" right="0" top="70" bottom="9" borderAlpha="0"
+				 dataProvider="{citemsdata}"
+				itemRenderer="components.checkListListItem" 
+				width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="10"
+								
+								  variableRowHeight="true"/>
+			</s:layout>
+		</s:List>
+		
+	</s:VGroup>
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

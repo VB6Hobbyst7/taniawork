@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="activate1()" 
+		title="Edit Manager" xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Confirm" click="confirm();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var nameout:String = "";
+			[Bindable]
+			public var typeout:String = "";
+			[Bindable]
+			public var passout:String = "";
+			[Bindable]
+			public var idout:Number = -1;
+			[Bindable]
+			public var busy:Boolean = true;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function activate1():void
+			{
+				warn.visible = false;
+				this.title = data.name;
+				nameinput.text = data.name;
+				typeinput.text = data.type;
+				passinput.text = data.pass;
+				idout = data.id;
+				busy = false;
+			}
+			
+			public function confirm():void {
+				warn.visible = false;
+				if ((nameinput.text != "")&&
+					(typeinput.text != "")&&
+					(passinput.text.length > 3)){
+					var stop:String = "";	
+					nameout = nameinput.text;
+					typeout = typeinput.text;
+					passout = passinput.text;
+					updateAdmin.send();
+				}
+				else {
+					warn.visible = true;
+				}
+			}
+			public function afterUpdateAdmin(ev:ResultEvent):void {
+				
+				try{
+					if (ev.result[0] == "good"){
+						navigator.popView();
+					}
+					else {
+						warn.visible = true;
+					}	
+				}
+				catch(e:Error){
+					warn.visible = true;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	<fx:Declarations>
+		<s:HTTPService id="updateAdmin" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/updateAdmin.php"
+					   result="afterUpdateAdmin(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>	
+				<nameout>{nameout}</nameout>	
+				<typeout>{typeout}</typeout>	
+				<passout>{passout}</passout>	
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	
+	
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup  width="100%" height="100%" horizontalCenter="0">
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:Label x="28" y="31" fontSize="20" fontWeight="bold" text="Name: "/>
+				<s:TextInput id="nameinput" x="103" y="21" width="182"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:Label x="28" y="31" fontSize="20" fontWeight="bold" text="Type: "/>
+				<s:TextInput id="typeinput" x="103" y="21" width="182"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:Label x="28" y="31" fontSize="20" fontWeight="bold" text="Pass: "/>
+				<s:TextInput id="passinput" x="103" y="21" width="182"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="warn" x="28" y="31"  visible="false" fontSize="20" fontWeight="bold" text="Incorrect Input"/>
+			</s:HGroup>
+		</s:VGroup>		
+	</s:Scroller>	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

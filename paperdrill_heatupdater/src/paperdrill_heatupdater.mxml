@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function init(event:FlexEvent):void
+			{
+				var csvString:String = "";
+				csvString = "id,heatcount\r\n";
+				for (var i:uint = 400000; i < 501203; i++){
+					var urlo:String = "C:\\data\\"+i.toString()+".txt";
+					var file3:File = new File(urlo);
+					var fs:FileStream = new FileStream();
+					fs.open(file3, FileMode.READ);
+					//text of the the m.txt is now in mtext
+					var mtext:String = fs.readUTFBytes(fs.bytesAvailable);
+					var commacount:uint = 0;
+					if (mtext == ""){
+						commacount = 0;
+					}
+					else if ((mtext != "")&&(mtext.indexOf(",") == -1)){
+						commacount = 1;
+					}
+					else {
+						do {
+							commacount++;
+							mtext = mtext.substring(mtext.indexOf(",")+1,mtext.length);
+						}while(mtext.indexOf(",") != -1);
+						commacount++;
+					}
+					fs.close();
+					csvString = csvString + i.toString() + "," + commacount.toString() + "\r\n";
+					trace(i.toString());
+				}
+				
+				
+				var file2:File = File.documentsDirectory;
+				file2 = file2.resolvePath("c:/heatDataOut.txt");
+				var fileStream:FileStream = new FileStream();
+				fileStream.open(file2, FileMode.WRITE);
+				fileStream.writeUTFBytes(csvString);
+				fileStream.close();
+				var jo:String = "";
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:WindowedApplication>

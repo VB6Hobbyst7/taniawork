@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   applicationDPI="160"  fontFamily="ubuntu"
+			   splashScreenImage="DynamicSplashScreen" 
+			   firstView="{s}" creationComplete="viewnavigatorapplication1_creationCompleteHandler(event)" >
+
+	<fx:Style >
+		/* CSS file */
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace esri "http://www.esri.com/2008/ags";
+		@namespace components "components.*";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace local "*";
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@font-face {
+			src: url("font/Ubuntu-R.ttf");
+			fontFamily: "ubuntu";
+			embedAsCFF: false;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-B.ttf");
+			fontFamily: "ubuntu";
+			fontWeight: bold;
+			embedAsCFF: false;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-BI.ttf");
+			fontFamily: "ubuntu";
+			fontWeight: bold;
+			fontStyle: "italic";
+			embedAsCFF: false;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-RI.ttf");
+			fontFamily: "ubuntu";
+			fontStyle: "italic";
+			embedAsCFF: false;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-R.ttf");
+			fontFamily: "ubuntuCFF";
+			embedAsCFF: true;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-B.ttf");
+			fontFamily: "ubuntuCFF";
+			fontWeight: bold;
+			embedAsCFF: true;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-BI.ttf");
+			fontFamily: "ubuntuCFF";
+			fontWeight: bold;
+			fontStyle: "italic";
+			embedAsCFF: true;
+		}
+		
+		@font-face {
+			src: url("font/Ubuntu-RI.ttf");
+			fontFamily: "ubuntuCFF";
+			fontStyle: "italic";
+			embedAsCFF: true;
+		}
+		s|Label{
+			fontFamily: "ubuntuCFF";
+		}
+		s|TextInput {
+			skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+			showPromptWhenFocused:false;
+			fontFamily: "ubuntu";
+		}
+		s|TextArea {
+			skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+			fontFamily: "ubuntu";
+		}
+		s|ActionBar
+		{
+			
+			defaultButtonAppearance: normal;
+			skinClass: ClassReference("spark.skins.mobile.ActionBarSkin");
+			textShadowAlpha: .65;
+			textShadowColor: #000000;
+			paddingLeft: 0;
+			paddingRight: 0;
+			fontFamily: "ubuntu";
+			paddingTop: 2;
+			chromeColor: #921b05;
+			titleAlign: center;
+			
+		}
+		
+		s|ActionBar #titleDisplay
+		{
+			color: #FFFFFF; /* default color is white */
+			fontSize: 20;
+			fontFamily: "ubuntu";
+		}
+		s|TabbedViewNavigator #tabBar
+		{
+			chromeColor: #FFFFFF;
+			color: #231F20;
+			fontSize: 12;
+			fontWeight: normal;
+			iconPlacement: top;
+			interactionMode: mouse;
+			fontFamily: "ubuntu";
+		}
+		global
+		{
+			font-family: ubuntu;
+		}
+		
+		
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+			import views.homeview;
+			[Bindable]
+			public var s:Class = views.homeview;
+			public var dispatcher:EventDispatcher;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			protected function operation1():void
+			{
+				
+				//Operation1Result.token = employeeService.Operation1();
+				
+				//this.parentApplication.dispatcher.addEventListener(ScrollingEvent.TAP_ACTION, onItemTap);
+			}
+			
+			protected function employeeService_resultHandler(event:ResultEvent):void
+			{
+				//navigator.pushView(views.sfdcempHomeView, event.result as ArrayCollection);
+			}
+			
+			protected function viewnavigatorapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				operation1();
+				dispatcher = new EventDispatcher;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	
+	</fx:Declarations>
+</s:ViewNavigatorApplication>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="activate1()"
+		title="Add Checklist" xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Confirm" click="confirm();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var titleout:String = "";
+			[Bindable]
+			public var datestartout:String = "";
+			[Bindable]
+			public var dateendout:String = "";
+			[Bindable]
+			public var storestoaddout:String = "";
+			[Bindable]
+			public var idout:Number = -1;
+			[Bindable]
+			protected var storedata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var intervalout:String = "";
+			[Bindable]
+			public var managerid:String = "-1";
+			protected var sqlConnection:SQLConnection;
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					//navigator.pushView(HomeSimpliSave, {index:u});
+				}
+				else if (u == 1){
+					//navigator.pushView(HomeFindAFav, {index:u});
+				}
+				else if (u == 2){
+					//navigator.pushView(HomeMyFavs, {index:u});
+				}
+				else if (u == 3){
+					//navigator.pushView(HomeSettings, {index:u});
+				}
+				
+			}	
+			
+			public function activate1():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("manager.db"));
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * from manager";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					managerid = resData[0].id.toString();
+					//managerid = "5";
+					busy = true;
+					getStores.send();
+				}
+				else {
+					busy = false;
+				}
+			}
+	
+			public function afterAddCheckList(ev:ResultEvent):void {
+				
+				try{
+					busy = false;
+					navigator.popView();
+				}
+				catch(e:Error){
+					
+				}
+			
+			}
+			public function afterGetStores(ev:ResultEvent):void {
+				try{
+					var stop:String = "";
+					busy = false;
+					storedata = new ArrayCollection();
+					try{
+						storedata = ev.result[0].res;	
+					}
+					catch(e:Error){
+						storedata.addItem( ev.result[0].res);
+					}	
+				}
+				catch(e:Error){
+					busy = false;
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				
+			}
+			public function confirm():void {
+				//check and add. 
+				//addCheckList.send();	
+				var title:String = titleinput.text;
+				var datestart:String = datestartinput.selectedDate.hours.toString()+":"+datestartinput.selectedDate.minutes.toString()+":"+datestartinput.selectedDate.seconds.toString();
+				var dateend:String = dateendinput.selectedDate.hours.toString()+":"+dateendinput.selectedDate.minutes.toString()+":"+dateendinput.selectedDate.seconds.toString();
+				var storestoadd:String = "";
+				var count:uint = 0;
+				
+				intervalout = "";
+				if (i1.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i2.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i3.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i4.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i5.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i6.selected){
+					intervalout = intervalout + "y,"
+				}
+				else {
+					intervalout = intervalout + "n,"
+				}
+				
+				if (i7.selected){
+					intervalout = intervalout + "y"
+				}
+				else {
+					intervalout = intervalout + "n"
+				}
+				
+				
+				for (var i:uint = 0; i < storedata.length; i++){
+					var isselected:Boolean = storedata[i].selectedval;
+					if (isselected){
+						var storeid:String = storedata[i].id.toString();
+						if (count == 0){
+							count++;	
+							storestoadd = storeid ;
+						}
+						else {
+							storestoadd = storestoadd + "," + storeid ;
+						}
+					}
+				}
+				
+				if ((datestartinput.selectedDate.time < dateendinput.selectedDate.time)&&(title != "")&&(title.length > 2)&&(storestoadd != "")){
+					var stop:String = "";	
+					titleout = title;
+					datestartout = datestart;
+					dateendout = dateend;
+					storestoaddout = storestoadd;
+					addCheckList.send();
+					busy = true;
+				}
+				
+			
+				//if (titleinput.text != "")&&(titleinput.text.length > 2)&&(
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getStores" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getStores.php"
+					   result="afterGetStores(event)" >
+			<s:request xmlns="">
+				<managerid>{managerid}</managerid>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="addCheckList" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/addCheckList.php"
+					   result="afterAddCheckList(event)" >
+			<s:request xmlns="">
+				<titleout>{titleout}</titleout>	
+				<datestartout>{datestartout}</datestartout>	
+				<dateendout>{dateendout}</dateendout>	
+				<storestoaddout>{storestoaddout}</storestoaddout>
+				<intervalout>{intervalout}</intervalout>
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup  width="100%" height="100%" horizontalCenter="0" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:TextInput id="titleinput" needsSoftKeyboard="true" autoCapitalize="all" softKeyboardType="contact" 
+							 x="48" y="21" width="100%" height="100%" prompt="Title"/>
+			</s:HGroup>
+			<s:Group width="100%" height="57" >
+				<s:Label left="0" verticalCenter="0" width="150" fontSize="20" fontWeight="bold" text="Start Time"/>
+				<s:DateSpinner right="0" verticalCenter="0"  displayMode="time" id="datestartinput" height="50"/>
+			</s:Group>
+			<s:Group width="100%" height="62" >
+				<s:Label left="0" verticalCenter="0" width="150" fontSize="20" fontWeight="bold" text="End Time"/>
+				<s:DateSpinner id="dateendinput" displayMode="time" right="0" verticalCenter="0" height="50"/>
+			</s:Group>
+			<s:HGroup width="100%" height="73" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:Label x="18" y="157" fontSize="20" fontWeight="bold" text="Interval"/>
+				<s:VGroup>
+					<s:HGroup>
+						<s:CheckBox id="i1" label="M"/>
+						<s:CheckBox id="i2" label="Tu"/>
+						<s:CheckBox id="i3" label="W"/>
+						<s:CheckBox id="i4" label="Th"/>
+					</s:HGroup>
+					<s:HGroup>
+						<s:CheckBox id="i5" label="F"/>
+						<s:CheckBox id="i6" label="Sa"/>
+						<s:CheckBox id="i7" label="Su"/>
+					</s:HGroup>
+				</s:VGroup>
+			
+				
+				
+			</s:HGroup>
+			<s:Label fontSize="20" fontWeight="bold" text="Affected Stores:"/>
+			<s:List id="storelist" width="100%" contentBackgroundAlpha="0" verticalScrollPolicy="off" top="0" bottom="0"
+					change="listChange(event);"
+					dataProvider="{storedata}" itemRenderer="components.storeAddItem">
+				
+			</s:List>	
+		</s:VGroup>		
+	</s:Scroller>	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

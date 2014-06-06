@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Manager" xmlns:components="components.*"
+		 viewActivate="init(event)">
+	<fx:Script>
+		<![CDATA[	
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var midout:String = "";
+			[Bindable]
+			public var mnameout:String = "";
+			[Bindable]
+			public var aauthout:String = "";
+			[Bindable]
+			public var mpassout:String = "";
+			[Bindable]
+			public var managertype:String = "";
+			
+
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					navigator.pushView(checklists, {index:u, ismanage:false});
+				}
+				else if (u == 1){
+					navigator.pushView(storesview, {index:u,managertype:managertype});
+				}
+				else if (u == 2){
+					navigator.pushView(checklists, {index:u,ismanage:true});
+				}
+				else if (u == 3){
+					navigator.pushView(communicationview, {index:u});
+				}
+				else if (u == 4){
+					navigator.pushView(admins, {index:u});
+				}
+				
+			}	
+			
+			protected function init(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				
+				//DROP COMMENT OUT
+				/*try{
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "Drop TABLE manager";
+				stmt.execute();
+				}
+				catch(e:Error){
+				
+				}*/
+				//END OF COMMENT OUT
+				
+				
+				warn.visible = false;
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("manager.db"));
+				
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS manager (" +
+					"id INTEGER, " +
+					"name varchar(255), " +
+					"pass varchar(255), " +
+					"type varchar(255))";
+				stmt.execute();
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * from manager";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					
+					loadInterface(resData[0].id.toString(),resData[0].name,resData[0].pass,resData[0].type);
+				}
+				else {
+					scroller.visible = false;
+					scroller2.visible = true;
+				}
+			}
+			public function loadInterface(id:String, name:String, pass:String, type:String):void {
+				
+				managertype = type;
+				if (type == "0"){
+					//super admin
+				}
+				else if (type == "1"){
+					//main admin
+					h5.visible = false;
+					h6.visible = false;
+				}
+				else if (type == "2"){
+					//view admin
+					h5.visible = false;
+					h2.visible = false;
+					h6.visible = false;
+				}
+				
+				
+				
+				
+				scroller2.visible = false;
+				scroller.visible = true;
+				
+				
+				
+				
+			}
+			public function verifysetup(event:MouseEvent):void
+			{
+				warn.visible = false;
+				// TODO Auto-generated method stub
+				if ((midinput.text != "")&&(mpassinput.text != "")){
+					midout = midinput.text;
+					//mnameout = mnameinput.text;
+					//aauthout = aauthinput.text;
+					mpassout = mpassinput.text;
+					setupDevice.send();
+				}
+			}
+			public function afterGetSetupDevice(ev:ResultEvent):void {
+				var stop:String = "";
+				try{
+					warn.text = ev.result[0].res.message;
+					warn.visible = true;	
+					
+					if (ev.result[0].res.message == "Success"){
+						var stmt:SQLStatement = new SQLStatement();
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("manager.db"));
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into manager values(:id,:name,:pass,:type)";
+						stmt.parameters[":id"] = ev.result[0].res.id;
+						stmt.parameters[":name"] = ev.result[0].res.name;
+						stmt.parameters[":pass"] = ev.result[0].res.pass;
+						stmt.parameters[":type"] = ev.result[0].res.type;
+						stmt.execute();
+						loadInterface(ev.result[0].res.id.toString(),ev.result[0].res.name,
+							ev.result[0].res.pass,ev.result[0].res.type);
+					}
+					else {
+						//bad
+					}
+				}
+				catch(e:Error){
+					warn.text = "Interface Error";
+					warn.visible = true;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="setupDevice" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/setupDeviceCheck.php"
+					   result="afterGetSetupDevice(event)" >
+			<s:request xmlns="">
+				<midout>{midout}</midout>
+				<mpassout>{mpassout}</mpassout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" left="0" visible="false" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:HGroup  width="100%" height="100%" horizontalCenter="0">
+			<s:VGroup width="50%" height="100%" gap="8" horizontalAlign="center" verticalAlign="middle">
+				<components:homeItem id="h1"   lbl="CheckLists" imagetype="../assets/pocketicons/toolbar_list@2x.png" click="homeGo(0);" mouseDown="gDown(event)"
+									   mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem id="h4"   lbl="Communication" imagetype="../assets/pocketicons/ShareRecents_ReportArticle@2x.png" click="homeGo(3);" mouseDown="gDown(event)"
+									 mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem id="h5"   lbl="Managers" imagetype="../assets/pocketicons/ShareRecents_PlainAvatar@2x.png" click="homeGo(4);" mouseDown="gDown(event)"
+									 mouseOut="gOut(event)" mouseOver="gOver(event)" />
+			
+			</s:VGroup>
+			<s:VGroup width="50%" height="100%" gap="8" horizontalAlign="center" verticalAlign="middle">
+				
+				<components:homeItem  id="h3"  lbl="Stores" imagetype="../assets/pocketicons/toolbar_grid@2x.png" click="homeGo(1);" mouseDown="gDown(event)"
+									   mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem id="h2"   lbl="Manage Checklists" imagetype="../assets/pocketicons/toolbar_listview@2x.png" click="homeGo(2);" mouseDown="gDown(event)"
+									 mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem id="h6"   lbl="" imagetype=""   />
+				
+				
+			</s:VGroup>
+		</s:HGroup>		
+	</s:Scroller>
+	<s:Scroller id="scroller2" left="0" visible="false" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="right" horizontalCenter="0"
+				  paddingTop="20">
+			<s:Label  textAlign="center" width="100%" text="First Time Setup Install"/>
+			<s:HGroup x="6" width="100%" height="49" horizontalAlign="right" >
+				<s:Label text="Manager ID:"/>
+				<s:TextInput id="midinput"  autoCapitalize="none" width="184"/>
+			</s:HGroup>
+			
+			<s:HGroup width="100%" height="49"  horizontalAlign="right" >
+				<s:Label text="Manager Pass:"/>
+				<s:TextInput id="mpassinput" autoCapitalize="none"  width="184"/>
+			</s:HGroup>
+		
+			
+			<s:Group width="100%">
+				<components:genericRedButton x="64" width="192" click="verifysetup(event)" height="53" lbl="Setup Device">
+				</components:genericRedButton>
+				
+			</s:Group>
+			<s:Label id="warn"  textAlign="center" width="100%" visible="false" height="35" text="Warning" 
+					 horizontalCenter="0"/>
+			
+		</s:VGroup>		
+	</s:Scroller>
+</s:View>

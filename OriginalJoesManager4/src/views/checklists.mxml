@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Edit" visible="{data.ismanage}" click="editlist();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import events.ScrollingEvent;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flashx.textLayout.tlf_internal;
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.TouchInteractionEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var idout:uint = 0;
+			protected function creationCompleteHandler():void
+			{
+				if (data.ismanage){
+					this.title = "Manage Checklists";
+				}
+				else {
+					this.title = "Checklists";
+				}
+				busy = true;
+				getChecklists.send();
+				
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						listdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						
+					}
+					
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					
+					
+					
+					if (ev.currentTarget.selectedItems[0].editmode == 0){
+						
+						if (data.ismanage){
+							navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+								id:ev.currentTarget.selectedItems[0].id,
+								datestart:ev.currentTarget.selectedItems[0].datestart,
+								dateend:ev.currentTarget.selectedItems[0].dateend,
+								goodcount:ev.currentTarget.selectedItems[0].goodcount,
+								badcount:ev.currentTarget.selectedItems[0].badcount,
+								interval:ev.currentTarget.selectedItems[0].interval,
+								ismanage:true});	
+						}
+						else {
+							navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+								id:ev.currentTarget.selectedItems[0].id,
+								datestart:ev.currentTarget.selectedItems[0].datestart,
+								dateend:ev.currentTarget.selectedItems[0].dateend,
+								goodcount:ev.currentTarget.selectedItems[0].goodcount,
+								badcount:ev.currentTarget.selectedItems[0].badcount,
+								interval:ev.currentTarget.selectedItems[0].interval,
+								ismanage:false});	
+						}
+					}
+					
+					
+				}
+				
+			}
+			public function listclick(ev:MouseEvent):void {
+				if (list.selectedIndex != -1){
+					if (listdata[list.selectedIndex].editmode == 1){
+						if (listdata[list.selectedIndex].estatus == 0){
+							//delete
+							var stop333:String = "";
+							idout = listdata[list.selectedIndex].id;
+							busy = true;
+							deleteCheckList.send();
+						}
+						else if (listdata[list.selectedIndex].estatus == 2){
+							//delete
+							idout = listdata[list.selectedIndex].id;
+							busy = true;
+							duplicateCheckList.send();
+						}
+						else if (listdata[list.selectedIndex].estatus == 1){
+							//edit
+							var stop342342:String = "";
+							navigator.pushView(editCheckList,{id:listdata[list.selectedIndex].id,
+								name:listdata[list.selectedIndex].name,
+								datestart:listdata[list.selectedIndex].datestart,
+								dateend:listdata[list.selectedIndex].dateend,
+								interval:listdata[list.selectedIndex].interval});	
+						}
+						listdata[list.selectedIndex].estatus = -1;
+					}
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function addItem():void {
+				navigator.pushView(addChecklist);
+			}
+			protected function myList_touchInteractionStartHandler(event:TouchInteractionEvent):void
+			{
+				var myScrollEvent:ScrollingEvent = new ScrollingEvent(ScrollingEvent.SCROLLING_STARTED);
+				this.parentApplication.dispatcher.dispatchEvent(myScrollEvent);
+				
+			}
+			public function editlist():void {
+				if (listdata[0].editmode == 1){
+					for (var i:uint = 0; i < listdata.length; i++){
+						listdata[i].editmode = 0;
+					}	
+				}
+				else {
+					for (var i:uint = 0; i < listdata.length; i++){
+						listdata[i].editmode = 1;
+					}	
+				}
+				
+				list.dataProvider = listdata;
+				
+				
+			}
+			public function afterDeleteChecklist(ev:ResultEvent):void {
+				getChecklists.send();
+			}
+			public function afterDuplicateChecklist(ev:ResultEvent):void {
+				getChecklists.send();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckLists.php"
+					   result="afterGetChecklists(event)" >
+		</s:HTTPService>
+		<s:HTTPService id="deleteCheckList" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/deleteChecklist.php"
+					   result="afterDeleteChecklist(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="duplicateCheckList" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/duplicateChecklist.php"
+					   result="afterDuplicateChecklist(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:List id="list" width="100%"  top="0" bottom="40" dataProvider="{listdata}" 
+			change="listChange(event);"  click="listclick(event);" alternatingItemColors="[0xf5f5f5,0xebebeb ]" 
+			touchInteractionStart="myList_touchInteractionStartHandler(event)"  
+			itemRenderer="components.checkListItemN">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="1"/>
+		</s:layout>
+	</s:List>
+	<components:genericRedButton bottom="0" click="addItem();" 
+								 visible="{data.ismanage}"
+								 width="100%" height="40" horizontalCenter="0"
+								 lbl="New Checklist"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Add" visible="{data.ismanage}" click="addItem();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import events.ScrollingEvent;
+			
+			import flashx.textLayout.tlf_internal;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.TouchInteractionEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function creationCompleteHandler():void
+			{
+				if (data.ismanage){
+					this.title = "Manage Checklists";
+				}
+				else {
+					this.title = "Checklists";
+				}
+				busy = true;
+				getChecklists.send();
+				
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						listdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						
+					}
+					
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					if (data.ismanage){
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							goodcount:ev.currentTarget.selectedItems[0].goodcount,
+							badcount:ev.currentTarget.selectedItems[0].badcount,
+							interval:ev.currentTarget.selectedItems[0].interval,
+							ismanage:true});	
+					}
+					else {
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							goodcount:ev.currentTarget.selectedItems[0].goodcount,
+							badcount:ev.currentTarget.selectedItems[0].badcount,
+							interval:ev.currentTarget.selectedItems[0].interval,
+							ismanage:false});	
+					}
+				}
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function addItem():void {
+				navigator.pushView(addChecklist);
+			}
+			protected function myList_touchInteractionStartHandler(event:TouchInteractionEvent):void
+			{
+				var myScrollEvent:ScrollingEvent = new ScrollingEvent(ScrollingEvent.SCROLLING_STARTED);
+				this.parentApplication.dispatcher.dispatchEvent(myScrollEvent);
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckLists.php"
+					   result="afterGetChecklists(event)" >
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	
+	<s:List id="list" width="100%" height="100%" dataProvider="{listdata}" 
+			change="listChange(event);" 
+			touchInteractionStart="myList_touchInteractionStartHandler(event)"   itemRenderer="components.checkListItemN">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="10"
+							  
+							  variableRowHeight="true"/>
+		</s:layout>
+	</s:List>
+		
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

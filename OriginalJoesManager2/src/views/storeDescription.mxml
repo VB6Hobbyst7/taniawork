@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="{data.name}" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import spark.effects.Fade;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					//navigator.pushView(HomeSimpliSave, {index:u});
+				}
+				else if (u == 1){
+					//navigator.pushView(HomeFindAFav, {index:u});
+				}
+				else if (u == 2){
+					//navigator.pushView(HomeMyFavs, {index:u});
+				}
+				else if (u == 3){
+					//navigator.pushView(HomeSettings, {index:u});
+				}
+				
+			}	
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	<s:Image left="0" right="0" top="0" bottom="0" alpha="0.8" scaleMode="stretch"
+			 source="assets/backdrop.png"/>
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		
+	</s:Scroller>
+</s:View>

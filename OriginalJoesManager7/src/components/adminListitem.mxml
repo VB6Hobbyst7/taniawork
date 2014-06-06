@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+	
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:BorderContainer width="100%" height="100%" 
+					   borderAlpha="0" backgroundAlpha="0" >
+		<s:VGroup width="95%" horizontalCenter="0" paddingTop="4" height="100%" >
+			<s:Label color="#000000" fontSize="15" maxDisplayedLines="1" fontFamily="proximaNovacff"  maxWidth="300" text="Name: {data.name}"
+					 left="0" verticalCenter="0"></s:Label>
+			<s:Label color="#000000" fontSize="15"  maxWidth="300" fontFamily="proximaNovacff" text="ID: {data.id}"
+					 left="0" verticalCenter="0"></s:Label>
+			<s:Label color="#000000" fontSize="15"  maxWidth="300" fontFamily="proximaNovacff" text="Type: {data.type}"
+					 left="0" verticalCenter="0"></s:Label>
+			<s:Label color="#000000" fontSize="15"  maxWidth="300" fontFamily="proximaNovacff" text="Pass: {data.pass}"
+					 left="0" verticalCenter="0"></s:Label>
+			
+			
+		</s:VGroup>
+	</s:BorderContainer>
+	<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0"
+					   borderAlpha="1"  borderColor="#dcdcdc" height="1" />
+</s:ItemRenderer>

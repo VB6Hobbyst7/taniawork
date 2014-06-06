@@ -1,0 +1,814 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Search Results | Doctor Search | College of Physicians and Surgeons of Ontario</title><meta name="description" content="Doctor Search. Information for the public, including patients, hospitals and the government, about physicians practising in Ontario, with contact information, registration details and discipline findings." />
+<meta name="keywords" content="Doctor Search, CPSO, College of Physicians and Surgeons, Family Doctors, General Practitioners, Find a Doctor, Find a Physician, location, health care, patient care, public register, discipline findings, hearings results" />
+
+        <link rel="stylesheet" href="/css/glbFormatting.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/css/glbLayoutContent.css" type="text/css" media="screen" />
+    <link id="ctl00_ctl01" rel="stylesheet" href="/css/print.css" type="text/css" media="print" /><link id="ctl00_ctl02" rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <!-- Moved from code behind: the jquery must load first -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="/js/global.js"></script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js"></script>
+    
+    <script type="text/javascript" src="/js/superfish/superfish.js"></script>
+    <script type="text/javascript" src="/js/superfish/supersubs.js"></script>
+    <script type="text/javascript" src="/js/superfish/hoverIntent.js"></script>
+    <script type="text/javascript" src="/js/superfish/jquery.bgiframe.min.js"></script>
+    <!-- added for the Consultations tabs, overlay begins -->
+    <script type="text/javascript" src="/js/ui.core.js"></script>
+    <script type="text/javascript" src="/js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/js/jquery.colorbox.js"></script>
+    <link id="ctl00_ctl03" rel="stylesheet" href="/css/colorbox.css" type="text/css" media="screen" />
+    <!-- Google analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36725164-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })(); 
+    </script>
+
+
+
+
+
+
+
+<link id="ctl00_ekcss__css_Empty.css" href="\css\Empty.css" type="text/css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" media="screen" href="/css/prettyPhoto.css"></link><script type="text/javascript" src="/js/simpleswap.js"></script><title>
+	Untitled Page
+</title></head>
+<body>
+    <script type="text/javascript" language="JavaScript">
+        var section = 'Doctors'; //Nav selector
+    </script>
+    <form name="aspnetForm" method="post" action="results.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg3MDg3MTkxMw9kFgJmD2QWBgIBD2QWAmYPFgIeBFRleHQF0gQ8dGl0bGU+U2VhcmNoIFJlc3VsdHMgfCBEb2N0b3IgU2VhcmNoIHwgQ29sbGVnZSBvZiBQaHlzaWNpYW5zIGFuZCBTdXJnZW9ucyBvZiBPbnRhcmlvPC90aXRsZT48bWV0YSBuYW1lPSJkZXNjcmlwdGlvbiIgY29udGVudD0iRG9jdG9yIFNlYXJjaC4gSW5mb3JtYXRpb24gZm9yIHRoZSBwdWJsaWMsIGluY2x1ZGluZyBwYXRpZW50cywgaG9zcGl0YWxzIGFuZCB0aGUgZ292ZXJubWVudCwgYWJvdXQgcGh5c2ljaWFucyBwcmFjdGlzaW5nIGluIE9udGFyaW8sIHdpdGggY29udGFjdCBpbmZvcm1hdGlvbiwgcmVnaXN0cmF0aW9uIGRldGFpbHMgYW5kIGRpc2NpcGxpbmUgZmluZGluZ3MuIiAvPg0KPG1ldGEgbmFtZT0ia2V5d29yZHMiIGNvbnRlbnQ9IkRvY3RvciBTZWFyY2gsIENQU08sIENvbGxlZ2Ugb2YgUGh5c2ljaWFucyBhbmQgU3VyZ2VvbnMsIEZhbWlseSBEb2N0b3JzLCBHZW5lcmFsIFByYWN0aXRpb25lcnMsIEZpbmQgYSBEb2N0b3IsIEZpbmQgYSBQaHlzaWNpYW4sIGxvY2F0aW9uLCBoZWFsdGggY2FyZSwgcGF0aWVudCBjYXJlLCBwdWJsaWMgcmVnaXN0ZXIsIGRpc2NpcGxpbmUgZmluZGluZ3MsIGhlYXJpbmdzIHJlc3VsdHMiIC8+DQpkAgMPFgIfAAUHRG9jdG9yc2QCBQ9kFgYCAw9kFgICAw8WAh4HVmlzaWJsZWdkAgcPZBYCAgMPFgIfAAXgAjxVTD48bGk+PGEgaHJlZj0iL3B1YmxpY3JlZ2lzdGVyL2RlZmF1bHQuYXNweD9pZD0yMDU0Ij5UaGUgUHVibGljIFJlZ2lzdGVyPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OCIgY2xhc3MgPSAnaGVyZScgPkFsbCBEb2N0b3JzIFNlYXJjaDwvYT48L2xpPjxsaT48YSBocmVmPSIvcHVibGljcmVnaXN0ZXIvZGVmYXVsdC5hc3B4P2lkPTIwNTIiPlJlZ2lzdHJhdGlvbiBOdW1iZXIgU2VhcmNoPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9NzM3NiI+T3V0LW9mLUhvc3BpdGFsIFByZW1pc2VzPC9hPjwvbGk+PC9VTD5kAgkPZBYCAgEPZBYGAgUPZBYCZg8WAh8BZ2QCCQ9kFgoCAQ8PFgIeC05hdmlnYXRlVXJsBWBodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9zaGFyZXIucGhwP3U9aHR0cCUzYSUyZiUyZnd3dy5jcHNvLm9uLmNhJTJmcHVibGljcmVnaXN0ZXIlMmZyZXN1bHRzLmFzcHhkZAIDDw8WAh8CBWFodHRwOi8vdHdpdHRlci5jb20vaG9tZT9zdGF0dXM9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBQ8PFgIfAgWPAWh0dHA6Ly93d3cubGlua2VkaW4uY29tL3NoYXJlQXJ0aWNsZT9taW5pPXRydWUmdGl0bGU9VW50aXRsZWQgUGFnZSZzdW1tYXJ5PUNQU08mdXJsPWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBw8PFgIfAgV1aHR0cHM6Ly9tLmdvb2dsZS5jb20vYXBwL3BsdXMveC8/dj1jb21wb3NlJmNvbnRlbnQ9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCCQ8PFgIfAgVVbWFpbHRvOj9zdWJqZWN0PUNQU08mYm9keT1odHRwJTNhJTJmJTJmd3d3LmNwc28ub24uY2ElMmZwdWJsaWNyZWdpc3RlciUyZnJlc3VsdHMuYXNweGRkAg0PZBYCZg9kFgoCAg8PFgIfAAVWPHN0cm9uZz48c3BhbiBjbGFzcz1ibHVlPjkyMjwvc3Bhbj4gcmVzdWx0cyBmb3VuZC48L3N0cm9uZz4gVmlld2luZyA3NTEgdG8gNzc1IG9mIDkyMi5kZAIEDw8WBB8ABR08c3Ryb25nPlNlYXJjaCBBZ2Fpbjwvc3Ryb25nPh8CBSV+L3B1YmxpY3JlZ2lzdGVyL2RlZmF1bHQuYXNweD9pZD0yMDQ4ZGQCBg8PFgIfAWhkZAIID2QWBGYPDxYGHwAFLk5leHQgJnJhcXVvOw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAeD0NvbW1hbmRBcmd1bWVudAUCMzIfAWdkZAIBDw8WBh8ABQwmbGFxdW87IFByZXYfAWcfAwUCMzBkZAIOD2QWBGYPDxYGHwAFLk5leHQgJnJhcXVvOw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAfAwUCMzIfAWdkZAIBDw8WBh8ABQwmbGFxdW87IFByZXYfAWcfAwUCMzBkZGRxco0qJ2sK9cNaqA/cSIBsBt8Y+w==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBwKBkNzoCAKnp+n+CgK3k4fMBAL95unfCwKeuZGKAQL95oHBDAKeufnXBGmvyttPcwdO1jh5iv0eodJzG+h/" />
+</div>
+    <div id="container">
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <div id="header">
+                <div id="home">
+                    <a href="/" title="The College of Physicians and Surgeons of Ontario | Home"><span><strong>
+                        The College of Physicians and Surgeons of Ontario</strong></span></a></div>
+                <div id="right">
+                    
+    <script type="text/javascript" language="JavaScript">
+    
+      $(document).ready(function() {
+            //Setup search box
+            $('.searchinput').each(function() {
+                var default_value = "Site Search";
+                $(this).css('color', '#666');
+                $(this).focus(function() {
+                    if(this.value == default_value) {
+                        this.value = '';
+                        $(this).css('color', '#333');
+                    }
+                });        
+                $(this).blur(function() {
+                    if(this.value == '') {
+                        $(this).css('color', '#666');
+                        this.value = default_value;
+                    }
+                });         
+                $(this).keypress(function(e) {
+                        if(this.value != '') {
+                        if(e.which == 13){
+                            e.preventDefault();
+                            e.stopPropagation();
+                            CallSearch();
+                        }
+                    }
+                });                          
+            });
+
+            //Setup search button
+            $(".button").click(function () { 
+                CallSearch();
+            });
+
+        });
+
+        //Clear postback cookie and run search
+        function CallSearch() {
+            var objsearchText = $(".searchinput");
+            var searchText;
+            if ((objsearchText.val() != "Site Search")&&(objsearchText != null)) {
+                searchText = objsearchText.val();
+                searchText = searchText.replace(/>/gi, " >");
+                searchText = searchText.replace(/</gi, "< ");
+                objsearchText.value = searchText;
+                
+                document.cookie = 'postbackcookie=';
+                document.location.href = "http://" + document.domain + "/search/?searchtext=" + searchText.replace('alert', '').replace('confirm', '');                    
+            }
+        }   
+    </script>    
+    <div id="search">
+    <div id="searchform" >
+        <input name="ctl00$HeaderSearch$searchinput" type="text" id="ctl00_HeaderSearch_searchinput" value="Site Search" class="searchinput" /> 
+        <input name="ctl00$HeaderSearch$btnSearch" type="button" id="ctl00_HeaderSearch_btnSearch" onclick="CallSearch();" class="button" /> 
+    </div>
+    </div><!-- /search -->
+                    
+<!-- Login --> 
+<div id="login"> 
+    
+    <a id="ctl00_LoginStatus_HyperLink2" href="../membersonly/Login.aspx">Member/Applicant Login</a>
+
+</div> 
+<!-- /Login --> 
+    
+                </div>
+                <!-- /right -->
+            </div>
+            <!-- Navigation -->
+            
+
+            
+             
+            
+            <div id="nav">
+            <ul>
+   	          <span id="ctl00_TopNav1_SubMenuManager"></span>
+   	            <li id="mnavAbout"><a id="ctl00_TopNav1_lnkAboutUs" href="/aboutus">&nbsp;<span>About Us</span></a>
+   	                <ul><li><a href="/aboutus/staff/default.aspx?id=1404">President and Senior Staff</a></li><li><a href="/aboutus/council/default.aspx?id=1406">Council & Committees</a></li><li><a href="/aboutus/strategicplan/default.aspx?id=1432">Strategic Plan</a></li><li><a href="/aboutus/privacy/default.aspx?id=1434">Privacy Code</a></li><li><a href="/aboutus/default.aspx?id=2816">Respect for Human Rights</a></li><li><a href="/aboutus/default.aspx?id=5856">Accessibility Policy</a></li><li><a href="/aboutus/careers/default.aspx?id=1428">Career Opportunities</a></li><li><a href="/aboutus/links/default.aspx?id=1436">Related Links</a></li></ul>
+      	        </li>
+                <li id="mnavWhats"><a id="ctl00_TopNav1_lnkWhatsnew" href="/whatsnew">&nbsp;<span>What's New</span>
+                </a>
+                    <ul><li><a href="/whatsnew/news/default.aspx?id=1444">News Releases</a></li><li><a href="/whatsnew/committeeschedule/default.aspx?id=1448">Discipline Committee Schedule</a></li><li><a href="/whatsnew/councilupdates/default.aspx?id=1454">Council Updates</a></li></ul>
+                </li>
+                <li id="mnavDoctors"><a id="ctl00_TopNav1_lnkDocsearch" href="/publicregister">&nbsp;<span>Public Register</span>
+                </a>
+                    <ul><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048">All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></ul>
+                </li>
+                <li id="mnavPolicies"><a id="ctl00_TopNav1_lnkPolicies" href="/policies">&nbsp;<span>Policies and Publications</span></a>
+                    <ul><li><a href="/policies/guide/default.aspx?id=1696">Practice Guide</a></li><li><a href="/policies/policies/default.aspx?id=1778">Policy</a></li><li><a href="/policies/consultations/default.aspx?id=5282">Consultations</a></li><li><a href="/policies/positions/default.aspx?id=1720">Positions & Initiatives</a></li><li><a href="/policies/guidelines/default.aspx?id=1758">CPGs & Other Guidelines</a></li><li><a href="/policies/legislation/default.aspx?id=1768">Legislation & By-Laws</a></li><li><a href="/policies/complaints/default.aspx?id=2092">Complaints</a></li><li><a href="/policies/publications/default.aspx?id=1776">Publications</a></li></ul>
+                </li>
+                <li id="mnavRegistration"><a id="ctl00_TopNav1_lnkRegistration" href="/registration">&nbsp;<span>Registration</span></a>
+                    <ul><li><a href="/registration/registrationrequirements/Default.aspx?id=6992">Registration Requirements</a></li><li><a href="/registration/applicationreview/default.aspx?id=6988">Applying for Registration</a></li><li><a href="/registration/committee/default.aspx?id=1788">Registration Committee</a></li><li><a href="/registration/registrationpolicies/default.aspx?id=6986">Registration Policies</a></li><li><a href="/registration/applicationsforms/default.aspx?id=6994">Registration Applications and Forms</a></li><li><a href="/registration/international/default.aspx?id=1792">International Medical Graduates</a></li><li><a href="/registration/default.aspx?id=3886">FMRAC Agreement on National Standards</a></li><li><a href="/registration/default.aspx?id=6648">Registration Reports</a></li></ul>
+                </li>
+                <li id="mnavMembers"><a id="ctl00_TopNav1_lnkMembers" href="/members">&nbsp;<span>CPSO Members</span>
+                </a>
+                    <ul><li><a href="/members/membership/default.aspx?id=1872">Membership Info</a></li><li><a href="/members/membership/default.aspx?id=1886">Incorporation Issuance and Renewal</a></li><li><a href="/members/resources/default.aspx?id=1898">Resources</a></li><li><a href="/members/engagement/default.aspx?id=1934">Member Engagement</a></li><li><a href="/members/default.aspx?id=6122">Member Outreach</a></li><li><a href="/members/elections/default.aspx?id=1942">Council Elections</a></li><li><a href="/members/peerassessment/default.aspx?id=1944">Peer Assessment</a></li><li><a href="/members/default.aspx?id=5334">Out-of-Hospital Premises Inspection Program</a></li><li><a href="/members/default.aspx?id=6302">Independent Health Facilities</a></li><li><a href="/members/default.aspx?id=6306">Methadone Program</a></li><li><a href="/members/default.aspx?id=6314">Assessor Resources</a></li></ul>
+                 </li>          
+            
+             </ul>
+            </div>
+       
+
+            <!-- /Navigation -->
+            <!-- Content -->
+            <div id="content">
+                <div id="top">
+                    <div id="topLeft">
+                    </div>
+                    <div id="topRight">
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- Left Nav -->
+                    
+<div id="snav">
+
+    <span id="ctl00_LeftSideNav1_Menu1"></span>
+    
+        <UL><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048" class = 'here' >All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></UL>
+              	
+                
+                
+    
+              </div>
+    
+                    <!-- /Left Nav -->
+                    
+    
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- column selector here -->
+
+       	  <div id="singlecolumn">
+       	       	
+
+    
+
+    <h1>
+        Results</h1>
+
+
+<div class="sharing">
+    <p>Share</p>
+    <ul>
+        <li class="facebook">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="twitter">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="http://twitter.com/home?status=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="linkedin">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;title=Untitled Page&amp;summary=CPSO&amp;url=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="google">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlGoogle" class="google" onclick="window.open (this.href,'gplusshare','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="https://m.google.com/app/plus/x/?v=compose&amp;content=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="email">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlEmail" class="email" href="mailto:?subject=CPSO&amp;body=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="ctl00_ContentPlaceHolder1_MainContentControl1_ContentBlock1">
+	
+</div>
+
+   <div><!-- container for searchheader -->
+                <p class="printdetails"><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_Label1"><strong><span class=blue>922</span> results found.</strong> Viewing 751 to 775 of 922.</span></p>
+       <p class="searchagain">&laquo; <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkSearchAgain" href="default.aspx?id=2048"><strong>Search Again</strong></a></p>
+        <div class="clear"></div>
+        </div>
+        
+        
+   	  	    <div class="search">
+                  <div class="top">
+                        <div class="topLeft"></div><div class="topRight"></div>
+                    </div> 
+                    
+                    
+                                                                
+                                         
+                   		<fieldset>
+                        <legend>                     
+                          <span class="off">
+                            Click on a Physician's Name for Details                         
+                            </span>                        
+                            </legend>
+                        
+                        
+                        <!-- Paging -->
+                        <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivTop" class="paging-top">
+                            <ul>
+                                <li id="next">
+                                    <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext','')">Next &raquo;
+                                </a></li>
+                                
+                                <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev','')">&laquo; Prev</a></li>
+                            </ul>
+                        </div>
+                        <!-- /Paging -->
+
+        <div id="results">
+                   <table width="100%" cellspacing="0">
+                     
+                     <tr>
+                       <th width="32%" align="left" valign="middle">Physician Name, (CPSO#)</th>
+                       <th width="36%" align="left" valign="middle">Primary Practice Location</th>
+                       <!-- <th width="16%" align="center" valign="middle">Accepting New Patients?</th> -->
+                       <th width="32%" align="center" valign="middle">Disciplinary Info  &amp; Restrictions</th>
+                     </tr>
+
+
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2021563">Shoichet, Roy Philip </a> (#21563)
+               
+               
+               
+               
+           </td>
+           <td>
+               340 College Street<br />Suite 585<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 3A9<br />Phone:&nbsp;(416) 603-1435</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2092594">Showail, Mahmood Jameel M </a> (#92594)
+               
+               
+               
+               
+           </td>
+           <td>
+               UHN Toronto Western Hospital<br />Department of Ophthalmology<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 978-6294</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2066000">Shuchman, Miriam </a> (#66000)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl03_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto                       </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Women's College Hospital<br />7th Floor<br />790 Bay Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5G 1N8<br />Phone:&nbsp;(416) 351-3732&nbsp;Ext.&nbsp;2723<br />Fax:&nbsp;(416) 351-3746</td>
+           <!-- <td></td> -->
+           <td align="center">
+                     <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl03_lnkExtraInfo" href="details.aspx?view=4&amp;id=%2066000">Details </a><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl03_lnkArrowRight"> &raquo;</span></td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2018026">Shugar, Gerald </a> (#18026)
+               
+               
+               
+               
+           </td>
+           <td>
+               Centre for Addiction & Mental Hlth<br />Clarke Site<br />250 College Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 1R8<br />Phone:&nbsp;(416) 979-6861<br />Fax:&nbsp;(416) 979-6815</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2087552">Siddha, Sanjay Kumar </a> (#87552)
+               
+               
+               
+               
+           </td>
+           <td>
+               UHN Toronto Western Hospital<br />Division of Dermatology<br />8 East Wing<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5800&nbsp;Ext.&nbsp;2690<br />Fax:&nbsp;(416) 603-2782</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2033104">Silver, Frank Leonard </a> (#33104)
+               
+               
+               
+               
+           </td>
+           <td>
+               Toronto Western Hospital<br />5W-447<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5416<br />Fax:&nbsp;(416) 603-5768</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2043067">Silver, Robert Donald </a> (#43067)
+               
+               
+               
+               
+           </td>
+           <td>
+               Room 1 - 439<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-6453<br />Fax:&nbsp;(416) 603-7378</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2029746">Silverstein, Paul Victor </a> (#29746)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl08_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto                       </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               164 Cumberland Street<br />Suite 604<br />Toronto, ON<br />M5R 1A8<br />Toronto&nbsp;ON&nbsp;&nbsp;M5R 1A8<br />Phone:&nbsp;(416) 506-0605<br />Fax:&nbsp;(416) 979-6815</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2056648">Simons, Martin Edward </a> (#56648)
+               
+               
+               
+               
+           </td>
+           <td>
+               Toronto Western Hospital<br />Department of Medical Imaging<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-6276<br />Fax:&nbsp;(416) 603-5522</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2051802">Singer, Shaun </a> (#51802)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl10_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Toronto Hospital - Western Div<br />7E-466<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-6470<br />Fax:&nbsp;(416) 603-2923</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2086681">Singerman, Jennifer Deborah </a> (#86681)
+               
+               
+               
+               
+           </td>
+           <td>
+               U H N Toronto Western Hospital<br />Movement Disorders Centre<br />McLaughlin Pavilion 7th Floor<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-6422</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2073904">Singh, Jeffrey Mahan </a> (#73904)
+               
+               
+               
+               
+           </td>
+           <td>
+               University Health Network<br />Toronto Western Hospital<br />2McL 411K<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5800&nbsp;Ext.&nbsp;3221</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2082578">Singwi, Amita </a> (#82578)
+               
+               
+               
+               
+           </td>
+           <td>
+               Toronto Western Hospital<br />2nd Floor West Wing<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5888&nbsp;Ext.&nbsp;2<br />Fax:&nbsp;(416) 603-5448</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2076365">Sit, Marisa </a> (#76365)
+               
+               
+               
+               
+           </td>
+           <td>
+               UHN Toronto Western Hospital<br />Department of Ophthalmology<br />East Wing 7- 402<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5591<br />Fax:&nbsp;(416) 603-5720</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2021311">Sky, Kenneth </a> (#21311)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl15_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               331 - 89 Humber College Boulevard<br />Rexdale&nbsp;ON&nbsp;&nbsp;M9V 4B8<br />Phone:&nbsp;(416) 747-1803</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098671">Slade, Laura Anne </a> (#98671)
+               
+               
+               
+               
+           </td>
+           <td>
+               CAMH College Site<br />Department of Psychiatry<br />Suite 841<br />250 College Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 1R8<br />Phone:&nbsp;(416) 979-4276</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2021898">Sloman, Leon </a> (#21898)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl17_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto                       </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               The Clarke Institute Of Psychiatry<br />250 College Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 1R8<br />Phone:&nbsp;(416) 535-8501&nbsp;Ext.&nbsp;6187<br />Fax:&nbsp;(416) 979-4685</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2055231">Slomovic, Allan Raymond </a> (#55231)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl18_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Toronto Western Hospital<br />East Wing 6 E 401<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5389<br />Fax:&nbsp;(416) 603-6420</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2014841">Smith, David Ross Franklin </a> (#14841)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl19_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Avenue Bloor Medical Group<br />208 Bloor Street West<br />Suite 405<br />Toronto&nbsp;ON&nbsp;&nbsp;M5S 3B4<br />Phone:&nbsp;(416) 962-1200<br />Fax:&nbsp;(416) 962-1223</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2095136">Smith, Emma Kathleen </a> (#95136)
+               
+               
+               
+               
+           </td>
+           <td>
+               Mount Sinai Hospital<br />Department of Family Medicine<br />PO Box 25 4th Floor<br />60 Murray Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 3L9<br />Phone:&nbsp;(416) 586-4800</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2055101">Smith, Roger Macleod Laing </a> (#55101)
+               
+               
+               
+               
+           </td>
+           <td>
+               Toronto Western Hospital<br />Department of Medical Imaging<br />3 M C 428<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5800&nbsp;Ext.&nbsp;2583<br />Fax:&nbsp;(416) 603-4257</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2023607">Sniderman, Kenneth Wilfred </a> (#23607)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl22_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Toronto</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               The Toronto General Hospital<br />200 Elizabeth Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5G 2C4<br />Phone:&nbsp;(416) 340-4800&nbsp;Ext.&nbsp;3393<br />Fax:&nbsp;(416) 593-0502</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2062492">Snow, Debbie Gail </a> (#62492)
+               
+               
+               
+               
+           </td>
+           <td>
+               UofT Health Services<br />Koffler Student Services Centre<br />214 College Street<br />Second Floor<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2Z9<br />Phone:&nbsp;(416) 978-8030</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2071406">Sodhi, Sumeet Kaur </a> (#71406)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 2W 404<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5888&nbsp;Ext.&nbsp;4</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096618">Soliman, Waleed Riad Hussein </a> (#96618)
+               
+               
+               
+               
+           </td>
+           <td>
+               UHN Toronto Western Hospital<br />Department of Anesthesia<br />McLaughlin 2 405<br />399 Bathurst Street<br />Toronto&nbsp;ON&nbsp;&nbsp;M5T 2S8<br />Phone:&nbsp;(416) 603-5118</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            </table>
+                   
+                   
+            
+                       
+                 </div>
+        
+        
+        
+                   
+                 </fieldset>    
+                 
+      <div id="btm">
+          	<div id="btmLeft"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          	<div id="btmRight"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          </div>
+                </div>               
+                
+                <!-- Paging -->
+                <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivBottom" class="paging-btm">
+                        <ul>
+                            <li id="next"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext2','')">Next &raquo;
+                                </a></li>
+                            
+                            <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev2','')">&laquo; Prev</a></li>
+                        </ul>
+                </div>
+                    <!-- /Paging -->
+</div>
+
+<!-- /singlecolumn -->
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+                <div id="btm">
+                    <div id="btmLeft">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                    <div id="btmRight">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                </div>
+            </div>
+            <!-- id=Content -->
+            <!-- Back to Top -->
+            <div class="clear">
+            </div>
+            <div class="backToTop">
+                <p>
+                    <a href="#container">Back to Top</a></p>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- /Wrapper -->
+        <!-- Footer -->
+        
+<div id="footer">
+    <div id="fnav">
+        <p>
+            <a id="ctl00_Footer1_lnkHome" href="/">Home</a>
+            |
+            <a id="ctl00_Footer1_lnkAboutUs" href="/aboutus">About Us</a>
+            |
+            <a id="ctl00_Footer1_lnkWhatsnew" href="/whatsnew">What’s New</a>
+            |
+            <a id="ctl00_Footer1_lnkDocsearch" href="/publicregister">Public Register</a>
+            |
+            <a id="ctl00_Footer1_lnkPolicies" href="/policies">Policies &amp; Publications</a>
+            |
+            <a id="ctl00_Footer1_lnkRegistration" href="/registration">Registration</a>
+            |
+            <a id="ctl00_Footer1_lnkMembers" href="/members">CPSO Members</a>
+            |
+            <a id="ctl00_Footer1_lnkSitemap" href="/sitemap">Site Map</a>
+            |
+            <a id="ctl00_Footer1_lnkSearch" href="/search">Search</a>
+            |
+            <a id="ctl00_Footer1_lnkPrivacy" href="/privacy">Privacy</a>
+            |
+            <a id="ctl00_Footer1_lnkContactus" href="/contactus">Contact Us</a></p>
+    </div>
+    <div class="clear">
+    </div>
+    <div id="copyright">
+        <p>
+            80 College Street, Toronto, Ontario, M5G 2E2
+        </p>
+    </div>
+    <div class="social">
+        <table>
+            <tr>
+                <td valign="middle">
+                    <p><nobr>Follow CPSO</nobr></p>
+                </td>
+                <td valign="middle">
+                    <ul class="social-follow">                                                
+                        <li class="facebook">
+                            <a id="ctl00_Footer1_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook'); return false;" href="https://www.facebook.com/pages/College-of-Physicians-and-Surgeons-of-Ontario/144601285573797"></a>
+                        </li>
+                        <li class="twitter">
+                            <a id="ctl00_Footer1_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter');return false;" href="https://twitter.com/cpso_ca"></a>
+                        </li>
+                        <li class="linkedin">
+                            <a id="ctl00_Footer1_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'LinkedIn'); return false;" href="http://www.linkedin.com/groups/College-Physicians-Surgeons-Ontario-4760466"></a>
+                        </li>                        
+                        <!--<li class="rss" style="visibility:hidden"><a href="/RSS/Default.aspx">RSS</a></li>-->
+                    </ul>                        
+                </td>
+            </tr>
+        </table>        
+    </div>
+</div>
+
+        <!-- /Footer -->
+        <div id="containerBtm">
+            <img src="../../images/blank.gif" alt=" " height="5px" /></div>
+    </div>
+    <div class="spacer">
+    </div>
+    </form>
+</body>
+</html>

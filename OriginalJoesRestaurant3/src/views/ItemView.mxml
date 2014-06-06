@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:d="dao.*" xmlns:u="utils.*" 
+		xmlns:c="components.*"  activate="activ()"
+		title="">
+	<s:actionContent>	
+		<s:Button id="submitbtn" label="Submit" visible="false" click="submitCheckList(event)" />
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import events.ReportEvent;
+			
+			import flash.net.URLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			import flash.utils.describeType;
+			
+			import model.Expense;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.formatters.DateFormatter;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			
+			import spark.transitions.CrossFadeViewTransition;
+			[Bindable]
+			public var storeid:String = "1";
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var checklistidout:String = "";
+			[Bindable]
+			public var citemsdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var answerarrayid:Array = new Array();
+			[Bindable]
+			public var answerarrayavalue:Array = new Array();
+			protected var locationDirty:Boolean = false;
+			public function activ():void {
+				
+			}
+			
+			public function submitCheckList(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				answerarrayid = new Array();
+				answerarrayavalue = new Array();
+				var checklistid:String = "";
+				for (var i:uint = 0; i < citemsdata.length; i++){
+					var valuee:String = citemsdata[i].avalue;
+					if (valuee == "errornovalue"){
+						if (citemsdata[i].type == '0'){
+							
+						}
+						else if (citemsdata[i].type == '1'){
+							var CurrentDateTime:Date = new Date();
+							var CurrentDF:DateFormatter = new DateFormatter();
+							CurrentDF.formatString = "EEE MMM DD LL:NN:SS"
+							var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+							valuee = DateTimeString;
+						}
+						else if (citemsdata[i].type == '2'){
+							valuee = "-20ºC";
+						}
+						else if (citemsdata[i].type == '3'){
+							valuee = "yes";
+						}
+						else if (citemsdata[i].type == '4'){
+							
+						}
+						
+					}
+					else if (citemsdata[i].type == '1'){
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+					}
+					answerarrayid.push(citemsdata[i].id);
+					answerarrayavalue.push(valuee);
+					checklistid = citemsdata[i].checklistid;
+				}
+				cListList.visible = false;
+				busy = true;
+				
+				
+				var url:String = "http://enactforum.org/originaljoes/restaurant/putAnswers.php";
+				var request:URLRequest = new URLRequest(url);
+				request.method = URLRequestMethod.POST;
+				var requestVars:URLVariables = new URLVariables();
+				requestVars.myObject = com.adobe.serialization.json.JSON.encode(answerarrayid);
+				requestVars.myObject2 = com.adobe.serialization.json.JSON.encode(answerarrayavalue);
+				requestVars.myObject3 = com.adobe.serialization.json.JSON.encode(storeid);
+				requestVars.myObject4 = com.adobe.serialization.json.JSON.encode(checklistid);
+				request.data = requestVars;
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, afterload);
+				loader.load(request);
+				
+				
+				
+				//subAnswers.send();
+			}
+			public function afterload(ev:Event):void {
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+				
+				systemManager.dispatchEvent(new ReportEvent(ReportEvent.EXPENSE_SAVED, data));
+				
+				
+				
+			}
+			public function dataChange(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				busy = true;
+				submitbtn.visible = false;
+				citemsdata = new ArrayCollection();
+				if (this.data != null){
+					if (this.data.id != 0){
+						checklistidout = this.data.id.toString();
+						getCheckListItems.send();
+						this.title = this.data.name;
+					}
+				
+				}
+			}
+			public function afterGetChecklistItems(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				warn.visible = false;
+				cListList.visible = true;
+				citemsdata = new ArrayCollection();
+				try{
+					citemsdata = ev.result[0].res;
+					submitbtn.visible = true;
+				}
+				catch(e:Error){
+					try{
+						citemsdata.addItem(ev.result[0].res);
+						submitbtn.visible = true;
+					}
+					catch(e:Error){
+						citemsdata.addItem({id:-1,checklistid:-1,name:"Empty Checklist Contact Manager",type:"-1",alert:"-1"});
+					}
+				}
+			}
+			public function afterSubmitAnswers(ev:ResultEvent):void {
+				
+				
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+			}
+
+			
+		]]>
+	</fx:Script>
+		
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+		<s:HTTPService id="getCheckListItems" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListItemsManage.php"
+					   result="afterGetChecklistItems(event)" >
+			<s:request xmlns="">
+				<idout>{checklistidout}</idout>		
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="subAnswers" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/putAnswers.php"
+					   result="afterSubmitAnswers(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>	
+				<answerarrayid>{answerarrayid}</answerarrayid>		
+				<answerarrayavalue>{answerarrayavalue}</answerarrayavalue>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup paddingTop="0" paddingLeft="0" paddingBottom="0" paddingRight="0"
+			  width="100%" height="100%" gap="20">
+		<s:List id="cListList" right="0" top="70" bottom="9" borderAlpha="0"
+				 dataProvider="{citemsdata}"
+				itemRenderer="components.checkListListItem" 
+				width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="10"
+								  variableRowHeight="true"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	<s:Label id="warn" visible="false" fontSize="30" text="Submission Complete!" 
+			 horizontalCenter="0" verticalCenter="0" />
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

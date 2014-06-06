@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="activate1()" 
+		title="Edit Manager" xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Confirm" click="confirm();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var nameout:String = "";
+			[Bindable]
+			public var typeout:String = "";
+			[Bindable]
+			public var passout:String = "";
+			[Bindable]
+			public var idout:Number = -1;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var managerid:String = "-1";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			protected var storedata:ArrayCollection;
+			[Bindable]
+			public var storestoaddout:String = "";
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function activate1():void
+			{
+				warn.visible = false;
+				this.title = data.name;
+				nameinput.text = data.name;
+				typeinput.text = data.type;
+				passinput.text = data.pass;
+				idout = data.id;
+				managerid =  data.id;
+				busy = true;
+				getStores.send();
+			}
+			
+			public function confirm():void {
+				warn.visible = false;
+				if ((nameinput.text != "")&&
+					(typeinput.text != "")&&
+					(passinput.text.length > 3)){
+					
+					var count:uint = 0;
+					var storestoadd:String = "";
+					for (var i:uint = 0; i < storedata.length; i++){
+						var isselected:Boolean = storedata[i].selectedval;
+						if (isselected){
+							var storeid:String = storedata[i].id.toString();
+							if (count == 0){
+								count++;	
+								storestoadd = storeid ;
+							}
+							else {
+								storestoadd = storestoadd + "," + storeid ;
+							}
+						}
+					}
+					
+					
+					
+					var stop:String = "";	
+					nameout = nameinput.text;
+					typeout = typeinput.text;
+					passout = passinput.text;
+					storestoaddout = storestoadd;
+					updateAdmin.send();
+				}
+				else {
+					warn.visible = true;
+				}
+			}
+			public function afterUpdateAdmin(ev:ResultEvent):void {
+				
+				try{
+					if (ev.result[0] == "good"){
+						navigator.popView();
+					}
+					else {
+						warn.visible = true;
+					}	
+				}
+				catch(e:Error){
+					warn.visible = true;
+				}
+				
+			}
+			public function afterGetStores(ev:ResultEvent):void {
+				try{
+					var stop:String = "";
+					busy = false;
+					storedata = new ArrayCollection();
+					try{
+						storedata = ev.result[0].res;	
+					}
+					catch(e:Error){
+						storedata.addItem( ev.result[0].res);
+					}	
+				}
+				catch(e:Error){
+					busy = false;
+				}
+			}
+			public function deleteManager():void {
+				busy = true;
+				deleteManager2.send();
+				
+			}
+			public function afterDeleteManager(ev:ResultEvent):void {
+				busy = false
+				navigator.popView();
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	<fx:Declarations>
+		<s:HTTPService id="updateAdmin" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/updateAdmin.php"
+					   result="afterUpdateAdmin(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>	
+				<nameout>{nameout}</nameout>	
+				<typeout>{typeout}</typeout>	
+				<passout>{passout}</passout>	
+				<storestoaddout>{storestoaddout}</storestoaddout>	
+
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getStores" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getStoresFull.php"
+					   result="afterGetStores(event)" >
+			<s:request xmlns="">
+				<managerid>{managerid}</managerid>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="deleteManager2" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/deleteManager.php"
+					   result="afterDeleteManager(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup  width="100%" top="0" bottom="0" horizontalCenter="0" paddingLeft="5"
+				   paddingRight="5">
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="left"  verticalAlign="middle">
+				<s:Label x="28" y="31" width="75" fontSize="20" fontWeight="bold" text="Name: "/>
+				<s:TextInput id="nameinput" autoCapitalize="all"  x="103" y="21" width="100%"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="left"  verticalAlign="middle">
+				<s:Label x="28" y="31" width="75" fontSize="20" fontWeight="bold" text="Type: "/>
+				<s:TextInput id="typeinput" autoCapitalize="all"  x="103" y="21" width="100%"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="53" gap="6" horizontalAlign="left"  verticalAlign="middle">
+				<s:Label x="28" y="31" width="75" fontSize="20" fontWeight="bold" text="Pass: "/>
+				<s:TextInput id="passinput" width="100%" autoCapitalize="all"/>
+			</s:HGroup>
+			<s:Label x="10" y="206" width="100%" fontSize="20" fontWeight="bold"
+					 text="Affected Stores:"/>
+			<s:List id="storelist" y="31" verticalScrollPolicy="off" width="100%" contentBackgroundAlpha="0"  top="0" bottom="0"
+					dataProvider="{storedata}" itemRenderer="components.storeAddItem">
+				
+			</s:List>
+			<s:HGroup width="100%" height="25" gap="6" horizontalAlign="left" verticalAlign="middle">
+				<s:Label id="warn" x="28" y="31"  visible="false" fontSize="20" fontWeight="bold" text="Incorrect Input"/>
+			</s:HGroup>
+			<components:genericRedButton bottom="0" click="deleteManager();" 	
+										 width="100%" height="40" horizontalCenter="0"
+										 lbl="Delete Manager"/>
+		</s:VGroup>	
+		
+	</s:Scroller>	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

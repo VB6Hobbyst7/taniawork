@@ -1,0 +1,122 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace esri "http://www.esri.com/2008/ags";
+@namespace components "components.*";
+@namespace s "library://ns.adobe.com/flex/spark";
+s|ActionBar
+{
+	
+	defaultButtonAppearance: normal;
+	skinClass: ClassReference("spark.skins.mobile.ActionBarSkin");
+	textShadowAlpha: .65;
+	textShadowColor: #000000;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 2;
+	chromeColor: #921b05;
+	titleAlign: center;
+	
+}
+
+s|ActionBar #titleDisplay
+{
+	color: #FFFFFF; /* default color is white */
+	fontSize: 20;
+	fontFamily: "_sans";
+}
+s|TabbedViewNavigator #tabBar
+{
+	chromeColor: #FFFFFF;
+	color: #231F20;
+	fontSize: 12;
+	fontWeight: normal;
+	iconPlacement: top;
+	interactionMode: mouse;
+	fontFamily: "_sans";
+}
+
+s|List
+{
+	color: #272727;
+	selectionColor: #DDE0E7;
+	downColor: #DDE0E7;
+}
+
+
+.inputField
+{
+	borderVisible: false;
+	contentBackgroundColor: #FFFFFF;
+}
+
+.inputFieldLabel
+{
+	color: #666666;
+}
+
+components|ExpenseInfo
+{
+	skinClass:ClassReference("skins.ExpenseInfoSkin");
+}
+
+esri|InfoSymbolWindow
+{
+	skinClass: ClassReference("com.esri.ags.skins.InfoSymbolWindowSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+	paddingTop: 3;
+	paddingBottom: 3;
+	backgroundColor: #FFFFFF;
+	backgroundAlpha: 1.0;
+	borderThickness: 1;
+	borderColor: #999999;
+	borderAlpha: 1.0;
+	upperLeftRadius: 0;
+	upperRightRadius: 10;
+	lowerLeftRadius: 10;
+	lowerRightRadius: 0;
+	infoPlacementMode: auto;
+	infoPlacement: top;
+	infoOffsetX: 10;
+	infoOffsetY: 20;
+	infoOffsetW: 5;
+	shadowDistance: 0.0;
+	shadowAlpha: 1.0;
+	shadowAngle: 45.0;
+	shadowColor: #000000;
+}
+
+
+/*
+.leftNav s|ActionBar 
+{
+	skinClass: ClassReference("skins.LeftActionBarSkin");	
+}
+
+.rightNav s|ActionBar 
+{
+	skinClass: ClassReference("skins.RightActionBarSkin");	
+}
+*/
+
+
+.title
+{
+	fontWeight: bold;
+	fontSize: 20;
+}
+
+.subtle {
+	color: #838484;
+}
+
+
+.expenseDate {
+	fontWeight: normal;
+	color: #838484;
+}
+
+.expenseAmount {
+	color: #000000;
+	fontWeight: bold;
+}

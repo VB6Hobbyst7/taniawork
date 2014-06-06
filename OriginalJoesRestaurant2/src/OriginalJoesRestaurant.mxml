@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   applicationDPI="160" xmlns:utils="utils.*"
+			   applicationComplete="completeHandler()" xmlns:dao="dao.*"
+			   splashScreenImage="DynamicSplashScreen">
+	
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			
+			import model.Expense;
+			import model.Report;
+			
+			import spark.components.View;
+			
+			import views.ListView;
+			import views.ItemView;
+			import views.ReportView;
+			
+			protected function completeHandler():void
+			{
+				var report:Report = srv.getLastReport();
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id);
+				
+				systemManager.addEventListener(ReportEvent.ADD_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, new Report());						
+				});
+				systemManager.addEventListener(ReportEvent.ADD_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, new Expense(event.data.id));						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.VIEW_EXPENSES, function(event:ReportEvent):void
+				{
+					leftNav.pushView(ListView, event.data);
+				});
+			}
+			
+			protected function showView(viewClass:Class, data:Object):void
+			{
+				var activeView:View = rightNav.activeView;
+				if (activeView is viewClass)
+					activeView.data = data;
+				else
+					rightNav.pushView(viewClass, data); 						
+			}
+			
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+				callLater(setFirstViewMode);
+			}
+			
+			
+			protected function setFirstViewMode():void
+			{
+				trace("State " + currentState);
+				if (currentState == "portrait")
+				{
+					if (svn)
+						svn.showFirstViewNavigatorInPopUp(listButton);
+				}
+				else
+				{
+					if (svn)
+						svn.hideViewNavigatorPopUp();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+
+	<fx:Style source="styles.css"/>
+
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<s:SplitViewNavigator id="svn" width="100%" height="100%"  autoHideFirstViewNavigator="true">
+		<s:ViewNavigator id="leftNav" width="310" height="100%" firstView="views.ListView"/>
+		<s:ViewNavigator id="rightNav" width="100%" height="100%" firstView="views.ItemView">
+			<s:navigationContent>
+				<s:Button id="listButton" label="List" click="svn.showFirstViewNavigatorInPopUp(listButton)" includeInLayout.landscape="false" 
+						  visible.landscape="false"/>
+			</s:navigationContent>
+		</s:ViewNavigator>
+	</s:SplitViewNavigator>
+	
+</s:Application>

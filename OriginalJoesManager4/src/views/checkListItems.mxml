@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="activate1()" 
+		title="" xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Edit" visible="{data.ismanage}" click="editChecklist();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var idout:Number = -1;
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function activate1():void
+			{
+				
+			
+				
+				this.title = data.name;
+				idout = data.id;
+				if (idout != -1){
+					getChecklistItems.send();
+				}
+			}
+			public function afterGetChecklistItems(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						listdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						listdata.addItem({id:-1,checklistid:-1,name:"Empty Checklist",type:"-1",alert:"-1"});
+					}
+				}
+			}
+			public function addItem():void {
+				navigator.pushView(addCheckListItem,{id:data.id,name:data.name,datestart:data.datestart,dateend:data.dateend,interval:data.interval});
+			}
+			public function editChecklist():void {
+				if (listdata[0].editmode == 1){
+					for (var i:uint = 0; i < listdata.length; i++){
+						listdata[i].editmode = 0;
+					}	
+				}
+				else {
+					for (var i:uint = 0; i < listdata.length; i++){
+						listdata[i].editmode = 1;
+					}	
+				}
+				
+				list.dataProvider = listdata;
+			}
+			
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (event.currentTarget.selectedItems[0].editmode == 0){
+					navigator.pushView(itemEdit,{id:event.currentTarget.selectedItem.id,
+						alert:event.currentTarget.selectedItem.alert,
+						alertdisplay:event.currentTarget.selectedItem.alertdisplay,
+						answer:event.currentTarget.selectedItem.answer,
+						avalue:event.currentTarget.selectedItem.avalue,
+						checklistid:event.currentTarget.selectedItem.checklistid,
+						name:event.currentTarget.selectedItem.name,
+						poste:event.currentTarget.selectedItem.poste,
+						problem:event.currentTarget.selectedItem.problem,
+						type:event.currentTarget.selectedItem.type,
+						typeword:event.currentTarget.selectedItem.typeword});	
+				}
+				
+			}
+			public function listclick(ev:MouseEvent):void {
+				if (list.selectedIndex != -1){
+					if (listdata[list.selectedIndex].editmode == 1){
+						if (listdata[list.selectedIndex].estatus == 0){
+							//delete
+							var stop333:String = "";
+							idout = listdata[list.selectedIndex].id;
+							busy = true;
+							deleteCheckListItem.send();
+						}
+						else if (listdata[list.selectedIndex].estatus == 1){
+							//edit
+							var stop342342:String = "";
+							navigator.pushView(itemEdit,{id:listdata[list.selectedIndex].id,
+								alert:listdata[list.selectedIndex].alert,
+								alertdisplay:listdata[list.selectedIndex].alertdisplay,
+								answer:listdata[list.selectedIndex].answer,
+								avalue:listdata[list.selectedIndex].avalue,
+								checklistid:listdata[list.selectedIndex].checklistid,
+								name:listdata[list.selectedIndex].name,
+								poste:listdata[list.selectedIndex].poste,
+								problem:listdata[list.selectedIndex].problem,
+								type:listdata[list.selectedIndex].type,
+								typeword:listdata[list.selectedIndex].typeword});	
+								
+						}
+						listdata[list.selectedIndex].estatus = -1;
+					}
+					
+				}
+			}
+			public function afterDeleteChecklistItem(ev:ResultEvent):void {
+				idout = data.id;
+				if (idout != -1){
+					getChecklistItems.send();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<s:HTTPService id="getChecklistItems" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListItems.php"
+					   result="afterGetChecklistItems(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="deleteCheckListItem" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/deleteChecklistItem.php"
+					   result="afterDeleteChecklistItem(event)" >
+			<s:request xmlns="">
+				<idout>{idout}</idout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:List id="list" top="0" bottom="0" width="100%"
+			dataProvider="{listdata}" horizontalCenter="0" 
+			change="list_changeHandler(event)"
+			itemRenderer="components.checkListItemItemN" 
+			alternatingItemColors="[0xf5f5f5,0xebebeb ]"  click="listclick(event);">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="1"/>
+		</s:layout>
+	</s:List>
+	<components:genericRedButton bottom="0" click="addItem();" visible="{data.ismanage}" width="100%" height="40" horizontalCenter="0"
+								 lbl="Add Item"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

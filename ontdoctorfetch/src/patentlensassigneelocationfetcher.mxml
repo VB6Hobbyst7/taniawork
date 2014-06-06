@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var startNum:Number = 0;
+			[Bindable]
+			public var resSet:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var urlString:String = "";
+			[Bindable]
+			public var urlString2:String = "";
+			[Bindable]
+			public var nexturl:String = "";
+			[Bindable]
+			public var wiponum:String = "";
+			[Bindable]
+			public var newAssignee:String = "";
+			[Bindable]
+			public var datalist:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var index:Number = 0;
+			[Bindable]
+			public var pageindex:Number = 0;
+			public var filename:String = "page";
+			protected function init(event:FlexEvent):void
+			{
+				
+				
+				var dir:File = File.applicationDirectory; 
+				dir = dir.resolvePath("data/page"+pageindex.toString()+".txt"); 
+				//dir = dir.resolvePath("data/page0.txt"); 
+			
+				var fileStream:FileStream = new FileStream(); 
+				fileStream.open(dir, FileMode.READ); 
+				afterGetData2(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				startNum = 0;
+				//getData.url = dir.url;//+filename;
+				//getData.send();
+				
+			}
+			protected function afterGetData(s:String):void
+			{		
+				var text:String = s
+		
+				text = text.substring(text.indexOf("\r\n")+2,text.length);
+				do{
+					var line:String = text.substring(0,text.indexOf("\r\n"));
+					text = text.substring(text.indexOf("\r\n")+1,text.length);
+					var id:String = line.substring(0,line.indexOf(","));
+					line = line.substring(line.indexOf(",")+1,line.length);
+					var authors:String = line;
+					authors = authors.substring(1,authors.length-2);
+					var au1:String = authors.substring(0,authors.indexOf(","));
+					var au2:String = authors.substring(authors.lastIndexOf(",")+2,authors.length);
+					au1 = au1.substring(0,au1.indexOf(" "));
+					au2 = au2.substring(0,au2.indexOf(" "));
+				
+	
+				//	au1 = au1.replace(/\s+/g,"+");
+				//	au2 = au2.replace(/\s+/g,"+");
+					var stop:String = "";
+					datalist.addItem({id:id,au1:au1,au2:au2,patents:"none"});
+				}while (text.indexOf("\r\n") != -1);
+				updater(index);
+					
+			}
+			protected function afterGetData2(s:String):void
+			{		
+				var text:String = s;
+				
+				if (text.indexOf("<a class=\"doctor\"") != -1){
+					do{
+						text = text.substring(text.indexOf("<a class=\"doctor\"")+15,text.length);
+						text = text.substring(text.indexOf("href")+6,text.length);
+						var url11:String = "http://www.cpso.on.ca/publicregister/"+text.substring(0,text.indexOf("\""));
+						datalist.addItem({id:id,url:url11,givenname:"",
+							surname:"",
+							gender:"",
+							language:"",
+							primarylocation:"",
+							phonenumber:"",
+							faxnumber:"",
+							registrationclass:""});
+						
+					}while (text.indexOf("<a class=\"doctor\"") != -1);	
+				}
+				index = 0;
+				updater(index);
+				
+			}
+			
+			public function updater(u:Number):void {
+				try{
+				urlString = datalist[u].url;
+				getLensp.send();
+				}
+				catch(e:Error){
+					var stop:String = "";
+					if (pageindex < 1863){
+						pageindex++;
+						datalist = new ArrayCollection();
+						var dir:File = File.applicationDirectory; 
+						dir = dir.resolvePath("data/page"+pageindex.toString()+".txt"); 
+						//dir = dir.resolvePath("data/page0.txt"); 
+						
+						var fileStream:FileStream = new FileStream(); 
+						fileStream.open(dir, FileMode.READ); 
+						afterGetData2(fileStream.readUTFBytes(fileStream.bytesAvailable));
+					}
+					else {
+						status33.text = "DONE!!!!";
+					}
+				}
+				
+				
+			}
+			public function afterLens(ev:ResultEvent):void {	
+				try{
+					
+						//some
+						var block:String = "";
+						var text:String = ev.result.toString();
+						var jd:RegExp = new RegExp("&nbsp;","g");
+						text = text.replace(jd," ");
+						text = text.substring(text.indexOf("<h2>Doctor Information</h2>")+27,text.length);
+						
+						var givenname:String = "";
+						var surname:String = "";
+						var gender:String = "";
+						var language:String = "";
+						var primarylocation:String = "";
+						var phonenumber:String = "";
+						var faxnumber:String = "";
+						var registrationclass:String = "";
+					
+						block = "Given Name:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							surname = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						
+						block = "Surname: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							givenname = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+					
+						block = "Gender:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							gender = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						
+						block = "Language Fluency:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							language = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "Primary Practice Location</h2>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							text = text.substr(text.indexOf(">")+1,text.length);	
+							primarylocation = clean(text.substr(0,text.indexOf("<strong")));	
+							
+						}
+						
+						
+						block = "Phone:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							phonenumber = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "Fax:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							faxnumber = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "Registration Class:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							registrationclass = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						datalist[index].givenname = givenname;
+						datalist[index].surname = surname;
+						datalist[index].gender = gender;
+						datalist[index].language = language;
+						datalist[index].primarylocation = primarylocation;
+						datalist[index].phonenumber = phonenumber;
+						datalist[index].faxnumber = faxnumber;
+						datalist[index].registrationclass = registrationclass;
+						var stop:String = "";
+						
+						
+					
+				}
+				catch(e:Error){
+					
+				}
+				
+				if (index < datalist.length-1){
+					index++;
+					updater(index);
+				}
+				else {
+					var stop2:String = "";
+					writeToCsv();
+				}
+				
+				
+				
+			
+				
+				
+			}
+			public function clean(s:String):String {
+			
+				
+				var jd:RegExp = new RegExp("<p>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br/>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br />","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\r\n","g");
+				s = s.replace(jd," ");
+				do {
+					jd = new RegExp("  ","g");
+					s = s.replace(jd," ");
+				}while(s.indexOf("  ") != -1);
+			
+				
+				
+				if (s.charAt(0) == " "){
+					s = s.substring(1,s.length);
+				}
+				if (s.charAt(s.length-1) == " "){
+					s = s.substring(0,s.length-1);
+				}
+				
+				
+				return s;
+			}
+			public function writeToCsv():void {
+				
+			
+				
+				
+				var csvText:String = "\rid,url,givenname,surname,gender,language,primarylocation,phonenumber,faxnumber,registrationclass";
+				for (var i:uint = 0; i < datalist.length; i++){
+					csvText = csvText + "\r" + datalist[i].id 
+						+ ",\"" + datalist[i].url+"\""
+						+ ",\"" + datalist[i].givenname+"\""
+					+ ",\"" + datalist[i].surname+"\""
+					+ ",\"" + datalist[i].gender+"\""
+					+ ",\"" + datalist[i].language+"\""
+					+ ",\"" + datalist[i].primarylocation+"\""
+					+ ",\"" + datalist[i].phonenumber+"\""
+					+ ",\"" + datalist[i].faxnumber+"\""
+					+ ",\"" + datalist[i].registrationclass+"\"";
+				}
+				
+				var f:File = File.documentsDirectory.resolvePath("ontdataout.csv"); 
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.APPEND);                                         
+				
+				//var j:JPGEncoder = new JPGEncoder(80);
+				//var bytes:ByteArray = j.encode(visualLogo.bitmapData);
+				//stream.writeBytes(bytes, 0, bytes.bytesAvailable);
+				
+				stream.writeUTFBytes(csvText);
+				stream.close();
+				
+				
+			//	var fileRef:FileReference = new FileReference();
+				//fileRef.save(csvText,"ontdataout"+pageindex.toString()+".csv");
+				
+				var stop:String = "";
+				if (pageindex < 1863){
+					pageindex++;
+					datalist = new ArrayCollection();
+					var dir:File = File.applicationDirectory; 
+					dir = dir.resolvePath("data/page"+pageindex.toString()+".txt"); 
+					//dir = dir.resolvePath("data/page0.txt"); 
+					
+					var fileStream:FileStream = new FileStream(); 
+					fileStream.open(dir, FileMode.READ); 
+					afterGetData2(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				}
+				else {
+					status33.text = "DONE!!!!";
+				}
+			
+				
+			}
+		
+		
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getLensp"
+					   result="afterLens(event);" resultFormat="text"
+					   url = "{urlString}"
+					   method="POST" >
+			
+		</s:HTTPService>
+		
+		
+	</fx:Declarations>
+	<s:Label x="193" y="79" text="Page"/>
+	<s:Label x="254" y="79" text="{pageindex.toString()}"/>
+	<s:Label x="204" y="116" id="status33" text="Not Done"/>
+
+</s:WindowedApplication>

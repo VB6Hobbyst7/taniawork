@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="activate1()"
+		title="Edit Item" xmlns:components="components.*" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Group width="{this.width*0.10}" height="100%"  click="confirm(0);">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/ItemActions_Archive.png')"
+											source240dpi="@Embed('assets/pocketicons/ItemActions_Archive@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/ItemActions_Archive@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var alerttypeout:String = "";
+			[Bindable]
+			public var alertvalueout:String = "";
+			[Bindable]
+			public var titleout:String = "";
+			[Bindable]
+			public var datestartout:String = "";
+			[Bindable]
+			public var dateendout:String = "";
+			[Bindable]
+			public var storestoaddout:String = "";
+			[Bindable]
+			public var idout:Number = -1;
+			[Bindable]
+			protected var storedata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var selectedItemType:Number = -1;
+			[Bindable]
+			public var alertstatus:Boolean = false;
+			[Bindable]
+			public var addAnother:Boolean = false;
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var managerid:String = "-1";
+			protected var sqlConnection:SQLConnection;
+
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					//navigator.pushView(HomeSimpliSave, {index:u});
+				}
+				else if (u == 1){
+					//navigator.pushView(HomeFindAFav, {index:u});
+				}
+				else if (u == 2){
+					//navigator.pushView(HomeMyFavs, {index:u});
+				}
+				else if (u == 3){
+					//navigator.pushView(HomeSettings, {index:u});
+				}
+				
+			}	
+			
+			public function activate1():void{	
+				titleinput.text = data.name;
+				
+				
+				if ((data.alert == true)||(data.alert == "true")){
+					alertswitch.selected = true;
+				}
+				else {
+					alertswitch.selected = false;
+				}
+				typeclick(uint(data.type));
+				listoftemps = new ArrayCollection();
+				for (var i:Number = -20; i < 61; i++){
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+				var stmt:SQLStatement = new SQLStatement();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("manager.db"));
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * from manager";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					managerid = resData[0].id.toString();
+					//managerid = "5";
+					busy = true;
+					getStores.send();
+				}
+				else {
+					busy = false;
+				}
+				
+				
+				
+			
+				
+			}
+			
+			public function afterAddCheckListItem(ev:ResultEvent):void {
+				busy = false;
+				if (addAnother == false){
+					navigator.popView();
+				}
+				else {
+					titleout = "";
+					datestartout = "";
+					dateendout = "";
+					storestoaddout = "";
+					idout = data.id;
+					busy = false;
+					selectedItemType = -1;
+					alertstatus = false;
+					addAnother = false;
+					titleinput.text = "";
+					alertswitch.selected = false;
+				}
+				
+			}
+			public function afterGetStores(ev:ResultEvent):void {
+				try{
+					var stop:String = "";
+					busy = false;
+					storedata = new ArrayCollection();
+					try{
+						storedata = ev.result[0].res;	
+					}
+					catch(e:Error){
+						storedata.addItem( ev.result[0].res);
+					}	
+				}
+				catch(e:Error){
+					busy = false;
+				}
+				
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				
+			}
+			public function confirm(u:uint):void {
+				//check and add. 
+				//addCheckList.send();	
+				if (u == 0){
+					addAnother = false;
+				}
+				else if (u == 1){
+					addAnother = true;
+				}
+				
+				var title:String = titleinput.text;
+				alertstatus = alertswitch.selected;
+				var count:uint = 0;
+				
+				
+				
+				
+				if ((selectedItemType != -1)&&(title != "")&&(title.length > 2)){
+					var stop:String = "";	
+					titleout = title;
+					
+					var alerttype:String = "-1";
+					var alertvalue:String = "blah";
+					var alertpass:Boolean = false;
+					alertvalueout = "";
+					alerttypeout = "";
+					
+					if (alertswitch.selected){
+						if (cb.label == "Text Input"){
+							alerttype = "0";
+							alertvalue = a1input.text;
+							
+							if (alertvalue != ""){
+								alertpass = true;
+							}
+						}
+						else if (cb.label == "Date Choice"){
+							alerttype = "1";
+							alertvalue = cb2.label + ";"+dateAlertInput.selectedDate.toString();
+							if (alertvalue != ""){
+								alertpass = true;
+							}
+						}
+						else if (cb.label == "Temp Spinner"){
+							alerttype = "2";
+							alertvalue = cb3.label + ";"+tempspinner.selectedItem.temp.toString();
+							if (alertvalue != ""){
+								alertpass = true;
+							}
+							
+						}
+						else if (cb.label == "Yes/No"){
+							alerttype = "3";
+							alertvalue = yesnoalertgroup.selectedValue.toString();
+							if (alertvalue != ""){
+								alertpass = true;
+							}
+						}
+						else if (cb.label == "Number Input"){
+							alerttype = "4";
+							alertvalue = cb5.label + ";"+a5input.text;
+							if (a5input.text != ""){
+								alertpass = true;
+							}
+						}
+						
+					}
+					
+					
+					
+					alertvalueout = alertvalue;
+					alerttypeout = alerttype;
+					
+					
+					busy = true;
+					addCheckListItemout.send();
+					
+				}
+				
+				
+				//if (titleinput.text != "")&&(titleinput.text.length > 2)&&(
+			}
+			public function typeclick(u:uint):void {
+				selectedItemType = u;
+				if (u == 0){
+					//<
+					cb.label = "Text Input";
+					
+				}
+				else if (u == 1){
+					//<=
+					cb.label = "Date Choice";
+				}
+				else if (u == 2){
+					//>
+					cb.label = "Temp Spinner";
+				}
+				else if (u == 3){
+					//>=
+					cb.label = "Yes/No";
+				}
+				else if (u == 4){
+					//>=
+					cb.label = "Number Input";
+				}
+				showVariousAlerts();
+				cb.closeDropDown();
+			}
+			public function datealertchoice(u:uint):void {
+				if (u == 0){
+					//<
+					cb2.label = "<";
+					
+				}
+				else if (u == 1){
+					//<=
+					cb2.label = "<=";
+				}
+				else if (u == 2){
+					//>
+					cb2.label = ">";
+				}
+				else if (u == 3){
+					//>=
+					cb2.label = ">=";
+				}
+				else if (u == 4){
+					//=
+					cb2.label = "=";
+				}
+			}
+			public function tempalertchoice(u:uint):void {
+				if (u == 0){
+					//<
+					cb3.label = "<";
+					
+				}
+				else if (u == 1){
+					//<=
+					cb3.label = "<=";
+				}
+				else if (u == 2){
+					//>
+					cb3.label = ">";
+				}
+				else if (u == 3){
+					//>=
+					cb3.label = ">=";
+				}
+				else if (u == 4){
+					//=
+					cb3.label = "=";
+				}
+			}
+			public function numalertchoice(u:uint):void {
+				if (u == 0){
+					//<
+					cb5.label = "<";
+					
+				}
+				else if (u == 1){
+					//<=
+					cb5.label = "<=";
+				}
+				else if (u == 2){
+					//>
+					cb5.label = ">";
+				}
+				else if (u == 3){
+					//>=
+					cb5.label = ">=";
+				}
+				else if (u == 4){
+					//=
+					cb5.label = "=";
+				}
+				cb5.closeDropDown();
+			}
+			
+			public function alertSwitchChange(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				showVariousAlerts();
+			}
+			public function showVariousAlerts():void {
+				if (cb.label == "Text Input"){
+					a1.visible = alertswitch.selected;
+					a2.visible = false;
+					a3.visible = false;
+					a4.visible = false;
+					a5.visible = false;
+					
+				}
+				else if (cb.label == "Date Choice"){
+					a1.visible = false;
+					a2.visible = alertswitch.selected;
+					a3.visible = false;
+					a4.visible = false;
+					a5.visible = false;
+				}
+				else if (cb.label == "Temp Spinner"){
+					a1.visible = false;
+					a2.visible = false;
+					a3.visible = alertswitch.selected;
+					a4.visible = false;
+					a5.visible = false;
+				}
+				else if (cb.label == "Yes/No"){
+					a1.visible = false;
+					a2.visible = false;
+					a3.visible = false;
+					a4.visible = alertswitch.selected;
+					a5.visible = false;
+				}
+				else if (cb.label == "Number Input"){
+					a1.visible = false;
+					a2.visible = false;
+					a3.visible = false;
+					a4.visible = false;
+					a5.visible = alertswitch.selected;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getStores" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getStores.php"
+					   result="afterGetStores(event)" >
+			<s:request xmlns="">
+				<managerid>{managerid}</managerid>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="addCheckListItemout" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/editCheckListItem.php"
+					   result="afterAddCheckListItem(event)" >
+			<s:request xmlns="">
+				<titleout>{titleout}</titleout>	
+				<alerttypeout>{alerttypeout}</alerttypeout>	
+				<alertvalueout>{alertvalueout}</alertvalueout>	
+				<selectedItemType>{selectedItemType}</selectedItemType>	
+				<alertstatus>{alertstatus}</alertstatus>	
+				<idout>{data.id}</idout>	
+			</s:request>
+		</s:HTTPService>
+		<s:RadioButtonGroup id="yesnoalertgroup"/>
+		
+	</fx:Declarations>
+	
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup horizontalAlign="center"  width="100%" height="100%" horizontalCenter="0">
+			<s:HGroup width="95%" height="53" gap="6" horizontalAlign="center" verticalAlign="middle">
+				<s:TextInput id="titleinput" x="103" y="21" width="100%" autoCapitalize="all"
+							 fontFamily="Arial" prompt="Text"/>
+				
+			</s:HGroup>
+			<s:HGroup width="95%" height="55" gap="6" horizontalAlign="left" paddingLeft="20"
+					  verticalAlign="middle">
+				<s:CalloutButton id="cb" label="Item Type" calloutDestructionPolicy="never"
+								 fontFamily="proximaNova" fontWeight="bold" horizontalPosition="before">
+					<s:calloutLayout>
+						<s:VerticalLayout paddingTop="10" paddingBottom="10" 
+										  paddingLeft="10" paddingRight="10" horizontalAlign="center" gap="5"/>
+					</s:calloutLayout>
+					<s:calloutContent>
+						<s:Button label="Text Input"  click="typeclick(0)"/>
+						<s:Button label="Temp Spinner"  click="typeclick(2)"/>
+						<s:Button id="btn"  label="Yes/No" click="typeclick(3)"/>
+						<s:Button   label="Number Input" click="typeclick(4)"/>
+					</s:calloutContent>
+				</s:CalloutButton>
+				<s:HGroup width="100%" height="59" gap="6" horizontalAlign="center" verticalAlign="middle">
+					<s:Label x="18" y="157" fontSize="18" fontWeight="bold" text="Alert"/>
+					<s:ToggleSwitch id="alertswitch" change="alertSwitchChange(event)"
+									fontFamily="proximaNova"/>
+				</s:HGroup>
+				
+			</s:HGroup>
+			<s:Group width="95%" height="100" >
+				<s:Group width="100%" visible="false" id="a1" height="100%" >
+					<s:HGroup width="100%" height="59" paddingLeft="5" gap="6" horizontalAlign="left" verticalAlign="middle">
+						<s:Label x="18" y="157" fontSize="18" fontWeight="bold" text="Alert When Text = "/>
+						<s:TextInput id="a1input" autoCapitalize="all"  x="103" y="21" width="100%"/>
+					</s:HGroup>
+				</s:Group>
+				<s:Group width="100%" visible="false"  id="a2" height="100%" >
+					<s:Label x="18" y="8" fontSize="18" fontWeight="bold" text="Alert When Date : "/>
+					<s:HGroup y="32" width="100%" height="68" gap="6" horizontalAlign="left"
+							  paddingLeft="5" verticalAlign="middle">
+						
+						<s:CalloutButton id="cb2" label="&lt;" calloutDestructionPolicy="never"
+										 fontWeight="bold" fontFamily="proximaNova" horizontalPosition="before">
+							<s:calloutLayout>
+								<s:VerticalLayout paddingTop="10" paddingBottom="10" paddingLeft="10" 
+												  paddingRight="10" horizontalAlign="center" gap="5"/>
+							</s:calloutLayout>
+							<s:calloutContent>
+								<s:Button label="&lt;"  click="datealertchoice(0)"/>
+								<s:Button label="&lt;="  click="datealertchoice(1)"/>
+								<s:Button label="&gt;"  click="datealertchoice(2)"/>
+								<s:Button label="&gt;="  click="datealertchoice(3)"/>
+								<s:Button label="="  click="datealertchoice(4)"/>
+							</s:calloutContent>
+						</s:CalloutButton>
+						
+						<s:DateSpinner  displayMode="dateAndTime" fontFamily="proximaNova" id="dateAlertInput" x="0" y="0" height="50"/>
+					</s:HGroup>
+				</s:Group>
+				<s:Group width="95%" visible="false"  id="a3" height="100%" >
+					<s:Label x="18" y="8" fontSize="18" fontWeight="bold" text="Alert When Temp : "/>
+					<s:HGroup y="32" width="100%" height="68" gap="6" horizontalAlign="left"
+							  paddingLeft="5" verticalAlign="middle">
+						
+						<s:CalloutButton id="cb3" label="&lt;" calloutDestructionPolicy="never"
+										 fontWeight="bold" fontFamily="proximaNova" horizontalPosition="before">
+							<s:calloutLayout>
+								<s:VerticalLayout paddingTop="10" paddingBottom="10" paddingLeft="10" 
+												  paddingRight="10" horizontalAlign="center" gap="5"/>
+							</s:calloutLayout>
+							<s:calloutContent>
+								<s:Button label="&lt;"  click="tempalertchoice(0)"/>
+								<s:Button label="&lt;="  click="tempalertchoice(1)"/>
+								<s:Button label="&gt;"  click="tempalertchoice(2)"/>
+								<s:Button label="&gt;="  click="tempalertchoice(3)"/>
+								<s:Button label="="  click="tempalertchoice(4)"/>
+							</s:calloutContent>
+						</s:CalloutButton>
+						<s:SpinnerListContainer x="-1" y="-76" width="100%" height="50">
+							<s:SpinnerList height="100%" id="tempspinner" fontFamily="proximaNova" labelField="temp"  width="100%" 
+										   dataProvider="{listoftemps}" selectedIndex="1" >
+								
+							</s:SpinnerList>
+						</s:SpinnerListContainer>
+					</s:HGroup>
+				</s:Group>
+				<s:Group width="95%" visible="false"  id="a4" height="100%" >
+					<s:HGroup width="100%" height="100%" paddingLeft="5" gap="6" horizontalAlign="left" verticalAlign="middle">
+						<s:Label x="18" y="157" fontSize="18" fontWeight="bold" text="Alert When :"/>
+						<s:RadioButton label="Yes" value="yes" groupName="yesnoalertgroup" selected="true"/>
+						<s:RadioButton label="No" value="no" groupName="yesnoalertgroup"/>
+						
+					</s:HGroup>
+				</s:Group>
+				<s:Group width="95%" visible="false" id="a5" height="100%" >
+					<s:Label x="18" y="8" fontSize="18" fontWeight="bold" text="Alert When Number"/>
+					<s:HGroup x="0" y="35" width="100%" height="59" gap="6" horizontalAlign="left"
+							  paddingLeft="5" verticalAlign="middle">
+						
+						<s:CalloutButton fontFamily="proximaNova" id="cb5" label="&lt;" calloutDestructionPolicy="never"
+										 fontWeight="bold" horizontalPosition="before">
+							<s:calloutLayout>
+								<s:VerticalLayout paddingTop="10" paddingBottom="10" paddingLeft="10" 
+												  paddingRight="10" horizontalAlign="center" gap="5"/>
+							</s:calloutLayout>
+							<s:calloutContent>
+								<s:Button label="&lt;"  click="numalertchoice(0)"/>
+								<s:Button label="&lt;="  click="numalertchoice(1)"/>
+								<s:Button label="&gt;"  click="numalertchoice(2)"/>
+								<s:Button label="&gt;="  click="numalertchoice(3)"/>
+								<s:Button label="="  click="numalertchoice(4)"/>
+							</s:calloutContent>
+						</s:CalloutButton>
+						<s:TextInput id="a5input" autoCapitalize="all"  x="103" y="21" width="100%"/>
+					</s:HGroup>
+				</s:Group>
+			</s:Group>
+			
+		</s:VGroup>		
+	</s:Scroller>	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="init(event)" title="{data.name}" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+
+			
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var storeid:String = "";
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						listdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						
+					}
+					
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					if (data.ismanage){
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							ismanage:true});	
+					}
+					else {
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							ismanage:false});	
+					}
+				}
+				
+			}
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				storeid = data.storeid;
+				busy = true;
+				getChecklists.send();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListsForStore.php"
+					   result="afterGetChecklists(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+
+	<s:List id="list" width="100%" height="100%" dataProvider="{listdata}" 
+			change="listChange(event);" itemRenderer="components.storeCheckListItem" >
+		<s:layout> 
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="10"
+							  
+							  variableRowHeight="true"/>
+		</s:layout>
+	</s:List>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

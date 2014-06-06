@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false" contentBackgroundAlpha="0" creationComplete="init(event)"
+				stateChangeComplete="stateChangedHandler()">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var bcolor:String = "#FFFFFF";
+			[Bindable]
+			public var clickStatus:String = "none";
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function stateChangedHandler():void
+			{
+				/*if(currentState == "selected")
+				{
+					bcolor = "#B7B7B7";
+				}
+				else {
+					bcolor = "#FFFFFF";
+				}*/
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function changeUser(event:MouseEvent):void
+			{
+			
+			}
+			
+			public function deleteUser(event:MouseEvent):void
+			{
+				
+			}
+			
+			public function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				listoftemps = new ArrayCollection();
+				for (var i:Number = -20; i < 61; i++){
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="yesnoalertgroup"/>
+
+	</fx:Declarations>
+	<!--s:Label color="#000000"  fontSize="15" text="{data.id}"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.checklistid}"></s:Label>	
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label-->
+	<!--s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.type}"></s:Label>	
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.alert}"></s:Label-->	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:Group width="100%" height="50">
+		<s:HGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="left">
+			<s:Label color="#000000"  fontSize="15" text="{data.name}"></s:Label>
+			<s:Group width="100%" height="100%" >
+				<s:Group visible="{data.type == '0'}" width="100%" height="100%" >
+					<s:TextInput id="textchoice"
+					width.normal="100%" textAlign.normal="left" verticalCenter.normal="0"/>
+				</s:Group>	
+				<s:Group visible="{data.type == '1'}" width="100%" height="100%" >
+					<s:DateSpinner id="datechoice" height="20" height.normal="50"/>
+				</s:Group>	
+				<s:Group visible="{data.type == '2'}" width="100%" height="100%" >
+					<s:SpinnerListContainer width="100%" height="50"
+											x.hovered="-1" y.hovered="-76"
+											left.normal="0" verticalCenter.normal="0"
+											x.selected="-1" y.selected="-76"
+											x.up="-1" y.up="-76">
+						<s:SpinnerList height="100%" id="tempspinner" labelField="temp"  width="100%" 
+									   dataProvider="{listoftemps}" selectedIndex="1" >
+							
+						</s:SpinnerList>
+					</s:SpinnerListContainer>
+				</s:Group>	
+				<s:Group visible="{data.type == '3'}" width="100%" height="100%" >
+					<s:HGroup width="100%" height="100%" verticalAlign="middle">
+						<s:RadioButton label="Yes" value="yes" groupName="yesnoalertgroup" selected="true"/>
+						<s:RadioButton label="No" value="no" groupName="yesnoalertgroup"/>
+					</s:HGroup>
+				</s:Group>	
+				<s:Group visible="{data.type == '4'}" width="100%" height="100%" >
+					<s:TextInput id="numberchoice"
+					width.normal="100%" textAlign.normal="left" verticalCenter.normal="0"/>
+				</s:Group>	
+				
+			</s:Group>	
+		</s:HGroup>	
+	</s:Group>
+</s:ItemRenderer>

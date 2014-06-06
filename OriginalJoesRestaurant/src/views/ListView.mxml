@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:components="components.*"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:dao="dao.*"
+		xmlns:renderers="renderers.*"
+		title="Check Lists"
+		backgroundColor="#F0F0F0"
+		creationComplete="creationCompleteHandler()">
+
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			
+			import model.Report;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var storetitle:String = "Original Joe's";
+			[Bindable]
+			public var storename:String = "Test Store";
+			[Bindable]
+			public var storeid:String = "1";
+			
+			protected function creationCompleteHandler():void
+			{
+				// Refresh the expense list when an expense is saved somewhere else in the application
+				/*systemManager.addEventListener(ReportEvent.EXPENSE_SAVED, function(event:ReportEvent):void
+				{
+					list.dataProvider = srv.getExpensesByReport(data as Report);
+				});*/
+				getChecklists.send();
+			
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					listdata.addItem( ev.result[0].res);
+				}
+			}
+			public function listDataChane(ev:IndexChangeEvent):void {
+				var stop:String = "";
+			}
+			override public function set data(value:Object):void
+			{
+				/*super.data = value;
+				if (data)
+					expenses = srv.getExpensesByReport(data as Report);*/
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<dao:ExpenseReportDAO id="srv"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/getCheckLists.php"
+					   result="afterGetChecklists(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+
+	
+	
+	
+	<s:VGroup top="0" left="0" right="0" bottom="0" gap="0">
+		
+		<s:VGroup paddingLeft="8" paddingRight="8" paddingTop="14" paddingBottom="8" gap="2">
+			<s:Label text="{storetitle}" styleName="title"/>
+			<s:Label text="{storename}" styleName="subtle" left="8"/>
+		</s:VGroup>
+
+		<s:Line top="0" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#838484" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line top="1" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" weight="1"/>
+			</s:stroke>
+		</s:Line>
+
+		<s:List id="list" width="100%" height="100%" dataProvider="{listdata}" 
+				change="dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE, list.selectedItem))">
+			<s:itemRenderer>
+				<fx:Component>
+					<renderers:checkListItem labelField="storeid" dateField="datestart" amountField="status"/>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+
+		<s:SkinnableContainer styleName="footer" width="100%" height="40" backgroundAlpha="0">
+			<s:Line top="0" left="0" right="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#838484" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line top="1" left="0" right="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#FFFFFF" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<s:Label text="Complete:" color="#009F07" left="8" verticalCenter="2"/>
+				<s:Label text="1" fontWeight="bold" fontSize="20" right="8" verticalCenter="2"/>
+				<s:Label text="Incomplete:" color="#970707" left="8" verticalCenter="2"/>
+				<s:Label text="1" fontWeight="bold" fontSize="20" right="8" verticalCenter="2"/>
+			</s:HGroup>
+			
+		</s:SkinnableContainer>
+
+	</s:VGroup>
+	
+</s:View>

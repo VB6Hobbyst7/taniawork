@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false" contentBackgroundAlpha="0" 
+				creationComplete="init(event)"
+				
+				 dataChange="changeData(event)"
+				stateChangeComplete="stateChangedHandler()">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			[Bindable]
+			protected var bcolor:String = "#FFFFFF";
+			[Bindable]
+			protected var clickStatus:String = "none";
+			[Bindable]
+			protected var listoftemps:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var tempselectindex:Number = 0;
+			private var ti:Timer = new Timer(1000,0);
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function stateChangedHandler():void
+			{
+				/*if(currentState == "selected")
+				{
+					bcolor = "#B7B7B7";
+				}
+				else {
+					bcolor = "#FFFFFF";
+				}*/
+			}
+			protected function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			protected function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			protected function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function changeUser(event:MouseEvent):void
+			{
+			
+			}
+			
+			protected function deleteUser(event:MouseEvent):void
+			{
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				listoftemps = new ArrayCollection();
+			
+				for (var i:Number = -20; i < 61; i++){
+					if (i == 0){
+						listoftemps.addItem({temp:"Select Temp"});
+						tempselectindex = listoftemps.length-1;
+					}
+				
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+				tempspinner.selectedIndex = tempselectindex;
+			}
+			protected function changeo(u:uint):void {
+				if (u == 0){
+					//data.avalue = textchoice.text;
+					data.avalue = data.preanswer = textchoice.text;
+				}
+				else if (u == 1){
+					//data.avalue = datechoice.selectedDate.toString();
+				}
+				else if (u == 2){
+					//data.avalue = tempspinner.selectedItem.temp;
+					data.avalue = data.preanswer = tempspinner.selectedItem.temp;
+				}
+				else if (u == 31){
+					//data.avalue = 'yes';
+					data.avalue = data.preanswer = 'yes';
+				}
+				else if (u == 32){
+					//data.avalue = 'no';
+					data.avalue = data.preanswer = 'no';
+				}
+				else if (u == 4){
+					//data.avalue = numberchoice.text;
+					data.avalue = data.preanswer = numberchoice.text;
+				}
+				validateNow();
+			}
+			public  override function  set data(value:Object):void{
+				// This will fire off the FlexEvent.DATA_CHANGE Event
+				super.data = value;
+				// if the value is null this cell is empty
+				if(value == null){
+					// clear all the controls
+					return;
+				}
+				//again configure the controls
+				// for example if you’re adding checkboxes, again add the logic/configure here.
+			}
+			protected function changeData(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				if ((data.preanswer != "errornovalue")&&(data.preanswer != "")&&(data.preanswer != null)){
+					data.avalue = data.preanswer;
+					if (data.type == 0){
+						textchoice.text = data.preanswer;
+					}
+					else if (data.type == 1){
+						
+					}
+					else if (data.type == 2){
+						for (var j:uint = 0; j < listoftemps.length; j++){
+							if (listoftemps[j] == data.preanswer){
+								tempspinner.selectedIndex = j;
+							}
+						}
+					}
+					else if (data.type == 3){
+						if (data.preanswer == "yes"){
+							y1.selected = true;
+							n1.selected = false;
+						}
+						else if (data.preanswer == "no"){
+							y1.selected = false;
+							n1.selected = true;
+						}
+					}
+					else if (data.type == 4){
+						numberchoice.text = data.preanswer;
+					}
+				}
+				
+				validateNow();
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="yesnoalertgroup"/>
+
+	</fx:Declarations>
+	<!--s:Label color="#000000"  fontSize="15" text="{data.id}"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.checklistid}"></s:Label>	
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label-->
+	<!--s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.type}"></s:Label>	
+	<s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+	<s:Label color="#000000"  fontSize="15" text="{data.alert}"></s:Label-->	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:Group width="100%" maxHeight="300" height="100%">
+		<s:VGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle"
+				  paddingBottom="8" paddingLeft="20" paddingRight="20"
+				  paddingTop="8">
+			<s:TextArea borderVisible="false"  autoCapitalize="sentence"  
+						skinClass="spark.skins.mobile.TextInputSkin" color="#000000" 
+						contentBackgroundAlpha="0"
+						enabled="true" fontSize="15" text="{data.name}" height="100%"
+						width="100%" editable="false"></s:TextArea>
+			<s:Group width="100%" height="100%" >
+				<s:Group visible="{data.type == '0'}" width="100%" height="100%" >
+					<s:TextInput  autoCapitalize="sentence"  id="textchoice" 
+								  skinClass="spark.skins.mobile.TextInputSkin" height="50" change="changeo(0);"
+					width="100%" textAlign="left" editable="true" enabled="true" verticalCenter="0"/>
+				</s:Group>	
+				<s:Group visible="{data.type == '1'}" width="100%" height="100%" >
+					<s:DateSpinner change="changeo(1);"  displayMode="dateAndTime" id="datechoice"  height="50"/>
+				</s:Group>	
+				<s:Group visible="{data.type == '2'}" width="100%" height="100%" >
+					<s:SpinnerListContainer width="100%" height="150"
+											left="0" verticalCenter="0">
+						<s:SpinnerList height="100%" id="tempspinner" change="changeo(2);" labelField="temp"  width="100%" 
+									   dataProvider="{listoftemps}" selectedIndex="1" >
+							
+						</s:SpinnerList>
+					</s:SpinnerListContainer>
+				</s:Group>	
+				<s:Group visible="{data.type == '3'}" width="100%" height="100%" >
+					<s:HGroup width="100%" height="100%" verticalAlign="middle">
+						<s:RadioButton id="y1" selected="false" label="Yes" value="yes" groupName="yesnoalertgroup" click="changeo(31);"/>
+						<s:RadioButton id="n1" selected="false" label="No" value="no" groupName="yesnoalertgroup" click="changeo(32);"/>
+					</s:HGroup>
+				</s:Group>	
+				<s:Group visible="{data.type == '4'}" width="100%" height="100%">
+					<s:TextInput  autoCapitalize="sentence"  id="numberchoice"  width="100%" textAlign="left"
+								 change="changeo(4);" verticalCenter="0"/>
+				</s:Group>	
+				
+			</s:Group>	
+		</s:VGroup>	
+	</s:Group>
+</s:ItemRenderer>

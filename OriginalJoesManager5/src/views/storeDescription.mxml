@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="init(event)" title="{data.name}" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>
+		<s:CalloutButton left="5" id="sortBTN" label="Sort" 
+						 horizontalPosition="before"
+						 verticalPosition="after" 
+						 calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="sort1" label="Name" enabled="true"  width="100%" click="sortPress(0);"/>
+				<s:Button id="sort2" label="Date" enabled="true"  width="100%" click="sortPress(1);"/>
+				<s:Button id="sort3" label="Current" enabled="true"  width="100%" click="sortPress(2);"/>
+				<s:Button id="sort4" label="Complete" enabled="true"  width="100%" click="sortPress(3);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+		
+		<s:CalloutButton left="5" id="dateBTN" label="Date" 
+						 horizontalPosition="before"
+						 verticalPosition="after" 
+						 calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:HGroup verticalAlign="middle">
+					<s:Label text="From:"/>
+					<s:DateSpinner height="75" change="datechanger(event)"  id="datefrom" displayMode="date" />
+				</s:HGroup>
+			
+				<s:HGroup  verticalAlign="middle">
+					<s:Label text="To:"/>
+					<s:DateSpinner height="75" change="datechanger(event)" id="dateto" displayMode="date" />
+				</s:HGroup>
+						
+				<s:Button id="clearbtn" label="Clear" click="cleardates();" enabled="true"  width="100%"/>
+			
+			</s:calloutContent>
+		</s:CalloutButton>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.*;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var storeid:String = "";
+			[Bindable]
+			public var usedates:Boolean = false;
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					try{
+						listdata.addItem( ev.result[0].res);
+					}
+					catch(e:Error){
+						
+					}
+					
+				}
+				initalsort();
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					if (data.ismanage){
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							ismanage:true});	
+					}
+					else {
+						navigator.pushView(checkListItems, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							ismanage:false});	
+					}
+				}
+				
+			}
+			public function initalsort():void {
+				listdata.filterFunction = justcompleted;
+				listdata.refresh();
+				list.dataProvider = listdata;
+			}
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				storeid = data.storeid;
+				busy = true;
+				getChecklists.send();
+			}
+			public function datePress(u:uint):void {
+				
+			}
+			public function sortPress(u:uint):void {
+				sortBTN.closeDropDown();
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField3:mx.collections.SortField = new mx.collections.SortField();
+				var numericDataSort:Sort = new Sort();
+				var stringDataSort:Sort = new Sort();
+				
+				
+				if (sortMode == u){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+				}
+				else {
+					reverse = false;
+				}
+				
+				
+				dataSortField.descending = reverse;
+				dataSortField2.descending = reverse;
+				dataSortField3.descending = reverse;
+				
+				
+				
+				sortMode = u;
+				
+				
+				if (u == 0){
+					dataSortField.name = "name";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					listdata.sort = stringDataSort;
+				}
+				else if (u == 1){
+					dataSortField.name = "answerdate";
+					dataSortField.numeric = false;
+					
+					numericDataSort.fields = [dataSortField];
+					listdata.sort = numericDataSort;
+					
+				}
+				else if (u == 2){
+					dataSortField.name = "iscurrent";
+					dataSortField.numeric = false;
+					
+					numericDataSort.fields = [dataSortField];
+					listdata.sort = numericDataSort;
+					
+				}
+				else if (u == 3){
+					dataSortField.name = "status";
+					dataSortField.numeric = false;
+					
+					numericDataSort.fields = [dataSortField];
+					listdata.sort = numericDataSort;
+					
+				}
+				
+				listdata.refresh();
+				list.dataProvider = listdata;
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			public function searchClick():void
+			{
+				if ((key.text != "")&&(usedates)){
+					listdata.filterFunction = dateandotherfilter;
+				}
+				else if (key.text != ""){
+					listdata.filterFunction = filterCompleted;
+				}
+				else if (usedates){
+					listdata.filterFunction = datefilter;
+				}
+				else {
+					listdata.filterFunction = returnall;
+				}
+				
+			
+				
+				listdata.refresh();
+				list.dataProvider = listdata;
+				var s:String = "";
+				
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.status2.toString().toLowerCase().indexOf(key.text.toLowerCase()) == 0)||
+					(item.answerdate.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.iscurrent.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function justcompleted(item:Object):Boolean{
+				if((item.iscurrent.toString() == 'Current'))
+					return true;
+				return false;
+			}
+			private function dateandotherfilter(item:Object):Boolean{
+				if((item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.status2.toString().toLowerCase().indexOf(key.text.toLowerCase()) == 0)||
+					(item.answerdate.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.iscurrent.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)){
+					if (datefilter(item)){
+						return true;
+					}
+					else {
+						return false;
+					}
+					
+				}
+					
+				return false;
+			}
+			private function datefilter(item:Object):Boolean{
+				var tempanswerdate:String = item.answerdate.toString();
+				var tempansweryear:String = "";
+				var tempanswermonth:String = "";
+				var tempanswerday:String = "";
+				
+				
+				tempansweryear = tempanswerdate.substring(0,tempanswerdate.indexOf("-"));
+				tempanswerdate = tempanswerdate.substring(tempanswerdate.indexOf("-")+1,tempanswerdate.length);
+				tempanswermonth = tempanswerdate.substring(0,tempanswerdate.indexOf("-"));
+				tempanswerdate = tempanswerdate.substring(tempanswerdate.indexOf("-")+1,tempanswerdate.length);
+				tempanswerday = tempanswerdate;
+				
+				var lookdate:Date = new Date(tempansweryear,tempanswermonth,tempanswerday);
+				var datefromtext:Date = new Date(datefrom.selectedDate.fullYear.toString(),
+					datefrom.selectedDate.month.toString(),
+					datefrom.selectedDate.date.toString());
+				var datetotext:Date = new Date(dateto.selectedDate.fullYear.toString(),
+					dateto.selectedDate.month.toString(),
+					dateto.selectedDate.date.toString());
+				
+				if((ObjectUtil.dateCompare(lookdate,datefromtext ) == 1)&&(ObjectUtil.dateCompare(lookdate,datetotext ) == -1)){ 
+					return true;
+				}
+				
+	
+				return false;
+			}
+			public function filterPress(u:uint):void {	
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			
+			public function cleardates():void {
+				usedates = false;
+				dateBTN.closeDropDown();
+				searchClick();
+			}
+			public function datechanger(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				
+			
+				var stop:String = "";
+				usedates = true;
+				
+				searchClick();
+				//looking at answerdate of array
+				
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListsForStore.php"
+					   result="afterGetChecklists(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
+		<s:BorderContainer x="0" y="0"  borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0"
+						   dropShadowVisible="false" backgroundColor="#ebebeb" width="100%">
+			<s:HGroup width="100%" horizontalAlign="center" paddingLeft="5" paddingRight="5" verticalAlign="middle" height="98%">
+				<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   
+							  softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  
+							  id="key" left="5" right="5" top="1" width="100%" height="80%"
+							  keyUp="press(event);" maxChars="20" prompt="Search Lists"
+							  returnKeyLabel="search"/>
+				<s:Image x="310" y="7" id="imga1" width="{imga1.height}" height="80%" click="searchClick();"
+						 mouseDown="profDown(event)" mouseUp="profUp(event)" smooth="true"
+						 source="assets/searchHigh.png">
+					
+				</s:Image>
+			</s:HGroup>
+		</s:BorderContainer>
+	<s:List id="list" width="100%" height="100%" dataProvider="{listdata}" 
+			change="listChange(event);" alternatingItemColors="[0xf5f5f5,0xebebeb ]" itemRenderer="components.storeCheckListItem" >
+		<s:layout> 
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="1"
+							  variableRowHeight="true"/>
+		</s:layout>
+	</s:List>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

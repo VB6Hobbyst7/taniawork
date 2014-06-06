@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="28" viewWidth="28" ai:appVersion="15.0.2.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="28" d:pageWidth="28" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="34503410" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Group x="5.5" y="5.5249" ai:objID="14d2e0a0" ai:seqID="3">
+        <Group y="1.4751" ai:objID="2f8b3370" ai:seqID="4">
+          <Path winding="nonZero" ai:objID="2f8b3460" ai:seqID="5" data="M15 6.75C15 5.7832 15.7842 5 16.75 5 16.8359 5 16.918 5.01318 17 5.02539L17 3 14 0 0 0 0 5.02539C0.0820312 5.01318 0.164062 5 0.25 5 1.21582 5 2 5.7832 2 6.75 2 7.7168 1.21582 8.5 0.25 8.5 0.164062 8.5 0.0820312 8.48633 0 8.47461L0 16.9512 17
+ 16.9512 17 8.47461C16.918 8.48633 16.8359 8.5 16.75 8.5 15.7842 8.5 15 7.7168 15 6.75Z">
+            <fill>
+              <SolidColor color="#003F00"/>
+            </fill>
+          </Path>
+        </Group>
+        <Group ai:objID="2f895970" ai:seqID="6">
+          <Path winding="nonZero" ai:objID="14d55bd0" ai:seqID="7" flm:variant="1" d:id="3" data="M15 6.75C15 5.7832 15.7842 5 16.75 5 16.8359 5 16.918 5.01318 17 5.02539L17 3 14 0 0 0 0 5.02539C0.0820312 5.01318 0.164062 5 0.25 5 1.21582 5 2 5.7832 2 6.75 2 7.7168 1.21582 8.5 0.25 8.5 0.164062 8.5 0.0820312 8.48682 0 8.47461L0 16.9507 17
+ 16.9507 17 8.47461C16.918 8.48682 16.8359 8.5 16.75 8.5 15.7842 8.5 15 7.7168 15 6.75Z">
+            <fill>
+              <LinearGradient x="8.49951" y="0" scaleX="17.0807" rotation="90">
+                <GradientEntry ratio="0" color="#003860"/>
+                <GradientEntry ratio="0.405836" color="#00375E"/>
+                <GradientEntry ratio="0.637052" color="#002F51"/>
+                <GradientEntry ratio="0.832768" color="#001E33"/>
+                <GradientEntry ratio="1"/>
+              </LinearGradient>
+            </fill>
+          </Path>
+          <Path x="1" y="1" alpha="0.5" winding="nonZero" ai:objID="14d55770" ai:seqID="8" data="M0 14.9507 0 8.396C1.15332 8.06885 2 7.00635 2 5.75 2 4.49365 1.15332 3.43115 0 3.104L0 0 12.5859 0 15 2.41406 15 3.104C13.8467 3.43115 13 4.49365 13 5.75 13 7.00635 13.8467 8.06885 15 8.396L15 14.9507 0 14.9507Z">
+            <fill>
+              <LinearGradient x="7.49951" y="0" scaleX="14.9512" rotation="90">
+                <GradientEntry ratio="0" color="#80B2E6"/>
+                <GradientEntry ratio="1" color="#1C5E97"/>
+              </LinearGradient>
+            </fill>
+          </Path>
+          <Rect x="2.49902" y="11.4751" width="12" height="3" ai:objID="2f895a60" ai:seqID="9">
+            <fill>
+              <SolidColor color="#5183B6"/>
+            </fill>
+          </Rect>
+        </Group>
+        <Path x="4.54688" y="8.27148" winding="nonZero" ai:objID="14d1e940" ai:seqID="10" data="M7.83203 0 3.91602 5.20361 0 0 7.83203 0Z">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Path>
+        <Rect x="6.88574" y="3.54102" width="3.1543" height="5.25635" ai:objID="14d1e840" ai:seqID="11">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+      </Group>
+    </Group>
+  </Group>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+    <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="85D8981DC2158A8CD1C535EE2445A519" flm:original="1" d:ref="#3">
+      <variant:Path winding="nonZero" ai:objID="14d55bd0" ai:seqID="7" data="M15 6.75C15 5.7832 15.7842 5 16.75 5 16.8359 5 16.918 5.01318 17 5.02539L17 3 14 0 0 0 0 5.02539C0.0820312 5.01318 0.164062 5 0.25 5 1.21582 5 2 5.7832 2 6.75 2 7.7168 1.21582 8.5 0.25 8.5 0.164062 8.5 0.0820312 8.48682 0 8.47461L0 16.9507 17
+ 16.9507 17 8.47461C16.918 8.48682 16.8359 8.5 16.75 8.5 15.7842 8.5 15 7.7168 15 6.75Z">
+        <variant:fill>
+          <variant:LinearGradient x="8.49951" y="0" scaleX="17.0807" rotation="90">
+            <variant:GradientEntry ratio="0" color="#003860" flm:midpoint="0.846625747680664"/>
+            <variant:GradientEntry ratio="1"/>
+          </variant:LinearGradient>
+        </variant:fill>
+      </variant:Path>
+    </mngo:VariantContent>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dict data="B includeXMP 0 B writeImages 1 B aiEditCap 1 I rasterizeResolution 72 I preserveFilterPolicy 3 I preserveTextPolicy 4 I versionKey 2 B downsampleLinkedImages 0 B includeSymbol 0 I expandBlendsOption 5 I preserveGradientPolicy 4 B includeObjectOutsideArtboard 0 "/>
+      </ai:SaveOptions>
+      <ai:DocData base="SaveIconGreen.assets/images" globalOffsetH="466" globalOffsetV="-286" rulerCanvasDiffH="480.5" rulerCanvasDiffV="300.5">
+        <ai:DocRasterSettings>
+          <ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+        </ai:DocRasterSettings>
+      </ai:DocData>
+      <ai:AutoGenImageList>
+        <ai:Dict/>
+      </ai:AutoGenImageList>
+    </ai:PrivateElement>
+    <ai:PrivateElement flm:hashcode="89A5B72AA83EA9409466BF1D4726D325" d:ref="#2">
+      <ai:LayerOptions color="5 79.31 257 128.502"/>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

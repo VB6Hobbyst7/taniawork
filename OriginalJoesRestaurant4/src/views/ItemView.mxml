@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:d="dao.*" xmlns:u="utils.*" 
+		xmlns:c="components.*"  activate="activ()"
+		title="">
+	<s:actionContent>	
+		<s:Button id="submitbtn" label="Submit" visible="false" click="submitCheckList(event)" />
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import events.ReportEvent;
+			
+			import flash.net.URLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			import flash.utils.describeType;
+			
+			import model.Expense;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.formatters.DateFormatter;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			
+			import spark.components.DateSpinner;
+			import spark.components.Group;
+			import spark.components.HGroup;
+			import spark.components.RadioButton;
+			import spark.components.SpinnerList;
+			import spark.components.SpinnerListContainer;
+			import spark.components.TextArea;
+			import spark.components.TextInput;
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			import spark.transitions.CrossFadeViewTransition;
+			[Bindable]
+			public var storeid:String = "1";
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var checklistidout:String = "";
+			[Bindable]
+			public var citemsdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var answerarrayid:Array = new Array();
+			[Bindable]
+			public var answerarrayavalue:Array = new Array();
+			protected var locationDirty:Boolean = false;
+			[Bindable]
+			public var ltype:String = "previous";
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var tempselectindex:Number = 0;
+			public function activ():void {
+				listoftemps = new ArrayCollection();
+				
+				for (var i:Number = -20; i < 81; i++){
+					if (i == 0){
+						listoftemps.addItem({temp:"Select Temp"});
+						tempselectindex = listoftemps.length-1;
+					}
+					
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+			}
+			
+			public function submitCheckList(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				answerarrayid = new Array();
+				answerarrayavalue = new Array();
+				var checklistid:String = "";
+				for (var i:uint = 0; i < citemsdata.length; i++){
+					var valuee:String = citemsdata[i].avalue;
+					if (valuee == "errornovalue"){
+						if (citemsdata[i].type == '0'){
+							
+						}
+						else if (citemsdata[i].type == '1'){
+							var CurrentDateTime:Date = new Date();
+							var CurrentDF:DateFormatter = new DateFormatter();
+							CurrentDF.formatString = "EEE MMM DD LL:NN:SS"
+							var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+							valuee = DateTimeString;
+						}
+						else if (citemsdata[i].type == '2'){
+							valuee = "-20ºC";
+						}
+						else if (citemsdata[i].type == '3'){
+							valuee = "yes";
+						}
+						else if (citemsdata[i].type == '4'){
+							
+						}
+						
+					}
+					else if (citemsdata[i].type == '1'){
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+					}
+					answerarrayid.push(citemsdata[i].id);
+					answerarrayavalue.push(valuee);
+					checklistid = citemsdata[i].checklistid;
+				}
+			//	cListList.visible = false;
+				busy = true;
+				
+				
+				var url:String = "http://enactforum.org/originaljoes/restaurant/putAnswers.php";
+				var request:URLRequest = new URLRequest(url);
+				request.method = URLRequestMethod.POST;
+				var requestVars:URLVariables = new URLVariables();
+				requestVars.myObject = com.adobe.serialization.json.JSON.encode(answerarrayid);
+				requestVars.myObject2 = com.adobe.serialization.json.JSON.encode(answerarrayavalue);
+				requestVars.myObject3 = com.adobe.serialization.json.JSON.encode(storeid);
+				requestVars.myObject4 = com.adobe.serialization.json.JSON.encode(checklistid);
+				request.data = requestVars;
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, afterload);
+				loader.load(request);
+				
+				
+				
+				//subAnswers.send();
+			}
+			public function afterload(ev:Event):void {
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+				
+				systemManager.dispatchEvent(new ReportEvent(ReportEvent.EXPENSE_SAVED, data));
+				
+				
+				
+			}
+			public function dataChange(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				busy = true;
+				submitbtn.visible = false;
+				citemsdata = new ArrayCollection();
+				if (this.data != null){
+					if (this.data.id != 0){
+						checklistidout = this.data.id.toString();
+						getCheckListItems.send();
+						this.title = this.data.name;
+						ltype = this.data.ltype;
+					}
+				
+				}
+			}
+			public function change1(e:TextOperationEvent):void {
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = e.currentTarget.text;
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;
+				
+				
+				
+			}
+			public function change2(e:Event):void {
+				
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = e.currentTarget.selectedDate.toString();
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;	
+			}
+			public function change3(e:IndexChangeEvent):void {
+				
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = listoftemps[e.currentTarget.selectedIndex].temp.toString();
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;	
+			}
+			public function change4(e:MouseEvent):void {
+				var s:String = e.currentTarget.id;
+				var ans:String = s.substring(0,1);
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				var ans2:String = "";
+				if (ans == 'n'){
+					ans2 = 'no';
+				}
+				else if (ans == 'y'){
+					ans2 = 'yes';
+				}
+				
+				citemsdata[Number(s)].avalue = ans2;
+				citemsdata[Number(s)].preanswer = ans2;	
+			}
+			public function change5(e:TextOperationEvent):void {
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = e.currentTarget.text;
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;
+				
+				
+				
+			}
+			public function afterGetChecklistItems(ev:ResultEvent):void {
+				listoftemps = new ArrayCollection();
+				var i:Number = 0;
+				for (i = -20; i < 81; i++){
+					if (i == 0){
+						listoftemps.addItem({temp:"Select Temp"});
+						tempselectindex = listoftemps.length-1;
+					}
+					
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+				var stop:String = "";
+				vlist.removeAllElements();
+				busy = false;
+				warn.visible = false;
+				//cListList.visible = true;
+				citemsdata = new ArrayCollection();
+				try{
+					citemsdata = ev.result[0].res;
+					submitbtn.visible = true;
+				}
+				catch(e:Error){
+					try{
+						citemsdata.addItem(ev.result[0].res);
+						submitbtn.visible = true;
+					}
+					catch(e:Error){
+						citemsdata.addItem({id:-1,checklistid:-1,name:"Empty Checklist Contact Manager",type:"-1",alert:"-1"});
+					}
+				}
+				
+				
+				for (i = 0; i < citemsdata.length; i++){
+					var gr:VGroup = new VGroup();
+					gr.verticalAlign = 'middle';
+					gr.percentWidth = 100;
+					gr.percentHeight = 100;
+					var ta:TextArea = new TextArea();
+					ta.text = citemsdata[i].name;
+					ta.height = 50;
+					ta.percentWidth = 100;
+					ta.setStyle('borderVisible',false);
+					ta.setStyle('autoCapitalize','sentence');
+					ta.setStyle('contentBackgroundAlpha',0);
+					ta.editable = false;
+					gr.addElement(ta);
+					
+					
+					
+					
+					if ((citemsdata[i].preanswer != "errornovalue")
+						&&(citemsdata[i].preanswer != "")
+						&&(citemsdata[i].preanswer != null)){
+						citemsdata[i].avalue = citemsdata[i].preanswer;
+					}
+					
+					
+					
+					if (citemsdata[i].type == '0'){
+						var ti:TextArea = new TextArea();
+						ti.height = 75;
+						ti.percentWidth = 100;
+						
+						
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ti.text = citemsdata[i].preanswer;
+						}
+						ti.id = "d"+i.toString();
+						ti.addEventListener(TextOperationEvent.CHANGE, change1);
+						
+						gr.addElement(ti);
+					}
+					else if (citemsdata[i].type == '1'){
+						var ds:DateSpinner = new DateSpinner();
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ds.selectedDate = citemsdata[i].preanswer;
+						}
+						ds.id = "d"+i.toString();
+						ds.addEventListener(Event.CHANGE, change2);
+						gr.addElement(ds);
+					}
+					else if (citemsdata[i].type == '2'){
+						var sc:SpinnerListContainer = new SpinnerListContainer();
+						var sl:SpinnerList = new SpinnerList();
+						sc.percentWidth = 100;
+						sc.height = 150;
+						sl.percentHeight = 100;
+						sl.labelField = 'temp';
+						sl.percentWidth = 100;
+						sl.dataProvider = listoftemps;
+						sl.selectedIndex = 1;
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							for (var j:uint = 0; j < listoftemps.length; j++){
+								if (listoftemps[j] == citemsdata[i].preanswer){
+									sl.selectedIndex = j;
+								}
+							}
+						}
+						else {
+							sl.selectedIndex = 1;
+						}
+						sl.id = "d"+i.toString();
+						sl.addEventListener(IndexChangeEvent.CHANGE, change3);
+						sc.addElement(sl)
+						gr.addElement(sc);
+					}
+					else if (citemsdata[i].type == '3'){
+						var hg:HGroup = new HGroup();
+						var r1:RadioButton = new RadioButton();
+						var r2:RadioButton = new RadioButton();
+						
+					
+						r1.label = "Yes";
+						r2.label = "No";
+						r1.value = 'yes';
+						r2.value = 'no';
+						r1.groupName = 'yesnoalertgroup'+citemsdata[i].id.toString();
+						r2.groupName = 'yesnoalertgroup'+citemsdata[i].id.toString();
+						
+						hg.percentHeight = 100;
+						hg.percentWidth = 100;
+						hg.verticalAlign = 'middle';
+						
+						
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							if (citemsdata[i].preanswer == "yes"){
+								r1.selected = true;
+								r2.selected = false;
+							}
+							else if (citemsdata[i].preanswer == "no"){
+								r1.selected = false;
+								r2.selected = true;
+							}
+						}
+						else {
+							r1.selected = false;
+							r2.selected = false;
+						}
+						
+						r1.id = "y"+i.toString();
+						r2.id = "n"+i.toString();
+						r1.addEventListener(MouseEvent.CLICK, change4);
+						r2.addEventListener(MouseEvent.CLICK, change4);
+						hg.addElement(r1);
+						hg.addElement(r2);
+					
+						gr.addElement(hg);
+					}
+					else if (citemsdata[i].type == '4'){
+						var ti2:TextInput = new TextInput();
+						ti2.height = 50;
+						ti2.percentWidth = 100;
+						
+						
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ti2.text = citemsdata[i].preanswer;
+						}
+						
+						ti2.id = "d"+i.toString();
+						ti2.addEventListener(TextOperationEvent.CHANGE, change5);
+						gr.addElement(ti2);
+					}
+					
+				
+					vlist.addElement(gr);
+				}
+				
+				
+			}
+			public function afterSubmitAnswers(ev:ResultEvent):void {
+				
+				
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+			}
+
+			
+		]]>
+	</fx:Script>
+		
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+		<s:HTTPService id="getCheckListItems" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getCheckListItemsManage.php"
+					   result="afterGetChecklistItems(event)" >
+			<s:request xmlns="">
+				<idout>{checklistidout}</idout>		
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="subAnswers" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/putAnswers.php"
+					   result="afterSubmitAnswers(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>	
+				<answerarrayid>{answerarrayid}</answerarrayid>		
+				<answerarrayavalue>{answerarrayavalue}</answerarrayavalue>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller top="0" bottom="0" right="0" left="0" verticalScrollPolicy="on" horizontalScrollPolicy="off">
+		<s:VGroup paddingTop="0" paddingLeft="0" id="vlist" paddingBottom="0" paddingRight="0"
+				 right="0" left="0" height="100%" gap="20">
+			<!--s:List id="cListList" right="0" top="70" bottom="9" borderAlpha="0"
+			dataProvider="{citemsdata}"
+			itemRenderer="components.checkListListItem" 
+			width="100%" height="100%">
+			<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+			gap="10"
+			variableRowHeight="true"/>
+			</s:layout>
+			</s:List-->
+		</s:VGroup>
+	</s:Scroller>
+	
+	<s:Label id="warn" visible="false" fontSize="30" text="Submission Complete!" 
+			 horizontalCenter="0" verticalCenter="0" />
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

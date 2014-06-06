@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" title="Alerts" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Button label="Dismiss" click="dismissAlert();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			[Bindable]
+			protected var alertdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var managerid:String = "1"; 
+			[Bindable]
+			public var alertid:String = "";
+			protected function creationCompleteHandler():void
+			{
+				try{
+					alertid = data.id;
+				}
+				catch(e:Error){
+					alertid = "-1";
+				}
+				busy = false;	
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function dismissAlert():void {
+				if (alertid != "-1"){
+					busy = true;
+					dismissAlertg.send();
+				}
+			}
+			
+			public function afterDismiss(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				busy = false;
+				navigator.popView();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="dismissAlertg" method="GET" 
+					   resultFormat="array" result="afterDismiss(event)"
+					   url="http://enactforum.org/originaljoes/manager/dismissAlert.php">
+			<s:request xmlns="">
+				<idout>{alertid}</idout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:VGroup height="100%" paddingTop="15" width="100%" horizontalAlign="center">
+		<s:HGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Store Name:"/>
+			<s:Label  text="|"/>
+			<s:Label  text="{data.storename}"/>
+		</s:HGroup>
+		<s:HGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Checklist Name:"/>
+			<s:Label  text="|"/>
+			<s:Label  text="{data.checklistname}"/>
+		</s:HGroup>
+		<s:VGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Question Text:"/>
+			<s:TextArea enabled="true" contentBackgroundAlpha="0" editable="false" height="100%" 
+						text="{data.checklistitemname}"/>
+		</s:VGroup>
+		<s:VGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Answer:"/>
+			<s:TextArea enabled="true" contentBackgroundAlpha="0" editable="false" height="100%" 
+			text="{data.value}"/>
+		</s:VGroup>
+		<s:VGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Date Start:"/>
+			<s:Label  text="{data.datestart}"/>
+		</s:VGroup>
+			<s:VGroup height="100%" width="100%" horizontalAlign="center">
+			<s:Label  text="Date End:"/>
+			<s:Label  text="{data.dateend}"/>
+		</s:VGroup>
+	</s:VGroup>
+	
+	
+</s:View>

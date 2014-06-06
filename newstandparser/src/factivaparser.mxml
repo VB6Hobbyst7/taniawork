@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark"  creationComplete="init();"
+					   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<fx:String id="fileLoc"/>
+		<fx:String id="authorSurname"/>
+		<fx:String id="authorForename"/>
+		<fx:String id="authorAffiliation"/>
+		<fx:String id="titleName"/>
+		<fx:String id="publishername"/>
+		<fx:String id="publisherloc"/>
+		<fx:String id="fileText"/>
+		<fx:String id="keyWords"/>
+		<fx:String id="termOut"/>
+		<fx:int id="date"/>
+		<fx:int id="numDocs"/>
+		
+		
+	</fx:Declarations>
+	<fx:Script source="parsingFunctions.as" />
+	<s:Label id = "fd"  x="26" y="89" text="Status" width="77" height="17"/>
+	<s:Label id = "numa"  x="55" y="114" text="{counter.toString()}" width="77" height="17"/>
+	
+
+</s:WindowedApplication>

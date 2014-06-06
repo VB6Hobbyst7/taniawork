@@ -1,0 +1,822 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Search Results | Doctor Search | College of Physicians and Surgeons of Ontario</title><meta name="description" content="Doctor Search. Information for the public, including patients, hospitals and the government, about physicians practising in Ontario, with contact information, registration details and discipline findings." />
+<meta name="keywords" content="Doctor Search, CPSO, College of Physicians and Surgeons, Family Doctors, General Practitioners, Find a Doctor, Find a Physician, location, health care, patient care, public register, discipline findings, hearings results" />
+
+        <link rel="stylesheet" href="/css/glbFormatting.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/css/glbLayoutContent.css" type="text/css" media="screen" />
+    <link id="ctl00_ctl01" rel="stylesheet" href="/css/print.css" type="text/css" media="print" /><link id="ctl00_ctl02" rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <!-- Moved from code behind: the jquery must load first -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="/js/global.js"></script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js"></script>
+    
+    <script type="text/javascript" src="/js/superfish/superfish.js"></script>
+    <script type="text/javascript" src="/js/superfish/supersubs.js"></script>
+    <script type="text/javascript" src="/js/superfish/hoverIntent.js"></script>
+    <script type="text/javascript" src="/js/superfish/jquery.bgiframe.min.js"></script>
+    <!-- added for the Consultations tabs, overlay begins -->
+    <script type="text/javascript" src="/js/ui.core.js"></script>
+    <script type="text/javascript" src="/js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/js/jquery.colorbox.js"></script>
+    <link id="ctl00_ctl03" rel="stylesheet" href="/css/colorbox.css" type="text/css" media="screen" />
+    <!-- Google analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36725164-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })(); 
+    </script>
+
+
+
+
+
+
+
+<link id="ctl00_ekcss__css_Empty.css" href="\css\Empty.css" type="text/css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" media="screen" href="/css/prettyPhoto.css"></link><script type="text/javascript" src="/js/simpleswap.js"></script><title>
+	Untitled Page
+</title></head>
+<body>
+    <script type="text/javascript" language="JavaScript">
+        var section = 'Doctors'; //Nav selector
+    </script>
+    <form name="aspnetForm" method="post" action="results.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg3MDg3MTkxMw9kFgJmD2QWBgIBD2QWAmYPFgIeBFRleHQF0gQ8dGl0bGU+U2VhcmNoIFJlc3VsdHMgfCBEb2N0b3IgU2VhcmNoIHwgQ29sbGVnZSBvZiBQaHlzaWNpYW5zIGFuZCBTdXJnZW9ucyBvZiBPbnRhcmlvPC90aXRsZT48bWV0YSBuYW1lPSJkZXNjcmlwdGlvbiIgY29udGVudD0iRG9jdG9yIFNlYXJjaC4gSW5mb3JtYXRpb24gZm9yIHRoZSBwdWJsaWMsIGluY2x1ZGluZyBwYXRpZW50cywgaG9zcGl0YWxzIGFuZCB0aGUgZ292ZXJubWVudCwgYWJvdXQgcGh5c2ljaWFucyBwcmFjdGlzaW5nIGluIE9udGFyaW8sIHdpdGggY29udGFjdCBpbmZvcm1hdGlvbiwgcmVnaXN0cmF0aW9uIGRldGFpbHMgYW5kIGRpc2NpcGxpbmUgZmluZGluZ3MuIiAvPg0KPG1ldGEgbmFtZT0ia2V5d29yZHMiIGNvbnRlbnQ9IkRvY3RvciBTZWFyY2gsIENQU08sIENvbGxlZ2Ugb2YgUGh5c2ljaWFucyBhbmQgU3VyZ2VvbnMsIEZhbWlseSBEb2N0b3JzLCBHZW5lcmFsIFByYWN0aXRpb25lcnMsIEZpbmQgYSBEb2N0b3IsIEZpbmQgYSBQaHlzaWNpYW4sIGxvY2F0aW9uLCBoZWFsdGggY2FyZSwgcGF0aWVudCBjYXJlLCBwdWJsaWMgcmVnaXN0ZXIsIGRpc2NpcGxpbmUgZmluZGluZ3MsIGhlYXJpbmdzIHJlc3VsdHMiIC8+DQpkAgMPFgIfAAUHRG9jdG9yc2QCBQ9kFgYCAw9kFgICAw8WAh4HVmlzaWJsZWdkAgcPZBYCAgMPFgIfAAXgAjxVTD48bGk+PGEgaHJlZj0iL3B1YmxpY3JlZ2lzdGVyL2RlZmF1bHQuYXNweD9pZD0yMDU0Ij5UaGUgUHVibGljIFJlZ2lzdGVyPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OCIgY2xhc3MgPSAnaGVyZScgPkFsbCBEb2N0b3JzIFNlYXJjaDwvYT48L2xpPjxsaT48YSBocmVmPSIvcHVibGljcmVnaXN0ZXIvZGVmYXVsdC5hc3B4P2lkPTIwNTIiPlJlZ2lzdHJhdGlvbiBOdW1iZXIgU2VhcmNoPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9NzM3NiI+T3V0LW9mLUhvc3BpdGFsIFByZW1pc2VzPC9hPjwvbGk+PC9VTD5kAgkPZBYCAgEPZBYGAgUPZBYCZg8WAh8BZ2QCCQ9kFgoCAQ8PFgIeC05hdmlnYXRlVXJsBWBodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9zaGFyZXIucGhwP3U9aHR0cCUzYSUyZiUyZnd3dy5jcHNvLm9uLmNhJTJmcHVibGljcmVnaXN0ZXIlMmZyZXN1bHRzLmFzcHhkZAIDDw8WAh8CBWFodHRwOi8vdHdpdHRlci5jb20vaG9tZT9zdGF0dXM9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBQ8PFgIfAgWPAWh0dHA6Ly93d3cubGlua2VkaW4uY29tL3NoYXJlQXJ0aWNsZT9taW5pPXRydWUmdGl0bGU9VW50aXRsZWQgUGFnZSZzdW1tYXJ5PUNQU08mdXJsPWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBw8PFgIfAgV1aHR0cHM6Ly9tLmdvb2dsZS5jb20vYXBwL3BsdXMveC8/dj1jb21wb3NlJmNvbnRlbnQ9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCCQ8PFgIfAgVVbWFpbHRvOj9zdWJqZWN0PUNQU08mYm9keT1odHRwJTNhJTJmJTJmd3d3LmNwc28ub24uY2ElMmZwdWJsaWNyZWdpc3RlciUyZnJlc3VsdHMuYXNweGRkAg0PZBYCZg9kFgoCAg8PFgIfAAVVPHN0cm9uZz48c3BhbiBjbGFzcz1ibHVlPjI4MTwvc3Bhbj4gcmVzdWx0cyBmb3VuZC48L3N0cm9uZz4gVmlld2luZyA3NiB0byAxMDAgb2YgMjgxLmRkAgQPDxYEHwAFHTxzdHJvbmc+U2VhcmNoIEFnYWluPC9zdHJvbmc+HwIFJX4vcHVibGljcmVnaXN0ZXIvZGVmYXVsdC5hc3B4P2lkPTIwNDhkZAIGDw8WAh8BaGRkAggPZBYEZg8PFgYfAAUuTmV4dCAmcmFxdW87DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB4PQ29tbWFuZEFyZ3VtZW50BQE1HwFnZGQCAQ8PFgYfAAUMJmxhcXVvOyBQcmV2HwFnHwMFATNkZAIOD2QWBGYPDxYGHwAFLk5leHQgJnJhcXVvOw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAfAwUBNR8BZ2RkAgEPDxYGHwAFDCZsYXF1bzsgUHJldh8BZx8DBQEzZGRkkUQZCAIz+LnVznOTVjLPo+Y0wfQ=" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBwKvk5HjBwKnp+n+CgK3k4fMBAL95unfCwKeuZGKAQL95oHBDAKeufnXBLwckgL/dInL6z1PcNNehKxi8f+y" />
+</div>
+    <div id="container">
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <div id="header">
+                <div id="home">
+                    <a href="/" title="The College of Physicians and Surgeons of Ontario | Home"><span><strong>
+                        The College of Physicians and Surgeons of Ontario</strong></span></a></div>
+                <div id="right">
+                    
+    <script type="text/javascript" language="JavaScript">
+    
+      $(document).ready(function() {
+            //Setup search box
+            $('.searchinput').each(function() {
+                var default_value = "Site Search";
+                $(this).css('color', '#666');
+                $(this).focus(function() {
+                    if(this.value == default_value) {
+                        this.value = '';
+                        $(this).css('color', '#333');
+                    }
+                });        
+                $(this).blur(function() {
+                    if(this.value == '') {
+                        $(this).css('color', '#666');
+                        this.value = default_value;
+                    }
+                });         
+                $(this).keypress(function(e) {
+                        if(this.value != '') {
+                        if(e.which == 13){
+                            e.preventDefault();
+                            e.stopPropagation();
+                            CallSearch();
+                        }
+                    }
+                });                          
+            });
+
+            //Setup search button
+            $(".button").click(function () { 
+                CallSearch();
+            });
+
+        });
+
+        //Clear postback cookie and run search
+        function CallSearch() {
+            var objsearchText = $(".searchinput");
+            var searchText;
+            if ((objsearchText.val() != "Site Search")&&(objsearchText != null)) {
+                searchText = objsearchText.val();
+                searchText = searchText.replace(/>/gi, " >");
+                searchText = searchText.replace(/</gi, "< ");
+                objsearchText.value = searchText;
+                
+                document.cookie = 'postbackcookie=';
+                document.location.href = "http://" + document.domain + "/search/?searchtext=" + searchText.replace('alert', '').replace('confirm', '');                    
+            }
+        }   
+    </script>    
+    <div id="search">
+    <div id="searchform" >
+        <input name="ctl00$HeaderSearch$searchinput" type="text" id="ctl00_HeaderSearch_searchinput" value="Site Search" class="searchinput" /> 
+        <input name="ctl00$HeaderSearch$btnSearch" type="button" id="ctl00_HeaderSearch_btnSearch" onclick="CallSearch();" class="button" /> 
+    </div>
+    </div><!-- /search -->
+                    
+<!-- Login --> 
+<div id="login"> 
+    
+    <a id="ctl00_LoginStatus_HyperLink2" href="../membersonly/Login.aspx">Member/Applicant Login</a>
+
+</div> 
+<!-- /Login --> 
+    
+                </div>
+                <!-- /right -->
+            </div>
+            <!-- Navigation -->
+            
+
+            
+             
+            
+            <div id="nav">
+            <ul>
+   	          <span id="ctl00_TopNav1_SubMenuManager"></span>
+   	            <li id="mnavAbout"><a id="ctl00_TopNav1_lnkAboutUs" href="/aboutus">&nbsp;<span>About Us</span></a>
+   	                <ul><li><a href="/aboutus/staff/default.aspx?id=1404">President and Senior Staff</a></li><li><a href="/aboutus/council/default.aspx?id=1406">Council & Committees</a></li><li><a href="/aboutus/strategicplan/default.aspx?id=1432">Strategic Plan</a></li><li><a href="/aboutus/privacy/default.aspx?id=1434">Privacy Code</a></li><li><a href="/aboutus/default.aspx?id=2816">Respect for Human Rights</a></li><li><a href="/aboutus/default.aspx?id=5856">Accessibility Policy</a></li><li><a href="/aboutus/careers/default.aspx?id=1428">Career Opportunities</a></li><li><a href="/aboutus/links/default.aspx?id=1436">Related Links</a></li></ul>
+      	        </li>
+                <li id="mnavWhats"><a id="ctl00_TopNav1_lnkWhatsnew" href="/whatsnew">&nbsp;<span>What's New</span>
+                </a>
+                    <ul><li><a href="/whatsnew/news/default.aspx?id=1444">News Releases</a></li><li><a href="/whatsnew/committeeschedule/default.aspx?id=1448">Discipline Committee Schedule</a></li><li><a href="/whatsnew/councilupdates/default.aspx?id=1454">Council Updates</a></li></ul>
+                </li>
+                <li id="mnavDoctors"><a id="ctl00_TopNav1_lnkDocsearch" href="/publicregister">&nbsp;<span>Public Register</span>
+                </a>
+                    <ul><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048">All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></ul>
+                </li>
+                <li id="mnavPolicies"><a id="ctl00_TopNav1_lnkPolicies" href="/policies">&nbsp;<span>Policies and Publications</span></a>
+                    <ul><li><a href="/policies/guide/default.aspx?id=1696">Practice Guide</a></li><li><a href="/policies/policies/default.aspx?id=1778">Policy</a></li><li><a href="/policies/consultations/default.aspx?id=5282">Consultations</a></li><li><a href="/policies/positions/default.aspx?id=1720">Positions & Initiatives</a></li><li><a href="/policies/guidelines/default.aspx?id=1758">CPGs & Other Guidelines</a></li><li><a href="/policies/legislation/default.aspx?id=1768">Legislation & By-Laws</a></li><li><a href="/policies/complaints/default.aspx?id=2092">Complaints</a></li><li><a href="/policies/publications/default.aspx?id=1776">Publications</a></li></ul>
+                </li>
+                <li id="mnavRegistration"><a id="ctl00_TopNav1_lnkRegistration" href="/registration">&nbsp;<span>Registration</span></a>
+                    <ul><li><a href="/registration/registrationrequirements/Default.aspx?id=6992">Registration Requirements</a></li><li><a href="/registration/applicationreview/default.aspx?id=6988">Applying for Registration</a></li><li><a href="/registration/committee/default.aspx?id=1788">Registration Committee</a></li><li><a href="/registration/registrationpolicies/default.aspx?id=6986">Registration Policies</a></li><li><a href="/registration/applicationsforms/default.aspx?id=6994">Registration Applications and Forms</a></li><li><a href="/registration/international/default.aspx?id=1792">International Medical Graduates</a></li><li><a href="/registration/default.aspx?id=3886">FMRAC Agreement on National Standards</a></li><li><a href="/registration/default.aspx?id=6648">Registration Reports</a></li></ul>
+                </li>
+                <li id="mnavMembers"><a id="ctl00_TopNav1_lnkMembers" href="/members">&nbsp;<span>CPSO Members</span>
+                </a>
+                    <ul><li><a href="/members/membership/default.aspx?id=1872">Membership Info</a></li><li><a href="/members/membership/default.aspx?id=1886">Incorporation Issuance and Renewal</a></li><li><a href="/members/resources/default.aspx?id=1898">Resources</a></li><li><a href="/members/engagement/default.aspx?id=1934">Member Engagement</a></li><li><a href="/members/default.aspx?id=6122">Member Outreach</a></li><li><a href="/members/elections/default.aspx?id=1942">Council Elections</a></li><li><a href="/members/peerassessment/default.aspx?id=1944">Peer Assessment</a></li><li><a href="/members/default.aspx?id=5334">Out-of-Hospital Premises Inspection Program</a></li><li><a href="/members/default.aspx?id=6302">Independent Health Facilities</a></li><li><a href="/members/default.aspx?id=6306">Methadone Program</a></li><li><a href="/members/default.aspx?id=6314">Assessor Resources</a></li></ul>
+                 </li>          
+            
+             </ul>
+            </div>
+       
+
+            <!-- /Navigation -->
+            <!-- Content -->
+            <div id="content">
+                <div id="top">
+                    <div id="topLeft">
+                    </div>
+                    <div id="topRight">
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- Left Nav -->
+                    
+<div id="snav">
+
+    <span id="ctl00_LeftSideNav1_Menu1"></span>
+    
+        <UL><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048" class = 'here' >All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></UL>
+              	
+                
+                
+    
+              </div>
+    
+                    <!-- /Left Nav -->
+                    
+    
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- column selector here -->
+
+       	  <div id="singlecolumn">
+       	       	
+
+    
+
+    <h1>
+        Results</h1>
+
+
+<div class="sharing">
+    <p>Share</p>
+    <ul>
+        <li class="facebook">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="twitter">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="http://twitter.com/home?status=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="linkedin">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;title=Untitled Page&amp;summary=CPSO&amp;url=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="google">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlGoogle" class="google" onclick="window.open (this.href,'gplusshare','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="https://m.google.com/app/plus/x/?v=compose&amp;content=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="email">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlEmail" class="email" href="mailto:?subject=CPSO&amp;body=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="ctl00_ContentPlaceHolder1_MainContentControl1_ContentBlock1">
+	
+</div>
+
+   <div><!-- container for searchheader -->
+                <p class="printdetails"><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_Label1"><strong><span class=blue>281</span> results found.</strong> Viewing 76 to 100 of 281.</span></p>
+       <p class="searchagain">&laquo; <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkSearchAgain" href="default.aspx?id=2048"><strong>Search Again</strong></a></p>
+        <div class="clear"></div>
+        </div>
+        
+        
+   	  	    <div class="search">
+                  <div class="top">
+                        <div class="topLeft"></div><div class="topRight"></div>
+                    </div> 
+                    
+                    
+                                                                
+                                         
+                   		<fieldset>
+                        <legend>                     
+                          <span class="off">
+                            Click on a Physician's Name for Details                         
+                            </span>                        
+                            </legend>
+                        
+                        
+                        <!-- Paging -->
+                        <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivTop" class="paging-top">
+                            <ul>
+                                <li id="next">
+                                    <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext','')">Next &raquo;
+                                </a></li>
+                                
+                                <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev','')">&laquo; Prev</a></li>
+                            </ul>
+                        </div>
+                        <!-- /Paging -->
+
+        <div id="results">
+                   <table width="100%" cellspacing="0">
+                     
+                     <tr>
+                       <th width="32%" align="left" valign="middle">Physician Name, (CPSO#)</th>
+                       <th width="36%" align="left" valign="middle">Primary Practice Location</th>
+                       <!-- <th width="16%" align="center" valign="middle">Accepting New Patients?</th> -->
+                       <th width="32%" align="center" valign="middle">Disciplinary Info  &amp; Restrictions</th>
+                     </tr>
+
+
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2078945">El-Keeb, Rabea AbdulMonaim Hasen </a> (#78945)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl01_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               117 King Street East<br />Oshawa&nbsp;ON&nbsp;&nbsp;L1H 1B9<br />Phone:&nbsp;(905) 721-4996<br />Fax:&nbsp;(905) 721-3557</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2094635">ElSherif, Hanan El Sayed Abdelhamid </a> (#94635)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl02_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay                   </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               St Josephs Hospital<br />Speical Rehabilitation Department<br />35 Algoma Street North<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 5G7<br />Phone:&nbsp;(807) 343-2463<br />Fax:&nbsp;(807) 345-8177</td>
+           <!-- <td></td> -->
+           <td align="center">
+                     <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl02_lnkExtraInfo" href="details.aspx?view=4&amp;id=%2094635">Details </a><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl02_lnkArrowRight"> &raquo;</span></td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2027614">Escott, Nicholas George </a> (#27614)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl03_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay                   </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Thunder Bay Reg Health Sciences Ctr<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6584<br />Fax:&nbsp;(807) 684-5878</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2095194">Exley, Adam Thomas James </a> (#95194)
+               
+               
+               
+               
+           </td>
+           <td>
+               Northern Ontario School of Medicine<br />Department of Family Medicine<br />955 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 5E1<br />Phone:&nbsp;(807) 764-7300</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2071607">Feldstein, Noah Aaron </a> (#71607)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl05_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay                   </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Lakehead Psychiatric Hospital<br />580 Algoma Street<br />Thunder Bay<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 343-4300<br />Fax:&nbsp;(807) 346-5208</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2060626">Fidler, Wesley Keith </a> (#60626)
+               
+               
+               
+               
+           </td>
+           <td>
+               St . Joseph's Hospital<br />35 North Algoma Street<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 5G3<br />Phone:&nbsp;(807) 346-8467<br />Fax:&nbsp;(807) 346-7010</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2071385">Francis, Gregory James </a> (#71385)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional Health<br />Sciences Center<br />Department of Emergency Medicine<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 5V4<br />Phone:&nbsp;(807) 684-1000<br />Fax:&nbsp;(807) 343-9047</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2073871">French, Stephen John </a> (#73871)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 206<br />984 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 7C7<br />Phone:&nbsp;(807) 344-1123<br />Fax:&nbsp;(807) 344-1166</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2075130">French, Susan Elizabeth </a> (#75130)
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl09_pnlFormerName">
+	<p class="doctordetail">Former/AKA Name:<br /> 
+               <strong>White, Susan Elizabeth</strong>
+               
+</div>
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional HSC<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6290</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2072399">Gamble, David Gregory </a> (#72399)
+               
+               
+               
+               
+           </td>
+           <td>
+               206 - 1205 Amber Drive<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6M4<br />Phone:&nbsp;(807) 622-3848<br />Fax:&nbsp;(807) 622-4268</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2082861">Gareau, Rejean Antoine </a> (#82861)
+               
+               
+               
+               
+           </td>
+           <td>
+               Department of Anesthesia<br />Thunder Bay Regionial Health Scienc<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2084212">Garg, Sunil </a> (#84212)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional Health Science<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6030</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2097706">Garon, Jennifer  Danielle </a> (#97706)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional HSC<br />Department of Family Medicine<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6000</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2058407">Gehman, Kenneth Edward </a> (#58407)
+               
+               
+               
+               
+           </td>
+           <td>
+               Suite 306<br />984 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 7C7<br />Phone:&nbsp;(807) 345-4337<br />Fax:&nbsp;(807) 345-4319</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2090003">George, Philip </a> (#90003)
+               
+               
+               
+               
+           </td>
+           <td>
+               Northern Ontario School of Medicine<br />Thunder Bay Regional HSC<br />Department of Critical Care Medicin<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6000&nbsp;Ext.&nbsp;6366<br />Fax:&nbsp;(807) 684-5864</td>
+           <!-- <td></td> -->
+           <td align="center">
+                     <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl15_lnkExtraInfo" href="details.aspx?view=4&amp;id=%2090003">Details </a><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl15_lnkArrowRight"> &raquo;</span></td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2050642">Gillen, Lorna Elsie Rosa </a> (#50642)
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl16_pnlFormerName">
+	<p class="doctordetail">Former/AKA Name:<br /> 
+               <strong>Gillett, Lorna Elsie Rosa</strong>
+               
+</div>
+               
+               
+               
+           </td>
+           <td>
+               153  Algoma Street South<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 3B7<br />Phone:&nbsp;(807) 344-2527<br />Fax:&nbsp;(807) 344-2614</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2060607">Goldberg, Laurie David </a> (#60607)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl17_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Ajax                          , Lindsay                       , Thunder Bay</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Peterborough Regional Health Centre<br />1 Hospital Drive<br />Peterborough&nbsp;ON&nbsp;&nbsp;K9J 7C6<br />Phone:&nbsp;(705) 876-5038<br />Fax:&nbsp;(705) 876-5105</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2023396">Gooding, Geoffrey Trevor </a> (#23396)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl18_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               The Port Arthur Health Centre<br />194 North Court Street<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7A 4V7<br />Phone:&nbsp;(807) 346-1000<br />Fax:&nbsp;(807) 346-6206</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2078333">Granberg, Karl-Erik </a> (#78333)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl19_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Thunder Bay</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Department of Diagnostic Radiology<br />Thunder Bay Regional Hospital<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6300</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098283">Gravelle, Sean Kelly </a> (#98283)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional HSC<br />Department of Internal Medicine<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6000</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2086498">Green, Steven Andrew </a> (#86498)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional Hlth Sci Ctr<br />Emergency Department<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6100</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2056464">Gulavita, Sunil Premlal Pushpakumar </a> (#56464)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional Health<br />Sciences Centre<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-7200&nbsp;Ext.&nbsp;7211<br />Fax:&nbsp;(807) 684-5801</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096429">Gupta, Lavita </a> (#96429)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Health Sciences Ctre<br />Department of Internal Medicine<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6000</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2079073">Gyomorey, Katalin </a> (#79073)
+               
+               
+               
+               
+           </td>
+           <td>
+               Thunder Bay Regional Health<br />Sciences Centre<br />Department of Adult Mental Health<br />980 Oliver Road<br />Thunder Bay&nbsp;ON&nbsp;&nbsp;P7B 6V4<br />Phone:&nbsp;(807) 684-6000</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2073689">Haddad, Michel </a> (#73689)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl25_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Philadelphia, Thunder Bay                   , Windsor</strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               Department of ICU<br />Bluewater Health<br />89 Norman Street<br />Sarnia&nbsp;ON&nbsp;&nbsp;N7T 6S3<br />Phone:&nbsp;(519) 464-4400&nbsp;Ext.&nbsp;7075</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            </table>
+                   
+                   
+            
+                       
+                 </div>
+        
+        
+        
+                   
+                 </fieldset>    
+                 
+      <div id="btm">
+          	<div id="btmLeft"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          	<div id="btmRight"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          </div>
+                </div>               
+                
+                <!-- Paging -->
+                <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivBottom" class="paging-btm">
+                        <ul>
+                            <li id="next"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext2','')">Next &raquo;
+                                </a></li>
+                            
+                            <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev2','')">&laquo; Prev</a></li>
+                        </ul>
+                </div>
+                    <!-- /Paging -->
+</div>
+
+<!-- /singlecolumn -->
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+                <div id="btm">
+                    <div id="btmLeft">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                    <div id="btmRight">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                </div>
+            </div>
+            <!-- id=Content -->
+            <!-- Back to Top -->
+            <div class="clear">
+            </div>
+            <div class="backToTop">
+                <p>
+                    <a href="#container">Back to Top</a></p>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- /Wrapper -->
+        <!-- Footer -->
+        
+<div id="footer">
+    <div id="fnav">
+        <p>
+            <a id="ctl00_Footer1_lnkHome" href="/">Home</a>
+            |
+            <a id="ctl00_Footer1_lnkAboutUs" href="/aboutus">About Us</a>
+            |
+            <a id="ctl00_Footer1_lnkWhatsnew" href="/whatsnew">What’s New</a>
+            |
+            <a id="ctl00_Footer1_lnkDocsearch" href="/publicregister">Public Register</a>
+            |
+            <a id="ctl00_Footer1_lnkPolicies" href="/policies">Policies &amp; Publications</a>
+            |
+            <a id="ctl00_Footer1_lnkRegistration" href="/registration">Registration</a>
+            |
+            <a id="ctl00_Footer1_lnkMembers" href="/members">CPSO Members</a>
+            |
+            <a id="ctl00_Footer1_lnkSitemap" href="/sitemap">Site Map</a>
+            |
+            <a id="ctl00_Footer1_lnkSearch" href="/search">Search</a>
+            |
+            <a id="ctl00_Footer1_lnkPrivacy" href="/privacy">Privacy</a>
+            |
+            <a id="ctl00_Footer1_lnkContactus" href="/contactus">Contact Us</a></p>
+    </div>
+    <div class="clear">
+    </div>
+    <div id="copyright">
+        <p>
+            80 College Street, Toronto, Ontario, M5G 2E2
+        </p>
+    </div>
+    <div class="social">
+        <table>
+            <tr>
+                <td valign="middle">
+                    <p><nobr>Follow CPSO</nobr></p>
+                </td>
+                <td valign="middle">
+                    <ul class="social-follow">                                                
+                        <li class="facebook">
+                            <a id="ctl00_Footer1_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook'); return false;" href="https://www.facebook.com/pages/College-of-Physicians-and-Surgeons-of-Ontario/144601285573797"></a>
+                        </li>
+                        <li class="twitter">
+                            <a id="ctl00_Footer1_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter');return false;" href="https://twitter.com/cpso_ca"></a>
+                        </li>
+                        <li class="linkedin">
+                            <a id="ctl00_Footer1_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'LinkedIn'); return false;" href="http://www.linkedin.com/groups/College-Physicians-Surgeons-Ontario-4760466"></a>
+                        </li>                        
+                        <!--<li class="rss" style="visibility:hidden"><a href="/RSS/Default.aspx">RSS</a></li>-->
+                    </ul>                        
+                </td>
+            </tr>
+        </table>        
+    </div>
+</div>
+
+        <!-- /Footer -->
+        <div id="containerBtm">
+            <img src="../../images/blank.gif" alt=" " height="5px" /></div>
+    </div>
+    <div class="spacer">
+    </div>
+    </form>
+</body>
+</html>

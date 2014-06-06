@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" title="Alerts" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Group width="{this.width*0.10}" height="100%" click="dissmissall();">
+			<s:Image verticalCenter="0" right="2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/trash-can.png')"
+											source240dpi="@Embed('assets/pocketicons/trash-can@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/trash-can@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			[Bindable]
+			protected var alertdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+		
+			[Bindable]
+			public var managerid:String = "";
+			[Bindable]
+			public var managertype:String = "";
+			protected function creationCompleteHandler():void
+			{
+				
+				var stmt:SQLStatement = new SQLStatement();
+				var sqlConnection:SQLConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("manager.db"));
+				
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * from manager";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					
+					managerid = resData[0].id.toString();
+					managertype = resData[0].type.toString();
+				}
+				
+				
+				
+				busy = true;
+				getAlerts.send();
+				
+			}
+			public function afterGetAlerts(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				alertdata = new ArrayCollection();
+				try{
+				try{
+					alertdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					alertdata.addItem( ev.result[0].res);
+				}
+				}
+				catch(e:Error){
+					//no alerts
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					if (data.ismanage){
+						navigator.pushView(alertDescription, {value:ev.currentTarget.selectedItems[0].value,
+							id:ev.currentTarget.selectedItems[0].id,
+							date:ev.currentTarget.selectedItems[0].date,
+							time:ev.currentTarget.selectedItems[0].time,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							itemid:ev.currentTarget.selectedItems[0].itemid,
+							storeid:ev.currentTarget.selectedItems[0].storeid,
+							checklistid:ev.currentTarget.selectedItems[0].checklistid,
+							storename:ev.currentTarget.selectedItems[0].storename,
+							checklistitemname:ev.currentTarget.selectedItems[0].checklistitemname,
+							checklistname:ev.currentTarget.selectedItems[0].checklistname,
+							ismanage:true});	
+					}
+					else {
+						navigator.pushView(alertDescription, {value:ev.currentTarget.selectedItems[0].value,
+							date:ev.currentTarget.selectedItems[0].date,
+							time:ev.currentTarget.selectedItems[0].time,
+							id:ev.currentTarget.selectedItems[0].id,
+							datestart:ev.currentTarget.selectedItems[0].datestart,
+							dateend:ev.currentTarget.selectedItems[0].dateend,
+							itemid:ev.currentTarget.selectedItems[0].itemid,
+							storeid:ev.currentTarget.selectedItems[0].storeid,
+							checklistid:ev.currentTarget.selectedItems[0].checklistid,
+							storename:ev.currentTarget.selectedItems[0].storename,
+							checklistitemname:ev.currentTarget.selectedItems[0].checklistitemname,
+							checklistname:ev.currentTarget.selectedItems[0].checklistname,
+							ismanage:false});	
+					}
+				}
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function addItem():void {
+				//navigator.pushView(addChecklist);
+			}
+			public function dissmissall():void {
+				busy = true;
+				dismissAlerts.send();
+			}
+			public function afterDissmiss(ev:ResultEvent):void {
+				getAlerts.send();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getAlerts" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getAlerts.php"
+					   result="afterGetAlerts(event)" >
+			<s:request xmlns="">
+				<idout>{managerid}</idout>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="dismissAlerts" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/dismissAlerts.php"
+					   result="afterDissmiss(event)" >
+			<s:request xmlns="">
+				<idout>{managerid}</idout>		
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+
+	<s:List id="alertList" top="0" bottom="0" width="100%" dataProvider="{alertdata}"  horizontalScrollPolicy="off" verticalScrollPolicy="on"
+			change="listChange(event);" itemRenderer="components.alertItem"  alternatingItemColors="[0xf5f5f5,0xebebeb ]" >
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="1"/>
+		</s:layout>
+	</s:List>
+		
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

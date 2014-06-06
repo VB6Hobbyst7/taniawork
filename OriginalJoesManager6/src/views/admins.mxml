@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" title="Managers" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Group width="{this.width*0.10}" height="100%" visible="{data.managertype == '0'}" click="addItem();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/ItemActions_ReAdd.png')"
+											source240dpi="@Embed('assets/pocketicons/ItemActions_ReAdd@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/ItemActions_ReAdd@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function creationCompleteHandler():void
+			{
+				busy = true;
+				getAdmins.send();
+				
+			}
+			public function afterGetAdmins(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				listdata = new ArrayCollection();
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					listdata.addItem( ev.result[0].res);
+				}
+			}
+			public function listChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+				
+						navigator.pushView(adminEdit, {name:ev.currentTarget.selectedItems[0].name,
+							id:ev.currentTarget.selectedItems[0].id,
+							type:ev.currentTarget.selectedItems[0].type,
+							pass:ev.currentTarget.selectedItems[0].pass});	
+				}
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function addItem():void {
+				navigator.pushView(addAdmin);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getAdmins" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/manager/getAdmins.php"
+					   result="afterGetAdmins(event)" >
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	
+	<s:List id="list" width="100%" height="100%" dataProvider="{listdata}" 
+			change="listChange(event);" alternatingItemColors="[0xf5f5f5,0xebebeb ]"  
+			itemRenderer="components.adminListitem">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="contentJustify" 
+							  gap="1"/>
+		</s:layout>
+	</s:List>
+		
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

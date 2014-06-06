@@ -1,0 +1,790 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Search Results | Doctor Search | College of Physicians and Surgeons of Ontario</title><meta name="description" content="Doctor Search. Information for the public, including patients, hospitals and the government, about physicians practising in Ontario, with contact information, registration details and discipline findings." />
+<meta name="keywords" content="Doctor Search, CPSO, College of Physicians and Surgeons, Family Doctors, General Practitioners, Find a Doctor, Find a Physician, location, health care, patient care, public register, discipline findings, hearings results" />
+
+        <link rel="stylesheet" href="/css/glbFormatting.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/css/glbLayoutContent.css" type="text/css" media="screen" />
+    <link id="ctl00_ctl01" rel="stylesheet" href="/css/print.css" type="text/css" media="print" /><link id="ctl00_ctl02" rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <!-- Moved from code behind: the jquery must load first -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="/js/global.js"></script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js"></script>
+    
+    <script type="text/javascript" src="/js/superfish/superfish.js"></script>
+    <script type="text/javascript" src="/js/superfish/supersubs.js"></script>
+    <script type="text/javascript" src="/js/superfish/hoverIntent.js"></script>
+    <script type="text/javascript" src="/js/superfish/jquery.bgiframe.min.js"></script>
+    <!-- added for the Consultations tabs, overlay begins -->
+    <script type="text/javascript" src="/js/ui.core.js"></script>
+    <script type="text/javascript" src="/js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/js/jquery.colorbox.js"></script>
+    <link id="ctl00_ctl03" rel="stylesheet" href="/css/colorbox.css" type="text/css" media="screen" />
+    <!-- Google analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36725164-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })(); 
+    </script>
+
+
+
+
+
+
+
+<link id="ctl00_ekcss__css_Empty.css" href="\css\Empty.css" type="text/css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" media="screen" href="/css/prettyPhoto.css"></link><script type="text/javascript" src="/js/simpleswap.js"></script><title>
+	Untitled Page
+</title></head>
+<body>
+    <script type="text/javascript" language="JavaScript">
+        var section = 'Doctors'; //Nav selector
+    </script>
+    <form name="aspnetForm" method="post" action="results.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg3MDg3MTkxMw9kFgJmD2QWBgIBD2QWAmYPFgIeBFRleHQF0gQ8dGl0bGU+U2VhcmNoIFJlc3VsdHMgfCBEb2N0b3IgU2VhcmNoIHwgQ29sbGVnZSBvZiBQaHlzaWNpYW5zIGFuZCBTdXJnZW9ucyBvZiBPbnRhcmlvPC90aXRsZT48bWV0YSBuYW1lPSJkZXNjcmlwdGlvbiIgY29udGVudD0iRG9jdG9yIFNlYXJjaC4gSW5mb3JtYXRpb24gZm9yIHRoZSBwdWJsaWMsIGluY2x1ZGluZyBwYXRpZW50cywgaG9zcGl0YWxzIGFuZCB0aGUgZ292ZXJubWVudCwgYWJvdXQgcGh5c2ljaWFucyBwcmFjdGlzaW5nIGluIE9udGFyaW8sIHdpdGggY29udGFjdCBpbmZvcm1hdGlvbiwgcmVnaXN0cmF0aW9uIGRldGFpbHMgYW5kIGRpc2NpcGxpbmUgZmluZGluZ3MuIiAvPg0KPG1ldGEgbmFtZT0ia2V5d29yZHMiIGNvbnRlbnQ9IkRvY3RvciBTZWFyY2gsIENQU08sIENvbGxlZ2Ugb2YgUGh5c2ljaWFucyBhbmQgU3VyZ2VvbnMsIEZhbWlseSBEb2N0b3JzLCBHZW5lcmFsIFByYWN0aXRpb25lcnMsIEZpbmQgYSBEb2N0b3IsIEZpbmQgYSBQaHlzaWNpYW4sIGxvY2F0aW9uLCBoZWFsdGggY2FyZSwgcGF0aWVudCBjYXJlLCBwdWJsaWMgcmVnaXN0ZXIsIGRpc2NpcGxpbmUgZmluZGluZ3MsIGhlYXJpbmdzIHJlc3VsdHMiIC8+DQpkAgMPFgIfAAUHRG9jdG9yc2QCBQ9kFgYCAw9kFgICAw8WAh4HVmlzaWJsZWdkAgcPZBYCAgMPFgIfAAXgAjxVTD48bGk+PGEgaHJlZj0iL3B1YmxpY3JlZ2lzdGVyL2RlZmF1bHQuYXNweD9pZD0yMDU0Ij5UaGUgUHVibGljIFJlZ2lzdGVyPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OCIgY2xhc3MgPSAnaGVyZScgPkFsbCBEb2N0b3JzIFNlYXJjaDwvYT48L2xpPjxsaT48YSBocmVmPSIvcHVibGljcmVnaXN0ZXIvZGVmYXVsdC5hc3B4P2lkPTIwNTIiPlJlZ2lzdHJhdGlvbiBOdW1iZXIgU2VhcmNoPC9hPjwvbGk+PGxpPjxhIGhyZWY9Ii9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9NzM3NiI+T3V0LW9mLUhvc3BpdGFsIFByZW1pc2VzPC9hPjwvbGk+PC9VTD5kAgkPZBYCAgEPZBYGAgUPZBYCZg8WAh8BZ2QCCQ9kFgoCAQ8PFgIeC05hdmlnYXRlVXJsBWBodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9zaGFyZXIucGhwP3U9aHR0cCUzYSUyZiUyZnd3dy5jcHNvLm9uLmNhJTJmcHVibGljcmVnaXN0ZXIlMmZyZXN1bHRzLmFzcHhkZAIDDw8WAh8CBWFodHRwOi8vdHdpdHRlci5jb20vaG9tZT9zdGF0dXM9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBQ8PFgIfAgWPAWh0dHA6Ly93d3cubGlua2VkaW4uY29tL3NoYXJlQXJ0aWNsZT9taW5pPXRydWUmdGl0bGU9VW50aXRsZWQgUGFnZSZzdW1tYXJ5PUNQU08mdXJsPWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCBw8PFgIfAgV1aHR0cHM6Ly9tLmdvb2dsZS5jb20vYXBwL3BsdXMveC8/dj1jb21wb3NlJmNvbnRlbnQ9Q1BTTyUwQWh0dHAlM2ElMmYlMmZ3d3cuY3Bzby5vbi5jYSUyZnB1YmxpY3JlZ2lzdGVyJTJmcmVzdWx0cy5hc3B4ZGQCCQ8PFgIfAgVVbWFpbHRvOj9zdWJqZWN0PUNQU08mYm9keT1odHRwJTNhJTJmJTJmd3d3LmNwc28ub24uY2ElMmZwdWJsaWNyZWdpc3RlciUyZnJlc3VsdHMuYXNweGRkAg0PZBYCZg9kFgoCAg8PFgIfAAVUPHN0cm9uZz48c3BhbiBjbGFzcz1ibHVlPjY2NTwvc3Bhbj4gcmVzdWx0cyBmb3VuZC48L3N0cm9uZz4gVmlld2luZyAyNiB0byA1MCBvZiA2NjUuZGQCBA8PFgQfAAUdPHN0cm9uZz5TZWFyY2ggQWdhaW48L3N0cm9uZz4fAgUlfi9wdWJsaWNyZWdpc3Rlci9kZWZhdWx0LmFzcHg/aWQ9MjA0OGRkAgYPDxYCHwFoZGQCCA9kFgRmDw8WBh8ABS5OZXh0ICZyYXF1bzsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgHg9Db21tYW5kQXJndW1lbnQFATMfAWdkZAIBDw8WBh8ABQwmbGFxdW87IFByZXYfAWcfAwUBMWRkAg4PZBYEZg8PFgYfAAUuTmV4dCAmcmFxdW87DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB8DBQEzHwFnZGQCAQ8PFgYfAAUMJmxhcXVvOyBQcmV2HwFnHwMFATFkZGSY0sq79K+EJmMkhIBhLbI7mSpnyA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBwLp1/APAqen6f4KAreTh8wEAv3m6d8LAp65kYoBAv3mgcEMAp65+dcEbbMR9TBUJkkbEz9arwF/lST6dO8=" />
+</div>
+    <div id="container">
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <div id="header">
+                <div id="home">
+                    <a href="/" title="The College of Physicians and Surgeons of Ontario | Home"><span><strong>
+                        The College of Physicians and Surgeons of Ontario</strong></span></a></div>
+                <div id="right">
+                    
+    <script type="text/javascript" language="JavaScript">
+    
+      $(document).ready(function() {
+            //Setup search box
+            $('.searchinput').each(function() {
+                var default_value = "Site Search";
+                $(this).css('color', '#666');
+                $(this).focus(function() {
+                    if(this.value == default_value) {
+                        this.value = '';
+                        $(this).css('color', '#333');
+                    }
+                });        
+                $(this).blur(function() {
+                    if(this.value == '') {
+                        $(this).css('color', '#666');
+                        this.value = default_value;
+                    }
+                });         
+                $(this).keypress(function(e) {
+                        if(this.value != '') {
+                        if(e.which == 13){
+                            e.preventDefault();
+                            e.stopPropagation();
+                            CallSearch();
+                        }
+                    }
+                });                          
+            });
+
+            //Setup search button
+            $(".button").click(function () { 
+                CallSearch();
+            });
+
+        });
+
+        //Clear postback cookie and run search
+        function CallSearch() {
+            var objsearchText = $(".searchinput");
+            var searchText;
+            if ((objsearchText.val() != "Site Search")&&(objsearchText != null)) {
+                searchText = objsearchText.val();
+                searchText = searchText.replace(/>/gi, " >");
+                searchText = searchText.replace(/</gi, "< ");
+                objsearchText.value = searchText;
+                
+                document.cookie = 'postbackcookie=';
+                document.location.href = "http://" + document.domain + "/search/?searchtext=" + searchText.replace('alert', '').replace('confirm', '');                    
+            }
+        }   
+    </script>    
+    <div id="search">
+    <div id="searchform" >
+        <input name="ctl00$HeaderSearch$searchinput" type="text" id="ctl00_HeaderSearch_searchinput" value="Site Search" class="searchinput" /> 
+        <input name="ctl00$HeaderSearch$btnSearch" type="button" id="ctl00_HeaderSearch_btnSearch" onclick="CallSearch();" class="button" /> 
+    </div>
+    </div><!-- /search -->
+                    
+<!-- Login --> 
+<div id="login"> 
+    
+    <a id="ctl00_LoginStatus_HyperLink2" href="../membersonly/Login.aspx">Member/Applicant Login</a>
+
+</div> 
+<!-- /Login --> 
+    
+                </div>
+                <!-- /right -->
+            </div>
+            <!-- Navigation -->
+            
+
+            
+             
+            
+            <div id="nav">
+            <ul>
+   	          <span id="ctl00_TopNav1_SubMenuManager"></span>
+   	            <li id="mnavAbout"><a id="ctl00_TopNav1_lnkAboutUs" href="/aboutus">&nbsp;<span>About Us</span></a>
+   	                <ul><li><a href="/aboutus/staff/default.aspx?id=1404">President and Senior Staff</a></li><li><a href="/aboutus/council/default.aspx?id=1406">Council & Committees</a></li><li><a href="/aboutus/strategicplan/default.aspx?id=1432">Strategic Plan</a></li><li><a href="/aboutus/privacy/default.aspx?id=1434">Privacy Code</a></li><li><a href="/aboutus/default.aspx?id=2816">Respect for Human Rights</a></li><li><a href="/aboutus/default.aspx?id=5856">Accessibility Policy</a></li><li><a href="/aboutus/careers/default.aspx?id=1428">Career Opportunities</a></li><li><a href="/aboutus/links/default.aspx?id=1436">Related Links</a></li></ul>
+      	        </li>
+                <li id="mnavWhats"><a id="ctl00_TopNav1_lnkWhatsnew" href="/whatsnew">&nbsp;<span>What's New</span>
+                </a>
+                    <ul><li><a href="/whatsnew/news/default.aspx?id=1444">News Releases</a></li><li><a href="/whatsnew/committeeschedule/default.aspx?id=1448">Discipline Committee Schedule</a></li><li><a href="/whatsnew/councilupdates/default.aspx?id=1454">Council Updates</a></li></ul>
+                </li>
+                <li id="mnavDoctors"><a id="ctl00_TopNav1_lnkDocsearch" href="/publicregister">&nbsp;<span>Public Register</span>
+                </a>
+                    <ul><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048">All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></ul>
+                </li>
+                <li id="mnavPolicies"><a id="ctl00_TopNav1_lnkPolicies" href="/policies">&nbsp;<span>Policies and Publications</span></a>
+                    <ul><li><a href="/policies/guide/default.aspx?id=1696">Practice Guide</a></li><li><a href="/policies/policies/default.aspx?id=1778">Policy</a></li><li><a href="/policies/consultations/default.aspx?id=5282">Consultations</a></li><li><a href="/policies/positions/default.aspx?id=1720">Positions & Initiatives</a></li><li><a href="/policies/guidelines/default.aspx?id=1758">CPGs & Other Guidelines</a></li><li><a href="/policies/legislation/default.aspx?id=1768">Legislation & By-Laws</a></li><li><a href="/policies/complaints/default.aspx?id=2092">Complaints</a></li><li><a href="/policies/publications/default.aspx?id=1776">Publications</a></li></ul>
+                </li>
+                <li id="mnavRegistration"><a id="ctl00_TopNav1_lnkRegistration" href="/registration">&nbsp;<span>Registration</span></a>
+                    <ul><li><a href="/registration/registrationrequirements/Default.aspx?id=6992">Registration Requirements</a></li><li><a href="/registration/applicationreview/default.aspx?id=6988">Applying for Registration</a></li><li><a href="/registration/committee/default.aspx?id=1788">Registration Committee</a></li><li><a href="/registration/registrationpolicies/default.aspx?id=6986">Registration Policies</a></li><li><a href="/registration/applicationsforms/default.aspx?id=6994">Registration Applications and Forms</a></li><li><a href="/registration/international/default.aspx?id=1792">International Medical Graduates</a></li><li><a href="/registration/default.aspx?id=3886">FMRAC Agreement on National Standards</a></li><li><a href="/registration/default.aspx?id=6648">Registration Reports</a></li></ul>
+                </li>
+                <li id="mnavMembers"><a id="ctl00_TopNav1_lnkMembers" href="/members">&nbsp;<span>CPSO Members</span>
+                </a>
+                    <ul><li><a href="/members/membership/default.aspx?id=1872">Membership Info</a></li><li><a href="/members/membership/default.aspx?id=1886">Incorporation Issuance and Renewal</a></li><li><a href="/members/resources/default.aspx?id=1898">Resources</a></li><li><a href="/members/engagement/default.aspx?id=1934">Member Engagement</a></li><li><a href="/members/default.aspx?id=6122">Member Outreach</a></li><li><a href="/members/elections/default.aspx?id=1942">Council Elections</a></li><li><a href="/members/peerassessment/default.aspx?id=1944">Peer Assessment</a></li><li><a href="/members/default.aspx?id=5334">Out-of-Hospital Premises Inspection Program</a></li><li><a href="/members/default.aspx?id=6302">Independent Health Facilities</a></li><li><a href="/members/default.aspx?id=6306">Methadone Program</a></li><li><a href="/members/default.aspx?id=6314">Assessor Resources</a></li></ul>
+                 </li>          
+            
+             </ul>
+            </div>
+       
+
+            <!-- /Navigation -->
+            <!-- Content -->
+            <div id="content">
+                <div id="top">
+                    <div id="topLeft">
+                    </div>
+                    <div id="topRight">
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- Left Nav -->
+                    
+<div id="snav">
+
+    <span id="ctl00_LeftSideNav1_Menu1"></span>
+    
+        <UL><li><a href="/publicregister/default.aspx?id=2054">The Public Register</a></li><li><a href="/publicregister/default.aspx?id=2048" class = 'here' >All Doctors Search</a></li><li><a href="/publicregister/default.aspx?id=2052">Registration Number Search</a></li><li><a href="/publicregister/default.aspx?id=7376">Out-of-Hospital Premises</a></li></UL>
+              	
+                
+                
+    
+              </div>
+    
+                    <!-- /Left Nav -->
+                    
+    
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- Table of Contents / Hidden from browsers / For Text Readers -->
+
+<!-- column selector here -->
+
+       	  <div id="singlecolumn">
+       	       	
+
+    
+
+    <h1>
+        Results</h1>
+
+
+<div class="sharing">
+    <p>Share</p>
+    <ul>
+        <li class="facebook">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="twitter">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="http://twitter.com/home?status=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="linkedin">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'Facebook', 'width=450, height=300, left='+(screen.availWidth/2-375)+', top='+(screen.availHeight/2-150)+''); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;title=Untitled Page&amp;summary=CPSO&amp;url=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="google">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlGoogle" class="google" onclick="window.open (this.href,'gplusshare','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="https://m.google.com/app/plus/x/?v=compose&amp;content=CPSO%0Ahttp%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+        <li class="email">
+            <a id="ctl00_ContentPlaceHolder1_MainContentControl1_SocialSharing_hlEmail" class="email" href="mailto:?subject=CPSO&amp;body=http%3a%2f%2fwww.cpso.on.ca%2fpublicregister%2fresults.aspx"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="ctl00_ContentPlaceHolder1_MainContentControl1_ContentBlock1">
+	
+</div>
+
+   <div><!-- container for searchheader -->
+                <p class="printdetails"><span id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_Label1"><strong><span class=blue>665</span> results found.</strong> Viewing 26 to 50 of 665.</span></p>
+       <p class="searchagain">&laquo; <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkSearchAgain" href="default.aspx?id=2048"><strong>Search Again</strong></a></p>
+        <div class="clear"></div>
+        </div>
+        
+        
+   	  	    <div class="search">
+                  <div class="top">
+                        <div class="topLeft"></div><div class="topRight"></div>
+                    </div> 
+                    
+                    
+                                                                
+                                         
+                   		<fieldset>
+                        <legend>                     
+                          <span class="off">
+                            Click on a Physician's Name for Details                         
+                            </span>                        
+                            </legend>
+                        
+                        
+                        <!-- Paging -->
+                        <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivTop" class="paging-top">
+                            <ul>
+                                <li id="next">
+                                    <a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext','')">Next &raquo;
+                                </a></li>
+                                
+                                <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev','')">&laquo; Prev</a></li>
+                            </ul>
+                        </div>
+                        <!-- /Paging -->
+
+        <div id="results">
+                   <table width="100%" cellspacing="0">
+                     
+                     <tr>
+                       <th width="32%" align="left" valign="middle">Physician Name, (CPSO#)</th>
+                       <th width="36%" align="left" valign="middle">Primary Practice Location</th>
+                       <!-- <th width="16%" align="center" valign="middle">Accepting New Patients?</th> -->
+                       <th width="32%" align="center" valign="middle">Disciplinary Info  &amp; Restrictions</th>
+                     </tr>
+
+
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098873">Alahmari, Hassan Ayed A </a> (#98873)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2095265">Alak, Aiman </a> (#95265)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096076">Alangh, Manreet </a> (#96076)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098980">Alanzi, Fawaz Abdullah H. </a> (#98980)
+               
+               
+               
+               
+           </td>
+           <td>
+               Hamilton Health Sciences<br />McMaster University Medical Centre<br />1200 Main Street West<br />PO Box 2000<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4J9<br />Phone:&nbsp;(905) 521-2100&nbsp;Ext.&nbsp;5387<br />Fax:&nbsp;(905) 521-5092</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2088239">Al-Asiri, Jamal Ali Naser </a> (#88239)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096165">Al-Azem, Hafsah </a> (#96165)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2097570">Al-Baldawi, Danya </a> (#97570)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098972">Albashir, Siwar Mazen </a> (#98972)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098378">Al-Dabbagh, Raed </a> (#98378)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2095266">Aleksova, Natasha </a> (#95266)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2076842">Algowizai, Nasser Othman A </a> (#76842)
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl11_pnlFormerName">
+	<p class="doctordetail">Former/AKA Name:<br /> 
+               <strong>Algowizai, Nasser Othman</strong>
+               
+</div>
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2098233">AlHabib, Majed Ali Nasser </a> (#98233)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096725">Alhammad, Fahad Abdullah S </a> (#96725)
+               
+               
+               
+               
+           </td>
+           <td>
+               McMaster University<br />Department of Anaesthesia<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2099762">Alhasani, Mohammed Hasan M </a> (#99762)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2084228">Al-Hazzani, Waleed Ali A </a> (#84228)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2097734">Aliyarzadeh, Hoda </a> (#97734)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2079997">Al-Jazrawi, Nadir Hikmat Elia </a> (#79997)
+               
+               
+               <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_rptResults_ctl17_pnlSecondaryAddress">
+	<p class="doctordetail">
+               This doctor has additional practice locations in: <strong>Hamilton, Rama                          </strong></p>
+               
+</div>
+               
+           </td>
+           <td>
+               CPM Pain clinic<br />6400 Millcreek Drive<br />Unit 9<br />Mississauga&nbsp;ON&nbsp;&nbsp;L5N 3E7<br />Phone:&nbsp;(905) 288-1045</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2097473">Alkhiari, Resheed Eid R </a> (#97473)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2096039">Alkhulaiwi, Hani Saleh A </a> (#96039)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2094052">Alkuwaiti, Maher Abdrabalredah Mohammed </a> (#94052)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL - 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2095362">Al-Lahham, Bassel </a> (#95362)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2093712">Allendes, Felipe Eduardo </a> (#93712)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2093501">Al-Mahr, Ghadah Mansour Ali </a> (#93501)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2089357">Almajid, Khalid Saeed M </a> (#89357)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            <tr>
+           <td ><a class="doctor" href="details.aspx?view=1&id=%2090385">Almakadi, Mohammed Saleh A </a> (#90385)
+               
+               
+               
+               
+           </td>
+           <td>
+               Postgraduate Medical Education<br />McMaster University<br />Room MDCL 3101A<br />1280 Main Street West<br />Hamilton&nbsp;ON&nbsp;&nbsp;L8S 4K1</td>
+           <!-- <td></td> -->
+           <td align="center">
+               </td>
+         </tr>
+            
+            </table>
+                   
+                   
+            
+                       
+                 </div>
+        
+        
+        
+                   
+                 </fieldset>    
+                 
+      <div id="btm">
+          	<div id="btmLeft"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          	<div id="btmRight"><img src="../images/blank.gif" alt=" " height="7px"/></div>
+          </div>
+                </div>               
+                
+                <!-- Paging -->
+                <div id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_pagingDivBottom" class="paging-btm">
+                        <ul>
+                            <li id="next"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkNext2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkNext2','')">Next &raquo;
+                                </a></li>
+                            
+                            <li id="prev"><a id="ctl00_ContentPlaceHolder1_MainContentControl1_ctl00_lnkPrev2" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$MainContentControl1$ctl00$lnkPrev2','')">&laquo; Prev</a></li>
+                        </ul>
+                </div>
+                    <!-- /Paging -->
+</div>
+
+<!-- /singlecolumn -->
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+                <div id="btm">
+                    <div id="btmLeft">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                    <div id="btmRight">
+                        <img src="../../images/blank.gif" height="7px" /></div>
+                </div>
+            </div>
+            <!-- id=Content -->
+            <!-- Back to Top -->
+            <div class="clear">
+            </div>
+            <div class="backToTop">
+                <p>
+                    <a href="#container">Back to Top</a></p>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- /Wrapper -->
+        <!-- Footer -->
+        
+<div id="footer">
+    <div id="fnav">
+        <p>
+            <a id="ctl00_Footer1_lnkHome" href="/">Home</a>
+            |
+            <a id="ctl00_Footer1_lnkAboutUs" href="/aboutus">About Us</a>
+            |
+            <a id="ctl00_Footer1_lnkWhatsnew" href="/whatsnew">What’s New</a>
+            |
+            <a id="ctl00_Footer1_lnkDocsearch" href="/publicregister">Public Register</a>
+            |
+            <a id="ctl00_Footer1_lnkPolicies" href="/policies">Policies &amp; Publications</a>
+            |
+            <a id="ctl00_Footer1_lnkRegistration" href="/registration">Registration</a>
+            |
+            <a id="ctl00_Footer1_lnkMembers" href="/members">CPSO Members</a>
+            |
+            <a id="ctl00_Footer1_lnkSitemap" href="/sitemap">Site Map</a>
+            |
+            <a id="ctl00_Footer1_lnkSearch" href="/search">Search</a>
+            |
+            <a id="ctl00_Footer1_lnkPrivacy" href="/privacy">Privacy</a>
+            |
+            <a id="ctl00_Footer1_lnkContactus" href="/contactus">Contact Us</a></p>
+    </div>
+    <div class="clear">
+    </div>
+    <div id="copyright">
+        <p>
+            80 College Street, Toronto, Ontario, M5G 2E2
+        </p>
+    </div>
+    <div class="social">
+        <table>
+            <tr>
+                <td valign="middle">
+                    <p><nobr>Follow CPSO</nobr></p>
+                </td>
+                <td valign="middle">
+                    <ul class="social-follow">                                                
+                        <li class="facebook">
+                            <a id="ctl00_Footer1_hlFacebook" class="share-facebook" onclick="window.open (this.href, 'Facebook'); return false;" href="https://www.facebook.com/pages/College-of-Physicians-and-Surgeons-of-Ontario/144601285573797"></a>
+                        </li>
+                        <li class="twitter">
+                            <a id="ctl00_Footer1_hlTwitter" class="share-twitter" onclick="window.open (this.href,'Twitter');return false;" href="https://twitter.com/cpso_ca"></a>
+                        </li>
+                        <li class="linkedin">
+                            <a id="ctl00_Footer1_hlLinkedIn" class="linkedin" onclick="window.open (this.href, 'LinkedIn'); return false;" href="http://www.linkedin.com/groups/College-Physicians-Surgeons-Ontario-4760466"></a>
+                        </li>                        
+                        <!--<li class="rss" style="visibility:hidden"><a href="/RSS/Default.aspx">RSS</a></li>-->
+                    </ul>                        
+                </td>
+            </tr>
+        </table>        
+    </div>
+</div>
+
+        <!-- /Footer -->
+        <div id="containerBtm">
+            <img src="../../images/blank.gif" alt=" " height="5px" /></div>
+    </div>
+    <div class="spacer">
+    </div>
+    </form>
+</body>
+</html>

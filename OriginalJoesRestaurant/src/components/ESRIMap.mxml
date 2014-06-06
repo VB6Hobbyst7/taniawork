@@ -1,0 +1,134 @@
+<esri:Map xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:esri="http://www.esri.com/2008/ags"
+		  openHandCursorVisible="false"
+		  wrapAround180="true">
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.esri_internal;
+			import com.esri.ags.geometry.Extent;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.geometry.WebMercatorMapPoint;
+			
+			import model.Expense;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			
+			use namespace esri_internal;
+			
+			/**
+			 * Center the map at a specific location and zoom level.
+			 *
+			 * @param location the center location. Can be an instance of MapPoint or an array of two points where the first item is the latitude and the second is the longitude.
+			 * @param zoomLevel optional zoom level
+			 *
+			 */
+			public function setCenter(location:Object, zoomLevel:int = 14):void
+			{
+				const mapPoint:MapPoint = location as MapPoint;
+				if (mapPoint)
+				{
+					centerAt(new WebMercatorMapPoint(mapPoint.x, mapPoint.y));
+				}
+				else
+				{
+					const arr:Array = location as Array;
+					if (arr)
+					{
+						const lat:Number = arr[0];
+						const lon:Number = arr[1];
+						centerAt(new WebMercatorMapPoint(lon, lat));
+					}
+				}
+				this.level = zoomLevel;
+			}
+			
+			/**
+			 * Show info window at specified latitude and longitude.
+			 *
+			 * @param lat the lattitude (y) location
+			 * @param lon the longitude (x) location
+			 * @param content a UIComponent subclass.
+			 * @param title optional info window title
+			 */
+			public function showInfoWindow(lat:Number, lon:Number, content:UIComponent, title:String = null):void
+			{
+				infoWindowContent = content;
+				infoWindow.label = title;
+				infoWindow.show(new WebMercatorMapPoint(lon, lat));
+			}
+			
+			/**
+			 * Hide the info window.
+			 */
+			public function hideInfoWindow():void
+			{
+				infoWindow.hide();
+			}
+			
+			/**
+			 * Clear all expenses.
+			 */
+			public function clearAllExpenses():void
+			{
+				pointLayer.clear();
+			}
+			
+			/**
+			 * Add an expense to the map.
+			 * @param expense An Expense instance to add to the map.
+			 * @return Graphic instance that is added to the map.
+			 */
+			public function addExpense(expense:Expense):Graphic
+			{
+				const graphic:Graphic = new Graphic(new WebMercatorMapPoint(expense.longitude, expense.latitude), null, expense);
+				pointLayer.add(graphic);
+				return graphic;
+			}
+
+			protected var _expenses:ArrayCollection;
+			
+			public function set expenses(expenses:ArrayCollection):void
+			{
+				clearAllExpenses();
+				_expenses = expenses;
+				if (expenses == null)
+					return;
+				var lastPoint:MapPoint;
+				const arr:Array = [];
+				const extent:Extent = Extent.createEmptyExtent(spatialReference);
+				for (var i:int = 0; i < expenses.length; i++) 
+				{
+					var expense:Expense = expenses.getItemAt(i) as Expense;
+					if (!(expense.longitude==0 && expense.latitude==0) && !isNaN(expense.longitude) && !isNaN(expense.latitude))
+					{
+						const mapPoint:MapPoint = new WebMercatorMapPoint(expense.longitude, expense.latitude);
+						const graphic:Graphic = new Graphic(mapPoint, null, expense);
+						pointLayer.add(graphic);
+						arr.push(graphic);
+						extent.unionPoint(mapPoint);
+						lastPoint = mapPoint;
+					}
+				}
+				if (arr.length == 1)
+				{
+					this.centerAt(lastPoint);
+					this.level = 14;
+				}
+				else if (arr.length > 1) // assuming points are not on top of each other !!!!
+				{
+					this.extent = extent.expand(2.0);
+				}
+			}
+		]]>
+	</fx:Script>
+	<esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+	<esri:GraphicsLayer id="pointLayer">
+		<esri:symbol>
+			<esri:InfoSymbol infoRenderer="components.ExpenseInfo"/>
+		</esri:symbol>
+	</esri:GraphicsLayer>
+</esri:Map>

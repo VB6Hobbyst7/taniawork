@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:components="components.*"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:dao="dao.*"
+		xmlns:renderers="renderers.*"
+		title="Check Lists"
+		backgroundColor="#F0F0F0"
+		creationComplete="creationCompleteHandler()">
+	<s:navigationContent>
+		<s:CalloutButton id="filterBTN" visible="{logedin}"  label="Filter"
+						 calloutDestructionPolicy="never"
+						 horizontalPosition="after" 
+						 verticalPosition="after">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="filter1" visible="true" label="All" enabled="true" fontSize="13" width="100" click="filterPress(0);"/>
+				<s:Button id="filter3" visible="true" label="Imcomplete" enabled="true" fontSize="13"  width="100" click="filterPress(2);"/>
+				<s:Button id="filter4" visible="true" label="Todays" enabled="true" fontSize="13"  width="100" click="filterPress(4);"/>
+				<s:Button id="filter5" visible="true" label="Previous" enabled="true" fontSize="13"  width="100" click="filterPress(5);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+	</s:navigationContent>
+	
+	<s:actionContent>	
+		<s:CalloutButton id="sortBTN" label="Sort"  visible="{logedin}"  
+						 horizontalPosition="before" 
+						 verticalPosition="after" calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="sort1" label="Start Time" enabled="true" fontSize="13" width="100" click="sortPress(0);"/>
+				<s:Button id="sort2" label="End Time" enabled="true" fontSize="13" width="100" click="sortPress(1);"/>
+				<s:Button id="sort3" label="Completion" enabled="true"  fontSize="13" width="100" click="sortPress(2);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.EasyPushExample;
+			import events.ReportEvent;	
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.formatters.DateFormatter;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			[Bindable]
+			public var storetitle:String = "Original Joe's";
+			[Bindable]
+			public var storename:String = "Test Store";
+			[Bindable]
+			public var storeid:String = "1";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var ti:Timer = new Timer(5000,0);
+			[Bindable]
+			public var logedin:Boolean = false;
+			[Bindable]
+			public var ridout:String = "";
+			[Bindable]
+			public var rnameout:String = "";
+			[Bindable]
+			public var aauthout:String = "";
+			[Bindable]
+			public var currentfilter:Number = -1;
+			
+			[Bindable]
+			public var currentsort:Number = -1;
+			protected function creationCompleteHandler():void
+			{
+
+				
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("restu.db"));
+				//DROP COMMENT OUT
+			/*		try{
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "Drop TABLE restu";
+				stmt.execute();
+				}
+				catch(e:Error){
+				
+				}*/
+				//END OF COMMENT OUT
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS restu (" +
+					"id INTEGER, " +
+					"name varchar(255))";
+				stmt.execute();
+				
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * from restu";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					
+					
+					
+					loadInterface(resData[0].id.toString(),resData[0].name);
+					
+				}
+				else {
+					logedin = false;
+				}
+
+			}
+			public function afterti(ev:TimerEvent):void {
+				ti.stop();
+				ti.removeEventListener(TimerEvent.TIMER,afterti);
+				ti = new Timer(5000,0);
+				ti.addEventListener(TimerEvent.TIMER, afterti);
+				ti.start();
+				getChecklists.send();
+			}
+			public function verifysetup(event:MouseEvent):void
+			{
+				warn.visible = false;
+				// TODO Auto-generated method stub
+				if ((ridinput.text != "")&&(aauthinput.text != "")){
+					ridout = ridinput.text;
+					aauthout = aauthinput.text;
+					setupDevice.send();
+				}
+			}
+			public function afterGetSetupDevice(ev:ResultEvent):void {
+				var stop:String = "";
+				try{
+					warn.text = ev.result[0].res.message;
+					warn.visible = true;	
+					
+					if (ev.result[0].res.message == "Success"){
+						var stmt:SQLStatement = new SQLStatement();
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("restu.db"));
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into restu values(:id,:name)";
+						stmt.parameters[":id"] = ev.result[0].res.id;
+						stmt.parameters[":name"] = ev.result[0].res.name;
+					
+						stmt.execute();
+						loadInterface(ev.result[0].res.id.toString(),ev.result[0].res.name);
+					}
+					else {
+						//bad
+					}
+				}
+				catch(e:Error){
+					warn.text = ev.result[0].res.message;
+					warn.visible = true;
+				}
+				
+			}
+			public function loadInterface(id:String, name:String):void {
+				
+				
+				storeid = id;
+				storename = name;
+				
+				var pusher:EasyPushExample = new EasyPushExample(storeid);
+				var uii:UIComponent = new UIComponent();
+				uii.height = 0;
+				uii.visible = false;
+				uii.width = 0;
+				uii.addChild(pusher); 
+				
+				mycont.addElement(uii);
+				
+				
+				ti = new Timer(5000,0);
+				ti.addEventListener(TimerEvent.TIMER, afterti);
+				ti.start();
+				getChecklists.send();
+				
+				systemManager.addEventListener(ReportEvent.EXPENSE_SAVED, function(event:ReportEvent):void
+				{
+					getChecklists.send();
+				});
+				
+				logedin = true;
+			}
+			public function afterGetChecklists(ev:ResultEvent):void {
+				var stop:String = "";
+				listdata = new ArrayCollection();
+				try{
+				try{
+					listdata = ev.result[0].res;	
+				}
+				catch(e:Error){
+					listdata.addItem( ev.result[0].res);
+				}
+				}
+				catch(e:Error){
+					
+				}
+				if (currentfilter != -1){
+					filterPress(currentfilter);
+				}
+				else {
+					filterPress(4);
+				}
+				
+				if (currentsort != -1){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+					sortPress(currentsort);
+				}
+				
+				
+				
+				
+			
+				
+		
+			}
+			public function listDataChane(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE,ev.currentTarget.selectedItem))
+
+			}
+			override public function set data(value:Object):void
+			{
+				/*super.data = value;
+				if (data)
+					expenses = srv.getExpensesByReport(data as Report);*/
+			}
+			public function filterPress(u:uint):void {
+				
+				if (u == 0){
+					//all 
+					listdata.filterFunction = returnall;
+				}
+				else if (u == 1){
+					//todays
+					listdata.filterFunction = todayfilter;
+				}
+				else if (u == 2){
+					//incomplete
+					listdata.filterFunction = incompletefilter;
+				}
+				else if (u == 4){
+					//today
+					listdata.filterFunction = todayfilter2;
+				}
+				else if (u == 5){
+					//previous
+					listdata.filterFunction = previousdaysfilter;
+				}
+				currentfilter = u;
+				
+				listdata.refresh();
+				list.dataProvider = listdata;
+				
+				calculategoodbadcount();
+				
+			}
+			public function sortPress(u:uint):void {
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField3:mx.collections.SortField = new mx.collections.SortField();
+				var numericDataSort:Sort = new Sort();
+				var stringDataSort:Sort = new Sort();
+				
+				
+				if (sortMode == u){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+				}
+				else {
+					reverse = false;
+				}
+				
+				currentsort = u;
+				
+				
+				dataSortField.descending = reverse;
+				dataSortField2.descending = reverse;
+				dataSortField3.descending = reverse;
+				sortMode = u;
+				if (u == 0){
+					dataSortField.name = "datestart";
+					dataSortField.numeric = false;
+					numericDataSort.fields = [dataSortField];
+					listdata.sort = numericDataSort;
+				}
+				else if (u == 1){
+					dataSortField.name = "dateend";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					
+					listdata.sort = stringDataSort;
+					
+				}
+				else if (u == 2){
+					dataSortField.name = "status";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					
+					listdata.sort = stringDataSort;
+					
+				}
+				
+				listdata.refresh();
+				list.dataProvider = listdata;
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.datestart.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.dateend.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.status.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function todayfilter(item:Object):Boolean{
+				
+				var CurrentDateTime:Date = new Date();
+				var CurrentDF:DateFormatter = new DateFormatter();
+				CurrentDF.formatString = "EEE MMM DD LL:NN:SS"
+				var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+				
+				var todaysdate:String = DateTimeString.substring(0,DateTimeString.lastIndexOf(" "));
+				var datetocheck:String = item.datestart.toString();
+				var datetocheck2:String = item.dateend.toString();
+				
+				datetocheck = datetocheck.substring(0,datetocheck.indexOf(":"));
+				datetocheck2 = datetocheck2.substring(0,datetocheck2.indexOf(":"));
+				datetocheck = datetocheck.substring(0,datetocheck.lastIndexOf(" "));
+				datetocheck2 = datetocheck2.substring(0,datetocheck2.lastIndexOf(" "));
+				
+				if ((datetocheck.toLowerCase() == todaysdate.toLowerCase())||
+					(datetocheck.toLowerCase() == todaysdate.toLowerCase())){
+					return true;
+				}
+				return false;
+				
+				
+				
+				
+			}
+			
+			private function incompletefilter(item:Object):Boolean{
+				if((item.status.toLowerCase() == 'bad')||
+					(item.status.toLowerCase() == 'incomplete')){
+						return true;
+					}
+					
+				return false;
+			}
+			
+			private function todayfilter2(item:Object):Boolean{
+				if((item.iscurrent.toLowerCase() == 'Current')||
+					(item.iscurrent.toLowerCase() == 'current')){
+					return true;
+				}
+				
+				return false;
+			}
+			private function previousdaysfilter(item:Object):Boolean{
+				if((item.iscurrent.toLowerCase() == 'Previous')||
+					(item.iscurrent.toLowerCase() == 'previous')){
+					return true;
+				}
+				
+				return false;
+			}
+			public function searchClick():void
+			{
+				if (key.text != ""){
+					listdata.filterFunction = filterCompleted;
+				}
+				else {
+					listdata.filterFunction = returnall;
+				}
+				
+				listdata.refresh();
+				list.dataProvider = listdata;
+				var s:String = "";
+				s.toLowerCase();
+			
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			public function press(event:KeyboardEvent):void {
+				//if ((event.keyCode == 13)||(event.charCode == 13)){
+				searchClick();
+				//}
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter= new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			public function calculategoodbadcount():void {
+				
+				var goodcount:Number = 0;
+				var badcount:Number = 0;
+				try{
+					for (var i:uint = 0; i < listdata.length; i++){
+						if (listdata[i].status == "bad"){
+							badcount++;
+						}
+						else if (listdata[i].status == "good"){
+							goodcount++;
+						}
+					}
+				}
+				catch(e:Error){
+					
+				}
+				goodcounttext.text = goodcount.toString();
+				badcounttext.text = badcount.toString();
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<dao:ExpenseReportDAO id="srv"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:HTTPService id="getChecklists" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/getCheckLists2.php"
+					   result="afterGetChecklists(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="setupDevice" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/setupDeviceCheck.php"
+					   result="afterGetSetupDevice(event)" >
+			<s:request xmlns="">
+				<ridout>{ridout}</ridout>
+				<aauthout>{aauthout}</aauthout>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup top="0" horizontalAlign="center" paddingRight="10" paddingTop="30" left="0" visible="{logedin == false}" right="0" bottom="0" gap="0">
+		<s:Label width="100%" text="First Time Setup Install" textAlign="center"/>
+		<s:HGroup x="6" width="100%" height="49" horizontalAlign="right" verticalAlign="middle" >
+			<s:Label text="Store ID:"/>
+			<s:TextInput id="ridinput"  autoCapitalize="sentence"    width="208"/>
+		</s:HGroup>
+		
+		<s:HGroup width="100%" height="49" horizontalAlign="right" verticalAlign="middle">
+			<s:Label text="Admin Auth:"/>
+			<s:TextInput id="aauthinput"  autoCapitalize="sentence"  width="208"/>
+		</s:HGroup>
+		<components:genericRedButton x="64" width="192" click="verifysetup(event)" height="53" lbl="Setup Device">
+		</components:genericRedButton>
+		<s:Label id="warn" width="100%" visible="false" height="35" text="Warning" textAlign="center"
+				 verticalAlign="middle"/>
+	</s:VGroup>
+	<s:VGroup id="mycont" top="0" left="0" visible="{logedin}" right="0" bottom="0" gap="0">
+		<s:BorderContainer x="0" y="0" height="40" borderVisible="false" backgroundAlpha="0" borderAlpha="0" 
+						   dropShadowVisible="false" backgroundColor="#22252a" width="100%">
+			<s:HGroup width="100%" horizontalAlign="center" verticalAlign="middle" height="100%">
+				<s:TextInput id="key"  autoCapitalize="sentence"  left="5" right="5" top="1" width="100%" height="35"
+							 enter="searchClick();" fontSize="14" keyUp="press(event);"
+							 prompt="Search Checklists" returnKeyLabel="search"/>
+				<s:Image width="30" height="30" click="searchClick();" mouseDown="profDown(event)"
+						 mouseUp="profUp(event)" smooth="true" source="@Embed('assets/search.png')"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:VGroup paddingLeft="8" paddingRight="8" paddingTop="14" paddingBottom="8" gap="2">
+			<s:Label text="{storetitle}" styleName="title"/>
+			<s:Label text="{storename}" styleName="subtle" left="8"/>
+		</s:VGroup>
+
+		<s:Line top="0" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#838484" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line top="1" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" weight="1"/>
+			</s:stroke>
+		</s:Line>
+
+		<s:List id="list" width="100%" top="10" height="100%" dataProvider="{listdata}" 
+				itemRenderer="components.checkListItem" alternatingItemColors="[0xf5f5f5,0xebebeb ]" 
+				change="dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE, list.selectedItem))">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="1"
+								  variableRowHeight="true"/>
+			</s:layout>
+		</s:List>
+
+		<s:SkinnableContainer styleName="footer" width="100%" height="40" backgroundAlpha="0">
+			<s:Line top="0" left="0" right="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#838484" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line top="1" left="0" right="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#FFFFFF" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<s:Label text="Complete:" color="#009F07" left="8" verticalCenter="2"/>
+				<s:Label id="goodcounttext" text="" fontWeight="bold" fontSize="20" right="8" verticalCenter="2"/>
+				<s:Label text="Incomplete:" color="#970707" left="8" verticalCenter="2"/>
+				<s:Label id="badcounttext" text="" fontWeight="bold" fontSize="20" right="8" verticalCenter="2"/>
+			</s:HGroup>
+			
+		</s:SkinnableContainer>
+
+	</s:VGroup>
+	
+</s:View>

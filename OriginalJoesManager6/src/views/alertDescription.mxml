@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="creationCompleteHandler();" 
+		xmlns:components="components.*" title="Alerts" xmlns:renderers="renderers.*">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Button label="Dismiss" click="dismissAlert();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			[Bindable]
+			protected var alertdata:ArrayCollection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var managerid:String = "1"; 
+			[Bindable]
+			public var alertid:String = "";
+			protected function creationCompleteHandler():void
+			{
+				try{
+					alertid = data.id;
+				}
+				catch(e:Error){
+					alertid = "-1";
+				}
+				busy = false;	
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function dismissAlert():void {
+				if (alertid != "-1"){
+					busy = true;
+					dismissAlertg.send();
+				}
+			}
+			
+			public function afterDismiss(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				busy = false;
+				navigator.popView();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="dismissAlertg" method="GET" 
+					   resultFormat="array" result="afterDismiss(event)"
+					   url="http://enactforum.org/originaljoes/manager/dismissAlert.php">
+			<s:request xmlns="">
+				<idout>{alertid}</idout>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<fx:Style>
+		
+		
+		
+	</fx:Style>
+	
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:Scroller top="0" bottom="0" right="0" left="0" verticalScrollPolicy="on" horizontalScrollPolicy="off">
+	
+	<s:VGroup top="10" bottom="10" width="100%" horizontalAlign="center">
+		
+			
+	
+		
+		<s:VGroup height="100%" top="10" width="95%" paddingTop="10" horizontalAlign="center">
+			<s:Label maxWidth="300" fontFamily="ubuntuCFF" fontSize="20" fontWeight="bold"
+					 maxDisplayedLines="1" text="{data.storename}"/>
+			<s:Label fontWeight="bold" text="Checklist Name:"/>
+			<s:TextArea enabled="true" contentBackgroundAlpha="0" editable="false" 
+						text="{data.checklistname}"/>
+			<s:Label fontWeight="bold" text="Question Text:"/>
+			<s:TextArea enabled="true" contentBackgroundAlpha="0" editable="false" 
+						text="{data.checklistitemname}"/>
+			
+			
+			<s:Label fontWeight="bold" text="Answer:"/>
+			<s:TextArea enabled="true" contentBackgroundAlpha="0" editable="false" 
+						text="{data.value}"/>
+			
+			
+			<s:Label  text="Alert Date:{data.date}"/>
+			
+			
+			<s:Label  text="Alert Time:{data.time}"/>
+			
+			
+			<s:Label  text="Date Start:{data.datestart}"/>
+			
+			
+			<s:Label  text="Date End:{data.dateend}"/>
+			
+			
+			
+		</s:VGroup>
+		
+	</s:VGroup>
+		</s:Scroller>
+	
+	
+</s:View>
