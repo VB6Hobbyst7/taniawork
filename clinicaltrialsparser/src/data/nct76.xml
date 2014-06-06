@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="22">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01189786</url>
+  </required_header>
+  <id_info>
+    <org_study_id>27251-EXCESS</org_study_id>
+    <secondary_id>EXCESS</secondary_id>
+    <nct_id>NCT01189786</nct_id>
+  </id_info>
+  <brief_title>Ex Vivo T-Cell Depletion of Mobilized Peripheral Blood Stem Cells Via CD34-Selection</brief_title>
+  <acronym>EXCESS</acronym>
+  <official_title>Ex Vivo T-Cell Depletion of Mobilized Peripheral Blood Stem Cells Via CD34-Selection (EXCESS)</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Baylor College of Medicine</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>Texas Children's Hospital</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+    <collaborator>
+      <agency>The Methodist Hospital System</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+    <collaborator>
+      <agency>Center for Cell and Gene Therapy, Baylor College of Medicine</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Baylor College of Medicine</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Patients who are asked to participate in this study receive a stem cell transplant for
+      treatments of their disease. Unfortunately, there is not a perfectly matched stem cell donor
+      and the patients disease does not permit enough time to identify another donor or another
+      suitable donor has not been identified. However, a close relative of the patients has been
+      found with stem cells that are not a perfect match, but can be used.
+
+      Alternatively, the patient may have already received a stem cell transplant but has evidence
+      of mixed chimerism which may lead to an increased risk of relapse. Or, the patient may have
+      all donor cells but their bone marrow is not working very well, which may lead to frequent
+      blood or platelet transfusions or infection.
+
+      Regardless of the reason, it may be necessary to isolate stem cells from a haploidentical
+      (half-match) donor in order to provide bone marrow function. Because the stem cells from the
+      donor are only half-matched to the patient, the risk of graft-versus-host disease (GvHD) is
+      very high. It is important that the donor's blood cells are specially treated to minimize
+      cells that are most likely to attack tissue. This is done by using a special device to
+      capture the CD34+ stem cells from the donor's stem cell product prior to giving the cells to
+      patient. This method minimizes the donor T cells, which are responsible for causing GvHD.
+
+      Purpose of this study: To estimate the rate of stable engraftment, early post SCT toxicity
+      and incidence of GvHD in recipients of G-CSF mobilized peripheral blood stem cells depleted
+      of T cells by positive selection for the CD34 antigen
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      This protocol is for patients requiring allogeneic stem cell transplant (SCT) or following
+      allogeneic SCT and requiring additional cellular therapy
+
+      The stem cell donors are HLA-haploidentical family members. They will receive G-CSF at
+      10mcg/kg/day for 5-6 consecutive days to mobilize peripheral blood stem cells with
+      monitoring of CD34+ cell counts prior to stem cell collection. Apheresis will be performed
+      when the CD34 count reaches 10/μL and continue until preferably at least 5x10^6 CD34+
+      cells/kg recipient weight has been collected after CD34+ selection. If the CD34+ count does
+      not reach 10/μL by Day 6, the donor will be deemed to have failed mobilization.
+
+      Stem Cell Enrichment and T-cell Depletion: Donor cells will be separated on a CD34+
+      enrichment device, to produce a minimum of 3 logs T-cell depletion, using the CliniMACS CD34
+      Reagent system. Donor cells will be collected and cryopreserved before conditioning begins,
+      if patient is to receive conditioning. If CD3+ cells exceed 5x10^4 cells/kg, consideration
+      will be given to using GvHD prophylaxis at the discretion of the primary investigator.
+
+      Graft Facilitation: After receiving CD34+ selected PBSCs, G-CSF may be administered as
+      clinically indicated to facilitate neutrophil engraftment, as defined as sustained absolute
+      neutrophil count greater than 500 cells/uL.
+
+      Conditioning Regimens: For patients receiving CD34+ stem cells for allogeneic SCT,
+      conditioning regimens will be given to patients at the discretion of the treating physician,
+      recognizing that a variety of regimens can be utilized.
+
+      For patients receiving CD34+ stem cells as a &quot;topoff,&quot; whether to use a conditioning regimen
+      prior to the topoff is at the discretion of the treating physician.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>October 2010</start_date>
+  <completion_date type="Anticipated">October 2015</completion_date>
+  <primary_completion_date type="Anticipated">October 2015</primary_completion_date>
+  <phase>N/A</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Single Group Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>To estimate the rate of stable engraftment</measure>
+    <time_frame>5 years</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>To estimate the rate of stable engraftment, early post SCT toxicity and incidence of GvHD in recipients of G-CSF mobilized peripheral blood stem cells depleted of T cells by positive selection for the CD34 antigen</description>
+  </primary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">20</enrollment>
+  <condition>Haploidentical Stem Cell Transplant</condition>
+  <condition>CD34+ Selection</condition>
+  <arm_group>
+    <arm_group_label>CD34+ PBSC Selection</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>The donor cells will be separated on a CD34+ enrichment device, to produce a minimum of 3 logs T-cell depletion, using the CliniMACS CD34 Reagent system.</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Device</intervention_type>
+    <intervention_name>CliniMACS CD34 Reagent system</intervention_name>
+    <description>HLA-haploidentical family member donors will receive G-CSF at 10mcg/kg/day for 5-6 consecutive days to mobilize peripheral blood stem cells with monitoring of CD34+ cell counts prior to stem cell collection. Apheresis will be performed when the CD34 count reaches 10/μL and continue until preferably at least 5x106 CD34+ cells/kg recipient weight has been collected after CD34+ selection.
+Donor cells will be separated on a CD34+ enrichment device, to produce a minimum of 3 logs T-cell depletion, using the CliniMACS CD34 Reagent system as per CAGT SOP. Donor cells will be collected and cryopreserved before conditioning begins, if patient is to receive conditioning.</description>
+    <arm_group_label>CD34+ PBSC Selection</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  The following must be answered YES for a patient to eligible to participate in study:
+
+               -  Patient requiring allogeneic SCT or following allogeneic SCT requiring
+                  additional cellular therapy
+
+               -  Age between birth and 70 years
+
+               -  Patient and/or responsible person able to understand and sign consent
+
+          -  If patient has already received SCT, he or she must have evidence of at least ONE of
+             the following:
+
+               -  Evidence of mixed chimerisms (less than 95% donor cells)
+
+               -  Evidence of poor bone marrow function (bone marrow cellularity less than 50%
+                  with at least one cytopenia)
+
+               -  Relapsed disease
+
+        Exclusion Criteria:
+
+        -The following must be answered NO for a patient to be eligible to participate in study:
+
+          -  Active, acute GvHD &gt; grade II or extensive, chronic GvHD
+
+          -  Severe life, threatening infection
+
+          -  Pulmonary dysfunction (FEV1, FVC or DLCO 40% of predicted or 3 SD below normal)
+
+          -  Cardiac dysfunction (LVSF less than 25%)
+
+          -  Psychiatric disturbance
+
+          -  Lansky or Karnofsky score &lt; 50%
+
+          -  Total bilirubin &gt; 1.5mg/dL
+
+          -  ALT &gt; 5x normal
+
+          -  Creatinine &gt; 3x normal
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>N/A</minimum_age>
+    <maximum_age>70 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Alana Kennedy-Nasser, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Texas Children's Hospital</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Alana Kennedy-Nasser, MD</last_name>
+    <phone>832-824-4807</phone>
+    <email>aakenned@txccc.org</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>The Methodist Hospital</name>
+      <address>
+        <city>Houston</city>
+        <state>Texas</state>
+        <zip>77030</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Alana Kennedy-Nasser, MD</last_name>
+      <phone>832-824-4807</phone>
+      <email>aakenned@txccc.org</email>
+    </contact>
+    <investigator>
+      <last_name>Carlos Ramos, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Rammurti Kamble, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>George Carrum, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Helen Heslop, M.D.</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>Texas Children's Hospital</name>
+      <address>
+        <city>Houston</city>
+        <state>Texas</state>
+        <zip>77030</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Alana Kennedy-Nasser, MD</last_name>
+      <phone>832-824-4807</phone>
+      <email>aakenned@txccc.org</email>
+    </contact>
+    <investigator>
+      <last_name>Helen E Heslop, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Robert A Krance, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Malcolm Brenner, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Caridad Martinez, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Kathryn Leung, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Carlos Ramos, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Adrian Gee, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Alana Kennedy-Nasser, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>August 2011</verification_date>
+  <lastchanged_date>August 12, 2011</lastchanged_date>
+  <firstreceived_date>August 25, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Helen Heslop, M.D</name_title>
+    <organization>Center for Cell and Gene Therapy</organization>
+  </responsible_party>
+  <keyword>Haploidentical Stem Cell Transplant</keyword>
+  <keyword>CD34+ Selection</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+</clinical_study>

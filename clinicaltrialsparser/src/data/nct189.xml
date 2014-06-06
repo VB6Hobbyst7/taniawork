@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="265">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01236560</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CDR0000688443</org_study_id>
+    <secondary_id>COG-ACNS0822</secondary_id>
+    <nct_id>NCT01236560</nct_id>
+  </id_info>
+  <brief_title>Vorinostat, Temozolomide, or Bevacizumab in Combination With Radiation Therapy Followed by Bevacizumab and Temozolomide in Young Patients With Newly Diagnosed High-Grade Glioma</brief_title>
+  <official_title>A Randomized Phase II/III Study of Vorinostat (IND# 71976) and Local Irradiation OR Temozolomide and Local Irradiation OR Bevacizumab (IND# 7921) and Local Irradiation Followed by Maintenance Bevacizumab and Temozolomide in Children With Newly Diagnosed High-Grade Gliomas</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Children's Oncology Group</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>National Cancer Institute (NCI)</agency>
+      <agency_class>NIH</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>National Cancer Institute (NCI)</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      RATIONALE: Vorinostat may stop the growth of tumor cells by blocking some of the enzymes
+      needed for cell growth. Drugs used in chemotherapy, such as temozolomide, work in different
+      ways to stop the growth of tumor cells, either by killing the cells or by stopping them from
+      dividing. Monoclonal antibodies, such as bevacizumab, can block tumor growth in different
+      ways. Some block the ability of tumor cells to grow and spread. Others find tumor cells and
+      help kill them or carry tumor-killing substances to them. Radiation therapy uses high-energy
+      x-rays to kill tumor cells. It is not yet known whether giving vorinostat is more effective
+      then temozolomide or bevacizumab when given together with radiation therapy in treating
+      glioma.
+
+      PURPOSE: This randomized phase II/III trial is studying vorinostat, temozolomide, or
+      bevacizumab to see how well they work compared with each other when given together with
+      radiation therapy followed by bevacizumab and temozolomide in treating young patients with
+      newly diagnosed high-grade glioma.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      OBJECTIVES:
+
+      Primary
+
+        -  To identify the dose of vorinostat that is feasible when given in combination with
+           radiotherapy (RT) in patients with newly diagnosed high-grade gliomas (HGG). (completed
+           as of Amendment #1)
+
+        -  To compare 1-year event-free survival of patients with newly diagnosed HGG treated with
+           vorinostat (using MTD) versus bevacizumab versus temozolomide when given in combination
+           with RT followed by maintenance therapy with bevacizumab and temozolomide. (Phase II)
+
+        -  To compare the event-free survival of patients with newly diagnosed HGG treated with
+           the superior chemoradiotherapy (from phase II portion) versus temozolomide given in
+           combination with RT followed by maintenance chemotherapy with bevacizumab and
+           temozolomide. (Phase III)
+
+      Secondary
+
+        -  To evaluate the anti-tumor activity, as measured by event-free survival (EFS),
+           progression-free survival (PFS), and overall survival (OS), of patients with newly
+           diagnosed HGG treated with vorinostat, bevacizumab, or temozolomide when given in
+           combination with RT followed by maintenance chemotherapy with bevacizumab and
+           temozolomide.
+
+        -  To define and evaluate the toxicities of each of the treatment arms of the study.
+
+        -  To conduct gene expression profiling and SNP arrays in patients with newly diagnosed
+           HGG.
+
+        -  To assess telomerase activity, hTert expression, and telomere length in patients with
+           newly diagnosed HGG.
+
+        -  To document changes in perfusion and diffusion using MR imaging at baseline, prior to,
+           during (prior to course 3), and after maintenance therapy with bevacizumab and
+           temozolomide.
+
+        -  To correlate functional changes in tumor with responses to bevacizumab treatment using
+           MR diffusion/perfusion imaging.
+
+        -  To correlate the results of the bevacizumab biology studies in serum or tumor with EFS.
+
+        -  To explore the prognostic significance of MGMT status for patients newly diagnosed with
+           HGG treated with combined surgery, radiation, chemotherapy, and anti-angiogenic
+           therapy.
+
+      OUTLINE: This is a multicenter, feasibility, dose-escalation study of vorinostat, followed
+      by a phase II study, followed by a phase III study.
+
+        -  Feasibility study (completed as of Amendment #1): Patients undergo 3-D conformal
+           radiotherapy (RT) or intensity-modulated RT 5 days a week for 6 weeks. Patients also
+           receive oral vorinostat once daily on days 1-5. Courses repeat every week for 6 weeks
+           in the absence of disease progression or unacceptable toxicity.
+
+             -  Maintenance therapy: Beginning 4 weeks after completion of chemoradiotherapy,
+                patients receive bevacizumab IV over 30-90 minutes on days 1 and 15 and oral
+                temozolomide on days 1-5. Treatment repeats every 28 days for 12 courses in the
+                absence of disease progression or unacceptable toxicity.
+
+        -  Phase II study: Patients are stratified according to extent of resection (near total
+           resection or gross total resection vs other) and histology (glioblastoma multiforme vs
+           other). Patients are randomized to 1 of 3 treatment arms.
+
+             -  Arm I: Patients undergo RT 5 days a week for 6 weeks and receive vorinostat at the
+                maximum-tolerated dose determined in the feasibility study.
+
+             -  Arm II: Patients undergo RT as in arm I and receive oral temozolomide once daily
+                for 42 days beginning on day 5 of RT.
+
+             -  Arm III: Patients undergo RT as in arm I and receive bevacizumab IV over 30-90
+                minutes on days 22 and 36.
+
+      Patients in all arms receive maintenance therapy as in the feasibility study.
+
+        -  Phase III study: Patients are randomized to 1 of 2 treatment arms.
+
+             -  Arm IV: Patients receive RT and temozolomide as in phase II, arm II.
+
+             -  Arm V: Patients receive treatment as in phase II, arm I or phase II, arm III,
+                whichever was established as the superior chemoradiotherapy arm in phase II.
+
+      Patients in all arms receive maintenance therapy as in the feasibility study.
+
+      Some patients undergo blood and tumor tissue sample (from surgery) collection for telomerase
+      activity, hTert expression, telomere length, and gene expression profiling and SNP arrays
+      analysis.
+
+      After completion of study therapy, patients are followed up every 3 months for 1 year, every
+      6 months for 4 years, and then annually for 5 years.
+    </textblock>
+  </detailed_description>
+  <overall_status>Suspended</overall_status>
+  <start_date>November 2010</start_date>
+  <primary_completion_date type="Anticipated">July 2014</primary_completion_date>
+  <phase>Phase 2/Phase 3</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Dose-limiting toxicity of vorinostat when given with radiotherapy (feasibility study)</measure>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Toxicity of vorinostat, bevacizumab, or temozolomide when given in combination with radiotherapy</measure>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Event-free survival of patients in each treatment arm</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Overall survival of patients in each treatment arm</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Progression-free survival of patients in each treatment arm</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>5</number_of_arms>
+  <enrollment type="Anticipated">268</enrollment>
+  <condition>Brain and Central Nervous System Tumors</condition>
+  <arm_group>
+    <arm_group_label>Arm I</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients undergo RT 5 days a week for 6 weeks and receive vorinostat at the maximum-tolerated dose   determined in the  feasibility study.</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Arm II</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients undergo RT as in arm I and  receive oral temozolomide once daily for 42 days beginning on day 5 of RT.</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Arm III</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients undergo RT as in arm I and receive bevacizumab IV over 30-90 minutes on days 22 and 36.</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Arm IV</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients receive RT and temozolomide as in phase II, arm II.</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Arm V</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients receive treatment as in phase II, arm I or phase II, arm III, whichever was established as the superior chemoradiotherapy arm in phase II.</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>bevacizumab</intervention_name>
+    <description>Given IV</description>
+    <arm_group_label>Arm III</arm_group_label>
+    <arm_group_label>Arm V</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>temozolomide</intervention_name>
+    <description>Given orally</description>
+    <arm_group_label>Arm II</arm_group_label>
+    <arm_group_label>Arm IV</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>vorinostat</intervention_name>
+    <description>Given orally</description>
+    <arm_group_label>Arm I</arm_group_label>
+    <arm_group_label>Arm V</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        DISEASE CHARACTERISTICS:
+
+          -  Newly diagnosed high-grade glioma
+
+               -  Anaplastic astrocytoma
+
+               -  Glioblastoma multiforme
+
+               -  Gliosarcoma
+
+               -  Primary spinal cord malignant glioma allowed
+
+               -  No oligodendroglioma or oligoastrocytoma
+
+          -  Patient must have histological verification of diagnosis
+
+               -  No M+ disease ( defined as evidence of neuraxis dissemination)
+
+               -  No positive CSF cytology
+
+        PATIENT CHARACTERISTICS:
+
+          -  ECOG performance status (PS) 0-2
+
+               -  Karnofsky PS 50-100% (patients &gt; 16 years of age)
+
+               -  Lansky PS 50-100% (patients ≤ 16 years of age)
+
+          -  ANC ≥ 1,000/μL
+
+          -  Platelet count ≥ 100,000/μL
+
+          -  Hemoglobin ≥ 8.0 mg/dL (transfusion independent)
+
+          -  Creatinine clearance or radioisotope GFR ≥ 70 mL/min OR serum creatinine based on age
+             and/or gender as follows:
+
+               -  0.4 mg/dL (1 month to &lt; 6 months of age)
+
+               -  0.5 mg/dL (6 months to &lt; 1 year of age)
+
+               -  0.6 mg/dL (1 to &lt; 2 years of age)
+
+               -  0.8 mg/dL (2 to &lt; 6 years of age)
+
+               -  1.0 mg/dL (6 to &lt; 10 years of age)
+
+               -  1.2 mg/dL (10 to &lt; 13 years of age)
+
+               -  1.5 mg/dL (male) or 1.4 mg/dL (female) (13 to &lt; 16 years of age)
+
+               -  1.7 mg/dL (male) or 1.4 mg/dL (female) (≥ 16 years of age)
+
+          -  Proteinuria &lt; 2+ OR urine:protein ratio (UPC) ≤ 0.5
+
+               -  If UPC &gt; 0.5, a 24-hour urine protein should be obtained and level should be &lt;
+                  1,000 mg of protein
+
+          -  Total bilirubin ≤ 1.5 times upper limit of normal (ULN)
+
+          -  ALT &lt; 2.5 times ULN
+
+          -  Serum albumin ≥ 2 g/dL
+
+          -  PT INR ≤ 1.5 times ULN
+
+          -  Not pregnant or nursing
+
+          -  Negative pregnancy test
+
+          -  Fertile patients must use effective contraception during all study therapy and for ≥
+             6 months after completion of bevacizumab
+
+          -  Hypertension well controlled (≤ 95^th percentile for age and height if patient is ≤
+             17 years) by stable doses of medication allowed
+
+               -  For patients &gt; 17 years, systolic blood pressure (BP) ≤ 150 mm Hg or diastolic
+                  BP ≤ 100 mm Hg)
+
+          -  Seizure disorder allowed provided patient is well-controlled and on
+             nonenzyme-inducing anticonvulsants
+
+          -  No history of myocardial infarction, severe or unstable angina, clinically
+             significant peripheral vascular disease, ≥ grade 2 heart failure, or serious and
+             inadequately controlled cardiac arrhythmia
+
+          -  No known bleeding diathesis or coagulopathy
+
+          -  No prior arterial thromboembolic events, including transient ischemic attacks or
+             cerebrovascular accidents
+
+          -  No prior diagnosis of a deep venous thrombosis, including pulmonary embolism, and no
+             known thrombophilic condition (e.g., protein S, protein C, antithrombin III
+             deficiency, Factor V Leiden or Factor II G202`0A mutation, homocysteinemia, or
+             antiphospholipid antibody syndrome)
+
+          -  No history of an abdominal fistula, gastrointestinal perforation, or intra-abdominal
+             abscess within the past 6 months
+
+          -  No serious or non-healing wound, ulcer, or bone fracture
+
+          -  No evidence of significant postoperative intracranial hemorrhage, defined as &gt; 1 cm
+             of blood on postoperative MRI scan (potentially in addition to the postoperative
+             scan) obtained within the past 14 days
+
+          -  No history of allergic reaction to Chinese hamster ovary cell products or other
+             recombinant human antibodies
+
+        PRIOR CONCURRENT THERAPY:
+
+          -  No more than 31 days since definitive surgery
+
+          -  Must not have received any prior chemotherapy, radiotherapy, immunotherapy, or bone
+             marrow transplant
+
+          -  More than 7 days since major surgical procedure and recovered
+
+               -  For patients scheduled to receive bevacizumab:
+
+                    -  More than 28 days since major procedure
+
+                    -  More than 14 days since intermediate procedure
+
+                    -  More than 7 days since minor procedure (lumbar picture or placement of PICC
+                       lines are not considered minor procedures)
+
+          -  No other current anti-cancer agents
+
+          -  No concurrent nonsteroidal anti-inflammatory medications known to inhibit platelet
+             function or known to selectively inhibit cyclooxygenase activity
+
+          -  No concurrent enzyme inducing anticonvulsants
+
+          -  No concurrent HDAC inhibitors (e.g., valproic acid)
+
+          -  No concurrent anticoagulants including systemic thrombolytic agents, heparin, low
+             molecular weight heparins, or warfarin except as required to maintain patency of
+             pre-existing permanent vascular catheters or for prevention of thrombosis in the
+             post-operative period
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>3 Years</minimum_age>
+    <maximum_age>21 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Maryam Fouladi, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Children's Hospital Medical Center, Cincinnati</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>Arkansas Cancer Research Center at University of Arkansas for Medical Sciences</name>
+      <address>
+        <city>Little Rock</city>
+        <state>Arkansas</state>
+        <zip>72205</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Childrens Hospital Los Angeles</name>
+      <address>
+        <city>Los Angeles</city>
+        <state>California</state>
+        <zip>90027</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital Central California</name>
+      <address>
+        <city>Madera</city>
+        <state>California</state>
+        <zip>93638-8762</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital of Orange County</name>
+      <address>
+        <city>Orange</city>
+        <state>California</state>
+        <zip>92868</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Lucile Packard Children's Hospital at Stanford University Medical Center</name>
+      <address>
+        <city>Palo Alto</city>
+        <state>California</state>
+        <zip>95798</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>UCSF Helen Diller Family Comprehensive Cancer Center</name>
+      <address>
+        <city>San Francisco</city>
+        <state>California</state>
+        <zip>94115</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Alfred I. duPont Hospital for Children</name>
+      <address>
+        <city>Wilmington</city>
+        <state>Delaware</state>
+        <zip>19803</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Lee Cancer Care of Lee Memorial Health System</name>
+      <address>
+        <city>Fort Myers</city>
+        <state>Florida</state>
+        <zip>33901</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Nemours Children's Clinic</name>
+      <address>
+        <city>Jacksonville</city>
+        <state>Florida</state>
+        <zip>32207</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Miami Children's Hospital</name>
+      <address>
+        <city>Miami</city>
+        <state>Florida</state>
+        <zip>33155</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>M.D. Anderson Cancer Center at Orlando</name>
+      <address>
+        <city>Orlando</city>
+        <state>Florida</state>
+        <zip>32806</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Florida Hospital Cancer Institute at Florida Hospital Orlando</name>
+      <address>
+        <city>Orlando</city>
+        <state>Florida</state>
+        <zip>32803-1273</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Nemours Children's Clinic - Orlando</name>
+      <address>
+        <city>Orlando</city>
+        <state>Florida</state>
+        <zip>32806</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Nemours Children's Clinic - Pensacola</name>
+      <address>
+        <city>Pensacola</city>
+        <state>Florida</state>
+        <zip>32504</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>All Children's Hospital</name>
+      <address>
+        <city>Saint Petersburg</city>
+        <state>Florida</state>
+        <zip>33701</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>AFLAC Cancer Center and Blood Disorders Service of Children's Healthcare of Atlanta - Egleston Campus</name>
+      <address>
+        <city>Atlanta</city>
+        <state>Georgia</state>
+        <zip>30322</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Curtis and Elizabeth Anderson Cancer Institute at Memorial Health University Medical Center</name>
+      <address>
+        <city>Savannah</city>
+        <state>Georgia</state>
+        <zip>31403-3089</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Simmons Cooper Cancer Institute</name>
+      <address>
+        <city>Springfield</city>
+        <state>Illinois</state>
+        <zip>62794-9677</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Indiana University Melvin and Bren Simon Cancer Center</name>
+      <address>
+        <city>Indianapolis</city>
+        <state>Indiana</state>
+        <zip>46202-5289</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Lucille P. Markey Cancer Center at University of Kentucky</name>
+      <address>
+        <city>Lexington</city>
+        <state>Kentucky</state>
+        <zip>40536-0093</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Kosair Children's Hospital</name>
+      <address>
+        <city>Louisville</city>
+        <state>Kentucky</state>
+        <zip>40232</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins</name>
+      <address>
+        <city>Baltimore</city>
+        <state>Maryland</state>
+        <zip>21231-2410</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospitals and Clinics of Minnesota - Minneapolis</name>
+      <address>
+        <city>Minneapolis</city>
+        <state>Minnesota</state>
+        <zip>55404</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>University of Mississippi Cancer Clinic</name>
+      <address>
+        <city>Jackson</city>
+        <state>Mississippi</state>
+        <zip>39216-4505</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Siteman Cancer Center at Barnes-Jewish Hospital - Saint Louis</name>
+      <address>
+        <city>St. Louis</city>
+        <state>Missouri</state>
+        <zip>63110</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Overlook Hospital</name>
+      <address>
+        <city>Morristown</city>
+        <state>New Jersey</state>
+        <zip>07962</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>SUNY Upstate Medical University Hospital</name>
+      <address>
+        <city>Syracuse</city>
+        <state>New York</state>
+        <zip>13210</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Lineberger Comprehensive Cancer Center at University of North Carolina - Chapel Hill</name>
+      <address>
+        <city>Chapel Hill</city>
+        <state>North Carolina</state>
+        <zip>27599-7295</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Blumenthal Cancer Center at Carolinas Medical Center</name>
+      <address>
+        <city>Charlotte</city>
+        <state>North Carolina</state>
+        <zip>28232-2861</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>CCOP - MeritCare Hospital</name>
+      <address>
+        <city>Fargo</city>
+        <state>North Dakota</state>
+        <zip>58122</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Akron Children's Hospital</name>
+      <address>
+        <city>Akron</city>
+        <state>Ohio</state>
+        <zip>44308-1062</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Cincinnati Children's Hospital Medical Center</name>
+      <address>
+        <city>Cincinnati</city>
+        <state>Ohio</state>
+        <zip>45229-3039</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Cleveland Clinic Taussig Cancer Center</name>
+      <address>
+        <city>Cleveland</city>
+        <state>Ohio</state>
+        <zip>44195</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Rainbow Babies and Children's Hospital</name>
+      <address>
+        <city>Cleveland</city>
+        <state>Ohio</state>
+        <zip>44106-5000</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Dayton Children's - Dayton</name>
+      <address>
+        <city>Dayton</city>
+        <state>Ohio</state>
+        <zip>45404-1815</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Knight Cancer Institute at Oregon Health and Science University</name>
+      <address>
+        <city>Portland</city>
+        <state>Oregon</state>
+        <zip>97239-3098</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Penn State Children's Hospital</name>
+      <address>
+        <city>Hershey</city>
+        <state>Pennsylvania</state>
+        <zip>17033-0850</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Greenville Hospital Cancer Center</name>
+      <address>
+        <city>Greenville</city>
+        <state>South Carolina</state>
+        <zip>29605</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Sanford Cancer Center at Sanford USD Medical Center</name>
+      <address>
+        <city>Sioux Falls</city>
+        <state>South Dakota</state>
+        <zip>57117-5039</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>East Tennessee Children's Hospital</name>
+      <address>
+        <city>Knoxville</city>
+        <state>Tennessee</state>
+        <zip>37901</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>St. Jude Children's Research Hospital</name>
+      <address>
+        <city>Memphis</city>
+        <state>Tennessee</state>
+        <zip>38105</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>CCOP - Scott and White Hospital</name>
+      <address>
+        <city>Temple</city>
+        <state>Texas</state>
+        <zip>76508</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital and Regional Medical Center - Seattle</name>
+      <address>
+        <city>Seattle</city>
+        <state>Washington</state>
+        <zip>98105</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>West Virginia University Health Sciences Center - Charleston</name>
+      <address>
+        <city>Charleston</city>
+        <state>West Virginia</state>
+        <zip>25302</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Midwest Children's Cancer Center at Children's Hospital of Wisconsin</name>
+      <address>
+        <city>Milwaukee</city>
+        <state>Wisconsin</state>
+        <zip>53226</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location>
+    <facility>
+      <name>Princess Margaret Hospital for Children</name>
+      <address>
+        <city>Perth</city>
+        <state>Western Australia</state>
+        <zip>6001</zip>
+        <country>Australia</country>
+      </address>
+    </facility>
+  </location>
+  <location_countries>
+    <country>United States</country>
+    <country>Australia</country>
+  </location_countries>
+  <link>
+    <url>http://cancer.gov/clinicaltrials/COG-ACNS0822</url>
+    <description>Clinical trial summary from the National Cancer Institute's PDQ® database</description>
+  </link>
+  <verification_date>October 2011</verification_date>
+  <lastchanged_date>October 14, 2011</lastchanged_date>
+  <firstreceived_date>November 5, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Gregory H. Reaman</name_title>
+    <organization>Children's Oncology Group - Group Chair Office</organization>
+  </responsible_party>
+  <keyword>childhood high-grade cerebellar astrocytoma</keyword>
+  <keyword>childhood high-grade cerebral astrocytoma</keyword>
+  <keyword>untreated childhood brain stem glioma</keyword>
+  <keyword>untreated childhood cerebral astrocytoma</keyword>
+  <keyword>childhood spinal cord neoplasm</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Glioma</mesh_term>
+    <mesh_term>Nervous System Neoplasms</mesh_term>
+    <mesh_term>Central Nervous System Neoplasms</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Temozolomide</mesh_term>
+    <mesh_term>Dacarbazine</mesh_term>
+    <mesh_term>Vorinostat</mesh_term>
+    <mesh_term>Bevacizumab</mesh_term>
+    <mesh_term>Antibodies, Monoclonal</mesh_term>
+  </intervention_browse>
+</clinical_study>

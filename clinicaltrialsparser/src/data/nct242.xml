@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="229">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01259713</url>
+  </required_header>
+  <id_info>
+    <org_study_id>GS-EU-131-0247</org_study_id>
+    <secondary_id>2010-019562-91</secondary_id>
+    <nct_id>NCT01259713</nct_id>
+  </id_info>
+  <brief_title>Prevention of Invasive Fungal Infections in Subjects Receiving Chemotherapy for Acute Lymphoblastic Leukemia</brief_title>
+  <acronym>AmBiGuard</acronym>
+  <official_title>A Phase 3, Double-Blind, Multicenter, Randomized, Placebo-Controlled Study to Assess the Efficacy, Safety and Tolerability of Prophylactic Liposomal Amphotericin B (AmBisome®) for the Prevention of Invasive Fungal Infections (IFIs) in Subjects Receiving Remission-Induction Chemotherapy for Acute Lymphoblastic Leukemia (ALL)</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Gilead Sciences</agency>
+      <agency_class>Industry</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Gilead Sciences</source>
+  <oversight_info>
+    <authority>Argentina: Administracion Nacional de Medicamentos, Alimentos y Tecnologia Medica</authority>
+    <authority>Austria : Federal Ministry for Labour, Health, and Social Affairs</authority>
+    <authority>Belgium: Federal Agency for Medicinal Products and Health Products</authority>
+    <authority>Brazil: Ministry of Health</authority>
+    <authority>France: Afssaps - French Health Products Safety Agency</authority>
+    <authority>Germany: Federal Institute for Drugs and Medical Devices</authority>
+    <authority>Greece: Ministry of Health and Welfare</authority>
+    <authority>Italy: National Institute of Health</authority>
+    <authority>Portugal: National Pharmacy and Medicines Institute</authority>
+    <authority>Spain: Agencia Española de Medicamentos y Productos Sanitarios</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      The study aims to investigate whether prophylaxis with AmBisome can reduce the incidence of
+      invasive fungal infections (IFIs) in patients with Acute Lymphoblastic Leukemia (ALL) who
+      are undergoing their first remission induction.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>February 2011</start_date>
+  <completion_date type="Anticipated">January 2013</completion_date>
+  <primary_completion_date type="Anticipated">December 2012</primary_completion_date>
+  <phase>Phase 3</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Intervention Model:  Parallel Assignment, Masking:  Double Blind (Subject, Caregiver, Investigator, Outcomes Assessor), Primary Purpose:  Prevention</study_design>
+  <primary_outcome>
+    <measure>proportion of subjects with proven or probable invasive fungal infections</measure>
+    <time_frame>during remission induction chemotherapy for ALL (up to 12 weeks)</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Proportion of subjects diagnosed with proven or probable IFIs during remission induction chemotherapy for ALL. Diagnoses of proven or probable IFIs will be assessed according to EORTC/MSG criteria by an independent data review board (IDRB) who will be blinded to subject treatment assignment.</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>pulmonary infiltrates</measure>
+    <time_frame>during remission-induction chemotherapy (up to 12 weeks)</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>The proportion of subjects with pulmonary infiltrates</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>subjects requiring antifungal treatment</measure>
+    <time_frame>during remission-induction chemotherapy (up to 12 weeks)</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>The proportion of subjects requiring antifungal treatment according to the protocol guidelines prior to starting consolidation chemotherapy</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>subject death due to fungal infection</measure>
+    <time_frame>during remission-induction chemotherapy (up to 12 weeks)</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>The proportion of subjects who die due to fungal infection; causality as assessed by the IDRB or Investigator</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>proven or probable IFIs by investigator</measure>
+    <time_frame>during remission-induction chemotherapy (up to 12 weeks)</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>The proportion of subjects diagnosed with proven or probable IFIs, according to the EORTC/MSG criteria as assessed by the investigator.</description>
+  </secondary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">354</enrollment>
+  <condition>Invasive Fungal Infection</condition>
+  <arm_group>
+    <arm_group_label>AmBisome</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Blinded AmBisome 5 mg/kg twice weekly administered by IV route over 2 hours twice weekly (each dose separated alternately by 2 and 3 days each week).</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Placebo</arm_group_label>
+    <arm_group_type>Placebo Comparator</arm_group_type>
+    <description>Blinded placebo twice weekly administered by IV route over 2 hours twice weekly (each dose separated alternately by 2 and 3 days each week).</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Liposomal amphotericin B</intervention_name>
+    <description>5 mg/kg twice weekly administered by IV route over 2 hours twice weekly (each dose separated alternately by 2 and 3 days each week during induction chemotherapy</description>
+    <arm_group_label>AmBisome</arm_group_label>
+    <other_name>AmBisome</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Placebo</intervention_name>
+    <description>Blinded placebo twice weekly administered by IV route over 2 hours twice weekly (each dose separated alternately by 2 and 3 days each week) during induction chemotherapy</description>
+    <arm_group_label>Placebo</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Newly diagnosed ALL receiving an ALL chemotherapy regimen that typically induces at
+             least 10 days of neutropenia
+
+          -  Age equal or greater than 18 years
+
+          -  Able to have all screening tests performed quickly to ensure results can be obtained
+             and evaluated before randomization so that the first dose of randomized study drug
+             for IFI prophylaxis can be administered within 5 days of first remission-induction
+             chemotherapy
+
+          -  Ability to understand and sign a written informed consent form, which must be
+             obtained prior to initiation of any study procedures
+
+        Exclusion Criteria:
+
+          -  Known hypersensitivity to amphotericin B or AmBisome, the metabolites or formulation
+             excipients, in particular known history of anaphylactic reaction to amphotericin B or
+             AmBisome or any of its metabolites or formulation excipients
+
+          -  Known hypersensitivity to the excipients of the placebo formulation
+
+          -  Current fever (≥38°C) unless explained by noninfectious causes
+
+          -  Subjects with proven, probable or possible IFI (according to EORTC/MSG criteria) at
+             screening or in subject history
+
+          -  Pulmonary infiltrates
+
+          -  Concomitant or previous treatment with an antifungal drug within the previous 30 days
+             unless the plasma level is below the limit of detection or at least 5 half-lives of
+             the antifungal has elapsed since the treatment was given
+
+          -  Serum creatinine &gt; 2 x the upper limit of the normal range (ULN)
+
+          -  Grade 3 Liver function test results: alanine aminotransferase or aspartate
+             aminotransferase &gt; 5 x ULN; total bilirubin &gt; 2.5 x ULN
+
+          -  Any severe co morbidity other than underlying hematological  disease (ALL), which in
+             the investigator's judgment may interfere with study evaluations or affect the
+             subject's safety
+
+          -  Subjects who have taken any investigational drug in the last 30 days prior to
+             screening, with the exception of ALL chemotherapy investigational products being used
+             as part of the subject's current ALL treatment protocol
+
+          -  Pregnant or nursing females
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Mike Hawkins, MD</last_name>
+    <role>Study Director</role>
+    <affiliation>Gilead Sciences</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Jacqueline Ewan</last_name>
+    <phone>+44 122389</phone>
+    <phone_ext>7416</phone_ext>
+    <email>Jacqueline.Ewan@gilead.com</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>Gilead Sciences</name>
+      <address>
+        <city>Cambridge</city>
+        <zip>CB21 6GT</zip>
+        <country>United Kingdom</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location_countries>
+    <country>United Kingdom</country>
+  </location_countries>
+  <verification_date>September 2011</verification_date>
+  <lastchanged_date>September 20, 2011</lastchanged_date>
+  <firstreceived_date>December 10, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Mike Hawkins</name_title>
+    <organization>Gilead Sciences</organization>
+  </responsible_party>
+  <keyword>Ambisome</keyword>
+  <keyword>ALL</keyword>
+  <keyword>invasive fungal infection</keyword>
+  <keyword>prophylaxis</keyword>
+  <keyword>liposomal amphotericin B</keyword>
+  <keyword>Invasive fungal infection prophylaxis</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Leukemia</mesh_term>
+    <mesh_term>Leukemia, Lymphoid</mesh_term>
+    <mesh_term>Precursor Cell Lymphoblastic Leukemia-Lymphoma</mesh_term>
+    <mesh_term>Mycoses</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Amphotericin B</mesh_term>
+    <mesh_term>Liposomal amphotericin B</mesh_term>
+  </intervention_browse>
+</clinical_study>

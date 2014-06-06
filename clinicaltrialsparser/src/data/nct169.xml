@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="19">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01228266</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CMM-EM</org_study_id>
+    <nct_id>NCT01228266</nct_id>
+  </id_info>
+  <brief_title>Mesenchymal Stem Cell Transplantation in MS</brief_title>
+  <acronym>CMM-EM</acronym>
+  <official_title>Autologous Mesenchymal Stem Cell Transplantation in Multiple Sclerosis: a Randomized, Double-blind, Crossover With Placebo Phase II Study</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Albert Saiz</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>Instituto de Salud Carlos III</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Hospital Clinic of Barcelona</source>
+  <oversight_info>
+    <authority>Spain: Agencia Española del Medicamento y Productos Sanitarios (AEMPS)</authority>
+    <has_dmc>No</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      The study is a randomized Phase II study, masked and crossed-over with placebo to evaluate
+      the safety and tolerability of autologous mesenchymal stem cell transplantation in patients
+      with active multiple sclerosis
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>December 2010</start_date>
+  <completion_date type="Anticipated">December 2012</completion_date>
+  <primary_completion_date type="Anticipated">June 2012</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Crossover Assignment, Masking:  Double Blind (Subject, Investigator), Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>To evaluate the safety and tolerability of autologous mesenchymal stem cell</measure>
+    <time_frame>12 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>To evaluate effects on MS disease activity measured by: clinical variables, MRI, OCT, immunological analysis and quality of life scales</measure>
+    <time_frame>12 months</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">16</enrollment>
+  <condition>Multiple Sclerosis</condition>
+  <arm_group>
+    <arm_group_label>autologous mesenchymal stem cell</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>A single infusion of up to 2 million cells per Kg of autologous mesenchymal stem cells vs suspension media. The treatment will be reversed at 6 months</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>autologous mesenchymal stem cells</intervention_name>
+    <description>A randomized double-blind, crossover study comparing treatment with autologous MSC vs. suspension media on patients with active MS</description>
+    <arm_group_label>autologous mesenchymal stem cell</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          1. Inflammatory forms of MS
+
+               1. Relapsing-remitting MS (RRMS) patients
+
+               2. Secondary progressive MS (SPMS) patients with continued relapses
+
+               3. Primary progressive MS (PPMS) patients with enhancing MRI lesions and positive
+                  CSF (oligoclonal banding)
+
+          2. Age 18-50 years
+
+          3. Disease duration &gt;= 2 and &gt;= 10 years
+
+          4. EDSS 3.0 - 6.5
+
+          5. Progression, continued relapses or worsening MRI after at least a year of attempted
+             therapy evidenced by:
+
+               1. Increase of &gt;= 1 EDSS point (if baseline EDSS &lt;= 5.0) or 0.5 EDSS points (if
+                  baseline EDSS &gt;= 5.5), or quantifiable, objective evidence of equivalent
+                  progression
+
+               2. &gt;= 1 moderate-severe relapses in past 18 months
+
+               3. &gt;= 1 Gadolinium enhancing lesions (double or triple dose Gadolinium)
+
+               4. &gt;= 1 new T2 lesion
+
+               5. For PPMS only, &gt;= 1 Gadolinium enhancing lesions
+
+          6. Has given informed consent to participate in the study.
+
+        Exclusion Criteria:
+
+          1. SPMS without ongoing relapses
+
+          2. PPMS without positive CSF or Gadolinium enhancing lesions
+
+          3. &lt;= 3 months since treatment with any immunosuppressive therapy
+
+          4. &lt;=1 month since last treatment with interferon-B or glatiramer acetate
+
+          5. Corticosteroid treatment &lt;= 30 days
+
+          6. Relapse &lt;= 60 days
+
+          7. History of cancer or clinical or laboratory results indicative of severe systemic
+             diseases, including infection for HIV, Hepatitis B or C
+
+          8. Any metallic or electronic device that precludes from undergoing MRI
+
+          9. Pregnancy or lactation
+
+         10. Current treatment with an investigational therapy
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>50 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Albert Saiz, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Hospital Clinic de Barcelona</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Albert Saiz, MD</last_name>
+    <phone>34932275414</phone>
+    <email>asaiz@clinic.ub.es</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>Neurology Service, Hospital Clinic de barcelona</name>
+      <address>
+        <city>Barcelona</city>
+        <zip>08036</zip>
+        <country>Spain</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Albert Saiz, MD</last_name>
+      <phone>34932275414</phone>
+      <email>asaiz@clinic.ub.es</email>
+    </contact>
+    <investigator>
+      <last_name>Albert Saiz, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>Spain</country>
+  </location_countries>
+  <verification_date>September 2011</verification_date>
+  <lastchanged_date>September 13, 2011</lastchanged_date>
+  <firstreceived_date>October 25, 2010</firstreceived_date>
+  <responsible_party>
+  </responsible_party>
+  <keyword>Multiple Sclerosis</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Multiple Sclerosis</mesh_term>
+    <mesh_term>Sclerosis</mesh_term>
+  </condition_browse>
+</clinical_study>

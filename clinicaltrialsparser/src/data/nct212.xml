@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="184">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01245335</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CLI-2010-1</org_study_id>
+    <nct_id>NCT01245335</nct_id>
+  </id_info>
+  <brief_title>Bone Marrow Aspirate Concentrate (BMAC) for Treatment of Critical Limb Ischemia (CLI)</brief_title>
+  <official_title>Pivotal Study of the Safety and Effectiveness of Autologous Bone Marrow Aspirate Concentrate (BMAC) for the Treatment of Critical Limb Ischemia Due to Peripheral Arterial Disease</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Harvest Technologies</agency>
+      <agency_class>Industry</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Harvest Technologies</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>No</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Injections of concentrated bone marrow nucleated cells into ischemic tissues will result in
+      vasculogenesis.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      Bone marrow aspirate is collected and processed by centrifugation to remove red blood cells.
+      The buffy coat is concentrated by removing plasma. The resultant concentrate of cells is
+      injected into ischemic tissues of the lower limb.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>May 2011</start_date>
+  <completion_date type="Anticipated">June 2014</completion_date>
+  <primary_completion_date type="Anticipated">January 2013</primary_completion_date>
+  <phase>Phase 3</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Parallel Assignment, Masking:  Double Blind (Subject, Investigator), Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Amputation Free Survival</measure>
+    <time_frame>Six Months</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>Survival without a major (above the ankle) amputation</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Change In Rutherford Classification</measure>
+    <time_frame>Six Months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Change in the subjects clinical status as measured by Rutherford Classification</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Change in Pain</measure>
+    <time_frame>Six Months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Change in Subjects perception of pain as measured on a 100 mm visual analog scale</description>
+  </secondary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">210</enrollment>
+  <condition>Critical Limb Ischemia Due to Peripheral Arterial Occlusive Disease</condition>
+  <arm_group>
+    <arm_group_label>BMAC Treatment</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Injection of 40 ml of autologous bone marrow concentrate (BMAC) prepared with the SmartPReP2 BMAC System</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Placebo Injection</arm_group_label>
+    <arm_group_type>Placebo Comparator</arm_group_type>
+    <description>injection of placebo into ischemic tissue of the lower extremity</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Device</intervention_type>
+    <intervention_name>BMAC injection</intervention_name>
+    <description>Injection of 40 ml of autologous bone marrow aspirate concentrate (BMAC) prepared with the SmartPReP2 BMAC System</description>
+    <arm_group_label>BMAC Treatment</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Device</intervention_type>
+    <intervention_name>Placebo injection</intervention_name>
+    <description>injection of placebo into ischemic tissue of the lower extremity</description>
+    <arm_group_label>Placebo Injection</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+        1. Diagnosis of Critical Limb Ischemia per protocol (see diagnostic criteria #2) with
+        regard to the study limb.
+
+        Existence of a PAOD with clinical presentation corresponding to Rutherford Category 4 or
+        Category 5 as defined in the reporting standards adopted by the Society of Vascular
+        Surgeons (table 1) 2. Patient meets at least one of the following diagnostic criteria in
+        the study limb:
+
+        a. Ankle artery occlusion pressure absolute ≤60 mmHg or ABI ≤0.5 b. Toe artery occlusive
+        pressure &lt; 50mm Hg or TBI ≤0.5 c. TcPO2 ≤30 mmHg on the dorsum of the foot, lying down
+        breathing room air. 3. There is no reasonable open surgical or endovascular
+        revascularization option as determined by the treating vascular specialist.  Factors that
+        may contribute to the determination of inoperability may include:
+
+          1. Anatomical considerations
+
+             1.  No outflow targets 2.  No appropriate conduit (i.e. vein for bypass) 3.  Long
+             segment occlusions or calcified lesions that predict poor outcome with endovascular
+             approaches.
+
+          2. High risk medical conditions
+
+             1. Unstable cardiac disease. 2. Severe Malnutrition
+
+          3. History of prior failed revascularization attempts
+
+          4. The patient's unsuitability must be attested to  by at least 2 qualified physicians;
+
+               1. The attending vascular surgeon will provide the primary assessment.
+
+               2. The confirmatory opinion must come from a fully licensed physician. (not a
+                  resident)
+
+               3. If anatomical considerations are invoked, the second physician may be a vascular
+                  surgeon, interventional radiologist, cardiologist, or vascular medicine
+                  specialist.
+
+               4. If medical co-morbidity is deemed the high risk aspect, then the confirmatory
+                  opinion may be obtained from an internist, family physician, cardiologist,
+                  vascular medicine, nephrologists, or vascular surgeon.
+
+               5. All candidates for this study must be presented for consideration at the
+                  treating institution's Multidisciplinary Vascular Conference, if dissenting
+                  opinions are expressed these opinions are to be noted by the local PI and the
+                  case should then be submitted to the overall multicenter study PI to determine
+                  study eligibility.
+
+             4. Age &gt;18 years and ability to understand the planned treatment 5. Subject has read
+             and signed the IRB approved Informed Consent form 6. Patients for whom the following
+             medication(s) is prescribed must have a one month stable baseline of
+             appropriate/maximally tolerated therapy prior to enrollment:  Plavix/asprin therapy,
+             anticoagulation therapy, cholesterol lowering agent, and or blood pressure
+             medication. If any of these medications are not prescribed notation of the reason for
+             omission is to be provided.
+
+             7. Hematocrit ≥ 28.0%, White Blood Cell count ≤ 14,000, Platelet count ≥ 50,000,
+             Creatinine ≤ 2.5 mg / dL, INR ≤ 1.6 unless on Coumadin, or PTT &lt;1.5 x control (to
+             avoid bleeding complications)  Patients on Coumadin will be corrected prior to the
+             procedure and must have an INR&lt;1.6 at the time of randomization/surgery.
+
+             Exclusion Criteria:
+
+             1. Life expectancy &lt;6 months due to concomitant illnesses 2. History of bone marrow
+             diseases (especially NHL, MDS) that prohibit transplantation 3. Terminal renal
+             failure with existing dependence on dialysis or serum creatinine &gt;2.5 mg/dL 4. Known
+             active malignancy or results outside of normal limits from the following tests: PAP,
+             Chest X-ray, PSA, Mammogram, Hemocult unless follow-up studies reveal patient to be
+             cancer free.
+
+             5 Poorly controlled diabetes mellitus (HgbA1C&gt;10%) 6 Medical risk that precludes
+             anesthesia (conscious sedation), or ASA Class 5 7. Life-threatening complications of
+             the ischemia necessitating immediate amputation 8. Uncorrected iliac artery occlusion
+             on index side 9. No Doppler signal in the foot (ABI =0) 10. Extensive necrosis of the
+             index limb or other conditions that make amputation inevitable (Rutherford Category
+             6).
+
+             11. Active clinical infection or infection being treated by antibiotics within one
+             week of enrollment 12. Treatment with immunosuppressant drugs (including Prednisone &gt;
+             5 mg per day).
+
+             13. Female who is pregnant or nursing, or of child bearing potential and is not using
+             a reliable birth control method.
+
+             14. Underwent a major open cardiovascular surgical procedure (carotid endarterectomy,
+             arterial aneurysm or bypass surgery, or coronary artery bypass surgery) or a
+             myocardial infarction within the 3 months prior to randomization 15. Underwent a
+             successful or partially successful endovascular intervention for peripheral arterial
+             occlusive disease. (ie. Aorta, iliac, femoral, popliteal, or tibial artery
+             angioplasty, stenting, or atherectomy) within the prior 3 months.
+
+             16. Endovascular coronary  intervention (ie. Angioplasty, atherectomy, stenting)
+             within 1 month prior to randomization.
+
+             17. Underwent a failed attempt for endovascular revascularization during the prior 1
+             month. For the purpose of this exclusion criteria an endovascular procedure is
+             considered a failure if: 1) The procedure is diagnostic only with no intervention
+             performed, (for example in the case where wire crossing can not be obtained). 2) The
+             treated artery recoils, thromboses, or dissects resulting in occlusion of the treated
+             arterial segment, documented by intraoperative imaging.   Note that endovascular
+             procedures with suboptimal results but not meeting criteria 1 or 2 above may qualify
+             for inclusion after 3 months as in #15 above.
+
+             18.  Cerebrovascular accident within 6 months prior to randomization. 19. Treatment
+             with topical growth factors or hyperbaric oxygen (HBO) within 30 days, or systemic
+             growth factor treatment within 6 months of enrollment.
+
+             -
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Mark Iafrati, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Tufts Medical Ctr</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>John Bonasera</last_name>
+    <phone>508-732-7500</phone>
+    <phone_ext>230</phone_ext>
+    <email>jbonasera@harvesttech.com</email>
+  </overall_contact>
+  <overall_contact_backup>
+    <last_name>Jeffrey Lindquist</last_name>
+    <phone>508-732-7500</phone>
+    <phone_ext>219</phone_ext>
+    <email>jlindquist@harvesttech.com</email>
+  </overall_contact_backup>
+  <location>
+    <facility>
+      <name>Tufts Medical Center</name>
+      <address>
+        <city>Boston</city>
+        <state>Massachusetts</state>
+        <zip>02111</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Ann Marie Melanson, RN</last_name>
+      <phone>617-636-0730</phone>
+      <email>amelanson@tufts-nemc.org</email>
+    </contact>
+    <investigator>
+      <last_name>Noah Rosen, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>Roper St Francis Medical Center</name>
+      <address>
+        <city>Charleston</city>
+        <state>South Carolina</state>
+        <zip>29401</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Lorri Bennett, RN</last_name>
+      <phone>843-720-8380</phone>
+      <email>Lorri.Bennett@RSFH.com</email>
+    </contact>
+    <investigator>
+      <last_name>John Hallett, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>Baylor Medical Ctr</name>
+      <address>
+        <city>Dallas</city>
+        <state>Texas</state>
+        <zip>75226</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Pamela Coker</last_name>
+      <phone>214-820-2273</phone>
+      <email>pamelaco@baylorhealth.edu</email>
+    </contact>
+    <investigator>
+      <last_name>Gregory Pearl, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>July 2011</verification_date>
+  <lastchanged_date>July 8, 2011</lastchanged_date>
+  <firstreceived_date>November 18, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>John Bonasera, Director of Regulatory and Clinical Affairs</name_title>
+    <organization>Harvest Technologies</organization>
+  </responsible_party>
+  <keyword>CLI</keyword>
+  <keyword>Critical Limb Ischemia</keyword>
+  <keyword>PAOD</keyword>
+  <keyword>Stem Cells</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Arterial Occlusive Diseases</mesh_term>
+    <mesh_term>Ischemia</mesh_term>
+    <mesh_term>Peripheral Arterial Disease</mesh_term>
+    <mesh_term>Peripheral Vascular Diseases</mesh_term>
+  </condition_browse>
+</clinical_study>

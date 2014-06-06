@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="8">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01251575</url>
+  </required_header>
+  <id_info>
+    <org_study_id>2206.00</org_study_id>
+    <secondary_id>NCI-2010-02222</secondary_id>
+    <secondary_id>P01CA018029</secondary_id>
+    <nct_id>NCT01251575</nct_id>
+  </id_info>
+  <brief_title>Sirolimus, Cyclosporine, and Mycophenolate Mofetil In Preventing Graft-Versus-Host Disease in Treating Patients With Hematologic Malignancies Undergoing Donor Peripheral Blood Stem Cell Transplant</brief_title>
+  <official_title>A Phase II Study to Assess Immunosuppression With Sirolimus Combined With Cyclosporine (CSP) and Mycophenolate Mofetil (MMF) for Prevention of Acute GVHD After Non-myeloablative HLA Class I or II Mismatched Donor Hematopoietic Cell Transplantation- A Multi-Center Trial</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Fred Hutchinson Cancer Research Center</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>National Cancer Institute (NCI)</agency>
+      <agency_class>NIH</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Fred Hutchinson Cancer Research Center</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      This phase II trial studies how well giving sirolimus together with cyclosporine and
+      mycophenolate mofetil works in preventing graft-vs-host disease (GVHD) in patients with
+      hematologic malignancies undergoing donor peripheral blood stem cell (PBSC) transplant.
+      Giving chemotherapy and total-body irradiation before a donor peripheral blood stem cell
+      transplant helps stop the growth of cancer cells. It may also stop the patient's immune
+      system from rejecting the donor's stem cells. When the healthy stem cells from a donor are
+      infused into the patient they may help the patient's bone marrow make stem cells, red blood
+      cells, white blood cells, and platelets. Sometimes the transplanted cells from a donor can
+      make an immune response against the body's normal cells. Giving total-body irradiation
+      together with sirolimus, cyclosporine, and mycophenolate mofetil before and after transplant
+      may stop this from happening
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      PRIMARY OBJECTIVES:
+
+      I. To determine whether the incidence of acute GVHD grades II-IV can be reduced to less than
+      50% with the triple-immunosuppressant combination of cyclosporine (CSP)/mycophenolate
+      mofetil (MMF) with sirolimus in human leukocyte antigens (HLA) class I or class II
+      mismatched related or unrelated donor hematopoietic cell transplantation (HCT) using
+      nonmyeloablative conditioning.
+
+      SECONDARY OBJECTIVES:
+
+      I. To evaluate the incidence of non-relapse mortality before day 100. II. To evaluate the
+      incidences of grades III-IV acute GVHD.
+
+      OUTLINE:
+
+      CONDITIONING: Patients receive fludarabine phosphate intravenously (IV) over 30 minutes on
+      days -4 to -2. Patients also undergo total-body irradiation on day 0.
+
+      TRANSPLANTATION: Patients undergo allogeneic peripheral blood stem cell transplantation.
+
+      IMMUNOSUPPRESSION: Patients receive sirolimus orally (PO) once daily (QD) on days -3 to 180
+      with taper to day 365; cyclosporine PO twice daily (BID) on days -3 to 150 with taper to day
+      180; and mycophenolate mofetil PO thrice daily (TID) on days 0-30 and then BID to day 100
+      with taper to day 150.
+
+      After completion of study treatment, patients are followed up periodically for 5 years.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>December 2010</start_date>
+  <primary_completion_date type="Anticipated">November 2015</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Endpoint Classification:  Efficacy Study, Intervention Model:  Single Group Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Rate of grade II-IV acute GVHD</measure>
+    <time_frame>By day 100</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Rate of grade III-IV acute GVHD</measure>
+    <time_frame>By day 100</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Rate of non-relapse mortality (NRM)</measure>
+    <time_frame>Before day 100</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">35</enrollment>
+  <condition>Accelerated Phase Chronic Myelogenous Leukemia</condition>
+  <condition>Acute Myeloid Leukemia With Multilineage Dysplasia Following Myelodysplastic Syndrome</condition>
+  <condition>Acute Myeloid Leukemia/Transient Myeloproliferative Disorder</condition>
+  <condition>Adult Acute Lymphoblastic Leukemia in Remission</condition>
+  <condition>Adult Acute Myeloid Leukemia in Remission</condition>
+  <condition>Adult Acute Myeloid Leukemia With 11q23 (MLL) Abnormalities</condition>
+  <condition>Adult Acute Myeloid Leukemia With Del(5q)</condition>
+  <condition>Adult Acute Myeloid Leukemia With Inv(16)(p13;q22)</condition>
+  <condition>Adult Acute Myeloid Leukemia With t(15;17)(q22;q12)</condition>
+  <condition>Adult Acute Myeloid Leukemia With t(16;16)(p13;q22)</condition>
+  <condition>Adult Acute Myeloid Leukemia With t(8;21)(q22;q22)</condition>
+  <condition>Adult Grade III Lymphomatoid Granulomatosis</condition>
+  <condition>Adult Nasal Type Extranodal NK/T-cell Lymphoma</condition>
+  <condition>Anaplastic Large Cell Lymphoma</condition>
+  <condition>Angioimmunoblastic T-cell Lymphoma</condition>
+  <condition>Atypical Chronic Myeloid Leukemia, BCR-ABL1 Negative</condition>
+  <condition>Blastic Phase Chronic Myelogenous Leukemia</condition>
+  <condition>Burkitt Lymphoma</condition>
+  <condition>Childhood Acute Lymphoblastic Leukemia in Remission</condition>
+  <condition>Childhood Acute Myeloid Leukemia in Remission</condition>
+  <condition>Childhood Chronic Myelogenous Leukemia</condition>
+  <condition>Childhood Diffuse Large Cell Lymphoma</condition>
+  <condition>Childhood Grade III Lymphomatoid Granulomatosis</condition>
+  <condition>Childhood Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Childhood Myelodysplastic Syndromes</condition>
+  <condition>Childhood Nasal Type Extranodal NK/T-cell Lymphoma</condition>
+  <condition>Chronic Phase Chronic Myelogenous Leukemia</condition>
+  <condition>Contiguous Stage II Adult Burkitt Lymphoma</condition>
+  <condition>Contiguous Stage II Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Contiguous Stage II Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Contiguous Stage II Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Contiguous Stage II Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Contiguous Stage II Adult Lymphoblastic Lymphoma</condition>
+  <condition>Contiguous Stage II Grade 1 Follicular Lymphoma</condition>
+  <condition>Contiguous Stage II Grade 2 Follicular Lymphoma</condition>
+  <condition>Contiguous Stage II Grade 3 Follicular Lymphoma</condition>
+  <condition>Contiguous Stage II Mantle Cell Lymphoma</condition>
+  <condition>Contiguous Stage II Marginal Zone Lymphoma</condition>
+  <condition>Contiguous Stage II Small Lymphocytic Lymphoma</condition>
+  <condition>Cutaneous B-cell Non-Hodgkin Lymphoma</condition>
+  <condition>de Novo Myelodysplastic Syndromes</condition>
+  <condition>Extranodal Marginal Zone B-cell Lymphoma of Mucosa-associated Lymphoid Tissue</condition>
+  <condition>Hepatosplenic T-cell Lymphoma</condition>
+  <condition>Intraocular Lymphoma</condition>
+  <condition>Myelodysplastic/Myeloproliferative Neoplasm, Unclassifiable</condition>
+  <condition>Nodal Marginal Zone B-cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Burkitt Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Adult Lymphoblastic Lymphoma</condition>
+  <condition>Noncontiguous Stage II Grade 1 Follicular Lymphoma</condition>
+  <condition>Noncontiguous Stage II Grade 2 Follicular Lymphoma</condition>
+  <condition>Noncontiguous Stage II Grade 3 Follicular Lymphoma</condition>
+  <condition>Noncontiguous Stage II Mantle Cell Lymphoma</condition>
+  <condition>Noncontiguous Stage II Marginal Zone Lymphoma</condition>
+  <condition>Noncontiguous Stage II Small Lymphocytic Lymphoma</condition>
+  <condition>Noncutaneous Extranodal Lymphoma</condition>
+  <condition>Peripheral T-cell Lymphoma</condition>
+  <condition>Post-transplant Lymphoproliferative Disorder</condition>
+  <condition>Previously Treated Myelodysplastic Syndromes</condition>
+  <condition>Recurrent Adult Acute Lymphoblastic Leukemia</condition>
+  <condition>Recurrent Adult Acute Myeloid Leukemia</condition>
+  <condition>Recurrent Adult Burkitt Lymphoma</condition>
+  <condition>Recurrent Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Recurrent Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Recurrent Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Recurrent Adult Grade III Lymphomatoid Granulomatosis</condition>
+  <condition>Recurrent Adult Hodgkin Lymphoma</condition>
+  <condition>Recurrent Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Recurrent Adult Lymphoblastic Lymphoma</condition>
+  <condition>Recurrent Childhood Acute Lymphoblastic Leukemia</condition>
+  <condition>Recurrent Childhood Acute Myeloid Leukemia</condition>
+  <condition>Recurrent Childhood Anaplastic Large Cell Lymphoma</condition>
+  <condition>Recurrent Childhood Grade III Lymphomatoid Granulomatosis</condition>
+  <condition>Recurrent Childhood Large Cell Lymphoma</condition>
+  <condition>Recurrent Childhood Lymphoblastic Lymphoma</condition>
+  <condition>Recurrent Childhood Small Noncleaved Cell Lymphoma</condition>
+  <condition>Recurrent Cutaneous T-cell Non-Hodgkin Lymphoma</condition>
+  <condition>Recurrent Grade 1 Follicular Lymphoma</condition>
+  <condition>Recurrent Grade 2 Follicular Lymphoma</condition>
+  <condition>Recurrent Grade 3 Follicular Lymphoma</condition>
+  <condition>Recurrent Mantle Cell Lymphoma</condition>
+  <condition>Recurrent Marginal Zone Lymphoma</condition>
+  <condition>Recurrent Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Recurrent Small Lymphocytic Lymphoma</condition>
+  <condition>Recurrent/Refractory Childhood Hodgkin Lymphoma</condition>
+  <condition>Refractory Chronic Lymphocytic Leukemia</condition>
+  <condition>Refractory Multiple Myeloma</condition>
+  <condition>Relapsing Chronic Myelogenous Leukemia</condition>
+  <condition>Secondary Acute Myeloid Leukemia</condition>
+  <condition>Secondary Myelodysplastic Syndromes</condition>
+  <condition>Small Intestine Lymphoma</condition>
+  <condition>Splenic Marginal Zone Lymphoma</condition>
+  <condition>Stage I Adult Burkitt Lymphoma</condition>
+  <condition>Stage I Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Stage I Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Stage I Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Stage I Adult Hodgkin Lymphoma</condition>
+  <condition>Stage I Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Stage I Adult Lymphoblastic Lymphoma</condition>
+  <condition>Stage I Childhood Anaplastic Large Cell Lymphoma</condition>
+  <condition>Stage I Childhood Hodgkin Lymphoma</condition>
+  <condition>Stage I Childhood Large Cell Lymphoma</condition>
+  <condition>Stage I Childhood Lymphoblastic Lymphoma</condition>
+  <condition>Stage I Childhood Small Noncleaved Cell Lymphoma</condition>
+  <condition>Stage I Chronic Lymphocytic Leukemia</condition>
+  <condition>Stage I Cutaneous T-cell Non-Hodgkin Lymphoma</condition>
+  <condition>Stage I Grade 1 Follicular Lymphoma</condition>
+  <condition>Stage I Grade 2 Follicular Lymphoma</condition>
+  <condition>Stage I Grade 3 Follicular Lymphoma</condition>
+  <condition>Stage I Mantle Cell Lymphoma</condition>
+  <condition>Stage I Marginal Zone Lymphoma</condition>
+  <condition>Stage I Multiple Myeloma</condition>
+  <condition>Stage I Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Stage I Small Lymphocytic Lymphoma</condition>
+  <condition>Stage II Adult Hodgkin Lymphoma</condition>
+  <condition>Stage II Childhood Anaplastic Large Cell Lymphoma</condition>
+  <condition>Stage II Childhood Hodgkin Lymphoma</condition>
+  <condition>Stage II Childhood Large Cell Lymphoma</condition>
+  <condition>Stage II Childhood Lymphoblastic Lymphoma</condition>
+  <condition>Stage II Childhood Small Noncleaved Cell Lymphoma</condition>
+  <condition>Stage II Chronic Lymphocytic Leukemia</condition>
+  <condition>Stage II Cutaneous T-cell Non-Hodgkin Lymphoma</condition>
+  <condition>Stage II Multiple Myeloma</condition>
+  <condition>Stage II Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Stage III Adult Burkitt Lymphoma</condition>
+  <condition>Stage III Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Stage III Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Stage III Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Stage III Adult Hodgkin Lymphoma</condition>
+  <condition>Stage III Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Stage III Adult Lymphoblastic Lymphoma</condition>
+  <condition>Stage III Childhood Anaplastic Large Cell Lymphoma</condition>
+  <condition>Stage III Childhood Hodgkin Lymphoma</condition>
+  <condition>Stage III Childhood Large Cell Lymphoma</condition>
+  <condition>Stage III Childhood Lymphoblastic Lymphoma</condition>
+  <condition>Stage III Childhood Small Noncleaved Cell Lymphoma</condition>
+  <condition>Stage III Chronic Lymphocytic Leukemia</condition>
+  <condition>Stage III Cutaneous T-cell Non-Hodgkin Lymphoma</condition>
+  <condition>Stage III Grade 1 Follicular Lymphoma</condition>
+  <condition>Stage III Grade 2 Follicular Lymphoma</condition>
+  <condition>Stage III Grade 3 Follicular Lymphoma</condition>
+  <condition>Stage III Mantle Cell Lymphoma</condition>
+  <condition>Stage III Marginal Zone Lymphoma</condition>
+  <condition>Stage III Multiple Myeloma</condition>
+  <condition>Stage III Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Stage III Small Lymphocytic Lymphoma</condition>
+  <condition>Stage IV Adult Burkitt Lymphoma</condition>
+  <condition>Stage IV Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Stage IV Adult Diffuse Mixed Cell Lymphoma</condition>
+  <condition>Stage IV Adult Diffuse Small Cleaved Cell Lymphoma</condition>
+  <condition>Stage IV Adult Hodgkin Lymphoma</condition>
+  <condition>Stage IV Adult Immunoblastic Large Cell Lymphoma</condition>
+  <condition>Stage IV Adult Lymphoblastic Lymphoma</condition>
+  <condition>Stage IV Childhood Anaplastic Large Cell Lymphoma</condition>
+  <condition>Stage IV Childhood Hodgkin Lymphoma</condition>
+  <condition>Stage IV Childhood Large Cell Lymphoma</condition>
+  <condition>Stage IV Childhood Lymphoblastic Lymphoma</condition>
+  <condition>Stage IV Childhood Small Noncleaved Cell Lymphoma</condition>
+  <condition>Stage IV Chronic Lymphocytic Leukemia</condition>
+  <condition>Stage IV Cutaneous T-cell Non-Hodgkin Lymphoma</condition>
+  <condition>Stage IV Grade 1 Follicular Lymphoma</condition>
+  <condition>Stage IV Grade 2 Follicular Lymphoma</condition>
+  <condition>Stage IV Grade 3 Follicular Lymphoma</condition>
+  <condition>Stage IV Mantle Cell Lymphoma</condition>
+  <condition>Stage IV Marginal Zone Lymphoma</condition>
+  <condition>Stage IV Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Stage IV Small Lymphocytic Lymphoma</condition>
+  <condition>Testicular Lymphoma</condition>
+  <condition>Waldenstrom Macroglobulinemia</condition>
+  <arm_group>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>CONDITIONING: Patients receive fludarabine phosphate IV over 30 minutes on days -4 to -2. Patients also undergo total-body irradiation on day 0.
+TRANSPLANTATION: Patients undergo allogeneic peripheral blood stem cell transplantation.
+IMMUNOSUPPRESSION: Patients receive sirolimus PO QD on days -3 to 180 with taper to day 365; cyclosporine PO BID on days -3 to 150 with taper to day 180; and mycophenolate mofetil PO TID on days 0-30 and then BID to day 100 with taper to day 150.</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>sirolimus</intervention_name>
+    <description>Given PO</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>AY 22989</other_name>
+    <other_name>Rapamune</other_name>
+    <other_name>rapamycin</other_name>
+    <other_name>SLM</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>cyclosporine</intervention_name>
+    <description>Given PO or IV</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>ciclosporin</other_name>
+    <other_name>cyclosporin</other_name>
+    <other_name>cyclosporin A</other_name>
+    <other_name>CYSP</other_name>
+    <other_name>Sandimmune</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>mycophenolate mofetil</intervention_name>
+    <description>Given PO</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>Cellcept</other_name>
+    <other_name>MMF</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>fludarabine phosphate</intervention_name>
+    <description>Given IV</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>2-F-ara-AMP</other_name>
+    <other_name>Beneflur</other_name>
+    <other_name>Fludara</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Radiation</intervention_type>
+    <intervention_name>total-body irradiation</intervention_name>
+    <description>Undergo total-body irradiation</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>TBI</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>peripheral blood stem cell transplantation</intervention_name>
+    <description>Undergo allogeneic peripheral blood stem cell transplant</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>PBPC transplantation</other_name>
+    <other_name>PBSC transplantation</other_name>
+    <other_name>peripheral blood progenitor cell transplantation</other_name>
+    <other_name>transplantation, peripheral blood stem cell</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>laboratory biomarker analysis</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Genetic</intervention_type>
+    <intervention_name>polymerase chain reaction</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+    <other_name>PCR</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>allogeneic hematopoietic stem cell transplantation</intervention_name>
+    <description>Undergo allogeneic peripheral blood stem cell transplant</description>
+    <arm_group_label>Treatment (immunosuppression for prevention of acute GVHD)</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Ages &gt; 50 years with hematologic malignancies treatable by related or unrelated HCT
+
+          -  Ages =&lt; 50 years of age with hematologic diseases treatable by allogeneic HCT who
+             through pre-existing medical conditions or prior therapy are considered to be at high
+             risk for regimen related toxicity associated with a high dose transplant (&gt; 40% risk
+             of transplant-related mortality [TRM]); this criterion can include patients with a
+             HCT-comorbidity index (CI) score of &gt;= 1; transplants should be approved for these
+             inclusion criteria by both the participating institutions' patient review committees
+             such as the Patient Care Conference (PCC) at the Fred Hutchinson Cancer Research
+             Center (FHCRC) and by the principal investigators at the collaborating centers;
+             patients =&lt; 50 years of age who have received previous high-dose transplantation do
+             not require patient review committee approvals; all children &lt; 12 years must be
+             discussed with the FHCRC Principal Investigator (PI) (Brenda Sandmaier, MD 206 667
+             4961) prior to registration
+
+          -  Ages =&lt; 50 years of age with chronic lymphocytic leukemia (CLL) (these patients do
+             not require patient review committee approvals)
+
+          -  Ages =&lt; 50 years of age with hematologic diseases treatable by allogeneic HCT who
+             refuse a high-dose HCT; transplants must be approved for these inclusion criteria by
+             both the participating institutions' patient review committee such as PCC at the
+             FHCRC and by the principal investigators at the collaborating centers
+
+          -  Aggressive non-Hodgkin lymphomas (NHL) and other histologies such as diffuse large B
+             cell NHL: not eligible for autologous HCT, not eligible for high-dose allogeneic HCT,
+             or after failed autologous HCT
+
+          -  Mantle Cell NHL: may be treated in first complete remission (CR); (diagnostic LP
+             required pre-transplant)
+
+          -  Low grade NHL: with &lt; 6 month duration of CR between courses of conventional therapy
+
+          -  CLL: must have either 1) failed to meet National Cancer Institute (NCI) Working Group
+             criteria for complete or partial response after therapy with a regimen containing FLU
+             (or another nucleoside analog, e.g. 2-CDA, pentostatin) or experience disease relapse
+             within 12 months after completing therapy with a regimen containing fludarabine (FLU)
+             (or another nucleoside analog); 2) failed FLU-cyclophosphamide (CY)-Rituximab (FCR)
+             combination chemotherapy at any time point; or 3) have &quot;17p deletion&quot; cytogenetic
+             abnormality; patients should have received induction chemotherapy but could be
+             transplanted in 1st CR; 4) patients with a diagnosis of CLL (or small lymphocytic
+             lymphoma) that progresses to prolymphocytic leukemia (PLL); or 5) patients with
+             T-cell CLL or PLL
+
+          -  Hodgkin Lymphoma: must have received and failed frontline therapy
+
+          -  Multiple Myeloma: must have received prior chemotherapy; consolidation of
+             chemotherapy by autografting prior to nonmyeloablative HCT is permitted
+
+          -  Acute Myeloid Leukemia (AML): must have &lt; 5% marrow blasts at the time of transplant
+
+          -  Acute Lymphocytic Leukemia (ALL): must have &lt; 5% marrow blasts at the time of
+             transplant
+
+          -  Chronic Myeloid Leukemia (CML): patients will be accepted if they are beyond first
+             chronic phase (CP1) and if they have received previous myelosuppressive chemotherapy
+             or HCT, and have &lt; 5% marrow blasts at time of transplant
+
+          -  Myelodysplasia(MDS)/Myeloproliferative Syndrome (MPS): Patients must have &lt; 5% marrow
+             blasts at time of transplant
+
+          -  Waldenstrom's Macroglobulinemia: must have failed 2 courses of therapy
+
+          -  Patients with related or unrelated donors for whom the best available donor is: a)
+             Mismatched at antigen level for any single class I locus (HLA-A, -B, -C) +/- an
+             additional class I mismatch at the allele level OR mismatched at the allele level for
+             any 2 class I loci (if typed at the molecular level) OR mismatched at the antigen or
+             allele level for any single class II locus (HLA-DRB1 or - DQB1); b) there is a
+             likelihood of rapid disease progression while HLA typing and results of a preliminary
+             search and the donor pool suggests that a 10/10 HLA-A, B, C, DRB1 and DQB1 matched
+             donor will not be found; c) there is no HLA-A, -B or -C one locus allelic mismatched
+             donor available
+
+          -  DONOR: Related or unrelated volunteer donors who are mismatched with the recipient
+             within one of the following limitations: a) mismatch for one HLA class I antigen with
+             or without an additional mismatch for one HLA-class I allele, but matched for
+             HLA-DRB1 and HLA-DQ, OR
+
+          -  DONOR: b) mismatched for two HLA class I alleles, but matched for HLA-DRB1 and
+             HLA-DQ, OR
+
+          -  DONOR: c) mismatched for one HLA-DRB1 antigen or allele with or without an additional
+             mismatch for one HLA-DQ, but matched for HLA-class I alleles
+
+          -  DONOR: HLA-matching must be based on results of high resolution typing at HLA-A, -B,
+             -C, -DRB1, and -DQB
+
+          -  DONOR: Two mismatches at a single HLA- locus is not allowed
+
+          -  DONOR: Donors are excluded when preexisting immunoreactivity is identified that would
+             jeopardize donor hematopoietic cell engraftment; this determination is based on the
+             standard practice of the individual institution; the donor should be excluded if any
+             of the flow cytometric B and T cell cytotoxic cross match assays are positive
+
+          -  DONOR: Only G-CSF mobilized PBSC only will be permitted as a hematopoietic stem cell
+             (HSC) source on this protocol
+
+        Exclusion Criteria:
+
+          -  Patients who are homozygous at the mismatched major histocompatibility complex (MHC)
+             class I locus or II locus
+
+          -  Patients for whom the best available donor is mismatched at both HLA class I and
+             class II
+
+          -  A positive cross-match exists between the donor and recipient
+
+          -  Patients with rapidly progressive intermediate or high grade NHL
+
+          -  Patients with a diagnosis of chronic myelomonocytic leukemia (CMML)
+
+          -  Patients with refractory anemia with excess blasts (RAEB) who have not received
+             myelosuppressive chemotherapy i.e. induction chemotherapy
+
+          -  Presence of circulating leukemic blasts (in the peripheral blood) detected by
+             standard pathology for patients with AML, MDS, ALL or CML
+
+          -  Central nervous system (CNS) involvement with disease refractory to intrathecal
+             chemotherapy
+
+          -  Fertile men or women unwilling to use contraceptives during and for up to 12 months
+             following treatment
+
+          -  Female patients who are pregnant or breast-feeding
+
+          -  Human immunodeficiency virus (HIV) positive patients
+
+          -  Patients with active non-hematologic malignancies (except non-melanoma skin cancers)
+             or those with non-hematologic malignancies (except non-melanoma skin cancers) who
+             have been rendered with no evidence of disease, but have a greater than 20% chance of
+             having disease recurrence within 5 years
+
+          -  Fungal infections with radiological progression after receipt of amphotericin B or
+             active triazole for greater than 1 month
+
+          -  Patients with active bacterial or fungal infections unresponsive to medical therapy
+
+          -  Cardiac ejection fraction &lt; 35%; ejection fraction is required if the patient is &gt; 50
+             years of age, or history of cardiac disease or anthracycline exposure
+
+          -  Corrected diffusion capacity of carbon monoxide (DLCO) &lt; 40%, total lung capacity
+             (TLC) &lt; 40%, forced expiratory volume in one second (FEV1) &lt; 40% and/or receiving
+             supplementary continuous oxygen
+
+          -  The FHCRC PI of the study must approve of enrollment of all patients with pulmonary
+             nodules
+
+          -  Patients with clinical or laboratory evidence of liver disease would be evaluated for
+             the cause of liver disease, its clinical severity in terms of liver function, and the
+             degree of portal hypertension; patients will be excluded if they are found to have
+             fulminant liver failure, cirrhosis of the liver with evidence of portal hypertension,
+             alcoholic hepatitis, esophageal varices, a history of bleeding esophageal varices,
+             hepatic encephalopathy, uncorrectable hepatic synthetic dysfunction evinced by
+             prolongation of the prothrombin time, ascites related to portal hypertension,
+             bridging fibrosis, bacterial or fungal liver abscess, biliary obstruction, chronic
+             viral hepatitis with total serum bilirubin &gt; 3 mg/dL, or symptomatic biliary disease
+
+          -  Patients with poorly controlled hypertension on multiple antihypertensives
+
+          -  Karnofsky scores &lt; 60 or Lansky Score &lt; 50
+
+          -  All patients receiving antifungal therapy voriconazole, posaconazole, or fluconazole
+             must have sirolimus reduced according to the Standard Practice Antifungal Therapy
+             Guidelines
+
+          -  The addition of cytotoxic agents for &quot;cytoreduction&quot; with the exception of tyrosine
+             kinase inhibitors (such as imatinib), cytokine therapy, hydroxyurea, low dose
+             cytarabine, chlorambucil, or rituxan will not be allowed within three weeks of the
+             initiation of conditioning
+
+          -  DONOR: Donor (or centers) who will exclusively donate marrow
+
+          -  DONOR: Donors who are HIV-positive and/or, medical conditions that would result in
+             increased risk for G-CSF mobilization and harvest of PBSC
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>N/A</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Brenda Sandmaier</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Fred Hutchinson Cancer Research Center</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>University of Utah</name>
+      <address>
+        <city>Salt Lake City</city>
+        <state>Utah</state>
+        <zip>84112</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Michael A. Pulsipher</last_name>
+      <phone>801-581-2121</phone>
+    </contact>
+    <investigator>
+      <last_name>Michael A. Pulsipher</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>Fred Hutchinson Cancer Research Center/University of Washington Cancer Consortium</name>
+      <address>
+        <city>Seattle</city>
+        <state>Washington</state>
+        <zip>98109</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Seattle Cancer Care Alliance</last_name>
+      <phone>800-804-8824</phone>
+    </contact>
+    <investigator>
+      <last_name>Brenda M. Sandmaier</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>September 2011</verification_date>
+  <lastchanged_date>September 27, 2011</lastchanged_date>
+  <firstreceived_date>November 29, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Sandmaier, Brenda</name_title>
+    <organization>Fred Hutchinson Cancer Research Center/University of Washington Cancer Consortium</organization>
+  </responsible_party>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>No</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Congenital Abnormalities</mesh_term>
+    <mesh_term>Blast Crisis</mesh_term>
+    <mesh_term>Burkitt Lymphoma</mesh_term>
+    <mesh_term>Neoplasms</mesh_term>
+    <mesh_term>Graft vs Host Disease</mesh_term>
+    <mesh_term>Hodgkin Disease</mesh_term>
+    <mesh_term>Immunoblastic Lymphadenopathy</mesh_term>
+    <mesh_term>Leukemia</mesh_term>
+    <mesh_term>Leukemia, Lymphocytic, Chronic, B-Cell</mesh_term>
+    <mesh_term>Leukemia, Lymphoid</mesh_term>
+    <mesh_term>Precursor Cell Lymphoblastic Leukemia-Lymphoma</mesh_term>
+    <mesh_term>Leukemia, Myeloid, Acute</mesh_term>
+    <mesh_term>Leukemia, Myeloid</mesh_term>
+    <mesh_term>Leukemia, Myeloid, Accelerated Phase</mesh_term>
+    <mesh_term>Leukemia, Myelogenous, Chronic, BCR-ABL Positive</mesh_term>
+    <mesh_term>Leukemia, Myeloid, Chronic-Phase</mesh_term>
+    <mesh_term>Lymphoma</mesh_term>
+    <mesh_term>Lymphoma, Follicular</mesh_term>
+    <mesh_term>Lymphoma, Large B-Cell, Diffuse</mesh_term>
+    <mesh_term>Lymphoma, Non-Hodgkin</mesh_term>
+    <mesh_term>Lymphomatoid Granulomatosis</mesh_term>
+    <mesh_term>Lymphoproliferative Disorders</mesh_term>
+    <mesh_term>Waldenstrom Macroglobulinemia</mesh_term>
+    <mesh_term>Multiple Myeloma</mesh_term>
+    <mesh_term>Neoplasms, Plasma Cell</mesh_term>
+    <mesh_term>Mycoses</mesh_term>
+    <mesh_term>Mycosis Fungoides</mesh_term>
+    <mesh_term>Myelodysplastic Syndromes</mesh_term>
+    <mesh_term>Preleukemia</mesh_term>
+    <mesh_term>Myeloproliferative Disorders</mesh_term>
+    <mesh_term>Sezary Syndrome</mesh_term>
+    <mesh_term>Lymphoma, B-Cell</mesh_term>
+    <mesh_term>Lymphoma, Large-Cell, Immunoblastic</mesh_term>
+    <mesh_term>Lymphoma, T-Cell</mesh_term>
+    <mesh_term>Lymphoma, T-Cell, Cutaneous</mesh_term>
+    <mesh_term>Lymphoma, T-Cell, Peripheral</mesh_term>
+    <mesh_term>Lymphoma, Large-Cell, Anaplastic</mesh_term>
+    <mesh_term>Lymphoma, B-Cell, Marginal Zone</mesh_term>
+    <mesh_term>Lymphoma, Extranodal NK-T-Cell</mesh_term>
+    <mesh_term>Lymphoma, Mantle-Cell</mesh_term>
+    <mesh_term>Leukemia, Myeloid, Chronic, Atypical, BCR-ABL Negative</mesh_term>
+    <mesh_term>Myelodysplastic-Myeloproliferative Diseases</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Cyclosporine</mesh_term>
+    <mesh_term>Sirolimus</mesh_term>
+    <mesh_term>Cyclosporins</mesh_term>
+    <mesh_term>Mycophenolic Acid</mesh_term>
+    <mesh_term>Fludarabine monophosphate</mesh_term>
+    <mesh_term>Everolimus</mesh_term>
+    <mesh_term>Mycophenolate mofetil</mesh_term>
+    <mesh_term>Vidarabine</mesh_term>
+    <mesh_term>Fludarabine</mesh_term>
+  </intervention_browse>
+</clinical_study>

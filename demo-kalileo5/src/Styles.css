@@ -1,0 +1,163 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+@namespace panel "fr.kapit.lab.demo.panel.*";
+@namespace component "fr.kapit.lab.demo.panel.component.*";
+@namespace buttons "fr.kapit.lab.demo.buttons.*";
+@namespace toolbar "fr.kapit.lab.demo.menubar.components.*";
+@namespace popup "fr.kapit.lab.demo.popup.*";
+@namespace forms "fr.kapit.lab.demo.forms.*";
+@namespace info "fr.kapit.lab.demo.info.*";
+
+@font-face
+{
+	src:					url("fr/kapit/datavisualization/assets/fonts/calibri.ttf");
+	font-family:			EmbeddedFont;
+	font-style:				normal;
+	font-weight:			normal;
+	embed-as-cff:			true;
+	advanced-anti-aliasing:	true;
+	unicode-range:			"U+0000-U+00FF,U+20AC-U+20AC";
+}
+@font-face
+{
+	src:					url("fr/kapit/datavisualization/assets/fonts/calibrib.ttf");
+	font-family:			EmbeddedFont;
+	font-style:				normal;
+	font-weight:			bold;
+	embed-as-cff:			true;
+	advanced-anti-aliasing:	true;
+	unicode-range:			"U+0000-U+00FF,U+20AC-U+20AC";
+}
+@font-face
+{
+	src:					url("fr/kapit/datavisualization/assets/fonts/calibrii.ttf");
+	font-family:			EmbeddedFont;
+	font-style:				italic;
+	font-weight:			normal;
+	embed-as-cff:			true;
+	advanced-anti-aliasing:	true;
+	unicode-range:			"U+0000-U+00FF,U+20AC-U+20AC";
+}
+@font-face
+{
+	src:					url("fr/kapit/datavisualization/assets/fonts/calibriz.ttf");
+	font-family:			EmbeddedFont;
+	font-style:				italic;
+	font-weight:			bold;
+	embed-as-cff:			true;
+	advanced-anti-aliasing:	true;
+	unicode-range:			"U+0000-U+00FF,U+20AC-U+20AC";
+}
+
+global
+{
+	font-family:			EmbeddedFont;
+	color:					#383836;
+}
+
+mx|ToolTip
+{
+	font-family:			EmbeddedFont;
+	text-field-class:		ClassReference("mx.core.UIFTETextField");
+}
+
+s|Button
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.buttons.skin.ButtonSkin");
+}
+
+s|CheckBox
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.forms.CheckBoxSkin");
+}
+
+s|NumericStepper
+{
+	font-size:				10;
+}
+
+component|KapHeaderPanelButtonBar
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.panel.skin.ButtonBarSkin");
+}
+
+component|KapPanel
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.panel.skin.KapPanelSkin");
+}
+
+component|KapPanelHeader
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.panel.skin.KapPanelHeaderSkin");
+}
+
+component|KapPanelContent
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.panel.skin.KapPanelContentSkin");
+}
+
+panel|KapColumnPanel
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.panel.skin.KapColumnPanelSkin");
+}
+
+buttons|IconButton
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.buttons.skin.CustomIconButtonSkin");
+}
+
+toolbar|ToolBar
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.menubar.skins.ToolBarSkin");
+}
+
+popup|TextualPopup
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.popup.skin.TextualPopupSkin");
+}
+
+popup|ErrorPopup
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.popup.skin.ErrorPopupSkin");
+}
+
+popup|ErrorPopupWithOption
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.popup.skin.ErrorPopupWithOptionSkin");
+}
+
+popup|ConfirmPopup
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.popup.skin.ConfirmPopupSkin");
+}
+
+
+popup|ErrorPopup s|TextArea
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.popup.skin.TextFloatSkin");
+}
+
+popup|TextualPopup s|TextArea
+{
+	font-family:			"Courier, Courier New, Lucida Console, Monaco";
+	font-size:				12px;
+}
+
+forms|IndeterminateDropDownList
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.forms.skin.IndeterminateDropDownListSkin");
+}
+
+forms|IndeterminateCheckbox
+{
+	skin-class:				ClassReference("fr.kapit.lab.demo.forms.skin.IndeterminateCheckboxSkin");
+}
+
+info|InfoPanel
+{
+	color:					#000000;
+	font-size:				14;
+	skin-class:				ClassReference("fr.kapit.lab.demo.info.InfoPanelSkin");
+}

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="179">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01215344</url>
+  </required_header>
+  <id_info>
+    <org_study_id>VICC BMT 1020</org_study_id>
+    <nct_id>NCT01215344</nct_id>
+  </id_info>
+  <brief_title>First Autologous Transplant on Minimal Residual Disease Markers in Previously Untreated Myeloma Undergoing Initial Treatment With Velcade</brief_title>
+  <official_title>Impact of First Autologous Transplant on Minimal Residual Disease Markers in Previously Untreated Myeloma Undergoing Initial Treatment With Velcade Based Therapy</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Vanderbilt-Ingram Cancer Center</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Vanderbilt-Ingram Cancer Center</source>
+  <oversight_info>
+    <authority>United States: Institutional Review Board</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      The purpose of this study is to study the MRD status after VELCADE based induction therapy
+      (VELCADE, lenalidomide, dexamethasone or VELCADE, liposomal doxorubicin, dexamethasone) in
+      patients with previously untreated multiple myeloma and study the impact of HDC and ASCT on
+      MRD status post‐transplant. Our hypothesis is that MRD‐status will continue to increase
+      significantly at 3 months post‐transplant and will validate that HDC and ASCT needs to be
+      performed even when patients have achieved major response after induction therapy with novel
+      agents.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>November 2010</start_date>
+  <completion_date type="Anticipated">December 2017</completion_date>
+  <primary_completion_date type="Anticipated">May 2017</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Intervention Model:  Parallel Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>To show that high dose chemotherapy (HDC) and autologous stem cell transplantation (ASCT) significantly increases minimal residual disease (MRD) negativity (as measured by 7 color flow cytometry) from 20% to 40% at 3 months post transplant</measure>
+    <time_frame>6-months post ASCT</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>To correlate minimal residual disease (MRD) status pre and post transplant with time to relapse</measure>
+    <time_frame>7 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>To correlate minimal residual disease (MRD) status pre‐transplant among the 2 induction regimens‐VRD (VELCADE, lenalidomide, dexamethasone) and VDD (VELCADE, liposomal doxorubicin, dexamethasone)</measure>
+    <time_frame>6 months post ASCT</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">100</enrollment>
+  <condition>Multiple Myeloma</condition>
+  <arm_group>
+    <arm_group_label>VRD</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>VELCADE, Lenalidomide, Dexamethasone</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>VDD</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>VELCADE, liposomal doxorubicin, dexamethasone</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>VELCADE</intervention_name>
+    <description>1.3 mg/m2 by IV on days 1, 4, 8, 11 of each cycle</description>
+    <arm_group_label>VRD</arm_group_label>
+    <arm_group_label>VDD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Lenalidomide</intervention_name>
+    <description>25 mg by mouth on days 1-4 of each cycle</description>
+    <arm_group_label>VRD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Dexamethasone</intervention_name>
+    <description>20 mg the day before and the day after receiving VELCADE</description>
+    <arm_group_label>VRD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>DVT prophylaxis</intervention_name>
+    <description>At least one asprin 81 mg per day. Other option per physician's choice</description>
+    <arm_group_label>VRD</arm_group_label>
+    <arm_group_label>VDD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Bisphosphonates</intervention_name>
+    <description>Zoledronic acid by IB or pamidronate by IV can be used as per standard of care.</description>
+    <arm_group_label>VRD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Liposomal doxorubicin</intervention_name>
+    <description>30 mg/m2 on day 4 of each cycle</description>
+    <arm_group_label>VDD</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Dexamethasone</intervention_name>
+    <description>40 mg by mouth on days 1-4, 8-11, and 15-18 of cycle 1 and days 1-4 on cycle 2-4</description>
+    <arm_group_label>VDD</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+        Patients must be diagnosed with symptomatic Multiple Myeloma within 90 days of consenting
+        on study confirmed by the following:
+
+          -  Bone marrow plasmacytosis with ≥ 10% plasma cells or sheets of plasma cells or biopsy
+             proven plasmacytoma
+
+          -  Presence of M protein in serum or urine or both. Conventional M spike, serum free
+             light chains, or 24 hour urine study. Non‐secretory myeloma is not eligible for this
+             study.
+
+          -  In addition patient must have one of the following organ dysfunction criteria
+
+          -  Hypercalcemia
+
+          -  Renal insufficiency
+
+          -  Anemia
+
+          -  Bone disease manifested by lytic lesion or osteoporosis (if osteoporosis is the only
+             organ dysfunction criteria then BM should have ≥ 30% plasma cells)
+
+          -  Confirmed Multiple myeloma as defined above within 90 days of starting cycle 1
+
+          -  The following study assessments must be fulfilled and must be obtained with four
+             weeks of starting cycle 1
+
+          -  Hemoglobin &gt; 7 g/dL, Platelet count &gt; 75 X 10 to 9th power/L, and Absolute neutrophil
+             count &gt; 1 X 10 to 9th power/L
+
+          -  Creatinine &lt;2.5 mg/dL or calculated creatinine clearance &gt; 30 ml/min/1.72 m2
+
+          -  Bilirubin ≤ 1.5 mg/dL X ULN
+
+          -  SGPT (ALT) and SGOT (AST) ≤ 2.5 times the upper limit of normal
+
+          -  Ejection fraction ≥ 45% as measured by a MUGA scan or 2 D echocardiogram
+
+          -  Pulmonary function tests show &gt;60% predicted values for FVC, FEV1, and DLCO FEV1 must
+             be &gt; 1 liter.
+
+          -  No prior systemic therapy with the exception of bisphosphonates for MM
+
+          -  Prior glucocorticoid therapy for the treatment of multiple myeloma is not permitted
+             EXCEPT if used in conjunction with palliative radiation to prevent vasogenic edema.
+             In that case steroids should have been used for less than 7 days. Prior steroid use
+             for non‐malignant disorders is permitted and should have been restricted to less than
+             the equivalent of prednisone 10 mg per day. Prior or concurrent topical or localized
+             steroid therapy to treat non‐malignant disorders is permitted
+
+          -  Prior palliative and/ or localized radiation therapy is permitted provided at least 4
+             weeks have passed from date of last radiation therapy to starting cycle 1.
+
+          -  Patients with prior solitary plasmacytoma treated with radiation therapy with
+             curative intent are eligible if the disease has now progressed to active multiple
+             myeloma and meeting all eligibility criteria for the protocol
+
+          -  ECOG PS 0, 1 or 2
+
+          -  For women of childbearing potential a negative serum pregnancy test is required
+             within 4 weeks of starting cycle 1 and then every 4 weeks during the first 4 cycles
+             of induction therapy
+
+          -  Women of child bearing potential must be willing to refrain from sexual intercourse
+             or willing to employ a dual method of contraception, one of which is highly effective
+             (IUD, birth control pills, tubal ligation or partner's vasectomy) and another
+             additional method (condom, diaphragm, or cervical cap) during the entire course of
+             the study (start of therapy until 30 days after stem cell transplant).
+
+          -  Sexually active males should be willing to use a condom (even if they have had a
+             prior vasectomy) while having intercourse with any women during the course of the
+             study (start of therapy until 30 days after stem cell transplant).
+
+          -  Voluntary written informed consent before performance of any study‐related procedure
+             not part of normal medical care, with the understanding that consent may be withdrawn
+             by the subject at any time without prejudice to future medical care.
+
+        Exclusion Criteria:
+
+          -  Patients with smoldering myeloma or monoclonal gammopathy of unknown significance are
+             not eligible
+
+          -  Age &gt; 70 years or &lt; 18 years is not eligible
+
+          -  Patient has &gt; 1.5 × ULN Total Bilirubin
+
+          -  Grade 2 or higher peripheral neuropathy due to ANY cause
+
+          -  High index of suspicion of primary amyloid light chain (AL) amyloidosis.
+
+          -  Patients with uncontrolled inter-current illness including uncontrolled hypertension,
+             symptomatic congestive heart failure, unstable angina, uncontrolled cardiac
+             arrhythmia, uncontrolled psychiatric illness or social situation that would limit
+             compliance or a prior history of Steven Johnson syndrome
+
+          -  Patients must not have a history of current or previous deep vein thrombosis or
+             pulmonary embolism regardless of whether or not the patient is receiving
+             anticoagulation therapy
+
+          -  Female patients who are breastfeeding or pregnant.
+
+          -  Patients known to be HIV positive
+
+          -  Myocardial infarction within 6 months prior to enrollment or has New York Heart
+             Association (NYHA) Class III or IV heart failure (see section 31.3), uncontrolled
+             angina, severe uncontrolled ventricular arrhythmias, or electrocardiographic evidence
+             of acute ischemia or active conduction system abnormalities. Prior to study entry,
+             any ECG abnormality at Screening has to be documented by the investigator as not
+             medically relevant.
+
+          -  Patient has hypersensitivity to VELCADE, boron or mannitol.
+
+          -  Patient has received other investigational drugs within 14 days before enrollment
+
+          -  Serious medical or psychiatric illness likely to interfere with participation in this
+             clinical study.
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>70 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Madan Jagasia, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Vanderbilt-Ingram Cancer Center</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Vanderbilt-Ingram, Clinical Trials Information Program</last_name>
+    <phone>800-811-8480</phone>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>University of Tennessee Cancer Institute, Boston Baskin Cancer Group</name>
+      <address>
+        <city>Memphis</city>
+        <state>Tennessee</state>
+        <zip>38104</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Not yet recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Vanderbilt-Ingram Cancer Center</name>
+      <address>
+        <city>Nashville</city>
+        <state>Tennessee</state>
+        <zip>37232</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>July 2011</verification_date>
+  <lastchanged_date>July 28, 2011</lastchanged_date>
+  <firstreceived_date>October 4, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Madan Jagasia, MD</name_title>
+    <organization>Vanderbilt-Ingram Cancer Center</organization>
+  </responsible_party>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Multiple Myeloma</mesh_term>
+    <mesh_term>Neoplasms, Plasma Cell</mesh_term>
+    <mesh_term>Neoplasm, Residual</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Dexamethasone acetate</mesh_term>
+    <mesh_term>Dexamethasone</mesh_term>
+    <mesh_term>Dexamethasone 21-phosphate</mesh_term>
+    <mesh_term>Bortezomib</mesh_term>
+    <mesh_term>Lenalidomide</mesh_term>
+    <mesh_term>Doxorubicin</mesh_term>
+    <mesh_term>BB 1101</mesh_term>
+    <mesh_term>Diphosphonates</mesh_term>
+  </intervention_browse>
+</clinical_study>

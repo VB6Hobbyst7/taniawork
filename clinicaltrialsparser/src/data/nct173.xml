@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="44">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01231022</url>
+  </required_header>
+  <id_info>
+    <org_study_id>DILI</org_study_id>
+    <nct_id>NCT01231022</nct_id>
+  </id_info>
+  <brief_title>Study the Role of Stem Cell in Curing Drug Induced Liver Injury in Metastatic Breast Cancer (MBC)</brief_title>
+  <acronym>MBC</acronym>
+  <official_title>Study the Role of Stem Cell in Curing Drug Induced Liver Injury in Metastatic Breast Cancer</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Beijing Cancer Hospital</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Beijing Cancer Hospital</source>
+  <oversight_info>
+    <authority>China: Ministry of Health</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      The investigators want to know the role of Peripheral hematopoietic stem cell infusion in
+      avoiding  Drug Induced Liver Injury,and also try to research SNPs genotyping associated with
+      Drug Induced Liver Injury.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      1. The researcher investigate the incidence and the cause of Drug Induced Liver Injury in
+           MBC.
+
+        2. Patients having a complete clinical history and physical examination, receive routine
+           chemotherapy.
+
+        3. Venous blood Sample(4 ml)is collected before and after each cycle according to the
+           planning time.
+
+        4. Genomic DNA,RNA and upper serum is isolated. ELISA、rt-PCR or PCR-direct sequencing is
+           used to detect the protein or gene expression associated with liver function.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>August 2010</start_date>
+  <completion_date type="Anticipated">June 2013</completion_date>
+  <primary_completion_date type="Anticipated">June 2011</primary_completion_date>
+  <phase>N/A</phase>
+  <study_type>Observational</study_type>
+  <study_design>Observational Model:  Cohort, Time Perspective:  Cross-Sectional</study_design>
+  <primary_outcome>
+    <measure>Protective effection of peripheral hematopoietic stem cell infusion for DILI</measure>
+    <time_frame>3 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>Patients receiving PHSC infusion after chemotherapy will have lower incidence of DILI. PHSC infusion may improve the liver function.</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>SNPs genotyping associated with Drug Induced Liver Injury</measure>
+    <time_frame>Sample is collected from each subject</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>Some SNPs will be find to associated with DILI.</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Change of cytokines</measure>
+    <time_frame>3 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>Changes of cytokines in periphral blood related with liver function with be observed.</description>
+  </secondary_outcome>
+  <number_of_groups>1</number_of_groups>
+  <enrollment type="Anticipated">20</enrollment>
+  <condition>Breast Neoplasms</condition>
+  <condition>Neoplasm Metastasis</condition>
+  <biospec_retention>None Retained</biospec_retention>
+  <biospec_descr>
+    <textblock>
+      patients' blood sample
+    </textblock>
+  </biospec_descr>
+  <eligibility>
+    <study_pop>
+      <textblock>
+        female patients with metastatic breast cancer
+      </textblock>
+    </study_pop>
+    <sampling_method>Non-Probability Sample</sampling_method>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Patients should be histologically confirmed with metastatic breast cancer;
+
+          -  an Eastern Cooperative Oncology Group (ECOG) performance status of 0-2;
+
+          -  Normal cardiac, hepatic, renal and bone marrow functions;
+
+          -  Life expectancy ≥3 months;
+
+        Exclusion Criteria:
+
+          -  previous history of other malignancies;
+
+          -  Central nervous system metastases;
+
+          -  Serious or uncontrolled concurrent medical illness.
+      </textblock>
+    </criteria>
+    <gender>Female</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>70 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>XU LIANG, MD and PhD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Beijing Cancer Hospital</affiliation>
+  </overall_official>
+  <overall_official>
+    <last_name>JUN REN, MD and PhD</last_name>
+    <role>Study Chair</role>
+    <affiliation>Beijing Cancer Hospital</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>JUN REN, MD and PhD</last_name>
+    <phone>+86-10-88196356</phone>
+    <email>renjun9688@yahoo.com</email>
+  </overall_contact>
+  <overall_contact_backup>
+    <last_name>XU LIANG, MD and PhD</last_name>
+    <phone>+86-10-88196380</phone>
+    <email>liangxu2005@126.com</email>
+  </overall_contact_backup>
+  <location>
+    <facility>
+      <name>Beijing Cancer Hospital</name>
+      <address>
+        <city>Beijing</city>
+        <zip>100142</zip>
+        <country>China</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>JUN REN, MD and PhD</last_name>
+      <phone>+86-10-88196356</phone>
+      <email>renjun9688@yahoo.com</email>
+    </contact>
+  </location>
+  <location_countries>
+    <country>China</country>
+  </location_countries>
+  <verification_date>August 2010</verification_date>
+  <lastchanged_date>October 29, 2010</lastchanged_date>
+  <firstreceived_date>October 20, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Jun Ren/Director of the Medical Oncology Department</name_title>
+    <organization>Beijing Cancer Hospital</organization>
+  </responsible_party>
+  <keyword>breast neoplasm</keyword>
+  <keyword>Neoplasm Metastasis</keyword>
+  <keyword>Stem Cells</keyword>
+  <keyword>Drug-Induced Liver Injury</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Breast Neoplasms</mesh_term>
+    <mesh_term>Neoplasms</mesh_term>
+    <mesh_term>Neoplasm Metastasis</mesh_term>
+    <mesh_term>Drug-Induced Liver Injury</mesh_term>
+  </condition_browse>
+</clinical_study>

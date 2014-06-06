@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var pubnum:String = "";
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			[Bindable]
+			public var s3:String = "";
+			[Bindable]
+			public var s4:String = "";
+			[Bindable]
+			public var s5:String = "";
+			[Bindable]
+			public var s6:String = "";
+			[Bindable]
+			public var s7:String = "";
+			[Bindable]
+			public var s8:String = "";
+			[Bindable]
+			public var s9:String = "";
+			[Bindable]
+			public var s10:String = "";
+			[Bindable]
+			public var s11:String = "";
+			[Bindable]
+			public var s12:String = "";
+			[Bindable]
+			public var s13:String = "";
+			[Bindable]
+			public var s14:String = "";
+			[Bindable]
+			public var s15:String = "";
+			[Bindable]
+			public var s16:String = "";
+			
+			
+			[Bindable]
+			public var putCounter:Number = 0;
+			[Bindable]
+			public var dataArray:ArrayCollection = new ArrayCollection();
+			
+			
+			public function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				getData.send();
+			}
+			
+			public function afterGetData(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				var dir:File = File.applicationDirectory; 
+				dir = dir.resolvePath("data2/termsynthbio.xml"); 
+				var fileStream:FileStream = new FileStream(); 
+				fileStream.open(dir, FileMode.READ); 
+				var fullText:String = fileStream.readUTFBytes(fileStream.bytesAvailable);
+				
+				var stop:String = "";
+				var ar:ArrayCollection = new ArrayCollection();
+				ar = event.result.ippublication;
+				for (var i:uint = 0; i < ar.length; i++){
+					var claimsArray:ArrayCollection = new ArrayCollection();
+					try{
+						claimsArray = ar[i].patent.claims.paragraph;
+					}
+					catch(e:Error){
+						
+					}
+					var claimsText:String = "";
+					var title:String = "";
+					for (var j:uint = 0; j < claimsArray.length; j++){
+						claimsText = claimsText + claimsArray[j].value + " ";
+					}
+					
+					var jd:RegExp = new RegExp("<p>","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("</p>","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("'s","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("'","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp(";","g");
+					claimsText = claimsText.replace(jd,"");
+					
+					
+					title = ar[i].patent.bibliographicInformation.title.value;
+					var setType:String = "wipo";
+					var correspondenceAddress:String = "";
+					var correspondenceCity:String = "";
+					var correspondenceCountry:String = "";
+					var correspondenceCountryName:String = "";
+					var correspondenceName:String = "";
+					var assigneeCity:String = "";
+					var assigneeCountry:String = "";
+					var assigneeCountryName:String = "";
+					var assigneeName:String = "";
+					var inventorAddress:String = "";
+					var inventorCity:String = "";
+					var inventorCountry:String = "";
+					var inventorCountryName:String = "";
+					var inventorName:String = "";
+					var documentDate:String = "";
+					var documentYear:String = "";
+					var pubnum:String = "";
+					
+					pubnum = fullText.substring(fullText.indexOf("<originalId>")+12,fullText.indexOf("</originalId>"));
+					fullText = fullText.substring(fullText.indexOf("</patent>")+10,fullText.length);
+					trace(pubnum+"\n");
+					documentDate = ar[i].patent.bibliographicInformation.documentId.documentDate;
+					documentYear = documentDate.substring(0,documentDate.indexOf("-"));
+					
+					try{
+						assigneeCity = ar[i].patent.bibliographicInformation.assignees.assignee.address.city;
+						assigneeName = ar[i].patent.bibliographicInformation.assignees.assignee.name.fullName;
+						assigneeCountry = ar[i].patent.bibliographicInformation.assignees.assignee.address.country;
+						assigneeCountryName = ar[i].patent.bibliographicInformation.assignees.assignee.address.countryName;
+					}
+					catch(e:Error){
+						try{
+							assigneeCity = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.city;
+							assigneeName = ar[i].patent.bibliographicInformation.assignees.assignee[0].name.fullName;
+							assigneeCountry = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.country;
+							assigneeCountryName = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.countryName;
+						}
+						catch(e:Error){
+							
+						}
+					}
+					
+					
+					try{
+						correspondenceAddress = ar[i].patent.bibliographicInformation.correspondenceAddress.address.address1;
+						correspondenceCity = ar[i].patent.bibliographicInformation.correspondenceAddress.address.city;
+						correspondenceCountry = ar[i].patent.bibliographicInformation.correspondenceAddress.address.country;
+						correspondenceCountryName = ar[i].patent.bibliographicInformation.correspondenceAddress.address.countryName;
+						correspondenceName = ar[i].patent.bibliographicInformation.correspondenceAddress.name.fullName;
+					}
+					catch(e:Error){
+						
+					}
+					try{
+						inventorAddress = ar[i].patent.bibliographicInformation.inventors.inventor.address.address1;
+						inventorCity = ar[i].patent.bibliographicInformation.inventors.inventor.address.city;
+						inventorCountry = ar[i].patent.bibliographicInformation.inventors.inventor.address.country;
+						inventorCountryName = ar[i].patent.bibliographicInformation.inventors.inventor.address.countryName;
+						inventorName = ar[i].patent.bibliographicInformation.inventors.inventor.name.fullName;
+					}
+					catch(e:Error){
+						try{
+							inventorAddress = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.address1;
+							inventorCity = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.city;
+							inventorCountry = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.country;
+							inventorCountryName = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.countryName;
+							inventorName = ar[i].patent.bibliographicInformation.inventors.inventor[0].name.fullName;
+						}
+						catch(e:Error){
+							
+						}
+						
+					}
+					
+					
+		
+					
+					
+					dataArray.addItem({pubnum:pubnum,title:title,claimsText:claimsText,setType:setType,
+						correspondenceAddress:correspondenceAddress,correspondenceCity:correspondenceCity,
+						correspondenceCountry:correspondenceCountry,correspondenceName:correspondenceName,
+						assigneeCity:assigneeCity,assigneeCountry:assigneeCountry,assigneeName:assigneeName,
+						inventorAddress:inventorAddress,inventorCity:inventorCity,inventorCountry:inventorCountry,
+						inventorName:inventorName,documentDate:documentDate,documentYear:documentYear});
+						
+					
+						
+						
+					var stop3:String = "";
+					
+				}
+				var stop4:String = "";
+				uploadData();
+			}
+			
+			public function uploadData():void {
+				putCounter = 0;
+				pubnum = dataArray[putCounter].pubnum;
+				s1 = fixText(dataArray[putCounter].title);
+				s2 = fixText(dataArray[putCounter].claimsText);
+				s3 = dataArray[putCounter].correspondenceAddress;
+				s4 = dataArray[putCounter].correspondenceCity;
+				s5 = dataArray[putCounter].correspondenceCountry;
+				s6 = dataArray[putCounter].correspondenceName;
+				s7 = dataArray[putCounter].assigneeCity;
+				s8 = dataArray[putCounter].assigneeCountry;
+				s9 = dataArray[putCounter].assigneeName;
+				s10 = dataArray[putCounter].inventorAddress;
+				s11 = dataArray[putCounter].inventorCity;
+				s12 = dataArray[putCounter].inventorCountry;
+				s13 = dataArray[putCounter].inventorName;
+				s14 = dataArray[putCounter].documentDate;
+				s15 = dataArray[putCounter].documentYear;
+				s16 = dataArray[putCounter].setType;
+			
+				
+				putData.send();
+				
+			}
+			
+			public function afterPutData(ev:ResultEvent):void {
+				trace(putCounter.toString());
+				if (putCounter < dataArray.length-1){
+					putCounter++;
+					pubnum = dataArray[putCounter].pubnum;
+					s1 = fixText(dataArray[putCounter].title);
+					s2 = fixText(dataArray[putCounter].claimsText);
+					s3 = dataArray[putCounter].correspondenceAddress;
+					s4 = dataArray[putCounter].correspondenceCity;
+					s5 = dataArray[putCounter].correspondenceCountry;
+					s6 = dataArray[putCounter].correspondenceName;
+					s7 = dataArray[putCounter].assigneeCity;
+					s8 = dataArray[putCounter].assigneeCountry;
+					s9 = dataArray[putCounter].assigneeName;
+					s10 = dataArray[putCounter].inventorAddress;
+					s11 = dataArray[putCounter].inventorCity;
+					s12 = dataArray[putCounter].inventorCountry;
+					s13 = dataArray[putCounter].inventorName;
+					s14 = dataArray[putCounter].documentDate;
+					s15 = dataArray[putCounter].documentYear;
+					s16 = dataArray[putCounter].setType;
+					putData.send();
+				}
+				else {
+					trace("done");
+					var stop:String = "";	
+					//NativeApplication.nativeApplication.exit();
+				}
+			}
+			public function fixText(s:String):String {
+				var text:String = s;
+				
+				
+				var j:RegExp =/>/gi;
+				text = text.replace(j, " ");
+				
+				var j:RegExp =/</gi;
+				text = text.replace(j, " ");
+				
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(";") != -1){
+					var j:RegExp =/;/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(",") != -1){
+					var j:RegExp =/,/gi;
+					text = text.replace(j, " ");
+				}
+				//if (text.indexOf(")") != -1){
+				var j:RegExp =/)/gi;
+				text = text.replace(j, " ");
+				//}
+				//if (text.indexOf("(") != -1){
+				var j:RegExp =/(/gi;
+				text = text.replace(j, " ");
+				//}
+				if (text.indexOf(":") != -1){
+					var j:RegExp =/:/gi;
+					text = text.replace(j, " ");
+				}
+				
+				return text;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:HTTPService id="getData" url="http://localhost:8888/delphionxmlparser2/src/php/getData.php" useProxy="false" method="GET" result="afterGetData(event)" />
+		<s:HTTPService id = "putData"  result="afterPutData(event);"
+					   url="http://localhost:8888/delphionxmlparser2/bin-debug/php/putData.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<pubnum>{pubnum}</pubnum>
+				<s1>{s1}</s1>
+				<s2>{s2.toLowerCase()}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+				<s7>{s7}</s7>
+				<s8>{s8}</s8>
+				<s9>{s9}</s9>
+				<s10>{s10}</s10>
+				<s11>{s11}</s11>
+				<s12>{s12}</s12>
+				<s13>{s13}</s13>
+				<s14>{s14}</s14>
+				<s15>{s15}</s15>
+				<s16>{s16}</s16>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+</s:WindowedApplication>

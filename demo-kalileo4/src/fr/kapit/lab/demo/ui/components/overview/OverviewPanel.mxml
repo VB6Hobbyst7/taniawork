@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group implements="fr.kapit.lab.demo.ui.components.IConfigPanel"
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:component="fr.kapit.lab.demo.panel.component.*"
+	xmlns:overview="fr.kapit.visualizer.tools.overview.*"
+	width="100%" xmlns:forms="fr.kapit.lab.demo.forms.*"
+>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<fx:Script>
+	<![CDATA[
+		import fr.kapit.lab.demo.model.ApplicationModel;
+		import fr.kapit.lab.demo.model.DiagrammerModel;
+		import fr.kapit.visualizer.events.VisualizerEvent;
+
+		import mx.events.FlexEvent;
+
+		/**
+		 * @private
+		 * Reference to the application model.
+		 */
+		private var _applicationModel:ApplicationModel = null;
+
+		/**
+		 * Reference to the current application model.
+		 */
+		[Bindable]
+		public function get appModel():ApplicationModel
+		{
+			return _applicationModel;
+		}
+		/** @private */
+		public function set appModel(value:ApplicationModel):void
+		{
+			_applicationModel = value;
+		}
+
+		/**
+		 * Returns the current diagrammer model.
+		 */
+		public function get diagrammerModel():DiagrammerModel
+		{
+			if (null == appModel)
+				return null;
+			return appModel.diagrammerModel;
+		}
+
+		[Bindable] public var ratio:Number;
+
+		/**
+		 * Click handler on autoFit button
+		 */
+		protected function percentselector_autofitDemandHandler(event:Event):void
+		{
+			diagrammerModel.applyAutofit();
+		}
+
+		/**
+		 * Click handler on zoomCenter button
+		 */
+		protected function percentselector_defaultZoomDemandHandler(event:Event):void
+		{
+			diagrammerModel.applyZoomCenter();
+		}
+
+		/**
+		 * Change handler on zoom slider
+		 */
+		protected function percentselector_modifiedHandler(event:Event):void
+		{
+			diagrammerModel.zoom(percentselector.value / 100);
+		}
+
+	]]>
+	</fx:Script>
+
+	<s:states />
+
+	<component:KapPanel width="100%" label="Overview">
+		<component:panelContent>
+			<s:VGroup width="100%" top="6" bottom="6">
+				<s:HGroup gap="0" width="100%">
+					<overview:Overview width="160" height="90" visualizer="{appModel.diagrammer}" />
+				</s:HGroup>
+				<s:Line width="100%">
+					<s:stroke>
+						<s:SolidColorStroke color="#C5C5C8" caps="square" />
+					</s:stroke>
+				</s:Line>
+				<forms:PercentSelector id="percentselector" value="{ratio * 100}"
+									   modified="percentselector_modifiedHandler(event)"
+									   autofitDemand="percentselector_autofitDemandHandler(event)"
+									   defaultZoomDemand="percentselector_defaultZoomDemandHandler(event)" />
+			</s:VGroup>
+
+		</component:panelContent>
+
+	</component:KapPanel>
+
+</s:Group>

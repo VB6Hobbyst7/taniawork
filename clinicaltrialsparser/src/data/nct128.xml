@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="147">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01213940</url>
+  </required_header>
+  <id_info>
+    <org_study_id>10-131</org_study_id>
+    <nct_id>NCT01213940</nct_id>
+  </id_info>
+  <brief_title>Vascular Endothelium Changes After Bariatric Surgery (Endothelial Progenitor Cells)</brief_title>
+  <acronym>EPC</acronym>
+  <official_title>Vascular Endothelium Changes After Bariatric Surgery</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>University of South Alabama</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>American Society for Metabolic and Bariatric Surgery</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>University of South Alabama</source>
+  <oversight_info>
+    <authority>United States: Institutional Review Board</authority>
+    <has_dmc>No</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Improvement in cardiovascular mortality is related to changes in pathologic autoantibodies
+      and in the number of circulating functional replicative competent endothelial progenitor
+      cells (EPC's) after bariatric surgery.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      Same as above
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>September 2010</start_date>
+  <completion_date type="Anticipated">September 2012</completion_date>
+  <primary_completion_date type="Anticipated">September 2012</primary_completion_date>
+  <phase>N/A</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Intervention Model:  Parallel Assignment, Masking:  Open Label</study_design>
+  <primary_outcome>
+    <measure>Change in plasma autoantibody levels</measure>
+    <time_frame>6 months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Primary outcome is the change in plasma autoantibody levels (endothelial barrier function) 6 months after enrollment to surgery (LRYGB) or to standard medical therapy (SMT).</description>
+  </primary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">70</enrollment>
+  <condition>Diabetes Mellitus, Non-Insulin-Dependent</condition>
+  <arm_group>
+    <arm_group_label>baratric surgery</arm_group_label>
+    <arm_group_type>Other</arm_group_type>
+    <description>surgery vs.weight loss program 6 months prior to bariatric surgery</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>pre-bariatric weight loss program</arm_group_label>
+    <arm_group_type>Other</arm_group_type>
+    <description>weight loss program prior to bariatric surgery</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Behavioral</intervention_type>
+    <intervention_name>pre-bariatric weight loss program</intervention_name>
+    <description>standard 6 month physician directed pre-bariatric weight loss program</description>
+    <arm_group_label>pre-bariatric weight loss program</arm_group_label>
+    <other_name>weight loss program</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>bariatric surgery</intervention_name>
+    <description>bariatric surgery for weight loss</description>
+    <arm_group_label>baratric surgery</arm_group_label>
+    <other_name>bariatric surgery</other_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Type 2 Diabetes, Glucose &gt; 200mg/dl, currently be ing treated with oral medications
+             and HGA1c . 6.5, and BMI .35.
+
+        Exclusion Criteria:
+
+          -  Type 1 Diabetes
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>65 Years</maximum_age>
+    <healthy_volunteers>Accepts Healthy Volunteers</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>William O Richards, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>University of South Alabama, Department of Surgery</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>University of South Alabama</name>
+      <address>
+        <city>Mobile</city>
+        <state>Alabama</state>
+        <zip>36617</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>William O Richards, MD</last_name>
+      <phone>251-471-7993</phone>
+      <email>brichards@usouthal.edu</email>
+    </contact>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>March 2011</verification_date>
+  <lastchanged_date>March 22, 2011</lastchanged_date>
+  <firstreceived_date>September 30, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>William O. Richards, MD</name_title>
+    <organization>University of South Alabama, Department of Surgery</organization>
+  </responsible_party>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Diabetes Mellitus</mesh_term>
+    <mesh_term>Diabetes Mellitus, Type 2</mesh_term>
+  </condition_browse>
+</clinical_study>

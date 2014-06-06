@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="12">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01251172</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CDR0000689644</org_study_id>
+    <secondary_id>CINJ-011003</secondary_id>
+    <nct_id>NCT01251172</nct_id>
+  </id_info>
+  <brief_title>RO4929097 After Autologous Stem Cell Transplant in Treating Patients With Multiple Myeloma</brief_title>
+  <official_title>Phase II Study of RO4929097 to Eradicate Residual Disease in Patients With Multiple Myeloma Post Single Autologous Stem Cell Transplant</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Cancer Institute of New Jersey</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>National Cancer Institute (NCI)</agency>
+      <agency_class>NIH</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>National Cancer Institute (NCI)</source>
+  <oversight_info>
+    <authority>Unspecified</authority>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      RATIONALE: Giving chemotherapy, such as melphalan, before autologous stem cell transplant
+      stops the growth of cancer cells by stopping them from dividing or killing them. Before
+      treatment, stem cells are collected from the patient's blood and stored. After chemotherapy,
+      the stem cells are returned to the patient to replace the blood-forming cells that were
+      destroyed by the chemotherapy. RO4929097 may stop the growth of cancer cells by blocking
+      some of the enzymes needed for cell growth. Giving RO4929097 after autologous stem cell
+      transplant may kill more cancer cells.
+
+      PURPOSE: This phase II clinical trial is studying how well RO4929097 after autologous stem
+      cell transplant works in treating patients with multiple myeloma.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      OBJECTIVES:
+
+      Primary
+
+        -  To determine the efficacy of RO4929097 in eradicating residual/persistent disease in
+           multiple myeloma patients status post single high-dose melphalan/autologous stem cell
+           rescue with residual/persistent disease post-transplant.
+
+      Secondary
+
+        -  To determine the safety of single agent RO4929097 post-autologous stem cell transplant
+           in multiple myeloma patients.
+
+        -  To analyze Notch receptor and ligand protein expression in pre-transplant,
+           pre-treatment with RO4929097, and post-treatment bone marrow biopsy samples.
+
+        -  To isolate and identify clonogenic multiple myeloma progenitor cells from bone marrow
+           aspirate and/or peripheral blood at the following time points: pre-transplant, day 100
+           post-transplant, and post-treatment staging bone marrow biopsy.
+
+        -  To analyze Notch receptor and ligand protein expression on isolated clonogenic
+           progenitor myeloma cells.
+
+        -  To characterize the tumor xenograft-initiating potential of clonogenic myeloma cells in
+           adult Casper zebrafish and SCID-hu model and evaluate the drug toxicity and therapeutic
+           potential of RO4929097 with these models.
+
+        -  To analyze anti-angiogenic effects of RO4929097 as measured by reduction in microvessel
+           density and VEGFR-1 expression in pre-treatment and post-treatment bone marrow biopsy
+           samples.
+
+        -  To determine whether measurement of soluble surrogate markers of angiogenesis prior to
+           and following treatment with RO4929097 provide an early marker of disease response to
+           Notch inhibition.
+
+      OUTLINE: This is a multicenter study.
+
+        -  Stem cell transplantation and chemotherapy: Patients undergo standard mobilization and
+           collection of autologous peripheral stem cells (≥ 4.0 x 10^6 CD34+ cells/kg). Patients
+           then receive high-dose melphalan IV on days -3 and -2 and undergo autologous stem cell
+           transfusion on day 0. Patients with progressive disease, stable disease, partial
+           response, stringent complete response, or complete response are taken off study;
+           patients with residual/persistent disease (very good partial response [VGPR]*) at day
+           100 continue to therapeutic treatment.
+
+      NOTE: *Patients who meet the criteria for VGPR but have findings of abnormal bone marrow
+      cytogenetic study demonstrating ≥ 10% metaphase cells positive for either high-risk
+      chromosomal abnormalities or persistent disease-related chromosomal abnormalities (e.g.,
+      chromosome del 13; del17p, t(4;14), t(14;16), t(6;14) or complex cytogenetics) will have a
+      repeat bone marrow biopsy assessment with cytogenetics within 2-3 weeks. If the repeat
+      biopsy findings suggest persistent high-risk cytogenetic findings, then the patient is
+      considered eligible to receive gamma-secretase inhibitor RO4929097 to eradicate residual
+      disease.
+
+        -  Therapeutic treatment: Beginning 100-110 days after transplantation, patients receive
+           oral gamma-secretase inhibitor RO4929097 once daily on days 1-3, 8-10, and 15-17.
+           Courses repeat every 21 days in the absence of disease progression or unacceptable
+           toxicity.
+
+      Blood and bone marrow samples are collected periodically for laboratory correlative studies.
+
+      After completion of study treatment, patients are followed up for at least 4 weeks.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>December 2010</start_date>
+  <primary_completion_date type="Anticipated">August 2012</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Overall response rate of patients treated with gamma-secretase inhibitor RO4929097</measure>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Pre-post comparison of the biologic effects</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Isolating and identifying clonogenic myeloma progenitor cells and subsequently characterizing the tumor xenograft-initiation potential of these cells</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Association of clinical response (relapses) and the myeloma stem cell kinetics (presence and absence of cells and/or percentage of cells)</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Adverse events and abnormal laboratory variables as assessed according to the NCI-CTCAE version 4.0</measure>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">37</enrollment>
+  <condition>Multiple Myeloma and Plasma Cell Neoplasm</condition>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>gamma-secretase/Notch signalling pathway inhibitor RO4929097</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>melphalan</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>laboratory biomarker analysis</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>autologous hematopoietic stem cell transplantation</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>hematopoietic stem cell mobilization</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>peripheral blood stem cell transplantation</intervention_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        DISEASE CHARACTERISTICS:
+
+          -  Patients must have a diagnosis of multiple myeloma as defined below with staging
+             based on the International Staging System:
+
+               -  Meets all of the following criteria for multiple myeloma*:
+
+                    -  Monoclonal plasma cells in the bone marrow ≥ 10% and/or presence of a
+                       biopsy-proven plasmacytoma
+
+                    -  Monoclonal protein present in the serum and/or urine^†
+
+                    -  Myeloma-related organ dysfunction (1 or more)^‡:
+
+                         -  Calcium elevation in the blood (serum calcium &gt; 10.5 mg/L or upper
+                            limit of normal)
+
+                         -  Renal insufficiency (serum creatinine &gt; 2 mg/dL)
+
+                         -  Anemia (hemoglobin &lt; 10 g/dL or 2 g &lt; normal)
+
+                         -  Lytic bone lesions or osteoporosis** NOTE: *These criteria identify
+                            stage IB and stages II and III A/B myeloma by Durie/Salmon stage.
+                            Stage IA becomes smoldering or indolent myeloma.
+
+        NOTE: †If no monoclonal protein is detected (non-secretory disease), then ≥ 30% monoclonal
+        bone marrow plasma cells and/or biopsy-proven plasmacytoma is required.
+
+        NOTE: ‡A variety of other types of end-organ dysfunctions can occasionally occur and lead
+        to a need for therapy. Such dysfunction is sufficient to support classification as myeloma
+        if proven to be myeloma-related.
+
+        NOTE: **If a solitary (biopsy-proven) plasmacytoma or osteoporosis alone (without
+        fractures) are the sole defining criteria, then &gt; 30% plasma cells are required in the
+        bone marrow.
+
+          -  Patients must have measurable disease
+
+               -  Patients with non-secretory multiple myeloma will be eligible only if the
+                  baseline serum free light chain level is elevated (≥ 10 mg/dL)
+
+          -  For therapeutic treatment with RO4929097, patients must have peripheral blood stem
+             cell collection of ≥ 4.0 x 10^6 cells/kg (patient ideal body weight)
+
+          -  Patients are enrolled into 1 of 2 groups:
+
+               -  Group 1:
+
+                    -  Enrolled pre-transplant
+
+                    -  Patients in remission after an autologous stem cell transplant will not
+                       proceed with registration for the therapeutic treatment arm, will not
+                       receive any study drug, and will be taken off-study
+
+               -  Group 2
+
+                    -  Missed the time-point of enrollment pre-transplant but will be able to
+                       enroll post-transplant at Day 100
+
+                    -  Patients with residual/persistant disease who meet all of the eligibility
+                       criteria at the time of registration for the therapeutic treatment arm
+                       (after disease-reassessment post autologous transplant of stem cells) will
+                       begin study treatment
+
+        PATIENT CHARACTERISTICS:
+
+          -  ECOG performance status ≤ 2, Karnofsky ≥ 60%
+
+          -  Estimated life expectancy of at least 12 weeks
+
+          -  Absolute neutrophil count ≥ 1,500/mcL
+
+          -  Platelets ≥ 100,000/mcL
+
+          -  Hemoglobin ≥ 9.0 g/dL
+
+          -  NOTE: Patients should not require chronic supportive growth factor administration or
+             transfusions to meet treatment eligibility criteria (e.g., G-CSF for ANC eligibility)
+
+          -  Serum creatinine ≤ 2.0 mg/dL OR a measured creatinine clearance by 24-hour urine
+             collection ≥ 40 mL/min (a calculated creatinine clearance by Cockcroft-Gault formula
+             is acceptable in lieu of a measured value)
+
+          -  Total bilirubin within normal institutional limits
+
+          -  AST (SGOT)/ALT SGPT) &lt; 2.5 X institutional ULN
+
+          -  Patients with uncontrolled electrolyte abnormalities including hypocalcemia,
+             hypomagnesemia, hyponatremia, hypophosphatemia, or hypokalemia, defined as less than
+             the lower limit of normal for the institution despite adequate electrolyte
+             supplementation, are excluded from this study
+
+          -  Not pregnant or nursing
+
+          -  Negative pregnancy test
+
+          -  Fertile patients must use two forms of contraception (i.e., barrier contraception and
+             one other method of contraception) at least 4 weeks prior to study entry, for the
+             duration of study participation, and for at least 12 months post-treatment
+
+          -  No requirement for routine use of hematopoietic growth factors (including granulocyte
+             colony-stimulating factor, granulocyte-macrophage colony-stimulating factor, or
+             interleukin-11) or platelet transfusions to maintain absolute neutrophil counts or
+             platelet counts above the required thresholds for study entry
+
+               -  Use of erythropoietin-stimulating agents and red cell transfusions are also not
+                  permitted prior to initiation of RO4929097
+
+          -  Patient must meet the institutional standard criteria for undergoing high-dose
+             chemotherapy and autologous stem cell transplant
+
+          -  No serious concomitant systemic disorders (including active infections) that would
+             compromise the safety of the patient or compromise the patient's ability to complete
+             the study, at the discretion of the investigator
+
+          -  No uncontrolled intercurrent illness including, but not limited to:
+
+               -  Ongoing or active infection
+
+               -  Symptomatic congestive heart failure
+
+               -  Unstable angina pectoris
+
+               -  A history of torsades de pointes
+
+               -  Cardiac arrhythmia other than chronic, stable atrial fibrillation
+
+               -  Psychiatric illness/social situations that would limit compliance with study
+                  requirements
+
+          -  No baseline QTcF &gt; 450 msec (male) or QTcF &gt; 470 msec (female)
+
+          -  Patients with malabsorption syndrome, disease significantly affecting
+             gastrointestinal function, or resection of the stomach or small bowel are excluded
+
+               -  Subjects with ulcerative colitis, inflammatory bowel disease, or a partial or
+                  complete small bowel obstruction are also excluded
+
+          -  No condition (e.g., gastrointestinal tract disease resulting in an inability to take
+             oral medication or a requirement for IV alimentation, prior surgical procedure
+             affecting absorption, or active peptic ulcer disease) that impairs the ability to
+             swallow and retain RO4929097
+
+          -  Patients who have active hepatitis B or C, or have a history of liver disease, other
+             forms of hepatitis, or cirrhosis are ineligible
+
+          -  HIV-positive patients on combination antiretroviral therapy are ineligible
+
+          -  No second primary malignancy except most situ carcinoma (e.g., in situ carcinoma of
+             the of the cervix, adequately treated non-melanomatous carcinoma of the skin) or
+             other malignancy treated at least 3 years previously with no evidence of recurrence
+
+          -  No history of allergic reactions attributed to compounds of similar chemical or
+             biologic composition to RO4929097or other agents used in the study
+
+        PRIOR CONCURRENT THERAPY:
+
+          -  See Disease Characteristics
+
+          -  There are no limitations on type and amount of prior therapy with the following
+             exception: patients who have had a prior autologous stem cell transplant or solid
+             organ transplant are ineligible
+
+               -  Acute toxicities of prior therapy must have resolved to the NCI-CTCAE version
+                  4.0 grade 1 or less (with the exception of alopecia)
+
+          -  Patients taking medications with narrow therapeutic indices that are metabolized by
+             cytochrome P450 (CYP450), including warfarin sodium (Coumadin®) are ineligible
+
+          -  No concurrent medications that are strong inducers/inhibitors or substrates of CYP3A4
+
+          -  No concurrent drugs, food, supplements, or over-the-counter medications that may
+             interfere with the metabolism of RO4929097, including ketoconazole and fresh-squeezed
+             grapefruit juice
+
+          -  Patients may not be receiving any other investigational agents
+
+          -  Patients may not be receiving antiarrhythmics or other medications known to prolong
+             QTc
+
+          -  No other investigational or commercial agents or therapies may be administered with
+             the intent to treat the patient's malignancy
+
+          -  No patients who have had any chemotherapy or radiotherapy post-autologous stem cell
+             transplant prior to entering the therapeutic arm of the study or those who have not
+             recovered from the high-dose melphalan and autologous stem cell transplant
+
+          -  For therapeutic treatment with RO4929097, the acute toxicities of the high-dose
+             melphalan therapy must have resolved to the NCI-CTCAE version 4.0 Grade 1 or less
+             (with the exception of alopecia)
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Mecide Gharibo, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Cancer Institute of New Jersey</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>Cancer Institute of New Jersey at UMDNJ - Robert Wood Johnson Medical School</name>
+      <address>
+        <city>New Brunswick</city>
+        <state>New Jersey</state>
+        <zip>08903</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Cancer Institute of New Jersey</last_name>
+      <phone>732-235-8675</phone>
+    </contact>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <link>
+    <url>http://cancer.gov/clinicaltrials/CINJ-011003</url>
+    <description>Clinical trial summary from the National Cancer Institute's PDQ® database</description>
+  </link>
+  <verification_date>August 2011</verification_date>
+  <lastchanged_date>August 16, 2011</lastchanged_date>
+  <firstreceived_date>November 30, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Mecide Gharibo</name_title>
+    <organization>Cancer Institute of New Jersey at UMDNJ - Robert Wood Johnson Medical School</organization>
+  </responsible_party>
+  <keyword>refractory multiple myeloma</keyword>
+  <keyword>stage I multiple myeloma</keyword>
+  <keyword>stage II multiple myeloma</keyword>
+  <keyword>stage III multiple myeloma</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Neoplasms</mesh_term>
+    <mesh_term>Multiple Myeloma</mesh_term>
+    <mesh_term>Neoplasms, Plasma Cell</mesh_term>
+    <mesh_term>Plasmacytoma</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Melphalan</mesh_term>
+  </intervention_browse>
+</clinical_study>

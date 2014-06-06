@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="17">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01257776</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CeTMAd/ICPD/2008</org_study_id>
+    <nct_id>NCT01257776</nct_id>
+  </id_info>
+  <brief_title>Human Adipose Derived Mesenchymal Stem Cells for Critical Limb Ischemia in Diabetic Patients</brief_title>
+  <official_title>Phase I-II Study of the Use of Human Adipose Derived Mesenchymal Stem Cells as Regenerative Therapy in Diabetic Patients With Critical Limb Ischemia</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Fundacion Progreso y Salud, Spain</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Fundacion Progreso y Salud, Spain</source>
+  <oversight_info>
+    <authority>Spain: Spanish Medicine and Health-Care Products Agency. Ministry of Health</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Critical limb ischaemia in diabetic patients is associated with high rates of morbidity and
+      mortality. Sub-optimal responses to the available medical and surgical treatments are common
+      in these patients, who also demonstrate limited vascular homeostasis. Neovasculogenesis
+      induced by stem cell therapy could be a useful approach for these patients.
+
+      This is a randomized, open, controlled and multicentric study aimed to assess the safety and
+      efficacy of intra-arterial administration of autologous adipose derived mesenchymal stem
+      cells, in diabetic patients with critical limb ischemia of at least one limb and absence of
+      any revascularization option.
+
+      36 patients would be included and randomized into four groups of 9 patients, depending on
+      the mesenchymal stem cells concentration to be administered: 0,5 million cells/kg; 1 million
+      cells/kg; 2 million cells/kg; and controlled group.
+
+      Efficacy primary endpoint is the angiographic demonstration of neovasculogenesis at 6 months
+      follow up.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>December 2010</start_date>
+  <completion_date type="Anticipated">December 2012</completion_date>
+  <primary_completion_date type="Anticipated">December 2011</primary_completion_date>
+  <phase>Phase 1/Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Parallel Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Angiographic assessment of neovasculogenesis (angiogenesis plus arteriogenesis)</measure>
+    <time_frame>6 months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Target limb vascularization would be quantified by a dedicated software, MetaMorph® v.6.3, by using Angiogenesis Tube Formation application module. Neovasculogenesis would be the difference between vascularization at baseline and 6 months follow-up.</description>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Major adverse event (death, target limb amputation)</measure>
+    <time_frame>1 month, 6 months, 12 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Ankle Brachial Index</measure>
+    <time_frame>1 month, 6 months, 12 months</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>University of Texas Classification at target limb</measure>
+    <time_frame>1 month, 6 months, 12 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>4</number_of_arms>
+  <enrollment type="Anticipated">36</enrollment>
+  <condition>Critical Limb Ischemia</condition>
+  <condition>Diabetes</condition>
+  <arm_group>
+    <arm_group_label>Mesenchymal stem cells 0,5 million * weight (kg)</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Group of low dose of Mesenchymal stem cells.</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Mesenchymal stem cells 1 million * weight (kg)</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Group of mid dose of mesenchymal stem cells</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Mesenchymal stem cells 2 million * weight (kg)</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Group of high dose of mesenchymal stem cells</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Controlled group</arm_group_label>
+    <arm_group_type>No Intervention</arm_group_type>
+    <description>Controlled group with no intervention</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Autologous adipose derived mesenchymal stem cells</intervention_name>
+    <description>Intra-arterial administration through a selective cannulation of target common femoral artery</description>
+    <arm_group_label>Mesenchymal stem cells 0,5 million * weight (kg)</arm_group_label>
+    <arm_group_label>Mesenchymal stem cells 1 million * weight (kg)</arm_group_label>
+    <arm_group_label>Mesenchymal stem cells 2 million * weight (kg)</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Diabetes, type 1 or 2
+
+          -  Critical Limb Ischemia (Rutherford Becker Class II,III or IV)of at least one limb.
+
+          -  No options for target limb revascularization.
+
+        Exclusion Criteria:
+
+          -  Cancer antecedent in the last two years
+
+          -  Current limb infection or limb gangrene
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>85 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Rafael J Ruiz-Salmeron, MD, PhD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>University Hospital Virgen Macarena. Seville.Spain</affiliation>
+  </overall_official>
+  <overall_official>
+    <last_name>Antonio De la Cuesta, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>University Hospital Virgen Macarena. Seville.Spain</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Inmaculada C Perez-Camacho, MD, PhD</last_name>
+    <phone>+34955693440</phone>
+    <email>ipercam06@gmail.com</email>
+  </overall_contact>
+  <overall_contact_backup>
+    <last_name>Rafael J Ruiz-Salmerón, MD, PhD</last_name>
+    <phone>+34955693440</phone>
+    <email>rjruizsalmeron@yahoo.es</email>
+  </overall_contact_backup>
+  <location>
+    <facility>
+      <name>University Hospital Virgen Macarena</name>
+      <address>
+        <city>Seville</city>
+        <zip>41007</zip>
+        <country>Spain</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Inmaculada C Perez-Camacho, MD,PhD</last_name>
+      <phone>+34955693440</phone>
+      <email>ipercam06@gmail.com</email>
+    </contact>
+    <investigator>
+      <last_name>Francisco Marcos, MD, Phd</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Daniela De-Araujo, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Cesar Carrascosa, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Inmaculada C Perez-Camacho, MD, PhD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Miguel A Rico, MD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>CABIMER (Andalusian Center for Molecular Biology and Regenerative Medicine)</name>
+      <address>
+        <city>Seville</city>
+        <zip>41092</zip>
+        <country>Spain</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Inmaculada C Perez-Castejon, MD, PhD</last_name>
+      <phone>+34955693440</phone>
+      <email>ipercam06@gmail.com</email>
+    </contact>
+    <contact_backup>
+      <last_name>Abdelkrim Hmadcha, MD, PhD</last_name>
+      <phone>+34955693440</phone>
+      <email>Karim.Hmadcha@cabimer.es</email>
+    </contact_backup>
+    <investigator>
+      <last_name>Abdelkrim Hmadcha, MD, PhD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Itziar Ochotorena, MD, PhD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Bernat Soria, MD, PhD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+    <investigator>
+      <last_name>Natividad Cuende, MD, PhD</last_name>
+      <role>Sub-Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>Spain</country>
+  </location_countries>
+  <verification_date>May 2010</verification_date>
+  <lastchanged_date>December 9, 2010</lastchanged_date>
+  <firstreceived_date>December 9, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Fundacion Progreso y Salud</name_title>
+    <organization>Regional Andalusian Health Ministry</organization>
+  </responsible_party>
+  <keyword>Critical Limb Ischemia</keyword>
+  <keyword>Diabetes</keyword>
+  <keyword>Mesenchymal Stem Cells</keyword>
+  <keyword>Regenerative Therapy</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Diabetes Mellitus</mesh_term>
+    <mesh_term>Ischemia</mesh_term>
+  </condition_browse>
+</clinical_study>

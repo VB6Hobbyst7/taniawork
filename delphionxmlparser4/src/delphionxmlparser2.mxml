@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var pubnum:String = "";
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			[Bindable]
+			public var s3:String = "";
+			[Bindable]
+			public var s4:String = "";
+			[Bindable]
+			public var s5:String = "";
+			[Bindable]
+			public var s6:String = "";
+			[Bindable]
+			public var s7:String = "";
+			[Bindable]
+			public var s8:String = "";
+			[Bindable]
+			public var s9:String = "";
+			[Bindable]
+			public var s10:String = "";
+			[Bindable]
+			public var s11:String = "";
+			[Bindable]
+			public var s12:String = "";
+			[Bindable]
+			public var s13:String = "";
+			[Bindable]
+			public var s14:String = "";
+			[Bindable]
+			public var s15:String = "";
+			[Bindable]
+			public var s16:String = "";
+			
+			
+			[Bindable]
+			public var putCounter:Number = 0;
+			private static const READ_CHUNK_SIZE:uint = 100;     
+			private var fileStream:FileStream = null;
+			private var file:File = null;
+			private var toRead:uint = 0;
+			private var bytesLeft:Number = 0;
+			private var curBytes:ByteArray = null;          
+			private var totalBytesRead:Number = 0;
+			[Bindable]
+			public var resultString:String = "";
+			public var resultArray:Array = new Array();
+			[Bindable]
+			public var limit:uint = 84000;
+			public var goby:uint = 2000;
+			[Bindable]
+			public var dataArray:ArrayCollection = new ArrayCollection();
+			public var ar:ArrayCollection = new ArrayCollection();
+			
+			public function init(event:FlexEvent):void
+			{
+				//internetEasyMethod();
+				localFileBruteMethod();	
+			}
+			public function localFileBruteMethod():void {
+				var file3:File = new File(File.applicationDirectory.resolvePath('data2/termsynthbio.xml').nativePath);
+				var fs:FileStream = new FileStream();
+				fs.open(file3, FileMode.READ);
+				//text of the the m.txt is now in mtext
+				resultString = fs.readUTFBytes(fs.bytesAvailable).toLowerCase();
+				fs.close();
+				fileParse();
+			}
+			public function fileParse():void
+			{
+			//	var samp:String = resultString;
+				var resultCounter:uint = 2;
+				dataArray = new ArrayCollection();
+				if (resultString.indexOf("</patent>") == -1){
+					var stop:String = "";
+				}
+				var traceCounter:uint = 0;
+				do {
+					var docText:String = resultString.substring(resultString.indexOf("<patent>")+9,
+						resultString.indexOf("</patent>")).toLocaleLowerCase();
+					
+					
+					
+					
+					
+					
+					var documentNumber:String = "";
+					var ipcClassification:String = "";
+					var eclaClassification:String = "";
+					var assigneeCity:String = "";
+					var assigneeCountry:String = "";
+					var assigneeName:String = "";
+					var inventorCity:String = "";
+					var inventorCountry:String = "";
+					var inventorName:String = "";
+					var documentDate:String = "";
+					var pubnum:String = "";
+					
+					
+					
+					var tempString:String = "";
+					var tempString2:String = "";
+					
+					
+					
+					tempString = docText.substr(docText.indexOf("<documentid>"),docText.indexOf("</documentid>"));
+					documentNumber = tempString.substr(tempString.indexOf("<documentnumber>")+("<documentnumber>".length),tempString.length);
+					documentNumber = documentNumber.substring(0,documentNumber.indexOf("<"));
+					
+					tempString = docText.substr(docText.indexOf("<documentid>"),docText.indexOf("</documentid>"));
+					pubnum = tempString.substr(tempString.indexOf("<originalid>")+("<originalid>".length),tempString.length);
+					pubnum = pubnum.substring(0,pubnum.indexOf("<"));
+					
+					tempString = docText.substr(docText.indexOf("<documentid>"),docText.indexOf("</documentid>"));
+					documentDate = tempString.substr(tempString.indexOf("<documentdate>")+("<documentdate>".length),tempString.length);
+					documentDate = documentDate.substring(0,documentDate.indexOf("<"));
+					
+				
+					tempString = docText.substr(docText.indexOf("<ipcclassification>")+("<ipcclassification>".length),docText.length);
+					tempString = tempString.substring(0,tempString.indexOf("</ipcclassification>"));
+					ipcClassification = flattenReplace(tempString);
+					
+					tempString = docText.substr(docText.indexOf("<eclaclassification>")+("<eclaclassification>".length),docText.length);
+					tempString = tempString.substring(0,tempString.indexOf("</eclaclassification>"));
+					eclaClassification = flattenReplace(tempString);
+					
+					tempString = docText.substr(docText.indexOf("<inventors>"),docText.indexOf("</inventors>"));
+					do {
+						tempString2 = tempString.substr(tempString.indexOf("<inventor>"),tempString.indexOf("</inventor>"));
+						var inventorName2:String = tempString2.substr(tempString2.indexOf("<fullname>")+("<fullname>".length),tempString2.length);
+						inventorName2 = inventorName2.substring(0,inventorName2.indexOf("<"));
+						var inventorCity2:String = tempString2.substr(tempString2.indexOf("<city>")+("<city>".length),tempString2.length);
+						inventorCity2 = inventorCity2.substring(0,inventorCity2.indexOf("<"));
+						var inventorCountry2:String = tempString2.substr(tempString2.indexOf("<country>")+("<country>".length),tempString2.length);
+						inventorCountry2 = inventorCountry2.substring(0,inventorCountry2.indexOf("<"));
+						tempString = tempString.substring(tempString.indexOf("</inventor>")+("</inventor>".length),tempString.length);
+						
+						if (inventorName == ""){
+							inventorName = inventorName2;
+						}
+						else {
+							inventorName = inventorName + "," + inventorName2;
+						}
+						
+						if (inventorCity == ""){
+							inventorCity = inventorCity2;
+						}
+						else {
+							inventorCity = inventorCity + "," + inventorCity2;
+						}
+						
+						if (inventorCountry == ""){
+							inventorCountry = inventorCountry2;
+						}
+						else {
+							inventorCountry = inventorCountry + "," + inventorCountry2;
+						}
+					}while (tempString.indexOf("<inventor>") != -1);
+
+					
+					tempString = docText.substr(docText.indexOf("<assignees"),docText.indexOf("</assignees>"));
+					do {
+						tempString2 = tempString.substr(tempString.indexOf("<assignee>"),tempString.indexOf("</assignee>"));
+						var assigneeName2:String = tempString2.substr(tempString2.indexOf("<fullname>")+("<fullname>".length),tempString2.length);
+						assigneeName2 = assigneeName2.substring(0,assigneeName2.indexOf("<"));
+						var assigneeCity2:String = tempString2.substr(tempString2.indexOf("<city>")+("<city>".length),tempString2.length);
+						assigneeCity2 = assigneeCity2.substring(0,assigneeCity2.indexOf("<"));
+						var assigneeCountry2:String = tempString2.substr(tempString2.indexOf("<country>")+("<country>".length),tempString2.length);
+						assigneeCountry2 = assigneeCountry2.substring(0,assigneeCountry2.indexOf("<"));
+						tempString = tempString.substring(tempString.indexOf("</assignee>")+("</assignee>".length),tempString.length);
+						
+						if (assigneeName == ""){
+							assigneeName = assigneeName2;
+						}
+						else {
+							assigneeName = assigneeName + "," + assigneeName2;
+						}
+						
+						if (assigneeCity == ""){
+							assigneeCity = assigneeCity2;
+						}
+						else {
+							assigneeCity = assigneeCity + "," + assigneeCity2;
+						}
+						
+						if (assigneeCountry == ""){
+							assigneeCountry = assigneeCountry2;
+						}
+						else {
+							assigneeCountry = assigneeCountry + "," + assigneeCountry2;
+						}
+	
+					}while (tempString.indexOf("<assignee>") != -1);
+					
+					
+					var stop3424:String = "";
+					
+					
+					
+					
+					
+					
+					
+					//dataArray.addItem({title:title,date:date,year:year,month:month,text:text,pmid:pmid,affiliation:affiliation});
+					
+					
+					resultString = resultString.substring(resultString.indexOf("</patent>")+9,resultString.length);
+					if (resultString.indexOf("</patent>") == -1){
+						resultString = "";
+					}
+					traceCounter++;
+					trace(traceCounter.toString());
+					
+				} while((resultString.indexOf("<patent>") != -1));
+				uploadData();
+				
+			}
+			public function flattenReplace(s:String):String {
+				var temp:String = s;
+				var resultString:String = "";
+				do{
+					if (temp.charAt(0) != "<"){
+						var first:String = temp.substring(0,temp.indexOf("<"));
+						resultString = resultString + "," + first;
+						temp = temp.substring(temp.indexOf(">")+1,temp.length);
+					}
+					else {
+						temp = temp.substring(temp.indexOf(">")+1,temp.length);
+						resultString = resultString = resultString + "," + temp.substring(0,temp.indexOf("<"));
+						temp = temp.substring(temp.indexOf("<"),temp.length);
+					}
+				}while((temp.indexOf("<") != -1)||(temp.indexOf(">") != -1));
+				
+				
+				
+				var jd:RegExp = new RegExp("\t","g");
+				resultString = resultString.replace(jd,"");
+				jd = new RegExp("\r","g");
+				resultString = resultString.replace(jd,"");
+				jd = new RegExp("\n","g");
+				resultString = resultString.replace(jd,"");
+				
+				if (resultString.charAt(0) == ","){
+					resultString = resultString.substring(1,resultString.length);
+				}
+				
+				jd = new RegExp(",,","g");
+				resultString = resultString.replace(jd,",");
+				
+				if (resultString.charAt(0) == ","){
+					resultString = resultString.substring(1,resultString.length);
+				}
+				
+				jd = new RegExp(",,","g");
+				resultString = resultString.replace(jd,",");
+				
+				jd = new RegExp(",,","g");
+				resultString = resultString.replace(jd,",");
+				
+				jd = new RegExp(", ,","g");
+				resultString = resultString.replace(jd,",");
+				
+				return resultString;
+			}
+			public function internetEasyMethod():void {
+				getData.send();
+			}
+			public function afterGetData(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				ar = event.result.ippublication;
+				parseBTN.visible = true;
+			}
+			public function parseData():void {
+				var stop:String = "";
+				for (var i:uint = 0; i < ar.length; i++){
+					var claimsArray:ArrayCollection = new ArrayCollection();
+					try{
+						claimsArray = ar[i].patent.claims.paragraph;
+					}
+					catch(e:Error){
+						
+					}
+					var claimsText:String = "";
+					var title:String = "";
+					for (var j:uint = 0; j < claimsArray.length; j++){
+						claimsText = claimsText + claimsArray[j].value + " ";
+					}
+					
+					var jd:RegExp = new RegExp("<p>","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("</p>","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("'s","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp("'","g");
+					claimsText = claimsText.replace(jd,"");
+					jd = new RegExp(";","g");
+					claimsText = claimsText.replace(jd,"");
+					
+					
+					title = ar[i].patent.bibliographicInformation.title.value;
+					var setType:String = "wipo";
+					var correspondenceAddress:String = "";
+					var correspondenceCity:String = "";
+					var correspondenceCountry:String = "";
+					var correspondenceCountryName:String = "";
+					var correspondenceName:String = "";
+					var assigneeCity:String = "";
+					var assigneeCountry:String = "";
+					var assigneeCountryName:String = "";
+					var assigneeName:String = "";
+					var inventorAddress:String = "";
+					var inventorCity:String = "";
+					var inventorCountry:String = "";
+					var inventorCountryName:String = "";
+					var inventorName:String = "";
+					var documentDate:String = "";
+					var documentYear:String = "";
+					var pubnum:String = ar[i].patent.bibliographicInformation.documentId.originalId;
+					
+					//pubnum = fullText.substring(fullText.indexOf("<originalId>")+12,fullText.indexOf("</originalId>"));
+					//fullText = fullText.substring(fullText.indexOf("</patent>")+10,fullText.length);
+					//			trace(pubnum+"\n");
+					documentDate = ar[i].patent.bibliographicInformation.documentId.documentDate;
+					documentYear = documentDate.substring(0,documentDate.indexOf("-"));
+					
+					try{
+						assigneeCity = ar[i].patent.bibliographicInformation.assignees.assignee.address.city;
+						assigneeName = ar[i].patent.bibliographicInformation.assignees.assignee.name.fullName;
+						assigneeCountry = ar[i].patent.bibliographicInformation.assignees.assignee.address.country;
+						assigneeCountryName = ar[i].patent.bibliographicInformation.assignees.assignee.address.countryName;
+					}
+					catch(e:Error){
+						try{
+							assigneeCity = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.city;
+							assigneeName = ar[i].patent.bibliographicInformation.assignees.assignee[0].name.fullName;
+							assigneeCountry = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.country;
+							assigneeCountryName = ar[i].patent.bibliographicInformation.assignees.assignee[0].address.countryName;
+						}
+						catch(e:Error){
+							
+						}
+					}
+					
+					
+					try{
+						correspondenceAddress = ar[i].patent.bibliographicInformation.correspondenceAddress.address.address1;
+						correspondenceCity = ar[i].patent.bibliographicInformation.correspondenceAddress.address.city;
+						correspondenceCountry = ar[i].patent.bibliographicInformation.correspondenceAddress.address.country;
+						correspondenceCountryName = ar[i].patent.bibliographicInformation.correspondenceAddress.address.countryName;
+						correspondenceName = ar[i].patent.bibliographicInformation.correspondenceAddress.name.fullName;
+					}
+					catch(e:Error){
+						
+					}
+					try{
+						inventorAddress = ar[i].patent.bibliographicInformation.inventors.inventor.address.address1;
+						inventorCity = ar[i].patent.bibliographicInformation.inventors.inventor.address.city;
+						inventorCountry = ar[i].patent.bibliographicInformation.inventors.inventor.address.country;
+						inventorCountryName = ar[i].patent.bibliographicInformation.inventors.inventor.address.countryName;
+						inventorName = ar[i].patent.bibliographicInformation.inventors.inventor.name.fullName;
+					}
+					catch(e:Error){
+						try{
+							inventorAddress = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.address1;
+							inventorCity = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.city;
+							inventorCountry = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.country;
+							inventorCountryName = ar[i].patent.bibliographicInformation.inventors.inventor[0].address.countryName;
+							inventorName = ar[i].patent.bibliographicInformation.inventors.inventor[0].name.fullName;
+						}
+						catch(e:Error){
+							
+						}
+						
+					}
+					
+					
+					
+					
+					
+					dataArray.addItem({pubnum:pubnum,title:title,claimsText:claimsText,setType:setType,
+						correspondenceAddress:correspondenceAddress,correspondenceCity:correspondenceCity,
+						correspondenceCountry:correspondenceCountry,correspondenceName:correspondenceName,
+						assigneeCity:assigneeCity,assigneeCountry:assigneeCountry,assigneeName:assigneeName,
+						inventorAddress:inventorAddress,inventorCity:inventorCity,inventorCountry:inventorCountry,
+						inventorName:inventorName,documentDate:documentDate,documentYear:documentYear});
+					
+					
+					
+					
+					var stop3:String = "";
+					
+				}
+				var stop4:String = "";
+				uploadData();
+			}
+			public function uploadData():void {
+				putCounter = 0;
+				pubnum = dataArray[putCounter].pubnum;
+				s1 = fixText(dataArray[putCounter].title);
+				s2 = fixText(dataArray[putCounter].claimsText);
+				s3 = dataArray[putCounter].correspondenceAddress;
+				s4 = dataArray[putCounter].correspondenceCity;
+				s5 = dataArray[putCounter].correspondenceCountry;
+				s6 = dataArray[putCounter].correspondenceName;
+				s7 = dataArray[putCounter].assigneeCity;
+				s8 = dataArray[putCounter].assigneeCountry;
+				s9 = dataArray[putCounter].assigneeName;
+				s10 = dataArray[putCounter].inventorAddress;
+				s11 = dataArray[putCounter].inventorCity;
+				s12 = dataArray[putCounter].inventorCountry;
+				s13 = dataArray[putCounter].inventorName;
+				s14 = dataArray[putCounter].documentDate;
+				s15 = dataArray[putCounter].documentYear;
+				s16 = dataArray[putCounter].setType;
+			
+				
+				putData.send();
+				
+			}
+			
+			public function afterPutData(ev:ResultEvent):void {
+				trace(putCounter.toString());
+				if (putCounter < dataArray.length-1){
+					putCounter++;
+					pubnum = dataArray[putCounter].pubnum;
+					s1 = fixText(dataArray[putCounter].title);
+					s2 = fixText(dataArray[putCounter].claimsText);
+					s3 = dataArray[putCounter].correspondenceAddress;
+					s4 = dataArray[putCounter].correspondenceCity;
+					s5 = dataArray[putCounter].correspondenceCountry;
+					s6 = dataArray[putCounter].correspondenceName;
+					s7 = dataArray[putCounter].assigneeCity;
+					s8 = dataArray[putCounter].assigneeCountry;
+					s9 = dataArray[putCounter].assigneeName;
+					s10 = dataArray[putCounter].inventorAddress;
+					s11 = dataArray[putCounter].inventorCity;
+					s12 = dataArray[putCounter].inventorCountry;
+					s13 = dataArray[putCounter].inventorName;
+					s14 = dataArray[putCounter].documentDate;
+					s15 = dataArray[putCounter].documentYear;
+					s16 = dataArray[putCounter].setType;
+					putData.send();
+				}
+				else {
+					trace("done");
+					var stop:String = "";
+					done.visible = true;
+					//NativeApplication.nativeApplication.exit();
+				}
+			}
+			public function fixText(s:String):String {
+				var text:String = s;
+				
+				
+				var j:RegExp =/>/gi;
+				text = text.replace(j, " ");
+				
+				var j:RegExp =/</gi;
+				text = text.replace(j, " ");
+				
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(";") != -1){
+					var j:RegExp =/;/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(",") != -1){
+					var j:RegExp =/,/gi;
+					text = text.replace(j, " ");
+				}
+				//if (text.indexOf(")") != -1){
+				var j:RegExp =/)/gi;
+				text = text.replace(j, " ");
+				//}
+				//if (text.indexOf("(") != -1){
+				var j:RegExp =/(/gi;
+				text = text.replace(j, " ");
+				//}
+				if (text.indexOf(":") != -1){
+					var j:RegExp =/:/gi;
+					text = text.replace(j, " ");
+				}
+				
+				return text;
+			}
+			public function foundBadCharacter(s:String):Boolean {
+				if (s.indexOf("<") != -1){
+					return true;
+				}
+				if (s.indexOf(">") != -1){
+					return true;
+				}
+				if (s.indexOf("/") != -1){
+					//return true;
+				}
+				if (s.indexOf("\\") != -1){
+					//	return true;
+				}
+				
+				return false;
+			}
+			public function getMonth(s:String):String {
+				var month:String = "";
+				if ((s == "1")||(s == "01")){
+					month = "jan";
+				}
+				if ((s == "2")||(s == "02")){
+					month = "feb";
+				}
+				if ((s == "3")||(s == "03")){
+					month = "mar";
+				}
+				if ((s == "4")||(s == "04")){
+					month = "apr";
+				}
+				if ((s == "5")||(s == "05")){
+					month = "may";
+				}
+				if ((s == "6")||(s == "06")){
+					month = "jun";
+				}
+				if ((s == "7")||(s == "07")){
+					month = "jul";
+				}
+				if ((s == "8")||(s == "08")){
+					month = "aug";
+				}
+				if ((s == "9")||(s == "09")){
+					month = "sept";
+				}
+				if ((s == "10")||(s == "010")){
+					month = "oct";
+				}
+				if ((s == "11")||(s == "011")){
+					month = "nov";
+				}
+				if ((s == "12")||(s == "012")){
+					month = "dec";
+				}
+				return month;
+			}
+			public static function removeHtmlTags(html:String, tags:String = ""):String
+			{
+				var tagsToBeKept:Array = new Array();
+				if (tags.length > 0)
+					tagsToBeKept = tags.split(new RegExp("\\s*,\\s*"));
+				
+				var tagsToKeep:Array = new Array();
+				for (var i:int = 0; i < tagsToBeKept.length; i++)
+				{
+					if (tagsToBeKept[i] != null && tagsToBeKept[i] != "")
+						tagsToKeep.push(tagsToBeKept[i]);
+				}
+				
+				var toBeRemoved:Array = new Array();
+				var tagRegExp:RegExp = new RegExp("<([^>\\s]+)(\\s[^>]+)*>", "g");
+				
+				var foundedStrings:Array = html.match(tagRegExp);
+				for (i = 0; i < foundedStrings.length; i++) 
+				{
+					var tagFlag:Boolean = false;
+					if (tagsToKeep != null) 
+					{
+						for (var j:int = 0; j < tagsToKeep.length; j++)
+						{
+							var tmpRegExp:RegExp = new RegExp("<\/?" + tagsToKeep[j] + "( [^<>]*)*>", "i");
+							var tmpStr:String = foundedStrings[i] as String;
+							if (tmpStr.search(tmpRegExp) != -1) 
+								tagFlag = true;
+						}
+					}
+					if (!tagFlag)
+						toBeRemoved.push(foundedStrings[i]);
+				}
+				for (i = 0; i < toBeRemoved.length; i++) 
+				{
+					var tmpRE:RegExp = new RegExp("([\+\*\$\/])","g");
+					var tmpRemRE:RegExp = new RegExp((toBeRemoved[i] as String).replace(tmpRE, "\\$1"),"g");
+					html = html.replace(tmpRemRE, "");
+				} 
+				return html;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:HTTPService id="getData" url="http://localhost:8080/delphionxmlparser4/bin-debug/data2/plants.xml"
+					   useProxy="false" method="GET" result="afterGetData(event)" />
+		<s:HTTPService id = "putData"  result="afterPutData(event);"
+					   url="http://localhost:8080/delphionxmlparser4/bin-debug/php/putData.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<pubnum>{pubnum}</pubnum>
+				<s1>{s1}</s1>
+				<s2>{s2.toLowerCase()}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+				<s7>{s7}</s7>
+				<s8>{s8}</s8>
+				<s9>{s9}</s9>
+				<s10>{s10}</s10>
+				<s11>{s11}</s11>
+				<s12>{s12}</s12>
+				<s13>{s13}</s13>
+				<s14>{s14}</s14>
+				<s15>{s15}</s15>
+				<s16>{s16}</s16>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Button x="6" y="8" click="parseData();" id="parseBTN" visible="false" label="parse"/>
+	<s:Label id="done" visible="false" x="10" y="37" width="168" height="80" fontSize="50" text="DONE"/>
+	
+</s:WindowedApplication>

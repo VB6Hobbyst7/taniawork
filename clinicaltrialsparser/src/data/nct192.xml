@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="51">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01237639</url>
+  </required_header>
+  <id_info>
+    <org_study_id>2010614-01H</org_study_id>
+    <nct_id>NCT01237639</nct_id>
+  </id_info>
+  <brief_title>Study of Red Blood Cell Transfusion Triggers in Patients Undergoing Hematopoietic Stem Cell Transplantation</brief_title>
+  <acronym>TRIST</acronym>
+  <official_title>Transfusion of Red Cells in Hematopoietic Stem Cell Transplantation: The TRIST Study</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Ottawa Hospital Research Institute</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>Canadian Blood Services</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+    <collaborator>
+      <agency>The Ottawa Hospital</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+    <collaborator>
+      <agency>Hamilton Health Sciences Corporation</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+    <collaborator>
+      <agency>London Health Sciences Centre</agency>
+      <agency_class>Other</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Ottawa Hospital Research Institute</source>
+  <oversight_info>
+    <authority>Canada: Ethics Review Committee</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Transfusion of red blood cells (RBCs) is important for the care of patients undergoing stem
+      cell transplantation. Stem cell transplants are used to treat blood cancers and bone marrow
+      disorders. This involves the use of high doses of chemotherapy and/or radiation to kill
+      cancer cells; but this damages the marrow and blood system.  Blood stem cells are
+      transplanted by infusing into the recipient and blood counts recover over 2-3 weeks. Before
+      bone marrow recovery, RBCs are needed to support the patient. Higher hemoglobin in these
+      high risk patients may have benefits such as better energy and organ function. However,
+      research in other areas of medicine suggests that a higher red cell count may be dangerous.
+      Taken together, it is unclear whether having a lower or higher red cell count is better for
+      patients having a blood stem cell transplant.  The investigators plan to study this by
+      randomly assigning patients having a transplant to be transfused with RBCs either at a
+      higher or lower hemoglobin level. In this way, the investigators will be able to accurately
+      find out if there are any benefits or harms in having a lower or higher red cell count
+      during the recovery period after blood stem cell transplantation.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      1. Males or females aged 18 years or older who are undergoing either an autologous or
+           allogeneic HSCT.
+
+        2. The indications for HSCT may include, but not limited to the following diseases :
+
+             1. Acute Leukemia, myeloid, lymphoid or biphenotypic in 1st, 2nd  remission or in
+                relapse
+
+             2. Chronic Myeloid Leukemia in chronic, accelerated or blast phase
+
+             3. Chronic Lymphocytic Leukemia
+
+             4. Myelodysplastic Syndrome
+
+             5. Myeloproliferative Disorder
+
+             6. Lymphoma
+
+             7. Myeloma
+
+        3. All study patients must provide consent at least 1 day prior to scheduled HSCT and
+           provide written informed consent.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>March 2011</start_date>
+  <primary_completion_date type="Anticipated">December 2013</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Parallel Assignment, Masking:  Open Label, Primary Purpose:  Supportive Care</study_design>
+  <primary_outcome>
+    <measure>Number of Participants with Adverse Events as a Measure of Safety and Tolerability</measure>
+    <time_frame>2 years</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>We will
+Identify logistical issues related to protocol implementation.
+Further, we will evaluate feasibility of:
+Recruitment rates,
+Randomization implementation strategy,
+Data collection of clinical outcomes and
+Defining the sample size required for a definitive trial.</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Transplant Related Mortality</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Red Cell Transfusion</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Platelet Transfusion</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Acute Graft Versus Host Disease</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Bleeding</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>Grade 3 or 4 by WHO scale</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Serious Infections</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>All grade 4 and 5 infections (according to the CTCAE v.4)</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Time to Non-relapse Mortality</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Quality of Life</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>FACT-BMT EQ-5D</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>NCI Toxicity Scale</measure>
+    <time_frame>100 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">100</enrollment>
+  <condition>Hematologic Malignancies</condition>
+  <arm_group>
+    <arm_group_label>Restrictive Red blood cell Transfusion</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Transfusion Trigger of 70g/L with an aim to maintain Hemoglobin between 80-90g/L</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Liberal Red blood Cell Transfusion</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Transfusion Trigger of 90g/L with an aim to maintain Hemoglobin between 100-110g/L</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>Red blood cell Transfusion</intervention_name>
+    <description>Transfusion of Red blood cells to based on daily complete blood count</description>
+    <arm_group_label>Restrictive Red blood cell Transfusion</arm_group_label>
+    <arm_group_label>Liberal Red blood Cell Transfusion</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Patients are aged 16-70 undergoing either an autologous or allogeneic HSCT for any
+             hematologic malignancy
+
+        Exclusion Criteria:
+
+          -  Pregnant or lactating at the time of enrollment
+
+          -  Already received red cell transfusion after HSCT but prior to enrollment
+
+          -  Unable/unwilling to provide informed consent.
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Jason Tay, MD FRCPC MSc</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Ottawa Hospital Research Institute</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Jason Tay, MD FRCPC MSc</last_name>
+    <phone>613-737-8899</phone>
+    <phone_ext>73034</phone_ext>
+    <email>jtay@ottawahospital.on.ca</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>Hamilton Health Sciences Centre</name>
+      <address>
+        <city>Hamilton</city>
+        <state>Ontario</state>
+        <zip>L8N 3Z5</zip>
+        <country>Canada</country>
+      </address>
+    </facility>
+    <status>Not yet recruiting</status>
+    <contact>
+      <last_name>Irwin Walker, MD</last_name>
+      <phone>905-521-2100</phone>
+    </contact>
+    <investigator>
+      <last_name>Irwin Walker, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>London Health Sciences Centre, University Hospital</name>
+      <address>
+        <city>London</city>
+        <state>Ontario</state>
+        <zip>N6A 5A5</zip>
+        <country>Canada</country>
+      </address>
+    </facility>
+    <status>Not yet recruiting</status>
+    <contact>
+      <last_name>Anargyros Xenacostas, MD</last_name>
+      <phone>519-685-8500</phone>
+    </contact>
+    <investigator>
+      <last_name>Anargyros Xenocostas, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>The Ottawa Hospital</name>
+      <address>
+        <city>Ottawa</city>
+        <state>Ontario</state>
+        <zip>K1H 8L6</zip>
+        <country>Canada</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Jason Tay, MD</last_name>
+      <phone>613 737 8899</phone>
+      <phone_ext>73034</phone_ext>
+      <email>jtay@ottawahospital.on.ca</email>
+    </contact>
+    <investigator>
+      <last_name>Jason Tay, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>Canada</country>
+  </location_countries>
+  <verification_date>May 2011</verification_date>
+  <lastchanged_date>May 11, 2011</lastchanged_date>
+  <firstreceived_date>October 13, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Jason Tay</name_title>
+    <organization>Ottawa Hospital Research Institute</organization>
+  </responsible_party>
+  <keyword>Red Cells</keyword>
+  <keyword>Transfusion</keyword>
+  <keyword>Trigger</keyword>
+  <keyword>Threshold</keyword>
+  <keyword>Hematopoietic Stem cell Transplantation</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Neoplasms</mesh_term>
+    <mesh_term>Hematologic Neoplasms</mesh_term>
+  </condition_browse>
+</clinical_study>

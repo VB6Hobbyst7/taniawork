@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="156">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01326104</url>
+  </required_header>
+  <id_info>
+    <org_study_id>Pro00018020</org_study_id>
+    <nct_id>NCT01326104</nct_id>
+  </id_info>
+  <brief_title>Vaccine Immunotherapy for Recurrent Medulloblastoma and Primitive Neuroectodermal Tumor (PNET)</brief_title>
+  <acronym>REMATCH</acronym>
+  <official_title>Recurrent Medulloblastoma and Primitive Neuroectodermal Tumor Adoptive T Cell Therapy During Recover From Myeloablative Chemotherapy and Hematopoietic Stem Cell Transplantation</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Duke University</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Duke University</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <authority>United States: Department of Defense</authority>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      This study will have two phases. During Phase I, the investigators will treat patients with
+      increasing doses of the tumor-specific immune cells that the investigators have expanded in
+      the investigators clinical laboratory to establish the safety of this treatment regimen.
+      These patients will also receive dendritic cell vaccines to help boost the function of these
+      immune cells and maintain their growth after being returned to the patient. The
+      investigators expect to treat approximately 9 patients during the Phase I component to
+      establish that this treatment seems safe.   In the Phase II component, once the treatment
+      has been shown to be safe, the investigators will treat a larger number of patients
+      (approximately 35) with expanded tumor-specific immune cells and dendritic cell vaccines and
+      evaluate the impact on tumor growth in these patients.  This will allow us to determine
+      whether tumor growth is prevented or delayed compared to patients that have received similar
+      treatment without immunotherapy.  This type of comparison to previously treated patients
+      (called historical control comparison) will allow us to determine whether this treatment
+      regimen looks promising enough to evaluate in larger clinical trials to definitively
+      establish the effectiveness of this approach.
+
+      Immunotherapy is a specific approach to treating cancer that has shown promise in adult
+      patients for the treatment of melanoma, malignant brain tumors, and other cancers, and the
+      investigators hope to use the experience the investigators have gained in the immunologic
+      treatment of adult patients with malignant brain tumors at the investigators center to
+      improve the clinical outcome for children affected by this disease.  This study has
+      significant potential to impact the families of civilians and military dependents, as the
+      brain is the most frequent site of crippling injuries in humans and unfortunately, brain
+      cancer is currently the leading cause of cancer deaths in children in the United States.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      Background:  Malignant brain tumors now represent the most frequent cause of cancer death in
+      children1.  Despite aggressive and highly toxic multi-modality therapy including surgery,
+      craniospinal radiation, and high-dose chemotherapy coupled with peripheral blood stem cell
+      transplantation (HDC + PBSCT), almost half the children diagnosed with the most common
+      malignant brain tumors, medulloblastoma and primitive neuroectodermal tumors (MB/PNETs),
+      will still die from recurrent disease.  Furthermore, survivors are often left with severe
+      and lifelong treatment-associated cognitive and motor deficits. The development of more
+      effective and tumor-specific therapies that will not add further toxicity to existing
+      treatments is paramount in improving clinical outcomes for children affected by MB/PNETs.
+      Immunotherapy targeting tumor-specific antigens expressed within brain tumors is a modality
+      potentially capable of meeting this clear and urgent need8.
+
+      Despite considerable advancements and promising clinical results observed in immunotherapy
+      trials at our center and others directed against adult malignant brain tumors, efforts in
+      the immunologic treatment of pediatric brain tumors have been limited to relatively few
+      notable studies. This is due, at least in part, to the often limited viable tumor tissue
+      available for tumor cell-based vaccine preparations, and the lack of identification of
+      consistently expressed tumor-specific antigens within these cancers.
+
+      The use of total tumor RNA-loaded dendritic cells (DCs) was pioneered by Drs. Nair and
+      Gilboa at our institution, as a novel platform for inducing potent immunologic responses
+      against the variety of uncharacterized and patient-specific antigens present within
+      malignant tumor cells.  The investigators have demonstrated that sufficient RNA for clinical
+      vaccine preparations can be amplified with high fidelity using existing molecular
+      technologies from as few as 500 isolated pediatric and adult brain tumor cells, thus
+      allowing vaccine preparation from surgical biopsies and even microdissected archival tumor
+      specimens. The investigators are currently exploring adoptive cellular therapy using
+      amplified tumor RNA-pulsed DCs and autologous lymphocyte transfer (DC + ALT therapy) in
+      adult patients with recurrent GBM (FDA IND BB-13630; Duke IRB protocol 6677; PI: Duane A.
+      Mitchell, M.D., Ph.D.). In this proposal, the investigators aim to extend evaluation of this
+      novel platform to the treatment of recurrent MB/PNETs (reMB/PNETs) during hematopoietic
+      recovery from HDC + PBSCT.
+
+      Immunotherapy administered during recovery from HDC (Group A) or NMA salvage chemotherapy
+      (Group B) may have tremendous advantages, as adoptive cellular therapy following
+      lymphodepletive condition regimens has emerged as the most effective treatment strategy for
+      advanced and refractory melanoma, with remarkable objective clinical responses in up to 75%
+      of treated patients, including durable complete regressions of metastatic lesions within the
+      CNS. Though the mechanisms by which lymphodepletion enhances immunotherapy in humans are not
+      well elucidated, elegant studies in murine tumor models have highlighted the depletion of
+      immunosuppressive regulatory T cells (Tregs), increased bioavailability of inflammatory
+      cytokines and homeostatic proliferative cytokines (most notably IL-7 and IL-15) after
+      removal of host lymphocytes and natural killer (NK) cells that compete with transferred
+      tumor-specific T cells, and increased toll-receptor agonistic signals due to systemic
+      release of gut microbial antigens during myeloablative therapy as the key catalysts for
+      induction of potent anti-tumor immunity.
+
+      Objective/Hypothesis: Our hypothesis is that DC + xALT therapy targeting reMB/PNETs during
+      recovery from myeloablative chemotherapy will be safe and will prolong the 12-month
+      progression-free survival (PFS-12) (H0: 3.14(pi) ≤ 0.33; H1: 3.14(pi) &gt; 0.55) in children
+      and young adults with reMB/PNETs.
+
+      Specific Aims:  A Phase I/II clinical trial of DC + ALT therapy during hematopoietic
+      recovery from HDC + PBSCT in pediatric patients with reMB/PNETs will be conducted with the
+      following Aims:
+
+        1. Establish the safety of DC + ALT therapy during hematopoietic recovery from HDC + PBSCT
+           (Group A) or NMA salvage chemotherapy (Group B) in children with reMB/PNETs;
+
+        2. Determine the impact of DC + ALT therapy on progression-free survival (PFS) and overall
+           survival (OS) of children with reMB/PNETs compared to historical controls;
+
+        3. Investigate the correlation between clinical outcome and the frequency and persistence
+           of tumor-specific T cells in the peripheral blood of treated patients;
+
+        4. Determine the impact of induction therapy and HDC + PBSCT (Group A) or NMA salvage
+           chemotherapy (Group B) on circulating levels of homeostatic and inflammatory cytokines,
+           toll-receptor activation status, and on the functional recovery of lymphocyte and NK
+           cellular subsets in children with re-MB/PNETs receiving DC + ALT therapy; Study Design:
+            A single-arm, prospective Phase I/II clinical trial of DC + xALT therapy is planned in
+           pediatric and young adult patients with reMB/PNETs.  The maximum tolerated dose of
+           adoptively transferred tumor-specific lymphocytes will be established during Phase I
+           using a 3+3 study design and then 35 patients will be treated during Phase II with the
+           MTD of DC + xALT therapy to estimate the clinical efficacy. The primary endpoint of the
+           Phase I trial will be safety and defining the MTD. The primary endpoint of the Phase II
+           trial will be PFS-12.  With 35 patients, the Phase II study will have 90% power to
+           differentiate between PFS-12 of 33% (null hypothesis) and 55% (alternative hypothesis)
+           assuming a type I error rate of 0.10.
+
+      Impact:  These studies will address the clear and urgent need for novel and less toxic
+      therapy for the treatment of MB and PNETs in the pediatric population. As the leading cause
+      of cancer related deaths in children, this therapy has significant potential to favorably
+      alter the disease outcome for pediatric cancers overall.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>April 2010</start_date>
+  <completion_date type="Anticipated">March 2015</completion_date>
+  <primary_completion_date type="Anticipated">September 2014</primary_completion_date>
+  <phase>Phase 1/Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Endpoint Classification:  Safety Study, Intervention Model:  Parallel Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Establishing the safety and DLT of DC + xALT therapy in this patient population with TTRNA-xALT and TTRNA-DCs will be the primary goal in the Phase I portion of the trial.</measure>
+    <time_frame>44 months</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>A 3+3 Phase I study design with 3 lymphocyte (xALT) dose levels will be used to assess the safety of DC + xALT therapy, and to determine the maximum tolerated dose (MTD) for DC + xALT. An escalating total dose of TTRNA-xALT (3 x 10^6/Kg, 3 x 10^7/Kg, and 3 x 10^8/Kg) with TTRNA-DCs (2 x 10^7) will be evaluated in separate cohorts of 3 to 6 patients each for the purpose of establishing a MTD and a DLT in this patient population.</description>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>For the Phase II portion of the trial, the primary efficacy endpoint will be 12-month progression-free survival (PFS-12) rate after treatment with DC + xALT therapy as a surrogate for overall survival.</measure>
+    <time_frame>48 months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>The Phase II portion of this study will assess the clinical impact of DC + xALT therapy among pediatric patients with reMB/PNETs.  The basis for making this assessment will be the proportion of patients who survive 12 months without disease progression (PFS-12) as a surrogate clinical marker for OS in this patient population.  Progression-free survival will be measured from the initiation of HDC for comparison to our historical experience of HDC + PBSCT (Group A) or NMA salvage chemotherapy (Group B) in this patient population.</description>
+  </primary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">64</enrollment>
+  <condition>Medulloblastoma</condition>
+  <condition>Neuroectodermal Tumors</condition>
+  <arm_group>
+    <arm_group_label>TTRNA-xALT with TTRNA-DC</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>An escalating total dose of TTRNA-xALT (3 x 10^6/Kg, 3 x 10^7/Kg, and 3 x 10^8/Kg) with TTRNA-DCs (2 x 10^7) will be evaluated in separate cohorts of 3 to 6 patients each for the purpose of establishing a maximally tolerated dose (MTD) and a dose-limiting toxicity (DLT) in this patient population.</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>TTRNA-xALT with TTRNA-DCs</intervention_name>
+    <description>An escalating total dose of TTRNA-xALT (3 x 106/Kg, 3 x 107/Kg, and 3 x 108/Kg) with TTRNA-DCs (2 x 107) will be evaluated in separate cohorts of 3 to 6 patients each for the purpose of establishing a maximally tolerated dose (MTD) and a dose-limiting toxicity (DLT) in this patient population.</description>
+    <arm_group_label>TTRNA-xALT with TTRNA-DC</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Age ≤ 30 years of age.
+
+          -  Patients must have histologically confirmed reMB/PNET and received definitive
+             radiotherapy (craniospinal + focal boost) prior to relapse.
+
+          -  Patients with neurological deficits should have deficits that are stable for a
+             minimum of 1 week prior to registration.
+
+          -  Karnofsky Performance Status (KPS) of &gt; 50% (KPS for &gt; 16 years of age) or Lansky
+             performance Score (LPS) of ≥ 50 (LPS for ≤ 16 years of age) assessed within 2 weeks
+             prior to registration.
+
+          -  Bone Marrow:
+
+               -  ANC (Absolute neutrophil count) ≥ 1000/µl (unsupported).
+
+               -  Platelets ≥ 100,000/µl (unsupported).
+
+               -  Hemoglobin &gt; 8 g/dL (may be supported).
+
+          -  Renal:
+
+               -  Serum creatinine ≤ upper limit of institutional normal
+
+               -  GFR of at least 70 ml/min/1.73m2.
+
+          -  Hepatic:
+
+               -  Bilirubin ≤ 1.5 times upper limit of normal for age.
+
+               -  SGPT (Serum Glutamic Oxaloacetic Transaminase)(ALT) ≤ 3 times institutional
+                  upper limit of normal for age.
+
+               -  SGOT (AST) ≤ 3 times institutional upper limit of normal for age.
+
+          -  Cardiac:
+
+               -  ECHO cardiogram with a shortening fraction of &gt; 45%.
+
+               -  EKG without clinically significant arrhythmias.
+
+          -  Patients of childbearing or child-fathering potential must be willing to use a
+             medically acceptable form of birth control, which includes abstinence, while being
+             treated on this study.
+
+          -  Patient or patient guardian consent to PBSC and/or bone marrow harvest following
+             registration.
+
+          -  Signed informed consent according to institutional guidelines must be obtained prior
+             to registration.
+
+        Exclusion Criteria:
+
+          -  Pregnant or need to breast feed during the study period (Negative serum pregnancy
+             test required).
+
+          -  Active infection requiring treatment or an unexplained febrile (&gt; 101.5o F) illness.
+
+          -  Known immunosuppressive disease or human immunodeficiency virus infection.
+
+          -  Patients with active renal, cardiac (congestive cardiac failure, myocardial
+             infarction, myocarditis), or pulmonary disease.
+
+          -  Patients receiving concomitant immunosuppressive agents for medical condition
+
+          -  Patients who need definitive radiotherapy for treatment of reMB/PNET.
+
+          -  Patients receiving any other concurrent anticancer or investigational drug therapy.
+
+          -  Patients with any clinically significant unrelated systemic illness (serious
+             infections or significant cardiac, pulmonary, hepatic or other organ dysfunction),
+
+          -  Patients with inability to return for follow-up visits or obtain follow-up studies
+             required to assess toxicity to therapy.
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>N/A</minimum_age>
+    <maximum_age>30 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_contact>
+    <last_name>Jennifer F King, RN</last_name>
+    <phone>919-668-5364</phone>
+    <email>jennifer.f.king@duke.edu</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>Duke University Medical Center</name>
+      <address>
+        <city>Durham</city>
+        <state>North Carolina</state>
+        <zip>27710</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Denise Lally-Goss</last_name>
+      <phone>919-684-3862</phone>
+    </contact>
+    <investigator>
+      <last_name>Duane Mitchell</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <link>
+    <url>http://neuro.surgery.duke.edu/modules/div_neuro_bip/index.php?id=1</url>
+    <description>Duke Brain Tumor Immunotherapy Program</description>
+  </link>
+  <verification_date>September 2011</verification_date>
+  <lastchanged_date>September 8, 2011</lastchanged_date>
+  <firstreceived_date>July 22, 2010</firstreceived_date>
+  <responsible_party>
+  </responsible_party>
+  <keyword>Recurrent Medulloblastoma and Primitive Neuroectodermal Tumors</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Medulloblastoma</mesh_term>
+    <mesh_term>Neuroectodermal Tumors</mesh_term>
+    <mesh_term>Neuroectodermal Tumors, Primitive</mesh_term>
+  </condition_browse>
+</clinical_study>

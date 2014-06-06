@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group implements="fr.kapit.lab.demo.ui.components.properties.IPropertiesConfigPanel"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:component="fr.kapit.lab.demo.panel.component.*"
+		 xmlns:forms="fr.kapit.lab.demo.forms.*"
+		 width="100%"
+		 >
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import fr.kapit.lab.demo.model.ApplicationModel;
+			import fr.kapit.lab.demo.model.DiagrammerModel;
+			import fr.kapit.lab.demo.models.constants.VisualizerConstants;
+			import fr.kapit.lab.demo.ui.components.properties.IPropertiesConfigPanel;
+
+			[Bindable] public var beginBackgroundColor:uint = VisualizerConstants.BACKGROUND_COLORS_BEGIN;
+			[Bindable] public var endBackgroundColor:uint = VisualizerConstants.BACKGROUND_COLORS_END;
+
+			/**
+			 * @private
+			 * Reference to the application model.
+			 */
+			private var _applicationModel:ApplicationModel = null;
+
+			/**
+			 * Method invoked to update the panel according to state of
+			 * the data visualization component (selection, style...).
+			 */
+			public function synchronize():void
+			{
+				var backgroundColors:Array = diagrammerModel.backgroundColorsStyle;
+				// synchronize() may get called before the diagrammer is fully created.
+				if (null != backgroundColors)
+				{
+					beginBackgroundColor = backgroundColors[0];
+				}
+			}
+
+			private function updateBackgroundColors():void
+			{
+				beginBackgroundColor = backgroundColorSelector.value;
+				endBackgroundColor = backgroundColorSelector.value;
+
+				diagrammerModel.backgroundColorsStyle = [ beginBackgroundColor, endBackgroundColor ];
+			}
+
+			/**
+			 * Returns the current diagrammer model.
+			 */
+			public function get diagrammerModel():DiagrammerModel
+			{
+				if (null == appModel)
+					return null;
+				return appModel.diagrammerModel;
+			}
+
+			/**
+			 * Reference to the current application model.
+			 */
+			[Bindable]
+			public function get appModel():ApplicationModel
+			{
+				return _applicationModel;
+			}
+			/** @private */
+			public function set appModel(objValue:ApplicationModel):void
+			{
+				_applicationModel = objValue;
+			}
+		]]>
+	</fx:Script>
+
+	<component:KapPanel width="100%" label="Properties" labelProperty="Scene">
+
+		<component:headerContent>
+		</component:headerContent>
+
+		<component:panelContent>
+			<forms:ColorSelector id="backgroundColorSelector"
+								 top="10" left="10" width="140"
+								 label="Background Color"
+								 value="{beginBackgroundColor}"
+								 modified="{updateBackgroundColors()}"
+								 />
+		</component:panelContent>
+
+	</component:KapPanel>
+
+</s:Group>

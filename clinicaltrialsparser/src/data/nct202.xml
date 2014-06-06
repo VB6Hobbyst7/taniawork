@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="58">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01240525</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CDR0000688116</org_study_id>
+    <secondary_id>CRUK-UCL-PROT4</secondary_id>
+    <secondary_id>CRUK-UCL-10/0241</secondary_id>
+    <secondary_id>LRF-09041</secondary_id>
+    <secondary_id>EU-21081</secondary_id>
+    <nct_id>NCT01240525</nct_id>
+  </id_info>
+  <brief_title>Donor Lymphocyte Infusion After Stem Cell Transplant in Treating Patients With Follicular Lymphoma, Small Lymphocytic Non-Hodgkin Lymphoma, Waldenstrom Macroglobulinemia, or Chronic Lymphocytic Leukemia</brief_title>
+  <official_title>Multicenter Randomized Phase II Study to Evaluate the Efficacy of Prophylactic Transfer of CD4 Lymphocytes After T-cell Depleted Reduced Intensity HLA-Identical Sibling Transplantation for Indolent Non-Hodgkin's Lymphoma</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Cancer Research UK</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>National Cancer Institute (NCI)</source>
+  <oversight_info>
+    <authority>Unspecified</authority>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      RATIONALE: Giving low doses of chemotherapy, such as fludarabine and melphalan, before a
+      donor stem cell transplant helps stop the growth of cancer cells. It also stops the
+      patient's immune system from rejecting the donor's stem cells. The donated stem cells may
+      replace the patient's immune cells and help destroy any remaining cancer cells
+      (graft-versus-tumor effect). Giving an infusion of the donor's T cells (donor lymphocyte
+      infusion) that have been treated in the laboratory after the transplant may help increase
+      this effect. Sometimes the transplanted cells from a donor can also make an immune response
+      against the body's normal cells. Giving alemtuzumab before transplant and cyclosporine after
+      transplant, may stop this from happening.
+
+      PURPOSE: This randomized phase II trial is studying donor lymphocyte infusion after stem
+      cell transplant in preventing cancer relapse or cancer progression in patients with
+      Waldenstrom macroglobulinemia, follicular lymphoma, small lymphocytic non-Hodgkin lymphoma,
+      or chronic lymphocytic leukemia.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      OBJECTIVES:
+
+      Primary
+
+        -  To evaluate the effect of prophylactic transfer of donor CD4 cells after T-cell
+           depleted reduced-intensity HLA-identical sibling transplantation upon the risk of
+           relapse or progression in patients with follicular or small lymphocytic non-Hodgkin
+           lymphoma, lymphoplasmacytic lymphoma, or chronic lymphocytic leukemia.
+
+      Secondary
+
+        -  To evaluate the effect of prophylactic transfer of donor CD4 cells upon the risk of
+           graft-versus-host disease (GVHD) in these patients.
+
+        -  To evaluate the effect of prophylactic transfer of donor CD4 cells upon the rates of
+           conversion to full donor chimerism in peripheral blood in these patients.
+
+        -  To determine the effect of prophylactic transfer of donor CD4 cells upon immune
+           reconstitution in these patients.
+
+        -  To determine the feasibility of detecting minimal residual disease in peripheral blood
+           in these patients.
+
+        -  To evaluate the impact of prophylactic transfer of donor CD4 cells upon non-relapse
+           mortality and overall survival of these patients.
+
+      OUTLINE: This is a multicenter study.
+
+      Patients receive fludarabine IV, melphalan IV, and alemtuzumab IV as reduced intensity
+      conditioning for T-cell depletion followed by a reduced-intensity HLA-identical sibling stem
+      cell transplantation on day 0. Withdrawal of cyclosporine immunosuppression therapy commence
+      at day 50 with tapering over a period of 3-4 weeks, according to the discretion of the PI.
+      Patients are reassessed between day 60-75 post-transplantation. Patients with stable
+      engraftment, no significant graft-versus-host disease, and no early relapse or progression
+      are randomized to 1 of 2 treatment arms.
+
+        -  Arm I: Patients receive an allogeneic CD4 donor lymphocyte infusion (DLI) at a dose of
+           1 x10^6 CD4 cells/kg body weight without any other medication once between day 100-120.
+
+        -  Arm II: Patients receive no further treatment. Patients undergo blood sample collection
+           and bone marrow biopsy or aspiration periodically for chimerism studies and
+           translational research.
+
+      After completion of study treatment, patients are followed up periodically for 2 years and
+      then annually.
+
+      Peer Reviewed and Funded or Endorsed by Cancer Research UK
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>March 2011</start_date>
+  <primary_completion_date type="Anticipated">March 2015</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Progression-free survival at 1 year</measure>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Incidence, grade, or pattern of graft-versus-host disease</measure>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of patients attaining multi-lineage full donor chimerism in peripheral blood</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Incidence of infection requiring inpatient treatment</measure>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Rate of reconstitution of T-cell subsets and viral-specific immunity</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of patients with detectable minimal residual disease</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Cumulative incidence of non-relapse mortality at 1 year</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Overall survival and non-relapse mortality</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">86</enrollment>
+  <condition>Graft Versus Host Disease</condition>
+  <condition>Leukemia</condition>
+  <condition>Lymphoma</condition>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>T cell-depleted hematopoietic stem cell transplantation</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>alemtuzumab</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>donor lymphocytes</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>cyclosporine</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>fludarabine phosphate</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>melphalan</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>laboratory biomarker analysis</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>allogeneic hematopoietic stem cell transplantation</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Procedure</intervention_type>
+    <intervention_name>bone marrow aspiration</intervention_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        DISEASE CHARACTERISTICS:
+
+          -  Diagnosis of indolent non-Hodgkin lymphoma or leukemia meeting 1 of the following
+             criteria:
+
+               -  Follicular lymphoma or lymphoplasmacytic lymphoma and beyond first-line therapy
+
+               -  Small cell lymphocytic lymphoma/chronic lymphocytic leukemia (CLL) and beyond
+                  first-line therapy
+
+               -  CLL and p53 abnormalities and treatment indication
+
+          -  No histological evidence of high-grade transformation
+
+          -  Must have undergone disease reassessment within the past 8 weeks
+
+          -  Must meet all of the following criteria post-transplantation to undergo
+             randomization:
+
+               -  No active, acute graft-versus-host disease (GVHD) of any grade
+
+               -  No prior grade II-IV GVHD
+
+               -  No relapsed or progressive disease
+
+               -  No primary or secondary graft failure
+
+               -  Stable engraftment (neutrophils &gt; 0.5 x 10^9/L for ≥ 15 days prior to donor
+                  lymphocytes infusion)
+
+        PATIENT CHARACTERISTICS:
+
+          -  Life expectancy ≥ 8 weeks
+
+          -  Creatinine ≤ 200 μmol/L
+
+          -  Bilirubin ≤ 50 μmol/L
+
+          -  ALT ≤ 3 times upper limit of normal
+
+          -  Not pregnant or nursing
+
+          -  Negative pregnancy test
+
+          -  Fertile patients must use effective contraception during and for 6 months after
+             completion of study therapy
+
+        PRIOR CONCURRENT THERAPY:
+
+          -  No concurrent participation in another interventional clinical research study
+             (involving any investigational medicinal product, ATMP, or cellular therapy)
+
+          -  No other concurrent cellular therapies (post-transplantation)
+
+          -  No concurrent requirement for systemic immunosuppressive therapy
+             (post-transplantation)
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>69 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Ronjon Chakraverty, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>University College London (UCL) Cancer Institute</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>UCL Cancer Institute</name>
+      <address>
+        <city>London</city>
+        <state>England</state>
+        <zip>NW3 2PF</zip>
+        <country>United Kingdom</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Contact Person</last_name>
+      <phone>44-207-679-7513</phone>
+      <email>r.chakraverty@medsch.ucl.ac.uk</email>
+    </contact>
+  </location>
+  <location_countries>
+    <country>United Kingdom</country>
+  </location_countries>
+  <link>
+    <url>http://cancer.gov/clinicaltrials/CRUK-UCL-PROT4</url>
+    <description>Clinical trial summary from the National Cancer Institute's PDQ® database</description>
+  </link>
+  <verification_date>April 2011</verification_date>
+  <lastchanged_date>April 28, 2011</lastchanged_date>
+  <firstreceived_date>November 11, 2010</firstreceived_date>
+  <keyword>graft versus host disease</keyword>
+  <keyword>recurrent grade 1 follicular lymphoma</keyword>
+  <keyword>recurrent grade 2 follicular lymphoma</keyword>
+  <keyword>recurrent small lymphocytic lymphoma</keyword>
+  <keyword>stage III small lymphocytic lymphoma</keyword>
+  <keyword>stage IV small lymphocytic lymphoma</keyword>
+  <keyword>Waldenstrom macroglobulinemia</keyword>
+  <keyword>stage III grade 1 follicular lymphoma</keyword>
+  <keyword>stage III grade 2 follicular lymphoma</keyword>
+  <keyword>stage IV grade 1 follicular lymphoma</keyword>
+  <keyword>stage IV grade 2 follicular lymphoma</keyword>
+  <keyword>stage III chronic lymphocytic leukemia</keyword>
+  <keyword>stage IV chronic lymphocytic leukemia</keyword>
+  <keyword>refractory chronic lymphocytic leukemia</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Graft vs Host Disease</mesh_term>
+    <mesh_term>Leukemia</mesh_term>
+    <mesh_term>Leukemia, Lymphocytic, Chronic, B-Cell</mesh_term>
+    <mesh_term>Leukemia, Lymphoid</mesh_term>
+    <mesh_term>Lymphoma</mesh_term>
+    <mesh_term>Lymphoma, Follicular</mesh_term>
+    <mesh_term>Lymphoma, Non-Hodgkin</mesh_term>
+    <mesh_term>Waldenstrom Macroglobulinemia</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Cyclosporins</mesh_term>
+    <mesh_term>Cyclosporine</mesh_term>
+    <mesh_term>Melphalan</mesh_term>
+    <mesh_term>Fludarabine monophosphate</mesh_term>
+    <mesh_term>Campath 1G</mesh_term>
+    <mesh_term>Vidarabine</mesh_term>
+    <mesh_term>Fludarabine</mesh_term>
+    <mesh_term>Alemtuzumab</mesh_term>
+  </intervention_browse>
+</clinical_study>

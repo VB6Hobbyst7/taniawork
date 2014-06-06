@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="266">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01189266</url>
+  </required_header>
+  <id_info>
+    <org_study_id>CDR0000683459</org_study_id>
+    <secondary_id>COG-ACNS0927</secondary_id>
+    <nct_id>NCT01189266</nct_id>
+  </id_info>
+  <brief_title>Vorinostat and Radiation Therapy Followed By Maintenance Therapy With Vorinostat in Treating Younger Patients With Newly Diagnosed Pontine Glioma</brief_title>
+  <official_title>A Phase ½ Study of Suberoylanilide Hydroxamic Acid (SAHA, Vorinostat) and Local Irradiation, Followed by Maintenance SAHA in Children With Newly Diagnosed Diffuse Intrinsic Pontine Gliomas (DIPG)</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Children's Oncology Group</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>National Cancer Institute (NCI)</agency>
+      <agency_class>NIH</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>National Cancer Institute (NCI)</source>
+  <oversight_info>
+    <authority>Unspecified</authority>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      RATIONALE: Vorinostat may stop the growth of tumor cells by blocking some of the enzymes
+      needed for cell growth. Radiation therapy uses high-energy x-rays to kill tumor cells.
+      Giving vorinostat together with radiation therapy may kill more tumor cells.
+
+      PURPOSE: This phase I/II trial is studying the side effects and best dose of vorinostat and
+      to see how well it works when given together with radiation therapy followed by maintenance
+      therapy with vorinostat in treating younger patients with newly diagnosed pontine gliomas.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      OBJECTIVES:
+
+      Primary
+
+        -  To estimate the maximum-tolerated dose (MTD) or recommend a phase II dose of vorinostat
+           given concurrently with radiotherapy in pediatric patients with newly diagnosed
+           intrinsic pontine gliomas.
+
+        -  To define and describe the toxicities of vorinostat given concurrently with
+           radiotherapy in these patients.
+
+        -  To determine, in the context of a this phase I/II trial, the antitumor activity of
+           combining vorinostat with radiotherapy followed by maintenance vorinostat for 12
+           courses in these patients, as measured by 12-month event-free survival and overall
+           survival.
+
+        -  To determine the toxicities of vorinostat for 12 additional courses after completion of
+           concurrent vorinostat and radiotherapy.
+
+      Secondary
+
+        -  To measure non-homologous end-joining (NHEJ) activity in peripheral blood mononuclear
+           cells (PBMCs) before treatment, at 2 weeks after starting vorinostat and radiotherapy,
+           and at the end of radiotherapy.
+
+        -  To measure HDAC2 levels and assess histone acetylation in PBMCs before treatment, at 2
+           weeks after starting vorinostat and radiotherapy, and at the end of radiotherapy.
+
+        -  To quantify DNA repair proteins from the NHEJ and homologous recombination repair
+           pathways in tumors by either Western analysis or IHC, if paraffin-embedded tumor is
+           available.
+
+      OUTLINE: This is a multicenter, phase I, dose-escalation study of vorinostat followed by a
+      phase II study.
+
+      Patients receive vorinostat orally or IV on days 1-5, 8-12, 15-19, 22-26, 29-33, and 36-40.
+      Patients undergo 3D-conformal or intensity-modulated radiotherapy 5 days per week for 6
+      weeks.
+
+      Patients then receive maintenance therapy comprising oral vorinostat on days 1-28. Treatment
+      repeats every 28 days for 12 courses in the absence of disease progression or unacceptable
+      toxicity.
+
+      Blood and tumor samples may be collected periodically for correlative studies.
+
+      After completion of study treatment, patients are followed up for up to 5 years.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>August 2010</start_date>
+  <primary_completion_date type="Anticipated">September 2010</primary_completion_date>
+  <phase>Phase 1/Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Toxicities</measure>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Maximum-tolerated dose</measure>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Event-free survival</measure>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Overall survival</measure>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">80</enrollment>
+  <condition>Brain and Central Nervous System Tumors</condition>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>vorinostat</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Radiation</intervention_type>
+    <intervention_name>3-dimensional conformal radiation therapy</intervention_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Radiation</intervention_type>
+    <intervention_name>intensity-modulated radiation therapy</intervention_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        DISEASE CHARACTERISTICS:
+
+          -  Newly diagnosed diffuse intrinsic pontine gliomas (defined as tumors with a pontine
+             epicenter and diffuse involvement of ≥ 2/3 of the pons)
+
+               -  Patients with brainstem tumors that do not meet these criteria or are not
+                  considered to be typical intrinsic pontine gliomas are eligible provided their
+                  tumors are biopsied and proven to be an anaplastic astrocytoma, glioblastoma
+                  multiforme, gliosarcoma, or anaplastic mixed glioma
+
+               -  No patients with juvenile pilocytic astrocytoma, fibrillary astrocytoma,
+                  gangliogliomas, or other mixed gliomas without anaplasia
+
+               -  No patients with disseminated disease (MRI of the spine must be performed if
+                  disseminated disease is suspected by the treating physician)
+
+        PATIENT CHARACTERISTICS:
+
+          -  Karnofsky performance status (PS) 50-100% (for patients &gt; 16 years of age) or Lansky
+             PS 50-100% (for patients ≤ 16 years of age)
+
+               -  Patients who are unable to walk because of paralysis, but who are up in a
+                  wheelchair, will be considered ambulatory for the purpose of assessing the
+                  performance status
+
+          -  ANC ≥ 1,000/mm^3
+
+          -  Platelet count ≥ 100,000/mm^3 (transfusion independent, defined as not receiving
+             platelet transfusions within the past 7 days)
+
+          -  Hemoglobin ≥ 8.0 g/dL (RBC transfusions allowed)
+
+          -  Creatinine clearance or radioisotope GFR ≥ 70 mL/min OR a serum creatinine based on
+             age/gender as follows:
+
+               -  ≤ 0.8 mg/dL (for patients 3 to &lt; 6 years of age)
+
+               -  ≤ 1 mg/dL (for patients 6 to &lt; 10 years of age)
+
+               -  ≤ 1.2 mg/dL (for patients 10 to &lt; 13 years of age)
+
+               -  ≤ 1.4 mg/dL (for female patients ≥ 13 years of age)
+
+               -  ≤ 1.5 mg/dL (for male patients 13 to &lt; 16 years of age)
+
+               -  ≤ 1.7 mg/dL (for male patients ≥ 16 years of age)
+
+          -  Bilirubin (sum of conjugated + unconjugated) ≤ 1.5 times upper limit of normal (ULN)
+             for age
+
+          -  ALT ≤ 110 U/L (for the purpose of this study, the ULN for ALT is 45 U/L)
+
+          -  Serum albumin ≥ 2 g/dL
+
+          -  Not pregnant or nursing
+
+          -  Negative pregnancy test
+
+          -  Fertile patients must use effective contraception
+
+          -  Able to swallow capsules or liquids
+
+          -  Not dependent on NG tube feeding
+
+          -  Patients with seizure disorder are eligible provided that they are not on
+             enzyme-inducing anticonvulsants and seizures are well controlled
+
+          -  No uncontrolled infection
+
+          -  No patients who, in the opinion of the investigator, may not be able to comply with
+             the safety monitoring requirements of the study
+
+        PRIOR CONCURRENT THERAPY:
+
+          -  No prior treatment except for dexamethasone and/or surgery
+
+          -  At least 2 weeks since prior valproic acid
+
+          -  More than 7 days since prior growth factors that support platelet or white cell
+             number or function
+
+          -  No other concurrent investigational drugs
+
+          -  No other concurrent anticancer agents (including chemotherapy, immunotherapy, or
+             biologic therapy)
+
+          -  No concurrent coumadin, heparin, low-molecular weight heparin, or any other
+             anticoagulants
+
+          -  No concurrent aspirin (&gt; 81 mg/day), NSAIDs, clopidogrel (Plavix), dipyridamole
+             (Persantine), or any other drug that inhibits platelet function
+
+          -  No concurrent enzyme-inducing anticonvulsants
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>3 Years</minimum_age>
+    <maximum_age>21 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Jack M. Su, MD</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Texas Children's Cancer Center</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>UAB Comprehensive Cancer Center</name>
+      <address>
+        <city>Birmingham</city>
+        <state>Alabama</state>
+        <zip>35294</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - UAB Comprehensive Cancer Center</last_name>
+      <phone>205-934-0309</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital of Orange County</name>
+      <address>
+        <city>Orange</city>
+        <state>California</state>
+        <zip>92868</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Violet Shen</last_name>
+      <phone>714-532-8636</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Children's National Medical Center</name>
+      <address>
+        <city>Washington</city>
+        <state>District of Columbia</state>
+        <zip>20010-2970</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Children's National Medical Center</last_name>
+      <phone>202-884-2549</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Memorial Hospital - Chicago</name>
+      <address>
+        <city>Chicago</city>
+        <state>Illinois</state>
+        <zip>60614</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Stewart Goldman</last_name>
+      <phone>773-880-3270</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Indiana University Melvin and Bren Simon Cancer Center</name>
+      <address>
+        <city>Indianapolis</city>
+        <state>Indiana</state>
+        <zip>46202-5289</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Indiana University Cancer Center</last_name>
+      <phone>317-274-2552</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>C.S. Mott Children's Hospital at University of Michigan Medical Center</name>
+      <address>
+        <city>Ann Arbor</city>
+        <state>Michigan</state>
+        <zip>48109-0286</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - C.S. Mott Children's Hospital</last_name>
+      <phone>800-865-1125</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Masonic Cancer Center at University of Minnesota</name>
+      <address>
+        <city>Minneapolis</city>
+        <state>Minnesota</state>
+        <zip>55455</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Masonic Cancer Center at University o</last_name>
+      <phone>612-624-2620</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Siteman Cancer Center at Barnes-Jewish Hospital - Saint Louis</name>
+      <address>
+        <city>St. Louis</city>
+        <state>Missouri</state>
+        <zip>63110</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Robert J. Hayashi</last_name>
+      <phone>314-454-4118</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Herbert Irving Comprehensive Cancer Center at Columbia University Medical Center</name>
+      <address>
+        <city>New York</city>
+        <state>New York</state>
+        <zip>10032</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Herbert Irving Comprehensive Cancer C</last_name>
+      <phone>212-305-8615</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Cincinnati Children's Hospital Medical Center</name>
+      <address>
+        <city>Cincinnati</city>
+        <state>Ohio</state>
+        <zip>45229-3039</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Cincinnati Children's Hospital Medica</last_name>
+      <phone>513-636-2799</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Knight Cancer Institute at Oregon Health and Science University</name>
+      <address>
+        <city>Portland</city>
+        <state>Oregon</state>
+        <zip>97239-3098</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - Knight Cancer Institute at Oregon Hea</last_name>
+      <phone>503-494-1080</phone>
+      <email>trials@ohsu.edu</email>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital of Philadelphia</name>
+      <address>
+        <city>Philadelphia</city>
+        <state>Pennsylvania</state>
+        <zip>19104-9786</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Elizabeth Fox</last_name>
+      <phone>267-425-3010</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>St. Jude Children's Research Hospital</name>
+      <address>
+        <city>Memphis</city>
+        <state>Tennessee</state>
+        <zip>38105</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Clinical Trials Office - St. Jude Children's Research Hospital</last_name>
+      <phone>901-595-4644</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Baylor University Medical Center - Houston</name>
+      <address>
+        <city>Houston</city>
+        <state>Texas</state>
+        <zip>77030-2399</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Patrick A. Thompson</last_name>
+      <phone>832-824-4029</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Children's Hospital and Regional Medical Center - Seattle</name>
+      <address>
+        <city>Seattle</city>
+        <state>Washington</state>
+        <zip>98105</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Julie R. Park</last_name>
+      <phone>206-987-2106</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Hospital for Sick Children</name>
+      <address>
+        <city>Toronto</city>
+        <state>Ontario</state>
+        <zip>M5G 1X8</zip>
+        <country>Canada</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Sylvain Baruchel</last_name>
+      <phone>416-813-7795</phone>
+    </contact>
+  </location>
+  <location>
+    <facility>
+      <name>Hopital Sainte Justine</name>
+      <address>
+        <city>Montreal</city>
+        <state>Quebec</state>
+        <zip>H3T 1C5</zip>
+        <country>Canada</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Yvan Samson</last_name>
+      <phone>514-345-4969</phone>
+    </contact>
+  </location>
+  <location_countries>
+    <country>United States</country>
+    <country>Canada</country>
+  </location_countries>
+  <link>
+    <url>http://cancer.gov/clinicaltrials/COG-ACNS0927</url>
+    <description>Clinical trial summary from the National Cancer Institute's PDQ® database</description>
+  </link>
+  <verification_date>April 2011</verification_date>
+  <lastchanged_date>April 2, 2011</lastchanged_date>
+  <firstreceived_date>August 25, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Gregory H. Reaman</name_title>
+    <organization>Children's Oncology Group - Group Chair Office</organization>
+  </responsible_party>
+  <keyword>untreated childhood brain stem glioma</keyword>
+  <keyword>childhood mixed glioma</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Glioma</mesh_term>
+    <mesh_term>Nervous System Neoplasms</mesh_term>
+    <mesh_term>Central Nervous System Neoplasms</mesh_term>
+    <mesh_term>Pontine Glioma</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Vorinostat</mesh_term>
+  </intervention_browse>
+</clinical_study>

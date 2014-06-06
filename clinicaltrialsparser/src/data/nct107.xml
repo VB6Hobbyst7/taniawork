@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="175">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01207076</url>
+  </required_header>
+  <id_info>
+    <org_study_id>2010LS030</org_study_id>
+    <nct_id>NCT01207076</nct_id>
+  </id_info>
+  <brief_title>AHN-12 Biodistribution in Advanced Leukemia</brief_title>
+  <official_title>Phase I Open Label, Single Arm, Dose Escalation Trial to Evaluate the Biodistribution and Safety of AHN-12 In Patients With Advanced Leukemia HM2010-05</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Masonic Cancer Center, University of Minnesota</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Masonic Cancer Center, University of Minnesota</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      This study is a single institution phase I study for the treatment of patients with relapsed
+      or refractory leukemia aged 12 years and older.  All patients must test negative for the
+      human anti-mouse antibody (HAMA) and remain negative after each infusion to continue on
+      study.  In addition, a source of allogeneic stem cells (sibling, unrelated donor or cord)
+      must have been identified in event of severe myelosuppression.
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      A dose escalation schema will be used with the initial patient receiving the current lowest
+      dose of nonradiolabeled AHN-12 (from 0.20 mg/kg to 1.0 mg/kg).
+
+      If a favorable biodistribution is not achieved and the patient remains negative for HAMA,
+      the infusion may be repeated up to two more times (with a one level increase in
+      nonradiolabeled AHN-12 each time) in an attempt of achieving favorable biodistribution.
+
+      If favorable biodistribution is achieved, the patient will receive 90Y-AHN-12 in a dose
+      escalated schema in cohorts of 3 patients to determine maximum tolerated dose (MTD) and
+      dose-limiting toxicity.
+    </textblock>
+  </detailed_description>
+  <overall_status>Suspended</overall_status>
+  <why_stopped>
+    Reviewing current processes to optimize dosimetry.
+  </why_stopped>
+  <start_date>May 2011</start_date>
+  <completion_date type="Anticipated">October 2015</completion_date>
+  <primary_completion_date type="Anticipated">May 2014</primary_completion_date>
+  <phase>Phase 1</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Endpoint Classification:  Bio-availability Study, Intervention Model:  Single Group Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Optimal Dose of AHN-12 Non-radiolabeled Antibody</measure>
+    <time_frame>Day 2</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>doses of nonradiolabeled antibody are specified: 0.20, 0.40, 0.60, 0.80 and 1.00 mg/kg.</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Maximum Tolerated Dose (MTD) of 90Y-AHN-12</measure>
+    <time_frame>Within 14 days of achieving favorable biodistribution</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>•Determine the MTD of 90Y-AHN-12 for patients with a favorable biodistribution and a negative human anti-mouse antibody (HAMA). Doses of radiolabeled antibody are specified starting dose level with dose increment of 2 gray (Gy) to maximum of 22 Gy.</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Human Anti-Mouse Antibody (HAMA) Response</measure>
+    <time_frame>30 and 90 Days Post Therapy, Then Every 6 Months If Positive</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Event is whether or not the patient develops a HAMA response.</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Anti-tumor Activity of 90Y-AHN-12</measure>
+    <time_frame>30 and 90 Days Post Therapy</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Event is response to therapy: complete remission, partial remission, refractory or relapsed disease.</description>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">30</enrollment>
+  <condition>Acute Myelogenous Leukemia</condition>
+  <condition>Myelodysplastic Syndrome</condition>
+  <condition>Acute Lymphoblastic Leukemia</condition>
+  <condition>Chronic Myelogenous Leukemia</condition>
+  <arm_group>
+    <arm_group_label>AHN-12 Treated Patients</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients receiving nonradiolabeled AHN-12 (.20 mg/kg to 1.0 mg/kg) of at least one dose and up to a total of 3 dosimetry infusions (intervals no sooner than 8 days and up to 21 days).</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>90Y-AHN-12</intervention_name>
+    <description>A dose escalation schema will be used with the initial patient receiving the current lowest dose of nonradiolabeled AHN-12.  If a favorable biodistribution is not achieved and the patient remains negative for HAMA, the infusion may be repeated up to two more times (with a one level increase in nonradiolabeled AHN-12 each time) in an attempt of achieving favorable biodistribution.
+Dose escalation of nonradiolabeled AHN-12:
+Dose level 1 0.20 mg/kg, Dose level 2 0.40 mg/kg, Dose level 3 0.60 mg/kg, Dose level 4 0.80 mg/kg, Dose level 5 1.00 mg/kg, to two more times (with a one level increase in nonradiolabeled AHN-12 each time) in an attempt of achieving favorable biodistribution.</description>
+    <arm_group_label>AHN-12 Treated Patients</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Patients must have one of the following histologically confirmed CD45+ diseases.  If
+             possible, AHN-12 positivity will be confirmed by flow cytometry on a recent bone
+             marrow or a peripheral blood sample, if circulating blasts are present.  Peripheral
+             leukemic blasts must be &lt;10,000/uL at time of enrollment; however, hydroxyurea may be
+             given to control the peripheral blast count.
+
+               -  Acute myelogenous leukemia (AML), primary refractory or relapsed disease -
+                  Primary refractory disease is defined as persistent disease following a minimum
+                  of two different standard chemotherapy induction attempts at time of diagnosis.
+                  At time of relapse, patients must have failed one salvage chemotherapy regimen.
+
+               -  Refractory myelodysplastic syndrome (MDS) - defined as persistent disease
+                  following a minimum of one standard chemotherapy induction attempt.
+
+               -  AML arising from pre-existing MDS, refractory - defined as persistent disease
+                  following a minimum of one standard chemotherapy induction attempt.
+
+               -  Acute lymphoblastic leukemia (ALL), primary refractory or relapsed disease -
+                  Primary refractory disease is defined as persistent disease following a minimum
+                  of two different standard chemotherapy induction attempts at time of diagnosis.
+                  At time of relapse, patients must have failed one salvage chemotherapy regimen.
+
+               -  Chronic myelogenous leukemia (CML) following blast crisis -  defined as
+                  persistent accelerated phase or blast phase of disease following a minimum of
+                  one standard chemotherapy induction attempt.
+
+          -  Age ≥ 12 years Because these are investigational new agents and have never before
+             been used in humans, children less than 12 years of age are not eligible for this
+             phase I protocol but will be eligible for future pediatric phase I trials.
+
+          -  Karnofsky Performance Status ≥ 60% (16 years and older) or Lansky Play Score ≥ 60
+             (&lt;16 years)
+
+          -  Life expectancy of &gt; 12 weeks in the opinion of the enrolling medical provider
+
+          -  Patients must have normal organ function as defined below within 14 days of first
+             AHN-12 infusion:
+
+               -  Total bilirubin, aspartate aminotransferase (AST) and alanine aminotransferase
+                  (ALT)  ≤ 2.5 X upper limit of normal
+
+               -  Creatinine ≤ 1.3 mg/dl OR estimated glomerular filtration rate (GFR) ≥ 60 mL/min
+
+          -  Baseline left ventricular ejection fraction (LVEF ≥ 45% by Multi Gated Acquisition
+             Scan (MUGA)/ECHO (echocardiogram)
+
+          -  Baseline Carbon Monoxide Diffusing Capacity (DLCO) (corrected) ≥ 50% of predicted.
+
+          -  Human anti-mouse antibody (HAMA) must be negative (perform on all patients regardless
+             of prior therapies).
+
+          -  Consent to adequate contraception.  The effects of 90Y-AHN-12 on the developing fetus
+             are unknown.   For this reason and because other therapeutic agents used in this
+             trial are known to be teratogenic, women of child-bearing potential and men must
+             agree to use adequate contraception (hormonal or barrier method of birth control;
+             abstinence) prior to study entry and for the duration of study participation.  Should
+             a woman become pregnant or suspect she is pregnant while participating in this study,
+             she should inform her treating physician immediately.
+
+          -  Source of allogeneic stem cells must have been identified in event of severe
+             myelosuppression
+
+          -  Able to give written consent.
+
+          -  Both men and women of all ethnic groups are eligible for this trial.
+
+        Exclusion Criteria:
+
+          -  Ongoing grade 2 or greater non-hematologic toxicity due to previously administered
+             therapies
+
+          -  &lt; 8 days from completion of therapy with any biologic agent
+
+          -  Receiving any investigational agents
+
+          -  Active central nervous system (CNS) leukemia are excluded from this clinical trial
+             because of their poor prognosis and because they often develop progressive neurologic
+             dysfunction that would confound the evaluation of neurologic and other adverse
+             events.  If CNS disease is clinically suspected, patients should have a lumbar
+             puncture and/or appropriate radiographic studies performed to determine CNS status
+             and study eligibility.  Patients who have had their CNS disease treated and the
+             cerebral spinal fluid (CSF) has been cleared of disease are eligible.
+
+          -  History of allergic reactions attributed to compounds of similar chemical or biologic
+             composition to 90Y-AHN-12 or other agents used in study.
+
+          -  Uncontrolled illness including, but not limited to, uncontrolled infection,
+             symptomatic congestive heart failure, unstable angina pectoris, cardiac arrhythmia,
+             or psychiatric illness/social situations that would limit compliance with study
+             requirements in the opinion of the enrolling medical provider.
+
+          -  Pregnant and breastfeeding women are excluded from this study because 90Y-AHN-12,
+             being radioactive, as well as high dose chemotherapy and total body irradiation (TBI)
+             have the potential for teratogenic or abortifacient effects.  Because there is an
+             unknown but potential risk for adverse events in nursing infants secondary to
+             treatment of the mother with 90Y-AHN-12, breastfeeding should be discontinued if the
+             mother is treated with 90Y-AHN-12.  These potential risks may also apply to other
+             agents used in this study.
+
+          -  Human immunodeficiency virus (HIV) positive patients: HIV positive patients are
+             excluded from this study since: a) HIV-positive patients with immune deficiency are
+             at increased risk of lethal infections when treated with marrow-suppressive therapy,
+             and b) HIV-positive patients receiving combination anti-retroviral therapy may
+             develop pharmacokinetic interactions with 90Y-AHN-12 or other agents administered
+             during the study.
+
+          -  &lt; 60 days since an autologous transplant
+
+          -  Bone marrow cellularity &lt;5% (because of concern of myelosuppression)
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>12 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Linda Burns, M.D.</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>Masonic Cancer Center, University of Minnesota</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>Masonic Cancer Center, University of Minnesota</name>
+      <address>
+        <city>Minneapolis</city>
+        <state>Minnesota</state>
+        <zip>55455</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>October 2011</verification_date>
+  <lastchanged_date>October 3, 2011</lastchanged_date>
+  <firstreceived_date>September 21, 2010</firstreceived_date>
+  <responsible_party>
+  </responsible_party>
+  <keyword>CD45+ disease</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>No</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Leukemia</mesh_term>
+    <mesh_term>Leukemia, Lymphoid</mesh_term>
+    <mesh_term>Precursor Cell Lymphoblastic Leukemia-Lymphoma</mesh_term>
+    <mesh_term>Leukemia, Myeloid, Acute</mesh_term>
+    <mesh_term>Leukemia, Myeloid</mesh_term>
+    <mesh_term>Leukemia, Myelogenous, Chronic, BCR-ABL Positive</mesh_term>
+    <mesh_term>Myelodysplastic Syndromes</mesh_term>
+    <mesh_term>Preleukemia</mesh_term>
+  </condition_browse>
+</clinical_study>

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="241">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01261247</url>
+  </required_header>
+  <id_info>
+    <org_study_id>MC0986</org_study_id>
+    <secondary_id>NCI-2010-02326</secondary_id>
+    <secondary_id>10-004705</secondary_id>
+    <secondary_id>CLBH589BUS59T</secondary_id>
+    <secondary_id>MC0986</secondary_id>
+    <nct_id>NCT01261247</nct_id>
+  </id_info>
+  <brief_title>Panobinostat in Treating Patients With Relapsed or Refractory Non-Hodgkin Lymphoma</brief_title>
+  <official_title>A Phase II Study of the Histone Deacetylase (HDAC) Inhibitor LBH589 (Panobinostat) in Patients With Relapsed or Refractory Non-Hodgkin Lymphoma</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Mayo Clinic</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>National Cancer Institute (NCI)</agency>
+      <agency_class>NIH</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Mayo Clinic</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Panobinostat may stop the growth of cancer cells by blocking some of the enzymes needed for
+      cell growth. This phase II trial is studying how well panobinostat works in treating
+      patients with relapsed or refractory non-Hodgkin lymphoma
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      PRIMARY OBJECTIVES: I. To evaluate the proportion of confirmed response of LBH589 in
+      patients with relapsed or refractory non-Hodgkin lymphoma.  SECONDARY OBJECTIVES: I. To
+      describe the toxicities associated with LBH589 in patients with NHL. II. To evaluate overall
+      survival, progression-free survival, and duration of response in patients treated with
+      LBH589.  TERTIARY OBJECTIVES: I. To evaluate the pharmacokinetics of LBH589. II. To assess
+      the correlation between clinical (toxicity and/or tumor response or activity) effects with
+      the pharmacologic (pharmacokinetic/pharmacodynamic) parameters, and/or biologic (correlative
+      laboratory) results.  OUTLINE: Patients receive oral panobinostat 3 times weekly. Treatment
+      repeats every 28 days for up to 12 courses in the absence of disease progression or
+      unacceptable toxicity.  After completion of study treatment, patients are followed up every
+      6 months for up to 2 years.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>January 2011</start_date>
+  <primary_completion_date type="Anticipated">March 2013</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Endpoint Classification:  Efficacy Study, Intervention Model:  Single Group Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Proportion of confirmed responses defined to be a CR or PR noted as the objective status</measure>
+    <time_frame>Every 28 days for up to 2 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Survival time due to any cause; estimated using the method of Kaplan-Meier for the patients included in evaluating the decision criteria</measure>
+    <time_frame>Every 6 months for up to 2 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Progression-free survival time due to any cause; will be estimated using the method of Kaplan-Meier</measure>
+    <time_frame>Every 6 months for up to 2 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Duration of response as assessed by Kaplan-Meier</measure>
+    <time_frame>Every 6 months for up to 2 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Pharmacokinetic/pharmacodynamic of LBH589 and correlation with clinical effects as assessed by immunoblotting, SNPs analysis, serum cytokine assays, and flow cytometry for suppressive monocytes (correlative studies)</measure>
+    <time_frame>At baseline and day 1 of courses 3, 5, 7 and every three courses thereafter for up to 2 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">37</enrollment>
+  <condition>Adult Nasal Type Extranodal NK/T-cell Lymphoma</condition>
+  <condition>Anaplastic Large Cell Lymphoma</condition>
+  <condition>Angioimmunoblastic T-cell Lymphoma</condition>
+  <condition>Extranodal Marginal Zone B-cell Lymphoma of Mucosa-associated Lymphoid Tissue</condition>
+  <condition>Hepatosplenic T-cell Lymphoma</condition>
+  <condition>Nodal Marginal Zone B-cell Lymphoma</condition>
+  <condition>Peripheral T-cell Lymphoma</condition>
+  <condition>Post-transplant Lymphoproliferative Disorder</condition>
+  <condition>Recurrent Adult Burkitt Lymphoma</condition>
+  <condition>Recurrent Adult Diffuse Large Cell Lymphoma</condition>
+  <condition>Recurrent Adult Lymphoblastic Lymphoma</condition>
+  <condition>Recurrent Adult T-cell Leukemia/Lymphoma</condition>
+  <condition>Recurrent Grade 1 Follicular Lymphoma</condition>
+  <condition>Recurrent Grade 2 Follicular Lymphoma</condition>
+  <condition>Recurrent Grade 3 Follicular Lymphoma</condition>
+  <condition>Recurrent Mantle Cell Lymphoma</condition>
+  <condition>Recurrent Mycosis Fungoides/Sezary Syndrome</condition>
+  <condition>Recurrent Small Lymphocytic Lymphoma</condition>
+  <condition>Small Intestine Lymphoma</condition>
+  <condition>Splenic Marginal Zone Lymphoma</condition>
+  <condition>Waldenstrom Macroglobulinemia</condition>
+  <arm_group>
+    <arm_group_label>Arm I</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+    <description>Patients receive oral panobinostat 3 times weekly. Treatment repeats every 28 days for up to 12 courses in the absence of disease progression or unacceptable toxicity.</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>panobinostat</intervention_name>
+    <description>Given orally</description>
+    <arm_group_label>Arm I</arm_group_label>
+    <other_name>Faridak</other_name>
+    <other_name>HDAC inhibitor LBH589</other_name>
+    <other_name>histone deacetylase inhibitor LBH589</other_name>
+    <other_name>LBH589</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>laboratory biomarker analysis</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Genetic</intervention_type>
+    <intervention_name>western blotting</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+    <other_name>Blotting, Western</other_name>
+    <other_name>Western Blot</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Genetic</intervention_type>
+    <intervention_name>DNA analysis</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>flow cytometry</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>pharmacological study</intervention_name>
+    <description>Correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+    <other_name>pharmacological studies</other_name>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>immunohistochemistry staining method</intervention_name>
+    <description>Optional correlative studies</description>
+    <arm_group_label>Arm I</arm_group_label>
+    <other_name>immunohistochemistry</other_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria
+
+          -  Biopsy-proven relapsed or refractory non-Hodgkin lymphoma requiring treatment, who
+             have failed, unable to tolerate, or refused other available active therapies;
+             patients should not have other treatment options considered curative (NOTE: for
+             patients with lymphoma without CNS involvement, a re-biopsy is necessary unless the
+             patient has had a previous biopsy =&lt; 6 months prior to treatment on this protocol if
+             there has been no intervening treatment; patients with biopsy-proven CNS lymphoma at
+             any time are not required to have a rebiopsy to be eligible for this study); NOTE:
+             relapsed NHL is defined as NHL that relapses after at least one prior therapy and
+             does not have available curative therapy; refractory NHL is defined as NHL that has
+             progressed or not responded to most recent therapy and has had at least one prior
+             therapy and have no available curative therapies
+
+          -  Measurable disease by CT or MRI or the CT portion of the PET/CT: must have at least
+             one lesion that has a single diameter of &gt;= 2 cm or tumor cells in the blood &gt;= 5 x
+             10^9/L; skin lesions can be used if the area is &gt;= 2 cm in at least one diameter and
+             photographed with a ruler
+
+          -  The following disease types are eligible: transformed lymphomas: diffuse large B cell
+             lymphoma, mantle cell lymphoma, follicular lymphoma grade III; precursor B
+             lymphoblastic leukemia/lymphoma; mediastinal (thymic) large B-cell lymphoma; Burkitt
+             lymphoma/leukemia; precursor T-lymphoblastic leukemia/lymphoma; primary cutaneous
+             anaplastic large cell lymphoma; anaplastic large cell lymphoma - primary systemic
+             type; small lymphocytic lymphoma/chronic lymphocytic leukemia; follicular lymphoma,
+             grades 1, 2; extranodal marginal zone B-cell lymphoma of MALT type; nodal marginal
+             zone B-cell lymphoma; splenic marginal zone B-cell lymphoma; peripheral T cell
+             lymphoma, unspecified; anaplastic large cell lymphoma (T and null cell type);
+             lymphoplasmacytic lymphoma (Waldenstrom Macroglobulinemia); CNS lymphoma; post
+             transplant lymphoproliferative disorders; mycosis fungoides/Sezary syndrome; primary
+             effusion lymphoma; blastic NK-cell lymphoma; adult T-cell leukemia/lymphoma;
+             extranodal NK/T-cell lymphoma, nasal type; enteropathy-type T-cell lymphoma;
+             hepatosplenic T-cell lymphoma; subcutaneous panniculitis-like T-cell lymphoma;
+             angioimmunoblastic T-cell lymphoma; anaplastic large cell lymphoma - primary
+             cutaneous type
+
+          -  For lymphoplasmacytic lymphoma patients without measurable lymphadenopathy,
+             measurable disease can be defined by both of the following criteria: bone marrow
+             lymphoplasmacytosis with &gt; 10% lymphoplasmacytic cells or aggregates, sheets,
+             lymphocytes, plasma cells, or lymphoplasmacytic cells on bone marrow biopsy and
+             quantitative IgM monoclonal protein &gt; 1,000 mg/dL
+
+          -  ANC &gt;= 1000/uL
+
+          -  Hgb &gt;= 9 g/dl
+
+          -  PLT &gt;= 75,000/uL
+
+          -  Total bilirubin =&lt; 1.5 x upper limit of normal (ULN) or if total bilirubin is &gt; 1.5 x
+             ULN the direct bilirubin must be normal
+
+          -  AST =&lt; 3 x ULN
+
+          -  Albumin &gt; 3.0 g/dl
+
+          -  Creatinine =&lt; 2.5 x ULN
+
+          -  Serum potassium, magnesium and phosphorus &gt;= LLN and =&lt; 1.2 x ULN
+
+          -  Total serum calcium [corrected for serum albumin] or ionized calcium &gt;= LLN
+
+          -  Clinically euthyroid; patients are permitted to receive thyroid hormone supplements
+             to treat underlying hypothyroidism
+
+          -  Baseline MUGA or ECHO must demonstrate LVEF &gt;= the lower limit of the institutional
+             normal
+
+          -  Ability to understand and the willingness to sign a written informed consent document
+
+          -  Willingness to return to Mayo Clinic
+
+          -  Life expectancy &gt;= 12 weeks
+
+          -  Willingness to provide blood and tissues samples for research studies as required by
+             the protocol
+
+          -  Negative pregnancy test done =&lt; 7 days prior to registration, for women of
+             childbearing potential only
+
+          -  ECOG performance status (PS) 0, 1 or 2
+
+        Exclusion Criteria
+
+          -  Prior HDAC, DAC, HSP90 inhibitors or valproic acid for the treatment of cancer
+
+          -  Patients who will need valproic acid for any medical condition during the study or
+             within 5 days prior to first panobinostat treatment
+
+          -  Candidate for known standard therapy for the patient's disease that is potentially
+             curative
+
+          -  Uncontrolled infection requiring ongoing antibiotics
+
+          -  Any prior therapy for lymphoma within the previous 2 weeks for standard treatments
+             and within 4 weeks for experimental therapies unless the patient has recovered from
+             the nadir of the previous treatment to a level that meets the inclusion criteria
+
+          -  Receiving corticosteroids &gt; 20mg of prednisone per day (or equivalent)
+
+          -  Persistent toxicities &gt;= grade 2 from prior chemotherapy or biological therapy
+             regardless of interval since last treatment
+
+          -  Patients with congenital long QT syndrome
+
+          -  History or presence of sustained ventricular tachyarrhythmia (patients with a history
+             of atrial arrhythmia are eligible but should be discussed with the study PI prior to
+             enrollment)
+
+          -  Any history of ventricular fibrillation or torsade de pointes
+
+          -  Bradycardia defined as HR &lt; 50 bpm; patients with pacemakers are eligible if HR &gt;= 50
+             bpm
+
+          -  Screening ECG with a QTcFredericia (QTcF) &gt; 450 msec
+
+          -  Right bundle branch block + left anterior hemiblock (bifascicular block)
+
+          -  Patients with myocardial infarction or unstable angina =&lt; 6 months prior registration
+
+          -  Other clinically significant heart disease (e.g. CHF NY Heart Association class III
+             or IV, uncontrolled hypertension, history of labile hypertension, or history of poor
+             compliance with an antihypertensive regimen)
+
+          -  Pregnant women or women of reproductive ability who are unwilling to use effective
+             contraception during the study and for 3 months after stopping treatment
+
+          -  Nursing women
+
+          -  Men who are unwilling to use a condom (even if they have undergone a prior vasectomy)
+             while having intercourse with any woman, while taking the drug and for 3 months after
+             stopping treatment
+
+          -  Other concurrent chemotherapy, immunotherapy, radiotherapy, or any ancillary therapy
+             considered investigational (utilized for a non-FDA-approved indication and in the
+             context of a research investigation); patients should have recovered from any
+             immunotherapy, chemotherapy, or radiation therapy related toxicities
+
+          -  Known positivity for human immunodeficiency virus (HIV) or hepatitis C with
+             uncontrolled disease; baseline testing for HIV and hepatitis C is not required
+
+          -  Active other malignancy requiring treatment that would interfere with the assessments
+             of response of the lymphoma to protocol treatment
+
+          -  Inability to swallow or impairment of gastrointestinal function or gastrointestinal
+             disease that may significantly alter the absorption of the drugs (e.g. ulcerative
+             disease, uncontrolled nausea, vomiting, diarrhea &gt; CTCAE Grade 2, malabsorption
+             syndrome or small bowel resection) that would preclude use of oral medications
+
+          -  Thrombolic or embolic events such as a cerebrovascular accident including transient
+             ischemic attacks within the past 6 months
+
+          -  Any severe and/or uncontrolled medical conditions or other conditions that, in the
+             treating physician's opinion, could adversely impact their ability to participate in
+             the study; patients on chronic oxygen therapy, those with liver disease such as
+             cirrhosis, chronic hepatitis or chronic persistent hepatitis, or uncontrolled
+             infections will be excluded
+
+          -  Concomitant use of strong or moderate CYP3A4 inhibitors
+
+          -  Using medications that have a relative risk of prolonging the QT interval or inducing
+             torsade de pointes if treatment cannot be discontinued or switched to a different
+             medication prior to starting study drug
+
+          -  Active bleeding tendency.  NOTE: Patients on therapeutic anticoagulation should be
+             monitored carefully to maintain therapeutic level of anticoagulation to avoid
+             increased risk of bleeding due to concurrent drug induced thrombocytopenia.  It is
+             suggested that patients who require anticoagulation therapy while on therapy use low
+             molecular weight heparin (LMWH).
+
+          -  Major surgery =&lt; 4 weeks prior to registration or have not recovered from side
+             effects of such therapy
+
+          -  History of other prior malignancies except for properly treated basal cell or
+             squamous cell carcinoma of skin, in situ cervical cancer, in situ breast cancer or
+             early stage prostate cancer
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Patrick Johnston, M.D.</last_name>
+    <role>Study Chair</role>
+    <affiliation>Mayo Clinic</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>Mayo Clinic in Arizona</name>
+      <address>
+        <city>Scottsdale</city>
+        <state>Arizona</state>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Mayo Clinic Clinical Trials Office</last_name>
+      <phone>507-538-7623</phone>
+    </contact>
+    <investigator>
+      <last_name>Craig B. Reeder, M.D.</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location>
+    <facility>
+      <name>Mayo Clinic</name>
+      <address>
+        <city>Rochester</city>
+        <state>Minnesota</state>
+        <zip>55905</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Mayo Clinic Clinical Trials Office</last_name>
+      <phone>507-538-7623</phone>
+    </contact>
+    <investigator>
+      <last_name>Patrick B. Johnston, M.D.</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>September 2011</verification_date>
+  <lastchanged_date>September 22, 2011</lastchanged_date>
+  <firstreceived_date>December 14, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Patrick Bruce Johnston, M.D.</name_title>
+    <organization>Mayo Clinic Cancer Center</organization>
+  </responsible_party>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Burkitt Lymphoma</mesh_term>
+    <mesh_term>Immunoblastic Lymphadenopathy</mesh_term>
+    <mesh_term>Leukemia</mesh_term>
+    <mesh_term>Leukemia, Lymphocytic, Chronic, B-Cell</mesh_term>
+    <mesh_term>Leukemia, T-Cell</mesh_term>
+    <mesh_term>Leukemia-Lymphoma, Adult T-Cell</mesh_term>
+    <mesh_term>Lymphoma</mesh_term>
+    <mesh_term>Lymphoma, Follicular</mesh_term>
+    <mesh_term>Lymphoma, Large B-Cell, Diffuse</mesh_term>
+    <mesh_term>Lymphoma, Non-Hodgkin</mesh_term>
+    <mesh_term>Lymphoproliferative Disorders</mesh_term>
+    <mesh_term>Waldenstrom Macroglobulinemia</mesh_term>
+    <mesh_term>Mycoses</mesh_term>
+    <mesh_term>Mycosis Fungoides</mesh_term>
+    <mesh_term>Sezary Syndrome</mesh_term>
+    <mesh_term>Lymphoma, B-Cell</mesh_term>
+    <mesh_term>Precursor Cell Lymphoblastic Leukemia-Lymphoma</mesh_term>
+    <mesh_term>Lymphoma, T-Cell</mesh_term>
+    <mesh_term>Lymphoma, T-Cell, Peripheral</mesh_term>
+    <mesh_term>Lymphoma, Large-Cell, Anaplastic</mesh_term>
+    <mesh_term>Lymphoma, B-Cell, Marginal Zone</mesh_term>
+    <mesh_term>Lymphoma, Mantle-Cell</mesh_term>
+    <mesh_term>Lymphoma, Extranodal NK-T-Cell</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Histone Deacetylase Inhibitors</mesh_term>
+  </intervention_browse>
+</clinical_study>

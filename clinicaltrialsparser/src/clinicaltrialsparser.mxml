@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					    creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var fileIndex:uint = 0;
+			[Bindable]
+			public var fileName:String = "";
+			[Bindable]
+			public var putCounter:uint = 0;
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			[Bindable]
+			public var s3:String = "";
+			[Bindable]
+			public var s4:String = "";
+			[Bindable]
+			public var s5:String = "";
+			[Bindable]
+			public var s6:String = "";
+			[Bindable]
+			public var resArray:ArrayCollection = new ArrayCollection();
+
+			public function init(event:FlexEvent):void
+			{
+			//	fileName = "K://wamp/www/clinicaltrialsparser/bin-debug/data/ntc"+fileIndex.toString()+".xml";
+				resArray = new ArrayCollection();
+				for (fileIndex = 0; fileIndex < 268; fileIndex++){
+					fileName = "app:/data/nct"+fileIndex.toString()+".xml";
+					var file:File = new File(fileName);
+					var fs:FileStream = new FileStream();
+					fs.open(file, FileMode.READ);
+					var text:String = fs.readUTFBytes(fs.bytesAvailable);
+					fs.close();
+					
+					
+					var nctid:String = "";
+					var brieftitle:String = "";
+					var officialtitle:String = "";
+					var summary:String = "";
+					var description:String = "";
+					var sponsor:String = "";
+					nctid = text.substring(text.indexOf("<nct_id>")+8,text.indexOf("</nct_id>"));
+					brieftitle = text.substring(text.indexOf("<brief_title>")+13,text.indexOf("</brief_title>"));
+					officialtitle = text.substring(text.indexOf("<official_title>")+16,text.indexOf("</official_title>"));
+					summary = text.substring(text.indexOf("<brief_summary>")+15,text.indexOf("</brief_summary>"));
+					if (summary.indexOf("<textblock>") != -1){
+						summary = summary.substring(summary.indexOf("<textblock>")+11,summary.indexOf("</textblock>"));
+					}
+					summary = fixText(summary);
+					
+					description = text.substring(text.indexOf("<detailed_description>")+22,text.indexOf("</detailed_description>"));
+					if (description.indexOf("<textblock>") != -1){
+						description = description.substring(description.indexOf("<textblock>")+11,description.indexOf("</textblock>"));
+					}
+					description = fixText(description);
+					
+					sponsor = text.substring(text.indexOf("<lead_sponsor>")+14,text.indexOf("</lead_sponsor>"));
+					
+					if (sponsor.indexOf("<agency>") != -1){
+						sponsor = sponsor.substring(sponsor.indexOf("<agency>")+8,sponsor.indexOf("</agency>"));
+					}
+					else {
+						sponsor = stripHtmlTags(sponsor);
+					}
+					
+					resArray.addItem({nctid:nctid,brieftitle:fixText(brieftitle),officialtitle:fixText(officialtitle),
+						summary:summary,description:description,sponsor:fixText(sponsor)});
+					
+					
+
+					
+					
+				}	
+				
+				updateToDatabase();
+				
+				
+			}
+			public function updateToDatabase():void {
+				putCounter = 0;
+				s1 = resArray[putCounter].nctid;
+				s2 = resArray[putCounter].brieftitle;
+				s3 = resArray[putCounter].officialtitle;
+				s4 = resArray[putCounter].summary;
+				s5 = resArray[putCounter].description;
+				s6 = resArray[putCounter].sponsor;
+				putData.send();
+				
+			}
+			public function afterUpdateToDatabase(ev:ResultEvent):void {
+				if (putCounter < resArray.length-1){
+					putCounter++;
+					s1 = resArray[putCounter].nctid;
+					s2 = resArray[putCounter].brieftitle;
+					s3 = resArray[putCounter].officialtitle;
+					s4 = resArray[putCounter].summary;
+					s5 = resArray[putCounter].description;
+					s6 = resArray[putCounter].sponsor;
+					putData.send();
+				}
+				else {
+					var stop:String = "";
+				}
+			}
+			public static function stripHtmlTags(html:String, tags:String = ""):String
+			{
+				var i:uint = 0;
+				var tagRegExp:RegExp = new RegExp("<([^>\\s]+)(\\s[^>]+)*>", "g");
+				var tmpRE:RegExp = new RegExp("([\+\*\$\/])","g");
+				html = html.replace(tagRegExp, "");
+				html = html.replace(tmpRE, "");
+				return html;
+			}
+			public function fixText(s:String):String {
+				
+				var text:String = s.toLowerCase();
+				try{
+					var j:RegExp = new RegExp();
+					j = new RegExp("\"","g");
+					text = text.replace(j,"");
+					j = new RegExp("\n","g");
+					text = text.replace(j,"");
+					j = new RegExp("\r","g");
+					text = text.replace(j,"");
+				
+					j = new RegExp(",","g");
+					text = text.replace(j," ");
+					j =/>/gi;
+					text = text.replace(j, " ");
+					j =/</gi;
+					text = text.replace(j, " ");
+					j =/'/gi;
+					text = text.replace(j, " ");
+					j =/'/gi;
+					text = text.replace(j, " ");
+					j =/;/gi;
+					text = text.replace(j, " ");
+					j =/,/gi;
+					text = text.replace(j, " ");
+					j =/)/gi;
+					text = text.replace(j, " ");
+					j =/(/gi;
+					text = text.replace(j, " ");
+					j =/:/gi;
+					text = text.replace(j, " ");
+				}
+				catch(e:Error){
+					var stop:String = "";
+				}
+				return text.toLowerCase();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="putData"  result="afterUpdateToDatabase(event)"
+					   url="http://localhost/clinicaltrialsparser/bin-debug/php/putData.php" 
+					   method="POST" useProxy="false">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+</s:WindowedApplication>

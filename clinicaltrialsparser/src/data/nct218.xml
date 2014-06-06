@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="81">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01249287</url>
+  </required_header>
+  <id_info>
+    <org_study_id>DMR98-IRB-031</org_study_id>
+    <nct_id>NCT01249287</nct_id>
+  </id_info>
+  <brief_title>FMRI in Monitoring Intracerebral Stem Cell Implantation for Chronic Stroke Patients</brief_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>China Medical University Hospital</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>China Medical University Hospital</source>
+  <oversight_info>
+    <authority>Taiwan: Institutional Review Board</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      A growing number of studies highlight the potential of stem cell transplantation as a novel
+      therapeutic approach for stroke in animal model. But the stem cell therapy for chronic
+      stroke patients has not been well investigated yet. In this study, the investigators will
+      test the hypothesis that intracerebral peripheral blood hematopoietic stem cell (CD34+)
+      (PBSC) transplantation induces neuroplasticity in chronic stroke patients. The remyelination
+      of corticospinal tract in the lesion side, focal increased perfusion and increased cortical
+      activity in the peri-infarcted area will be monitored by the functional MRI after stem cell
+      therapy. The investigators study is aimed to find the potential mechanisms of the functional
+      recovery after stem cell implantation. The investigators also hope to find image surrogate
+      markers for prediction of patient outcome. The possible surrogate markers will be helpful in
+      improving the treatment procedure and patient selection.
+    </textblock>
+  </brief_summary>
+  <overall_status>Active, not recruiting</overall_status>
+  <start_date>April 2009</start_date>
+  <phase>N/A</phase>
+  <study_type>Observational</study_type>
+  <study_design>Observational Model:  Case Control, Time Perspective:  Prospective</study_design>
+  <number_of_groups>1</number_of_groups>
+  <enrollment type="Anticipated">30</enrollment>
+  <condition>Stroke</condition>
+  <eligibility>
+    <study_pop>
+      <textblock>
+        University hospital
+      </textblock>
+    </study_pop>
+    <sampling_method>Non-Probability Sample</sampling_method>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Old stroke half an year ~3 year
+
+          -  One-sided MCA infarction
+
+          -  NIHSS stroke scale: 9-20
+
+        Exclusion Criteria:
+
+          -  Pacemaker
+
+          -  Cerebral aneurysm clips
+
+          -  Neurostimulator
+
+          -  Metallic heart valves
+
+          -  IUD
+
+          -  Joint replacement
+
+          -  Metal plates
+
+          -  Bone or joint pins
+
+          -  Vena cava filters
+
+          -  Embolization coils
+
+          -  Cochlear implants
+
+          -  Greenfieid filer
+
+          -  Seizures
+
+          -  Claustrophobia
+
+          -  Bullet/gunshot
+
+          -  Prosthesis (non-removeable)
+
+          -  Artificial limbs (non-removeable)
+
+          -  Surgical slips
+
+          -  Metal screws or pins&gt;
+
+          -  Shrapnel/metallic fragments
+
+          -  Harrington rod
+
+          -  Insulin pump
+
+          -  Ever had metal removed from in or around the eye
+
+          -  Ever been metal worker (i.e., welder, machinist)
+
+          -  Non-removeable hearing aids
+
+          -  Birdnest or Gianturco filter
+
+          -  Pregnant
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>35 Years</minimum_age>
+    <maximum_age>70 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <verification_date>November 2010</verification_date>
+  <lastchanged_date>November 26, 2010</lastchanged_date>
+  <firstreceived_date>November 25, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>China Medical University Hospital</name_title>
+    <organization>China Medical University Hospital</organization>
+  </responsible_party>
+  <keyword>stroke</keyword>
+  <keyword>stem cell</keyword>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Stroke</mesh_term>
+    <mesh_term>Cerebral Infarction</mesh_term>
+  </condition_browse>
+</clinical_study>

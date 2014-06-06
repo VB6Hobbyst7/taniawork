@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="185">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01216995</url>
+  </required_header>
+  <id_info>
+    <org_study_id>ADVANCE</org_study_id>
+    <nct_id>NCT01216995</nct_id>
+  </id_info>
+  <brief_title>Safety and Efficacy of ADRCs Delivered Via the Intracoronary Route in the Treatment of Patients With ST-elevation Acute Myocardial Infarction</brief_title>
+  <acronym>ADVANCE</acronym>
+  <official_title>Safety and Efficacy of ADRCs Delivered Via the Intracoronary Route in the Treatment of Patients With ST-elevation Acute Myocardial Infarction - The ADVANCE Study</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Cytori Therapeutics</agency>
+      <agency_class>Industry</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Cytori Therapeutics</source>
+  <oversight_info>
+    <authority>Netherlands: The Central Committee on Research Involving Human Subjects (CCMO)</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Double blind, prospective, randomized, placebo-controlled group sequential Safety and
+      Efficacy trial of ADRCs delivered via the intracoronary route in the treatment of patients
+      with ST-elevation acute myocardial infarction (STEMI).
+    </textblock>
+  </brief_summary>
+  <detailed_description>
+    <textblock>
+      This is a prospective, group sequential, randomized, three arm, placebo-controlled, double
+      blind, study that will enroll approximately 360 patients at no more than thirty-five  (35)
+      international clinical sites.  Additional blinding measures will be taken in the assessment
+      of study outcomes. The doses of the test material (ADRCs) for each arm are described in the
+      protocol.  The study will include up to three arms.
+    </textblock>
+  </detailed_description>
+  <overall_status>Recruiting</overall_status>
+  <start_date>January 2011</start_date>
+  <completion_date type="Anticipated">December 2014</completion_date>
+  <primary_completion_date type="Anticipated">June 2014</primary_completion_date>
+  <phase>Phase 2/Phase 3</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Single Group Assignment, Masking:  Double Blind (Subject, Caregiver, Investigator, Outcomes Assessor), Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Reduction in Infarct Size</measure>
+    <time_frame>6 Months</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Reduction in infarct size at 6 months, assessed by Gd contrast MRI and expressed as percent of left ventricle infarcted</description>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Reduction in Infarct Size</measure>
+    <time_frame>1 year</time_frame>
+    <safety_issue>No</safety_issue>
+    <description>Reduction in infarct size at 12 months, assessed by Gd contrast MRI and expressed as percent of left ventricle infarcted</description>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>MACCE rates</measure>
+    <time_frame>To 30 days, 180 days, and 360 days</time_frame>
+    <safety_issue>Yes</safety_issue>
+    <description>MACCE is a composite event comprised of the following:
+Cardiac death
+Myocardial infarction
+Overnight hospitalization for heart failure which required administration of IV diuretics
+Target lesion revascularization
+Target vessel revascularization
+CVA
+Heart Failure
+Improvement in perfusion (SPECT).</description>
+  </secondary_outcome>
+  <number_of_arms>3</number_of_arms>
+  <enrollment type="Anticipated">360</enrollment>
+  <condition>Acute Myocardial Infarction</condition>
+  <arm_group>
+    <arm_group_label>Dose A</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Dose A</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Dose B</arm_group_label>
+    <arm_group_type>Active Comparator</arm_group_type>
+    <description>Dose B</description>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Placebo</arm_group_label>
+    <arm_group_type>Placebo Comparator</arm_group_type>
+    <description>Placebo</description>
+  </arm_group>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>Dose A</intervention_name>
+    <description>ADRC Dose A</description>
+    <arm_group_label>Dose A</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>Dose B</intervention_name>
+    <description>ADRCs Dose B</description>
+    <arm_group_label>Dose B</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Biological</intervention_type>
+    <intervention_name>Placebo</intervention_name>
+    <description>Placebo Comparator</description>
+    <arm_group_label>Placebo</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  MI duration of minimum 150 minutes and maximum of 12 hours from onset of symptoms to
+             PCI (defined as the first sustained restoration of TIMI III flow) in the culprit
+             vessel
+
+          -  Myocardial Infarction Criteria:
+
+          -  Ischemic symptoms AND
+
+          -  Development of pathologic Q waves on the ECG; or
+
+          -  ECG changes indicative of ischemia (ST segment elevation or depression); or
+
+          -  New left bundle branch block: AND
+
+          -  Creatine phosphokinase Isoenzyme (MB Form) &gt; 100 IU/L between admission and
+             randomization
+
+          -  Successful revascularization of the culprit lesion in a major epicardial vessel
+             within 180 minutes to 12 hours defined as:
+
+          -  TIMI III flow
+
+          -  Area of hypo- or akinesia corresponding to the territory of culprit lesion, as
+             determined by left ventriculogram at the time of primary PCI
+
+          -  Left ventricular ejection fraction (LVEF) ≥30% and ≤45% by 2D TTE
+
+          -  ≥25% left ventricular infarct size at 4 days (cMRI)
+
+          -  Ability to undergo liposuction
+
+        Exclusion Criteria:
+
+          -  Prior MI, cardiomyopathy, or prior hospital admission for congestive heart failure
+             (CHF)
+
+          -  More than 24 hours between PCI and start of cell infusion
+
+          -  More than twelve hours or less than 150 minutes between the onset of first symptoms
+             of AMI and revascularization defined as restoration of at least TIMI 3 flow
+
+          -  Staged treatment of coronary artery disease beyond 1 single non-target lesion (as
+             described above)
+
+          -  Current need for mechanical ventilation
+
+          -  Cardiogenic shock present post PCI
+
+          -  Hemodynamic instability within 8 hours prior to randomization, defined as the
+             presence of any of the following:
+
+          -  Malignant tumor
+
+          -  Acute or chronic bacterial or viral infectious disease
+
+          -  Pacemaker, ICD or any other contra-indication for MRI
+
+          -  LVEF &lt;30% or &gt;45% by 2D TTE
+
+          -  &lt; 25% left ventricular infarct size at 4 days (MRI)
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>20 Years</minimum_age>
+    <maximum_age>80 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Bradley S Matsubara, MD</last_name>
+    <role>Study Director</role>
+    <affiliation>Cytori Therapeutics</affiliation>
+  </overall_official>
+  <location>
+    <facility>
+      <name>Erasmus University Medical Centrum</name>
+      <address>
+        <city>Rotterdam</city>
+        <country>Netherlands</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Eric Duckers, MD, PhD</last_name>
+      <phone>(010) 704 0 704</phone>
+    </contact>
+  </location>
+  <location_countries>
+    <country>Netherlands</country>
+  </location_countries>
+  <verification_date>May 2011</verification_date>
+  <lastchanged_date>May 13, 2011</lastchanged_date>
+  <firstreceived_date>October 6, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Bradley S. Matsubara, MD, Associate Director of Clinical Research</name_title>
+    <organization>Cytori Therapeutics, Inc.</organization>
+  </responsible_party>
+  <keyword>Heart Attack</keyword>
+  <keyword>Regenerative Cells</keyword>
+  <keyword>Stem Cells</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Infarction</mesh_term>
+    <mesh_term>Myocardial Infarction</mesh_term>
+  </condition_browse>
+</clinical_study>

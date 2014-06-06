@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="208">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01240915</url>
+  </required_header>
+  <id_info>
+    <org_study_id>B3041001</org_study_id>
+    <nct_id>NCT01240915</nct_id>
+  </id_info>
+  <brief_title>A Study To Investigate The Safety And Possible Clinical Benefit Of Multistem(r) In Patients With Moderate To Severe Ulcerative Colitis</brief_title>
+  <official_title>A Phase 2 Randomized, Double-Blind, Placebo-Controlled, Parallel Group, Multi-Center Study To Investigate The Safety And Efficacy Of Multistem(r) (PF-05285401) In Subjects With Moderate To Severe Ulcerative Colitis</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Pfizer</agency>
+      <agency_class>Industry</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>Athersys, Inc</agency>
+      <agency_class>Industry</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Pfizer</source>
+  <oversight_info>
+    <authority>United States: Food and Drug Administration</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      MultiStem(r) is a new biological product, manufactured from human stem cells obtained from
+      adult bone marrow or other nonembryonic tissue sources.
+
+      Factors expressed by MultiStem cells are believed to reduce inflammation and regulate immune
+      system function, protect damaged or injured cells and tissue, promote formation of new blood
+      vessels, and augment tissue repair and healing.  MultiStem cell treatment resulted in
+      significant efficacy in a mouse model of Graft versus Host Disease with almost complete
+      reversal of gastrointestinal pathology (similar to pathology that would be expected in
+      Ulcerative Colitis).  These data, together with safety data generated in 2 other clinical
+      trials, suggest that MultiStem has the potential to be a new treatment option for patients
+      with ulcerative colitis.
+
+      This is the first study of MultiStem in this patient population and will cautiously explore
+      the safety/toleration and potential benefit of this new treatment in patients with moderate
+      to severe disease.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>February 2011</start_date>
+  <completion_date type="Anticipated">May 2013</completion_date>
+  <primary_completion_date type="Anticipated">September 2012</primary_completion_date>
+  <phase>Phase 2</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Randomized, Endpoint Classification:  Safety/Efficacy Study, Intervention Model:  Parallel Assignment, Masking:  Double Blind (Subject, Investigator, Outcomes Assessor), Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>Incidence and severity of adverse events (at Week 4 as well as at Week 8).</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Change from baseline of endoscopic score at Week 8 as measured by modified Baron score.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Change from baseline of Mayo rectal bleeding sub-score at Week 8.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Changes in laboratory measurements of safety and vital signs (at Week 4 as well as at Week 8).</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>Yes</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Changes from baseline at Week 4 as well as at Week 8 in the following biomarker levels: fecal calprotectin, CRP.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of subjects with a Mayo rectal bleeding sub-score equal 0 at Week 4 as well as at Week 8.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of subjects in endoscopic remission at Week 8</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportions of subjects in clinical remission at Week 8</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportions of subjects with a decrease from baseline of at least one point in Mayo rectal bleeding sub-score at Week 4 as well as at Week 8.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of subjects with an endoscopic response at Week 8</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Proportion of subjects with clinical response at Week 8</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Changes from baseline in total Mayo score at Week 8.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Changes from baseline in partial Mayo score at Week 2, Week 4, Week 6, as well as at Week 8.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Daily patient-reported rectal bleeding scores, to be modeled longitudinally.</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Change from baseline of Mayo rectal bleeding sub-score at Week 4.</measure>
+    <time_frame>4 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Changes in biopsy histology score at Week 8 (measured by Riley Index).</measure>
+    <time_frame>8 weeks</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>3</number_of_arms>
+  <enrollment type="Anticipated">126</enrollment>
+  <condition>Colitis, Ulcerative</condition>
+  <arm_group>
+    <arm_group_label>Cohort 1</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Cohort 2</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Cohort 3</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+  </arm_group>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>once every 7 days for 3 doses</description>
+    <arm_group_label>Cohort 1</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem low dose</intervention_name>
+    <description>every 7 days for 3 doses.</description>
+    <arm_group_label>Cohort 1</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 1</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem low dose</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 1</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>Every 2 weeks for 4 doses</description>
+    <arm_group_label>Cohort 2</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem high dose</intervention_name>
+    <description>Every 2 weeks for 4 doses.</description>
+    <arm_group_label>Cohort 2</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 2</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem high dose</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 2</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>Every 2 weeks for 4 doses</description>
+    <arm_group_label>Cohort 3</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem high dose</intervention_name>
+    <description>Every 2 weeks for 4 doses.</description>
+    <arm_group_label>Cohort 3</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>placebo</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 3</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>MultiStem high dose</intervention_name>
+    <description>single dose at week 8</description>
+    <arm_group_label>Cohort 3</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Subjects must have a documented diagnosis of ulcerative colitis at least 6 months
+             prior to screening.
+
+          -  Subjects must have active moderate-to-severe ulcerative colitis based on Mayo score.
+
+          -  Subjects must have Modified Baron endoscopic score of at least 2 determined within 7
+             days of first dosing.
+
+          -  Subjects must have a history of inadequate treatment response to at least one of the
+             following; aminosalicylates, oral corticosteroids, azathioprine or anti TNF induction
+             therapy
+
+        Exclusion Criteria:
+
+          -  Subjects who have abnormal organ and marrow function.
+
+          -  Subjects with a diagnosis of indeterminate colitis, or clinical findings suggestive
+             of Crohn's disease.
+
+          -  Subjects who meet Truelove-Witts criteria for severe ulcerative colitis.
+
+          -  Subjects receiving or who are expected to receive Infliximab or other biologic
+             treatment within 8 weeks of the Day 1 study visit.
+
+          -  Subjects receiving or who are expected to receive Cyclosporine, mycophenolate, or
+             tacrolimus within 4 weeks of the Day 1 study visit.
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>N/A</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Pfizer CT.gov Call Center</last_name>
+    <role>Study Director</role>
+    <affiliation>Pfizer</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Pfizer CT.gov Call Center</last_name>
+    <phone>1-800-718-1021</phone>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Lafayette</city>
+        <state>Colorado</state>
+        <zip>80026</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Washington</city>
+        <state>District of Columbia</state>
+        <zip>20006</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Jacksonville</city>
+        <state>Florida</state>
+        <zip>32256</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>South Miami</city>
+        <state>Florida</state>
+        <zip>33143</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Annapolis</city>
+        <state>Maryland</state>
+        <zip>21401</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Chevy Chase</city>
+        <state>Maryland</state>
+        <zip>20815</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Troy</city>
+        <state>Michigan</state>
+        <zip>48098</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Columbia</city>
+        <state>Missouri</state>
+        <zip>65201</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Mexico</city>
+        <state>Missouri</state>
+        <zip>65265</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Raleigh</city>
+        <state>North Carolina</state>
+        <zip>27612</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+  </location>
+  <location>
+    <facility>
+      <name>Pfizer Investigational Site</name>
+      <address>
+        <city>Germantown</city>
+        <state>Tennessee</state>
+        <zip>38138</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Not yet recruiting</status>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <link>
+    <url>https://trialinfoemail.pfizer.com/pages/landing.aspx?StudyID=B3041001&amp;StudyName=A%20Study%20To%20Investigate%20The%20Safety%20And%20Possible%20Clinical%20Benefit%20Of%20Multistem%28r%29%20In%20Patients%20With%20Moderate%20To%20Severe%20Ulcerative%20Colit</url>
+    <description>To obtain contact information for a study center near you, click here.</description>
+  </link>
+  <verification_date>June 2011</verification_date>
+  <lastchanged_date>June 7, 2011</lastchanged_date>
+  <firstreceived_date>November 10, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Director, Clinical Trial Disclosure Group</name_title>
+    <organization>Pfizer, Inc.</organization>
+  </responsible_party>
+  <keyword>safety efficacy MultiStem(r) moderate to severe Ulcerative Colitis</keyword>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Colitis</mesh_term>
+    <mesh_term>Colitis, Ulcerative</mesh_term>
+    <mesh_term>Ulcer</mesh_term>
+  </condition_browse>
+</clinical_study>

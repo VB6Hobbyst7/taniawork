@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="42">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01241708</url>
+  </required_header>
+  <id_info>
+    <org_study_id>Pro00001295</org_study_id>
+    <nct_id>NCT01241708</nct_id>
+    <nct_alias>NCT01374958</nct_alias>
+  </id_info>
+  <brief_title>Tandem Auto Stem Cell Transplant With Melphalan Followed by Melphalan and Bortezomib in Patients With Multiple Myeloma</brief_title>
+  <acronym>(Mel/MelVel)</acronym>
+  <official_title>Tandem Autologous Hematopoietic Stem Cell Transplant With Melphalan Followed by Melphalan and Bortezomib in Patients With Multiple Myeloma</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>Hackensack University Medical Center</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+  </sponsors>
+  <source>Hackensack University Medical Center</source>
+  <oversight_info>
+    <authority>United States: Institutional Review Board</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      High dose chemotherapy with stem cell transplantation is commonplace in the treatment of
+      multiple myeloma.  This treatment uses a chemotherapy drug called Melphalan that has been
+      used in several thousand bone marrow transplant recipients worldwide for the same or similar
+      disorders.  Many patients with multiple myeloma receive 2 stem cell transplantations within
+      a few months of each other as part of their treatment.  Usually the drug Melphalan is used
+      for both transplants.
+
+      Bortezomib is a drug that is used for treating multiple myeloma and has been used in
+      combination with melphalan for stem cell transplantation for patients with multiple myeloma.
+
+      The purpose of this trial is to study the effects of doing 2 transplants, first using
+      melphalan and second using melphalan and bortezomib.  The trial is aiming to find out if
+      adding the Bortezomib to the second transplant will increase the chances of staying in
+      remission longer.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>April 2010</start_date>
+  <phase>Phase 3</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Intervention Model:  Single Group Assignment, Masking:  Open Label, Primary Purpose:  Treatment</study_design>
+  <primary_outcome>
+    <measure>To determine the progression-free survival of patients with multiple myeloma treated with tandem cycles of high-dose melphalan followed by high-dose melphalan in combination with bortezomib with autologous HSC transplantation.</measure>
+    <time_frame>3 years</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>To determine the response rate, overall survival, and regimen-related toxicities of patients with multiple myeloma treated with high-dose melphalan or high-dose melphalan in combination with bortezomib given in tandem transplants.</measure>
+    <time_frame>lifetime</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>1</number_of_arms>
+  <enrollment type="Anticipated">110</enrollment>
+  <condition>Multiple Myeloma</condition>
+  <condition>Auto Stem Cell Transplant</condition>
+  <intervention>
+    <intervention_type>Drug</intervention_type>
+    <intervention_name>Bortezomib</intervention_name>
+    <description>Bortezomib 1.6mg/m2 on day -4 and day -1</description>
+    <other_name>Velcade</other_name>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  Confirmed diagnosis of multiple myeloma ISS stage I, II or III, less than 12 months
+             since initiation of systemic therapy
+
+          -  ≥8x106 CD34+cells/kg available in cryopreservation in aliquots appropriate for tandem
+             transplants
+
+          -  Age: 18-75 years at time of transplantation
+
+          -  KPS 70-100%
+
+          -  Recovery from complications of prior therapies
+
+          -  Gender: There is no gender restriction
+
+        Exclusion Criteria:
+
+          -  Diagnosis other than multiple myeloma
+
+          -  Chemotherapy or radiotherapy within 21 days of initiating treatment in this study
+
+          -  Prior autologous or allogeneic transplantation (except as enrolled into this study)
+
+          -  Uncontrolled bacterial, viral, fungal or parasitic infections
+
+          -  Uncontrolled CNS metastases
+
+          -  Known amyloid deposition in heart
+
+          -  Organ dysfunction
+
+          -  LVEF &lt;40% or cardiac failure not responsive to therapy
+
+          -  FVC, FEV1, or DLCO &lt;50% of predicted and/or receiving supplementary continuous oxygen
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>18 Years</minimum_age>
+    <maximum_age>64 Years</maximum_age>
+    <healthy_volunteers>No</healthy_volunteers>
+  </eligibility>
+  <overall_contact>
+    <last_name>Michele Donato, MD</last_name>
+    <email>MDonato@humed.com</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>John Theurer Cancer Center @ Hackensack University Medical Center</name>
+      <address>
+        <city>Hackensack</city>
+        <state>New Jersey</state>
+        <zip>07601</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Marie Del Favero, RN</last_name>
+      <phone>201-996-5834</phone>
+      <email>MDelfavero@humed.com</email>
+    </contact>
+    <contact_backup>
+      <last_name>Sung Hong</last_name>
+      <phone>201-996-5834</phone>
+      <email>SHoonHong@humed.com</email>
+    </contact_backup>
+    <investigator>
+      <last_name>Michele Donato, MD</last_name>
+      <role>Principal Investigator</role>
+    </investigator>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <verification_date>November 2010</verification_date>
+  <lastchanged_date>November 15, 2010</lastchanged_date>
+  <firstreceived_date>November 15, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Michele Donato</name_title>
+    <organization>Hackensack University Medical Center</organization>
+  </responsible_party>
+  <is_fda_regulated>Yes</is_fda_regulated>
+  <is_section_801>Yes</is_section_801>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Multiple Myeloma</mesh_term>
+    <mesh_term>Neoplasms, Plasma Cell</mesh_term>
+  </condition_browse>
+  <intervention_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Melphalan</mesh_term>
+    <mesh_term>Bortezomib</mesh_term>
+  </intervention_browse>
+</clinical_study>

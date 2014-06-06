@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clinical_study rank="85">
+  <!-- This xml conforms to:  http://clinicaltrials.gov/ct2/html/images/info/public.dtd -->
+  <required_header>
+    <download_date>Information obtained from ClinicalTrials.gov on October 20, 2011</download_date>
+    <link_text>Link to the current ClinicalTrials.gov record.</link_text>
+    <url>http://clinicaltrials.gov/show/NCT01169831</url>
+  </required_header>
+  <id_info>
+    <org_study_id>HP-00045413</org_study_id>
+    <nct_id>NCT01169831</nct_id>
+  </id_info>
+  <brief_title>Regulation of Endothelial Progenitor Cells by Short-Term Exercise</brief_title>
+  <acronym>EPC-Ex</acronym>
+  <official_title>Regulation of Endothelial Progenitor Cells by Short-Term Exercise</official_title>
+  <sponsors>
+    <lead_sponsor>
+      <agency>University of Maryland</agency>
+      <agency_class>Other</agency_class>
+    </lead_sponsor>
+    <collaborator>
+      <agency>Baltimore VA Medical Center</agency>
+      <agency_class>U.S. Fed</agency_class>
+    </collaborator>
+  </sponsors>
+  <source>Baltimore VA Medical Center</source>
+  <oversight_info>
+    <authority>United States: Federal Government</authority>
+    <has_dmc>Yes</has_dmc>
+  </oversight_info>
+  <brief_summary>
+    <textblock>
+      Endothelial Progenitor Cells (EPCs) are circulating cells released from bone marrow which
+      are important for maintaining cardiovascular health.  The prevalence of cardiovascular
+      disease in older adults is associated with reduced circulating EPC numbers. Studies have
+      shown reduced EPC number and function in old vs. young individuals, and endurance exercise
+      training increases EPC number and function in young adults.  Oxidative stress adversely
+      affects endothelial cells and preliminary evidence indicates that oxidative stress
+      negatively affects EPC function.  Conversely, regular exercise reduces markers of oxidative
+      stress and may enhance EPC function in older adults.  The investigators hypothesize that
+      older endurance-trained athletes and matched sedentary individuals will have markedly
+      divergent EPC function and that altering the physical activity levels of both groups will
+      move them to intermediate points between these two extremes. The investigators also propose
+      that the investigators can &quot;mimic&quot; the effect of exercise training on EPC function in cell
+      culture by altering intracellular levels of a key enzyme and a signaling molecule which the
+      investigators have shown to regulate EPC function with respect to exercise training in young
+      individuals.
+    </textblock>
+  </brief_summary>
+  <overall_status>Recruiting</overall_status>
+  <start_date>July 2011</start_date>
+  <completion_date type="Anticipated">November 2013</completion_date>
+  <primary_completion_date type="Anticipated">November 2013</primary_completion_date>
+  <phase>N/A</phase>
+  <study_type>Interventional</study_type>
+  <study_design>Allocation:  Non-Randomized, Intervention Model:  Single Group Assignment, Masking:  Open Label</study_design>
+  <primary_outcome>
+    <measure>Baseline Endothelial progenitor cell number</measure>
+    <time_frame>Day 1</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <primary_outcome>
+    <measure>Final Endothelial Progenitor Cell Number</measure>
+    <time_frame>Day 15</time_frame>
+    <safety_issue>No</safety_issue>
+  </primary_outcome>
+  <secondary_outcome>
+    <measure>Baseline Endothelial Reactivity</measure>
+    <time_frame>Day 1</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <secondary_outcome>
+    <measure>Final Endothelial Reactivity</measure>
+    <time_frame>Day 15</time_frame>
+    <safety_issue>No</safety_issue>
+  </secondary_outcome>
+  <number_of_arms>2</number_of_arms>
+  <enrollment type="Anticipated">60</enrollment>
+  <condition>Aging</condition>
+  <condition>Exercise</condition>
+  <condition>Cardiovascular Disease</condition>
+  <arm_group>
+    <arm_group_label>Sedentary Older Adults</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+  </arm_group>
+  <arm_group>
+    <arm_group_label>Older Endurance Athletes</arm_group_label>
+    <arm_group_type>Experimental</arm_group_type>
+  </arm_group>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>Exercise Training</intervention_name>
+    <description>2 weeks of daily aerobic exercise training</description>
+    <arm_group_label>Sedentary Older Adults</arm_group_label>
+  </intervention>
+  <intervention>
+    <intervention_type>Other</intervention_type>
+    <intervention_name>Exercise Cessation</intervention_name>
+    <description>Stopping all exercise for 2 weeks</description>
+    <arm_group_label>Older Endurance Athletes</arm_group_label>
+  </intervention>
+  <eligibility>
+    <criteria>
+      <textblock>
+        Inclusion Criteria:
+
+          -  50-80 years of age, BMI = 18-35 kg/m2, non-smoking, women must be postmenopausal
+
+        Exclusion Criteria:
+
+          -  history of cardiovascular/cerebrovascular disease, diabetes, cancer, renal, liver
+             disease, HIV; uncontrolled hyperlipidemia/hypertension
+      </textblock>
+    </criteria>
+    <gender>Both</gender>
+    <minimum_age>50 Years</minimum_age>
+    <maximum_age>80 Years</maximum_age>
+    <healthy_volunteers>Accepts Healthy Volunteers</healthy_volunteers>
+  </eligibility>
+  <overall_official>
+    <last_name>Steven J Prior, Ph.D.</last_name>
+    <role>Principal Investigator</role>
+    <affiliation>University of Maryland</affiliation>
+  </overall_official>
+  <overall_contact>
+    <last_name>Sarah Horlitz, M.S.</last_name>
+    <phone>410-605-7000</phone>
+    <phone_ext>4823</phone_ext>
+    <email>sarah.horlitz@va.gov</email>
+  </overall_contact>
+  <location>
+    <facility>
+      <name>University of Maryland, Baltimore &amp; Baltimore VA Medical Center</name>
+      <address>
+        <city>Baltimore</city>
+        <state>Maryland</state>
+        <zip>21201</zip>
+        <country>United States</country>
+      </address>
+    </facility>
+    <status>Recruiting</status>
+    <contact>
+      <last_name>Sarah Horlitz, M.S.</last_name>
+      <phone>410-605-7000</phone>
+      <phone_ext>4823</phone_ext>
+      <email>sarah.horlitz@va.gov</email>
+    </contact>
+  </location>
+  <location_countries>
+    <country>United States</country>
+  </location_countries>
+  <link>
+    <url>http://peppercenter.umaryland.edu/</url>
+    <description>University of Maryland Claude D. Pepper Older Americans Independence Center</description>
+  </link>
+  <verification_date>July 2011</verification_date>
+  <lastchanged_date>July 20, 2011</lastchanged_date>
+  <firstreceived_date>July 23, 2010</firstreceived_date>
+  <responsible_party>
+    <name_title>Steven J. Prior, Ph.D., Assistant Professor</name_title>
+    <organization>University of Maryland School of Medicine</organization>
+  </responsible_party>
+  <is_fda_regulated>No</is_fda_regulated>
+  <has_expanded_access>No</has_expanded_access>
+  <condition_browse>
+    <!-- The following MeSH terms are assigned with an imperfect algorithm            -->
+    <mesh_term>Cardiovascular Diseases</mesh_term>
+  </condition_browse>
+</clinical_study>
