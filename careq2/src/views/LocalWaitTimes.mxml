@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:maps="com.google.maps.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*"
+		viewActivate="view1_activateHandler(event)" creationComplete="init(event)"
+		actionBarVisible="false" title="Local Wait Times" backgroundAlpha="0">
+	<fx:Script>
+		<![CDATA[
+			import com.google.maps.LatLng;
+			import com.google.maps.LatLngBounds;
+			import com.google.maps.Map;
+			import com.google.maps.MapEvent;
+			import com.google.maps.MapMouseEvent;
+			import com.google.maps.MapType;
+			import com.google.maps.controls.MapTypeControl;
+			import com.google.maps.controls.ZoomControl;
+			import com.google.maps.examples.TooltipOverlay;
+			import com.google.maps.interfaces.IPane;
+			import com.google.maps.overlays.Marker;
+			import com.google.maps.services.ClientGeocoder;
+			import com.google.maps.services.GeocodingEvent;
+			import com.google.maps.services.GeocodingResponse;
+			import com.google.maps.services.Placemark;		
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;	
+			import model.Smurf;	
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;	
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var frontview:Boolean = true;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+	
+			
+			[Bindable]
+			public var smurf:Smurf;
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			
+			private var googleMap:Map;
+			private var geocoder:ClientGeocoder;
+			
+			protected function view1_activateHandler(event:Event):void
+			{
+				// Here we can access the data property since the firstViewData was set
+				currentSelectedLocationName = "Local Wait Times";
+				backToList.visible = false;
+				listCont.visible = true;
+				infoCont.visible = false;
+				var mainApp:home = parentDocument as home;
+				smurf = mainApp.smurf; // accesses the smurf property from my main application mxml
+				locationType = smurf.type;
+				if (Geolocation.isSupported)
+				{
+					//log.text = "Finding Location...";
+					g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+					addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+				}
+				else
+				{
+					
+					mylat = 53.59221;
+					mylong = -113.54009;
+					getLocations.send();
+				}
+								
+			}	
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				trace("Update event called");
+				var textsamp:String = "latitude = " + event.latitude + 
+					"\nlongitude = " + event.longitude +
+					"\naltitude = " + event.altitude +
+					"\nverticalAccuracy = " + event.verticalAccuracy +
+					"\nhorizontalAccuracy = " + event.horizontalAccuracy +
+					"\nspeed = " + event.speed +
+					"\nheading = " + event.heading +
+					"\ntimestamp = " + event.timestamp;        
+				// auto-scroll the text area to the latest text
+				mylat = event.latitude;
+				mylong = event.longitude;
+				getLocations.send();
+			}
+			
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function init(event:FlexEvent):void
+			{
+				radiusOptions = new ArrayCollection();
+				radiusOptions.addItem({label:10});
+				radiusOptions.addItem({label:20});
+				radiusOptions.addItem({label:50});
+				radiusOptions.addItem({label:75});
+				radiusOptions.addItem({label:90});
+				avgRadius.selectedIndex = 2;
+				currentSelectedLocationName = "Local Wait Times";
+				backToList.visible = false;
+				listCont.visible = true;
+				infoCont.visible = false;
+				googleMap = new Map();
+				googleMap.sensor = "true";
+				googleMap.key = "A73hQ9ESqPzi1GJa4cyOYyJQ";
+				googleMap.url = "620564658392.apps.googleusercontent.com";
+				googleMap.addEventListener(MapEvent.MAP_READY, googleMap_mapReady);
+				googleMap.setSize(new Point(mapContainer.width, mapContainer.height));
+				
+				try{
+					
+				}
+				catch(e:Error){
+					mapContainer.removeChildAt(0);
+				}
+				mapContainer.addChild(googleMap);
+			}
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				var stop:String = "";
+				try{
+					listData = new ArrayCollection();
+					listData = event.result[0].res.re;
+					clinicList.dataProvider = listData;
+					var totalDistance:Number = 0;
+					for (var i:uint = 0; i < listData.length; i++){
+						var latlng:LatLng = new LatLng(listData[i].lat,listData[i].long);
+						googleMap.addOverlay(createMarker(latlng,i+1,listData[i].name));
+						totalDistance = totalDistance + Number(listData[i].distance);
+					}
+					var avgText:String = (totalDistance/i).toString();
+					if (avgText.length > 4){
+						avgText = avgText.substr(0,4);
+					}
+					avgMin.text = avgText+" km";
+				}
+				catch(e:Error){
+					//todo coming soon
+				}
+			}
+			public function clinicListChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					var address:String = ev.currentTarget.selectedItems[0].address;
+					//var description:String = ev.currentTarget.selectedItems.address;
+					var id:String = ev.currentTarget.selectedItems[0].id;
+					var lat:Number = Number(ev.currentTarget.selectedItems[0].lat);
+					var long:Number = Number(ev.currentTarget.selectedItems[0].long);
+					var name:String = ev.currentTarget.selectedItems[0].name;
+					var number:String = ev.currentTarget.selectedItems[0].name;
+					var type:String = ev.currentTarget.selectedItems[0].type;
+					currentSelectedLocationName = name;
+					currentSelectedAddress = lat+", "+long;
+					var waittimeText:String = (ev.currentTarget.selectedItems[0].distance).toString();
+					if (waittimeText.length > 4){
+						waittimeText = waittimeText.substr(0,4);
+					}
+					currentSelectedWaitTime = waittimeText+" km";
+					geocoder = new ClientGeocoder();
+					geocoder.addEventListener(GeocodingEvent.GEOCODING_SUCCESS, geocoder_geocodingSuccess);
+					geocoder.addEventListener(GeocodingEvent.GEOCODING_FAILURE, geocoder_geocodingFailure);
+					geocoder.geocode(currentSelectedAddress);
+					//var latlng:LatLng = new LatLng(lat,
+					//	long);
+					//googleMap.addOverlay(createMarker(latlng,1));
+					listCont.visible = false;
+					infoCont.visible = true;
+					backToList.visible = true;
+				}
+		
+			}
+			public function backToListClick():void {
+				currentSelectedLocationName = "Local Wait Times";
+				backToList.visible = false;
+				listCont.visible = true;
+				infoCont.visible = false;
+			
+			}
+			private function geocoder_geocodingSuccess(evt:GeocodingEvent):void {
+				var result:Placemark = GeocodingResponse(evt.response).placemarks[0];
+				
+				googleMap.setCenter(result.point, 13);
+			}
+			
+			private function geocoder_geocodingFailure(evt:GeocodingEvent):void {
+				
+			}
+			
+			private function googleMap_mapReady(evt:MapEvent):void {
+				googleMap.addControl(new ZoomControl());
+				googleMap.addControl(new MapTypeControl());	
+			}
+			
+		
+			
+			private function mapContainer_resize(evt:ResizeEvent):void {
+				if (googleMap) {
+					googleMap.setSize(new Point(mapContainer.width, mapContainer.height));
+				}
+			}
+			private function createMarker(latlng:LatLng, number:Number,label:String):Marker {
+				var marker:Marker = new Marker(latlng);
+				var customOverlay:TooltipOverlay = new TooltipOverlay(latlng, label);
+				marker.addEventListener(MapMouseEvent.ROLL_OVER, function(e:MapMouseEvent):void {
+					googleMap.addOverlay(customOverlay);
+				});
+				marker.addEventListener(MapMouseEvent.ROLL_OUT, function(e:MapMouseEvent):void {
+					googleMap.removeOverlay(customOverlay);
+				});
+				return marker;
+			}
+			
+			public function radiusChange(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				myradius = Number(avgRadius.selectedItem.label);
+				getLocations.send();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="POST" resultFormat="array" url="http://localhost/careq/php/getLocations3.php" result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<type>{locationType}</type>		
+				<mylat>{mylat}</mylat>		
+				<mylong>{mylong}</mylong>		
+				<myradius>{myradius}</myradius>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" id="listCont" visible="false" backgroundAlpha="0" borderAlpha="0" >
+		<s:BorderContainer visible="{frontview}" borderAlpha="0" left="0" top="40" width="100%" height="58" backgroundColor="#E2EAF4">
+			<s:Label left="6" top="6" width="216" height="33" color="#34396B" fontSize="18"
+					 fontWeight="bold" text="Current Average"/>
+			<s:Label id="avgMin" left="184" top="5" width="112" height="42" color="#34396B"
+					 fontSize="22" fontWeight="bold" text="0 km"/>
+			<s:DropDownList id="avgRadius" dataProvider="{radiusOptions}" 
+							change="radiusChange(event)" x="7" y="29" width="60" height="23"  />
+			<s:Label  x="70" y="34" width="106" height="23" color="#626262" fontSize="16"
+					 fontWeight="normal" text="km Radius"/>
+		</s:BorderContainer>
+		<s:VGroup top="97" width="100%" gap="0" visible="{frontview}" bottom="0">
+			<s:BorderContainer left="0" top="57" borderAlpha="0" width="100%" height="18" backgroundColor="#679FD5">
+			</s:BorderContainer>
+			
+			<s:BorderContainer x="0" y="-76" borderAlpha="0" width="100%" height="{this.height-57}" >
+				<s:List width="100%" height="300"  id="clinicList" labelField="name"  dataProvider="{listData}" itemRenderer="clinicResult"
+						selectedIndex="1" change="clinicListChange(event);">
+					
+				</s:List>
+				
+			</s:BorderContainer>
+			
+		</s:VGroup>
+		<s:Label x="8" y="101" width="173" height="13" color="#E5E5E5" fontSize="13"
+				 fontWeight="bold" text="All Clinics"/>
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" height="100%" id="infoCont" backgroundAlpha="0" borderAlpha="0" visible="true" >
+		<s:BorderContainer visible="{frontview}" borderAlpha="0" left="0" top="40" width="100%" height="54" backgroundColor="#E2EAF4">
+			<s:Label id="selectedTitle" left="8" right="8" top="4" height="26" color="#080A4C"
+					 fontSize="12" fontWeight="bold" text="{currentSelectedLocationName}"/>
+			<s:Label id="selectedWaitTime" left="8" top="28" width="201" height="28" color="#080A4C"
+					 fontSize="18" fontWeight="bold" text="{currentSelectedWaitTime}"/>
+		
+		</s:BorderContainer>
+		<s:VGroup top="93" width="100%" gap="0" visible="{frontview}" bottom="0">
+			
+			<mx:UIComponent id="mapContainer"
+							width="100%"
+							height="100%"
+							resize="mapContainer_resize(event);" />
+		</s:VGroup>
+	</s:BorderContainer>
+	<s:BorderContainer id="backBack" visible="true" left="0" right="0" height="41"
+					   backgroundColor="#505050" borderAlpha="0">
+		
+	</s:BorderContainer>
+	<s:Button id="backToList"  right="0" fontFamily="_sans" click="backToListClick();" visible="true"    top="4" width="57" height="40" label="| List"
+			  skinClass="topMenuSkin"/>
+	
+</s:View>

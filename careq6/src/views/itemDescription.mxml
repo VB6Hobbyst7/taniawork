@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*" 
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="{data.name}">
+	<s:navigationContent>
+		<s:Button width="43" height="33" click="navigator.popView();"
+				  icon="@Embed('assets/back.png')"/>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+		
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import model.Smurf;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			
+			[Bindable]
+			private var _addrString:String;
+			
+			[Bindable]
+			private var _distString:String;
+			
+	
+			
+			[Embed("../assets/sms.png")]
+			private var smsIcon:Class;
+			
+			[Embed("../assets/phone.png")]
+			private var phoneIcon:Class;
+			
+			[Embed("../assets/mail.png")]
+			private var mailIcon:Class;
+			
+			[Embed("../assets/map-marker.png")]
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		
+			public function view1_activateHandler(event:Event):void
+			{
+				googleTravelUrl = "http://maps.google.com/maps?saddr="+data.mylat+","+data.mylong+"&daddr="+data.lat+","+data.long;	
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+		]]>
+	</fx:Script>	
+	<s:BorderContainer borderAlpha="0" visible="true" left="0" top="0" width="100%" height="80" backgroundColor="#E2EAF4">
+		<s:Label id="selectedTitle" left="8" right="8" top="7" height="26" color="#080A4C"
+				 fontSize="12" fontWeight="bold" text="{data.currentSelectedLocationName}" />
+		<s:Label id="selectedAddress" left="8" right="10" top="23" height="26" color="#080A4C" mouseOver="tOver(event)" mouseOut="tOut(event)"
+				 fontSize="12" fontWeight="bold" text="{data.address}" click="navigateToURL(new URLRequest(googleTravelUrl))"/>
+		<s:Label id="selectedNumber" left="8" right="138" top="39" height="26" color="#080A4C"
+				 fontSize="12" fontWeight="bold" text="{data.number}"/>
+		<s:Label id="selectedWaitTime" left="8" top="54" width="172" height="22" color="#080A4C"
+				 fontSize="20" fontWeight="bold" text="{data.currentSelectedWaitTime}"/>
+		
+		
+		
+	</s:BorderContainer>
+	<s:VGroup top="80" bottom="0" right="8" left="8" gap="0">
+		<s:BorderContainer width="100%" mouseDown="profDown(event)" mouseUp="profUp(event)"
+						   click="navigateToURL(new URLRequest('tel:'+data.number));" height="40" 
+						   borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF">
+			<s:HGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle">
+				<s:Image x="188" y="37" width="38" height="38"
+						 source="../assets/phonebw.png"/>
+				<s:Label fontWeight="bold" text="Call : "/>
+				<s:Label text="{data.number}" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="40" mouseDown="profDown(event)" mouseUp="profUp(event)"
+						   click="navigateToURL(new URLRequest('sms:'+data.number));" 
+						   borderAlpha="0" backgroundAlpha="1" backgroundColor="#EEEEEE" >
+			<s:HGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle">
+				<s:Image x="231" y="37" width="38" height="38"
+						
+						 source="../assets/smsbw.png"/>
+				<s:Label fontWeight="bold" text="SMS : "/> 
+				<s:Label text="{data.number}" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="40" mouseDown="profDown(event)" mouseUp="profUp(event)"
+						   click="navigateToURL(new URLRequest('mailto:'+data.email));" 
+						   borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF">
+			<s:HGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle">
+				<s:Image x="276" y="37" width="38" height="38"
+						 source="../assets/mailbw.png"/>
+				<s:Label fontWeight="bold" text="Email : "/> 
+				<s:Label text="{data.email}" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="40" mouseDown="profDown(event)" mouseUp="profUp(event)"
+						   click="navigateToURL(new URLRequest(googleTravelUrl));" 
+						   borderAlpha="0" backgroundAlpha="1" backgroundColor="#EEEEEE" >
+			<s:HGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle">
+				<s:Image x="231" y="37" width="38" height="38"
+						 
+						 source="../assets/map-marker.png"/>
+				<s:Label fontWeight="bold" text="Directions : "/> 
+				<s:Label text="{data.address}" maxWidth="200" />
+			</s:HGroup>
+		</s:BorderContainer>
+	</s:VGroup>
+</s:View>

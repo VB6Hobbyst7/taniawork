@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Care-Q" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.events.DragEvent;
+			
+			import spark.filters.GlowFilter;
+			public var chosenMenuOption:uint = 1;
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function menu(i:uint):void{
+				chosenMenuOption = i; 
+				navigator.pushView(Locations, {locationType:i});
+				menuCont.visible = true;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Image width="100%" height="100%" scaleMode="stretch" source="assets/backdrop.png"/>
+	<s:BorderContainer id="menuCont" visible="true" width="240" height="241" backgroundAlpha="0"
+					   borderAlpha="0" horizontalCenter="0" verticalCenter="-14">
+		<s:Image id="m1" left="45" top="20" click="menu(1)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="homeicons/homeicon1exsmall.png"
+					source240dpi="homeicons/homeicon1small.png"
+					source320dpi="homeicons/homeicon1small.png"/>
+			</s:source>
+		</s:Image>
+		<s:Image id="m2" right="45" top="20" click="menu(2)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="homeicons/homeicon2exsmall.png"
+					source240dpi="homeicons/homeicon2small.png"
+					source320dpi="homeicons/homeicon2small.png"/>
+			</s:source>
+		</s:Image>
+		<s:Image id="m3" right="45" bottom="26" click="menu(3)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="homeicons/homeicon3exsmall.png"
+					source240dpi="homeicons/homeicon3small.png"
+					source320dpi="homeicons/homeicon3small.png"/>
+			</s:source>
+		</s:Image>
+		<s:Image id="m4" left="45" bottom="26" click="menu(4)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="homeicons/homeicon4exsmall.png"
+					source240dpi="homeicons/homeicon4small.png"
+					source320dpi="homeicons/homeicon4small.png"/>
+			</s:source>
+		</s:Image>
+	</s:BorderContainer>
+</s:View>

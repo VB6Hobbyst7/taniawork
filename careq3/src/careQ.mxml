@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"  
+							xmlns:mx="library://ns.adobe.com/flex/mx"  
+							initialize="{this.makeMap();}"  
+							applicationComplete="{this.onApplicationComplete();}"
+			   				xmlns:s="library://ns.adobe.com/flex/spark"  firstView="{s}"
+			  				applicationDPI="160" fontFamily="Verdana" xmlns:model="model.*"
+			   				splashScreenImage="@Embed('assets/careqlogo2.png')" >
+	<fx:Script>
+		<![CDATA[
+			import com.mapquest.*;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.traffic.Traffic;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;	
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.sensors.Geolocation;
+			import mx.events.ResizeEvent;
+			import spark.components.BusyIndicator;
+			import spark.components.View;
+			import spark.effects.Resize;		
+			import views.homeView;
+			import views.itemDescription;		
+			include "includes/BusyIndicatorUtil.as";
+			include "includes/TrafficUtil.as";
+			include "includes/AppConfig.as";
+			include "includes/ZoomControlUtil.as";
+			include "includes/InfoWindowUtil.as";
+			include "includes/GpsUtil.as";
+
+			[Bindable]
+			public var map:TileMap;
+			public var gps:Geolocation;
+			public var gpsLatLng:LatLng;
+			private var zoomControl:SMZoomControl;
+			private var traffic:Traffic;
+			public var gpsPoi:Poi;
+			public var gpsIsSupported:Boolean = false;
+			public var trafficEnabled:Boolean = false;
+			public var gpsTried:Boolean = false;
+			public var imgSize:int;
+			[Bindable]
+			public var assetPath:String;
+			public var biBusyIndicator:BusyIndicator;	
+			public var searchLocation:String;
+			public var searchTerm:String;
+			public var directionsLocations:Array;
+			[Bindable]
+			public var s:Class = views.homeView;
+			
+		private function onApplicationComplete():void {
+				this.addEventListener(ResizeEvent.RESIZE,this.onResize,false,0,true);
+				
+				//select the icon set we're going to use based on the application dpi
+				switch(this.applicationDPI) {
+					case 160:
+						this.imgSize = 45;
+						break;
+					case 240:
+						this.imgSize = 60;
+						break;
+					case 320:
+						this.imgSize = 90;
+						break;
+				}
+				this.assetPath = "assets/" + this.imgSize + "/";
+				this.splashScreenImage = null;
+			}
+			/*
+			function to create the map and set it's proeprties
+			*/
+			public function makeMap():void {
+				this.map = new TileMap(this.key,this.mapStartZoomLevel,new LatLng(38.134557, -98.4375),this.mapStartType);
+				this.map.size = new Size(this.width,this.height);
+				this.map.mapFriction = this.mapFriction;
+				this.map.name = "myMap";
+				this.addMapListeners();
+				
+				if (this.mapUseZoomControl) this.addZoomControl();
+				
+				//move the logo to the upper righthand corner
+				this.map.setLogoPlacement(LogoType.LOGO_MQ_LOGO,new MapCornerPlacement(MapCorner.TOP_RIGHT, new Size(-5,5)));
+			}
+			
+			
+			
+			/*
+			function to add an event listener to the map for when an infowindow opens
+			*/
+			private function addMapListeners():void {
+				this.map.addEventListener(TileMapEvent.INFOWINDOW_OPEN,onIWOpen,false,0,true);
+				
+				//if we're using the zoom control, let's add a listener to hide it when an infowindow opens so we have more screen real estate
+				if (this.mapUseZoomControl) this.map.addEventListener(TileMapEvent.INFOWINDOW_CLOSE,onIWClose,false,0,true);
+			}	
+			
+			
+			
+			/*
+			function to resize the map when the app resizes
+			*/
+			private function onResize(e:ResizeEvent):void {
+				//resize the map when the app does
+				if (this.map) this.map.size = new Size(this.width,this.height);
+			}
+			
+			
+			
+			/*
+			function to remove all shapes (pois,routes,traffic,overlays) from the map
+			*/
+			public function removeShapesFromMap():void {
+				//trace("Removing shapes from map");
+				
+				if (this.map.getShapeCollection("routeRibbon")) {
+					this.removeShapesAndColls(this.map.getShapeCollection("routeRibbon"));
+					this.map.removeShapeCollection(this.map.getShapeCollection("routeRibbon"));
+				}
+				if (this.map.getShapeCollection("searchShapeCollection")) {
+					this.removeShapesAndColls(this.map.getShapeCollection("searchShapeCollection"));
+					this.map.removeShapeCollection(this.map.getShapeCollection("searchShapeCollection"));
+				}
+				if (this.traffic) {
+					this.disableTraffic();
+				}
+				
+				this.removeShapesAndColls(this.map.getShapeCollection());
+			}
+			
+			
+			
+			/*
+			since we're mobile, do this to free up memory faster instead of waiting for gc
+			*/
+			private function removeShapesAndColls(coll:ShapeCollection):void {
+				var s:IShape;
+				
+				for (var i:int = 0; i < coll.length; i++) {
+					s = coll.getShapeAtIndex(i);
+					coll.remove(s);
+					s = null;
+				}
+				
+				coll = null;
+			}
+		]]>
+	</fx:Script>
+	
+</s:ViewNavigatorApplication>

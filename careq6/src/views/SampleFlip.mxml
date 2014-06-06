@@ -1,0 +1,83 @@
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Flip Transition">
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			public var flipTrans:FlipViewTransition = new FlipViewTransition();
+			
+			protected function onFlip():void 
+			{
+				validateDirection();
+				if (txtDuration.text!=null && txtDuration.text.length>0)
+					flipTrans.duration = parseFloat(txtDuration.text)*1000; 
+				flipTrans.mode = rgMode.selectedValue as String;
+				
+				navigator.popToFirstView(flipTrans);
+			}
+			
+			protected function add_clickHandler(event:MouseEvent):void
+			{
+				var n:int = parseInt(txtDuration.text);
+				txtDuration.text = new String(n+1);
+			}
+			
+			protected function subtract_clickHandler(event:MouseEvent):void
+			{
+				var n:int = parseInt(txtDuration.text);
+				txtDuration.text = new String(n-1);
+			}
+			
+			protected function validateDirection():void
+			{
+				if (txtDirection.text != ViewTransitionDirection.LEFT && txtDirection.text != ViewTransitionDirection.RIGHT && 
+					txtDirection.text != ViewTransitionDirection.UP && txtDirection.text != ViewTransitionDirection.DOWN)
+					txtDirection.text = ViewTransitionDirection.RIGHT;
+				else flipTrans.direction = txtDirection.text;
+			} 
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="rgMode"/>
+	</fx:Declarations>
+	
+	<s:navigationContent>
+		<s:Button label="Home" height="100" click="navigator.popToFirstView(flipTrans)"/>
+	</s:navigationContent>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="65">
+		<s:HGroup verticalAlign="middle" top="50">
+			<s:Label text="Duration (seconds)"/>
+			<s:HGroup>
+				<s:Button id="addBtn" label="+" click="add_clickHandler(event)"/>
+				<s:TextInput id="txtDuration" width="{addBtn.width}" height="{addBtn.height}" restrict=".0-9" text="1"
+							 textAlign="center"/>
+				
+				<s:Button id="subtractBtn" label="-" click="subtract_clickHandler(event)"/>
+			</s:HGroup>  
+		</s:HGroup>
+			
+		<s:HGroup verticalAlign="middle">
+			<s:Label text="Direction (right, left, up, down)"/>
+			<s:TextInput id="txtDirection" text="right" width="100"/>
+		</s:HGroup>  
+		
+		<s:VGroup>
+			<s:Label text="Flip Mode"/>
+			<s:HGroup>
+				<s:RadioButton id="cardMode" label="{FlipViewTransitionMode.CARD}" groupName="rgMode" selected="true"/>
+				<s:RadioButton id="cubeMode" label="{FlipViewTransitionMode.CUBE}" groupName="rgMode"/>
+			</s:HGroup>
+		</s:VGroup>
+		
+		<s:HGroup>
+			<s:Button label="Start" width="200" click="onFlip()"/>
+		</s:HGroup>
+	</s:VGroup>  
+	
+</s:View>

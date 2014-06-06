@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View 
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:esri="http://www.esri.com/2008/ags"
+    title="Searching..."
+    viewActivate="queryTask.execute(query)"
+    >
+    <fx:Declarations>
+        <esri:QueryTask id="queryTask"
+            executeComplete="navigator.pushView(QueryResultView, event.featureSet)"
+            showBusyCursor="false"
+            url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/5"
+            useAMF="true"/>
+        <esri:Query id="query"
+            outFields="['STATE_NAME']"
+            returnGeometry="true"
+            where="{data}"/>
+    </fx:Declarations>
+    <s:BusyIndicator 
+        horizontalCenter="0"
+        verticalCenter="0"/>
+</s:View>

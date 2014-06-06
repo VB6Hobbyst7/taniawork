@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="view1_viewActivateHandler(event)" 
+		title="Cache Image Sample">
+	
+	<!-- Based on the Adobe Cookbooks code sample here by Brian Rinaldi: 
+		 http://cookbooks.adobe.com/post_Local_Copy_of_Remote_Images_in_AIR_for_Android-18191.html -->
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import spark.events.ViewNavigatorEvent;
+			
+			protected var urlLoader:URLLoader = new URLLoader();
+			protected var storageDir:File = File.applicationStorageDirectory;
+			
+			[Bindable]
+			protected var myFile:File = storageDir.resolvePath("FlexLogo.gif");
+
+			[Bindable]
+			protected var files:ArrayCollection;
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				storageDir.addEventListener(FileListEvent.DIRECTORY_LISTING,onDirList);
+				storageDir.getDirectoryListingAsync();
+				if (myFile.exists)
+				{
+					img.source = myFile.url;
+					btn.label = "Delete Cached Image";
+					lbl.text = "Image: " + myFile.nativePath + " already exists locally";
+				}
+			}
+			
+			protected function loadImage():void
+			{
+				if (!myFile.exists)
+				{
+					trace("View Activate - local image does not exist");
+					urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
+					urlLoader.load(new URLRequest("http://flex.org/images/FlexLogo.gif"));
+					urlLoader.addEventListener(Event.COMPLETE,onImageLoaded);
+				}
+				else 
+				{
+					lbl.text = "Image: " + myFile.nativePath + " exists locally";
+					img.source = myFile.url;	
+				}
+				btn.label = "Delete Cached Image";
+				
+			}
+			
+			// Save the image to the SD card for faster access next time
+			protected function onImageLoaded(event:Event):void 
+			{
+				var fileStream:FileStream = new FileStream();
+				fileStream.open(myFile, FileMode.WRITE);
+				fileStream.writeBytes(urlLoader.data);
+				fileStream.close(); 
+				img.source = myFile.url;
+				lbl.text="Image: "+ myFile.nativePath + " loaded and saved locally.";
+				urlLoader.removeEventListener(Event.COMPLETE,onImageLoaded);
+				storageDir.addEventListener(FileListEvent.DIRECTORY_LISTING,onDirList);
+				storageDir.getDirectoryListingAsync();
+			}
+			
+			// Show the current contents of the app storage directory
+			protected function onDirList(e:FileListEvent):void
+			{
+				files = new ArrayCollection(e.files);
+				storageDir.removeEventListener(FileListEvent.DIRECTORY_LISTING,onDirList);
+			}
+
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				if (myFile != null)
+				{
+					if (img.source != null)
+					{
+						myFile.deleteFile();
+						if (!myFile.exists)
+						{
+							img.source = null;
+							btn.label="Load and Cache Image";
+							lbl.text = "";
+							storageDir.addEventListener(FileListEvent.DIRECTORY_LISTING,onDirList);
+							storageDir.getDirectoryListingAsync();
+						}
+					}
+					else loadImage();
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:VGroup horizontalAlign="center" verticalAlign="middle" gap="10" 
+			  width="95%" paddingTop="10" paddingLeft="10" paddingRight="10">
+		<s:Label id="lbl" width="80%" fontSize="18"/>
+		<s:Image id="img"/>
+	
+		<s:Button id="btn" label="Load and Cache Image" click="button1_clickHandler(event)"/>
+		<s:Label fontSize="18" paddingTop="5" text="Current Files on device:"/>
+		<s:List dataProvider="{files}" width="90%" height="300" labelField="name" borderVisible="true" borderColor="0x000000"/>
+	</s:VGroup>
+	
+</s:View>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var startNum:Number = 0;
+			[Bindable]
+			public var resSet:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var urlString:String = "";
+			[Bindable]
+			public var urlString2:String = "";
+			[Bindable]
+			public var nexturl:String = "";
+			[Bindable]
+			public var wiponum:String = "";
+			[Bindable]
+			public var newAssignee:String = "";
+			[Bindable]
+			public var datalist:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var index:Number = 0;
+			[Bindable]
+			public var pageindex:Number = 0;
+			public var filename:String = "page";
+			protected function init(event:FlexEvent):void
+			{
+				var dir:File = File.applicationDirectory; 
+				dir = dir.resolvePath("data/albertadocs.csv"); 			
+				var fileStream:FileStream = new FileStream(); 
+				fileStream.open(dir, FileMode.READ); 
+				afterGetData2(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				startNum = 0;
+			}
+			protected function afterGetData2(s:String):void
+			{		
+				var text:String = s;
+				var newarray:Array = s.split(",\r");
+				for (var i:uint = 0; i < newarray.length; i++){
+					datalist.addItem({id:id,url:newarray[i],physicianname:"",
+						fullname:"",
+						practice:"",
+						specialty:"",
+						gender:"",
+						language:"",
+						status:""});
+				}
+				index = 0;
+				updater(index);
+				
+			}
+			
+			public function updater(u:Number):void {
+				try{
+					urlString = datalist[u].url;
+					getLensp.send();
+				}
+				catch(e:Error) {
+					if (index < datalist.length-1){
+						//sif (index < 5){
+						index++;
+						trace(index);
+						updater(index);
+					}
+					else {
+						var stop2:String = "";
+						writeToCsv();
+					}
+				}
+			}
+			public function afterLens(ev:ResultEvent):void {	
+				try{
+					
+						//some
+						var block:String = "";
+						var text:String = ev.result.toString();
+						var jd:RegExp = new RegExp("&nbsp;","g");
+						text = text.replace(jd," ");
+						//text = text.substring(text.indexOf("<h2>Doctor Information</h2>")+27,text.length);
+						
+						var physicianname:String = "";
+						var fullname:String = "";
+						var practice:String = "";
+						var specialty:String = "";
+						var gender:String = "";
+						var language:String = "";
+						var status:String = "";
+						var contactinformation:String = "";
+						
+						block = "Physician Name: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							physicianname = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						
+						block = "Full Name: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							fullname = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "Practice: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							var temp:String = text;
+							//temp = temp.substring(temp.indexOf("class='summaryLayout'>")+22,temp.length);
+							temp = temp.substring(0,temp.indexOf("</div>"));
+							temp = clean(removeHtmlTags(temp));
+							
+							
+					//		text = text.substr(text.indexOf(">")+1,text.length);	
+							practice = temp;//(text.substr(0,text.indexOf("<")));	
+							
+						}
+						
+						block = "Specialty: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							var temp:String = text;
+							//temp = temp.substring(temp.indexOf("class='summaryLayout'>")+22,temp.length);
+							temp = temp.substring(0,temp.indexOf("</div>"));
+							temp = clean(removeHtmlTags(temp));
+							
+							
+							//		text = text.substr(text.indexOf(">")+1,text.length);	
+							specialty = temp;//(text.substr(0,text.indexOf("<")));	
+							
+						}
+					
+						block = "Gender: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							gender = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "Language(s): </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							text = text.substr(text.indexOf(">")+1,text.length);	
+							language = clean(text.substr(0,text.indexOf("<")));	
+							
+						}
+						
+						block = "Status: </strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							status = clean(text.substr(0,text.indexOf("<")));	
+						}
+						
+						block = "<strong>Contact Information:</strong>";
+						if (text.indexOf(block) != -1){
+							text = text.substring(text.indexOf(block)+block.length,text.length);
+							contactinformation = text.substr(0,text.indexOf("See Location on Map</a>"));	
+							contactinformation = contactinformation.substr(contactinformation.indexOf("-->"),contactinformation.length);	
+							var sytop:String = "";
+						}
+						
+						
+					
+						
+						datalist[index].physicianname = physicianname;
+						datalist[index].fullname = fullname;
+						datalist[index].practice = practice;
+						datalist[index].specialty = specialty;
+						datalist[index].gender = gender;
+						datalist[index].language = language;
+						datalist[index].status = status;
+						var stop:String = "";
+						
+						
+					
+				}
+				catch(e:Error){
+					
+				}
+				
+				if (index < datalist.length-1){
+				//sif (index < 5){
+					index++;
+					trace(index);
+					updater(index);
+				}
+				else {
+					var stop2:String = "";
+					writeToCsv();
+				}
+				
+				
+				
+			
+				
+				
+			}
+			public static function removeHtmlTags(html:String, tags:String = ""):String
+			{
+				var tagsToBeKept:Array = new Array();
+				if (tags.length > 0)
+					tagsToBeKept = tags.split(new RegExp("\\s*,\\s*"));
+				
+				var tagsToKeep:Array = new Array();
+				for (var i:int = 0; i < tagsToBeKept.length; i++)
+				{
+					if (tagsToBeKept[i] != null && tagsToBeKept[i] != "")
+						tagsToKeep.push(tagsToBeKept[i]);
+				}
+				
+				var toBeRemoved:Array = new Array();
+				var tagRegExp:RegExp = new RegExp("<([^>\\s]+)(\\s[^>]+)*>", "g");
+				
+				var foundedStrings:Array = html.match(tagRegExp);
+				for (i = 0; i < foundedStrings.length; i++) 
+				{
+					var tagFlag:Boolean = false;
+					if (tagsToKeep != null) 
+					{
+						for (var j:int = 0; j < tagsToKeep.length; j++)
+						{
+							var tmpRegExp:RegExp = new RegExp("<\/?" + tagsToKeep[j] + "( [^<>]*)*>", "i");
+							var tmpStr:String = foundedStrings[i] as String;
+							if (tmpStr.search(tmpRegExp) != -1) 
+								tagFlag = true;
+						}
+					}
+					if (!tagFlag)
+						toBeRemoved.push(foundedStrings[i]);
+				}
+				for (i = 0; i < toBeRemoved.length; i++) 
+				{
+					var tmpRE:RegExp = new RegExp("([\+\*\$\/])","g");
+					var tmpRemRE:RegExp = new RegExp((toBeRemoved[i] as String).replace(tmpRE, "\\$1"),"g");
+					html = html.replace(tmpRemRE, "");
+				} 
+				return html;
+			}
+			
+			public function clean(s:String):String {
+			
+				
+				var jd:RegExp = new RegExp("<p>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br/>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br />","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("<br>","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\r\n","g");
+				s = s.replace(jd," ");
+				do {
+					jd = new RegExp("  ","g");
+					s = s.replace(jd," ");
+				}while(s.indexOf("  ") != -1);
+			
+				
+				
+				if (s.charAt(0) == " "){
+					s = s.substring(1,s.length);
+				}
+				if (s.charAt(s.length-1) == " "){
+					s = s.substring(0,s.length-1);
+				}
+				
+				
+				return s;
+			}
+			public function writeToCsv():void {
+				var csvText:String = "\rid,url,physicianname,fullname,practice,specialty,gender," +
+					"language,status";
+				for (var i:uint = 0; i < datalist.length; i++){
+					csvText = csvText + "\r" + datalist[i].id 
+						+ ",\"" + datalist[i].url+"\""
+						+ ",\"" + datalist[i].physicianname+"\""
+					+ ",\"" + datalist[i].fullname+"\""
+					+ ",\"" + datalist[i].practice+"\""
+					+ ",\"" + datalist[i].specialty+"\""
+					+ ",\"" + datalist[i].gender+"\""
+					+ ",\"" + datalist[i].language+"\""
+					+ ",\"" + datalist[i].status+"\"";
+				}
+				
+				var f:File = File.documentsDirectory.resolvePath("albertadocout.csv"); 
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.APPEND);                                         
+				stream.writeUTFBytes(csvText);
+				stream.close();
+				var stop:String = "";
+			}
+		
+		
+			protected function getLensp_faultHandler(event:FaultEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (index < datalist.length-1){
+					//sif (index < 5){
+					index++;
+					trace(index);
+					updater(index);
+				}
+				else {
+					var stop2:String = "";
+					writeToCsv();
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getLensp" useProxy="false" fault="getLensp_faultHandler(event)"
+					   result="afterLens(event);" resultFormat="text"
+					   url = "{urlString}"
+					   method="POST" >
+			
+		</s:HTTPService>
+		
+		
+	</fx:Declarations>
+	<s:Label x="193" y="79" text="Page"/>
+	<s:Label x="254" y="79" text="{pageindex.toString()}"/>
+	<s:Label x="204" y="116" id="status33" text="Not Done"/>
+
+</s:WindowedApplication>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:model="model.*"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="blank">
+	<fx:Script>
+		<![CDATA[
+			import model.Smurf;
+			
+			[Bindable]
+			protected var smurf:Smurf;
+			
+			protected function view1_activateHandler(event:Event):void
+			{
+				// Here we can access the data property since the firstViewData was set
+				smurf = data as Smurf;
+			}
+			
+			
+			
+		]]>
+	</fx:Script>  
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:View>

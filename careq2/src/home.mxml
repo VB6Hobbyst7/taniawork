@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:s="library://ns.adobe.com/flex/spark" preinitialize="prego2(event)"
+			   applicationDPI="160" fontFamily="Verdana" xmlns:model="model.*"
+			   splashScreenImage="@Embed('assets/careqlogo2.png')" creationComplete="init(event)">
+	<fx:Style source="home.css"/>
+	<fx:Script source="func/displayFunctions.as" />
+	<fx:Script source="func/loginFunctions.as" />
+	<fx:Script source="func/mouseFunctions.as" />
+	<fx:Script>
+		<![CDATA[ 
+			import model.Smurf;
+			
+			import mx.effects.Move;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Scale;
+			
+			import views.LocalWaitTimes;
+			
+		
+			
+			public var profileShown:Boolean = false;
+			public var chosenMenuOption:uint = 1;
+		
+		
+			public function menu(i:uint):void{
+				chosenMenuOption = i;
+				smurf.type=i.toString();
+				if (i == 1){
+					tabGroup.selectedIndex = 0;
+				}
+				else if (i == 2){
+					tabGroup.selectedIndex = 0;
+				}
+				else if (i == 3){
+					tabGroup.selectedIndex = 2;
+				}
+				else if (i == 4){
+					tabGroup.selectedIndex = 2;
+				}
+				
+				directory.visible = true;
+				menuCont.visible = false;
+				localBack.visible = true;
+				//localWaitTimes
+				//backBack.visible = true;
+			}
+			public function backToMenu():void {
+				tabGroup.selectedIndex = 1;
+				directory.visible = false;
+				menuCont.visible = true;
+				localBack.visible = false;
+				//backBack.visible = false;
+			}
+			public function activateProfile():void {
+				profileCont.visible = true;
+				var sc:Scale = new Scale();
+				var mv:Move = new Move();
+				if (profileShown == false){
+					sc.scaleYTo = 1;
+					sc.duration = 1000;
+					sc.target = profileCont;	
+					mv.yTo = -20;
+					mv.duration = 1000;
+					mv.target = profileBtn;
+					sc.play();
+					mv.play();
+					profileShown = true;
+				}
+				else {
+					sc.scaleYTo = 0.001;
+					sc.duration = 1000;
+					sc.target = profileCont;
+					mv.yTo = this.height-64;
+					mv.duration = 1000;
+					mv.target = profileBtn;
+					sc.play();
+					mv.play();
+					profileShown = false;
+				}
+			}
+			
+			public function backToLoginChoices():void {
+				loginReg.visible = false;
+				createNew.visible = false;
+				loginChoicesCont.visible = true;
+			}
+			public function loginClick(event:MouseEvent):void
+			{
+				
+				loginReg.visible = true;
+				createNew.visible = false;
+				loginChoicesCont.visible = false;
+				
+			}
+			public function createNewClick(event:MouseEvent):void {
+				loginReg.visible = false;
+				createNew.visible = true;
+				loginChoicesCont.visible = false;
+			}
+			
+			public function authorizeLogin(username:String,userpassword:String):void
+			{
+				
+				
+			}
+			public function checkAvailability(username:String,userpassword:String):void {
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				profileCont.scaleY = 0.001;
+				tabGroup.selectedIndex = 1;
+				
+			}
+			public function checkLocalWaitTimeScreen():void {
+				
+			}
+			
+		
+			
+			public function prego2(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+			
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:BorderContainer id="menuCont"  visible="true" width="100%" height="100%">
+		<s:Image width="100%" height="100%" scaleMode="stretch" source="assets/backdrop.png"/>
+		<s:Image left="70" right="70" top="0" height="76" scaleMode="letterbox"
+				  >
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="assets/careqlogo3.png"
+					source240dpi="assets/careqlogo2.png"
+					source320dpi="assets/careqlogo2.png"/>
+			</s:source>
+		</s:Image>
+		<s:Image id="m1" left="70" top="117" width="67" height="67"
+				  click="menu(1)" 
+				   source="homeicons/homeicon1med.png"/>
+		<s:Image id="m2" right="67" top="117" width="67" height="67"  source="homeicons/homeicon2med.png" click="menu(2)"/>
+		<s:Image id="m3" right="67" bottom="190" width="67" height="67"  source="homeicons/homeicon3med.png" click="menu(3)"/>
+		<s:Image id="m4" left="70" bottom="190" width="67" height="67"  source="homeicons/homeicon4med.png" click="menu(4)"/>
+	</s:BorderContainer>
+
+	<s:BorderContainer visible="false" id="directory" width="100%"  top="0" bottom="0">
+		<s:TabbedViewNavigator  id="tabGroup" selectedIndex="0"  width="100%"  height="100%" backgroundAlpha="0">
+			<fx:Script>
+				<![CDATA[ 
+					[Bindable]
+					public var smurf:Smurf = new Smurf();
+				]]>
+			</fx:Script>
+			<s:ViewNavigator   width="100%" height="100%" id="localWaitTimes" label="Local Wait Times" backgroundAlpha="0"
+							 firstView="views.LocalWaitTimes" click="checkLocalWaitTimeScreen();" icon="@Embed('assets/clock.png')"/>
+			<s:ViewNavigator  firstViewData="{smurf}" width="100%" enabled="false" mouseEnabled="false" 
+							  visible="false" height="100%" label="blank" firstView="views.blankView"
+							 title="blank"/>
+			<s:ViewNavigator    width="100%" height="100%" id="makeAnAppointment" label="Make an Appointment"
+							 firstView="views.MakeanAppointment" icon="@Embed('assets/calendar.png')"/>
+			
+		</s:TabbedViewNavigator>
+	</s:BorderContainer>
+	
+	<s:BorderContainer id="profileCont"  width="100%" height="{this.height-40}" visible="false" bottom="0"  >
+		<s:BorderContainer id="loginCont" visible="true" width="100%" height="100%">
+			
+			<s:BorderContainer width="100%" height="100%" id="loginChoicesCont" visible="true" >
+				<s:Button top="71" height="32" width="109"  label="Login" horizontalCenter="0" click="loginClick(event)"/>
+				<s:Button top="116" height="32"  width="229" label="Create New Account" click="createNewClick(event)" horizontalCenter="0"/>
+			</s:BorderContainer>
+			
+			<s:BorderContainer width="100%" height="100%" visible="false" id="loginReg"  >
+				<s:TextInput id="userNameInput" top="108" horizontalCenter="0"/>
+				<s:TextInput id="userPasswordInput" top="178" horizontalCenter="0"/>
+				<s:Label top="83" fontWeight="bold" horizontalCenter="0" text="Email Address"/>
+				<s:Label top="154" fontWeight="bold" horizontalCenter="0" text="Password"/>
+				<s:Button top="219" width="121" height="29" label="Submit" click="authorizeLogin(userNameInput.text,userPasswordInput.text)" horizontalCenter="0"/>
+				<s:Button top="256" width="207" height="29" label="Create New Account" click="createNewClick(event)" horizontalCenter="0"/>
+			</s:BorderContainer>
+			
+			<s:BorderContainer width="100%" height="100%" visible="false" id="createNew"  >
+				<s:TextInput id="newuserNameInput" top="108" horizontalCenter="0"/>
+				<s:TextInput id="newuserPasswordInput" top="178" horizontalCenter="0"/>
+				<s:Label top="83" fontWeight="bold" horizontalCenter="0" text="Email Address"/>
+				<s:Label top="154" fontWeight="bold" horizontalCenter="0" text="Password"/>
+				<s:Button top="219" width="121" height="29" label="Submit" click="checkAvailability(userNameInput.text,userPasswordInput.text)" horizontalCenter="0"/>
+				<s:Button top="257" width="75" height="29" label="Back" click="backToLoginChoices();" horizontalCenter="0"/>
+			</s:BorderContainer>
+			
+		</s:BorderContainer>
+		<s:BorderContainer id="profileMgt" visible="false" width="100%" height="100%">
+		</s:BorderContainer>
+	</s:BorderContainer>
+	
+	<s:Image id="profileBtn" y="{this.height-64}" width="115" height="64" click="activateProfile();"
+			  horizontalCenter="0"  source="assets/myTab.png"/>
+	
+	<s:Button id="localBack" visible="true" left="1" top="5" width="67" height="40" label="Menu |" skinClass="topMenuSkin"
+			  click="backToMenu();" fontFamily="_sans"  fontWeight="bold"/>
+</s:Application>

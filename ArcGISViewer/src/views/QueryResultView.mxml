@@ -1,0 +1,69 @@
+	<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:esri="http://www.esri.com/2008/ags"
+    title.landscape="Feature Map"
+    title.portrait="Feature List">
+    <fx:Script>
+        <![CDATA[
+            import com.esri.ags.FeatureSet;
+
+            import mx.collections.ArrayList;
+            import mx.collections.IList;
+
+            [Bindable]
+            private var listProvider:IList;
+
+            override public function set data(value:Object):void
+            {
+                super.data = value;
+                const featureSet:FeatureSet = value as FeatureSet;
+                if (featureSet)
+                {
+                    listProvider = new ArrayList(featureSet.attributes);
+                }
+            }
+        ]]>
+    </fx:Script>
+    <s:states>
+        <s:State name="portrait"/>
+        <s:State name="landscape"/>
+    </s:states>
+    <s:navigationContent>
+        <s:Button 
+            icon="@Embed('/assets/home.png')"
+            click="navigator.popToFirstView()"/>
+    </s:navigationContent>
+    <s:List id="list"
+        left="0" right="0" top="0" bottom="0"
+        dataProvider="{listProvider}"
+        labelField="STATE_NAME"
+        includeIn="portrait"
+        interactionMode="touch"/>
+    <esri:Map id="map"
+        includeIn="landscape"
+        logoVisible="false"
+        zoomSliderVisible="false"
+        navigationClass="{null}">
+        <esri:extent>
+            <esri:Extent xmin="-137.6"
+                ymin="19.8"
+                xmax="-50.7"
+                ymax="52.9"/>
+        </esri:extent>
+        <esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
+        <esri:GraphicsLayer graphicProvider="{data.features}">
+            <esri:symbol>
+                <esri:SimpleFillSymbol 
+                    color="red"
+                    alpha="0.5">
+                    <esri:outline>
+                        <esri:SimpleLineSymbol 
+                            color="yellow"
+                            alpha="1.0"/>
+                    </esri:outline>
+                </esri:SimpleFillSymbol>
+            </esri:symbol>
+        </esri:GraphicsLayer>
+    </esri:Map>
+</s:View>

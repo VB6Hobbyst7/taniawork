@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:model="model.*"
+		 xmlns:s="library://ns.adobe.com/flex/spark" title="Make an Appointment">
+	<fx:Script>
+		<![CDATA[
+			import model.Smurf;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.components.Application;
+			import spark.components.TabbedViewNavigator;
+			
+			[Bindable]
+			public var smurf:Smurf;
+			
+			protected function view1_activateHandler(event:Event):void
+			{
+				var mainApp:home = parentDocument as home;
+				smurf = mainApp.smurf; // accesses the smurf property from my main application mxml
+			}
+		
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:View>
