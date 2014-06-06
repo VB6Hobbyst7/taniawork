@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  dataChange="itemrenderer1_dataChangeHandler(event)"
+				creationComplete="itemrenderer1_creationCompleteHandler(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var mainaddress:String = "";
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var maxchars:uint = 35;
+				mainaddress = data.business_address1;//+', '+data.business_city;
+				if (mainaddress.length > maxchars){
+					mainaddress = mainaddress.substring(0,maxchars)+"...";
+				}
+				var ratingstring:String = "";
+				var ratingnumber:Number = 0;
+				
+				ratingstring = data.rating.toString();
+				ratingnumber = Number(data.rating);
+				
+				if (ratingnumber == 0){
+					ratinglabel.text = "-";
+				}
+				
+				if (ratingnumber >= 10){
+					ratingnumber = 10;
+					ratinglabel.text = "10";
+				}
+			}
+			
+			public function itemrenderer1_dataChangeHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				try{
+					var maxchars:uint = 35;
+					mainaddress = data.business_address1;//+', '+data.business_city;
+					if (mainaddress.length > maxchars){
+						mainaddress = mainaddress.substring(0,maxchars)+"...";
+					}
+					var ratingstring:String = "";
+					var ratingnumber:Number = 0;
+					
+					ratingstring = data.rating.toString();
+					ratingnumber = Number(data.rating);
+					
+					if (ratingnumber == 0){
+						ratinglabel.text = "-";
+					}
+					
+					if (ratingnumber >= 10){
+						ratingnumber = 10;
+						ratinglabel.text = "10";
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+<s:Group width="100%" height="120"   id="megacont"  >
+<s:HGroup width="100%" verticalAlign="middle" height="90%" verticalCenter="0">
+	<s:VGroup width="20%" horizontalAlign="center">
+		<s:BorderContainer cornerRadius="5" height="50" width="50" horizontalCenter="0" verticalCenter="0"
+						   borderAlpha="0" backgroundColor="#b3b3b3" backgroundAlpha="1">
+			<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize1"
+					 text="{data.rating.toPrecision(2).toString()}" fontWeight="bold" verticalCenter="4"/>
+		</s:BorderContainer>
+		<s:HGroup>
+			<s:Label color="#808080"  styleName="textsize0" 
+			 text="{data.distance}km"/>
+		</s:HGroup>
+	</s:VGroup>
+	<s:VGroup    paddingLeft="10" paddingTop="10" paddingBottom="10" paddingRight="10">
+		<s:Label width="100%" color="#4d4d4d" 
+		 fontWeight="bold" styleName="textsize1" text="{data.business_name}"
+		 verticalAlign="middle"></s:Label>
+		<s:Label width="100%" color="#4d4d4d" 
+		  styleName="textsize0" text="{data.categoryname}"
+		 verticalAlign="middle"></s:Label>
+		<s:Label enabled="false" width="100%" color="#43c7ae" 
+		 styleName="textsize0" text="{mainaddress}"
+		 verticalAlign="middle"></s:Label>
+	</s:VGroup>
+	
+</s:HGroup>
+	<s:BitmapImage id="bmpImg" right="0"  width="{this.height}" 	
+				   height="100%" source="{data.business_picture}" 
+				   contentLoader="{s_imageCache}"  scaleMode="zoom" />
+	
+	<s:BorderContainer bottom="0" width="95%" backgroundAlpha="0" right="0" borderAlpha="0.5" 
+					   borderColor="#b2b2b2" height="1.5" />
+</s:Group>
+</s:ItemRenderer>

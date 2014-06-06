@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		backgroundColor="#f3f3f3"
+		title="Specials" xmlns:components="components.*"   >
+	<s:navigationContent >
+		<s:Label text="Menu" color="#FFFFFF" 
+				 click="dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE, {finished:true,gotomenu:true}));"
+				 mouseOver="tOver(event)" mouseOut="tOut(event)"
+				 mouseDown="tOver(event)" mouseUp="tOut(event)"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.core.ContentCache;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			public var locatoinidGo:Number = -1;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var specialsData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backupspecialsData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = false;
+			[Bindable]
+			public var currentfilterweekday:String = "monday";
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			public function onActivate(event:Event):void
+			{
+				locationid = '5';
+				warn.visible = false;
+				busy = true;
+				showloading();
+				scroller.visible = true;
+				getSpecials2.send();
+			}
+			
+			public function afterGetSpecials(ev:ResultEvent):void {
+				hideloading();
+				busy = false;
+				backupspecialsData = new ArrayCollection();
+				try{			
+					backupspecialsData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						backupspecialsData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				populatelist();
+			} 
+			public function populatelist():void {
+				specialsData = new ArrayCollection();
+				var datevar:Date = new Date();
+				for (var j:uint = 0; j < 7; j++){
+					if (j != 0){
+						datevar.setDate(datevar.getDate() + 1);
+					}
+					var weekdaynum:Number = datevar.day;
+					var monthstring:String = datevar.toDateString().split(' ')[1];
+					var daystring:String = datevar.toDateString().split(' ')[2];	
+					var currentfilterweekday:String = gettextweekday(weekdaynum);
+					var tempweekstring:String = currentfilterweekday.charAt(0).toUpperCase()+currentfilterweekday.substring(1,currentfilterweekday.length);
+					if (j == 0){
+						specialsData.addItem({name:"Today",description:"",
+							categoryname:"",type:0,weekday:"",business_picture:""});
+					}
+					else {
+						specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+							categoryname:"",type:0,weekday:"",business_picture:""});
+					}
+					
+					for (var i:uint = 0; i < backupspecialsData.length; i++){
+						if (currentselectmode == 1){
+							if (backupspecialsData[i].weekday == currentfilterweekday){
+								backupspecialsData[i].type = 1;
+								specialsData.addItem(backupspecialsData[i]);
+							}	
+						}
+						else if (currentselectmode == 2){
+							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
+								backupspecialsData[i].type = 1;
+								specialsData.addItem(backupspecialsData[i]);
+							}
+						}
+						else if (currentselectmode == 3){
+							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
+								backupspecialsData[i].type = 1;
+								specialsData.addItem(backupspecialsData[i]);
+							}
+						}
+						else if (currentselectmode == 4){
+							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "desserts")){
+								backupspecialsData[i].type = 1;
+								specialsData.addItem(backupspecialsData[i]);
+							}
+						}
+					}
+				}
+			}
+			
+			public function gettextweekday(u:uint):String{
+				var temps:String = "";
+				if (u == 0){
+					temps = "sunday";
+				}
+				else if (u == 1){
+					temps = "monday";
+				}
+				else if (u == 2){
+					temps = "tuesday";
+				}
+				else if (u == 3){
+					temps = "wednesday";
+				}
+				else if (u == 4){
+					temps = "thursday";
+				}
+				else if (u == 5){
+					temps = "friday";
+				}
+				else if (u == 6){
+					temps = "saturday";
+				}	
+				return temps;
+			}
+			
+			private function filterCompleted(item:Object):Boolean{
+				if((item.weekday.toString().toLowerCase().indexOf(currentfilterweekday) != -1))
+					return true;
+				return false;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials2" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getSpecialsForLocation.php"
+					   result="afterGetSpecials(event)" >
+			<s:request xmlns="">
+				<locationid>{locationid}</locationid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="0" width="100%"
+					horizontalAlign="center" verticalAlign="bottom">	 
+			<s:List id="specialsList" width="100%" height="100%"  
+					horizontalScrollPolicy="off" 
+					contentBackgroundAlpha="0"  mouseEnabled="false"
+				    preventSelection="true"
+					dataProvider="{specialsData}" horizontalCenter="0"
+					itemRenderer="components.specialsResult" 
+					>
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  variableRowHeight="true"
+									  gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
+			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
+			 verticalAlign="middle" verticalCenter="0"></s:Label>
+	
+</s:View>

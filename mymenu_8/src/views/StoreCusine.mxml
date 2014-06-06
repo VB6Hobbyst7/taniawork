@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Cuisine"  xmlns:components="components.*" >
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.homeItem;
+			import components.specialsItem;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			public var foodtypes:ArrayCollection = new ArrayCollection(
+				[{label:"African "},
+					{label:"American "},
+					{label:"Armenian "},
+					{label:"Barbecue "},
+					{label:"Brazilian "},
+					{label:"British "},
+					{label:"Cafeteria "},
+					{label:"Cajun "},
+					{label:"Central American "},
+					{label:"Chicken "},
+					{label:"Chinese "},
+					{label:"Cuban "},
+					{label:"Ethiopian "},
+					{label:"French"},
+					{label:"German "},
+					{label:"Hamburgers "},
+					{label:"Homestyle Cooking "},
+					{label:"Indian "},
+					{label:"Irish "},
+					{label:"Italian "},
+					{label:"Jamaican "},
+					{label:"Japanese "},
+					{label:"Korean "},
+					{label:"Mexican"},
+					{label:"Middle Eastern "},
+					{label:"Pancakes /Waffles "},
+					{label:"Pizza "},
+					{label:"Polynesian "},
+					{label:"Russian "},
+					{label:"Sandwiches"},
+					{label:"Seafood "},
+					{label:"Scandinavian "},
+					{label:"Spanish"},
+					{label:"Soul Food "},
+					{label:"South American "},
+					{label:"Steak "},
+					{label:"Vegetarian "},
+					{label:"Tex-Mex "},
+					{label:"Thai  "},
+					{label:"Vietnamese  "},
+					{label:"Wild Game "}
+				]);
+			public function onActivate(event:Event):void
+			{
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}		
+				
+				
+				for (var j:uint = 0; j < foodtypes.length; j++){
+					var hi:specialsItem = new specialsItem();
+					hi.lbl = foodtypes[j].label;
+					hi.homepic = "../assets/backgrounds/resback.jpg";
+					foodtypegroup.addElement(hi);
+				}
+				scroller.visible = true;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			
+		]]>
+	</fx:Script>
+		<s:Scroller id="scroller" visible="false" height="100%" width="95%" horizontalCenter="0"
+					horizontalScrollPolicy="off" verticalScrollPolicy="on">
+			<s:VGroup id="foodtypegroup"  height="100%" gap="10" width="100%" horizontalAlign="center" verticalAlign="bottom">	
+			</s:VGroup>
+		</s:Scroller>
+</s:View>

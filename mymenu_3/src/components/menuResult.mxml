@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group width="100%"   id="megacont" height="100%"  >
+		<s:BorderContainer   width="100%" height="100%" bottom="0" backgroundAlpha="0" borderAlpha="0">
+			<s:Group width="100%" height="100%">
+
+				<s:VGroup left="0" top="0" width="70%" height="100%" paddingLeft="10"
+						  paddingRight="5" paddingTop="5">
+					<s:Label width="100%" color="#FFFFFF" 
+							 fontWeight="bold" styleName="textsize2" text="{data.name}"
+							 verticalAlign="middle"></s:Label>
+					
+					<s:Label color="#747474" styleName="textsize2"  text="{data.status}"></s:Label>
+					
+				</s:VGroup>
+				<s:HGroup right="0" width="30%" horizontalAlign="right" verticalAlign="middle" verticalCenter="0">
+					<s:Label color="#FFFFFF"  styleName="textsize20" fontStyle="italic" 
+							 text="${data.cost}"></s:Label>
+					<s:Image >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/windowsui/next.png')"
+													source240dpi="@Embed('assets/windowsui/next.png')"
+													source320dpi="@Embed('assets/windowsui/next.png')"/>
+						</s:source>
+					</s:Image>
+				</s:HGroup>
+			
+			</s:Group>
+			<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5"  borderColor="#FFFFFF" height="1" />
+		</s:BorderContainer>
+		
+	</s:Group>
+</s:ItemRenderer>

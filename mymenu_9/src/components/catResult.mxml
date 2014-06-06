@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:Group width="100%" height="100%" >
+		<s:Label id="hll" left="10" color="#76787b" fontFamily="proximaNovacff" styleName="textsize9"
+				 text="{data.name}" verticalCenter="5"/>
+		<s:Group right="10" verticalCenter="5">
+			<s:Image >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_AffordanceArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_AffordanceArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_AffordanceArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:BorderContainer height="2" width="100%" bottom="-10" backgroundAlpha="1" borderAlpha="0" backgroundColor="#444444"/>
+	</s:Group>		
+</s:ItemRenderer>

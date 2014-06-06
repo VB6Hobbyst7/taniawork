@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Review" xmlns:components="components.*"   >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.core.ContentCache;
+			import spark.events.ViewNavigatorEvent;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backuplistdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = false;
+			[Bindable]
+			public var currentfilterweekday:String = "monday";
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			public function onActivate(event:Event):void
+			{
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}		
+				
+				if (data.totallikecount == "null"){
+					data.totallikecount = "0";
+				}
+				
+				
+				scroller.visible = true;				
+				checkReviewLinkage.send();
+			
+			}
+			public function likeClick():void {
+				busy = true;
+				likebtn.alpha = 0.5;
+				likebtn.mouseEnabled = false;
+				likeReview.send();
+			}
+			public function reportClick():void {
+				busy = true;
+				reportbtn.alpha = 0.5;
+				reportbtn.mouseEnabled = false;
+				reportReview.send();
+			}
+			public function afterCheckReviewLinkage(ev:ResultEvent):void {
+				var stop:String = "";
+				busy = false;
+				
+				if ((ev.result[0].likes == 0)||(ev.result[0].likes == "0")){
+					likebtn.alpha = 1;
+					likebtn.mouseEnabled = true;
+				}
+				
+				if ((ev.result[0].reports == 0)||(ev.result[0].reports == "0")){
+					reportbtn.alpha = 1;
+					reportbtn.mouseEnabled = true;
+				}
+			}		
+			public function afterLikeReview(ev:ResultEvent):void {
+				busy = false;
+				likebtn.alpha = 0.5;
+				data.totallikecount = data.totallikecount + 1;
+				likebtn.mouseEnabled = false;
+			}
+			public function afterReportReview(ev:ResultEvent):void {
+				busy = false;
+				reportbtn.alpha = 0.5;
+				reportbtn.mouseEnabled = false;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:HTTPService id="checkReviewLinkage" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/checkReviewLinkage.php"
+					   result="afterCheckReviewLinkage(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<ratingid>{data.id}</ratingid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="likeReview" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/likeReview.php"
+					   result="afterLikeReview(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<locationid>{data.locationid}</locationid>	
+				<menuid>{data.menuid}</menuid>	
+				<ratingid>{data.id}</ratingid>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="reportReview" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/reportReview.php"
+					   result="afterReportReview(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<locationid>{data.locationid}</locationid>	
+				<menuid>{data.menuid}</menuid>	
+				<ratingid>{data.id}</ratingid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="30" width="100%" horizontalAlign="center" verticalAlign="top">	 
+			<s:Group width="100%" height="240">
+				<s:HGroup gap="20" paddingLeft="30" paddingRight="30" width="100%" height="200"  verticalCenter="0">
+					<s:Group height="100%">
+						<s:Image left="0" top="0" width="50" height="50" source="assets/menu-account.png"/>
+					</s:Group>
+					<s:VGroup width="100%"  height="100%">
+						<s:HGroup width="100%" verticalAlign="middle">
+							<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)
+									  }"  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+							<s:Image source="assets/trirating.png"/>
+							<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1,20)+'...'}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:HGroup width="100%" verticalAlign="top">
+							<s:Label  text="{data.rating}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+							<s:Label width="100%"    maxDisplayedLines="3"  text="{data.description}" 
+									 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:HGroup width="100%" verticalAlign="middle">
+							<s:Image source="assets/triratinggreen.png"/>
+							<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+						<s:Label  text="{data.ratingdate}"  color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+					</s:VGroup>		
+				</s:HGroup>
+				<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
+								   borderColor="#b2b2b2" height="1.5" />
+			</s:Group>
+			
+			<s:HGroup gap="20" horizontalAlign="center" horizontalCenter="0" verticalAlign="middle" verticalCenter="0">
+				<s:Image  id="likebtn" click="likeClick();" 
+						  alpha="0.3" mouseEnabled="false" 
+						  source="assets/like.png"/>
+				<s:Image id="reportbtn" click="reportClick();" 
+						 alpha="0.3" mouseEnabled="false" 
+						 source="assets/report.png" />
+			</s:HGroup>
+		</s:VGroup>
+	</s:Scroller>
+	
+</s:View>

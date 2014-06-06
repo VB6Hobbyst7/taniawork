@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:tilemap="com.mapquest.tilemap.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1"  title="Map"
+		viewActivate="onViewActivate();">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.LatLng;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			private var _sc:ShapeCollection;
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			private function onViewActivate():void {
+				if (this.parentApplication.map) {	
+					if (!this.uic.getChildByName("myMap")) this.uic.addChild(this.parentApplication.map);
+				}
+				else {
+					if (!this.parentApplication.map) this.parentApplication.makeMap();
+					this.uic.addChild(this.parentApplication.map);
+				}
+				
+				if (!this.parentApplication.gpsTried) this.parentApplication.initGPS();
+				
+				if (this.parentApplication.gpsTried && this.parentApplication.gpsIsSupported) {
+					this.parentApplication.setGpsLatLng();
+				}
+				else {
+				}			
+				getLocations.send();
+			}
+			
+			
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				this.parentApplication.removeShapesFromMap();
+				this._sc = new ShapeCollection();
+				this._sc.name = "searchShapeCollection";
+				for (var i:uint = 0; i < listData.length; i++){
+					var p:Poi = new Poi(new LatLng(0,0));
+					p.infoWindowTitleText = listData[i].business_name;
+					p.latLng = LatLng(new LatLng(listData[i].lat,listData[i].longa))
+					p.infoContent = "Address: " + listData[i].business_address1+
+						", "+listData[i].business_city+", "+
+						listData[i].business_locality+", "+
+						listData[i].business_postalcode;
+					if (this.parentApplication.applicationDPI >= 240) {
+						var io:PinMapIcon = (p.icon as PinMapIcon);
+						p.icon = io;
+						(p.icon as PinMapIcon).gradientBaseColors = [0X000000, 0x0cb8e9];
+					}
+					this._sc.add(p);	
+				}
+				this.parentApplication.map.addShapeCollection(this._sc);
+				this.parentApplication.map.bestFit(false,2,12);		
+			}
+			private function onViewDeactivate():void {
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/locations/getMapSingle.php"
+					   result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<merchid>{data.merchid}</merchid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<mx:UIComponent id="uic" width="100%" height="100%" x="0" y="0"/>
+</s:View>

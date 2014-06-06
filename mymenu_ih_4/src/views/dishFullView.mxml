@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		backgroundColor="#FFFFFF"
+		viewActivate="view1_activateHandler(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:components="components.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script source="../func/menuDescriptionfunctions.as"/>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenuItemInformation" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMenuItemInformation.php"
+					   result="afterGetMenuInformation(event)" >
+			<s:request xmlns="">
+				<menuid>{data.id}</menuid>		
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" left="0" right="0" height="100%"
+				horizontalScrollPolicy="off" verticalCenter="0" verticalScrollPolicy="on">
+		<s:VGroup height="100%" paddingTop="0" gap="30" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%"   id="megacont"  >
+				<s:Image id="img1" visible="false"  width="100%"  top="0"
+						 source="{data.picture}" 
+						 contentLoader="{s_imageCache}"  height="{this.width/(640/300)}"   />
+				<s:Image  width="100%" height="100%"  smooth="true" 
+						  contentLoader="{s_imageCache}" scaleMode="stretch"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pictureshadow.png')"
+												source240dpi="@Embed('assets/320/pictureshadow.png')"
+												source320dpi="@Embed('assets/320/pictureshadow.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" mouseEnabledWhereTransparent="true" top="0" left="0"  mouseDown="navigator.popView();">
+					<s:Image  top="{30/(320/Capabilities.screenDPI)}" left="{30/(320/Capabilities.screenDPI)}" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
+													source240dpi="@Embed('assets/320/backbtnnew.png')"
+													source320dpi="@Embed('assets/320/backbtnnew.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:Group>
+			<s:VGroup width="100%" gap="{25/(320/Capabilities.screenDPI)}">
+				<s:HGroup width="100%"  gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="top"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}" >
+					
+					<s:BorderContainer cornerRadius="{5/(320/Capabilities.screenDPI)}" height="{70/(320/Capabilities.screenDPI)}" width="{70/(320/Capabilities.screenDPI)}" horizontalCenter="0" verticalCenter="0"
+									   borderVisible="false" backgroundColor="#b3b3b3" backgroundAlpha="1">
+						<s:Label color="#FFFFFF" horizontalCenter="0" styleName="textsize2" id="ratinglabel"
+								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:VGroup height="100%" width="10" >
+						<s:Label id="selectedTitle"  width="{this.width-100}" color="#4d4d4d" paddingRight="{20/(320/Capabilities.screenDPI)}"
+								 styleName="textsize6" fontWeight="bold" text="{data.name}"/>
+						<s:Label  color="#43c7ae" fontWeight="bold" 
+								  mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event)" mouseOut="gOut(event)"
+								  styleName="textsize3" text="{data.business_name+ ' $' + data.cost }"
+								  verticalAlign="middle"></s:Label>
+					</s:VGroup>
+					
+				</s:HGroup>
+				<s:Label width="99%" paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"  
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" click="descriptionclick(event)"
+						 text="{data.description}" maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				<s:Group width="100%">
+					<s:BorderContainer bottom="0"  left="{20/(320/Capabilities.screenDPI)}" right="0" backgroundAlpha="0" borderAlpha="0.5" 
+									   borderColor="#b2b2b2" height="1.5" />
+				</s:Group>
+				<s:VGroup  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"  width="100%" height="100%">
+					<s:Label   width="100%" color="#4d4d4d"
+							   styleName="textsize5" fontWeight="bold" text="{'Modifications ('+modifications.length.toString()+')'}"/>
+					<s:List  id="modList" mouseEnabled="false"
+							 width="100%" 
+							 verticalScrollPolicy="off" 
+							 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+							 itemRenderer="components.modItem" dataProvider="{modifications}" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  variableRowHeight="true"
+											  gap="{5/(320/Capabilities.screenDPI)}"/>
+						</s:layout>
+					</s:List>
+				</s:VGroup>
+				<s:Group width="100%">
+					<s:BorderContainer bottom="0"  left="{20/(320/Capabilities.screenDPI)}" right="0" backgroundAlpha="0" borderAlpha="0.5" 
+									   borderColor="#b2b2b2" height="1.5" />
+				</s:Group>
+				<s:Group width="100%" >
+					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
+							  fontWeight="bold" styleName="textsize5" text="Reviews"
+							  verticalCenter="0"/>
+					<s:Image id="topratedrecentimg" right="{20/(320/Capabilities.screenDPI)}"
+							 click="topratedrecentclick(event)" verticalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/topratedrecent1.png')"
+													source240dpi="@Embed('assets/320/topratedrecent1.png')"
+													source320dpi="@Embed('assets/320/topratedrecent1.png')"
+													source480dpi="@Embed('assets/320/topratedrecent1.png')"
+													source640dpi="@Embed('assets/320/topratedrecent1.png')"
+													/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:List  id="reviewList" 
+						 width="100%"
+						 verticalScrollPolicy="off" 
+						 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+						 itemRenderer="components.ratingsResultStore">
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
+					</s:layout>
+				</s:List>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

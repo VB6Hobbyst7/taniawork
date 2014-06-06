@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#f3f3f3"
+		contentBackgroundColor="#f3f3f3"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#f3f3f3"
+		backgroundAlpha="1"  title="Menu"
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/menucategoriesfunctions.as"/>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMenuCategories.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<locationid>{locationid}</locationid>		
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{listData}" itemRenderer="components.menuCatResult"
+					selectedIndex="1" 
+					click="storeListClick();"
+					change="storeListClick();">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="1"/>
+				</s:layout>
+			</s:List>
+			
+		</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	
+</s:View>

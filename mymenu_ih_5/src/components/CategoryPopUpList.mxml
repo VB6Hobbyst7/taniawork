@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Declarations>
+		<s:ArrayCollection id="ac">
+			<fx:String>Airfare</fx:String>
+			<fx:String>Car Rental</fx:String>
+			<fx:String>Entertainment</fx:String>
+			<fx:String>Lodging</fx:String>
+			<fx:String>Meals</fx:String>
+			<fx:String>Parking and Tolls</fx:String>
+			<fx:String>Office Supplies</fx:String>
+			<fx:String>Remote Access</fx:String>
+			<fx:String>Transportation</fx:String>
+			<fx:String>Other</fx:String>
+		</s:ArrayCollection>		
+	</fx:Declarations>
+	
+	<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" width="200" horizontalAlign="center">
+		<s:List id="list" dataProvider="{ac}" width="100%" change="close(true, list.selectedItem)"/>
+	</s:VGroup>  
+</s:SkinnablePopUpContainer>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				creationComplete="init(event)"
+				dataChange="dchange(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			private var _sectionField:String = "section";
+			protected function init(event:FlexEvent):void
+			{
+				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+				//	data.business_picture = "assets/res_place_square.png";
+					bmpImg.source = "assets/res_place_square.png";
+				}
+				else {
+					bmpImg.visible = true;
+				}
+			}
+			
+			public function dchange(event:FlexEvent):void
+			{
+				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+					//data.business_picture = "assets/res_place_square.png";
+					bmpImg.source = "assets/res_place_square.png";
+				}
+				else {
+					bmpImg.visible = true;
+				}
+				bmpImg.maxHeight = this.height-(50);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="{140*data.type}" gap="0" visible="{data.type == 1}">
+	<s:Group width="{this.width}"  mouseEnabled="false"   id="megacont"  >
+		<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" paddingTop="20"
+				  paddingBottom="20" paddingLeft="10" verticalAlign="middle" height="90%" verticalCenter="0">
+			<s:VGroup    paddingLeft="10" width="100%" paddingTop="10" paddingBottom="10" paddingRight="10">
+				<s:Label width="100%" color="#4d4d4d" maxDisplayedLines="1"
+						 fontWeight="bold" styleName="textsize1" 
+						 text="{data.name+' - '+data.weekday}"
+						 verticalAlign="middle"></s:Label>
+				<s:Label   width="100%"  color="#4d4d4d" fontWeight="bold" 
+						   styleName="textsize0" text="{data.description}" 
+						   maxDisplayedLines="1"
+						   verticalAlign="middle"></s:Label>
+				<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
+						  styleName="textsize0" text=" {data.categoryname}"
+						  verticalAlign="middle"></s:Label>
+				
+			</s:VGroup>
+		</s:HGroup>
+		<s:Image id="bmpImg" right="0" width="{(this.height-(50*data.divtype))*1.3}" 
+				 height="100%" source="{data.business_picture}"  maxHeight="{this.height-(50*data.divtype)}"
+				 contentLoader="{s_imageCache}"  scaleMode="letterbox" />
+	</s:Group>
+		</s:VGroup>
+	<s:BorderContainer width="{this.width}" visible="{data.type == 0}" height="50" backgroundAlpha="1" 
+					   borderAlpha="0" backgroundColor="#8eddce">
+		<s:Label width="100%" verticalCenter="0" left="20" color="#FFFFFF" 
+				 fontWeight="bold" styleName="textsize0" text="{data.name}"
+				 verticalAlign="middle"></s:Label>
+		<s:BorderContainer height="1.5" width="100%" bottom="0" backgroundAlpha="1" borderAlpha="0" 
+						   backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>
+</s:ItemRenderer>

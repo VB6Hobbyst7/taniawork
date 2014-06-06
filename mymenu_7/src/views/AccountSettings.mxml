@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" backgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" 
+		title="Account" viewActivate="onActivate(event)" xmlns:components="components.*" >
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			protected var g:Geolocation = new Geolocation(); 
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function onActivate(event:Event):void
+			{
+			
+				busy = false;
+				catArray =  new ArrayCollection();
+				catArray.addItem({name:"Change Password"});
+				catArray.addItem({name:"Logout"});
+				storeList.dataProvider = catArray;
+				
+				
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}		
+				
+				
+			}
+			public function afterGetAllCategories(ev:ResultEvent):void  {
+			
+				
+			}
+			public function catListChange(ev:IndexChangeEvent):void {
+				//storeList.selectedItem.name
+				try{
+					if (storeList.selectedItem.name == "Change Password"){
+						navigator.pushView(AccountSettingsChangePwd);
+					}
+					else if (storeList.selectedItem.name == "Logout"){
+						logout();
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+				
+					var saveManager:PersistenceManager = new PersistenceManager();
+					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+					navigator.pushView(Login);
+				}
+				catch(e:Error){
+					navigator.pushView(Login);
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup height="95%" horizontalCenter="0" verticalCenter="0"  width="95%"  >
+	
+		<s:List width="100%" horizontalCenter="0" top="40" bottom="0" contentBackgroundAlpha="0" 
+				id="storeList" labelField="name"  
+				dataProvider="{catArray}" itemRenderer="components.catResult"
+				selectedIndex="1" change="catListChange(event);"  >
+			
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="10"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

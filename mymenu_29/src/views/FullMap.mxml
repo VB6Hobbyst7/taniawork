@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"   
+		creationComplete="init();"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"  
+		backgroundColor="#e8e8e8"  viewDeactivate="onViewRemoving(event)"
+		
+		xmlns:components="components.*" xmlns:maps="com.adobe.nativeExtensions.maps.*" >
+	
+	<fx:Script>
+		<![CDATA[
+			protected function show(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//title="Restaurants"
+				fullscreenmap.visible = true;
+			}
+			
+			protected function hide(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				fullscreenmap.visible = false;
+				/*	<components:backbutton visible="false" width="{this.width*0.15}" 
+				mouseEnabledWhereTransparent="true" 
+				height="100%"   mouseDown="goback(event)"/>*/
+			}
+			protected function addpoint(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var ranlat:Number = 53.5+(Math.random()/10);
+				var ranlong:Number = -113.5+(Math.random()/10);
+				var m:Marker = new Marker(new LatLng(ranlat,ranlong));
+				m.title="Random Point";
+				m.subtitle="Address: Random Address";
+				m.fillColor=MarkerStyles.MARKER_COLOR_GREEN;
+				overlayarray.push(m);
+				fullscreenmap.addOverlay(overlayarray[overlayarray.length-1]);
+			}
+			protected function removeallpoints(event:MouseEvent):void
+			{
+				for (var i:uint = 0; i < overlayarray.length; i++){
+					fullscreenmap.removeOverlay(overlayarray[i]);
+				}
+				overlayarray = new Array();
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:navigationContent>
+	
+		<s:Button  label="Show" click="show(event)"/>
+		<s:Button  label="+point" click="addpoint(event)"/>
+		
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Button  label="wipe" click="removeallpoints(event)"/>
+		<s:Button label="hide"  click="hide(event)"/>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.nativeExtensions.maps.LatLng;
+			import com.adobe.nativeExtensions.maps.Map;
+			import com.adobe.nativeExtensions.maps.MapEvent;
+			import com.adobe.nativeExtensions.maps.MapMouseEvent;
+			import com.adobe.nativeExtensions.maps.overlays.Marker;
+			import com.adobe.nativeExtensions.maps.overlays.MarkerStyles;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.primitives.Rect;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var viewPortMap:Rectangle;
+			public var homeData:ArrayCollection = new ArrayCollection();
+			public var fullscreenmap:Map;
+			public var overlayarray:Array = new Array();
+			private function onViewRemoving(e:ViewNavigatorEvent):void
+			{
+			/*	try
+				{
+					fullscreenmap.visible = false;
+					//fullscreenmap.dispose();
+				}
+				catch(error:Error)
+				{
+					trace("No webview present");
+				}*/
+			}
+			public function init():void
+			{
+				var i:uint = 0;
+				crosstrans.duration = 400;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (i = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {}
+				}
+				catch(e:Error){}
+					var _applicationDPI:int = 160;
+					var _runtimeDPI:int;
+					var statusheight:uint = 0;
+					if(Capabilities.screenDPI < 200){
+						_runtimeDPI = 160;
+						statusheight = 20;
+					}
+					else if(Capabilities.screenDPI >=200 && Capabilities.screenDPI < 280){
+						_runtimeDPI = 240
+						statusheight = 30;
+					}
+					else if (Capabilities.screenDPI >=320){
+						_runtimeDPI = 320;
+						statusheight = 40;
+					}
+					else if (Capabilities.screenDPI >=480){
+						_runtimeDPI = 480;
+						statusheight = 60;
+					}
+					else if (Capabilities.screenDPI >=640){
+						_runtimeDPI = 640;
+						statusheight = 80;
+					}
+					else {
+						_runtimeDPI = 320;
+						statusheight = 40;
+					}
+
+					var heightremoval:uint = this.navigator.actionBar.height+statusheight;
+
+					viewPortMap = new Rectangle(0,heightremoval,this.width,this.height);
+					fullscreenmap = new Map();
+					fullscreenmap.viewPort = viewPortMap;
+					fullscreenmap.visible=true;
+					fullscreenmap.setSize(new Point (this.width,this.height));
+					fullscreenmap.setMapType(0);
+					homeData = data.homeData;
+					for (i = 0; i < homeData.length; i++){
+						var m:Marker = new Marker(new LatLng(homeData[i].lat,homeData[i].longa));
+						m.title=homeData[i].business_name;
+						m.subtitle="Address: " + homeData[i].business_address1+", "+
+							homeData[i].business_city+", "+homeData[i].business_locality+", "+
+							homeData[i].business_postalcode;
+						m.fillColor=MarkerStyles.MARKER_COLOR_GREEN;
+						overlayarray.push(m);
+						fullscreenmap.addOverlay(overlayarray[overlayarray.length-1]);
+					}
+					//fullscreenmap.addEventListener("mapevent_click", mapClick);
+					fullscreenmap.setZoom(30);
+					fullscreenmap.setCenter(new LatLng(53.526526,-113.495207));
+					
+			}
+			public function goback(ev:MouseEvent):void {
+			/*	try{
+					fullscreenmap.viewPort = null;	
+				}
+				catch(e:Error){
+					
+				}
+				
+				try{
+					fullscreenmap.visible=false;
+				}
+				catch(e:Error){
+					
+				}
+				
+				try{
+					fullscreenmap = null;
+				}
+				catch(e:Error){
+					
+				}
+				
+				try{
+					fullscreenmap.dispose();	
+				}
+				catch(e:Error){
+					
+				}
+				
+				
+				
+				try{
+					stage.removeChildren(0,stage.numChildren);
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					stage.removeChildren(0,stage.numChildren-1);
+				}
+				catch(e:Error){
+					
+				}*/
+				/*var viewPortMap:Rectangle = new Rectangle(0,0,10,10);
+				fullscreenmap = new Map();
+				fullscreenmap.viewPort = viewPortMap;
+				fullscreenmap.visible=true;
+				fullscreenmap.setSize(new Point (10,10));
+				fullscreenmap.setMapType(0);*/
+				//this.removeAllElements();
+				
+				
+				//fullscreenmap.visible = false;
+				//fullscreenmap.viewPort.width = 0; 
+				//fullscreenmap.viewPort.height = 0; 
+				//fullscreenmap.setSize(new Point (0,0));
+				//fullscreenmap.viewPort = null;
+				/*this.viewPortMap = new Rectangle(0,0,10,10);
+				this.viewPortMap.height = 10;
+				this.viewPortMap.width = 10;
+				this.fullscreenmap = new Map();
+				this.fullscreenmap.viewPort = viewPortMap;
+				this.fullscreenmap.setSize(new Point (10,10));*/
+				//fullscreenmap.dispose();
+				//fullscreenmap = null;
+				fullscreenmap.visible = false;
+				navigator.popView();
+			}
+			public function mapClick(ev:MapEvent):void {
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+		]]>
+	</fx:Script>
+
+</s:View>

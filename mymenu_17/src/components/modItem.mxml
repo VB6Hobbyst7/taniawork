@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+		]]>
+	</fx:Script>
+	<s:Group width="{this.width}" height="100%" mouseEnabled="false"   id="megacont"  >
+		<s:VGroup    paddingLeft="10" width="100%" paddingTop="10" paddingBottom="10" paddingRight="10">
+			<s:Label width="100%" color="#4d4d4d" 
+					 fontWeight="bold" styleName="textsize1" text="{data.user_label}"
+					 verticalAlign="middle"></s:Label>
+			
+			<s:Label width="100%" color="#4d4d4d" 
+					 fontWeight="normal" styleName="textsize0" text="{data.modification}"
+					 verticalAlign="middle"></s:Label>
+			
+		</s:VGroup>
+	</s:Group>
+</s:ItemRenderer>

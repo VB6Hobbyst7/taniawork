@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		  backgroundColor="#e8e8e8" 
+		  menuKeyPressed="navigator.pushView(Home)"
+		  backKeyPressed="navigator.popView()"
+		title="{data.name}"  xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;			
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			public function onActivate(event:Event):void
+			{
+					busy = false;
+					scroller.visible = true;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			protected function storeList_clickHandler(event:MouseEvent):void {
+			}
+			public function press(event:KeyboardEvent):void {	
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup id="scroller" visible="true" height="100%" horizontalCenter="0" verticalCenter="0" 
+			  paddingLeft="30" paddingRight="30" paddingTop="30"   width="100%"  >
+		<s:Label text="{data.description}" horizontalCenter="0" verticalCenter="0" styleName="textsize1" width="100%" height="100%"/>
+	</s:VGroup>
+	
+</s:View>

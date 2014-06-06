@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Change Password" 	contentBackgroundAlpha="1"
+		contentBackgroundColor="#f3f3f3"
+		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml" 
+		xmlns:components="components.*">	
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.core.ContentCache;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			protected var sqlConnection:SQLConnection;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var emailGo:String = "";
+			public function onActivate(event:Event):void
+			{		
+
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, active FROM localuser where active = 'yes'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);				
+				if (resData.length != 0){
+					emailGo = resData[0].email;
+				}
+				else {
+					//bad login or no local saved login.
+					navigator.popView();	
+				}		
+				busy = false;
+			}	
+			public function changePass():void {
+				logWarning.visible = false;
+				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
+					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
+					busy = true;
+					changePassword.send();					
+				}	
+			}
+			public function afterChangePassword(ev:ResultEvent):void {
+				busy = false;
+				logWarning.text = ev.result[0].res.message;
+				logWarning.visible = true;
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="signinicon"
+								source160dpi="@Embed('assets/160/signinbtnLow.png')"
+								source240dpi="@Embed('assets/320/signinbtnMed.png')"
+								source320dpi="@Embed('assets/320/signinbtnHigh.png')"
+								source480dpi="@Embed('assets/320/signinbtnHigh.png')"
+								source640dpi="@Embed('assets/320/signinbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="signupicon"
+								source160dpi="@Embed('assets/160/signupbtnLow.png')"
+								source240dpi="@Embed('assets/320/signupbtnMed.png')"
+								source320dpi="@Embed('assets/320/signupbtnHigh.png')"
+								source480dpi="@Embed('assets/320/signupbtnHigh.png')"
+								source640dpi="@Embed('assets/320/signupbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="cancelIcon"
+								source160dpi="@Embed('assets/160/cancelbtnLow.png')"
+								source240dpi="@Embed('assets/320/cancelbtnMed.png')"
+								source320dpi="@Embed('assets/320/cancelbtnHigh.png')"
+								source480dpi="@Embed('assets/320/cancelbtnHigh.png')"
+								source640dpi="@Embed('assets/320/cancelbtnHigh.png')"/>
+		<s:HTTPService id="changePassword" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.mymenuapp.ca/php/mobile/changePassword.php"
+					   result="afterChangePassword(event)" >
+			<s:request xmlns="">
+				<oldpass>{oldpassword.text}</oldpass>
+				<newpass>{newpassword1.text}</newpass>
+				<email>{emailGo}</email>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="95%"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				
+				<s:TextInput id="oldpassword" top="37" width="98%"  fontFamily="Arial" horizontalCenter="0"
+							  displayAsPassword="true" prompt="Old Password"/>
+				<s:TextInput id="newpassword1" top="65" width="98%"  fontFamily="Arial"
+							 displayAsPassword="true" horizontalCenter="0" prompt="New Password"/>
+				<s:TextInput id="newpassword2" top="65" width="98%"  fontFamily="Arial"
+							 displayAsPassword="true" horizontalCenter="0" prompt="Confirm New Password"/>
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{signinicon}" horizontalCenter="0"
+								 click="changePass();" />
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{cancelIcon}" horizontalCenter="0"
+								 click="navigator.popView();" />
+				<s:Label top="210" fontFamily="_sans" visible="false" right="2" left="2" height="100%" 
+						 color="#000000" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	
+</s:View>

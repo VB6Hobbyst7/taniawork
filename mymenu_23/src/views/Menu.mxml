@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#e8e8e8"
+		contentBackgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1"  title="Menu"
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView(); "/>
+	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.geom.ColorTransform;
+			import flash.geom.Rectangle;
+			import flash.html.HTMLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.SortField;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			
+			[Bindable]
+			public var merchid:String = "";
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var emailGo:String = "none";
+			[Bindable]
+			public var locatoinidGo:Number = -1;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backuplistdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var ratingpriceoptionval:uint = 0;
+			protected function view1_activateHandler(event:Event):void
+			{
+				warn.visible = false;
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				merchid = data.merchid;
+				getMenu.send();
+				filterarea.visible = true;
+			}	
+			
+			public function afterGetMenu(ev:ResultEvent):void
+			{	busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+			
+				
+				if (listData.length <= 0){
+					
+					warn.visible = true;
+				}
+				else {
+					for (var i:uint = 0; i < listData.length; i++){
+						listData[i].business_name = data.business_name;
+					}
+					populatelist();
+				}
+				
+			} 
+			public function populatelist():void {
+				var srt:Sort = new Sort();
+				 if (ratingpriceoptionval == 0){
+					srt.fields = [new SortField("rating")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				else if (ratingpriceoptionval == 1){
+					srt.fields = [new SortField("cost")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				storeList.dataProvider = listData;
+	
+			}
+			public function storeListClick():void {	
+				if (storeList.selectedIndex != -1){
+					navigator.pushView(MenuDescription, listData[storeList.selectedIndex]);	
+				}
+			}
+			public function searchClick():void
+			{
+				listData.filterFunction = filterCompleted;
+				listData.refresh();
+				storeList.dataProvider = listData;
+				
+			}
+			private function filterCompleted(item:Object):Boolean{
+				//if((item.cost.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					//(item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)
+					//)
+					return true;
+				//return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function ratingpriceoptionclick():void {
+				if (ratingpriceoptionval == 0){
+					ratingpriceoptionval = 1;
+					ratingpriceimage1.visible = false;
+					ratingpriceimage2.visible = true;
+					selectview1.visible = false
+					selectview2.visible = true;
+				}
+				else {
+					ratingpriceoptionval = 0;
+					ratingpriceimage1.visible = true;
+					ratingpriceimage2.visible = false;
+					selectview1.visible = true
+					selectview2.visible = false;
+				}
+				populatelist();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/locations/getMenu.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<merchid>{merchid}</merchid>		
+				<emailGo>{emailGo}</emailGo>
+				<categoryid>{data.categoryid}</categoryid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			
+			
+			<s:BorderContainer borderAlpha="0" id="filterarea"  click="ratingpriceoptionclick();"   visible="true" 
+							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+				<s:Image id="ratingpriceimage1" horizontalCenter="0"  mouseEnabled="false"  
+						 visible="true"  
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/ratingpriceoption1.png')"
+												source240dpi="@Embed('assets/ratingpriceoption1.png')"
+												source320dpi="@Embed('assets/ratingpriceoption1.png')"
+												source480dpi="@Embed('assets/ratingpriceoption1.png')"
+												source640dpi="@Embed('assets/ratingpriceoption1.png')"
+												/>
+					</s:source>
+				</s:Image>
+				<s:Image id="ratingpriceimage2" horizontalCenter="0"   mouseEnabled="false" 
+						 visible="false" 
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/ratingpriceoption2.png')"
+												source240dpi="@Embed('assets/ratingpriceoption2.png')"
+												source320dpi="@Embed('assets/ratingpriceoption2.png')"
+												source480dpi="@Embed('assets/ratingpriceoption2.png')"
+												source640dpi="@Embed('assets/ratingpriceoption2.png')"
+												/>
+					</s:source>
+				</s:Image>
+			</s:BorderContainer>
+			<s:BorderContainer borderAlpha="0"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="75">
+				<s:Group id="selectview1"  visible="true" height="100%" width="100%">
+					<s:Label left="29" color="#4d4d4d" styleName="textsize0" text="Showing"
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="132" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Best Rated" verticalAlign="middle" verticalCenter="2"/>
+				</s:Group>
+				<s:Group id="selectview2"   visible="false" height="100%" width="100%">
+					<s:Label left="29" color="#4d4d4d" styleName="textsize0" text="Showing"
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="132" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
+				</s:Group>
+			
+			</s:BorderContainer>
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{listData}" itemRenderer="components.menuResult"
+					selectedIndex="1" click="storeListClick();" >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="1"/>
+				</s:layout>
+			</s:List>
+			
+		</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	<s:BusyIndicator visible="{busy}"  symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

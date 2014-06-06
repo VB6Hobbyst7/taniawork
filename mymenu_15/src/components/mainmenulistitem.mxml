@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				 contentBackgroundAlpha="0"	>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<fx:Script>
+		<![CDATA[
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:GlowFilter id="selectionglow"
+			alpha="1" strength="200" knockout="true"
+			color="0x43c7ae"  blurX="30" blurY="30"
+			inner="true"
+			/>
+	</fx:Declarations>
+<s:BorderContainer width="100%" height="90" backgroundColor.normal="#5b5b5b"
+   backgroundColor.selected="#494949" 
+   borderAlpha="0"  backgroundAlpha="1">
+	<s:Image left="30" verticalCenter="0"  
+	 filters.selected="{[selectionglow]}" 
+	 filters.normal="[]"  source="{data.img}"/>
+	<s:Label left="90" color="#FFFFFF" styleName="textsize1" text="{data.name}" verticalCenter="0"
+			 filters.normal="[]" fontWeight="bold"
+			 filters.selected="{[selectionglow]}"/>
+	<s:BorderContainer height="1.5" width="100%" bottom="-1" backgroundAlpha="1" 
+					   borderAlpha="0" backgroundColor="#FFFFFF"/>
+</s:BorderContainer>
+</s:ItemRenderer>

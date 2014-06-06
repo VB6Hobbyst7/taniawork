@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[		
+			protected function infoclick(event:MouseEvent):void
+			{
+				data.infostatus = true;	
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<s:BorderContainer  backgroundColor="#FFFFFF"  backgroundAlpha="1" borderVisible="false" width="100%" height="{90/(320/Capabilities.screenDPI)}"  >
+		<s:Group left="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
+			<s:Image id="checkimage" visible="{data.chosen == 'yes'}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkblue.png')"
+											source240dpi="@Embed('assets/320/checkblue.png')"
+											source320dpi="@Embed('assets/320/checkblue.png')"
+											source480dpi="@Embed('assets/320/checkblue.png')"
+											source640dpi="@Embed('assets/320/checkblue.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:Label id="hl1" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'yes'}"
+				 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+				 color="#43c7ae"/>
+		<s:Label id="hll" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'no'}"
+				 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+				 color.normal="#4d4d4d"
+				 color.selected="#43c7ae"/>
+		<s:Group right="0" width="{90/(320/Capabilities.screenDPI)}" height="{90/(320/Capabilities.screenDPI)}" click="infoclick(event)" 
+				 mouseEnabledWhereTransparent="true"   verticalCenter="0">
+			<s:Image id="infoimage"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/info.png')"
+											source240dpi="@Embed('assets/320/info.png')"
+											source320dpi="@Embed('assets/320/info.png')"
+											source480dpi="@Embed('assets/320/info.png')"
+											source640dpi="@Embed('assets/320/info.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		
+		
+<s:BorderContainer height="1.5" right="0" left="{20/(320/Capabilities.screenDPI)}" bottom="0" backgroundAlpha="1" borderVisible="false" backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>		
+</s:ItemRenderer>

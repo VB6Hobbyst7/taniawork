@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" backgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		title="Add Allergy" viewActivate="onActivate(event)" >
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+										source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+										source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent >	
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			
+		
+			public function onActivate(event:Event):void
+			{
+			
+				busy = false;
+				catArray =  new ArrayCollection();
+				catArray.addItem({name:"Change Password"});
+			}
+	
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		
+		
+	</fx:Declarations>
+	<s:Group  top="0" bottom="0" width="100%"  >
+		
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

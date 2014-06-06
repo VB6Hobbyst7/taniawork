@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/4.0">
+	<id>org.enactforum.originaljoes</id>
+	<filename>Mymenu</filename>
+	<name>Mymenu</name>
+	<versionNumber>1.0.2</versionNumber>
+	<initialWindow>
+		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+		<autoOrients>true</autoOrients>
+		<renderMode>direct</renderMode>
+		<aspectRatio>portrait</aspectRatio>
+		<fullScreen>false</fullScreen>
+		<visible>true</visible>
+		<softKeyboardBehavior>none</softKeyboardBehavior>
+	</initialWindow>
+		<supportedLanguages>en</supportedLanguages>
+	<icon>
+		<image16x16>assets/icons/icon-16.png</image16x16>
+		<image29x29>assets/icons/icon-29.png</image29x29>
+		<image32x32>assets/icons/icon-32.png</image32x32>
+		<image36x36>assets/icons/icon-36.png</image36x36>
+		<image48x48>assets/icons/icon-48.png</image48x48>
+		<image57x57>assets/icons/icon-57.png</image57x57>
+		<image72x72>assets/icons/icon-72.png</image72x72>
+		<image76x76>assets/icons/icon-76.png</image76x76>
+		<image114x114>assets/icons/icon-114.png</image114x114>
+		<image120x120>assets/icons/icon-120.png</image120x120>
+		<image128x128>assets/icons/icon-128.png</image128x128>
+		<image152x152>assets/icons/icon-152.png</image152x152>
+	</icon>
+	<android>
+	<colorDepth>16bit</colorDepth>
+	<manifestAdditions>
+	<![CDATA[
+		<manifest android:installLocation="auto">
+				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+				<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+				<uses-permission android:name="android.permission.INTERNET"/>
+				<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+				<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+				<uses-permission android:name="android.permission.WAKE_LOCK" />
+				<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+				<uses-permission android:name="android.permission.CAMERA"/>
+			<uses-configuration android:reqFiveWayNav="true"/>
+			<supports-screens android:normalScreens="true"/>
+			<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
+			<application android:enabled="true">
+				<activity android:excludeFromRecents="false">
+      				<intent-filter>
+						<action android:name="android.intent.action.MAIN"/>
+						<category android:name="android.intent.category.LAUNCHER"/>
+      				</intent-filter>
+				</activity>
+			</application>
+		</manifest>
+		]]>
+	</manifestAdditions>
+	</android>
+	<iPhone>
+		<InfoAdditions><![CDATA[
+			<key>UIDeviceFamily</key>
+			<array>
+				<string>1</string>
+			</array>
+			<key>UIRequiresPersistentWiFi</key>
+			<true/>
+			<key>UIStatusBarStyle</key>
+			 <string>UIStatusBarStyleLightContent</string>
+			<key>UIApplicationExitsOnSuspend</key>
+			<true/>
+			 <key>UIPrerenderedIcon</key> 
+        	<true/> 
+		]]></InfoAdditions>
+		<requestedDisplayResolution>high</requestedDisplayResolution>
+	</iPhone>
+
+
+<extensions>
+        <extensionID>com.sampleNativeExtensions.Maps</extensionID>
+    </extensions>
+</application>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 
+		 creationComplete="init();"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"  
+		  backgroundColor="#e8e8e8" 
+		title="Restaurants"  xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" 
+							   mouseEnabledWhereTransparent="true" 
+							   height="100%"   mouseDown="goback(event)"/>
+	</s:navigationContent>
+	<s:actionContent>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.nativeExtensions.maps.LatLng;
+			import com.adobe.nativeExtensions.maps.Map;
+			import com.adobe.nativeExtensions.maps.MapEvent;
+			import com.adobe.nativeExtensions.maps.MapMouseEvent;
+			import com.adobe.nativeExtensions.maps.overlays.Marker;
+			import com.adobe.nativeExtensions.maps.overlays.MarkerStyles;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.primitives.Rect;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var viewPortMap:Rectangle;
+			public var homeData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var googleMap:Map = new Map();
+			public function init():void
+			{
+			
+				crosstrans.duration = 400;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+						//bad login or no local saved login.
+					}
+				}
+				catch(e:Error){
+					
+				}
+					
+					busy = false;
+					scroller.visible = true;
+					var _applicationDPI:int = 160;
+					var _runtimeDPI:int;
+					var statusheight:uint = 0;
+					
+					if(Capabilities.screenDPI < 200){
+						_runtimeDPI = 160;
+						statusheight = 20;
+					}
+					else if(Capabilities.screenDPI >=200 && Capabilities.screenDPI < 280){
+						_runtimeDPI = 240
+						statusheight = 30;
+					}
+					else if (Capabilities.screenDPI >=320){
+						_runtimeDPI = 320;
+						statusheight = 40;
+					}
+					else if (Capabilities.screenDPI >=480){
+						_runtimeDPI = 480;
+						statusheight = 60;
+					}
+					else if (Capabilities.screenDPI >=640){
+						_runtimeDPI = 640;
+						statusheight = 80;
+					}
+					else {
+						_runtimeDPI = 320;
+						statusheight = 40;
+					}
+					
+					
+					var heightremoval:uint = this.navigator.actionBar.height+statusheight;
+					viewPortMap = new Rectangle(0,heightremoval,this.width,this.height);
+					googleMap = new Map();
+					googleMap.viewPort = viewPortMap;
+					googleMap.visible=true;
+					googleMap.setSize(new Point (this.width,this.height));
+				
+					
+					googleMap.setMapType(0);
+				
+					homeData = data.homeData;
+					for (var i:uint = 0; i < homeData.length; i++){
+						var m:Marker = new Marker(new LatLng(homeData[i].lat,homeData[i].longa));
+						m.title=homeData[i].business_name;
+						m.subtitle="Address: " + homeData[i].business_address1+", "+
+							homeData[i].business_city+", "+homeData[i].business_locality+", "+
+							homeData[i].business_postalcode;
+						m.fillColor=MarkerStyles.MARKER_COLOR_PURPLE;
+						
+						/*try{
+							m.myId = homeData[i].id;
+						}
+						catch(e:Error){
+							m.myId = homeData[i].locationid;
+						}*/
+						
+						var sh:Shape = new Shape();
+						googleMap.addOverlay(m);
+					}
+					googleMap.addEventListener("mapevent_click", mapClick);
+					//
+					
+					googleMap.setZoom(30);
+					googleMap.setCenter(new LatLng(53.526526,-113.495207));
+					
+			}
+			public function mapClick(ev:MapEvent):void {
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function goback(ev:MouseEvent):void {
+				/*var viewPortMap:Rectangle = new Rectangle(0,0,10,10);
+				googleMap = new Map();
+				googleMap.viewPort = viewPortMap;
+				googleMap.visible=true;
+				googleMap.setSize(new Point (10,10));
+				googleMap.setMapType(0);*/
+				//this.removeAllElements();
+				
+				//googleMap.visible = false;
+				//googleMap.viewPort.width = 0; 
+				//googleMap.viewPort.height = 0; 
+				//googleMap.setSize(new Point (0,0));
+				//googleMap.viewPort = null;
+				viewPortMap = null;
+				//googleMap.dispose();
+				//googleMap = null;
+				navigator.popView();
+			}
+			
+			protected function storeList_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			
+			}
+			public function press(event:KeyboardEvent):void {
+				
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	</fx:Declarations>
+	<s:Group id="scroller" visible="true" height="100%" horizontalCenter="0"   width="100%"  >
+		
+		
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

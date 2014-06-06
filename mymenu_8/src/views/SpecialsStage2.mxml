@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="{data.newcat} Specials"  xmlns:components="components.*" >
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.homeItem;
+			import components.weekdayitem;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.core.ContentCache;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = false;
+			[Bindable]
+			public var currentfilterweekday:String = "monday";
+			
+			public function onActivate(event:Event):void
+			{
+				
+				warn.visible = false;
+				try{
+					if (data.img != ""){
+						
+					}
+					else {
+						navigator.popView();
+					}
+				}
+				catch(e:Error){
+					navigator.popView();	
+				}
+				
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}		
+				scroller.visible = true;
+			
+				
+				
+				var date1:Date = new Date();
+				var date2:Date = new Date();
+				date2.setDate(date2.date + 1);
+				var date3:Date = new Date();
+				date3.setDate(date2.date + 2);
+				var date4:Date = new Date();
+				date4.setDate(date2.date + 3);
+				var date5:Date = new Date();
+				date5.setDate(date2.date + 4);
+				var date6:Date = new Date();
+				date6.setDate(date2.date + 5);
+				var date7:Date = new Date();
+				date7.setDate(date2.date + 6);
+
+				for (var j:uint = 0; j < 7; j++){
+					var wdi:weekdayitem = new weekdayitem();
+					wdi.width = img1.width/7;
+					var weekdaystring:Number;
+					if (j == 0){
+						wdi.day = date1.date.toString()+"th";
+						weekdaystring = date1.dayUTC;
+						
+					}
+					else if (j == 1){
+						wdi.day = date2.date.toString()+"th";
+						weekdaystring = date2.dayUTC;
+						
+					}
+					else if (j == 2){
+						wdi.day = date3.date.toString()+"th";
+						weekdaystring = date3.dayUTC;
+						
+					}
+					else if (j == 3){
+						wdi.day = date4.date.toString()+"th";
+						weekdaystring = date4.dayUTC;
+						
+					}
+					else if (j == 4){
+						wdi.day = date5.date.toString()+"th";
+						weekdaystring = date5.dayUTC;
+					
+					}
+					else if (j == 5){
+						wdi.day = date6.date.toString()+"th";
+						weekdaystring = date6.dayUTC;
+					
+					}
+					else if (j == 6){
+						wdi.day = date7.date.toString()+"th";
+						weekdaystring = date7.dayUTC;
+						
+					}
+					
+
+					if (weekdaystring == 0){
+						wdi.weeday = "Sun";
+					}
+					else if (weekdaystring == 1){
+						wdi.weeday = "Mon";
+					}
+					else if (weekdaystring == 2){
+						wdi.weeday = "Tues";
+					}
+					else if (weekdaystring == 3){
+						wdi.weeday = "Wed";
+					}
+					else if (weekdaystring == 4){
+						wdi.weeday = "Thurs";
+					}
+					else if (weekdaystring == 5){
+						wdi.weeday = "Fri";
+					}
+					else if (weekdaystring == 6){
+						wdi.weeday = "Sat";
+					}	
+					wdi.addEventListener(MouseEvent.MOUSE_DOWN, gDown);
+					wdi.addEventListener(MouseEvent.MOUSE_OUT,gOut);
+					wdi.addEventListener(MouseEvent.MOUSE_UP,gOut);
+					wdi.addEventListener(MouseEvent.MOUSE_OVER, gOver);
+					wdi.addEventListener(MouseEvent.CLICK, weekdayclick);
+					weekdayholder.addElement(wdi);
+					
+				}
+				
+				getSpecials.send();
+			}
+			public function weekdayclick(ev:MouseEvent):void {
+				var s:String = "";
+				if (ev.currentTarget.weeday == "Mon"){
+					currentfilterweekday = "monday";
+				}
+				else if (ev.currentTarget.weeday == "Tues"){
+					currentfilterweekday = "tuesday";	
+				}
+				else if (ev.currentTarget.weeday == "Wed"){
+					currentfilterweekday = "wednesday";
+				}
+				else if (ev.currentTarget.weeday == "Thurs"){
+					currentfilterweekday = "thursday";
+				}
+				else if (ev.currentTarget.weeday == "Fri"){
+					currentfilterweekday = "friday";
+				}
+				else if (ev.currentTarget.weeday == "Sat"){
+					currentfilterweekday = "saturday";
+				}
+				else if (ev.currentTarget.weeday == "Sun"){
+					currentfilterweekday = "sunday";
+				}
+				filterNow();
+			}
+			public function afterGetSpecials(ev:ResultEvent):void {
+				var datenow:Date = new Date();
+				var weekdaystring:Number = datenow.day;
+				
+				if (weekdaystring == 0){
+					currentfilterweekday = "sunday";
+				}
+				else if (weekdaystring == 1){
+					currentfilterweekday = "monday";
+				}
+				else if (weekdaystring == 2){
+					currentfilterweekday = "tuesday";
+				}
+				else if (weekdaystring == 3){
+					currentfilterweekday = "wednesday";
+				}
+				else if (weekdaystring == 4){
+					currentfilterweekday = "thursday";
+				}
+				else if (weekdaystring == 5){
+					currentfilterweekday = "friday";
+				}
+				else if (weekdaystring == 6){
+					currentfilterweekday = "saturday";
+				}	
+				
+				
+				
+				busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				filterNow();
+			} 
+			public function filterNow():void
+			{
+				listData.filterFunction = filterCompleted;
+				listData.refresh();
+				loyaltyList.dataProvider = listData;
+				
+				if (listData.length == 0){
+					warn.visible = true;
+				}
+				else {
+					warn.visible  = false;
+				}
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.weekday.toString().toLowerCase().indexOf(currentfilterweekday) != -1))
+					return true;
+				return false;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/specials/getSpecials.php"
+					   result="afterGetSpecials(event)" >
+			<s:request xmlns="">
+				<cat>{data.cat}</cat>			
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="false" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="10" width="100%" horizontalAlign="center" verticalAlign="bottom">
+			
+			<s:Group width="95%" >
+				<s:BitmapImage id="img1"  width="100%" 	
+							 source="{data.img}"   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				<s:BorderContainer backgroundAlpha="1" x="0" y="10" borderAlpha="0"  backgroundColor="#ef4056">
+					<s:Label width="100%" color="#FFFFFF" x="10"
+							 fontWeight="bold" styleName="textsize9" text="{data.cat}"
+							 verticalAlign="middle"></s:Label>
+				</s:BorderContainer>
+				
+				<s:BorderContainer  width="100%" x="0" bottom="0"  borderAlpha="0"  backgroundColor="#000000" backgroundAlpha="0.7">
+					<s:HGroup id="weekdayholder" gap="0" width="99%" >
+					</s:HGroup>
+				</s:BorderContainer>
+			</s:Group>		 
+			<s:List id="loyaltyList" width="100%" height="{(this.height/3)*2}"  horizontalScrollPolicy="off"
+					alternatingItemColors="[0xFFFFFF,0xEEEEEE ]"  contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
+					dataProvider="{listData}" horizontalCenter="0"
+					itemRenderer="components.specialsResult" 
+					selectedIndex="1">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="false"
+									  gap="10"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
+			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
+			 verticalAlign="middle" verticalCenter="0"></s:Label>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

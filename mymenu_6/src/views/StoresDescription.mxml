@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#e8e8e8"
+	
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+										source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+										source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			import mx.core.FlexGlobals;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;	
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function view1_activateHandler(event:Event):void
+			{
+				try{
+				
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				img1.source = data.business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				var heightofmap:Number = this.height/2.5;
+				var widthofmap:Number = this.width/1.1;
+				//mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size="+(this.width/1.2).toString()+"x"+(this.width/1.2).toString()+"&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+				
+
+				//mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size=400x300&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			protected function viewrewards(event:MouseEvent):void
+			{
+				navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+					emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+			}	
+		]]>
+	</fx:Script>
+	<s:Scroller  height="100%" horizontalCenter="0" verticalCenter="0"  width="95%"  verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+		<s:VGroup height="100%" paddingTop="10" gap="20" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			
+			<s:Image x="21" id="img1" />
+			
+			<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#777777"
+					 styleName="textsize5" fontWeight="bold" text="{data.business_name}"/>
+			
+			<s:Label width="100%"
+					 click="navigateToURL(new URLRequest('tel:'+data.business_number));"
+					 color="#777777" fontWeight="normal" styleName="textsize5"
+					 text="{data.business_number}" textDecoration="none"
+					 verticalAlign="middle"/>
+			
+		
+			<s:Label width="100%" click="navigateToURL(new URLRequest(googleTravelUrl))"
+					 color="#777777" fontWeight="normal" maxDisplayedLines="4" styleName="textsize5"
+					 text="{data.business_address1 + ', ' +data.business_city + ', ' +data.business_locality + ', ' +data.business_postalcode + ', ' +data.business_country}"
+					 textDecoration="none" verticalAlign="middle"/>
+			<s:VGroup  height="100%" gap="30" paddingTop="10" horizontalAlign="center" verticalAlign="top">
+				<components:summaryItem lbl="Menu" click="{navigator.pushView(Menu,{merchid:data.id})}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:summaryItem lbl="Map" click="{navigator.pushView(StoresMapSingle)}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:summaryItem lbl="Offers" click="viewrewards(event)"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+			</s:VGroup>
+			
+			
+			<!--s:Image id="mapimage" width="{this.width/1.2}" height="{mapimage.width}" smooth="true" /-->
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				creationComplete="init(event)"
+				dataChange="dchange(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			private var _sectionField:String = "section";
+			protected function init(event:FlexEvent):void
+			{
+				/*if (data.picture == "None"){
+					bmpImg.visible = false;
+				}
+				else {
+					bmpImg.visible = true;
+				}*/
+			}
+			
+			public function dchange(event:FlexEvent):void
+			{
+				/*if (data.picture == "None"){
+					bmpImg.visible = false;
+				}
+				else {
+					bmpImg.visible = true;
+				}*/
+				bmpImg.maxHeight = this.height-(50);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group width="100%" visible="{data.type == 1}" height="{120*data.type}" mouseEnabled="false"   >
+		<s:HGroup width="100%" gap="0"  paddingLeft="10" verticalAlign="middle" height="90%" verticalCenter="0">
+		
+			<s:VGroup    paddingLeft="10" width="50%" paddingTop="10" paddingBottom="10" paddingRight="10">
+				<s:Label width="50%" color="#4d4d4d"  maxDisplayedLines="1"
+						 fontWeight="bold" styleName="textsize1" text="{data.name+' - '+data.weekday}"
+						 verticalAlign="middle"></s:Label>
+				<s:Label  width="50%" color="#4d4d4d" fontWeight="bold" maxWidth="{this.width*0.75}"
+						  styleName="textsize0" text="{data.description}" maxDisplayedLines="1"
+						  verticalAlign="middle"></s:Label>
+				<s:Label  width="50%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
+						 styleName="textsize0" text=" {data.categoryname}"
+						 verticalAlign="middle"></s:Label>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Image id="bmpImg" right="0" width="{(this.height-50)*1.3}" 
+				 height="100%" source="{data.business_picture}"  maxHeight="{this.height-(50)}"
+				 contentLoader="{s_imageCache}"  scaleMode="letterbox" />
+		<s:BorderContainer height="1.5" width="100%" bottom="0" backgroundAlpha="1" borderAlpha="0" 
+						   backgroundColor="#b2b2b2"/>
+	</s:Group>
+	<s:BorderContainer width="100%" visible="{data.type == 0}" height="50" backgroundAlpha="1" 
+					   borderAlpha="0" backgroundColor="#8eddce">
+		<s:Label width="100%" verticalCenter="0" left="20" color="#FFFFFF" 
+				 fontWeight="bold" styleName="textsize0" text="{data.name}"
+				 verticalAlign="middle"></s:Label>
+		<s:BorderContainer height="1.5" width="100%" bottom="0" backgroundAlpha="1" borderAlpha="0" 
+						   backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>
+</s:ItemRenderer>

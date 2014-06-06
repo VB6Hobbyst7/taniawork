@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+<s:Group width="{this.width}" height="100%" mouseEnabled="false"   id="megacont"  >
+	<s:Label width="100%" color="#4d4d4d"  x="{othertext.width+2}" y="0" id="text2area" 
+	 fontWeight="normal" styleName="textsize2" 
+	 text="{' '+data.modification}"
+	 verticalAlign="middle"></s:Label>
+	<s:Label  color="#43c7ae" id="othertext" backgroundAlpha="1" backgroundColor="#FFFFFF" x="0" y="0" 
+	 fontWeight="bold" styleName="textsize2" 
+	 text="• {data.user_label}"
+	 verticalAlign="middle"></s:Label>
+</s:Group>
+</s:ItemRenderer>

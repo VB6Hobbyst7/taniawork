@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				creationComplete="init(event)"
+				dataChange="dchange(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			private var _sectionField:String = "section";
+			protected function init(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+					//	data.business_picture = "assets/320/res_place_square.png";
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
+				}
+				else {
+					bmpImg.visible = true;
+				}
+			}
+			
+			public function dchange(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+					//data.business_picture = "assets/320/res_place_square.png";
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
+				}
+				else {
+					bmpImg.visible = true;
+				}
+				//bmpImg.maxHeight = this.height-(50);
+			}
+			public function getDPIHeight():Number {
+				var _runtimeDPI:int;
+				if(Capabilities.screenDPI < 200){
+					_runtimeDPI = 160;
+				}
+				else if(Capabilities.screenDPI >=200 && Capabilities.screenDPI < 280){
+					_runtimeDPI = 240
+				}
+				else if (Capabilities.screenDPI < 480){
+					_runtimeDPI = 320;
+				}
+				else if (Capabilities.screenDPI < 640){
+					_runtimeDPI = 480;
+				}
+				else if (Capabilities.screenDPI >=640){
+					_runtimeDPI = 640;
+				}
+				return(_runtimeDPI)
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" 
+			  height="{(200/(320/Capabilities.screenDPI))*data.type}" 
+			  gap="0" 
+			  visible="{data.type == 1}">
+		<s:Group width="{this.width}"  
+				 mouseEnabled="false"   id="megacont" 
+				 maxHeight="{200/(320/Capabilities.screenDPI)}">
+			<s:HGroup width="{this.width-(this.height*1.3)}" gap="0" 
+					  paddingTop="{20/(320/Capabilities.screenDPI)}"
+					  paddingBottom="{20/(320/Capabilities.screenDPI)}"
+					  paddingLeft="{10/(320/Capabilities.screenDPI)}" 
+					  verticalAlign="middle"
+					  height="90%" verticalCenter="0">
+				<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" 
+							 width="100%" 
+							 paddingTop="{10/(320/Capabilities.screenDPI)}"
+							 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+							 paddingRight="{10/(320/Capabilities.screenDPI)}">
+					<s:Label width="100%" color="#4d4d4d" maxDisplayedLines="1"
+							 fontWeight="bold" styleName="textsize4" 
+							 text="{data.name+' - '+data.weekday}"
+							 verticalAlign="middle"></s:Label>
+					<s:Label   width="100%"  color="#4d4d4d" fontWeight="bold" 
+							   styleName="textsize3" text="{data.description}" 
+							   maxDisplayedLines="1"
+							   verticalAlign="middle"></s:Label>
+					<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
+							  styleName="textsize3" text=" {data.categoryname}"
+							  verticalAlign="middle"></s:Label>
+					
+				</s:VGroup>
+			</s:HGroup>
+			<s:Image id="bmpImg" right="-1" 
+					 width="{((this.height-(75/(320/Capabilities.screenDPI))*data.divtype))}" 
+					 height="100%" source="{data.picture}" 
+					 maxHeight="{this.height-(75*data.divtype)}"
+					 contentLoader="{s_imageCache}"  scaleMode="zoom" />
+			<s:BorderContainer bottom="0" left="{20/(320/Capabilities.screenDPI)}" backgroundAlpha="0" right="0" borderAlpha="0.5" 
+							   borderColor="#b2b2b2" height="1.5" />
+		</s:Group>
+	</s:VGroup>
+	<s:BorderContainer width="{this.width}" visible="{data.type == 0}" 
+					   height="{75/(320/Capabilities.screenDPI)}" backgroundAlpha="1" 
+					   borderVisible="false" backgroundColor="#8eddce">
+		<s:Label width="100%" verticalCenter="2" left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+				 fontWeight="bold" styleName="textsize1" text="{data.name}"
+				 verticalAlign="middle" ></s:Label>
+	
+	</s:BorderContainer>
+</s:ItemRenderer>

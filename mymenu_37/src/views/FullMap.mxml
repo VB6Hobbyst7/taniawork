@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"   
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"  
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#f3f3f3"
+	    title="Map"
+		name="Map"
+		xmlns:components="components.*">
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+</s:View>

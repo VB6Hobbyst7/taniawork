@@ -1,0 +1,81 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+s|ActionBar
+{
+	chromeColor: #646464;
+	titleAlign: center;
+	defaultButtonAppearance: beveled;
+}
+s|Button
+{
+	color: #000000; 
+}
+s|Label
+{
+	color: #000000;
+	fontWeight: bold;
+}
+.smallLabel
+{
+	color: #000000;
+	fontWeight: bold;
+	fontSize: 12;
+}
+.redLabel
+{
+	color: #E40000;
+	fontWeight: bold;
+}
+.greenLabel
+{
+	color: #22B220;
+	fontWeight: bold;
+}
+s|TextArea 
+{
+	color: #000000;
+	fontWeight: bold;
+}
+s|TextInput 
+{
+	color: #000000;
+	fontWeight: bold;
+}
+s|View {
+	backgroundColor: #C2C2C2;
+}
+s|List {
+	color: #000000;
+	selectionColor: #E1D9E0;
+	fontWeight: bold;
+	fontSize: 12;
+	contentBackgroundColor: #C2C2C2;
+	alternatingItemColors: #FFFFFF,#FFFFFF;
+}
+@media (application-dpi: 240) {
+	s|List {
+		color: #000000;
+		selectionColor: #E1D9E0;
+		fontWeight: bold;
+		fontSize: 18;
+		contentBackgroundColor: #C2C2C2;
+		alternatingItemColors: #FFFFFF,#FFFFFF;
+	}
+}
+@media (application-dpi: 320) {
+	s|List {
+		color: #000000;
+		selectionColor: #E1D9E0;
+		fontWeight: bold;
+		fontSize: 18;
+		contentBackgroundColor: #C2C2C2;
+		alternatingItemColors: #FFFFFF,#FFFFFF;
+	}
+}
+s|RadioButton 
+{
+	color: #000000;
+}
+s|ViewNavigatorApplication
+{
+	color: #646464;
+}

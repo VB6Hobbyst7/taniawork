@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		backgroundColor="#000000" actionBarVisible="false"
+		title="My Menu"  xmlns:components="components.*" >
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+								welcomelabel.text = "Hi, "+nameGo+"!";
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+					emailGo = "";
+					nameGo = "";
+					var saveManager:PersistenceManager = new PersistenceManager();
+					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+					navigator.pushView(Login);
+				}
+				catch(e:Error){
+					navigator.pushView(Login);
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Image width="100%" height="100%" alpha=".1" scaleMode="stretch" smooth="true"
+			 smoothingQuality="default" source="@Embed('assets/homeback.png')"/>
+	<s:Label id="welcomelabel" top="100" width="85%" height="87" color="#FFFFFF" fontSize="80"
+			 horizontalCenter="0" styleName="textsize20" />
+	<s:Scroller id="scroller" visible="true" top="0" bottom="0" width="85%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+			<s:VGroup  height="100%" gap="20" paddingBottom="80" horizontalAlign="center" verticalAlign="bottom">
+				<components:homeItem lbl="Restaurants" click="{navigator.pushView(StoresHome)}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem lbl="Map" click="{navigator.pushView(StoresMapAll)}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem lbl="Restrictions" click="{navigator.pushView(Restrictions)}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem lbl="Account Settings" click="{navigator.pushView(AccountSettings)}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+				<components:homeItem lbl="Logout" click="{logout()}"
+									 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)" />
+			
+			</s:VGroup>
+	</s:Scroller>
+</s:View>

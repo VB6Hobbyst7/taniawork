@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group width="100%"  height="100%"  >
+		<s:BorderContainer   width="100%" height="100%" bottom="0" backgroundAlpha="0" borderAlpha="0">
+			<s:HGroup height="100%" paddingBottom="5" paddingLeft="15" paddingRight="0" paddingTop="5"
+					  verticalAlign="middle">
+			<s:BitmapImage x="5"  y="5" id="bmpImg"  width="{this.height/1.2}" 
+						   height="{bmpImg.width}" source="{data.business_picture}" 
+						   contentLoader="{s_imageCache}" scaleMode="stretch"  >
+				<s:mask>
+					<s:BorderContainer id="bmpMask"
+									   cornerRadius="8"
+									   width="{bmpImg.width}" height="{bmpImg.height}" />
+				</s:mask>
+			</s:BitmapImage>
+				<s:VGroup top="3" height="100%" paddingLeft="10" paddingRight="5" paddingTop="5">
+					<s:Label color="#747474" styleName="textsize2"  text="{data.name+' '+data.weekday}"></s:Label>
+					<s:Label color="#747474" styleName="textsize2"  text="{data.description}"></s:Label>
+					<s:Label color="#747474" styleName="textsize2"  text="{data.category}"></s:Label>
+				
+			</s:VGroup>
+			
+		</s:HGroup>
+		<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5"  borderColor="#FFFFFF" height="1" />
+</s:BorderContainer></s:Group>
+</s:ItemRenderer>

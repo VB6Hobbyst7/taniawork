@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#e8e8e8"
+		contentBackgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1"  title="Menu"
+		viewActivate="view1_activateHandler(event)">
+	<fx:Script source="../func/menuallfunctions.as" />
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMenuAll.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			
+			
+			<s:BorderContainer borderAlpha="0" id="filterarea"  click="ratingpriceoptionclick();"   visible="true" 
+							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+				<s:Image id="ratingpriceimage1" horizontalCenter="0"  mouseEnabled="false"  
+						 visible="true"  
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/ratingpriceoption1.png')"
+												source240dpi="@Embed('assets/ratingpriceoption1.png')"
+												source320dpi="@Embed('assets/ratingpriceoption1.png')"
+												source480dpi="@Embed('assets/ratingpriceoption1.png')"
+												source640dpi="@Embed('assets/ratingpriceoption1.png')"
+												/>
+					</s:source>
+				</s:Image>
+				<s:Image id="ratingpriceimage2" horizontalCenter="0"   mouseEnabled="false" 
+						 visible="false" 
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/ratingpriceoption2.png')"
+												source240dpi="@Embed('assets/ratingpriceoption2.png')"
+												source320dpi="@Embed('assets/ratingpriceoption2.png')"
+												source480dpi="@Embed('assets/ratingpriceoption2.png')"
+												source640dpi="@Embed('assets/ratingpriceoption2.png')"
+												/>
+					</s:source>
+				</s:Image>
+			</s:BorderContainer>
+			<s:BorderContainer borderAlpha="0"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="75">
+				<s:Group id="selectview1"  visible="true" height="100%" width="100%">
+					<s:Label left="29" color="#4d4d4d" styleName="textsize0" text="Showing"
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="132" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Best Rated" verticalAlign="middle" verticalCenter="2"/>
+				</s:Group>
+				<s:Group id="selectview2"   visible="false" height="100%" width="100%">
+					<s:Label left="29" color="#4d4d4d" styleName="textsize0" text="Showing"
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="132" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
+				</s:Group>
+			
+			</s:BorderContainer>
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{listData}" itemRenderer="components.menuResult"
+					selectedIndex="1" click="storeListClick();" >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="1"/>
+				</s:layout>
+			</s:List>
+			
+		</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	<s:BusyIndicator visible="{busy}"  symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

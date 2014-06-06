@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group width="100%"   id="megacont" height="100%"  >
+		<s:BorderContainer   width="100%" height="100%" bottom="0" backgroundAlpha="0" borderAlpha="0">
+			<s:HGroup height="100%" paddingBottom="5" paddingLeft="10" paddingRight="0" paddingTop="5"
+					  verticalAlign="middle">
+				<s:Group  width="{ribimg.width}" height="{ribimg.height}" >
+					<s:Image id="ribimg" x="0" y="0"  source="../assets/ribbon.png"/>
+				</s:Group>
+				
+			<s:HGroup width="{megacont.width/3}" verticalAlign="bottom">
+				<s:Label color="#FFFFFF"  styleName="textsize18" fontStyle="italic" 
+						 text="{data.distance}"></s:Label>
+				<s:Label color="#FFFFFF"  styleName="textsize1" fontStyle="italic" 
+						 text=" km"></s:Label>
+			</s:HGroup>
+			
+				<s:VGroup top="3" height="100%"  paddingLeft="10" paddingRight="5" paddingTop="5">
+					<s:Label width="100%" color="#FFFFFF" 
+							 fontWeight="bold" styleName="textsize2" text="{data.business_name}"
+							 verticalAlign="middle"></s:Label>
+				
+					<s:Label color="#747474" styleName="textsize2"  text="{data.categoryname}"></s:Label>
+					
+				</s:VGroup>
+			</s:HGroup>
+			<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5"  borderColor="#FFFFFF" height="1" />
+		</s:BorderContainer>
+		<s:Image right="10" 
+				 verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/windowsui/next.png')"
+										source240dpi="@Embed('assets/windowsui/next.png')"
+										source320dpi="@Embed('assets/windowsui/next.png')"/>
+			</s:source>
+		</s:Image>
+	</s:Group>
+</s:ItemRenderer>

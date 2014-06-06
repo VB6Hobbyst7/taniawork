@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://blog.flexexamples.com/2010/03/19/skinning-the-track-on-a-spark-hslider-control-in-flex-4/ -->
+<s:SparkSkin name="hslidertrack"
+			 xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+			override protected function initializationComplete():void {
+				useChromeColor = true;
+				super.initializationComplete();
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- border -->
+	<s:Rect left="0" right="0" top="0" bottom="0" radiusX="{hostComponent.height/2}">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x000000" alpha="0.55" />
+				<s:GradientEntry color="0xFFFFFF" alpha="0.55" ratio="0.8" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- fill -->
+	<s:Rect left="1" right="1" top="1" bottom="1" radiusX="{hostComponent.height/2}">
+		<s:fill>
+			<s:SolidColor color="0x1a2029" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- hit area -->
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:SolidColor  alpha="0"/>
+		</s:fill>
+	</s:Rect>
+	
+</s:SparkSkin>

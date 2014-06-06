@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   fontFamily="segoewp" 
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   xmlns:utils="utils.*"  
+			   backgroundColor="#43c7ae" 
+			   backgroundAlpha="1"  frameRate="120"
+			   splashScreenScaleMode="none" 
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
+			   applicationComplete="completeHandler()" 
+			   xmlns:dao="dao.*" 
+			   xmlns:components="components.*" xmlns:navigator="com.keepcore.navigator.*">
+	<fx:Script source="./func/globalFunctions.as"/>
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ActionEvent;
+			import model.Expense;
+			import model.Report;
+			import spark.components.View;
+			import spark.transitions.CrossFadeViewTransition;
+			import views.ReportView;
+			import views.RestrictionInfo;
+			import views.StoreSpecials;
+			import views.dishFullView;
+			import views.menuFullList;
+			import views.menuThinList;
+			import views.restrictionThinList;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			public var leftnavview:String = "restriction";
+			public function completeHandler():void
+			{			
+				this.stage.setAspectRatio(StageAspectRatio.LANDSCAPE);
+				var report:Report = srv.getLastReport();
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id);
+				systemManager.addEventListener(ActionEvent.DO_ACTION, function(event:ActionEvent):void
+				{
+					showView(menuFullList, event.data);						
+				});
+				
+			}
+			
+			public function showView(viewClass:Class, data:Object):void
+			{
+				var report:Report = srv.getLastReport();
+				var goback:Boolean = false;
+				var gobackFromResInfo:Boolean = false;
+				var resinfo:Boolean = false;
+				var resreload:Boolean = false;
+				var gotospecials:Boolean = false;
+				var gotomenu:Boolean = false;
+				
+				try{
+					if (data.goback == true){
+						goback = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resinfo == true){
+						resinfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gobackFromResInfo == true){
+						gobackFromResInfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resreload == true){
+						resreload = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotospecials == true){
+						gotospecials = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotomenu == true){
+						gotomenu = true;
+					}
+				}
+				catch(e:Error){}
+
+					if (data.finished == true){
+						/*var activeView2:View = leftNav.activeView;
+						activeView2.data = data;
+						var activeView3:View = rightNav.activeView;
+						activeView3.data = data;*/
+						if (resreload){
+							
+							var activeView:View = rightNav.activeView;
+							if (activeView is viewClass)
+								activeView.data = data;
+							
+							//rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else if (gotospecials){
+							rightNav.pushView(StoreSpecials);
+						}	
+						else if (gotomenu){
+							rightNav.pushView(menuFullList);
+						}	
+						else if (gobackFromResInfo){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList, null,null,crosstrans);
+							leftNav.popView();
+						}
+						else if (resinfo){
+							leftnavview = "restrictioninfo";
+							leftNav.pushView(RestrictionInfo,{description:data.description,name:data.name});
+						}
+						else if (goback == true){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList);
+							leftNav.popToFirstView();
+							//leftNav.popView();
+							//rightNav.popView();
+							rightNav.popToFirstView();
+							//rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else {
+							if (leftnavview != "menu"){
+								leftnavview = "menu";
+								leftNav.pushView(menuThinList,data);
+							}
+							rightNav.pushView(dishFullView,data);
+							
+						}
+					
+						
+					}
+				
+			}
+			
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+			}	
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+	<s:SplitViewNavigator id="svn" width="100%" bottom="50"  top="0"    leading="0" 
+						   accentColor="#FFFFFF" backgroundAlpha="0" contentBackgroundAlpha="0">
+		<s:ViewNavigator id="leftNav" width="{this.width/2.5}" height="100%"  firstView="views.restrictionThinList"/>
+		<s:ViewNavigator id="rightNav"  width="100%" height="100%" firstView="views.menuFullList"/>
+	</s:SplitViewNavigator>
+	<s:Group width="100%" bottom="0" height="50">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#4e4e4e"/>
+				
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+</s:Application>

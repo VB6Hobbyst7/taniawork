@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[		
+			protected function infoclick(event:MouseEvent):void
+			{
+				data.infostatus = true;	
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<s:BorderContainer  backgroundColor="#FFFFFF"  backgroundAlpha="1" borderAlpha="0" width="100%" height="90"  >
+		<s:Group left="30"   verticalCenter="0">
+			<s:Image id="checkimage" visible="{data.chosen == 'yes'}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/checkblue.png')"
+											source240dpi="@Embed('assets/checkblue.png')"
+											source320dpi="@Embed('assets/checkblue.png')"
+											source480dpi="@Embed('assets/checkblue.png')"
+											source640dpi="@Embed('assets/checkblue.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:Label id="hl1" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'yes'}"
+				 left="85"  verticalCenter="3"
+				 color="#43c7ae"/>
+		<s:Label id="hll" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'no'}"
+				 left="85"  verticalCenter="3"
+				 color.normal="#4d4d4d"
+				 color.selected="#43c7ae"/>
+		<s:Group right="0" width="90" height="90" click="infoclick(event)" 
+				 mouseEnabledWhereTransparent="true"   verticalCenter="0">
+			<s:Image id="infoimage"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/info.png')"
+											source240dpi="@Embed('assets/info.png')"
+											source320dpi="@Embed('assets/info.png')"
+											source480dpi="@Embed('assets/info.png')"
+											source640dpi="@Embed('assets/info.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		
+		
+<s:BorderContainer height="1" width="100%" bottom="-10" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>		
+</s:ItemRenderer>

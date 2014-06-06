@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#e8e8e8"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				img1.source = data.business_picture;
+				
+				scroller.visible = true;
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];	
+			}
+			protected function viewrewards(event:MouseEvent):void
+			{
+				navigator.pushView(StoresSpecials, {id:data.id,business_picture:data.business_picture,
+					emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+			}	
+			
+			protected function descriptionclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (descriptiontext.maxDisplayedLines == 4){
+					descriptiontext.maxDisplayedLines = 10;
+				}
+				else {
+					descriptiontext.maxDisplayedLines = 4;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller id="scroller" visible="false"  height="100%" horizontalCenter="0" verticalCenter="0"  width="95%"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup height="100%" paddingTop="10" gap="20" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%"   id="megacont"  >
+				<s:BitmapImage id="img1"  width="100%" 	
+							   height="100%" source="{data.business_picture}" 
+							   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				<s:BitmapImage id="img2"  width="{img1.height/3}"  bottom="0" right="0"
+							   height="{img1.height/3}" source="assets/plainlogo.png" 
+							   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				
+			</s:Group>
+			
+			<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#777777"
+					 styleName="textsize5" fontWeight="bold" text="{data.business_name}"/>
+			<s:Label width="100%" 
+					 color="#777777" fontWeight="normal" maxDisplayedLines="4" styleName="textsize5"
+					 text="{data.business_address1 + ', ' +data.business_city + ', ' +data.business_locality + ', ' +data.business_postalcode + ', ' +data.business_country}"
+					 textDecoration="none" verticalAlign="middle"/>
+			<s:Label width="100%"
+					 color="#777777" fontWeight="normal" id="descriptiontext" styleName="textsize5" click="descriptionclick(event)"
+					 text="{data.business_description}" maxDisplayedLines="4" textDecoration="none"
+					 verticalAlign="middle"/>
+			<s:HGroup>
+				<s:BitmapImage source="assets/star.png" visible="{data.rating >= 1}"  contentLoader="{s_imageCache}" />
+				<s:BitmapImage source="assets/star.png" visible="{data.rating >= 2}"  contentLoader="{s_imageCache}" />
+				<s:BitmapImage source="assets/star.png" visible="{data.rating >= 3}"  contentLoader="{s_imageCache}" />
+				<s:BitmapImage source="assets/star.png" visible="{data.rating >= 4}"  contentLoader="{s_imageCache}" />
+				<s:BitmapImage source="assets/star.png" visible="{data.rating >= 5}"  contentLoader="{s_imageCache}" />
+			</s:HGroup>
+		
+			
+			<s:VGroup width="100%" height="50%">
+				<s:HGroup height="49%" width="100%">
+					<s:BorderContainer mouseOver="gOver(event)" click="{navigator.pushView(Menu,{merchid:data.id})}" mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555" cornerRadius="4"  backgroundAlpha="0" borderWeight="2" width="100%" minHeight="150" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false" horizontalCenter="0" styleName="textsize9"
+								 text="Menu" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer mouseOver="gOver(event)" click="{navigator.pushView(StoresMapSingle,{merchid:data.id})}"  mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0"  borderWeight="2" width="100%"  minHeight="150" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Map" textAlign="center"  verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				<s:HGroup height="49%" width="100%">
+					<s:BorderContainer mouseOver="gOver(event)" click="viewrewards(event)" mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0" borderWeight="2"  width="100%"  minHeight="150" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Specials" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer mouseOver="gOver(event)"  click="navigateToURL(new URLRequest('tel:'+data.business_number));" 
+									   mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0" borderWeight="2"  width="100%"  minHeight="150" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Phone" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:HGroup>
+			</s:VGroup>
+		
+		
+		
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group width="{this.width}"   id="megacont"  >
+		<s:BitmapImage id="bmpImg"  width="100%" 	
+					   height="100%" source="{data.business_picture}" 
+					   contentLoader="{s_imageCache}" scaleMode="stretch" />
+		<s:BitmapImage id="bmpImg2"  width="{this.height/3}"  bottom="0" right="0"
+					   height="{this.height/3}" source="assets/plainlogo.png" 
+					   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+		<s:VGroup width="100%" height="100%"  x="0" y="0">
+			
+			<s:BorderContainer backgroundAlpha="0.8" borderAlpha="0" backgroundColor="#62b6ae">
+			<s:VGroup    paddingLeft="10" paddingTop="10" paddingBottom="10" paddingRight="10">
+				<s:Label width="100%" color="#FFFFFF" 
+						 fontWeight="bold" styleName="textsize2" text="{data.business_name}"
+						 verticalAlign="middle"></s:Label>
+				
+				<s:HGroup>
+					<s:BitmapImage source="assets/star.png" visible="{data.rating >= 1}"  contentLoader="{s_imageCache}" />
+					<s:BitmapImage source="assets/star.png" visible="{data.rating >= 2}"  contentLoader="{s_imageCache}" />
+					<s:BitmapImage source="assets/star.png" visible="{data.rating >= 3}"  contentLoader="{s_imageCache}" />
+					<s:BitmapImage source="assets/star.png" visible="{data.rating >= 4}"  contentLoader="{s_imageCache}" />
+					<s:BitmapImage source="assets/star.png" visible="{data.rating >= 5}"  contentLoader="{s_imageCache}" />
+				</s:HGroup>
+				
+			</s:VGroup>
+				</s:BorderContainer>
+			
+			
+			
+			<s:BorderContainer backgroundAlpha="0.8" borderAlpha="0" backgroundColor="#62b6ae">
+				<s:HGroup  paddingLeft="10" paddingTop="10" verticalAlign="bottom">
+					
+					<s:Label color="#FFFFFF"  styleName="textsize15" fontStyle="italic" 
+							 text="{data.distance}"></s:Label>
+					<s:Label color="#FFFFFF"  styleName="textsize1" fontStyle="italic" 
+							 text=" km"></s:Label>
+				</s:HGroup>
+			</s:BorderContainer>
+		
+			</s:VGroup>
+		
+	</s:Group>
+</s:ItemRenderer>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				 contentBackgroundAlpha="0"	>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<fx:Script>
+		<![CDATA[
+			import spark.core.ContentCache;
+		]]>
+	</fx:Script>
+<s:BorderContainer width="100%" height="{data.type*75}" backgroundColor="#5b5b5b"
+				
+				   borderAlpha="0"  backgroundAlpha="1" visible="{data.type == 1}">
+
+	<s:Label id="hll" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+			 text="{data.name}" 
+			 left="20"  verticalCenter="0"
+			 color.normal="#FFFFFF"
+			 color.selected="#43c7ae"/>
+	
+	<s:Group right="20"   verticalCenter="0">
+		<s:Image id="checkimage" visible.selected="true" visible.normal="false">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/checkblue.png')"
+										source240dpi="@Embed('assets/checkblue.png')"
+										source320dpi="@Embed('assets/checkblue.png')"/>
+			</s:source>
+		</s:Image>
+	</s:Group>
+	<s:BorderContainer height="1.5" width="100%" bottom="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#8d8d8d"/>
+</s:BorderContainer>
+	<s:BorderContainer width="100%" height="30" backgroundColor="#494949"
+					   visible="{data.type == 0}"
+					   borderAlpha="0"  backgroundAlpha="1">
+		<s:BorderContainer height="1.5" width="100%" bottom="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#8d8d8d"/>
+	</s:BorderContainer>
+</s:ItemRenderer>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:HGroup  width="100%">
+		<s:Label id="hll"  color="#FFFFFF" fontFamily="segoewpcff" 
+				 styleName="textsize10" fontStyle="italic" text="{data.name}"/>
+		<s:Image smooth="true" source="assets/windowsui/next.png" />	
+	</s:HGroup>		
+</s:ItemRenderer>

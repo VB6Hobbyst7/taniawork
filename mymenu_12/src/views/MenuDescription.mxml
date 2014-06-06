@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#ffffff"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" actionBarVisible="false"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.core.UIComponent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.primitives.Graphic;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			[Bindable]
+			public var topreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topratedrecentval:uint = 1;
+			[Bindable]
+			public var recentreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var reviewPopupStage:uint = 0;
+			[Bindable]
+			public var globalradious:uint = 200;
+			[Bindable]
+			public var currentpercentage:Number = 100;
+		
+			public var circleToMask:Graphic = new Graphic();
+			public var circleMask:Graphic = new Graphic();
+			
+			public var circleToMask2:Graphic = new Graphic();
+			public var circleMask2:Graphic = new Graphic();
+			[Bindable]
+			public var nameGo:String = "";
+			
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				
+			
+				if (data.name.length > 20){
+					data.name = data.name.substring(0,20)+"...";
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+						nameGo = resData[0].name;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}					
+				scroller.visible = true;
+				getTopReviews.send();
+				
+				
+				
+				// Store sprites
+				var container:UIComponent = new UIComponent();
+				gr.addElementAt(container, 0);
+				// Draw the full circle with colors
+				circleToMask.graphics.beginFill(0x8eddce,1);
+				circleToMask.graphics.drawCircle(0, 0, globalradious);
+				circleToMask.graphics.endFill();
+				
+				circleToMask2.graphics.beginFill(0xe6e6e6,1);
+				circleToMask2.graphics.drawCircle(0, 0, globalradious);
+				circleToMask2.graphics.endFill();
+				
+				// Add the circle
+				container.addChildAt(circleToMask, 0);
+				container.addChildAt(circleToMask2, 0);
+				
+				
+				
+				circleMask.width = 400;
+				circleMask.height = 400
+				circleMask.verticalCenter = 0;
+				circleMask.horizontalCenter = 0;
+				
+				circleMask2.width = 400;
+				circleMask2.height = 400
+				circleMask2.verticalCenter = 0;
+				circleMask2.horizontalCenter = 0;
+				// Add the mask
+				container.addChild(circleMask);
+				container.addChild(circleMask2);
+				
+				
+				//Set the position of the circle
+				circleToMask.x = (circleMask.x = 100);
+				circleToMask.y = (circleMask.y = 100);
+				circleToMask.mask = circleMask;
+				circleToMask.width = 400;
+				circleToMask.height = 400
+				circleToMask.verticalCenter = 0;
+				circleToMask.horizontalCenter = 0;
+				
+				circleToMask2.x = (circleMask2.x = 100);
+				circleToMask2.y = (circleMask2.y = 100);
+				circleToMask2.mask = circleMask2;
+				circleToMask2.width = 400;
+				circleToMask2.height = 400
+				circleToMask2.verticalCenter = 0;
+				circleToMask2.horizontalCenter = 0;
+			
+				
+				// Draw the circle at 100%
+				renderChart(currentpercentage/100);
+			//	container.setStyle("mouseEnabledWhereTransparent",true);
+				gr.addEventListener(MouseEvent.MOUSE_MOVE, circleMove);
+			
+				
+				
+				
+			}
+			
+			public function circleMove(ev:MouseEvent):void {
+				var angleRadians:Number=Math.abs(Math.atan2(ev.localY-0,ev.localX-0)-Math.atan2(-200-0,0-0));
+				if (angleRadians>0.5*Math.PI) angleRadians=Math.PI-angleRadians;
+				var degreeso:Number = angleRadians* 180/Math.PI;
+				
+				if ((ev.localX >= 0)&&(ev.localY >= 0)) {
+					degreeso = degreeso+180;
+					
+				}
+				else if (ev.localX >= 0){
+					degreeso = 270+(90-Math.abs(degreeso));
+				}
+				else if (ev.localY >= 0){
+					degreeso = 90+(90-Math.abs(degreeso));
+				}
+	
+				var precentageofcircle:Number = (1-(degreeso/360));
+				renderChart(precentageofcircle);
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			
+			
+			
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			
+			
+			public function backOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backDown(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xFFFFFF);
+			}
+			
+			
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];	
+			}
+			
+			
+			protected function descriptionclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (descriptiontext.maxDisplayedLines == 4){
+					descriptiontext.maxDisplayedLines = 30;
+				}
+				else {
+					descriptiontext.maxDisplayedLines = 4;
+				}
+				
+			}
+			public function afterGetMenuRatings(ev:ResultEvent):void {
+				busy = false;
+				topreviews = new ArrayCollection();
+				recentreviews = new ArrayCollection();
+				try{			
+					topreviews = ev.result[0].results.result;	
+					recentreviews = ev.result[0].results2.result2;	
+				}
+				catch(e:Error){
+					try{
+						
+						topreviews.addItem(ev.result[0].results.result);
+						recentreviews.addItem(ev.result[0].results2.result2);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				
+				
+				reviewList.dataProvider = topreviews;
+			}
+			public function topratedrecentclick(event:MouseEvent):void
+			{
+				if (topratedrecentval == 1){
+					topratedrecentval = 2;
+					topratedrecentimg.source = 'assets/topratedrecent2.png';
+					reviewList.dataProvider = recentreviews;
+				}
+				else {
+					topratedrecentval = 1;
+					topratedrecentimg.source = 'assets/topratedrecent1.png';
+					reviewList.dataProvider = topreviews;
+				}
+				
+				
+			}
+			public function seemoreclick():void {
+				navigator.pushView(MenuReviews,{id:data.id});
+			}
+			public function startReview():void {
+				check.visible = false;
+				forward.visible = true;
+				
+				reviewPopupStage = 1;
+				writeholder.visible = false;
+				grholder.visible = true;
+				reviewPopupGroup.visible = true;
+			}
+			public function backOnMenu():void {
+				if (reviewPopupStage == 0){
+					
+				}
+				else if (reviewPopupStage == 1){
+					reviewPopupGroup.visible = false;
+					reviewPopupStage = 0;
+					writeholder.visible = false;
+					renderChart(0.6);
+				}
+				else if (reviewPopupStage == 2){
+					check.visible = false;
+					forward.visible = true;
+					grholder.visible = true;
+					writeholder.visible = false;
+					reviewPopupStage = 1;
+					renderChart(0.4);
+					
+				}
+				
+				
+			}
+			public function forwardOnMenu():void {
+				if (reviewPopupStage == 0){
+					
+				}
+				else if (reviewPopupStage == 1){
+					check.visible = true;
+					forward.visible = false;
+					grholder.visible = false;
+					writeholder.visible = true;
+					reviewPopupStage = 2;
+					
+				}
+				else if (reviewPopupStage == 2){
+					reviewPopupGroup.visible = false;
+					writeholder.visible = false;
+					check.visible = false;
+					forward.visible = true;
+					reviewPopupStage = 0;
+					
+				}
+			}
+			
+			
+			
+			public function renderChart(percentage:Number):void
+			{
+				
+				circleMask2.graphics.clear();
+				circleMask2.graphics.beginFill(0);
+				
+				
+				circleMask.graphics.clear();
+				circleMask.graphics.beginFill(0);
+				
+				if (percentage <= 0.1){
+					percentage = 0.1;
+				}
+				
+				ratevalue.text = Math.round(percentage*10).toString();
+			
+				// Draw the circle at the given percentage            /------ set the begin at the middle top
+				drawPieMask(circleMask2.graphics, 1, globalradious, -1.57, 8);
+				drawPieMask(circleMask.graphics, percentage, globalradious, -1.57, 8);
+				circleMask2.graphics.endFill();
+				circleMask.graphics.endFill();
+			}
+			
+			// Function from flassari (a little simplified)
+			private function drawPieMask(graphics:Graphics, percentage:Number, radius:Number = 200, rotation:Number = 0, sides:int = 6):void {
+				radius /= Math.cos(1/sides * Math.PI);
+				var lineToRadians:Function = function(rads:Number):void {
+					graphics.lineTo(Math.cos(rads) * radius + x, Math.sin(rads) * radius + y);
+				};
+				var sidesToDraw:int = Math.floor(percentage * sides);
+				for (var i:int = 0; i <= sidesToDraw; i++)
+					lineToRadians((i / sides) * (Math.PI * 2) + rotation);
+				if (percentage * sides != sidesToDraw)
+					lineToRadians(percentage * (Math.PI * 2) + rotation);
+			}
+			
+			public function ratingitemclick():void {
+				if (reviewList.selectedIndex != -1){
+					if (topratedrecentval == 1){
+						navigator.pushView(ViewReview, topreviews[reviewList.selectedIndex]);	
+					}
+					else {
+						navigator.pushView(ViewReview, recentreviews[reviewList.selectedIndex]);	
+					}
+					
+				}
+			}
+			public function startShare():void {
+				
+			}
+			public function eatenClick():void {
+				
+			}
+		
+			
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		
+		<s:HTTPService id="getTopReviews" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/ratings/getTopMenuRatings.php"
+					   result="afterGetMenuRatings(event)" >
+			<s:request xmlns="">
+				<menuid>{data.id}</menuid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<s:Scroller id="scroller" visible="true"  height="100%" horizontalCenter="0" verticalCenter="0"  
+				width="100%"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup height="100%" paddingTop="0" gap="20" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%"   id="megacont"  >
+				
+				<s:BitmapImage id="img1"  width="100%" 	 maxHeight="{this.height/3}"
+							   height="100%" source="{data.picture}" 
+							   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				
+				<s:Group width="{this.width*0.30}"  top="20" left="20"  click="navigator.popView();">
+					<s:Image verticalCenter="0" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/backbtnnew.png')"
+													source240dpi="@Embed('assets/backbtnnew.png')"
+													source320dpi="@Embed('assets/backbtnnew.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				
+			</s:Group>
+			
+			<s:VGroup width="100%" gap="15" paddingLeft="20" paddingRight="20">
+				<s:HGroup width="100%"  gap="15" verticalAlign="middle" >
+					
+					<s:BorderContainer cornerRadius="5" height="65" width="65" horizontalCenter="0" verticalCenter="0"
+									   borderAlpha="0" backgroundColor="#b3b3b3" backgroundAlpha="1">
+						<s:Label color="#FFFFFF" horizontalCenter="0" styleName="textsize2"
+								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:VGroup height="100%">
+						
+						
+						<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#4d4d4d"
+								 styleName="textsize6" fontWeight="bold" text="{data.name}"/>
+						<s:HGroup width="100%" gap="0">
+							<s:Label  color="#4d4d4d" fontWeight="bold"
+									  styleName="textsize3" text="{data.categoryname}"
+									  verticalAlign="middle"></s:Label>
+							<s:Label color="#43c7ae"  fontWeight="bold"
+									 styleName="textsize3" text=" ${data.cost}"
+									 verticalAlign="middle"></s:Label>
+						</s:HGroup>
+						
+					</s:VGroup>
+					
+				</s:HGroup>
+				
+				<s:Label width="100%"
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" styleName="textsize0" click="descriptionclick(event)"
+						 text="{data.description}" maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				
+				<s:HGroup width="100%" horizontalAlign="center" horizontalCenter="0" verticalAlign="middle" verticalCenter="0">
+					<s:Image click="startReview();" source="assets/menurate.png"/>
+					<s:Image click="startShare();" source="assets/menushare.png"/>
+				</s:HGroup>
+				<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
+								   borderColor="#b2b2b2" height="1.5" />
+				<s:VGroup width="100%" id="modificationcontainer">
+					<s:Label  left="14" right="2" top="13" width="100%" color="#4d4d4d"
+							 styleName="textsize5" fontWeight="bold" text="Modifications"/>
+					
+					
+				</s:VGroup>
+				<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
+								   borderColor="#b2b2b2" height="1.5" />
+				<s:VGroup width="100%">
+					<s:Image id="eatenimage" click="eatenClick();" source="assets/eatenthis1.png"/>
+				</s:VGroup>
+				<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
+								   borderColor="#b2b2b2" height="1.5" />
+
+
+				
+				<s:Group width="100%" visible="{topreviews.length > 0}">
+					<s:Label  left="0" color="#4D4D4D"
+							  fontWeight="bold" styleName="textsize5" text="Reviews"
+							  verticalCenter="0"/>
+					<s:Image id="topratedrecentimg" right="0" source="assets/topratedrecent1.png" click="topratedrecentclick(event)" verticalCenter="0"/>
+				</s:Group>
+				
+				<s:List  id="reviewList" 
+						 width="100%" 
+						 verticalScrollPolicy="off" 
+						 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+						  click="ratingitemclick();"
+						 itemRenderer="components.ratingsResultStore"
+						 >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="80" >
+					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="0"
+							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
+				</s:Group>
+				
+				
+			</s:VGroup>
+			
+			
+		</s:VGroup>
+	</s:Scroller>
+	<s:Group id="reviewPopupGroup" visible="false" height="100%" horizontalCenter="0" >
+		<s:Image top="0"  horizontalCenter="0" smooth="true" source="assets/reviewpopup.png"/>
+		<s:Group left="0" top="15" click="backOnMenu();" width="100" height="50">
+			<s:Image mouseEnabled="false" width="40" height="40" horizontalCenter="0" smooth="true"
+					 source="assets/backbtnnew.png" verticalCenter="0"/>
+		</s:Group>
+		<s:Group mouseEnabled="false"  click="forwardOnMenu();" right="0" top="15"  width="100" height="50">
+			<s:Image id="check" width="40" visible="false" height="40" horizontalCenter="0" smooth="true"
+					 source="assets/checkwhite.png" verticalCenter="0"/>
+			<s:Image width="40" id="forward" visible="true" height="40" horizontalCenter="0" smooth="true"
+					 source="assets/forwardBtnWhite.png" verticalCenter="0"/>
+		</s:Group>
+		
+		
+		
+		<s:VGroup width="100%"  paddingTop="145" horizontalAlign="center" gap="0">
+			
+			
+			
+
+			<s:Group width="90%" height="120" horizontalCenter="0" mouseEnabled="false"    >
+				<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">
+					<s:Group height="100%" >
+						<s:Image left="0" verticalCenter="0" width="60" height="60" source="assets/menu-account.png"/>
+					</s:Group>
+					<s:Group width="20">
+						
+					</s:Group>
+					<s:VGroup width="100%" verticalAlign="middle"  height="100%">
+						<s:Label  text="{data.name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize3" verticalAlign="middle"/>
+						
+						<s:Label  text="{data.business_name}"  color="#4d4d4d"  styleName="textsize2" verticalAlign="middle"/>
+						
+					</s:VGroup>
+				</s:HGroup>
+				<s:BitmapImage id="bmpImg22" right="0"  width="120" 	
+							   height="120" source="{data.picture}" 
+							   contentLoader="{s_imageCache}"  scaleMode="zoom" />
+				<s:BorderContainer height="1.5" width="100%" bottom="0" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+			</s:Group>
+			
+			<s:Group width="100%" height="100%" >
+			
+				
+				
+				
+				<s:Group id="grholder"  y="80" mouseEnabledWhereTransparent="true" visible="false"
+						 width="400" height="400" horizontalCenter="0">
+					
+					<s:Group id="gr" width="200" mouseEnabledWhereTransparent="true"   height="200" blendMode="layer" cacheAsBitmap="true"
+							 horizontalCenter="0" verticalCenter="0">
+						
+						<s:Group width="200" height="200" mouseEnabledWhereTransparent="true"  blendMode="erase" cacheAsBitmap="true"
+								 horizontalCenter="0" verticalCenter="0">
+							<s:Ellipse width="200"   height="200" 
+									   horizontalCenter="0" verticalCenter="0" >
+								<s:fill>
+									<s:SolidColor color="0"/>
+								</s:fill>
+							</s:Ellipse>
+						</s:Group>
+						
+					</s:Group>
+					<s:Label id="ratevalue" color="#808080" fontWeight="bold" horizontalCenter="-2" fontSize="110"
+							 text="10" textAlign="center" verticalAlign="bottom" verticalCenter="6"/>
+				</s:Group>
+				
+				
+				
+				
+				
+				
+				
+				<s:Group id="writeholder" visible="false"  width="580" height="925">
+					<s:VGroup width="100%" horizontalAlign="center" gap="20">
+						
+						
+						<s:TextArea id="reviewText" width="90%" height="100%" borderVisible="false"
+									color="#3A3A3A" fontFamily="Arial" horizontalCenter="0" contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
+									prompt="Write someting about this dish">
+							
+						</s:TextArea>
+					</s:VGroup>
+				</s:Group>
+				
+				
+				
+				
+			</s:Group>
+			
+			
+			
+			
+		</s:VGroup>
+		
+		
+		
+		
+		
+		
+		
+	
+		
+	</s:Group>
+</s:View>

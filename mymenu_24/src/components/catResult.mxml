@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>  
+	
+	<s:BorderContainer visible="{data.type == 0}"  backgroundColor="#FFFFFF"  
+					   backgroundAlpha="1" borderAlpha="0" width="100%" height="90"  >
+		<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'yes'}"
+				 left="30"  verticalCenter="0"
+				 color="#43c7ae"/>
+		<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible="{data.chosen == 'no'}"
+				 left="30"  verticalCenter="0"
+				 color.normal="#6e6e6e"
+				 color.selected="#43c7ae"/>
+		
+		<s:Group right="30"   verticalCenter="0">
+			<s:Image id="checkimage" visible="{data.chosen == 'yes'}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/checkblue.png')"
+											source240dpi="@Embed('assets/checkblue.png')"
+											source320dpi="@Embed('assets/checkblue.png')"
+											source480dpi="@Embed('assets/checkblue.png')"
+											source640dpi="@Embed('assets/checkblue.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:BorderContainer height="1.5" width="100%" bottom="-1" 
+						   backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>	
+	
+	
+
+	
+	<s:BorderContainer visible="{data.type == 1}" width="100%" height="90" 
+					   backgroundAlpha="1" borderAlpha="0" backgroundColor="#FFFFFF" >
+		<s:Label  left="30" color="#6e6e6e" fontFamily="HelveticaNeuecff" fontWeight="bold" styleName="textsize1"
+				 text="{data.name}" verticalCenter="5"/>
+		<s:Group right="30" verticalCenter="5">
+			<s:Image >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/forwardbtn.png')"
+											source240dpi="@Embed('assets/forwardbtn.png')"
+											source320dpi="@Embed('assets/forwardbtn.png')"
+											source480dpi="@Embed('assets/forwardbtn.png')"
+											source640dpi="@Embed('assets/forwardbtn.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:BorderContainer height="1.5" width="100%" bottom="-1" backgroundAlpha="1" 
+						   borderAlpha="0" backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>	
+	
+
+	<s:BorderContainer visible="{data.type == 2}" width="100%" height="90" 
+					   backgroundAlpha="1" borderAlpha="0" backgroundColor="#FFFFFF" >
+		<s:Label  left="30" color="#ff5959" fontFamily="HelveticaNeuecff" fontWeight="bold" styleName="textsize1"
+				 text="{data.name}" verticalCenter="5"/>
+		
+		<s:BorderContainer height="1.5" width="100%" bottom="-1" backgroundAlpha="1"
+						   borderAlpha="0" backgroundColor="#b2b2b2"/>
+	</s:BorderContainer>	
+	
+	
+	
+</s:ItemRenderer>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#e8e8e8"
+		contentBackgroundColor="#e8e8e8"
+		title="Proximity"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1" 
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.geom.ColorTransform;
+			import flash.geom.Rectangle;
+			import flash.html.HTMLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var emailGo:String = "none";
+			[Bindable]
+			public var locatoinidGo:Number = -1;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var mapUrl:String = "https://scoutcard.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl+'?mylat='+mylat+'&mylong='+mylong+'&search='+"";//key.text;
+			public var maintimer:Timer = new Timer(5000,0);
+			protected function view1_activateHandler(event:Event):void
+			{
+				try{
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				maintimer = new Timer(5000,0);
+				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+				maintimer.start();
+				scroller.visible = true;
+				getLocations.send();
+			}	
+			public function aftertimer(ev:TimerEvent):void {
+				
+				if (listData.length <= 0){
+					busy = true;
+					getLocations.cancel();
+					listData = new ArrayCollection();
+					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
+					maintimer.stop();
+					maintimer = new Timer(5000,0);
+					maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+					maintimer.start();
+					getLocations.send();
+				}
+			}
+			
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				for (var i:uint=  0; i < listData.length; i++){
+					listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
+				}
+				
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				listData.sort = numericDataSort;
+				listData.refresh();
+			} 
+			public function storeListClick():void {	
+				if (storeList.selectedIndex != -1){
+					navigator.pushView(StoresDescription, listData[storeList.selectedIndex]);	
+				}
+			}
+			
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;	
+				for (var i:uint=  0; i < listData.length; i++){
+					listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
+				}
+				
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				listData.sort = numericDataSort;
+				listData.refresh();
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			private function onViewDeactivate():void {
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function goToMap():void {
+				navigator.pushView(StoresMapSingle,
+					{mapUrl:this.mapUrl,mylat:this.mylat,mylong:this.mylong,emailGo:emailGo});
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function degreesToRadians(degrees:Number):Number {
+				
+				return degrees * Math.PI / 180;
+				
+			}
+			
+			public function radiansToDegrees(radians:Number):Number{
+				
+				return radians * 180 / Math.PI;	
+			}
+			
+			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+				var R1:Number = 6371; // km
+				var dLat:Number = degreesToRadians(lat2-lat1);
+				var dLon:Number = degreesToRadians(lon2-lon1);
+				var lat1:Number = degreesToRadians(lat1);
+				var lat2:Number = degreesToRadians(lat2);
+				
+				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+				var d:Number = R1 * c;
+				return d.toFixed(2);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/locations/getLocationsMobile2.php"
+					   result="afterGetLocations(event)" >
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<s:VGroup id="scroller" visible="false"  width="100%"
+			  horizontalCenter="0" gap="0" verticalCenter="0"  horizontalAlign="center" height="100%">
+			<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
+			
+				<s:Group width="95%" height="100%"
+						 visible="true" id="listCont" >
+					<s:BorderContainer  backgroundAlpha="0"
+										top="0" bottom="0" 
+										borderAlpha="0" width="100%"  >
+						<s:List width="100%" horizontalCenter="0" top="0" bottom="0" 
+								alternatingItemColors="[0xFFFFFF,0xEEEEEE ]"
+								id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+								dataProvider="{listData}" itemRenderer="components.storeResult"
+								selectedIndex="1" click="storeListClick();" >
+							<s:layout>
+								<s:VerticalLayout horizontalAlign="contentJustify" 
+												  gap="10"/>
+							</s:layout>
+						</s:List>
+						
+					</s:BorderContainer>	
+				</s:Group>
+			</s:VGroup>
+		</s:VGroup>
+	
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

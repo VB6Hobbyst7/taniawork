@@ -1,0 +1,558 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeue";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeue";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeuecff";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace esri "http://www.esri.com/2008/ags";
+@namespace components "components.*";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace local "*";
+
+
+s|TextInput {
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	fontFamily: "HelveticaNeuecff";
+	
+}
+
+
+s|Label
+{
+	fontFamily: "HelveticaNeuecff";
+	trackingRight: -0.7;
+}
+
+
+s|LabelItemRenderer
+{
+	fontFamily: "HelveticaNeue";
+}
+
+s|ActionBar
+{	
+
+	borderAlpha: 1;
+	borderSize : 1;
+	borderColor: #43c7ae;
+	backgroundAlpha: 1;
+	backgroundColor: #43c7ae;
+	fontFamily: "HelveticaNeue";
+	paddingLeft: 10;
+	paddingRight: 10;
+	paddingTop: 2;
+	chromeColor: #43c7ae;
+	skinClass: ClassReference("skins.SolidActionBarSkin");
+	titleAlign: center;
+	fontWeight: bold;
+}
+s|ActionBar #titleDisplay
+{
+	color: #FFFFFF; /* default color is white */
+	/*fontSize: 35;*/
+	titleAlign: center;
+	fontWeight: bold;
+	fontFamily: "HelveticaNeue";
+}
+s|ActionBar.beveled s|Group#navigationGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+s|ActionBar.beveled s|Group#actionGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+
+
+
+
+@media (application-dpi: 160) {
+	s|Application {
+		osStatusBarHeight: 20;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		color:#FFFFFF;
+		
+		height:30;
+	}
+	s|Button {
+		fontSize: 16;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 20;
+	}
+	.textsize0
+	{
+		fontSize: 6;
+	}
+	.textsize1
+	{
+		fontSize: 10;
+	}
+	.textsize2
+	{
+		fontSize: 12;
+	}
+	.textsize3
+	{
+		fontSize: 14;
+	}
+	.textsize4
+	{
+		fontSize: 16;
+	}
+	.textsize5
+	{
+		fontSize: 18;
+	}
+	.textsize6
+	{
+		fontSize: 20;
+	}
+	.textsize7
+	{
+		fontSize: 22;
+	}
+	.textsize8
+	{
+		fontSize: 24;
+	}
+	.textsize9
+	{
+		fontSize: 26;
+	}
+	.textsize10
+	{
+		fontSize: 28;
+	}
+	
+	.textsize11
+	{
+		fontSize: 30;
+	}
+	.textsize12
+	{
+		fontSize: 32;
+	}
+	.textsize13
+	{
+		fontSize: 34;
+	}
+	.textsize14
+	{
+		fontSize: 36;
+	}
+	.textsize15
+	{
+		fontSize: 38;
+	}
+	.textsize16
+	{
+		fontSize: 40;
+	}
+	.textsize17
+	{
+		fontSize: 42;
+	}
+	.textsize18
+	{
+		fontSize: 44;
+	}
+	.textsize19
+	{
+		fontSize: 46;
+	}
+	.textsize20
+	{
+		fontSize: 48;
+	}
+	
+}
+
+@media (application-dpi: 240)
+{
+	Application
+	{
+		osStatusBarHeight: 30;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:40;
+		color:#FFFFFF;
+	}
+
+	s|Button {
+		fontSize: 18;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 27;
+	}
+	.textsize0
+	{
+		fontSize: 16;
+	}
+	.textsize1
+	{
+		fontSize: 20;
+	}
+	.textsize2
+	{
+		fontSize: 22;
+	}
+	.textsize3
+	{
+		fontSize: 24;
+	}
+	.textsize4
+	{
+		fontSize: 26;
+	}
+	.textsize5
+	{
+		fontSize: 28;
+	}
+	.textsize6
+	{
+		fontSize: 30;
+	}
+	.textsize7
+	{
+		fontSize: 32;
+	}
+	.textsize8
+	{
+		fontSize: 34;
+	}
+	.textsize9
+	{
+		fontSize: 36;
+	}
+	.textsize10
+	{
+		fontSize: 38;
+	}
+	.textsize11
+	{
+		fontSize: 40;
+	}
+	.textsize12
+	{
+		fontSize: 42;
+	}
+	.textsize13
+	{
+		fontSize: 44;
+	}
+	.textsize14
+	{
+		fontSize: 46;
+	}
+	.textsize15
+	{
+		fontSize: 48;
+	}
+	.textsize16
+	{
+		fontSize: 50;
+	}
+	.textsize17
+	{
+		fontSize: 52;
+	}
+	.textsize18
+	{
+		fontSize: 54;
+	}
+	.textsize19
+	{
+		fontSize: 56;
+	}
+	.textsize20
+	{
+		fontSize: 58;
+	}
+}
+
+@media (application-dpi: 320)
+{
+	Application
+	{
+		osStatusBarHeight: 40;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:50;
+		measuredDefaultHeight:50;
+		color:#FFFFFF;
+	}
+
+	s|Button {
+		fontSize: 20;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 35;
+	}
+	.textsize0
+	{
+		fontSize: 24;
+	}
+	.textsize1
+	{
+		fontSize: 28;
+	}
+	.textsize2
+	{
+		fontSize: 30;
+	}
+	.textsize3
+	{
+		fontSize: 32;
+	}
+	.textsize4
+	{
+		fontSize: 34;
+	}
+	.textsize5
+	{
+		fontSize: 36;
+	}
+	.textsize6
+	{
+		fontSize: 38;
+	}
+	.textsize7
+	{
+		fontSize: 40;
+	}
+	.textsize8
+	{
+		fontSize: 42;
+	}
+	.textsize9
+	{
+		fontSize: 44;
+	}
+	.textsize10
+	{
+		fontSize: 46;
+	}
+	.textsize11
+	{
+		fontSize: 48;
+	}
+	.textsize12
+	{
+		fontSize: 50;
+	}
+	.textsize13
+	{
+		fontSize: 52;
+	}
+	.textsize14
+	{
+		fontSize: 54;
+	}
+	.textsize15
+	{
+		fontSize: 56;
+	}
+	.textsize16
+	{
+		fontSize: 58;
+	}
+	.textsize17
+	{
+		fontSize: 60;
+	}
+	.textsize18
+	{
+		fontSize: 62;
+	}
+	.textsize19
+	{
+		fontSize: 64;
+	}
+	.textsize20
+	{
+		fontSize: 66;
+	}
+}
+
+@media (application-dpi: 480)
+{
+	Application
+	{
+		osStatusBarHeight: 60;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:50;
+		measuredDefaultHeight:50;
+		color:#FFFFFF;
+	}
+	
+	s|Button {
+		fontSize: 26;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 41;
+	}
+	.textsize0
+	{
+		fontSize: 30;
+	}
+	.textsize1
+	{
+		fontSize: 34;
+	}
+	.textsize2
+	{
+		fontSize: 36;
+	}
+	.textsize3
+	{
+		fontSize: 38;
+	}
+	.textsize4
+	{
+		fontSize: 40;
+	}
+	.textsize5
+	{
+		fontSize: 42;
+	}
+	.textsize6
+	{
+		fontSize: 44;
+	}
+	.textsize7
+	{
+		fontSize: 46;
+	}
+	.textsize8
+	{
+		fontSize: 48;
+	}
+	.textsize9
+	{
+		fontSize: 50;
+	}
+	.textsize10
+	{
+		fontSize: 52;
+	}
+	.textsize11
+	{
+		fontSize: 54;
+	}
+	.textsize12
+	{
+		fontSize: 56;
+	}
+	.textsize13
+	{
+		fontSize: 58;
+	}
+	.textsize14
+	{
+		fontSize: 60;
+	}
+	.textsize15
+	{
+		fontSize: 62;
+	}
+	.textsize16
+	{
+		fontSize: 64;
+	}
+	.textsize17
+	{
+		fontSize: 66;
+	}
+	.textsize18
+	{
+		fontSize: 68;
+	}
+	.textsize19
+	{
+		fontSize: 70;
+	}
+	.textsize20
+	{
+		fontSize: 72;
+	}
+}
+global
+{
+	content-background-color: #F0F0F0;
+	content-background-alpha: 1.0;
+}

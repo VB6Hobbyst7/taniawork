@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   fontFamily="segoewp" 
+			   applicationDPI="160" 
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   xmlns:utils="utils.*"  frameRate="60"   backgroundColor="#43c7ae"
+			   contentBackgroundColor="#43c7ae" backgroundAlpha="1" 
+			   splashScreenScaleMode="none" 
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
+			   applicationComplete="completeHandler()" xmlns:dao="dao.*">
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			import model.Expense;
+			import model.Report;
+			import spark.components.View;
+			import views.ItemView;
+			import views.ListView;
+			import views.ReportView;
+			protected function completeHandler():void
+			{
+				
+			///	this.stage.setAspectRatio(StageAspectRatio.LANDSCAPE);
+				var report:Report = srv.getLastReport();
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id);
+				
+				systemManager.addEventListener(ReportEvent.ADD_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, new Report());						
+				});
+				systemManager.addEventListener(ReportEvent.ADD_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, new Expense(event.data.id));						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.VIEW_EXPENSES, function(event:ReportEvent):void
+				{
+					leftNav.pushView(ListView, event.data);
+				});
+				svn.autoHideFirstViewNavigator = true;
+			}
+			
+			protected function showView(viewClass:Class, data:Object):void
+			{
+				var report:Report = srv.getLastReport();
+				try{
+					if (data.finished == true){
+						var activeView2:View = leftNav.activeView;
+							activeView2.data = data;
+					}
+					else {
+						var activeView:View = rightNav.activeView;
+						if (activeView is viewClass)
+							activeView.data = data;
+						else
+							rightNav.pushView(viewClass, data); 
+					}
+				}
+				catch(e:Error){
+					var activeView:View = rightNav.activeView;
+					if (activeView is viewClass)
+						activeView.data = data;
+					else
+						rightNav.pushView(viewClass, data); 
+				}
+									
+			}
+			
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+				callLater(setFirstViewMode);
+			}
+			
+			protected function setFirstViewMode():void
+			{
+				trace("State " + currentState);
+				if (currentState == "portrait")
+				{
+					if (svn)
+						svn.showFirstViewNavigatorInPopUp(listButton);
+				}
+				else
+				{
+					if (svn)
+						svn.hideViewNavigatorPopUp();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<s:SplitViewNavigator id="svn" width="100%" height="100%"  >
+		<s:ViewNavigator id="leftNav" width="400" height="100%" firstView="views.restrictionThinList"/>
+		<s:ViewNavigator id="rightNav" width="100%" height="100%" firstView="views.dishFullView">
+			<s:navigationContent>
+				<s:Button id="listButton" label="List" color="#f3f3f3"  textShadowAlpha="0" 
+						  click="svn.showFirstViewNavigatorInPopUp(listButton)" 
+						  includeInLayout.landscape="false"  
+						  includeInLayout.portrait="true"  
+						  visible.portrait="true"
+						  visible.landscape="false"/>
+			</s:navigationContent>
+		</s:ViewNavigator>
+	</s:SplitViewNavigator>
+	
+</s:Application>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		  backgroundColor="#e8e8e8" 
+		  menuKeyPressed="navigator.pushView(Home)"
+		  backKeyPressed="navigator.popView()"
+		title="Restrictions"  xmlns:components="components.*" >
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			public function onActivate(event:Event):void
+			{
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+						//bad login or no local saved login.
+					}
+				}
+				catch(e:Error){
+					
+				}
+					
+					busy = false;
+					scroller.visible = true;
+					getRestrictions.send();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function afterGetRestrictions(event:ResultEvent):void
+			{
+				busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				/*for (var i:uint = 0; i < listData.length; i++){
+					if (listData[i].chosen == 'yes'){
+						
+					}
+					
+				}*/
+				
+			} 
+			public function catListChange(ev:IndexChangeEvent):void {
+				//storeList.selectedItem.name
+				try{
+					if (storeList.selectedItem.chosen == "yes"){
+						storeList.selectedItem.chosen = 'no';
+					}
+					else if (storeList.selectedItem.chosen == "no"){
+						storeList.selectedItem.chosen = 'yes';
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+				
+			}
+			
+			protected function storeList_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (busy == false){
+					try{
+						if (storeList.selectedItem.chosen == "yes"){
+							storeList.selectedItem.chosen = 'no';
+							idGo = storeList.selectedItem.id;
+							busy = true;
+							deleteRestrict.send();
+							
+						}
+						else if (storeList.selectedItem.chosen == "no"){
+							storeList.selectedItem.chosen = 'yes';
+							idGo = storeList.selectedItem.id;
+							busy = true;
+							addRestrict.send();
+						}
+						
+					
+						
+					}
+					catch(e:Error){
+						
+					}
+				}
+				listData.refresh();
+				storeList.dataProvider = listData;
+			}
+			
+			public function afterDelete(ev:ResultEvent):void {
+				busy = false;
+			}
+			public function afterAdd(ev:ResultEvent):void {
+				busy = false;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getRestrictions" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/restrictions/getMyRestrictions.php"
+					   result="afterGetRestrictions(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="deleteRestrict" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/restrictions/deleteRestrictions.php"
+					   result="afterDelete(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<idGo>{idGo}</idGo>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="addRestrict" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/restrictions/addRestrictions.php"
+					   result="afterAdd(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<idGo>{idGo}</idGo>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup id="scroller" visible="false" height="100%" horizontalCenter="0" verticalCenter="0" paddingTop="0"  width="100%"  >
+		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="1" 
+				id="storeList" labelField="name"     contentBackgroundColor="#e8e8e8"
+				dataProvider="{listData}" itemRenderer="components.restrictResult"
+				selectedIndex="1" click="storeList_clickHandler(event)"   >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

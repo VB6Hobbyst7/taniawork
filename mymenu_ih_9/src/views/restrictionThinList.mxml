@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#ffffff" contentBackgroundColor="#FFFFFF"
+		title="Restrictions"  xmlns:components="components.*" >
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ActionEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			public function onActivate(event:Event):void
+			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS resvalues (" +
+					"id int(255)," +
+					"name longtext," +
+					"chosen  varchar(255))";							
+				stmt.execute();
+				
+				scroller.visible = true;
+				getRestrictions.send();
+			}
+			public function usermenuclick():void {
+				//navigator.pushView(AccountSettings);
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function afterGetRestrictions(event:ResultEvent):void
+			{
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM resvalues";
+				stmt.execute();
+				var resvaluesData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}	
+				
+				if (resvaluesData.length > 0){
+					for (var i:uint = 0; i<resvaluesData.length; i++){
+						for (var j:uint = 0; j < listData.length; j++){
+							if (resvaluesData[i].id == listData[j].id){
+								listData[j].chosen = resvaluesData[i].chosen;
+							}
+						}
+					}
+				}
+				listData.refresh();
+				resList.dataProvider = listData;
+				updateResDatabase();
+			} 
+			public function res_listClick():void
+			{
+				//if (busy == false){
+				try{
+					if(resList.selectedItem.infostatus == true){
+						var stop:String = "";
+						resList.selectedItem.infostatus = false;
+						dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,
+							resinfo:true,
+							description:resList.selectedItem.user_description,
+							name:resList.selectedItem.name}));
+						//navigator.pushView(RestrictionInfo,{description:resList.selectedItem.user_description,name:resList.selectedItem.name});	
+					}
+					else if (resList.selectedItem.chosen == "yes"){
+						resList.selectedItem.chosen = 'no';
+						listData[resList.selectedIndex].chosen = 'no';
+						idGo = resList.selectedItem.id;
+						busy = true;
+						//delete
+						updateResDatabase();
+						dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,resreload:true}));
+						
+					}
+					else if (resList.selectedItem.chosen == "no"){
+						resList.selectedItem.chosen = 'yes';
+						listData[resList.selectedIndex].chosen = 'yes';
+						idGo = resList.selectedItem.id;
+						busy = true;
+						//add
+						updateResDatabase();
+						dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,resreload:true}));
+					}	
+				}
+				catch(e:Error){
+					
+				}
+				//}
+				listData.refresh();
+				resList.dataProvider = listData;
+			}
+			
+			[Bindable]
+			public var onoffstatus:uint = 0;
+			public function onoffclick():void {
+				busy = true;
+				if (onoffstatus == 1){
+					eatenimage.source = onoff1;
+					onoffstatus = 0;
+					resList.enabled = true;
+					//resList.mouseEnabled = true;
+					
+				}
+				else {
+					eatenimage.source = onoff2;
+					onoffstatus = 1;
+					resList.enabled = false;
+					for (var i:uint = 0; i < listData.length; i++){
+						listData[i].chosen = 'no';
+					}
+					listData.refresh();
+					resList.dataProvider = listData;
+					updateResDatabase();
+					dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,resreload:true}));
+					//resList.mouseEnabled = false;
+				}	
+			}
+			public function updateResDatabase():void{
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt2:SQLStatement = new SQLStatement();
+				stmt2.sqlConnection = sqlConnection;
+				stmt2.text = "delete from resvalues";
+				stmt2.execute();
+
+				for (var i:uint = 0; i < listData.length; i++){
+					
+					var stmt3:SQLStatement = new SQLStatement();
+					stmt3.sqlConnection = sqlConnection;
+					stmt3.text = "insert into resvalues values ("+listData[i].id+",'"+listData[i].name+"','"+listData[i].chosen+"')";
+					stmt3.execute();
+				
+				}
+				
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:MultiDPIBitmapSource id="onoff1"
+								source160dpi="@Embed('assets/160/onoff1.png')"
+								source240dpi="@Embed('assets/240/onoff1.png')"
+								source320dpi="@Embed('assets/320/onoff1.png')"
+								source480dpi="@Embed('assets/320/onoff1.png')"
+								source640dpi="@Embed('assets/320/onoff1.png')"/>
+		<s:MultiDPIBitmapSource id="onoff2"
+								source160dpi="@Embed('assets/160/onoff2.png')"
+								source240dpi="@Embed('assets/240/onoff2.png')"
+								source320dpi="@Embed('assets/320/onoff2.png')"
+								source480dpi="@Embed('assets/320/onoff2.png')"
+								source640dpi="@Embed('assets/320/onoff2.png')"/>
+		<s:HTTPService id="getRestrictions" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMyRestrictions.php"
+					   result="afterGetRestrictions(event)" />
+	
+	</fx:Declarations>
+	<s:VGroup id="scroller" visible="false" height="100%" gap="0" horizontalCenter="0" 
+			  verticalCenter="0" paddingTop="0"  width="100%"  >
+		<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"  >
+			<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+					  text="Enable Restrictions" 
+					  left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+					  color="#4d4d4d"/>
+			<s:Image  id="eatenimage"  click="onoffclick();" right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
+					  verticalCenter="0" mouseEnabled="false"  visible="true" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/onoff1.png')"
+											source240dpi="@Embed('assets/240/onoff1.png')"
+											source320dpi="@Embed('assets/320/onoff1.png')"
+											source480dpi="@Embed('assets/320/onoff1.png')"
+											source640dpi="@Embed('assets/320/onoff1.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Line  left="{20/(320/Capabilities.screenDPI)}" right="0" bottom="0" > 
+				<s:stroke>
+					<s:SolidColorStroke color="0xcccccc" weight="1"/>
+				</s:stroke>
+			</s:Line>	
+		</s:Group>		
+		<s:List width="100%" horizontalCenter="0" height="100%" 
+				id="resList" labelField="name"    
+				dataProvider="{listData}" itemRenderer="components.restrictResult"
+				selectedIndex="1" click="res_listClick()"    >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+</s:View>

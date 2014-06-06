@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+								  xmlns:s="library://ns.adobe.com/flex/spark"
+								  runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+								  applicationComplete="onApplicationComplete()"
+								  fontFamily="segoewp" 	 								  
+								  contentBackgroundAlpha="1"
+								  contentBackgroundColor="#43c7ae"
+								  backgroundAlpha="1"
+								  frameRate="60" 
+								  backgroundColor="#43c7ae" 
+								  preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+								  initialize="{this.makeMap();}"
+								  splashScreenScaleMode="none" 
+								  mouseUp="overAllMouseUp(event)"
+								  splashScreenMinimumDisplayTime="1000">
+	<s:ViewNavigator id="mainNavigator" click="navigatorClick(event)"  
+					 height="100%"  visible="false" x="0" 
+					 elementAdd="viewadd(event)" width="{this.width}" 
+					 backgroundColor="#5b5b5b">
+		<s:navigationContent>
+			<s:Group  id="menufeaturebutton"
+					  width="{this.width/8}" left="0" x="0"
+					  height="100%" 
+					  mouseDown="menuButtonClick();"
+					  mouseEnabledWhereTransparent="true"
+					  horizontalCenter="0" >
+				<s:Image left="20"  verticalCenter="0" 
+						 mouseEnabled="false" 
+						 contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homemenu.png')"
+												source240dpi="@Embed('assets/homemenu.png')"
+												source320dpi="@Embed('assets/homemenu.png')"
+												source480dpi="@Embed('assets/homemenu.png')"
+												source640dpi="@Embed('assets/homemenu.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+		</s:navigationContent>
+		<s:actionContent>
+			<s:Group id="filterfeaturebutton"   mouseDown="filtersButtonClick();"
+					 mouseEnabledWhereTransparent="true"  height="100%" 
+					 right="0" horizontalCenter="0"    width="{this.width/8}" >
+				<s:Image mouseEnabled="false" right="20"  verticalCenter="0"   contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homefilter.png')"
+												source240dpi="@Embed('assets/homefilter.png')"
+												source320dpi="@Embed('assets/homefilter.png')"
+												source480dpi="@Embed('assets/homefilter.png')"
+												source640dpi="@Embed('assets/homefilter.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+		</s:actionContent>	
+	</s:ViewNavigator>
+	
+	<s:BorderContainer  id="menu"  backgroundAlpha="1" backgroundColor="#5b5b5b"
+						height="100%"  width="{this.width/1.15}" 
+						x="{0-(this.width/1.15)-1}">
+		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
+			<s:Group width="{this.width/1.15}" height="{actionbarheight+3}"
+					 mouseEnabledWhereTransparent="true" mouseDown="menuButtonClick();"    >
+				<s:Label  left="15" text="menu" verticalCenter="0" mouseEnabled="false"
+						 textAlign="right" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
+				<s:Group  width="{this.width/8}"  right="0"
+						  verticalCenter="0" mouseEnabled="false">
+					<s:Image right="15"  verticalCenter="0" 
+							 mouseEnabled="false" contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homemenu.png')"
+													source240dpi="@Embed('assets/homemenu.png')"
+													source320dpi="@Embed('assets/homemenu.png')"
+													source480dpi="@Embed('assets/homemenu.png')"
+													source640dpi="@Embed('assets/homemenu.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:Group>
+			
+			<s:Image width="{this.width/1.15}" scaleMode="stretch"  contentLoader="{s_imageCache}" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/profimage.png')"
+											source240dpi="@Embed('assets/profimage.png')"
+											source320dpi="@Embed('assets/profimage.png')"
+											source480dpi="@Embed('assets/profimage.png')"
+											source640dpi="@Embed('assets/profimage.png')"/>
+				</s:source>
+			</s:Image>
+			<s:List id="listmenu" height="100%" contentBackgroundColor="#5b5b5b" contentBackgroundAlpha="1" dataProvider="{homeitems}"
+					width="{this.width/1.15}"  borderAlpha="0" borderVisible="false" selectedIndex="1"  change="menuchange(event)"
+					alternatingItemColors="[0x5b5b5b,0x5b5b5b ]"
+					itemRenderer="components.mainmenulistitem" >
+			</s:List>
+		</s:VGroup>
+	</s:BorderContainer>
+	
+	<s:BorderContainer  id="filtersmenu"  
+						backgroundAlpha="1" 
+						backgroundColor="#5b5b5b"
+						height="100%"  
+						width="{this.width/1.15}" 
+						x="{this.width+(this.width/1.15)}">
+		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">			
+			<s:Group width="{this.width/1.15}"   mouseDown="filtersButtonClick();"
+					 height="{actionbarheight+3}" mouseEnabledWhereTransparent="true"    >
+				<s:Label  right="15" text="filters" verticalCenter="0" mouseEnabled="false"
+						  textAlign="left" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
+				<s:Group  width="{this.width/8}"  left="0"
+						  verticalCenter="0"
+						 	 mouseEnabled="false">
+					<s:Image right="15"  verticalCenter="0" 
+							 mouseEnabled="false" contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homefilter.png')"
+													source240dpi="@Embed('assets/homefilter.png')"
+													source320dpi="@Embed('assets/homefilter.png')"
+													source480dpi="@Embed('assets/homefilter.png')"
+													source640dpi="@Embed('assets/homefilter.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:Group>
+			<s:Group width="100%" height="5"/>
+			<s:BorderContainer width="100%" height="50" backgroundColor="#494949"
+							   borderAlpha="0"  backgroundAlpha="1">
+				<s:Label fontFamily="HelveticaNeuecff" styleName="textsize0" fontWeight="normal"
+						 text="Only Show:" 
+						 left="20"  verticalCenter="0"
+						 color="#FFFFFF"/>
+				
+				<s:Group right="20" click="clearallclick(event)"   verticalCenter="0">
+					<s:Label fontFamily="HelveticaNeuecff" mouseEnabled="false" styleName="textsize0" fontWeight="normal"
+							 text="Clear All" 
+							 left="20"  verticalCenter="0"
+							 color="#43c7ae"/>
+				</s:Group>
+			</s:BorderContainer>
+			<s:List id="listfilters" height="100%" contentBackgroundColor="#5b5b5b" 
+					contentBackgroundAlpha="1" dataProvider="{filteritems}" allowMultipleSelection="true"
+					width="100%"  borderAlpha="0" borderVisible="false"    change="filterchange(event)"
+					alternatingItemColors="[0x5b5b5b,0x5b5b5b ]" 
+					itemRenderer="components.filterslistitem" >
+				
+			</s:List>
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	<fx:Style source="./main.css"/>
+	<fx:Script source="func/MyMenufunctions.as"/>
+	<fx:Script source="func/mapfunctions.as"/>
+	<fx:Script source="func/slidemenufunctions.as"/>
+	<fx:Declarations>	
+		<s:MultiDPIBitmapSource id="menu_account"
+								source160dpi="@Embed('assets/menu-account.png')"
+								source240dpi="@Embed('assets/menu-account.png')"
+								source320dpi="@Embed('assets/menu-account.png')"
+								source480dpi="@Embed('assets/menu-account.png')"
+								source640dpi="@Embed('assets/menu-account.png')"/>
+		<s:MultiDPIBitmapSource id="menu_home"
+								source160dpi="@Embed('assets/menu-home.png')"
+								source240dpi="@Embed('assets/menu-home.png')"
+								source320dpi="@Embed('assets/menu-home.png')"
+								source480dpi="@Embed('assets/menu-home.png')"
+								source640dpi="@Embed('assets/menu-home.png')"/>
+		<s:MultiDPIBitmapSource id="menu_restrictions"
+								source160dpi="@Embed('assets/menu-restrictions.png')"
+								source240dpi="@Embed('assets/menu-restrictions.png')"
+								source320dpi="@Embed('assets/menu-restrictions.png')"
+								source480dpi="@Embed('assets/menu-restrictions.png')"
+								source640dpi="@Embed('assets/menu-restrictions.png')"/>
+		<s:MultiDPIBitmapSource id="menu_ratings"
+								source160dpi="@Embed('assets/menu-ratings.png')"
+								source240dpi="@Embed('assets/menu-ratings.png')"
+								source320dpi="@Embed('assets/menu-ratings.png')"
+								source480dpi="@Embed('assets/menu-ratings.png')"
+								source640dpi="@Embed('assets/menu-ratings.png')"/>
+		<s:MultiDPIBitmapSource id="menu_review"
+								source160dpi="@Embed('assets/menu-review.png')"
+								source240dpi="@Embed('assets/menu-review.png')"
+								source320dpi="@Embed('assets/menu-review.png')"
+								source480dpi="@Embed('assets/menu-review.png')"
+								source640dpi="@Embed('assets/menu-review.png')"/>
+		<s:MultiDPIBitmapSource id="menu_settings"
+								source160dpi="@Embed('assets/menu-settings.png')"
+								source240dpi="@Embed('assets/menu-settings.png')"
+								source320dpi="@Embed('assets/menu-settings.png')"
+								source480dpi="@Embed('assets/menu-settings.png')"
+								source640dpi="@Embed('assets/menu-settings.png')"/>
+	</fx:Declarations>
+	
+</s:Application>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Specials" xmlns:components="components.*"   >
+	<fx:Script source="../func/specialsAllfunctions.as"/>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getSpecials.php"
+					   result="afterGetSpecials(event)" >
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="0" width="100%" horizontalAlign="center" verticalAlign="bottom">	 
+			<s:BorderContainer borderAlpha="0" id="filterarea"     visible="true" 
+							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+				<s:Image id="filterimage1" horizontalCenter="0"  
+						 mouseEnabled="false" alpha="1"
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/specialsTabs1.png')"
+												source240dpi="@Embed('assets/specialsTabs1.png')"
+												source320dpi="@Embed('assets/specialsTabs1.png')"
+												source480dpi="@Embed('assets/specialsTabs1.png')"
+												source640dpi="@Embed('assets/specialsTabs1.png')"
+												/>
+					</s:source>
+				</s:Image>
+				<s:Image id="filterimage2" horizontalCenter="0" 
+						 mouseEnabled="false" alpha="0"  
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/specialsTabs2.png')"
+												source240dpi="@Embed('assets/specialsTabs2.png')"
+												source320dpi="@Embed('assets/specialsTabs2.png')"
+												source480dpi="@Embed('assets/specialsTabs2.png')"
+												source640dpi="@Embed('assets/specialsTabs2.png')"
+												/>
+					</s:source>
+					
+				</s:Image>
+				<s:Image id="filterimage3" horizontalCenter="0"  
+						 mouseEnabled="false" alpha="0"  
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/specialsTabs3.png')"
+												source240dpi="@Embed('assets/specialsTabs3.png')"
+												source320dpi="@Embed('assets/specialsTabs3.png')"
+												source480dpi="@Embed('assets/specialsTabs3.png')"
+												source640dpi="@Embed('assets/specialsTabs3.png')"
+												/>
+					</s:source>
+					
+				</s:Image>
+				<s:Image id="filterimage4" horizontalCenter="0"  
+						 mouseEnabled="false" alpha="0" 
+						 verticalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/specialsTabs4.png')"
+												source240dpi="@Embed('assets/specialsTabs4.png')"
+												source320dpi="@Embed('assets/specialsTabs4.png')"
+												source480dpi="@Embed('assets/specialsTabs4.png')"
+												source640dpi="@Embed('assets/specialsTabs4.png')"
+												/>
+					</s:source>
+					
+				</s:Image>
+				
+				<s:HGroup width="100%" height="100%" >
+					<s:Group width="25%"  height="100%" id="toggleclick1" click="filterClick(1);" 
+							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+					<s:Group width="25%"  height="100%" id="toggleclick2" click="filterClick(2);" 
+							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+					<s:Group width="25%"  height="100%" id="toggleclick3" click="filterClick(3);" 
+							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+					<s:Group width="25%"  height="100%" id="toggleclick4" click="filterClick(4);" 
+							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				</s:HGroup>
+				
+			</s:BorderContainer>
+			<s:BorderContainer borderAlpha="0"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="75">
+				<s:HGroup id="selectview1" width="100%" height="100%" alpha="1"
+						  click="goFilterScreen(0);"  mouseDown="gDown(event)"
+						  mouseEnabled="true" mouseEnabledWhereTransparent="true" mouseOut="gOut(event)"
+						  mouseOver="gOver(event)" mouseUp="gOut(event)" 
+						  paddingLeft="30" gap="15" verticalAlign="middle" >
+					<s:Label left="29" mouseEnabled="false" color="#4d4d4d" styleName="textsize1" text="Near" 
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Group left="90" right="20"  verticalCenter="0">
+						<s:Label id="svi1" visible="true" left="0"  mouseEnabled="false"
+								 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+								 text="Current Location" verticalCenter="0"/>
+						<s:TextInput id="svi2" height="90%" right="10" width="80%" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
+									 visible="false" click="svilabelclick();"  left="0" prompt="Enter Postal Code"
+									 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+						<s:TextInput id="svi3" height="90%" click="svilabelclick();" width="80%"  right="10" verticalCenter="0"
+									 visible="false" left="0" prompt="Enter Address" color="#b2b2b2" styleName="textsize1"
+									 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+					</s:Group>
+					
+				</s:HGroup>
+				<s:HGroup id="selectview2"  click="goFilterScreen(1);"   alpha="0" height="100%" width="100%"
+						  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+						  mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+						  paddingLeft="30" gap="15" verticalAlign="middle">
+					<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" 
+							 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="115" id="sv2label" mouseEnabled="false"  color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="All" verticalAlign="middle" verticalCenter="0"/>
+				</s:HGroup>
+				<s:HGroup id="selectview3"  click="goFilterScreen(2);"  alpha="0" height="100%" width="100%"
+						  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+						  mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+						  paddingLeft="30" gap="15" verticalAlign="middle">
+					<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+							 verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="107" id="sv3label" width="124" color="#4d4d4d" fontWeight="bold"
+							 mouseEnabled="false" styleName="textsize1" text="Highest"
+							 verticalAlign="middle" verticalCenter="0"/>
+				</s:HGroup>
+				<s:HGroup id="selectview4"  click="goFilterScreen(3);"  alpha="0" height="100%" width="100%"
+						  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+						  mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+						  paddingLeft="30" gap="15" verticalAlign="middle">
+					<s:Label left="29" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+							 text="Price" verticalAlign="middle" verticalCenter="0"/>
+					<s:Label left="93" id="sv4label" width="117" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
+							 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+				</s:HGroup>
+			</s:BorderContainer>
+			
+			<s:Group width="100%" horizontalCenter="0" height="100%" >
+				<s:List id="loyaltyList" width="100%" height="100%"  horizontalScrollPolicy="off"
+						alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"  contentBackgroundAlpha="1" 
+						contentBackgroundColor="#FFFFFF"
+						mouseDown="listFingerDown();" 
+						mouseUp="listFingerUp();"
+						mouseOut="listFingerUp();"
+						dataProvider="{listData}" horizontalCenter="0"
+						itemRenderer="components.specialsResult" 
+						selectedIndex="1">
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="true"
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:BorderContainer id="dropDownContainer" backgroundAlpha="0.8" visible="false" alpha="0"
+								   backgroundColor="#FFFFFF" width="100%" height="100%">
+					<s:List width="100%" horizontalCenter="0" height="100%"
+							contentBackgroundAlpha="0" visible="true"
+							id="filterList1"  horizontalScrollPolicy="off" 
+							dataProvider="{filterData1}"
+							itemRenderer="components.dropdownitem"
+							click="filter1Click();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  gap="0"/>
+						</s:layout>
+					</s:List>
+					
+					<s:List width="100%" horizontalCenter="0" height="100%"
+							contentBackgroundAlpha="0" visible="false"
+							id="filterList2"  horizontalScrollPolicy="off" 
+							dataProvider="{filterData2}"
+							itemRenderer="components.dropdownitem"
+							click="filter2Click();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  gap="0"/>
+						</s:layout>
+					</s:List>
+					
+					<s:List width="100%" horizontalCenter="0" height="100%"
+							contentBackgroundAlpha="0" visible="false"
+							id="filterList3"  horizontalScrollPolicy="off" 
+							dataProvider="{filterData3}"
+							itemRenderer="components.dropdownitem"
+							click="filter3Click();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  gap="0"/>
+						</s:layout>
+					</s:List>
+					
+					<s:List width="100%" horizontalCenter="0" height="100%"
+							contentBackgroundAlpha="0" visible="false"
+							id="filterList4"  horizontalScrollPolicy="off" 
+							dataProvider="{filterData4}"
+							itemRenderer="components.dropdownitem"
+							click="filter4Click();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:BorderContainer>
+				
+			</s:Group>
+			
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
+			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
+			 verticalAlign="middle" verticalCenter="0"></s:Label>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

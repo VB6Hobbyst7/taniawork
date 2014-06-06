@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" 
+		title="Account" viewActivate="onActivate(event)" 
+		xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" height="100%"   
+							   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			public function onActivate(event:Event):void
+			{
+				
+				catArray =  new ArrayCollection();
+				catArray.addItem({name:"Profile", type:1, chosen:'no'});
+				catArray.addItem({name:"Password", type:1, chosen:'no'});
+				catArray.addItem({name:"Connected Accounts", type:1, chosen:'no'});
+				storeList.dataProvider = catArray;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+				}
+				busy = false;
+			}
+			public function catListChange(ev:IndexChangeEvent):void {
+				try{
+					if (storeList.selectedItem.name == "Profile"){
+						//navigator.pushView(Profile);
+					}
+					else if (storeList.selectedItem.name == "Password"){
+						navigator.pushView(AccountSettingsChangePwd);
+					}
+					else if (storeList.selectedItem.name == "Connected Accounts"){
+					}
+				}
+				catch(e:Error){	
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup height="100%" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="0" 
+				id="storeList" labelField="name"  
+				dataProvider="{catArray}" itemRenderer="components.catResult"
+				selectedIndex="1" change="catListChange(event);"  >
+			
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	
+</s:View>

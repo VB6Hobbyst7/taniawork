@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#43c7ae"
+		backgroundAlpha="1"
+		backgroundColor="#43c7ae" 
+	 	xmlns:components="components.*" 
+	  	viewDeactivate="onViewDeactivate();">
+	<s:titleContent>
+		<s:BorderContainer horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%" backgroundAlpha="1"
+						   backgroundColor="#39a994" borderAlpha="0" borderVisible="false" contentBackgroundAlpha="1"
+						   contentBackgroundColor="#39a994"
+						   dropShadowVisible="false" cornerRadius="30">
+			<s:Image left=" 20" verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/glass.png')"
+											source240dpi="@Embed('assets/glass.png')"
+											source320dpi="@Embed('assets/glass.png')"
+											source480dpi="@Embed('assets/glass.png')"
+											source640dpi="@Embed('assets/glass.png')"/>
+				</s:source>
+			</s:Image>
+			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
+						   color="#FFFFFF"  right="0" left="35"
+						   id="key"  top="6"  height="98%" borderVisible="false" fontWeight="normal"  
+						   contentBackgroundAlpha="0"
+						   maxChars="20" prompt="Search Restaurants"
+						   returnKeyLabel="search"/>
+		</s:BorderContainer>
+	</s:titleContent>
+	<fx:Script source="../func/homefunctions.as"/>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getLocations.php"
+					   result="afterGetLocations(event)" >
+				
+		</s:HTTPService>
+		<s:HTTPService id="getLocations2" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getLocationsFilter.php"
+					   result="afterGetLocationsFilter(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>
+				<hfilterstring>{hfilterstring}</hfilterstring>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getLocationsPostal" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getLocationsPostal.php"
+					   result="afterGetLocationsPostal(event)" >
+			<s:request xmlns="">
+				<postalString>{postalString}</postalString>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
+		<s:BorderContainer borderAlpha="0" id="filterarea"     visible="true" 
+						   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+			<s:Image id="filterimage1" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="1"
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/hometabs1.png')"
+											source240dpi="@Embed('assets/hometabs1.png')"
+											source320dpi="@Embed('assets/hometabs1.png')"
+											source480dpi="@Embed('assets/hometabs1.png')"
+											source640dpi="@Embed('assets/hometabs1.png')"
+											/>
+				</s:source>
+			</s:Image>
+			<s:Image id="filterimage2" horizontalCenter="0" 
+					 mouseEnabled="false" alpha="0"  
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/hometabs2.png')"
+											source240dpi="@Embed('assets/hometabs2.png')"
+											source320dpi="@Embed('assets/hometabs2.png')"
+											source480dpi="@Embed('assets/hometabs2.png')"
+											source640dpi="@Embed('assets/hometabs2.png')"
+											/>
+				</s:source>
+
+			</s:Image>
+			<s:Image id="filterimage3" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="0"  
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/hometabs3.png')"
+											source240dpi="@Embed('assets/hometabs3.png')"
+											source320dpi="@Embed('assets/hometabs3.png')"
+											source480dpi="@Embed('assets/hometabs3.png')"
+											source640dpi="@Embed('assets/hometabs3.png')"
+											/>
+				</s:source>
+
+			</s:Image>
+			<s:Image id="filterimage4" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="0" 
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/hometabs4.png')"
+											source240dpi="@Embed('assets/hometabs4.png')"
+											source320dpi="@Embed('assets/hometabs4.png')"
+											source480dpi="@Embed('assets/hometabs4.png')"
+											source640dpi="@Embed('assets/hometabs4.png')"
+											/>
+				</s:source>
+
+			</s:Image>
+			
+			<s:HGroup width="100%" height="100%" >
+				<s:Group width="25%"  height="100%" id="toggleclick1" click="filterClick(1);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick2" click="filterClick(2);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick3" click="filterClick(3);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick4" click="filterClick(4);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+			</s:HGroup>
+			
+		</s:BorderContainer>
+		<s:BorderContainer borderAlpha="0"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="75">
+			<s:HGroup id="selectview1" right="0" left="0" height="100%" alpha="1"
+					  click="goFilterScreen(0);"  mouseDown="gDown(event)"
+					  mouseEnabled="true" mouseEnabledWhereTransparent="true" mouseOut="gOut(event)"
+					  mouseOver="gOver(event)" mouseUp="gOut(event)" 
+					  paddingLeft="30" gap="15" verticalAlign="middle" >
+				<s:Label left="29" mouseEnabled="false" color="#4d4d4d" styleName="textsize1" text="Near" 
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Group left="90" right="20"  verticalCenter="0">
+					<s:Label id="svi1" visible="true" left="0"  mouseEnabled="false"
+							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Current Location" verticalCenter="0"/>
+					<s:TextInput id="svi2" height="90%" right="10" width="80%" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
+								 visible="false" click="svilabelclick();" keyUp="postalpress(event);" left="0" prompt="Enter Postal Code"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+					<s:TextInput id="svi3" height="90%" click="svilabelclick();" width="80%" keyUp="addressPress(event)" right="10" verticalCenter="0"
+								 visible="false" left="0" prompt="Enter Address" color="#b2b2b2" styleName="textsize1"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+				</s:Group>
+				
+			</s:HGroup>
+			<s:HGroup id="selectview2"  click="goFilterScreen(1);"   alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" 
+						 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="115" id="sv2label" mouseEnabled="false"  color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="All" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview3"  click="goFilterScreen(2);"  alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="107" id="sv3label" width="124" color="#4d4d4d" fontWeight="bold"
+						 mouseEnabled="false" styleName="textsize1" text="Highest"
+						 verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview4"  click="goFilterScreen(3);"  alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+						 text="Price" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="93" id="sv4label" width="117" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
+						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		
+		<s:Group width="100%" horizontalCenter="0" height="100%" >
+			<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
+						verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+				<s:VGroup gap="0" width="100%" height="100%">
+					<s:Image id="mapimage" visible="false" click="mapimageclick();"  left="0"  
+							 width="{screenwidth}" height="{this.height/3.3}" x="0" y="0"/>
+					<s:List width="100%" horizontalCenter="0" 
+							alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
+							id="storeList" labelField="name" verticalScrollPolicy="off"  horizontalScrollPolicy="off"  	
+							mouseDown="listFingerDown();" 
+							mouseUp="listFingerUp();"
+							mouseOut="listFingerUp();"
+							dataProvider="{homeData}" 
+							itemRenderer="components.storeResult"
+							selectedIndex="1" 
+							 change="storeListClick();"
+							click="storeListClick();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:VGroup>
+			</s:Scroller>
+			
+			
+			<s:BorderContainer id="dropDownContainer" backgroundAlpha="0.8" visible="false" alpha="0"
+							   backgroundColor="#FFFFFF" width="100%" height="100%">
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						 contentBackgroundAlpha="0" visible="true"
+						id="filterList1"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData1}"
+						itemRenderer="components.dropdownitem"
+						click="filter1Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList2"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData2}"
+						itemRenderer="components.dropdownitem"
+						click="filter2Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList3"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData3}"
+						itemRenderer="components.dropdownitem"
+						click="filter3Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList4"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData4}"
+						itemRenderer="components.dropdownitem"
+						click="filter4Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+			</s:BorderContainer>
+		</s:Group>
+		
+		
+	</s:VGroup>
+</s:View>

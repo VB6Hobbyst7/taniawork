@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" 
+		title="Reviews" viewActivate="onActivate(event)" 
+		xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"  mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var rateArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			public function onActivate(event:Event):void
+			{
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+				}
+				getRatings.send();
+			}
+			public function rateListChange(ev:IndexChangeEvent):void {
+				try{}
+				catch(e:Error){	}
+			}
+			public function afterGetRatings(ev:ResultEvent):void {
+				busy = false;
+				rateArray = new ArrayCollection();
+				try{			
+					rateArray = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{
+						rateArray.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMenuItemRatings.php"
+					   result="afterGetRatings(event)" >
+			<s:request xmlns="">
+				<menuid>{data.id}</menuid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+		<s:List  id="rateList" 
+				 width="{this.width}" 
+				 horizontalCenter="0" height="100%"
+				 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+				dataProvider="{rateArray}" 
+				itemRenderer="components.ratingsResultProfile"
+				change="rateListChange(event);"  >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	
+</s:View>

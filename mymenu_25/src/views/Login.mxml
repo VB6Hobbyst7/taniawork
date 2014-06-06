@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		title="My Menu" viewActivate="view1_viewActivateHandler(event)"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#43c7ae"
+		backgroundAlpha="1"
+		backgroundColor="#43c7ae" 
+		actionBarVisible="false" 
+		xmlns:components="components.*" 
+		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
+	<fx:Script source="../func/loginfunctions.as" />
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="newGendergroup"/>
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<fx:String id="newEmail2" />
+		<fx:String id="newPassword2" />
+		<fx:String id="newName2" />
+		<fx:String id="newGender2" />
+		<fx:String id="newBirthday2" />
+		<fx:String id="newBirthmonth2" />
+		<fx:String id="newBirthyear2" />
+		<fx:String id="newCountry2" />
+		<fx:String id="oemail" />
+		<fx:String id="opassword" />
+		<fx:String id="oname1" />
+		<fx:String id="oname2" />
+		<fx:String id="oquickpin" />
+		<fx:String id="oaddress1" />
+		<fx:String id="oaddress2" />
+		<fx:String id="ocity" />
+		<fx:String id="oprovince" />
+		<fx:String id="opostal" />
+		<fx:String id="ophone" />
+		<fx:String id="obirthday" />
+		<fx:String id="obirthmonth" />
+		<fx:String id="obirthyear" />
+		<fx:String id="ogender" />
+		<s:RadioButtonGroup id="gender"/>
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.mymenuapp.ca/php/login/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.mymenuapp.ca/php/login/createNewUserMobile.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<oemail>{oemail}</oemail>		
+				<opassword>{opassword}</opassword>	
+				<oname1>{oname1}</oname1>		
+				<oname2>{oname2}</oname2>	
+				<ocity>{ocity}</ocity>
+				<oprovince>{oprovince}</oprovince>
+				<obirthday>{obirthday}</obirthday>
+				<obirthmonth>{obirthmonth}</obirthmonth>
+				<obirthyear>{obirthyear}</obirthyear>
+				<ogender>{ogender}</ogender>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="facebookconnect" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.mymenuapp.ca/php/login/facebookconnect.php"
+					   result="afterFacebookConnect(event)" >
+			<s:request xmlns="">
+				<facebookid>{facebookid}</facebookid>
+				<oemail>{oemail}</oemail>		
+				<oname1>{oname1}</oname1>		
+				<oname2>{oname2}</oname2>	
+				<ocity>{ocity}</ocity>
+				<oprovince>{oprovince}</oprovince>
+				<obirthday>{obirthday}</obirthday>
+				<obirthmonth>{obirthmonth}</obirthmonth>
+				<obirthyear>{obirthyear}</obirthyear>
+				<ogender>{ogender}</ogender>
+			</s:request>
+		</s:HTTPService>
+	
+	</fx:Declarations>
+	<s:states>
+		<s:State name="welcome"/>
+		<s:State name="login"/>
+		<s:State name="facebook"/>
+		<s:State name="create"/>
+	</s:states>
+	<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/loginbackground.png')"
+									source240dpi="@Embed('assets/loginbackground.png')"
+									source320dpi="@Embed('assets/loginbackground.png')"
+									source480dpi="@Embed('assets/loginbackground.png')"
+									source640dpi="@Embed('assets/loginbackground.png')"
+									/>
+		</s:source>
+	</s:Image>
+	<s:Scroller left="0"  id="v11" includeIn="welcome" visible="{busy == false}"   
+				right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:Group width="100%" height="100%">
+		
+			<s:VGroup  gap="25" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="20" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/loginmenulogo.png')"
+												source240dpi="@Embed('assets/loginmenulogo.png')"
+												source320dpi="@Embed('assets/loginmenulogo.png')"
+												source480dpi="@Embed('assets/loginmenulogo.png')"
+												source640dpi="@Embed('assets/loginmenulogo.png')"
+												/>
+					</s:source>
+				</s:Image>
+				<components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/>
+				<components:transbutton textLabel="Sign Up" horizontalCenter="0" click="createNewClick(event)"/>
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" click="loginClick(event)"/>
+				<components:transbutton textLabel="Sign In With Facebook" horizontalCenter="0" click="facebookLogin(event)"/>
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/loginconditions.png')"
+												source240dpi="@Embed('assets/loginconditions.png')"
+												source320dpi="@Embed('assets/loginconditions.png')"
+												source480dpi="@Embed('assets/loginconditions.png')"
+												source640dpi="@Embed('assets/loginconditions.png')"
+												/>
+					</s:source>
+				</s:Image>
+				
+			</s:VGroup>
+		</s:Group>
+	</s:Scroller>
+	<s:Scroller left="0" id="v2" includeIn="login" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup bottom="0" width="95%" height="100%" gap="25" horizontalAlign="center"
+					  horizontalCenter="0" paddingTop="40" verticalAlign="middle" verticalCenter="0">
+				<s:Label width="95%" color="#353535" fontSize="40" fontWeight="bold" text="Sign In"
+						 textAlign="center"/>
+				<s:TextInput id="userNameInput" top="62" width="455" color="#7777777" contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 fontFamily="Arial" horizontalCenter="0" prompt="Email"/>
+				<s:TextInput id="userPasswordInput" top="145" width="455" color="#7777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 displayAsPassword="true" fontFamily="Arial" horizontalCenter="0"
+							 keyDown="userPasswordInput_keyDownHandler(event)" prompt="Password"
+							 textAlign="left"/>
+				
+				
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" 
+										click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />	
+				<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="backToLoginOptions();"/>	
+
+				<s:Label top="210" fontFamily="_sans" visible="false"  color="#FFFFFF" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Scroller left="0" id="v4" includeIn="facebook" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup bottom="0" width="95%" height="100%" gap="25" horizontalAlign="center"
+					  horizontalCenter="0" paddingTop="40" verticalAlign="middle" verticalCenter="0">
+				<s:Label id="facebookwarn" width="95%" color="#353535" fontSize="40" fontWeight="bold" text="Facebook"
+						 textAlign="center"/>
+				
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Scroller left="0" id="v3" includeIn="create" right="0" top="0" bottom="0"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="473" horizontalCenter="0" verticalCenter="0" 
+					   top="10" bottom="0" paddingTop="40" horizontalAlign="center" verticalAlign="middle">
+				<s:Label width="95%" color="#353535" fontSize="40" fontWeight="bold"
+						 text="Create Account" textAlign="center"/>
+				<s:TextInput id="nemail" top="43" width="98%" color="#777777" horizontalCenter="0"
+							 prompt="Email"   fontFamily="Arial"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 textAlign="left"/>
+				<s:TextInput id="nname" y="117" width="98%" autoCapitalize="word" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 fontFamily="Arial" horizontalCenter="0" prompt="First Name"/>
+				<s:TextInput id="nname2" y="117" width="98%" autoCapitalize="word" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 fontFamily="Arial" horizontalCenter="0" prompt="Last Name"/>
+				<s:TextInput id="npassword" y="79" width="98%" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 displayAsPassword="true" fontFamily="Arial" horizontalCenter="0"
+							 prompt="Password" textAlign="left"/>
+				<s:TextInput id="npassword2" y="79" width="98%" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 displayAsPassword="true" fontFamily="Arial" horizontalCenter="0"
+							 prompt="Verify Password" textAlign="left"/>
+				<s:TextInput id="city" y="79" width="98%" autoCapitalize="word" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+							 fontFamily="Arial" horizontalCenter="0" prompt="City" textAlign="left"/>
+				<s:BorderContainer y="152" width="98%" height="100%" backgroundAlpha="0"
+								  borderAlpha="0" horizontalCenter="0">
+					<s:Label color="#FFFFFF"  fontWeight="bold" text="Province"
+							 verticalCenter="0"></s:Label>
+					
+					<s:SpinnerListContainer right="0" width="20%">
+					<s:SpinnerList id="province" right="0" height="100"
+								   labelField="name"  width="100%" 
+								   verticalCenter="0">
+						<s:ArrayList>
+							<fx:Object name="AB" />
+							<fx:Object name="BC" />
+							<fx:Object name="MB" />
+							<fx:Object name="NB" />
+							<fx:Object name="NS" />
+							<fx:Object name="ON" />
+							<fx:Object name="QC" />
+							<fx:Object name="SK" />
+							<fx:Object name="NT" />
+							<fx:Object name="YT" />
+							<fx:Object name="PE" />
+							<fx:Object name="NL" />
+							<fx:Object name="NU" />
+						</s:ArrayList>                        
+					</s:SpinnerList>
+					</s:SpinnerListContainer>
+				</s:BorderContainer>
+				
+				<s:BorderContainer y="152" width="98%" height="100%" backgroundAlpha="0"
+								   borderAlpha="0" horizontalCenter="0">
+					<s:Label color="#FFFFFF"  fontWeight="bold" text="Birthday"
+							 verticalCenter="0">
+					</s:Label>
+					<s:DateSpinner id="dt" right="0" height="100" displayMode="date"
+								   maxDate="{new Date(2050,01,01)}" minDate="{new Date(1901,01,01)}"
+								   minuteStepSize="10" 
+								   verticalCenter="0"/>
+				</s:BorderContainer>
+				<s:HGroup>
+					<s:RadioButton label="Male" color="#FFFFFF" fontFamily="HelveticaNeue" fontWeight="normal" groupName="gender"
+								   selected="true"/>
+					<s:RadioButton label="Female" color="#FFFFFF" fontFamily="HelveticaNeue" fontWeight="normal"
+								   groupName="gender"/>
+				</s:HGroup>
+			
+				
+				
+				<components:transbutton textLabel="Sign Up" horizontalCenter="0" 
+										click="checkAvailability(nemail.text,npassword.text);"  />	
+				<components:transbutton textLabel="Cancel" horizontalCenter="0" 
+										click="backToLoginOptions();" />	
+				
+				<s:Label top="290"  visible="false" id="newlogWarning" color="#777777" fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>						
+				<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0" color="#FFFFFF"
+						 text="By Creating an account you agree to My Menu's Terms of Service and Privacy Policy. "
+						 textAlign="center"/>
+				
+				<s:Label top="290" width="95%"
+						 click="navigateToURL(new URLRequest('http://mymenuapp.ca/utos'));"
+						 color="#174FDE" fontWeight="bold" horizontalCenter="0"
+						 text="Terms of Service" textAlign="center" textDecoration="underline"/>
+				<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+						 text="Privacy Policy" textDecoration="underline"
+						 textAlign="center"   color="#174FDE"
+						 click="navigateToURL(new URLRequest('http://mymenuapp.ca/pol'));"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

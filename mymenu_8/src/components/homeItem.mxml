@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			]]>
+	</fx:Script>
+	<s:Group width="{this.width}" height="100%"   >
+		<s:BitmapImage id="bmpImg"  width="100%" 	
+					   height="100%" source="{data.img}" 
+					   contentLoader="{s_imageCache}" scaleMode="stretch"/>
+		<s:BorderContainer backgroundAlpha="1" x="0" y="10" borderAlpha="0"  backgroundColor="{data.colorid}">
+			<s:Label width="100%" color="#FFFFFF" x="10"
+					 fontWeight="bold" styleName="textsize9" text="{data.label}"
+					 verticalAlign="middle"></s:Label>
+		</s:BorderContainer>
+	</s:Group>
+</s:ItemRenderer>

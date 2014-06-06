@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Specials"  xmlns:components="components.*" >
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.homeItem;
+			import components.specialsItem;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								emailGo = resData[i].email;
+								nameGo = resData[i].name;
+							}
+						}
+					}
+					else {
+					}
+				}
+				catch(e:Error){
+					
+				}		
+				
+				getSpecialsCat.send();
+				
+				
+			
+			}
+			public function afterGetSpecialsCat(ev:ResultEvent):void {
+				
+				var temparray:ArrayCollection = new ArrayCollection();
+				temparray = ev.result[0].ress.res;
+				
+				for (var j:uint = 0; j < temparray.length; j++){
+					var hi:specialsItem = new specialsItem();
+					hi.lbl = temparray[j].name;
+					if (temparray[j].name == 'Drinks'){
+						hi.homepic =  "../assets/backgrounds/drinks.jpg";
+					}
+					else if (temparray[j].name == 'Food'){
+						hi.homepic ="../assets/backgrounds/food.jpg";
+					}
+					else if (temparray[j].name == 'Desserts'){
+						hi.homepic = "../assets/backgrounds/desserts.jpg";
+					}
+					
+					
+					hi.addEventListener(MouseEvent.CLICK, catclick);
+					foodtypegroup.addElement(hi);
+				}
+				scroller.visible = true;
+				busy = false;
+				
+			}
+			public function catclick(ev:MouseEvent):void {
+				var oldcat:String = ev.currentTarget.lbl;
+				var newcat:String = "";
+				if (oldcat.length <= 4){
+					newcat= oldcat.substr(0,1).toUpperCase()+oldcat.substring(1,oldcat.length);
+
+				}
+				else {
+					newcat= oldcat.substr(0,1).toUpperCase()+oldcat.substring(1,oldcat.length-1);
+	
+				}
+				navigator.pushView(SpecialsStage2,{cat:ev.currentTarget.lbl,img:ev.currentTarget.homepic,newcat:newcat});
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecialsCat" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/specials/getSpecialsCat.php"
+					   result="afterGetSpecialsCat(event)" >
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="false" height="100%" width="95%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup id="foodtypegroup"  height="100%" gap="10" width="100%" horizontalAlign="center" verticalAlign="bottom">
+			
+			
+			
+			
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

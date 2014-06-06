@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   borderAlpha="0"  backgroundColor="#000000" backgroundAlpha="0.7">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var weeday:String = "";
+			[Bindable]
+			public var day:String = ""
+		]]>
+	</fx:Script>
+	<s:VGroup mouseEnabled="false"  right="0" left="0"  horizontalAlign="center">
+		<s:Label  mouseEnabled="false" x="10" width="100%" color="#FFFFFF" fontWeight="bold"
+				 styleName="textsize0" text="{weeday}" textAlign="center"
+				 verticalAlign="middle"></s:Label>
+		<s:Label  mouseEnabled="false" width="100%" color="#FFFFFF" x="10" textAlign="center"
+				 fontWeight="bold" styleName="textsize0" text="{day}"
+				 verticalAlign="middle"></s:Label>
+	</s:VGroup>
+	
+</s:BorderContainer>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  horizontalCenter="0" 
+				contentBackgroundColor="#2a3038"  
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%"
+			 color="#FFFFFF" 
+				autoDrawBackground="false" contentBackgroundAlpha="0" xmlns:components="components.*"
+				creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var scaleval:Number = 0;
+			private var roundedMask:Sprite;
+			[Bindable]
+			public var mmax:uint = 0;
+			[Bindable]
+			public var mmin:uint = 0;
+			[Bindable]
+			public var superamount:String = "";
+			[Bindable]
+			public var minwidthval:Number = 7;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			protected function init(event:FlexEvent):void
+			{
+				try{
+					if (data != null){
+						if (data.business_name != null){
+							if ((data.amount == null)||(data.amount == 'null')){
+								data.amount = '0';
+							}	
+							
+							/*if ((data.business_picture == "none")||(data.business_picture == "")){
+								bgimg.source = defaultimg;
+							}
+							else {
+								bgimg.source = data.business_picture;
+							}*/
+							
+							if (Number(data.amount) <= 0){
+								data.amount = '0';
+							}
+						}
+						
+					}	
+				}
+				catch(e:Error){
+					
+				}	
+			}	
+		]]>
+	</fx:Script>
+	<s:BorderContainer borderAlpha="1"  borderColor="#1a2029" 
+					   backgroundAlpha="0" width="100%" height="100%" >
+		<s:Group width="100%" height="100%">
+			<s:VGroup  width="100%" gap="0" height="100%" >
+				<s:Group width="100%" height="100%"  >
+					
+					<s:BitmapImage width="100%" id="bgimg" source="{data.business_picture}" 
+								   height="{bgimg.width/(16/7)}" contentLoader="{s_imageCache}" scaleMode="stretch" />
+					<s:BorderContainer backgroundAlpha="0.8" borderVisible="false" 
+									   backgroundColor="#000000" bottom="0" width="100%" height="{this.height/2.8}">
+						<s:Label left="10" width="100%"  color="#7777777" 
+								 fontWeight="bold" text="{data.business_name}" verticalAlign="middle"
+								 verticalCenter="0"/>
+						
+					</s:BorderContainer>
+				</s:Group>
+				
+			</s:VGroup>
+		</s:Group>
+	</s:BorderContainer>
+</s:ItemRenderer>

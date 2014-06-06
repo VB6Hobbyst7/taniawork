@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				dataChange="dchange(event)"
+				creationComplete="init(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			protected function init(event:FlexEvent):void
+			{
+				if ((data.totallikecount == null)||(data.totallikecount == "null")){
+					data.totallikecount = "0";
+				}
+				if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
+					data.ratingdescription = "";	
+				}
+				var ratingstring:String = "";
+				var ratingnumber:Number = 0;		
+				ratingstring = data.rating.toString();
+				ratingnumber = Number(data.rating);
+				if (ratingnumber == 0){
+					ratinglabel.text = "-";
+				}
+				
+				if (ratingnumber >= 10){
+					ratingnumber = 10;
+					ratinglabel.text = "10";
+				}
+				
+				
+				if (data.ratingdescription.length == 0){
+					likecont.height = 0;
+					likecont.visible = false;
+				}
+				else {
+					likecont.percentHeight = 100;
+					likecont.visible = true;
+				}
+				
+			}
+			
+			public function dchange(event:FlexEvent):void
+			{
+				try{
+					var ratingstring:String = "";
+					var ratingnumber:Number = 0;
+					ratingstring = data.rating.toString();
+					ratingnumber = Number(data.rating);
+					
+					if ((data.totallikecount == null)||(data.totallikecount == "null")){
+						data.totallikecount = "0";
+					}
+					
+					if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
+						data.ratingdescription = "";	
+					}
+					
+					if (ratingnumber == 0){
+						ratinglabel.text = "-";
+					}
+					
+					if (ratingnumber >= 10){
+						ratingnumber = 10;
+						ratinglabel.text = "10";
+					}
+					
+					if (data.ratingdescription.length == 0){
+						likecont.height = 0;
+						likecont.visible = false;
+					}
+					else {
+						likecont.percentHeight = 100;
+						likecont.visible = true;
+					}
+					
+				}
+				catch(e:Error){
+				var stop:String = "";
+				}	
+			}
+		]]>
+	</fx:Script>
+	<s:Group width="{this.width}"  mouseEnabled="false"   id="megacont"  >
+		<s:VGroup width="100%" height="100%" 
+				  paddingTop="20" paddingRight="30"
+				  paddingBottom="20" paddingLeft="30">
+			<s:HGroup width="100%" verticalAlign="middle">
+				<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)}"
+						  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+				<s:Image source="assets/trirating.png"/>
+				<s:Label  text="{data.menuname}" width="100%" maxDisplayedLines="1"
+						  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+			</s:HGroup>
+			<s:HGroup width="100%" verticalAlign="top">
+				<s:Label id="ratinglabel"  text="{data.rating}"  color="#43c7ae"  fontWeight="bold"
+						 styleName="textsize0" verticalAlign="middle"/>
+				<s:Group width="100%" >
+					<s:Label width="100%" visible="{data.ratingdescription.length != 0}"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
+							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+					<s:HGroup verticalAlign="middle" visible="{data.ratingdescription.length == 0}" >
+						<s:Image source="assets/triratinggreen.png"/>
+						<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
+								   styleName="textsize0" verticalAlign="middle"/>
+					</s:HGroup>
+				</s:Group>
+				
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle" id="likecont">
+				<s:Image source="assets/triratinggreen.png"/>
+				<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
+						   styleName="textsize0" verticalAlign="middle"/>
+			</s:HGroup>
+		</s:VGroup>		
+		<s:BorderContainer bottom="0" right="0" left="20" backgroundAlpha="0" borderAlpha="0.5" 
+						   borderColor="#b2b2b2" height="1.5" />
+	</s:Group>
+</s:ItemRenderer>

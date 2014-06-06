@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#000000"
+	 actionBarVisible="false"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+	
+		
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			import mx.core.FlexGlobals;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				headitem.imgo.addEventListener(MouseEvent.CLICK,goback);
+			}
+			
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		
+		]]>
+	</fx:Script>
+	<s:Scroller  height="95%" horizontalCenter="0" verticalCenter="0"  width="85%"  verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+		<s:VGroup height="95%" gap="20" horizontalCenter="0" verticalCenter="0"  width="85%"  >
+			<components:headeritem id="headitem" lbl="Summary"/>
+			<s:HGroup  width="100%">
+				<s:VGroup width="50%"  gap="20" horizontalAlign="center" paddingTop="10">
+					<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#FFFFFF"
+							 styleName="textsize5" fontWeight="bold" text="{data.name}"/>
+					
+					<s:Label width="100%"
+							 color="#F0F0F0" fontWeight="normal" styleName="textsize5"
+							 text="${data.cost}" textDecoration="none"
+							 verticalAlign="middle"/>
+					
+					
+				</s:VGroup>
+				<s:Image x="21" id="img1" source="assets/food.jpg" width="{(this.width/2)/1.2}"
+						 height="{(((this.width/2)/1.2)/16)*9}" scaleMode="stretch" smooth="true"
+						 />
+			</s:HGroup>
+			
+			
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#e8e8e8"
+		contentBackgroundColor="#e8e8e8"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1"  title="Menu"
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" height="100%"   click="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.geom.ColorTransform;
+			import flash.geom.Rectangle;
+			import flash.html.HTMLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.SortField;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			
+			[Bindable]
+			public var merchid:String = "";
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var emailGo:String = "none";
+			[Bindable]
+			public var locatoinidGo:Number = -1;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backuplistdata:ArrayCollection = new ArrayCollection();
+			protected function view1_activateHandler(event:Event):void
+			{
+				warn.visible = false;
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				merchid = data.merchid;
+				getMenu.send();
+				filterarea.visible = true;
+			}	
+			
+			public function afterGetMenu(ev:ResultEvent):void
+			{	busy = false;
+				listData = new ArrayCollection();
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+			
+				
+				if (listData.length <= 0){
+					warn.visible = true;
+				}
+				else {
+					for (var i:uint = 0; i < listData.length; i++){
+						listData[i].business_name = data.business_name;
+					}
+					populatelist();
+				}
+				
+			} 
+			public function populatelist():void {
+				var srt:Sort = new Sort();
+				if (currentselectmode == 1){
+					srt.fields = [new SortField("categoryname")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				else if (currentselectmode == 2){
+					srt.fields = [new SortField("rating")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				else if (currentselectmode == 3){
+					srt.fields = [new SortField("cost")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				storeList.dataProvider = listData;
+	
+			}
+			public function storeListClick():void {	
+				if (storeList.selectedIndex != -1){
+					navigator.pushView(MenuDescription, listData[storeList.selectedIndex]);	
+				}
+			}
+			public function searchClick():void
+			{
+				listData.filterFunction = filterCompleted;
+				listData.refresh();
+				storeList.dataProvider = listData;
+				
+			}
+			private function filterCompleted(item:Object):Boolean{
+				//if((item.cost.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					//(item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)
+					//)
+					return true;
+				//return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function goselect(u:uint):void {
+				
+				var fadein:Fade = new Fade();
+				fadein.alphaFrom = 0;
+				fadein.alphaTo = 1;
+				fadein.duration = 200;
+				
+				var fadeout:Fade = new Fade();
+				fadeout.alphaFrom = 1;
+				fadeout.alphaTo = 0;
+				fadeout.duration = 200;
+				
+				if ((currentselectmode == 1)&&(currentselectmode != u)){
+					fadeout.targets = [select1];
+				}
+				else if ((currentselectmode == 2)&&(currentselectmode != u)){
+					fadeout.targets = [select2];
+				}
+				else if ((currentselectmode == 3)&&(currentselectmode != u)){
+					fadeout.targets = [select3];
+				}
+			
+				
+				
+				
+				if ((u == 1)&&(currentselectmode != u)){
+					fadein.targets = [select1];
+				}
+				else if ((u == 2)&&(currentselectmode != u)){
+					fadein.targets = [select2];
+				}
+				else if ((u == 3)&&(currentselectmode != u)){
+					fadein.targets = [select3];
+				}
+				
+				
+				if (currentselectmode != u){
+					fadein.play();
+					fadeout.play();
+					
+				}
+				
+				currentselectmode = u;
+				populatelist();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://mymenuapp.ca/php/locations/getMenu.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<merchid>{merchid}</merchid>		
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			
+			
+			<s:BorderContainer borderAlpha="0" id="filterarea"  visible="true" 
+							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+				<s:Image id="filterbackimg" horizontalCenter="0" source="assets/filterback.png"
+						 verticalCenter="0"/>
+				<s:Group horizontalCenter="0" verticalCenter="0"
+						 width="{filterbackimg.width}" height="{filterbackimg.height}">
+					<s:Image id="select1" x="0" width="200" height="45" alpha="1"
+							 click="goselect(1);" scaleMode="stretch" source="assets/filtertab.png"
+							 verticalCenter="0"/>
+					<s:Image id="select2" x="191" width="200" height="45" alpha="0"
+							 click="goselect(2);" scaleMode="stretch" source="assets/filtertab.png"
+							 verticalCenter="0"/>
+					<s:Image id="select3" x="379" width="200" height="45" alpha="0"
+							 click="goselect(3);" scaleMode="stretch" source="assets/filtertab.png"
+							 verticalCenter="0"/>
+					<s:Group width="100%" height="{filterbackimg.height}" 
+							  horizontalCenter="0" mouseEnabled="false"
+							  mouseEnabledWhereTransparent="false"
+							 verticalCenter="0">
+						<s:Label x="57" color="#FFFFFF" mouseEnabled="false" styleName="textsize0"
+								 text="Category" verticalCenter="0"/>
+						<s:Label x="255" color="#FFFFFF" mouseEnabled="false" styleName="textsize0"
+								 text="Rating" verticalCenter="0"/>
+						<s:Label x="452" color="#FFFFFF" mouseEnabled="false" styleName="textsize0"
+								 text="Price" verticalCenter="0"/>
+					</s:Group>
+				</s:Group>
+			</s:BorderContainer>
+			
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{listData}" itemRenderer="components.menuResult"
+					selectedIndex="1" click="storeListClick();" >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="1"/>
+				</s:layout>
+			</s:List>
+			
+		</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	<s:BusyIndicator visible="{busy}"  symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

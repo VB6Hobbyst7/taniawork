@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#43c7ae"
+		backgroundAlpha="1"
+		backgroundColor="#43c7ae" 
+	 	xmlns:components="components.*" 
+	  	viewDeactivate="onViewDeactivate();">
+	<s:titleContent>
+		<s:BorderContainer horizontalCenter="0" verticalCenter="0" width="100%"  height="60%" backgroundAlpha="1"
+						   backgroundColor="#39a994" borderAlpha="0" borderVisible="false" contentBackgroundAlpha="1"
+						   contentBackgroundColor="#39a994"
+						   dropShadowVisible="false" cornerRadius="30">
+			<s:Image source="assets/glass.png" left=" 20" verticalCenter="0"/>
+			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
+						   color="#FFFFFF"  right="0" left="35"
+						   id="key"  top="6"  height="98%" borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"
+						   maxChars="20" prompt="Search Restaurants"
+						   returnKeyLabel="search"/>
+		</s:BorderContainer>
+	</s:titleContent>
+	<fx:Script>
+		<![CDATA[
+			import com.facebook.graph.FacebookMobile;
+			import com.facebook.graph.data.FacebookAuthResponse;
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.LatLng;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.GeolocationEvent;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import flash.net.dns.AAAARecord;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var alphatitle:String = "Home";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var homeData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			private var _sc:ShapeCollection;
+			[Bindable]
+			public var locatoinidGo:Number = -1;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var mapUrl:String = "https://scoutcard.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl+'?mylat='+mylat+'&mylong='+mylong+'&search='+"";//key.text;
+			public var maintimer:Timer = new Timer(5000,0);
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			[Bindable]
+			public var hfilterarray:Array = new Array();
+			[Bindable]
+			public var filterData1:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData2:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData3:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData4:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var hfilterstring:String = "";
+			[Bindable]
+			public var filtermode:Boolean = false;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			[Bindable]
+			public var homeitems:ArrayCollection = new ArrayCollection(
+				[{label:"Restaurants",img:"../assets/backgrounds/resback.jpg",colorid:"0x50bcb6"},
+					{label:"Specials",img:"../assets/backgrounds/mapback.jpg",colorid:"0xef4056"},
+					{label:"Restrictions",img:"../assets/backgrounds/restback.jpg",colorid:"0xfcb643"}
+				]);
+			import valueObjects.Model;
+			[Bindable]
+			private var model:Model = new Model();
+			private const APP_ID:String = "277005535795275";
+			//App origin URL
+			private const FACEBOOK_APP_ORIGIN:String = "http://mymenuapp.ca/facebook";
+			//Permissions Array
+			private const PERMISSIONS:Array = ["email","user_birthday","user_location","basic_info",'read_stream', 'publish_stream'];
+			private var facebookWebView:StageWebView;
+			private var accessToken:String = "";
+			[Bindable]
+			public var facebookid:String = "";
+			public var sentfacebookrequest:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				
+				
+				FacebookMobile.init(APP_ID, onFacebookInit);
+
+				filterData1 = new ArrayCollection();
+				filterData2 = new ArrayCollection();
+				filterData3 = new ArrayCollection();
+				filterData4 = new ArrayCollection();
+				
+				
+				filterData1.addItem({name:"Nearby"});
+				filterData1.addItem({name:"Postal Code"});
+				filterData1.addItem({name:"Address"});
+			
+				filterData2.addItem({name:"All"});
+				
+				filterData3.addItem({name:"Highest"});
+				filterData3.addItem({name:"Lowest"});
+				
+				filterData4.addItem({name:"Highest"});
+				filterData4.addItem({name:"Lowest"});
+				
+				
+				
+				
+				
+				
+				
+				try{
+					homeData = navigator.firstViewData.items[1];	
+				}
+				catch(e:Error) {
+					navigator.firstViewData = model;
+				}
+				navigator.visible = true;
+				this.setStyle("contentBackgroundColor",0xFFFFFF);
+				try{
+					if (Geolocation.isSupported)
+					{
+					//	g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						//addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				maintimer = new Timer(5000,0);
+				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+				maintimer.start();
+				
+				
+				
+				
+				
+				try{
+					if (data.homefilterarray != null){
+						if (data.homefilterarray != []){
+							filtermode = true;
+							hfilterarray = data.homefilterarray;
+						for (var i:uint = 0; i < hfilterarray.length; i++){
+							if (i == 0){
+								hfilterstring = hfilterstring+hfilterarray;
+							}
+							else {
+								hfilterstring = hfilterstring+","+hfilterarray;
+							}
+						
+						}
+							
+						}
+						else {
+							filtermode = false;
+						}
+					}
+					else {
+						filtermode = false;
+					}
+				}
+				catch(e:Error) {
+					filtermode = false;
+					
+				}
+			
+				if (filtermode){
+					getLocations2.send();
+				}
+				else {
+					getLocations.send();
+				}
+				
+				//this.uic.width = this.width;
+				/*this.parentApplication.map.size = new Size(this.width,this.height/4);
+				if (this.parentApplication.map) {	
+					if (!this.uic.getChildByName("myMap")) this.uic.addChild(this.parentApplication.map);
+				}
+				else {
+					if (!this.parentApplication.map) this.parentApplication.makeMap();
+				
+					this.uic.addChild(this.parentApplication.map);
+				}*/
+				
+				if (!this.parentApplication.gpsTried) this.parentApplication.initGPS();
+				
+				if (this.parentApplication.gpsTried && this.parentApplication.gpsIsSupported) {
+					this.parentApplication.setGpsLatLng();
+				}
+				else {
+				}	
+				//
+				filterarea.visible = true;
+				
+			}
+			private function onFacebookInit(result:Object, fail:Object):void
+			{
+				var stop:String = "";
+			}
+			public function aftertimer(ev:TimerEvent):void {
+				
+				if (homeData.length <= 0){
+					busy = true;
+					getLocations.cancel();
+					homeData = new ArrayCollection();
+					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
+					maintimer.stop();
+					maintimer = new Timer(5000,0);
+					maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+					maintimer.start();
+					if (filtermode){
+						getLocations2.send();
+					}
+					else {
+						getLocations.send();
+					}
+				}
+			}
+			
+			
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				busy = false;
+				var i:uint = 0;
+				homeData = new ArrayCollection();
+				try{			
+					homeData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						homeData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				var tempfilter2:ArrayCollection = new ArrayCollection();
+				
+				for (i=  0; i < homeData.length; i++){
+					homeData[i].distance = Number(getDistance(mylat,mylong,homeData[i].lat,homeData[i].longa));
+					var tempfail:Boolean = false;
+					for (var j:uint = 0; j < tempfilter2.length; j++){
+						if (tempfilter2[j].name == homeData[i].categoryname){
+							tempfail = true;
+						}
+					}
+					if (tempfail == false){
+						tempfilter2.addItem({name:homeData[i].categoryname});
+					}
+				}
+				
+				
+				
+				
+				navigator.firstViewData.homedata = new ArrayCollection;
+				navigator.firstViewData.homedata = homeData;
+				
+				
+				
+				var filtercatsf:SortField = new SortField();
+				filtercatsf.name = "name";
+				filtercatsf.numeric = false;
+				var fcst:Sort = new Sort();
+				fcst.fields = [filtercatsf];
+				tempfilter2.sort = fcst;
+				tempfilter2.refresh();
+				
+				
+				for (var k:uint = 0; k < tempfilter2.length; k++){
+					filterData2.addItem({name:tempfilter2[k].name});
+				}
+				
+				
+				
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				homeData.sort = numericDataSort;
+				homeData.refresh();
+				this.parentApplication.removeShapesFromMap();
+				this._sc = new ShapeCollection();
+				this._sc.name = "searchShapeCollection";
+				for (i = 0; i < homeData.length; i++){
+					var p:Poi = new Poi(new LatLng(0,0));
+					p.infoWindowTitleText = homeData[i].business_name;
+					p.latLng = LatLng(new LatLng(homeData[i].lat,homeData[i].longa))
+					p.infoContent = "Address: " + homeData[i].business_address1+", "+homeData[i].business_city+", "+homeData[i].business_locality+", "+homeData[i].business_postalcode;
+					if (this.parentApplication.applicationDPI >= 240) {
+						var io:PinMapIcon = (p.icon as PinMapIcon);
+						p.icon = io;
+						(p.icon as PinMapIcon).gradientBaseColors = [0X000000, 0x0cb8e9];
+					}
+					this._sc.add(p);	
+				}
+				this.parentApplication.map.addShapeCollection(this._sc);
+				this.parentApplication.map.bestFit(false,2,12);	
+				this.parentApplication.map.size = new Size(this.width,this.height/4);
+				
+				populatelist();
+			} 
+			
+			public function afterGetLocationsFilter(event:ResultEvent):void
+			{
+				busy = false;
+				var i:uint = 0;
+				homeData = new ArrayCollection();
+				try{			
+					homeData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						homeData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+						
+					}
+				}
+				for (i=  0; i < homeData.length; i++){
+					homeData[i].distance = Number(getDistance(mylat,mylong,homeData[i].lat,homeData[i].longa));
+				}
+				
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				homeData.sort = numericDataSort;
+				homeData.refresh();
+				this.parentApplication.removeShapesFromMap();
+				this._sc = new ShapeCollection();
+				this._sc.name = "searchShapeCollection";
+				for (i = 0; i < homeData.length; i++){
+					var p:Poi = new Poi(new LatLng(0,0));
+					p.infoWindowTitleText = homeData[i].business_name;
+					p.latLng = LatLng(new LatLng(homeData[i].lat,homeData[i].longa))
+					p.infoContent = "Address: " + homeData[i].business_address1+", "+homeData[i].business_city+", "+homeData[i].business_locality+", "+homeData[i].business_postalcode;
+					if (this.parentApplication.applicationDPI >= 240) {
+						var io:PinMapIcon = (p.icon as PinMapIcon);
+						p.icon = io;
+						(p.icon as PinMapIcon).gradientBaseColors = [0X000000, 0x0cb8e9];
+					}
+					this._sc.add(p);	
+				}
+				this.parentApplication.map.addShapeCollection(this._sc);
+				this.parentApplication.map.bestFit(false,2,12);	
+				this.parentApplication.map.size = new Size(this.width,this.height/4);
+				
+				populatelist();
+			} 
+			public function populatelist():void {
+				var srt:Sort = new Sort();
+				if (currentselectmode == 1){
+					srt.fields = [new SortField("distance")];
+					homeData.sort = srt;
+					homeData.refresh();
+				}
+				else if (currentselectmode == 2){
+					srt.fields = [new SortField("categoryname")];
+					homeData.sort = srt;
+					homeData.refresh();
+				}
+				else if (currentselectmode == 3){
+					srt.fields = [new SortField("rating")];
+					homeData.sort = srt;
+					homeData.refresh();
+				}
+				else if (currentselectmode == 4){
+					srt.fields = [new SortField("pricehigh")];
+					homeData.sort = srt;
+					homeData.refresh();
+				}
+				storeList.dataProvider = homeData;
+				
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			public function searchClick():void
+			{
+				homeData.filterFunction = filterCompleted;
+				homeData.refresh();
+				storeList.dataProvider = homeData;
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.business_description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.categoryname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function onViewDeactivate():void {
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function storeListClick():void {	
+				if (storeList.selectedIndex != -1){
+					model 
+					model.items = new ArrayCollection();
+					model.items.addItem(homeData[storeList.selectedIndex]);
+					model.items.addItem(homeData);
+					navigator.pushView(StoresDescription, model);	
+				}
+			}
+			
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;	
+				for (var i:uint=  0; i < homeData.length; i++){
+					homeData[i].distance = Number(getDistance(mylat,mylong,homeData[i].lat,homeData[i].longa));
+				}
+				
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				homeData.sort = numericDataSort;
+				homeData.refresh();
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function degreesToRadians(degrees:Number):Number {
+				
+				return degrees * Math.PI / 180;
+				
+			}
+			
+			public function radiansToDegrees(radians:Number):Number{
+				
+				return radians * 180 / Math.PI;	
+			}
+			
+			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+				var R1:Number = 6371; // km
+				var dLat:Number = degreesToRadians(lat2-lat1);
+				var dLon:Number = degreesToRadians(lon2-lon1);
+				var lat1:Number = degreesToRadians(lat1);
+				var lat2:Number = degreesToRadians(lat2);
+				
+				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+				var d:Number = R1 * c;
+				return d.toFixed(2);
+			}
+		
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+					emailGo = "";
+					nameGo = "";
+					var saveManager:PersistenceManager = new PersistenceManager();
+					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+					navigator.pushView(Login);
+				}
+				catch(e:Error){
+					navigator.pushView(Login);
+				}
+			}
+			public function filterClick(u:uint):void {
+				
+				var fadein:Fade = new Fade();
+				fadein.alphaFrom = 0;
+				fadein.alphaTo = 1;
+				fadein.duration = 500;
+				
+				var fadeout:Fade = new Fade();
+				fadeout.alphaFrom = 1;
+				fadeout.alphaTo = 0;
+				fadeout.duration = 500;
+				
+				
+				
+				if ((currentselectmode == 1)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage1];
+				}
+				else if ((currentselectmode == 2)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage2];
+				}
+				else if ((currentselectmode == 3)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage3];
+				}
+				else if ((currentselectmode == 4)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage4];
+				}
+				
+				
+				
+				if ((u == 1)&&(currentselectmode != u)){
+					filterList1.visible = true;
+					filterList2.visible = false;
+					filterList3.visible = false;
+					filterList4.visible = false;
+					
+					selectview1.alpha = 1;
+					selectview2.alpha = 0;
+					selectview3.alpha = 0;
+					selectview4.alpha = 0;
+					
+					fadein.targets = [filterimage1];
+					
+					
+					selectview1.mouseEnabled = true;
+					selectview1.mouseEnabledWhereTransparent = true;
+					
+					selectview2.mouseEnabled = false;
+					selectview2.mouseEnabledWhereTransparent = false;
+					
+					selectview3.mouseEnabled = false;
+					selectview3.mouseEnabledWhereTransparent = false;
+					
+					selectview4.mouseEnabled = false;
+					selectview4.mouseEnabledWhereTransparent = false;
+					
+				}
+				else if ((u == 2)&&(currentselectmode != u)){
+					filterList1.visible = false;
+					filterList2.visible = true;
+					filterList3.visible = false;
+					filterList4.visible = false;
+					
+					selectview1.alpha = 0;
+					selectview2.alpha = 1;
+					selectview3.alpha = 0;
+					selectview4.alpha = 0;
+					
+					fadein.targets = [filterimage2];
+					
+					selectview1.mouseEnabled = false;
+					selectview1.mouseEnabledWhereTransparent = false;
+					
+					selectview2.mouseEnabled = true;
+					selectview2.mouseEnabledWhereTransparent = true;
+					
+					selectview3.mouseEnabled = false;
+					selectview3.mouseEnabledWhereTransparent = false;
+					
+					selectview4.mouseEnabled = false;
+					selectview4.mouseEnabledWhereTransparent = false;
+				}
+				else if ((u == 3)&&(currentselectmode != u)){
+					filterList1.visible = false;
+					filterList2.visible = false;
+					filterList3.visible = true;
+					filterList4.visible = false;
+					
+					selectview1.alpha = 0;
+					selectview2.alpha = 0;
+					selectview3.alpha = 1;
+					selectview4.alpha = 0;
+					
+					fadein.targets = [filterimage3];
+					
+					selectview1.mouseEnabled = false;
+					selectview1.mouseEnabledWhereTransparent = false;
+					
+					selectview2.mouseEnabled = false;
+					selectview2.mouseEnabledWhereTransparent = false;
+					
+					selectview3.mouseEnabled = true;
+					selectview3.mouseEnabledWhereTransparent = true;
+					
+					selectview4.mouseEnabled = false;
+					selectview4.mouseEnabledWhereTransparent = false;
+				}
+				else if ((u == 4)&&(currentselectmode != u)){
+					filterList1.visible = false;
+					filterList2.visible = false;
+					filterList3.visible = false;
+					filterList4.visible = true;
+					
+					selectview1.alpha = 0;
+					selectview2.alpha = 0;
+					selectview3.alpha = 0;
+					selectview4.alpha = 1;
+					
+					fadein.targets = [filterimage4];
+					
+					selectview1.mouseEnabled = false;
+					selectview1.mouseEnabledWhereTransparent = false;
+					
+					selectview2.mouseEnabled = false;
+					selectview2.mouseEnabledWhereTransparent = false;
+					
+					selectview3.mouseEnabled = false;
+					selectview3.mouseEnabledWhereTransparent = false;
+					
+					selectview4.mouseEnabled = true;
+					selectview4.mouseEnabledWhereTransparent = true;
+				}
+				
+				
+				
+				
+					
+				if (currentselectmode != u){
+					fadeout.play();
+					fadein.play();
+					currentselectmode = u;
+					populatelist();
+					
+				}
+				
+			
+			}
+			public function goFilterScreen(u:uint):void {
+				if (clickingsvi == false){
+					if (dropDownContainer.visible){
+						//close dropdown menu
+						var fadeout:Fade = new Fade();
+						fadeout.alphaFrom = 1;
+						fadeout.alphaTo = 0;
+						fadeout.duration = 500;
+						fadeout.target = dropDownContainer;
+						fadeout.play();
+						fadeout.addEventListener(EffectEvent.EFFECT_END, afterdrophide);
+					}
+					else{
+						//show dropdown menu
+						var fadein:Fade = new Fade();
+						fadein.alphaFrom = 0;
+						fadein.alphaTo = 1;
+						fadein.duration = 500;
+						dropDownContainer.visible = true;
+						fadein.target = dropDownContainer;
+						fadein.play();
+					}	
+				}
+				else {
+					clickingsvi = false;
+				}
+				
+			}
+			public function afterdrophide(ev:EffectEvent):void {
+				dropDownContainer.visible = false;
+			}
+			
+			public function filter1Click():void {
+				if (filterList1.selectedItem.name == "Nearby"){
+					svi1.visible = true;
+					svi2.visible = false;
+					svi3.visible = false;
+				}
+				else if (filterList1.selectedItem.name == "Postal Code"){
+					svi1.visible = false;
+					svi2.visible = true;
+					svi3.visible = false;
+				}
+				else if (filterList1.selectedItem.name == "Address"){
+					svi1.visible = false;
+					svi2.visible = false;
+					svi3.visible = true;
+				}
+				goFilterScreen(0);
+				
+			}
+			public function filter2Click():void {
+				sv2label.text = filterList2.selectedItem.name;
+				goFilterScreen(1);
+				//add filter here
+			}
+			public function filter3Click():void {
+				if (filterList3.selectedItem.name == "Highest"){
+					trace("1");
+				}
+				else if (filterList3.selectedItem.name == "Lowest"){
+					trace("2");
+				}
+				sv3label.text = filterList3.selectedItem.name;
+				goFilterScreen(2);
+				
+			}
+			public function filter4Click():void {
+				if (filterList4.selectedItem.name == "Highest"){
+					trace("1");
+				}
+				else if (filterList4.selectedItem.name == "Lowest"){
+					trace("2");
+				}
+				sv4label.text = filterList3.selectedItem.name;
+				goFilterScreen(3);
+				
+			}
+			public var clickingsvi:Boolean = false;
+			public function svilabelclick():void {
+				clickingsvi = true;
+				if (dropDownContainer.visible){
+					//close dropdown menu
+					var fadeout:Fade = new Fade();
+					fadeout.alphaFrom = 1;
+					fadeout.alphaTo = 0;
+					fadeout.duration = 500;
+					fadeout.target = dropDownContainer;
+					fadeout.play();
+					fadeout.addEventListener(EffectEvent.EFFECT_END, afterdrophide);
+				}
+			}
+		
+			
+			override public function createReturnObject():Object
+			{
+				return model;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://localhost:8888/mymenuphp/php/locations/getLocationsMobile2.php"
+					   result="afterGetLocations(event)" >
+				
+		</s:HTTPService>
+		<s:HTTPService id="getLocations2" method="GET" resultFormat="array"
+					   url="http://localhost:8888/mymenuphp/php/locations/getLocationsMobile2Filter.php"
+					   result="afterGetLocationsFilter(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>
+				<hfilterstring>{hfilterstring}</hfilterstring>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+		<s:BorderContainer borderAlpha="0" id="filterarea"     visible="true" 
+						   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="75">
+			<s:Image id="filterimage1" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="1"   source="assets/hometabs1.png"
+					 verticalCenter="0"/>
+			<s:Image id="filterimage2" horizontalCenter="0" 
+					 mouseEnabled="false" alpha="0"   source="assets/hometabs2.png"
+					 verticalCenter="0"/>
+			<s:Image id="filterimage3" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="0"  source="assets/hometabs3.png"
+					 verticalCenter="0"/>
+			<s:Image id="filterimage4" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="0" source="assets/hometabs4.png"
+					 verticalCenter="0"/>
+			
+			<s:HGroup width="100%" height="100%" >
+				<s:Group width="25%"  height="100%" id="toggleclick1" click="filterClick(1);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick2" click="filterClick(2);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick3" click="filterClick(3);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="25%"  height="100%" id="toggleclick4" click="filterClick(4);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+			</s:HGroup>
+			
+		</s:BorderContainer>
+		<s:BorderContainer borderAlpha="0"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="75">
+			<s:HGroup id="selectview1" width="100%" height="100%" alpha="1"
+					  click="goFilterScreen(0);"  mouseDown="gDown(event)"
+					  mouseEnabled="true" mouseEnabledWhereTransparent="true" mouseOut="gOut(event)"
+					  mouseOver="gOver(event)" mouseUp="gOut(event)" 
+					  paddingLeft="30" gap="15" verticalAlign="middle" >
+				<s:Label left="29" mouseEnabled="false" color="#4d4d4d" styleName="textsize1" text="Near" 
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Group left="90" right="20"  verticalCenter="0">
+					<s:Label id="svi1" visible="true" left="0"  mouseEnabled="false"
+							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Current Location" verticalCenter="0"/>
+					<s:TextInput id="svi2" height="90%" right="10" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
+								 visible="false" click="svilabelclick();" left="0" prompt="Enter Postal Code"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+					<s:TextInput id="svi3" height="90%" click="svilabelclick();" right="10" verticalCenter="0"
+								 visible="false" left="0" prompt="Enter Address" color="#b2b2b2" styleName="textsize1"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+				</s:Group>
+				
+			</s:HGroup>
+			<s:HGroup id="selectview2"  click="goFilterScreen(1);"   alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" 
+						 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="115" id="sv2label" mouseEnabled="false"  color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="All" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview3"  click="goFilterScreen(2);"  alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="107" id="sv3label" width="124" color="#4d4d4d" fontWeight="bold"
+						 mouseEnabled="false" styleName="textsize1" text="Highest"
+						 verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview4"  click="goFilterScreen(3);"  alpha="0" height="100%" width="100%"
+					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					 paddingLeft="30" gap="15" verticalAlign="middle">
+				<s:Label left="29" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+						 text="Price" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="93" id="sv4label" width="117" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
+						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		<!--mx:UIComponent id="uic" left="0" width="100%" height="{this.height/4}" x="0" y="0"/-->
+		
+		<s:Group width="100%" horizontalCenter="0" height="100%" >
+			<s:List width="100%" horizontalCenter="0" height="100%"
+					alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
+					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{homeData}" itemRenderer="components.storeResult"
+					selectedIndex="1" click="storeListClick();" >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="0"/>
+				</s:layout>
+			</s:List>
+			
+			<s:BorderContainer id="dropDownContainer" backgroundAlpha="0.8" visible="false" alpha="0"
+							   backgroundColor="#FFFFFF" width="100%" height="100%">
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						 contentBackgroundAlpha="0" visible="true"
+						id="filterList1"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData1}"
+						itemRenderer="components.dropdownitem"
+						click="filter1Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList2"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData2}"
+						itemRenderer="components.dropdownitem"
+						click="filter2Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList3"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData3}"
+						itemRenderer="components.dropdownitem"
+						click="filter3Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList4"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData4}"
+						itemRenderer="components.dropdownitem"
+						click="filter4Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+			</s:BorderContainer>
+		</s:Group>
+		
+		
+	</s:VGroup>
+</s:View>

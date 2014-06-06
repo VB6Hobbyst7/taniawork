@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:assets="assets.*">
+	
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.ActionBar")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.components.View;
+			import spark.components.ViewNavigator;
+		]]>
+	</fx:Script>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="titleContentWithActionAndNavigation" />
+		<s:State name="titleContentWithNavigation" />
+		<s:State name="titleContentWithAction" />
+		<s:State name="titleContent" />
+		<s:State name="titleWithActionAndNavigation" />
+		<s:State name="titleWithNavigation" />
+		<s:State name="titleWithAction" />
+		<s:State name="title" />
+	</s:states>
+	
+	<!-- SkinParts
+	name=titleGroup, type=spark.components.Group, required=false
+	name=actionGroup, type=spark.components.Group, required=false
+	name=navigationGroup, type=spark.components.Group, required=false
+	name=titleDisplay, type=spark.core.IDisplayText, required=false
+	-->
+
+	<assets:HeaderBar id="background" left="0" right="0"/>
+	<s:Label id="titleDisplay" left="10" verticalCenter="0"/>
+
+	<s:HGroup width="100%" verticalCenter="-2" paddingLeft="8" paddingRight="8" gap="12" verticalAlign="middle">
+		
+		<s:Group id="navigationGroup"/>
+
+		<s:Group id="titleGroup" width="100%"/>
+		
+		<s:Group id="actionGroup">
+			<s:layout>
+				<s:HorizontalLayout/>
+			</s:layout>
+		</s:Group>
+		
+	</s:HGroup>
+	
+</s:Skin>

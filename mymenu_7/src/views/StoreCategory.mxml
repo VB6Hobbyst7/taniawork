@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		contentBackgroundAlpha="1" accentColor="#e8e8e8"
+		contentBackgroundColor="#e8e8e8"
+		title="Restaurants"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#e8e8e8"
+		backgroundAlpha="1" 
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+		<s:Image x="0" y="-2" mouseEnabled="false">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+										source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+										source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+			</s:source>
+		</s:Image>
+			</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.geom.ColorTransform;
+			import flash.geom.Rectangle;
+			import flash.html.HTMLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var emailGo:String = "none";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+
+			protected function view1_activateHandler(event:Event):void
+			{
+			
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				busy = false;
+				scroller.visible = true;
+			}	
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function searchEnterPress(event:FlexEvent):void
+			{
+				try{
+					if (key.text.length > 0){
+						navigator.pushView(StoreProximity,{search:key.text});
+					}	
+				}
+				catch(e:Error){}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller id="scroller" visible="false" height="100%" width="95%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup  height="100%" gap="10" width="100%" horizontalAlign="center" verticalAlign="top">
+			<s:Group width="100%" >
+				<s:Image  id="img1" width="100%" scaleMode="stretch" source="../assets/backgrounds/resback.jpg" />
+				<s:BorderContainer backgroundAlpha="1" x="0" y="10" borderAlpha="0"  backgroundColor="#50bcb6">
+					<s:Label width="100%" color="#FFFFFF" x="10"
+							 fontWeight="bold" styleName="textsize9" text="Restaurants"
+							 verticalAlign="middle"></s:Label>
+				</s:BorderContainer>
+			</s:Group>
+			
+			<s:BorderContainer width="100%" borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0" borderColor="#e8e8e8"
+							   dropShadowVisible="false" backgroundColor="#e8e8e8">
+				<s:HGroup height="100%" width="100%">
+					<s:TextInput   fontFamily="Arial"    color="#777777" width="100%" 
+								   id="key"  top="1" height="80%" enter="searchEnterPress(event)"
+								   maxChars="20" prompt="Search Restaurants"
+								   returnKeyLabel="search"/>
+				</s:HGroup>
+			</s:BorderContainer>
+			<s:VGroup width="100%" height="50%">
+				<s:HGroup height="49%" width="100%">
+					<s:BorderContainer mouseOver="gOver(event)" click="navigator.pushView(StoreProximity);" mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555" cornerRadius="4"  backgroundAlpha="0" borderWeight="2" width="100%" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Proximity" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer mouseOver="gOver(event)" click="navigator.pushView(StoreCusine);"  mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0"  borderWeight="2" width="100%" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Cuisine" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:HGroup>
+				<s:HGroup height="49%" width="100%">
+					<s:BorderContainer mouseOver="gOver(event)" click="navigator.pushView(StoreProximity);" mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0" borderWeight="2"  width="100%" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Price" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer mouseOver="gOver(event)" click="navigator.pushView(StoreProximity);" mouseDown="gDown(event)" mouseOut="gOut(event)" 
+									   borderColor="#555555"  cornerRadius="4" backgroundAlpha="0" borderWeight="2"  width="100%" height="100%" >
+						<s:Label color="#555555" mouseEnabled="false"  horizontalCenter="0" styleName="textsize9"
+								 text="Rating" textAlign="center" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:HGroup>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

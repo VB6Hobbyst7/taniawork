@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:model="model.*"  
+		xmlns:mobile="spark.skins.mobile.*"
+		backgroundColor="#e8e8e8" 
+		viewActivate="onActivate(event)" 
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="{data.business_name}" 
+		xmlns:controls="com.flexcapacitor.controls.*" xmlns:cs="cs.*"  >
+	<s:navigationContent >
+		<s:Group width="{this.width*0.18}" height="100%" click="navigator.popView();">
+			<s:Image verticalCenter="0" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/PKT_BackArrow.png')"
+											source240dpi="@Embed('assets/pocketicons/PKT_BackArrow@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/PKT_BackArrow@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Group  click="navigator.pushView(Home);">
+			<s:Image x="0" y="-2" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/pocketicons/home.png')"
+											source240dpi="@Embed('assets/pocketicons/home@2x.png')"
+											source320dpi="@Embed('assets//pocketicons/home@2x.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;	
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var mapUrl:String = "http://mymenuapp.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl;
+			[Bindable]
+			public var purchased2:Boolean = false;
+			[Bindable]
+			public var picture:String = "";
+			[Bindable]
+			public var scaleval:Number = 0;
+			private var roundedMask:Sprite;
+			[Bindable]
+			public var mmax:uint = 0;
+			[Bindable]
+			public var mmin:uint = 0;
+			[Bindable]
+			public var superamount:String = "";
+			[Bindable]
+			public var minwidthval:Number = 7;
+			[Bindable]
+			public var idout:String = "";
+			public function onActivate(event:Event):void
+			{
+				try{
+					var loadManager:PersistenceManager = new PersistenceManager();
+					if(loadManager.load()){
+						var savedData:Object = loadManager.getProperty("useremail");
+						if(savedData){
+							if (savedData.toString() != "ERRORBADERRORBAD"){
+								emailGo = savedData.toString();
+								var saveManager:PersistenceManager = new PersistenceManager();
+								saveManager.setProperty("useremail",savedData.toString());
+							}
+							
+						}
+						else {
+							try{
+								sqlConnection = new SQLConnection();
+								sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+								var stmt:SQLStatement = new SQLStatement();
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "SELECT email, name, country, active FROM localuser";
+								stmt.execute();
+								var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+								
+								if (resData.length != 0){
+									//good login
+									var foundactive:Boolean = false;
+									for (var i:uint = 0; i < resData.length; i++){
+										if (resData[i].active == "yes"){
+											foundactive = true;
+											emailGo = resData[i].email;
+										
+										}
+										
+									}
+								}
+							}
+							catch(e:Error){
+								
+							}
+						}
+					}	
+				}
+				catch(e:Error){
+					
+				}	
+				
+				var tempamount:String = data.amount;
+				if (data.business_name != null){
+					img1.source = data.business_picture;
+					if ((data.amount == null)||(data.amount == 'null')){
+						data.amount = '0';
+					}		
+				}
+				idout = data.id;
+				getSpecials.send();
+
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function afterGetSpecials(ev:ResultEvent):void  {
+				busy = false;
+				loyaltyArray = new ArrayCollection();
+				try{			
+					loyaltyArray = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						loyaltyArray.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+			}
+		
+			public function goredeemout():void {
+				
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials" method="GET" 
+					   resultFormat="array" 
+					   url="http://mymenuapp.ca/php/specials/getSpecialsByStore.php"
+					   result="afterGetSpecials(event)" >	
+			<s:request xmlns="">
+				<merchid>{idout}</merchid>					
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	<s:Scroller height="100%" horizontalCenter="0" verticalCenter="0"  width="95%" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup height="100%" horizontalCenter="0" verticalCenter="0"  horizontalAlign="center"  width="100%" gap="0"  >
+			<s:Group width="100%"   >
+				
+				<s:BitmapImage width="100%"   id="img1"  scaleMode="stretch"   />
+				<s:BorderContainer  borderVisible="false" backgroundAlpha="0.8" backgroundColor="#62b6ae" bottom="0" width="100%">
+					<s:Label left="10" width="100%"  color="#FFFFFF" 
+							 fontWeight="bold" top="5" bottom="5" text="{data.business_name}" verticalAlign="middle"
+							 verticalCenter="0"/>
+					
+				</s:BorderContainer>
+			</s:Group>
+			<s:BorderContainer width="100%"    borderAlpha="0.8"  borderColor="#7777777"  backgroundAlpha="0">
+				<s:Label left="10" color="#7777777" top="5" bottom="5" text="Offers" verticalCenter="0"/>
+			</s:BorderContainer>
+			<s:List id="loyaltyList" width="100%" height="100%"  horizontalScrollPolicy="off"
+					alternatingItemColors="[0xFFFFFF,0xEEEEEE ]"  contentBackgroundAlpha="1" contentBackgroundColor="#e8e8e8"
+					dataProvider="{loyaltyArray}" horizontalCenter="0"
+					itemRenderer="components.specialsResult" 
+					selectedIndex="1">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="false"
+									  gap="10"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" symbolColor="#7777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				 contentBackgroundAlpha="0"	>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:GlowFilter id="selectionglow"
+			alpha="1" strength="200" knockout="true"
+			color="0x43c7ae"  blurX="30" blurY="30"
+			inner="true"
+			/>
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" backgroundColor.normal="#5b5b5b"
+					   backgroundColor.selected="#494949" 
+					   borderAlpha="0"  backgroundAlpha="1">
+		
+
+	<s:VGroup height="75" paddingLeft="20" width="100%" gap="0">
+		<s:HGroup width="100%" gap="10" verticalAlign="middle" height="100%" >
+			<s:Image  filters.selected="{[selectionglow]}" filters.normal="[]"  source="{data.img}"/>
+				<s:Label color="#FFFFFF" filters.selected="{[selectionglow]}" 
+						 filters.normal="[]"  styleName="textsize0"  text="{data.name}"></s:Label>
+			</s:HGroup>
+	</s:VGroup>	
+	</s:BorderContainer>
+</s:ItemRenderer>

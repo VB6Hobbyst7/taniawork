@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#ffffff"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" actionBarVisible="false"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}					
+				scroller.visible = true;
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			
+			
+			
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			
+			
+			public function backOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backDown(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xFFFFFF);
+			}
+			
+			
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];	
+			}
+			
+			
+			protected function descriptionclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (descriptiontext.maxDisplayedLines == 4){
+					descriptiontext.maxDisplayedLines = 30;
+				}
+				else {
+					descriptiontext.maxDisplayedLines = 4;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller id="scroller" visible="false"  height="100%" horizontalCenter="0" verticalCenter="0"  
+				width="100%"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup height="100%" paddingTop="0" gap="20" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%"   id="megacont"  >
+				
+				<s:BitmapImage id="img1"  width="100%" 	
+							   height="100%" source="{data.picture}" 
+							   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				
+				<s:Group width="{this.width*0.30}" top="20" left="20"  click="navigator.popView();">
+					<s:Image verticalCenter="0" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/backbtnnew.png')"
+													source240dpi="@Embed('assets/backbtnnew.png')"
+													source320dpi="@Embed('assets/backbtnnew.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				
+			</s:Group>
+			
+			<s:VGroup width="100%" gap="15" paddingLeft="20" paddingRight="20">
+				<s:HGroup width="100%"  gap="15" verticalAlign="middle" >
+					
+					<s:BorderContainer cornerRadius="5" height="65" width="65" horizontalCenter="0" verticalCenter="0"
+									   borderAlpha="0" backgroundColor="#b3b3b3" backgroundAlpha="1">
+						<s:Label color="#FFFFFF" horizontalCenter="0" styleName="textsize2"
+								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:VGroup height="100%">
+						
+						
+						<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#4d4d4d"
+								 styleName="textsize6" fontWeight="bold" text="{data.name}"/>
+						<s:HGroup width="100%" gap="0">
+							<s:Label  color="#4d4d4d" fontWeight="bold"
+									  styleName="textsize3" text="{data.categoryname}"
+									  verticalAlign="middle"></s:Label>
+							<s:Label color="#43c7ae"  fontWeight="bold"
+									 styleName="textsize3" text=" ${data.cost}"
+									 verticalAlign="middle"></s:Label>
+						</s:HGroup>
+						
+					</s:VGroup>
+					
+				</s:HGroup>
+				
+				<s:Label width="100%"
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" styleName="textsize0" click="descriptionclick(event)"
+						 text="{data.description}" maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				
+				<s:Image source="assets/ratethisdish.png"/>
+				<s:VGroup width="100%" gap="0">
+					
+					
+				</s:VGroup>
+				
+				
+			</s:VGroup>
+			
+			
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

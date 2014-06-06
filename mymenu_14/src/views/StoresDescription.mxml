@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#ffffff"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" actionBarVisible="false"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Summary" xmlns:components="components.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			[Bindable]
+			public var storetoprateddata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var recentreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topratedrecentval:uint = 1;
+			import valueObjects.Model;
+			[Bindable]
+			private var model:Model = new Model();
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				if (data != null) {
+					model = data as Model;
+				}
+				
+				try{
+					storetoprateddata = navigator.firstViewData.storetoprateddata;	
+					recentreviews = navigator.firstViewData.recentreviews ;
+					topreviews = navigator.firstViewData.topreviews;
+					reviewlist.dataProvider = topreviews;
+					busy = false;
+				}
+				catch(e:Error) {
+					busy = true;
+				}
+				
+				
+				
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				img1.source = model.items.getItemAt(0).business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+model.items.getItemAt(0).lat+","+model.items.getItemAt(0).longa;	
+				scroller.visible = true;
+				getTopRated.send();
+				getTopReviews.send();
+			}
+		
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+		
+				
+				
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			
+			
+			public function backOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backDown(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xFFFFFF);
+			}
+			
+			
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];	
+			}
+			protected function viewrewards(event:MouseEvent):void
+			{
+				navigator.pushView(Specials, {id:model.items.getItemAt(0).id,merchid:model.items.getItemAt(0).id,business_picture:model.items.getItemAt(0).business_picture,
+					emailGo:emailGo,business_name:model.items.getItemAt(0).business_name,amount:model.items.getItemAt(0).amount});
+			}	
+			
+			protected function descriptionclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (descriptiontext.maxDisplayedLines == 4){
+					descriptiontext.maxDisplayedLines = 30;
+				}
+				else {
+					descriptiontext.maxDisplayedLines = 4;
+				}
+				
+			}
+			public function afterGetTopRated(ev:ResultEvent):void {
+				busy = false;
+				storetoprateddata = new ArrayCollection();
+				try{			
+					storetoprateddata = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{
+						
+						storetoprateddata.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				try{
+					navigator.firstViewData.storetoprateddata = new ArrayCollection;
+					navigator.firstViewData.storetoprateddata = storetoprateddata;
+				}
+				catch(e:Error) {
+					
+				}
+				
+			}
+			public function afterGetMerchReviews(ev:ResultEvent):void {
+				busy = false;
+				topreviews = new ArrayCollection();
+				recentreviews = new ArrayCollection();
+				try{			
+					topreviews = ev.result[0].results.result;	
+					recentreviews = ev.result[0].results2.result2;	
+				}
+				catch(e:Error){
+					try{
+						
+						topreviews.addItem(ev.result[0].results.result);
+						recentreviews.addItem(ev.result[0].results2.result2);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				try{
+					navigator.firstViewData.recentreviews = new ArrayCollection();
+					navigator.firstViewData.topreviews = new ArrayCollection();
+					navigator.firstViewData.recentreviews = recentreviews;
+					navigator.firstViewData.topreviews = topreviews;
+				}
+				catch(e:Error){
+					
+				}
+				
+				
+			
+				
+				
+				reviewlist.dataProvider = topreviews;
+				
+			}
+			
+			public function topratedrecentclick(event:MouseEvent):void
+			{
+				if (topratedrecentval == 1){
+					topratedrecentval = 2;
+					topratedrecentimg.source = 'assets/topratedrecent2.png';
+					reviewlist.dataProvider = recentreviews;
+				}
+				else {
+					topratedrecentval = 1;
+					topratedrecentimg.source = 'assets/topratedrecent1.png';
+					reviewlist.dataProvider = topreviews;
+				}
+				
+				
+			}
+			public function seemoreclick():void {
+				navigator.pushView(StoreReviews,{id:model.items.getItemAt(0).id});
+			}
+			public function menuitemclick():void {
+				if (topratedlist.selectedIndex != -1){
+					model.items[2] = storetoprateddata[topratedlist.selectedIndex];
+					navigator.pushView(MenuDescription, model);	
+					//navigator.pushView(MenuDescription, storetoprateddata[topratedlist.selectedIndex]);	
+				}
+			}
+			
+			public function ratingitemclick():void {
+				if (reviewlist.selectedIndex != -1){
+					if (topratedrecentval == 1){
+						navigator.pushView(ViewReview, topreviews[reviewlist.selectedIndex]);	
+					}
+					else {
+						navigator.pushView(ViewReview, recentreviews[reviewlist.selectedIndex]);	
+					}
+				
+				}
+			}
+			
+			override public function createReturnObject():Object
+			{
+				navigator.firstViewData = model;
+				return model;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		
+		<s:HTTPService id="getTopRated" method="GET" resultFormat="array"
+					   url="http://localhost:8888/mymenuphp/php/ratings/getTopRatedDishes.php"
+					   result="afterGetTopRated(event)" >
+			<s:request xmlns="">
+				<merchid>{model.items.getItemAt(0).id}</merchid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getTopReviews" method="GET" resultFormat="array"
+					   url="http://localhost:8888/mymenuphp/php/ratings/getTopMerchReviews.php"
+					   result="afterGetMerchReviews(event)" >
+			<s:request xmlns="">
+				<merchid>{model.items.getItemAt(0).id}</merchid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" left="0" right="0" height="100%"
+				horizontalScrollPolicy="off" verticalCenter="0" verticalScrollPolicy="on">
+		<s:VGroup height="100%" paddingTop="0" gap="20" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%"   id="megacont"  >
+				
+				<s:BitmapImage id="img1"  width="100%" 	
+							   height="100%" source="{model.items.getItemAt(0).business_picture}" 
+							   contentLoader="{s_imageCache}" scaleMode="stretch"  />
+				
+				<s:Group width="{this.width*0.30}" mouseEnabledWhereTransparent="true" top="20" left="20"  click="navigator.popView();">
+					<s:Image verticalCenter="0" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/backbtnnewDrop.png')"
+													source240dpi="@Embed('assets/backbtnnewDrop.png')"
+													source320dpi="@Embed('assets/backbtnnewDrop.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				
+			</s:Group>
+			
+			<s:VGroup width="100%" gap="15" paddingLeft="20" paddingRight="20">
+				<s:HGroup width="100%"  gap="15" verticalAlign="middle" >
+					
+					<s:BorderContainer cornerRadius="5" height="65" width="65" horizontalCenter="0" verticalCenter="0"
+									   borderAlpha="0" backgroundColor="#b3b3b3" backgroundAlpha="1">
+						<s:Label color="#FFFFFF" horizontalCenter="0" styleName="textsize2"
+								 text="{model.items.getItemAt(0).rating.toPrecision(2).toString()}" fontWeight="bold" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:VGroup height="100%">
+						
+						
+						<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#4d4d4d"
+								 styleName="textsize6" fontWeight="bold" text="{model.items.getItemAt(0).business_name}"/>
+						<s:Label  left="14" right="2" top="13" width="100%" color="#4d4d4d"
+								  styleName="textsize2" fontWeight="bold" text="{model.items.getItemAt(0).categoryname}"/>
+						
+					</s:VGroup>
+					
+				</s:HGroup>
+				
+				<s:Label width="100%"
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" styleName="textsize0" click="descriptionclick(event)"
+						 text="{model.items.getItemAt(0).business_description}" maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				
+				<s:HGroup horizontalAlign="center" width="100%"  gap="15" verticalAlign="middle" >
+					<s:Image mouseOver="gOver(event)"
+							 click="{navigator.pushView(MenuCategories,{merchid:model.items.getItemAt(0).id,business_name:model.items.getItemAt(0).business_name})}" 
+							 mouseDown="gDown(event)" mouseOut="gOut(event)" 
+							 source="assets/menubtn.png"/>
+					<s:Image source="assets/specialsbtn.png"
+							 mouseOver="gOver(event)" 
+							 click="viewrewards(event)"
+							 mouseDown="gDown(event)" 
+							 mouseOut="gOut(event)" />
+				</s:HGroup>
+				
+				<s:VGroup width="100%" gap="0">
+					<s:BorderContainer borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF" 
+									   width="100%" height="100"
+									   mouseOver="backOver(event)" click="navigateToURL(new URLRequest(googleTravelUrl))"
+									   mouseDown="backDown(event)" 
+									   mouseOut="backOut(event)" >
+						<s:HGroup width="100%"  gap="15" mouseEnabled="false"  verticalCenter="0" verticalAlign="middle" >
+							<s:Image source="assets/infomarker.png"  mouseEnabled="false"/>
+							<s:VGroup height="100%"  mouseEnabled="false">
+								<s:Label  width="100%" color="#43c7ae"  mouseEnabled="false"
+										  styleName="textsize1"  fontWeight="bold" text="{model.items.getItemAt(0).business_address1}"/>
+								<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
+										   styleName="textsize0" fontWeight="bold"  text="{model.items.getItemAt(0).business_city+', '+model.items.getItemAt(0).business_locality}"/>
+							</s:VGroup>
+						</s:HGroup>
+						<s:BorderContainer height="1.5"  mouseEnabled="false" width="100%" top="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+						<s:BorderContainer height="1.5"  mouseEnabled="false" width="100%" bottom="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF" 
+									   width="100%" height="100"
+									   mouseOver="backOver(event)"
+									   mouseDown="backDown(event)" 
+									   mouseOut="backOut(event)" >
+						<s:HGroup width="100%"  gap="15"  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
+							<s:Image source="assets/infoclock.png"  mouseEnabled="false"/>
+							<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
+									   styleName="textsize0" fontWeight="bold"    text="Open Now"/>
+						</s:HGroup>
+						<s:BorderContainer height="1.5" width="100%"  mouseEnabled="false" top="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+						<s:BorderContainer height="1.5" width="100%"  mouseEnabled="false" bottom="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF" 
+									   width="100%" height="100"
+									   mouseOver="backOver(event)" click="navigateToURL(new URLRequest('tel:'+model.items.getItemAt(0).business_number));"
+									   mouseDown="backDown(event)" 
+									   mouseOut="backOut(event)" >
+						<s:HGroup width="100%"  gap="15"  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
+							<s:Image source="assets/infophone.png"  mouseEnabled="false"/>
+							<s:Label  width="100%" color="#4d4d4d"  mouseEnabled="false"
+									  styleName="textsize0" fontWeight="bold"  text="{model.items.getItemAt(0).business_number}"/>
+						</s:HGroup>
+						<s:BorderContainer  mouseEnabled="false" height="1.5" width="100%" top="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+						<s:BorderContainer  mouseEnabled="false" height="1.5" width="100%" bottom="-1" backgroundAlpha="1" borderAlpha="0" backgroundColor="#b2b2b2"/>
+					</s:BorderContainer>
+					
+				</s:VGroup>
+				<s:Label color="#4D4D4D" styleName="textsize5" visible="{storetoprateddata.length > 0}" fontWeight="bold" text="Top Rated Dishes"/>
+				<s:List width="100%" verticalScrollPolicy="off"  
+						contentBackgroundAlpha="0"  click="menuitemclick();"
+						id="topratedlist"  horizontalScrollPolicy="off" 
+						 itemRenderer="components.menuResult"
+						 dataProvider="{storetoprateddata}"
+						 >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="1"/>
+					</s:layout>
+				</s:List>
+				
+				
+				<s:Group width="100%" visible="{topreviews.length > 0}">
+					<s:Label  left="0" color="#4D4D4D"
+							 fontWeight="bold" styleName="textsize5" text="Reviews"
+							 verticalCenter="0"/>
+					<s:Image id="topratedrecentimg" right="0" source="assets/topratedrecent1.png" click="topratedrecentclick(event)" verticalCenter="0"/>
+				</s:Group>
+				
+				<s:List  id="reviewlist" 
+						 width="100%"  click="ratingitemclick();"
+						 verticalScrollPolicy="off" 
+						 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+						 itemRenderer="components.ratingsResultStore" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+
+				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="80" >
+					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="0"
+							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
+				</s:Group>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" symbolColor="#777777" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

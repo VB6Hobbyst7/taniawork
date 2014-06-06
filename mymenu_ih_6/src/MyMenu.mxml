@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   fontFamily="segoewp" 
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   xmlns:utils="utils.*"  
+			   applicationDPI="160" 
+			   frameRate="120" 
+			   backgroundColor="#43c7ae"
+			   contentBackgroundColor="#43c7ae" 
+			   backgroundAlpha="1" 
+			   splashScreenScaleMode="none" 
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
+			   applicationComplete="completeHandler()" 
+			   xmlns:dao="dao.*" 
+			   xmlns:components="components.*">
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			import model.Expense;
+			import model.Report;
+			import spark.components.View;
+			import spark.core.ContentCache;
+			import spark.transitions.CrossFadeViewTransition;
+			import views.ItemView;
+			import views.ListView;
+			import views.ReportView;
+			import views.RestrictionInfo;
+			import views.StoreSpecials;
+			import views.dishFullView;
+			import views.menuFullList;
+			import views.menuThinList;
+			import views.restrictionThinList;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			public var leftnavview:String = "restriction";
+			protected function completeHandler():void
+			{
+				
+				this.stage.setAspectRatio(StageAspectRatio.LANDSCAPE);
+				var report:Report = srv.getLastReport();
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id);
+				
+				systemManager.addEventListener(ReportEvent.ADD_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, new Report());						
+				});
+				systemManager.addEventListener(ReportEvent.ADD_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, new Expense(event.data.id));						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_EXPENSE, function(event:ReportEvent):void
+				{
+					showView(ItemView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.EDIT_REPORT, function(event:ReportEvent):void
+				{
+					showView(ReportView, event.data);						
+				});
+				systemManager.addEventListener(ReportEvent.VIEW_EXPENSES, function(event:ReportEvent):void
+				{
+					leftNav.pushView(ListView, event.data);
+				});
+				svn.autoHideFirstViewNavigator = true;
+			}
+			
+			protected function showView(viewClass:Class, data:Object):void
+			{
+				var report:Report = srv.getLastReport();
+				var goback:Boolean = false;
+				var gobackFromResInfo:Boolean = false;
+				var resinfo:Boolean = false;
+				var resreload:Boolean = false;
+				var gotospecials:Boolean = false;
+				var gotomenu:Boolean = false;
+				
+				try{
+					if (data.goback == true){
+						goback = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resinfo == true){
+						resinfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gobackFromResInfo == true){
+						gobackFromResInfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resreload == true){
+						resreload = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotospecials == true){
+						gotospecials = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotomenu == true){
+						gotomenu = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.finished == true){
+						/*var activeView2:View = leftNav.activeView;
+							activeView2.data = data;
+							var activeView3:View = rightNav.activeView;
+							activeView3.data = data;*/
+						if (resreload){
+							rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else if (gotospecials){
+							rightNav.pushView(StoreSpecials);
+						}	
+						else if (gotomenu){
+							rightNav.pushView(menuFullList);
+						}	
+						else if (gobackFromResInfo){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList, null,null,crosstrans);
+							leftNav.popView();
+						}
+						else if (resinfo){
+							leftnavview = "restrictioninfo";
+							leftNav.pushView(RestrictionInfo,{description:data.description,name:data.name});
+						}
+						else if (goback == true){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList);
+							leftNav.popToFirstView();
+							//leftNav.popView();
+							//rightNav.popView();
+							rightNav.popToFirstView();
+							//rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else {
+							if (leftnavview != "menu"){
+								leftnavview = "menu";
+								leftNav.pushView(menuThinList,data);
+							}
+							rightNav.pushView(dishFullView,data);
+							
+						}
+						
+						
+						
+					}
+					else {
+						var activeView:View = rightNav.activeView;
+						if (activeView is viewClass)
+							activeView.data = data;
+						else
+							rightNav.pushView(viewClass, data); 
+					}
+				}
+				catch(e:Error){
+					var activeView:View = rightNav.activeView;
+					if (activeView is viewClass)
+						activeView.data = data;
+					else
+						rightNav.pushView(viewClass, data); 
+				}
+									
+			}
+			
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+				callLater(setFirstViewMode);
+			}
+			
+			protected function setFirstViewMode():void
+			{
+				trace("State " + currentState);
+				if (currentState == "portrait")
+				{
+					if (svn)
+						svn.showFirstViewNavigatorInPopUp(listButton);
+				}
+				else
+				{
+					if (svn)
+						svn.hideViewNavigatorPopUp();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<s:SplitViewNavigator id="svn" width="100%" height="100%"   >
+		<s:ViewNavigator id="leftNav" width="{this.width/2.5}" height="100%" firstView="views.restrictionThinList"/>
+		<s:ViewNavigator id="rightNav" width="100%" height="100%" firstView="views.menuFullList">
+			<s:navigationContent>
+				<s:Group id="listButton"
+						  width="{this.width/8}" left="0" x="0"
+						  height="100%" 
+						  mouseDown="svn.showFirstViewNavigatorInPopUp(listButton)" 
+						  mouseEnabledWhereTransparent="true"
+						  horizontalCenter="0" 
+						  visible="true"
+						  visible.portrait="true"
+						  visible.landscape="false">
+					<s:Image left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
+							 mouseEnabled="false" 
+							 contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homemenu.png')"
+													source240dpi="@Embed('assets/160/homemenu.png')"
+													source320dpi="@Embed('assets/320/homemenu.png')"
+													source480dpi="@Embed('assets/320/homemenu.png')"
+													source640dpi="@Embed('assets/320/homemenu.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:navigationContent>
+		</s:ViewNavigator>
+	</s:SplitViewNavigator>
+	
+</s:Application>

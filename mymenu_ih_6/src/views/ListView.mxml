@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:components="components.*"
+		dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:dao="dao.*"
+		xmlns:renderers="renderers.*"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#f3f3f3"
+		backgroundAlpha="1" 
+		backgroundColor="#f3f3f3" 
+		title=""
+		creationComplete="creationCompleteHandler()">
+	<s:navigationContent>
+		
+	</s:navigationContent>
+	
+	<s:actionContent>	
+		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import events.ReportEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import model.Report;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.formatters.DateFormatter;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			protected var listdata:ArrayCollection;
+			
+			protected function orientationChangeHandler(event:StageOrientationEvent):void
+			{
+				var stpo:String = "";
+				filterBTN.closeDropDown();
+				sortBTN.closeDropDown();
+
+			}
+			protected function creationCompleteHandler():void
+			{
+
+				
+
+			}
+			
+			
+			public function dataChange(event:FlexEvent):void
+			{
+				try{
+					if (this.data.finished == true){
+					
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<dao:ExpenseReportDAO id="srv"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+	</fx:Declarations>
+	<s:VGroup id="mycont" top="0" left="0"  right="0" bottom="0" gap="0">
+		
+		<s:Line top="0" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#838484" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:HGroup width="100%" gap="1">
+			<s:CalloutButton id="filterBTN"   label="Filter" color="#43c7ae" 
+							 calloutDestructionPolicy="never" left="0"  skinClass="skins.filterCallout"
+							 horizontalPosition="after"  textShadowAlpha="0"
+							 verticalPosition="after">
+				<s:calloutLayout>
+					<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+									  paddingRight="2" horizontalAlign="center" gap="3"/>
+				</s:calloutLayout>
+				<s:calloutContent>
+					<s:Button id="filter1" visible="true" x="0" label="All" enabled="true" fontSize="13" width="100" />
+					<s:Button id="filter3" visible="true"  x="0" label="Imcomplete" enabled="true" fontSize="13"  width="100" />
+					<s:Button id="filter4" visible="true"  x="0" label="Todays" enabled="true" fontSize="13"  width="100" />
+					<s:Button id="filter5" visible="true"  x="0" label="Previous" enabled="true" fontSize="13"  width="100" />
+				</s:calloutContent>
+			</s:CalloutButton>
+			<s:BorderContainer x="0" y="0"  borderVisible="false" height="40" backgroundAlpha="1" borderAlpha="0"
+							   dropShadowVisible="false" backgroundColor="#ebebeb"   width="100%">
+				<s:TextInput   fontFamily="Arial" contentBackgroundAlpha="0" borderVisible="false"
+							   id="key" left="5" right="5" verticalCenter="0" width="100%" height="80%"
+							    maxChars="20" prompt="Search"
+							   returnKeyLabel="search"/>		
+			</s:BorderContainer>
+			<s:CalloutButton id="sortBTN" label="Sort"   right="0"   skinClass="skins.sortCallout"
+							 horizontalPosition="before"  textShadowAlpha="0" color="#43c7ae"
+							 verticalPosition="after" calloutDestructionPolicy="never">
+				<s:calloutLayout>
+					<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+									  paddingRight="2" horizontalAlign="center" gap="3"/>
+				</s:calloutLayout>
+				<s:calloutContent>
+					<s:Button id="sort1" label="Start Time"  x="0" enabled="true" fontSize="13" width="100" />
+					<s:Button id="sort2" label="End Time"  x="0" enabled="true" fontSize="13" width="100"/>
+					<s:Button id="sort3" label="Completion"  x="0" enabled="true"  fontSize="13" width="100"/>
+				</s:calloutContent>
+			</s:CalloutButton>
+		</s:HGroup>
+		
+		<s:VGroup paddingLeft="8" paddingRight="8" paddingTop="14" paddingBottom="8" gap="2">
+			<s:Label text="Title" styleName="title"/>
+			<s:Label text="Name" styleName="subtle" left="8"/>
+		</s:VGroup>
+
+		
+		
+		<s:Line top="1" left="0" right="0" width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#838484" weight="1"/>
+			</s:stroke>
+		</s:Line>
+
+		<s:List id="list" width="100%" top="10" height="100%" dataProvider="{listdata}" 
+				itemRenderer="components.checkListItem" alternatingItemColors="[0xf5f5f5,0xebebeb ]" 
+				change="dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE, list.selectedItem))">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="1"
+								  variableRowHeight="true"/>
+			</s:layout>
+		</s:List>
+
+		
+	</s:VGroup>
+	
+</s:View>

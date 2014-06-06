@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="100%"
+		 creationComplete="creationComplete()"
+		 backgroundColor="#2e2e2e">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.renaun.caltrain.model.CaltrainStrings;
+			
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var paddingText:int;
+			
+			protected function creationComplete():void
+			{
+				paddingText = 18;
+				switch (FlexGlobals.topLevelApplication.applicationDPI)
+				{
+					case DPIClassification.DPI_160:
+						hLayout.gap = 12;
+						hLayout.paddingTop = 12;
+						hLayout.paddingBottom = 12;
+						paddingText = 10;
+						break;
+					case DPIClassification.DPI_240:
+						hLayout.gap = 24;
+						hLayout.paddingTop = 24;
+						hLayout.paddingBottom = 24;
+						paddingText = 15;
+						break;
+					case DPIClassification.DPI_320:
+						hLayout.gap = 30;
+						hLayout.paddingTop = 30;
+						hLayout.paddingBottom = 30;
+						paddingText = 20;
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller horizontalScrollPolicy="off" width="100%" height="100%">
+	<s:Group id="scrollViewport" width="100%" height="100%">
+		
+		<s:layout>
+			<s:VerticalLayout id="hLayout" horizontalAlign="center" gap="20" clipAndEnableScrolling="true" />
+		</s:layout>
+	
+	<s:HGroup id="lblLanguage" width="100%" verticalAlign="middle">
+		<s:Button label="中文" styleName="alertText2Button" color="0xc0c0c0" width="20%"
+				  click="(parentApplication as CaltrainTimes).setLocaleStrings(CaltrainStrings.LOCALE_CHINESE, true)" />
+		<s:Button label="English" styleName="alertText2Button" color="0xc0c0c0" width="26%"
+				  click="(parentApplication as CaltrainTimes).setLocaleStrings(CaltrainStrings.LOCALE_ENGLISH, true)" />
+		<s:Button label="español" styleName="alertText2Button" color="0xc0c0c0" width="27%"
+				  click="(parentApplication as CaltrainTimes).setLocaleStrings(CaltrainStrings.LOCALE_SPANISH, true)" />
+		<s:Button label="Deutsch" styleName="alertText2Button" color="0xc0c0c0" width="27%"
+				  click="(parentApplication as CaltrainTimes).setLocaleStrings(CaltrainStrings.LOCALE_GERMAN, true)" />
+	</s:HGroup>
+	
+	<s:Label id="lblTitle" text="Welcome to the Caltrain Times App" styleName="text1" color="0xffffff"/>
+	<s:Group width="100%">
+		<s:Group id="maskRect" width="90%" height="5" cacheAsBitmap="true" mouseChildren="false" mouseEnabled="false"
+				 horizontalCenter="0">
+			<s:Rect width="100%" height="10">
+				<s:fill>
+					<s:LinearGradient>
+						<s:GradientEntry color="blue" alpha="0" />
+						<s:GradientEntry color="black" ratio="0.1"  />
+						<s:GradientEntry color="black" ratio="0.9"  />
+						<s:GradientEntry color="red" alpha="0"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<s:Image id="dots" width="90%" fillMode="repeat" mask="{maskRect}" cacheAsBitmap="true"
+				 horizontalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="{CaltrainTimes.ResultsHDotsDPI160}"
+					source240dpi="{CaltrainTimes.ResultsHDotsDPI240}"
+					source320dpi="{CaltrainTimes.ResultsHDotsDPI320}"/>
+			</s:source>
+		</s:Image>
+	</s:Group>
+	
+	<s:Label id="lblHelp1" text="To find out your train’s schedule, select your starting point from the list, followed by your destination. Then click on the times list to get more details." 
+			 styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+			 
+	<s:Label id="lblHelp2" text="Click the top right icon to find the nearest station." visible="{CaltrainTimes.hasGPS}" includeInLayout="{CaltrainTimes.hasGPS}"
+		styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+			 
+	<s:Label id="lblHelp3" text="If available, rider alerts will be displayed for trains between selected stations." 
+		styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+	
+	<s:Label id="lblHelp4" text="Double click the station bars to reverse the current route." 
+			 styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+			 
+	<s:Label id="lblHelp5" text="Thank you for giving Caltrain Times a try." 
+		styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+	
+	<s:Label id="lblHelp6" text="Enjoy your ride!" 
+			 styleName="alertText2" color="0xc0c0c0" width="85%" textAlign="center" />
+	
+	<s:Group click="this.visible = false">
+		<s:BitmapImage verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed(source='/assets/dpi160/btnFindRide.png')"
+										source240dpi="@Embed(source='/assets/dpi240/btnFindRide.png')"
+										source320dpi="@Embed(source='/assets/dpi320/btnFindRide.png')" />
+			</s:source>
+		</s:BitmapImage>
+		<s:Label id="lblFind" verticalCenter="0" horizontalCenter="0" styleName="text2" text="FIND YOUR RIDE" />
+	</s:Group>
+	</s:Group>
+	
+		
+	</s:Scroller>
+
+	
+</s:SkinnableContainer>

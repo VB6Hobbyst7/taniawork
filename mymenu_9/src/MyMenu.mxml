@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+								  xmlns:s="library://ns.adobe.com/flex/spark"
+								  runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+								  applicationComplete="onApplicationComplete()"
+								  fontFamily="segoewp" 	
+								 contentBackgroundAlpha="0" 
+								 
+								  preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+								  initialize="{this.makeMap();}"
+								  splashScreenScaleMode="none" 
+								  splashScreenMinimumDisplayTime="1000">
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="withMenu"/>
+		<s:State name="withFilters"/>
+	</s:states>
+	
+	
+	
+	<s:ViewNavigator id="mainNavigator"     height="100%" 
+					 left.normal="0"   elementAdd="viewadd(event)"
+					 left.withMenu="{this.width/1.15}" 
+					 right.normal="0" backgroundColor="#5b5b5b" backgroundAlpha="1"
+					 right.withFilters="{this.width/1.15}"
+					 left.withFilters="{1-(this.width/1.15)}">
+		<s:navigationContent>
+			<s:HGroup paddingLeft="20" >
+				<s:Image  click="OpenMenu(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homemenu.png')"
+												source240dpi="@Embed('assets/homemenu.png')"
+												source320dpi="@Embed('assets/homemenu.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:navigationContent>
+		<s:actionContent>
+			<s:HGroup id="filterfeaturebutton" click="OpenFilters(event);"  paddingRight="20" >
+				<s:Image  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/homefilter.png')"
+												source240dpi="@Embed('assets/homefilter.png')"
+												source320dpi="@Embed('assets/homefilter.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:actionContent>
+		
+	</s:ViewNavigator>
+	
+	
+	<s:BorderContainer  id="menu"  backgroundAlpha="1" backgroundColor="#5b5b5b"
+						height="100%"  width="{this.width/1.15}" 
+						x.normal="{1-(this.width/1.15)}" 
+						x.withFilters="{1-(this.width/1.15)}"
+						x.withMenu="0" includeIn="normal,withMenu">
+		<s:VGroup width="100%" height="100%" paddingTop="50">
+			<s:Label width="95%" text="menu" textAlign="right" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
+			<s:Image source="assets/profimage.png"/>
+			<s:List id="listmenu" height="100%" contentBackgroundColor="#5b5b5b" contentBackgroundAlpha="1" dataProvider="{homeitems}"
+					width="100%"  borderAlpha="0" borderVisible="false" selectedIndex="1"  change="menuchange(event)"
+					alternatingItemColors="[0x5b5b5b,0x5b5b5b ]"
+					itemRenderer="components.mainmenulistitem" >
+				
+			</s:List>
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	
+	<s:BorderContainer  id="filtersmenu"  backgroundAlpha="1" backgroundColor="#5b5b5b"
+						height="100%"  width="{this.width/1.15}" right="0" includeIn="normal,withFilters"
+						right.normal="{1-filtersmenu.width}"
+						x.withFilters="{this.width-(this.width/1.15)}"
+						x.withMenu="{this.width+(this.width/1.15)}">
+		<s:VGroup width="100%" height="100%" gap="0" paddingTop="50">
+			
+			<s:Label width="100%"  paddingLeft="20" text="filters" textAlign="left" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
+			<s:Group width="100%" height="5"/>
+			<s:BorderContainer width="100%" height="50" backgroundColor="#494949"
+							   borderAlpha="0"  backgroundAlpha="1">
+				<s:Label fontFamily="proximaNovacff" styleName="textsize0" fontWeight="normal"
+						 text="Only Show:" 
+						 left="20"  verticalCenter="0"
+						 color="#FFFFFF"/>
+				
+				<s:Group right="20" click="clearallclick(event)"   verticalCenter="0">
+					<s:Label fontFamily="proximaNovacff" mouseEnabled="false" styleName="textsize0" fontWeight="normal"
+							 text="Clear All" 
+							 left="20"  verticalCenter="0"
+							 color="#43c7ae"/>
+				</s:Group>
+			</s:BorderContainer>
+			<s:List id="listfilters" height="100%" contentBackgroundColor="#5b5b5b" contentBackgroundAlpha="1" dataProvider="{filteritems}"
+					width="100%"  borderAlpha="0" borderVisible="false"  selectedIndex="0"   change="filterchange(event)"
+					alternatingItemColors="[0x5b5b5b,0x5b5b5b ]"
+					itemRenderer="components.filterslistitem" >
+				
+			</s:List>
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	
+
+	
+	<s:transitions>
+		<s:Transition fromState="normal" toState="withMenu" autoReverse="true"  >
+			<s:Parallel>
+				<s:Move xFrom="{1-(this.width/1.15)}" xTo="0" target="{menu}" duration="{durationofmovment}"/>
+				<s:Move xFrom="0" xTo="{this.width/1.15}" target="{mainNavigator}" duration="{durationofmovment}"/>
+				
+			</s:Parallel>
+		</s:Transition>
+	
+		<s:Transition fromState="normal" toState="withFilters" autoReverse="true"  >
+			<s:Parallel>
+				<s:Move xFrom="{this.width}" xTo="{(this.width-(this.width/1.15))}" target="{mainNavigator}" duration="{durationofmovment}"/>
+				<s:Move xFrom="{this.width+(this.width/1.15)}" xTo="{this.width-(this.width/1.15)}" target="{filtersmenu}" duration="{durationofmovment}"/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	<fx:Style source="./main.css"/>
+	<fx:Script source="func/mapfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.UncaughtErrorEvent;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.components.ActionBar;
+			import spark.components.BusyIndicator;
+			import spark.components.ButtonBar;
+			import spark.components.Group;
+			import spark.components.View;
+			import spark.components.ViewNavigator;
+			import spark.effects.Resize;
+			import spark.events.ElementExistenceEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.ViewTransitionBase;
+			import spark.transitions.ZoomViewTransition;
+			
+			import views.AccountSettings;
+			import views.Home;
+			import views.Login;
+			import views.Restrictions;
+			import views.Specials;
+			include "includes/BusyIndicatorUtil.as";
+			include "includes/TrafficUtil.as";
+			include "includes/AppConfig.as";
+			include "includes/ZoomControlUtil.as";
+			include "includes/InfoWindowUtil.as";
+			include "includes/GpsUtil.as";
+			[Bindable]
+			public var map:TileMap;
+			public var gps:Geolocation;
+			public var gpsLatLng:LatLng;
+			private var zoomControl:SMZoomControl;
+			private var traffic:Traffic;
+			public var gpsPoi:Poi;
+			public var gpsIsSupported:Boolean = false;
+			public var trafficEnabled:Boolean = false;
+			public var gpsTried:Boolean = false;
+			public var imgSize:int;
+			[Bindable]
+			public var assetPath:String;
+			[Bindable]
+			public var durationofmovment:Number = 50;
+			public var biBusyIndicator:BusyIndicator;		
+			public var searchLocation:String;
+			public var searchTerm:String;
+			public var directionsLocations:Array;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var homeitems:ArrayCollection = new ArrayCollection(
+				[{name:"Your Account",img:"../assets/menu-account.png",colorid:"0x50bcb6"},
+					{name:"Home",img:"../assets/menu-home.png",colorid:"0xef4056", selected:true},
+					{name:"Specials",img:"../assets/menu-friends.png",colorid:"0xfcb643"},
+					{name:"Restrictions",img:"../assets/menu-restrictions.png",colorid:"0xfcb643"},
+					{name:"Ratings & Reviews",img:"../assets/menu-ratings.png",colorid:"0xfcb643"},
+					{name:"AppSettings",img:"../assets/menu-settings.png",colorid:"0xfcb643"}
+				]);
+			[Bindable]
+			public var filteritems:ArrayCollection = new ArrayCollection(
+				[	{name:"Restaurants",chosen:'yes',type:1},
+					{name:"Dishes",chosen:'no',type:1},
+					{name:"",chosen:'no',type:0},
+					{name:"Specials",chosen:'no',type:1},
+					{name:"Open Now",chosen:'no',type:1},
+					{name:"Friends Have Rated",chosen:'no',type:1},
+					{name:"",chosen:'no',type:0},
+					{name:"I Have Rated Before",chosen:'no',type:1},
+					{name:"I Haven't Rated",chosen:'no',type:1}
+				]);
+			protected function tabbedmobileapplication1_applicationCompleteHandler(event:FlexEvent):void {
+				trace(numElements);
+			}
+			protected function onApplicationComplete():void
+			{
+				
+				
+				
+				this.stage.autoOrients = false;				
+				addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGING, onDisplayStateChange);			
+				NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
+				NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onDeactivate);
+				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+				loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onError);
+				NativeApplication.nativeApplication.addEventListener(Event.EXITING,onAppExiting);
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+				this.addEventListener(ResizeEvent.RESIZE,this.onResize,false,0,true);
+				switch(this.applicationDPI) {
+					case 160:
+						this.imgSize = 45;
+						break;
+					case 240:
+						this.imgSize = 60;
+						break;
+					case 320:
+						this.imgSize = 90;
+						break;
+				}
+				this.assetPath = "assets/" + this.imgSize + "/";
+				this.splashScreenImage = null;
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+					"email varchar(255)," +
+					"name varchar(255)," +
+					"country varchar(255)," +
+					"active varchar(255))";
+				stmt.execute();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					//emailGo = resData[0].email;
+					mainNavigator.firstView = Home;
+					mainNavigator.pushView(Home);
+				}
+				else {
+					//emailGo = "none";
+					mainNavigator.firstView = Login;
+					mainNavigator.pushView(Login);
+				}	
+				
+				
+				
+				
+				
+				
+				var loadManager:PersistenceManager = new PersistenceManager();
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+				
+				
+			}
+			public function OpenMenu(ev:MouseEvent):void {
+				currentState = currentState == "normal" ? "withMenu" : "normal";
+
+			}
+			public function OpenFilters(ev:MouseEvent):void {
+				currentState = currentState == "normal" ? "withFilters" : "normal";
+				
+			}
+			public function onSwipe(event:TransformGestureEvent):void
+			{
+				
+				var ev:MouseEvent;
+				if (event.currentTarget.id != 'uic'){
+					switch(event.offsetX)
+					{
+						case 1:
+						{
+							// swiped right also back swipe
+							
+							if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1){
+								OpenMenu(ev);
+							}
+							else {
+								mainNavigator.popView();
+							}
+							break;
+						}
+						case -1:
+						{
+							// swiped left
+							
+							if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1){
+								OpenFilters(ev);
+							}
+							else {
+								
+							}
+							
+							break;
+						}
+					}
+					switch(event.offsetY)
+					{
+						case 1:
+						{
+							// swiped down
+							break;
+						}
+						case -1:
+						{
+							// swiped up
+							break;
+						}
+					}
+					
+				}
+				
+			
+			}
+			public function logout():void {
+				var vn4:ViewNavigator = new ViewNavigator();
+				vn4.firstView = views.Login;
+				vn4.percentWidth = 100;
+				vn4.percentHeight = 100;
+			}	
+			
+			public function menuchange(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (listmenu.selectedIndex == 0){
+					//your account
+					mainNavigator.pushView(AccountSettings);
+				}
+				else if (listmenu.selectedIndex == 1){
+					//home
+					mainNavigator.pushView(Home);
+				}
+				else if (listmenu.selectedIndex == 2){
+					//specials
+					mainNavigator.pushView(Specials);
+				}
+				else if (listmenu.selectedIndex == 3){
+					//restrictions
+					mainNavigator.pushView(Restrictions);
+				}
+				else if (listmenu.selectedIndex == 4){
+					//ratings and review
+				}
+				else if (listmenu.selectedIndex == 5){
+					//settings
+					//mainNavigator.pushView(AccountSettings);
+				}
+				currentState = currentState == "normal" ? "withMenu" : "normal";
+			}
+			public function filterchange(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (listfilters.selectedIndex == 0){
+					
+					
+				}
+			}
+			public function viewadd(event:ElementExistenceEvent):void
+			{
+				if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1){
+					listmenu.selectedIndex = 1;
+					filterfeaturebutton.visible = true;
+				}
+				else if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('restrictions') != -1){
+					listmenu.selectedIndex = 3;
+					filterfeaturebutton.visible = false;
+				}
+				else if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('specials') != -1){
+					listmenu.selectedIndex = 2;
+					filterfeaturebutton.visible = false;
+				}
+				else if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('accountsettings') != -1){
+					listmenu.selectedIndex = 0;
+					filterfeaturebutton.visible = false;
+				}
+			}
+			
+			public function clearallclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				listfilters.selectedIndex = 0;
+			}
+			
+		]]>
+	</fx:Script>
+</s:Application>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="itemrenderer1_creationCompleteHandler(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="{this.width}">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (data.totallikecount == "null"){
+					data.totallikecount = "0";
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group left="0" right="0" height="240">
+		<s:HGroup gap="20" paddingLeft="30" paddingRight="30" width="100%" height="200"  verticalCenter="0">
+			<s:Group height="100%">
+				<s:Image left="0" top="0" width="50" height="50" source="assets/menu-account.png"/>
+			</s:Group>
+			<s:VGroup width="100%"  height="100%">
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)
+							  }"  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+					<s:Image source="assets/trirating.png"/>
+					<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1,20)+'...'}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="top">
+					<s:Label  text="{data.rating}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+					<s:Label width="100%"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
+							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Image source="assets/triratinggreen.png"/>
+					<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+				</s:HGroup>
+					<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+					<s:Label  text="{data.ratingdate}"  color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+				</s:VGroup>		
+			</s:HGroup>
+			<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
+							   borderColor="#b2b2b2" height="1.5" />
+		</s:Group>
+</s:ItemRenderer>
