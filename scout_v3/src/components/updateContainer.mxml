@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer  xmlns:fx="http://ns.adobe.com/mxml/2009"
+					xmlns:s="library://ns.adobe.com/flex/spark"
+					width="100%" height="100%" visible="false"
+					borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function profDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+			public function gOver(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gDown(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 0.5;
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.alpha = 1;
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup horizontalAlign="center" verticalAlign="middle" horizontalCenter="0" gap="30" verticalCenter="0">
+		<s:Label  verticalAlign="middle" text="New Update Available"/>
+		<s:Image 
+			mouseOut="profUp(event)" mouseDown="profDown(event)"
+			mouseUp="profUp(event)" mouseOver="profDown(event)" 
+			click="navigateToURL(new URLRequest('https://itunes.apple.com/ca/app/scout/id730533771?mt=8'))" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/Update_low.png')"
+										source240dpi="@Embed('../assets/Update_Med.png')"
+										source320dpi="@Embed('../assets/Update_High.png')"
+										source480dpi="@Embed('../assets/Update_Higher.png')"
+										source640dpi="@Embed('../assets/Update_Highest.png')"/>
+			</s:source>
+		</s:Image>
+	</s:VGroup>
+</s:BorderContainer>

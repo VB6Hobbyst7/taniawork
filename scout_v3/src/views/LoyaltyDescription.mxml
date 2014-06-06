@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:model="model.*"  
+		xmlns:mobile="spark.skins.mobile.*"
+		backgroundColor="#FFFFFF" visible="true" 
+		viewActivate="onActivate(event)" 
+		title="{data.business_name}" 
+		xmlns:controls="com.flexcapacitor.controls.*" xmlns:cs="cs.*"  >
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="alertmsgg.close();navigator.popView();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/backbtn_Low.png')"
+										source240dpi="@Embed('assets/backbtn_Med.png')"
+										source320dpi="@Embed('assets/backbtn_High.png')"
+										source480dpi="@Embed('assets/backbtn_Higher.png')"
+										source640dpi="@Embed('assets/backbtn_Highest.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.PropertyChangeEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var mapUrl:String = "https://scoutcard.ca/php/mobile_v2/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl;
+			[Bindable]
+			public var purchased2:Boolean = false;
+			[Bindable]
+			public var picture:String = "";
+			[Bindable]
+			public var scaleval:Number = 0;
+			private var roundedMask:Sprite;
+			[Bindable]
+			public var mmax:uint = 0;
+			[Bindable]
+			public var mmin:uint = 0;
+			[Bindable]
+			public var superamount:String = "";
+			[Bindable]
+			public var minwidthval:Number = 7;
+			[Bindable]
+			public var idout:String = "";
+			public function onActivate(event:Event):void
+			{
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+
+				warn.visible = false;
+				try{
+					var loadManager:PersistenceManager = new PersistenceManager();
+					if(loadManager.load()){
+						var savedData:Object = loadManager.getProperty("useremail");
+						if(savedData){
+							if (savedData.toString() != "ERRORBADERRORBAD"){
+								emailGo = savedData.toString();
+								var saveManager:PersistenceManager = new PersistenceManager();
+								saveManager.setProperty("useremail",savedData.toString());
+							}
+							
+						}
+						else {
+							try{
+								sqlConnection = new SQLConnection();
+								sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+								var stmt:SQLStatement = new SQLStatement();
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "SELECT email, name, country, active FROM localuser";
+								stmt.execute();
+								var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+								
+								if (resData.length != 0){
+									//good login
+									var foundactive:Boolean = false;
+									for (var i:uint = 0; i < resData.length; i++){
+										if (resData[i].active == "yes"){
+											foundactive = true;
+											emailGo = resData[i].email;
+										
+										}
+										
+									}
+								}
+							}
+							catch(e:Error){
+								
+							}
+						}
+					}	
+				}
+				catch(e:Error){
+					
+				}	
+				
+				var tempamount:String = data.amount;
+				if (data.business_name != null){
+					img1.source = data.business_picture;
+					if ((data.amount == null)||(data.amount == 'null')){
+						data.amount = '0';
+					}		
+				}
+				idout = data.id;
+				getloyalty.send();
+			}
+			public function onSwipe(event:TransformGestureEvent):void
+			{
+				var ev:MouseEvent;
+				switch(event.offsetX)
+				{
+					case 1:
+					{
+						// swiped right also back swipe
+						navigator.popView();
+						break;
+					}
+					case -1:
+					{
+						// swiped left
+						break;
+					}
+				}
+				switch(event.offsetY)
+				{
+					case 1:
+					{
+						// swiped down
+						break;
+					}
+					case -1:
+					{
+						// swiped up
+						break;
+					}
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function afterGetloyalty(ev:ResultEvent):void  {
+				loyaltyArray = new ArrayCollection();
+				try{
+					var stop:String = "";
+					try{
+						loyaltyArray = ev.result[0].ress.res;
+					}
+					catch(e:Error){
+						try{
+							
+							loyaltyArray.addItem(ev.result[0].ress.res);
+							
+							
+						}
+						catch(e:Error){
+						}
+					}
+				
+					try{
+						if (loyaltyArray.length > 0){
+							data.amount = loyaltyArray[0].amount;
+							pointsamount.text  = loyaltyArray[0].amount+" Points";
+						}
+					}
+					catch(e:Error){
+						
+					}
+					
+					busy = false;	
+				}
+				catch(e:Error){
+					busy = false;	
+				}
+				
+				
+				if (loyaltyArray.length == 0){
+					warn.visible = true;
+					busy = false;
+				}
+				
+				
+				
+			
+			}
+			[Bindable]
+			public var alertmsgg:AlertMsg = new AlertMsg();
+			
+			
+			public function lListClick(ev:IndexChangeEvent):void {	
+				var stop:String = "";
+				if (loyaltyList.selectedIndex != -1){
+					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
+						//navigator.pushView(LoyaltyRedeem, ev.currentTarget.selectedItems[0]);
+						//alertmsgg.popuplabletext = "Are you sure you would like to redeem "+ev.currentTarget.selectedItems[0].spend.toString()+" points for "+ev.currentTarget.selectedItems[0].name.toString();
+						alertmsgg.popuplabletext = "Are you sure you would like to redeem "+ev.currentTarget.selectedItems[0].name.toString() + " for "+ev.currentTarget.selectedItems[0].spend.toString()+" points";
+
+						alertmsgg.width = this.width;
+						alertmsgg.height = this.height/1.5;
+						alertmsgg.open(this, false);
+						
+						alertmsgg.addEventListener(PopUpEvent.CLOSE,aftercloses);
+						PopUpManager.centerPopUp(alertmsgg);
+						alertmsgg.merchidout = ev.currentTarget.selectedItems[0].merchid;
+						alertmsgg.loyaltyidout = ev.currentTarget.selectedItems[0].id;
+						alertmsgg.amountout = ev.currentTarget.selectedItems[0].amount;
+						alertmsgg.spendout = ev.currentTarget.selectedItems[0].spend;
+						alertmsgg.emailGo2 = emailGo;
+						loyaltyList.selectedIndex = -1;
+					}					
+				}
+			}
+			public function aftercloses(e:PopUpEvent):void {
+				busy = true;
+				getloyalty.send();
+			}
+			public function goredeemout():void {
+				
+				alertmsgg.goredeem.send();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getloyalty" method="GET" 
+					   resultFormat="array" 
+					   url="https://scoutcard.ca/php/mobile_v2/getLoyaltyDescription.php"
+					   result="afterGetloyalty(event)" >	
+			<s:request xmlns="">
+				<idout>{idout}</idout>	
+				<emailGo>{emailGo}</emailGo>
+				
+			</s:request>
+		</s:HTTPService>
+		<fx:Component  className="AlertMsg">
+			<s:SkinnablePopUpContainer  skinClass="skins.popupskin" >
+				<fx:Script>
+					<![CDATA[
+						import mx.rpc.events.ResultEvent;
+						[Bindable]
+						public var merchidout:Number = 0;
+						[Bindable]
+						public var loyaltyidout:Number = 0;
+						[Bindable]
+						public var amountout:Number = 0;
+						[Bindable]
+						public var spendout:Number = 0;
+						[Bindable]
+						public var emailGo2:String = "";
+						[Bindable]
+						public var busy:Boolean = false;
+						[Bindable]
+						public var popuplabletext:String = "";
+						
+						public function afterRedeem(ev:ResultEvent):void  {
+							busy = false;
+							
+							this.close();
+							//data.amount = alertmsgg.amountout-alertmsgg.spendout;
+							//getloyalty.send();
+						}
+						public function sendout():void {
+							busy = true;
+							goredeem.send();
+						}
+						
+					]]>
+				</fx:Script>
+				<fx:Declarations>
+					<s:MultiDPIBitmapSource id="yesplease"
+											source160dpi="@Embed('assets/yesplease_Low.png')"
+											source240dpi="@Embed('assets/yesplease_Med.png')"
+											source320dpi="@Embed('assets/yesplease_High.png')"
+											source480dpi="@Embed('assets/yesplease_Higher.png')"
+											source640dpi="@Embed('assets/yesplease_Highest.png')">
+					</s:MultiDPIBitmapSource>
+					<s:MultiDPIBitmapSource id="noplease"
+											source160dpi="@Embed('assets/noplease_Low.png')"
+											source240dpi="@Embed('assets/noplease_Med.png')"
+											source320dpi="@Embed('assets/noplease_High.png')"
+											source480dpi="@Embed('assets/noplease_Higher.png')"
+											source640dpi="@Embed('assets/noplease_Highest.png')">
+					</s:MultiDPIBitmapSource>
+					<s:HTTPService id="goredeem" method="GET" 
+								   resultFormat="array" 
+								   url="http://www.scoutcard.ca/php/mobile_v2/redeemloyalty.php"
+								   result="afterRedeem(event)" >	
+						<s:request xmlns="">
+							<emailGo>{emailGo2}</emailGo>	
+							<loyaltyid>{loyaltyidout}</loyaltyid>
+							<merchid>{merchidout}</merchid>
+							<newa>{amountout-spendout}</newa>
+							<amount>{amountout}</amount>
+							<spend>{spendout}</spend>
+						</s:request>
+					</s:HTTPService>
+				</fx:Declarations>
+				<s:VGroup horizontalAlign="center" verticalAlign="middle" paddingTop="10" paddingBottom="8"
+						  paddingLeft="8" paddingRight="8" height="100%" gap="20" width="100%">
+					<s:Label id="popuplable" width="95%" color="#FFFFFF" text="{popuplabletext}"
+							 textAlign="center"/>
+					<s:HGroup width="100%" verticalAlign="middle">
+						<cs:IconButton   scaleX="1.8" scaleY="1.8"  skinClass="skins.ImageButtonSkin"
+										 icon="{yesplease}" horizontalCenter="0"
+										 click="sendout();">
+						</cs:IconButton>
+						<cs:IconButton    scaleX="1.8" scaleY="1.8"  skinClass="skins.ImageButtonSkin" 
+										  icon="{noplease}" horizontalCenter="0"
+										 click="close();">
+						</cs:IconButton>
+					</s:HGroup>
+					<s:Label  width="95%" color="#FFFFFF" text="WARNING: Only redeem reward in the presence of an employee"
+							 textAlign="center"/>
+				</s:VGroup>
+				<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="95%" paddingTop="5"  horizontalAlign="center" height="100%" >
+			
+			<s:BorderContainer borderAlpha="1"  borderColor="#1a2029" 
+							   backgroundAlpha="0" width="{this.width/1.2}" height="{((this.width/1.2)/16)*9}" >
+				<s:Group width="100%" height="100%">
+					<s:VGroup  width="100%" gap="0" height="100%" >
+						<s:Group width="100%" height="100%"  >
+							<!--s:Image width="100%" height="100%" scaleMode="stretch" 
+							source="http://scoutcard.ca/php/storeimages/{data.imagelarge}"/-->
+							<s:BitmapImage width="100%"  height="100%" id="img1"  scaleMode="stretch" />
+							<s:BorderContainer backgroundAlpha="0.8" borderVisible="false" 
+											   backgroundColor="#000000" bottom="0" width="100%" height="65">
+								<s:HGroup width="100%" paddingLeft="10" verticalCenter="0">
+									<s:Label left="10" width="100%"  color="#FFFFFF" 
+											 fontWeight="bold" maxDisplayedLines="2" text="{data.business_name}" verticalAlign="middle"
+											 verticalCenter="0"/>
+									<s:Label right="4"  height="100%" color="#ff892a"  id="pointsamount"
+											 fontWeight="normal" text="{data.amount} Points" textAlign="right"
+											 verticalAlign="middle" verticalCenter="0"/>
+								</s:HGroup>
+								
+							</s:BorderContainer>
+						</s:Group>
+						
+					</s:VGroup>
+				</s:Group>
+			</s:BorderContainer>
+			<s:BorderContainer width="100%"  height="47"  backgroundColor="#0aaae5">
+				<s:Label left="10" color="#FFFFFF" text="Rewards" verticalCenter="0"/>
+			</s:BorderContainer>
+			<s:List id="loyaltyList" width="95%" height="100%"  horizontalScrollPolicy="off"
+					alternatingItemColors="[0xFFFFFF,0xF5F5F5 ]" change="lListClick(event);"
+					dataProvider="{loyaltyArray}" horizontalCenter="0" contentBackgroundAlpha="0"
+					itemRenderer="components.loyaltydescriptionitem" labelField="name"
+					selectedIndex="1">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="false"
+									  gap="1"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:Label horizontalCenter="0" id="warn" visible="false" text="No Rewards Available" verticalCenter="0"/>
+</s:View>

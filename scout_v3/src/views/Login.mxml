@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		title="Scout" viewActivate="init()"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4"
+		xmlns:components="components.*" 
+		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.core.ContentCache;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var currentBalance:String = "$0.00";	
+			public var profileShown:Boolean = false;
+			public var chosenMenuOption:uint = 1;
+			public var profWaiting:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			public var profDraging:Boolean = false;
+			//Your App Id as created on Facebook
+			private const APP_ID:String = "627244510654796";
+			//App origin URL
+			private const FACEBOOK_APP_ORIGIN:String = "https://scoutcard.ca";
+			//Permissions Array
+			private const PERMISSIONS:Array = ["email","user_birthday"];			
+			//SatgeWebView to render Facebook login
+			private var accessToken:String = "";
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function init():void
+			{
+				busy = false;
+			}
+			public function loginClick():void {
+				
+			}
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(ev.result[0].ress.email,
+						ev.result[0].ress.name,
+						ev.result[0].ress.country);
+				}
+				else {
+					//bad login
+					logWarningTextinfo.text = ev.result[0].ress.message;
+					logWarning.visible = true;
+				}
+			}
+			public function AddNewLocalUser(email:String,name:String,country:String):void
+			{
+				busy = true;
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM localuser;";
+				stmt.execute();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":country"] = country;
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				getLocalUsers();
+			}
+			protected function getLocalUsers():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country, active FROM localuser";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+							logWarning.visible = false;
+							var saveManager:PersistenceManager = new PersistenceManager();
+							saveManager.setProperty("useremail", resData[i].email);
+							this.parentDocument.refresh(resData[i].email);	
+						}
+					}			
+				}
+				else {}
+				busy = false;
+			}
+			
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/checkLogin.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+			<s:VGroup gap="20" width="100%" horizontalCenter="0" verticalCenter="0"  paddingTop="20"
+					   bottom="0" horizontalAlign="center" verticalAlign="top">
+				
+				<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
+				<s:Image mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/facebook.png')"
+												source240dpi="@Embed('assets/320/facebook.png')"
+												source320dpi="@Embed('assets/320/facebook.png')"
+												source480dpi="@Embed('assets/320/facebook.png')"
+												source640dpi="@Embed('assets/320/facebook.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/or.png')"
+												source240dpi="@Embed('assets/320/or.png')"
+												source320dpi="@Embed('assets/320/or.png')"
+												source480dpi="@Embed('assets/320/or.png')"
+												source640dpi="@Embed('assets/320/or.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Image mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/twitter.png')"
+												source240dpi="@Embed('assets/320/twitter.png')"
+												source320dpi="@Embed('assets/320/twitter.png')"
+												source480dpi="@Embed('assets/320/twitter.png')"
+												source640dpi="@Embed('assets/320/twitter.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/or.png')"
+												source240dpi="@Embed('assets/320/or.png')"
+												source320dpi="@Embed('assets/320/or.png')"
+												source480dpi="@Embed('assets/320/or.png')"
+												source640dpi="@Embed('assets/320/or.png')"/>
+					</s:source>
+				</s:Image>
+				<s:VGroup horizontalAlign="center" width="100%" gap="10">
+					<s:Group width="100%" height="100%">
+						<s:Image id="textback1" horizontalCenter="0" verticalCenter="0" >
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/textinput.png')"
+														source240dpi="@Embed('assets/320/textinput.png')"
+														source320dpi="@Embed('assets/320/textinput.png')"
+														source480dpi="@Embed('assets/320/textinput.png')"
+														source640dpi="@Embed('assets/320/textinput.png')"/>
+							</s:source>
+						</s:Image>
+						<s:TextInput id="userNameInput"  
+									 width="{textback1.width}"
+									 height="{textback1.height}"
+									 verticalCenter="0"
+									 horizontalCenter="0"
+									 fontFamily="Arial" 
+									 borderVisible="false"
+									 contentBackgroundAlpha="0"
+									 prompt="Email"/>
+					</s:Group>
+					
+					<s:Group width="100%" height="100%">
+						<s:Image id="textback2" horizontalCenter="0" verticalCenter="0" >
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/textinput.png')"
+														source240dpi="@Embed('assets/320/textinput.png')"
+														source320dpi="@Embed('assets/320/textinput.png')"
+														source480dpi="@Embed('assets/320/textinput.png')"
+														source640dpi="@Embed('assets/320/textinput.png')"/>
+							</s:source>
+						</s:Image>
+						<s:TextInput id="userPasswordInput"  
+									 width="{textback2.width}"
+									 height="{textback2.height}"
+									 verticalCenter="0"
+									 horizontalCenter="0"
+									 fontFamily="Arial" 
+									 displayAsPassword="true"
+									 contentBackgroundAlpha="0"
+									 prompt="Password"
+									 borderVisible="false"
+									 keyDown="userPasswordInput_keyDownHandler(event)"/>
+					</s:Group>
+					
+					<s:Image click="authorizeLogin(userNameInput.text,userPasswordInput.text)"
+							 mouseDown="gDown(event);" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/continue.png')"
+													source240dpi="@Embed('assets/320/continue.png')"
+													source320dpi="@Embed('assets/320/continue.png')"
+													source480dpi="@Embed('assets/320/continue.png')"
+													source640dpi="@Embed('assets/320/continue.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Group width="{textback2.width}" >
+						<s:Label verticalCenter="0" text="Forgot password?" styleName="textsize3"  color="#5cb2ed"/>
+					</s:Group>
+				</s:VGroup>
+				
+
+				<s:Group verticalCenter="0" width="{textback2.width}" >
+					<s:Label left="0" text="Need an Account?" verticalCenter="0" color="#737171"
+							 styleName="textsize5"/>
+					<s:Image right="0" mouseDown="gDown(event);" verticalCenter="0" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/signup.png')"
+													source240dpi="@Embed('assets/320/signup.png')"
+													source320dpi="@Embed('assets/320/signup.png')"
+													source480dpi="@Embed('assets/320/signup.png')"
+													source640dpi="@Embed('assets/320/signup.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<components:updateContainer id="updatecont"/>
+	<s:BorderContainer width="95%" height="50%" 
+						horizontalCenter="0"
+						verticalCenter="0"
+						backgroundAlpha="0.75"
+					   visible="false" id="logWarning"
+					   cornerRadius="10"
+					   borderAlpha="0" backgroundColor="#FFFFFF">
+		<s:Label color="#000000"  id="logWarningTextinfo"
+				 horizontalCenter="0"
+				 verticalCenter="0" verticalAlign="middle" 
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+</s:View>
