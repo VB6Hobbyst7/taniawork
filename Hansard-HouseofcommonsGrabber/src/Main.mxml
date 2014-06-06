@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init(event)"
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			public var linkArray:ArrayCollection = new ArrayCollection();
+			public var linkArray2:ArrayCollection = new ArrayCollection();
+			public var counter:uint = 0;
+			public var counter2:uint = 0;
+			public function init(event:FlexEvent):void
+			{
+				var file3:File = new File(File.applicationDirectory.resolvePath('data/hocdata.csv').nativePath);
+				var fs:FileStream = new FileStream();
+				fs.open(file3, FileMode.READ);
+				//text of the the m.txt is now in mtext
+				var resultString:String = fs.readUTFBytes(fs.bytesAvailable).toLowerCase();
+				fs.close();
+				
+				
+				do {
+					var line:String = resultString.substring(0,resultString.indexOf("\r\n"));
+					linkArray.addItem({url:line});
+					resultString = resultString.substring(resultString.indexOf("\r\n")+2,resultString.length);
+				}while(resultString.length > 5);
+				
+				counter = 0;
+				getData.url = linkArray[counter].url;
+				getData.send();
+			}
+			public function afterGetData(ev:ResultEvent):void {
+				
+				var retText:String = ev.result.toString();
+				do {
+					retText = retText.substring(retText.indexOf("PublicationCalendarLink"),retText.length);
+					retText = retText.substring(retText.indexOf("href")+6,retText.length);
+					var link:String = "http://www.parl.gc.ca"+retText.substring(0,retText.indexOf("\""));
+					var jd:RegExp = new RegExp("&amp;","g");
+					link = link.replace(jd,"&");
+					
+					
+					linkArray2.addItem({url:link});
+					
+				}while(retText.indexOf("PublicationCalendarLink") != -1);
+				
+				if (counter < linkArray.length-1){
+					counter++;
+					getData.url = linkArray[counter].url;
+					getData.send();
+				}
+				else {
+					var stop:String = "";
+					saveEachFile();
+				}
+			}
+			public function saveEachFile():void {
+				counter2 = 790;
+				getData2.url = linkArray2[counter2].url;
+				getData2.send();
+
+			}
+			public function afterGetData2(ev:ResultEvent):void {
+				var file3:File = new File(File.applicationDirectory.resolvePath("data/output"+counter2.toString()+".txt").nativePath);
+				var fs:FileStream = new FileStream();
+				fs.open(file3, FileMode.WRITE);
+				//text of the the m.txt is now in mtext
+				fs.writeUTFBytes(ev.result.toString());
+				fs.close();
+				trace("done "+counter2.toString()+" / "+linkArray2.length.toString());
+
+				
+				
+				if (counter2 < linkArray2.length-1){
+					counter2++;
+					getData2.url = linkArray2[counter2].url;
+					getData2.send();
+				}
+				else {
+					
+					var stop:String = "";
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getData" resultFormat="text"
+					   useProxy="false" method="GET" result="afterGetData(event)" />
+		<s:HTTPService id="getData2" resultFormat="text"
+					   useProxy="false" method="GET" result="afterGetData2(event)" />
+	</fx:Declarations>
+</s:WindowedApplication>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="init(event)" width="1900" height="1000"
+					   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:visualizer="fr.kapit.visualizer.*" xmlns:diagrammer="fr.kapit.diagrammer.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var resultArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var dp2:XML = new XML();
+			protected function init(event:FlexEvent):void
+			{
+				
+				//readxmllinkfile();
+				getData.send();
+				
+				
+			}
+			protected function afterGetData(event:ResultEvent):void
+			{
+				resultArray = event.result.items.item;
+				createxmllinkfilebylimit(10);
+			}
+			public function readxmllinkfile():void {
+				var file3:File = new File("C:\\patentcitationxml.txt");
+				var fs:FileStream = new FileStream();
+				fs.open(file3, FileMode.READ);
+				//text of the the m.txt is now in mtext
+				var textString:String = fs.readUTFBytes(fs.bytesAvailable);
+				fs.close();
+				dp2 = new XML(textString);	
+				vis.dataProvider = dp2;
+			}
+	
+			public function createxmllinkfilebylimit(u:uint):void {
+				var usedArray:ArrayCollection = new ArrayCollection();
+				var edgeArray:ArrayCollection = new ArrayCollection();
+				var xmlString:String = "<graphml>";
+				var nodexml:String = "";
+				var edgexml:String = "";
+				for (var i:uint = 0; i < resultArray.length; i++){
+					//for (var i:uint = 0; i < 300; i++){
+					var nodelabel1:String = resultArray[i].pubnum;
+					var nodelabel2:String = resultArray[i].cited;
+					var title1:String = resultArray[i].title1;
+					var title2:String = resultArray[i].title2;
+					var claims1:String = resultArray[i].claims1;
+					var claims2:String = resultArray[i].claims2;
+					var pubyear1:String = resultArray[i].pubyear1;
+					var pubyear2:String = resultArray[i].pubyear2;
+					//if ((nodelabel1.toLowerCase().indexOf("w") != -1)&&(nodelabel1.toLowerCase().indexOf("w") != -1)){
+					var found1:Boolean = false;
+					var found2:Boolean = false;
+					var foundid1:String = "NO";
+					var foundid2:String = "NO";
+					for (var j:uint = 0; j < usedArray.length; j++){
+						if (usedArray[j].num == nodelabel1){
+							found1 = true;
+							foundid1 = usedArray[j].id;
+							usedArray[j].count = usedArray[j].count+1;
+						}
+						
+						if (usedArray[j].num == nodelabel2){
+							found2 = true;
+							foundid2 = usedArray[j].id;
+							usedArray[j].count = usedArray[j].count+1;
+						}
+					}
+					
+					var id1:String = "";
+					var id2:String = "";
+					if ((found1 == false)&&(found2 == false)){
+						id1 = (usedArray.length+1).toString();
+						id2 = (usedArray.length+2).toString();
+						usedArray.addItem({id:id1,num:nodelabel1,count:1,claims1:claims1,title1:title1,pubyear1:pubyear1});
+						usedArray.addItem({id:id2,num:nodelabel2,count:1,claims1:claims2,title1:title2,pubyear1:pubyear2});
+						//nodexml = nodexml + "<node id='"+id1+"' label='"+nodelabel1+"'/>";
+						//nodexml = nodexml + "<node id='"+id2+"' label='"+nodelabel2+"'/>";	
+					}
+					else if (found1 == false){
+						id1 = (usedArray.length+1).toString();
+						usedArray.addItem({id:id1,num:nodelabel1,count:1,claims1:claims1,title1:title1,pubyear1:pubyear1});
+						id2 = foundid2;
+						//nodexml = nodexml + "<node id='"+id1+"' label='"+nodelabel1+"'/>";
+					}
+					else if (found2 == false){
+						id2 = (usedArray.length+1).toString();
+						usedArray.addItem({id:id2,num:nodelabel2,count:1,claims1:claims2,title1:title2,pubyear1:pubyear2});
+						id1 = foundid1;
+						//nodexml = nodexml + "<node id='"+id2+"' label='"+nodelabel2+"'/>";
+					}
+					else {
+						id1 = foundid1;
+						id2 = foundid2;
+					}
+					//edgeArray.addItem({id1:id1,id2:id2});
+					edgexml = edgexml + "<edge source='"+id1+"' target='"+id2+"'/>";
+					var stop22:String = "";
+					trace(i.toString()+"/"+resultArray.length.toString());
+					//}
+					
+				}
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "count";
+				dataSortField.numeric = true;
+				dataSortField.descending = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				
+				usedArray.sort = numericDataSort;
+				usedArray.refresh();
+				
+				var groupArray:ArrayCollection = new ArrayCollection();
+				groupArray.addItem({term:"cancer",xmlString:"<node id=\"n1\" label=\"Cancer\" layout=\"singleCircular\"><graph id=\"n1:\" edgedefault=\"undirected\">"});
+				groupArray.addItem({term:"other",xmlString:"<node id=\"n2\" label=\"Not Cancer\" layout=\"singleCircular\"><graph id=\"n2:\" edgedefault=\"undirected\">"});
+				
+				for (var p:uint = 0; p < usedArray.length; p++){
+					if (usedArray[p].count >= u){
+						try{
+						if ((usedArray[p].claims1.indexOf("cancer") != -1)||
+							(usedArray[p].claims1.indexOf("Cancer") != -1)){
+							groupArray[0].xmlString = groupArray[0].xmlString + "<node id='"+usedArray[p].id+"' label='"+usedArray[p].num+"'" +
+								" claims='"+usedArray[p].claims1+"' title='"+usedArray[p].title1+"' pubyear='"+usedArray[p].pubyear1+"'/>";
+						}
+						else {
+							groupArray[1].xmlString = groupArray[1].xmlString + "<node id='"+usedArray[p].id+"' label='"+usedArray[p].num+"'" +
+								" claims='"+usedArray[p].claims1+"' title='"+usedArray[p].title1+"' pubyear='"+usedArray[p].pubyear1+"'/>";
+						}
+						}
+						catch(e:Error){
+							var stop:String = "";
+						}
+						
+					}
+					else {
+						p = usedArray.length;
+					}
+				}
+				
+				groupArray[0].xmlString = groupArray[0].xmlString + "</graph></node>";
+				
+				groupArray[1].xmlString = groupArray[1].xmlString + "</graph></node>";
+				
+				
+				for (var y:uint = 0; y < groupArray.length; y++){
+					xmlString = xmlString + groupArray[y].xmlString;
+				}
+				
+				xmlString = xmlString + edgexml + "</graphml>";
+				
+				
+				
+				var fi:File = new File("C:\\patentcitationxml.txt");
+				var st:FileStream = new FileStream();
+				st.open(fi,FileMode.WRITE);
+				st.writeUTFBytes(xmlString);
+				st.close();
+				var stop333:String = "";
+			}
+			
+			private function nodeRendererFunction(data:Object):noderen  
+			{  
+				var renderer:noderen = new noderen();  
+				renderer.enabled=true;
+				if(data['pubyear']>2005) {
+					renderer.setStyle("backgroundColor","#160B7F");
+				}
+				else if(data['pubyear']>2000) {
+					renderer.setStyle("backgroundColor","#003f7f");
+				}
+				else if(data['pubyear']>1995) {
+					renderer.setStyle("backgroundColor","#0057b1");
+				}
+				else if(data['pubyear']>1990) {
+					renderer.setStyle("backgroundColor","#0077f0");
+				}
+				else if(data['pubyear']>1980) {
+					renderer.setStyle("backgroundColor","#97caff");
+				}
+				else {
+					renderer.setStyle("backgroundColor","#FFFFFF");
+				}
+				
+					  
+				 
+				return renderer;  
+			}  
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<fx:XML id="dp">  
+			<graphml>  
+				<node id='1' label='A'/>   
+				<node id='2' label='B'/>   
+				<node id='3' label='C'/>   
+				<node id='4' label='D'/>  
+				<node id='5' label='E'/>  
+				<node id='6' label='E'/>  
+				<node id='7' label='E'/>  
+				<node id='8' label='E'/>  
+				<node id='9' label='E'/>  
+				<node id='10' label='E'/>  
+				<edge source='1' target='2'/>   
+				<edge source='1' target='3'/>  
+				<edge source='2' target='4'/>  
+				<edge source='2' target='5'/>  
+				<edge source='2' target='6'/>  
+				<edge source='6' target='7'/>  
+				<edge source='7' target='8'/>  
+				<edge source='8' target='9'/>  
+				<edge source='8' target='10'/>  
+			</graphml>  
+		</fx:XML>  
+		<s:HTTPService id = "getData" result="afterGetData(event)" requestTimeout="120" useProxy="false"  resultFormat="object"
+					   url="http://localhost/kalileo/bin-debug/php/getItem.php"
+					   method="GET" >
+		</s:HTTPService>
+	</fx:Declarations>
+	<visualizer:Visualizer  id="vis"  x="0" y="0"
+							width="100%"   nodeRendererFunction="{nodeRendererFunction}"
+							height="100%"  
+							 layout="forceDirected"
+							nodeLabelFields="label"  
+							dataProvider="{dp}"  >
+		
+	</visualizer:Visualizer>
+	
+	<!--diagrammer:Diagrammer   
+		id="vis"   x="0" y="0"
+		width="100%" 
+		height="100%"   
+		layout="balloon"  
+		  
+		nodeLabelFields="label"  
+		dataProvider="{dp}"  /-->  
+</s:WindowedApplication>

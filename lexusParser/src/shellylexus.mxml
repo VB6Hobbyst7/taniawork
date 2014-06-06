@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="569" height="327" creationComplete="loadAll();">
+	<fx:Declarations>
+		<fx:String id="filePath"/>
+		<fx:String id="fileLoc"/>
+		<fx:String id="authorSurname"/>
+		<fx:String id="authorForename"/>
+		<fx:String id="authorAffiliation"/>
+		<fx:String id="titleName"/>
+		<fx:String id="publishername"/>
+		<fx:String id="publisherloc"/>
+		<fx:String id="fileText"/>
+		<fx:String id="keyWords"/>
+		<fx:String id="termOut"/>
+		<fx:String id="s1"/>
+		<fx:String id="s2"/>
+		<fx:String id="s3"/>
+		<fx:String id="s4"/>
+		<fx:String id="s5"/>
+		<fx:String id="s6"/>
+
+		
+		<fx:int id="date"/>
+		<fx:int id="numDocs"/>
+		
+		<s:HTTPService id = "parseFile" url="{filePath}" result="gotFile(event);" 
+					   method="GET"  resultFormat="text"/>
+		
+		<s:HTTPService id = "translateFrench"  url="http://www.myradar.ca/php/french.php" result="gotFrench(event);" 
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+		
+		<s:HTTPService id = "putData"  url="http://localhost/lexusParser/bin-debug/php/putData.php" result="afterPut(event);" 
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+			</s:request>
+		</s:HTTPService>
+		
+		
+		<s:HTTPService id = "translateGerman" url="http://localhost/lexusParser/bin-debug/php/german.php" result="gotFrench(event);" 
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<fx:Script source="shellyfunctions.as" />
+	<s:Label id = "fd"  x="305" y="173" text="Status" width="77" height="17"/>
+	<s:Label id = "fileloadstatus"  x="192" y="116" text="Status" width="46" height="17"/>
+	<s:Label id = "fd2"  x="211" y="27" text="What to call file" width="93" height="17"/>
+	<s:Label id = "fd0"  x="231" y="53" text="start index" width="77" height="17"/>
+	<s:Label id = "fd1"  x="231" y="83" text="end index&#xd;" width="77" height="17"/>
+	<s:Label id = "numa"  x="373" y="173" text="{counter.toString()}" width="77" height="17"/>
+	<s:Button x="113" y="112" click="init();" label="start"/>
+	<s:Button x="398" y="116" click="converto();" label="convert"/>
+	<s:TextInput id="start1" x="312" y="52"/>
+	<s:Label id = "fd4"  x="6" y="53" text="startFile" width="77" height="17"/>
+	<s:Label id = "fd5"  x="6" y="83" text="endFile" width="77" height="17"/>
+	<s:TextInput id="filestart" x="87" y="52"/>
+	<s:TextInput id="fileend" x="87" y="82"/>
+	<s:TextInput id="end1" x="312" y="82"/>
+	<s:TextInput id="filenameText" x="312" y="18"/>
+	<s:DropDownList id = "landList" labelField="name" x="273" y="116"></s:DropDownList>
+	
+	
+</s:WindowedApplication>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:TemplateDemoContainer xmlns:components="fr.kapit.lab.demo.common.components.*"
+								  xmlns:config="fr.kapit.lab.demo.data.config.*"
+								  xmlns:fx="http://ns.adobe.com/mxml/2009"
+								  xmlns:graph="fr.kapit.lab.demo.ui.components.graph.*"
+								  xmlns:info="fr.kapit.lab.demo.info.*"
+								  xmlns:managers="fr.kapit.lab.demo.managers.*"
+								  xmlns:map="fr.kapit.lab.demo.ui.components.map.*"
+								  xmlns:map1="fr.kapit.lab.demo.data.map.*"
+								  xmlns:menubar="fr.kapit.lab.demo.ui.components.menubar.*"
+								  xmlns:mx="library://ns.adobe.com/flex/mx"
+								  xmlns:panel="fr.kapit.lab.demo.panel.*"
+								  xmlns:panels="fr.kapit.lab.demo.ui.components.panels.*"
+								  xmlns:s="library://ns.adobe.com/flex/spark"
+								  xmlns:visualizer="fr.kapit.visualizer.*"
+								  showAboutInfo="this_showAboutInfoHandler(event)"
+								  showToggleButtonOptions="false" title="Mapping"
+								  creationComplete="mainView_creationCompleteHandler(event)"
+								  >
+	<fx:Declarations>
+		<s:HTTPService id = "customquery"
+					    result="afterDataRecieve(event)"
+					   resultFormat="array"
+					   url = "http://enactforum.org/patentviz/customquery.php"
+					   method="GET" >
+			<s:request xmlns="">
+				<cus1>{cus1}</cus1>
+				<cus2>{cus2}</cus2>
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	<fx:Script>
+	<![CDATA[
+		import fr.kapit.lab.demo.data.map.MapAirport;
+		import fr.kapit.lab.demo.data.map.MapCluster;
+		import fr.kapit.lab.demo.data.map.MapFlightRoad;
+		import fr.kapit.lab.demo.managers.DataManager;
+		import fr.kapit.visualizer.Visualizer;
+		import fr.kapit.visualizer.events.VisualizerEvent;
+		
+		import mx.charts.chartClasses.NumericAxis;
+		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		import mx.events.IndexChangedEvent;
+		import mx.events.ResizeEvent;
+		import mx.formatters.NumberBase;
+		import mx.rpc.events.ResultEvent;
+		
+		import spark.collections.Sort;
+		import spark.collections.SortField;
+		import spark.events.IndexChangeEvent;
+
+		[Bindable]
+		protected var startYear:Number = 1985;
+
+		[Bindable]
+		protected var endYear:Number = 2010;
+
+		[Bindable]
+		public var visualizer:Visualizer;
+
+		private var _dataFormatter:NumberBase;
+		[Bindable]
+		public var cus1:String = "";
+		[Bindable]
+		public var cus2:String = "";
+		
+		
+
+		/* ******
+		* Init Handling
+		**********/
+
+		protected function mainView_creationCompleteHandler(event:FlexEvent):void
+		{
+
+			dataProvider.flightRoads.removeAll();
+			dataProvider.airports.removeAll();
+			cus1 = "synthbio";
+			cus2 = "select * from `justsynth_v2-assignees` where country not like '%No Country Listed%' and inf_type not like 'undefined'";
+			customquery.send();
+			
+			
+			
+			
+			_dataFormatter = new NumberBase(".", ".", ".", ".");
+			changeRightSidePanels();
+			
+		}
+
+		/* ******
+		* Visualization Handling
+		**********/
+
+		protected function viewsStack_creationCompleteHandler(event:FlexEvent):void
+		{
+			syncVisualization();
+		}
+
+		protected function viewStack_changeHandler(event:IndexChangedEvent):void
+		{
+			syncVisualization();
+		}
+
+		protected function syncVisualization():void
+		{
+			var newVisualizer:Visualizer = mapVisualizer;
+			if (visualizer != newVisualizer)
+			{
+				visualizer = newVisualizer;
+			}
+		}
+
+		protected function hSlider_dataTipFormatFunction(value:Number):String
+		{
+			return _dataFormatter.formatPrecision(String(value), 0);
+		}
+
+		protected function this_showAboutInfoHandler(event:Event):void
+		{
+			//aboutPanel.open = true;
+		}
+
+		protected function viewMenuBar_changeHandler(event:IndexChangeEvent):void
+		{
+			viewStack.selectedIndex = event.newIndex;
+			syncVisualization();
+			changeRightSidePanels();
+		}
+
+		private function changeRightSidePanels():void
+		{
+			if (viewStack.selectedIndex == 1)
+			{
+				openOptions = true;
+			}
+			else
+			{
+				openOptions = false;
+			}
+		}
+		
+		
+		public function afterDataRecieve(event:ResultEvent):void
+		{
+			var airportarray:ArrayCollection = new ArrayCollection();
+			var dataArray:ArrayCollection = event.result[0].lists.list;
+			var sortfield1:SortField = new SortField();
+			sortfield1.name = 'country';
+			sortfield1.numeric = false;
+			var sortfield2:SortField = new SortField();
+			sortfield2.name = 'state';
+			sortfield2.numeric = false;
+			var numericDataSort:Sort = new Sort();
+			numericDataSort.fields = [sortfield1,sortfield2];
+			dataArray.sort = numericDataSort;
+			dataArray.refresh();
+			
+			var lastcountry:String = "";
+
+			var mc:MapCluster = new MapCluster();
+			var mcchildren:ArrayCollection = new ArrayCollection();
+			
+			var countrycount:Number = 1;
+			var nodecount:Number = 1;
+			
+			
+			for (var i:Number = 0; i < dataArray.length; i++){
+				var assigneename:String = dataArray[i].assigneeshort;
+				var frequency:Number = Number(dataArray[i].frequency);
+				var inftype:String = dataArray[i].inf_type;
+				
+				var country:String = "";
+				var state:String = dataArray[i].state;
+				var specificlat:Number = dataArray[i].specificlat;
+				var specificlonga:Number = dataArray[i].specificlonga;
+				var countrylat:Number = dataArray[i].countrylat;
+				var countrylonga:Number = dataArray[i].countrylonga;
+				if ((dataArray[i].country == 'us')&&(dataArray[i].state.toLowerCase() != "none")&&(dataArray[i].state.toLowerCase() != "")){
+					country = dataArray[i].state;
+					countrylat = specificlat;
+					countrylonga = specificlonga;
+				}
+				else {
+					country = dataArray[i].country;
+				
+				}
+				
+				
+				
+				if (lastcountry != country){
+					if (lastcountry == ""){
+						//start new , nothing to close
+						
+						mcchildren = new ArrayCollection();
+						mc = new MapCluster();
+						mc.uid = "g"+countrycount.toString();
+						mc.label = country;
+						mc.latitude = countrylat;
+						mc.longitude = countrylonga;
+
+						
+					}
+					else {
+						//close old one up and start new
+						mc.children = mcchildren;
+						airportarray.addItem(mc);
+						countrycount++;
+						
+						mcchildren = new ArrayCollection();
+						mc = new MapCluster();
+						mc.uid = "g"+countrycount.toString();
+						mc.label = country;
+						mc.latitude = countrylat;
+						mc.longitude = countrylonga;
+						
+					}
+					
+					nodecount = 1;
+					lastcountry = country;
+				}
+				
+				
+				
+				var mc2:MapCluster = new MapCluster();
+				mc2.uid = "g"+countrycount.toString()+"g"+nodecount.toString();
+				if (country == 'us'){
+					mc2.label = state;
+				}
+				else {
+					mc2.label = assigneename;
+				}
+				mc2.latitude = specificlat+(nodecount*0.1);
+				mc2.longitude = specificlonga-(nodecount*0.1);;
+			
+				var mcchildren2:ArrayCollection = new ArrayCollection();
+				var mpair:MapAirport = new MapAirport();
+				mpair.uid = "g"+countrycount.toString()+"g"+nodecount.toString()+"n0";
+				mpair.country = country;
+				mpair.label = assigneename;
+				mpair.type = "small";
+				mpair.latitude = specificlat+(nodecount*0.1);
+				mpair.longitude = specificlonga-(nodecount*0.1);
+				if (inftype == 'public'){
+					//BLUE CATEGORY AMOUNT
+					mpair.internationalFlights = 1*frequency;
+					//RED CATEGORY AMOUNT
+					mpair.nationalFlights = 0;
+					//Other CATEGORY AMOUNT
+					mpair.otherFlights = 0;
+				}
+				else if (inftype == 'private'){
+					//BLUE CATEGORY AMOUNT
+					mpair.internationalFlights = 0;
+					//RED CATEGORY AMOUNT
+					mpair.nationalFlights = 1*frequency;
+					//Other CATEGORY AMOUNT
+					mpair.otherFlights = 0;
+				}
+				else {
+					//BLUE CATEGORY AMOUNT
+					mpair.internationalFlights = 0;
+					//RED CATEGORY AMOUNT
+					mpair.nationalFlights = 0;
+					//Other CATEGORY AMOUNT
+					mpair.otherFlights = 0;
+				}
+				
+				mcchildren2.addItem(mpair);
+				mc2.children = mcchildren2;
+				mcchildren.addItem(mc2);
+				nodecount++;
+			}
+			//clost last one up 
+			mc.children = mcchildren;
+			airportarray.addItem(mc);
+			
+			for (var k:uint = 0; k < airportarray.length; k++){
+				dataProvider.airports.addItem(airportarray[k]);
+			}	
+		}
+		
+	]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<map1:MapDataProvider id="dataProvider" />
+		<config:MapParams id="mapParams" />
+		<managers:DataManager id="dataManager" dataProvider="{dataProvider}" />
+	</fx:Declarations>
+
+	<components:optionsContent>
+		<panels:LayoutPanel id="layoutPanel" visualizer="{visualizer}" />
+		<panels:OverviewPanel id="overviewPanel" visualizer="{visualizer}" />
+	</components:optionsContent>
+
+	<s:VGroup width="100%" height="100%" gap="0">
+		<!-- TOP MENU BAR -->
+		<menubar:ViewMenuBar id="viewMenuBar"
+							 width="100%" height="40"
+							 change="viewMenuBar_changeHandler(event)"
+							 />
+		<!-- Visualization window -->
+		<mx:ViewStack id="viewStack"
+					  width="100%" height="100%"
+					  creationComplete="viewsStack_creationCompleteHandler(event)"
+					  change="viewStack_changeHandler(event)"
+					  >
+			<s:NavigatorContent width="100%" height="100%">
+
+				<map:MapVisualizer id="mapVisualizer"
+								   width="100%" height="100%"
+								   linksDataProvider="{dataProvider.flightRoadsDataProvider}"
+								   mapParams="{mapParams}"
+								   nodesDataProvider="{dataProvider.airportsDataProvider}"
+								   />
+				<map:Legend width="160" right="6" top="6" />
+			</s:NavigatorContent>
+			
+		</mx:ViewStack>
+	</s:VGroup>
+
+	
+
+</components:TemplateDemoContainer>

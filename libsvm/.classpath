@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/annotations-7.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/collections-generic-4.01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/commons-collections-20040616.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/conja-1.061.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/dsutils-1.051.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/google-collections-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/jlibsvm-0.92-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/JSAP-2.0a-ds1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/ml-0.921.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/runutils-0.911.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/stats-0.931.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ninja2/workspace/libsvm/src/lib/trees-1.031.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
