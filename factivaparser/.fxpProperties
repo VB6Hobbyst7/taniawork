@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="2d80a9e0-3535-40bd-b9d4-3250e90e23e2" projectUUID="2d80a9e0-3535-40bd-b9d4-3250e90e23e2" sdkVersion="4.0.0" uuid="3a7e45e6-992c-4e19-bac3-71a7a312974d" version="4">
+  <projects/>
+  <src/>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="3a7e45e6-992c-4e19-bac3-71a7a312974d"/>
+    <linked location="C:/Users/Mark/Marks Workspace/factivaparser/libs" path="/libs" position="1" uuid="1cf18f56-a0c4-4364-a6c6-d65285f00885"/>
+  </swc>
+  <misc/>
+  <theme/>
+</fxpProperties>

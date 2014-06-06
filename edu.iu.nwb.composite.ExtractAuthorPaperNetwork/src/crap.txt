@@ -1,0 +1,269 @@
+//int nodecount = outputNetwork2.getNodeCount();
+					//int ecount = outputNetwork2.getEdgeCount();
+					
+					
+					/*this.logger.log(1, "test1");
+					for (i = 0; i < nodecount; i++){
+						outputNetwork2.removeNode(i);
+					}*/
+					 /* this.logger.log(1, "test2");
+					for (i = 0; i < ecount; i++){
+						outputNetwork2.removeEdge(i);
+					}*/
+					//this.logger.log(1, "test3");
+					 
+					//outputNetwork2.removeAllSets();
+
+					/*outputNetwork.addColumn("termout", String.class);
+					String dataTableColumnNeded = "Abstract";
+					int dataTableColumnIndex = 0;
+					
+					String dataTableColumnNeded2 = "Title";
+					int dataTableColumnIndex2 = 0;
+				
+					
+					String term1 = "autologou";
+					String term2 = "allogene";
+					
+				
+					String authorColumnNeeded = "Authors";
+					int authorColumnIndex = 0;
+					
+					
+					for (int p = 0; p < dataTable.getColumnCount(); p++){
+						if (dataTableColumnNeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							dataTableColumnIndex = p;
+							this.logger.log(1, "Analyzing Column : "+dataTable.getColumnName(p));
+						}
+						
+						if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							dataTableColumnIndex2 = p;
+							this.logger.log(1, "Analyzing Column2 : "+dataTable.getColumnName(p));
+						}
+						
+						if (authorColumnNeeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							authorColumnIndex = p;
+							this.logger.log(1, "Author Column found : "+dataTable.getColumnName(p));
+						}
+					}
+					
+					int erorcount = 0;
+					Boolean didonce = false;
+					for (int i = 0; i < outputNetwork.getNodeCount()-1; i++){
+						this.logger.log(1, "doing "+Integer.toString(i)+" out of "+Integer.toString(outputNetwork.getNodeCount()));
+						try{
+							String authorcheck =  outputNetwork.getNode(i).getString("label");
+							ArrayList<String> ncs = new ArrayList<String>();
+							ArrayList<String> nccount = new ArrayList<String>();
+							ArrayList<String> journals = new ArrayList<String>();
+							ArrayList<String> journalcount = new ArrayList<String>();
+							for (int j = 0; j < dataTable.getRowCount()-1; j++){
+								String authorrow = dataTable.getString(j, authorColumnIndex);
+								if (authorrow.toLowerCase().contains(authorcheck.toLowerCase())){
+									//author found in row. do stuff.
+									String nc = dataTable.getString(j, dataTableColumnIndex).toLowerCase() + " " + dataTable.getString(j, dataTableColumnIndex2).toLowerCase();
+									if (didonce == false){
+										this.logger.log(1, nc);
+										didonce = true;
+									}
+									if ((nc.contains(term1))&&(nc.contains(term2))){
+										//this.logger.log(1, "FOUND !");
+										Boolean found = false;
+										for (int u = 0; u < ncs.size(); u++){
+											if (ncs.get(u).compareTo("both") == 0){
+												int cc =  Integer.parseInt(nccount.get(u))+1;
+												nccount.set(u,Integer.toString(cc));
+												found = true;
+												break;		
+											}
+										}
+										if (found == false){
+											ncs.add("both");
+											nccount.add("1");
+										}	
+									}
+									else if (nc.contains(term1)){
+										//this.logger.log(1, "FOUND 2!");
+										Boolean found = false;
+										for (int u = 0; u < ncs.size(); u++){
+											if (ncs.get(u).compareTo(term1) == 0){
+												int cc =  Integer.parseInt(nccount.get(u))+1;
+												nccount.set(u,Integer.toString(cc));
+												found = true;
+												break;		
+											}
+										}
+										if (found == false){
+											ncs.add(term1);
+											nccount.add("1");
+										}
+									}
+									else if (nc.contains(term2)){
+										//this.logger.log(1, "FOUND 3!");
+										Boolean found = false;
+										for (int u = 0; u < ncs.size(); u++){
+											if (ncs.get(u).compareTo(term2) == 0){
+												int cc =  Integer.parseInt(nccount.get(u))+1;
+												nccount.set(u,Integer.toString(cc));
+												found = true;
+												break;		
+											}
+										}
+										if (found == false){
+											ncs.add(term2);
+											nccount.add("1");
+										}
+									}
+							
+								}	
+								
+							}
+							//what ever was done add it to the node.
+							if (ncs.size() > 0){
+								int maxindex = 0;
+								int count = 0;
+								for (int y = 0; y < ncs.size(); y++){
+									if (Integer.parseInt(nccount.get(y)) > count){
+										maxindex = y;
+										count = Integer.parseInt(nccount.get(y));
+									}
+								}
+								outputNetwork.getNode(i).setString("termout", ncs.get(maxindex)); 
+							}
+							else {
+								outputNetwork.getNode(i).setString("termout", "none"); 
+							}
+							
+							
+						}
+						catch (IndexOutOfBoundsException ex ){
+							erorcount++;
+							outputNetwork.getNode(i).setString("termout", ex.toString()); 
+							
+						}
+						
+					}
+					this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
+					
+					*/
+					
+					//outputNetwork.addColumn("docidsout", String.class);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// this.logger.log(1, "test6");
+				/*	
+					
+					}*/
+					
+					
+					
+					/*
+						outputNetwork.getNode(Integer.parseInt(outputNetwork.getEdge(i).get("target").toString())).setString("atype", "document");
+						String titletocheck =  outputNetwork.getNode(Integer.parseInt(outputNetwork.getEdge(i).get("target").toString())).getString("label");
+						for (int j = 0; j < dataTable.getRowCount()-1; j++){
+							String titlerow = dataTable.getString(j, dataTableColumnIndex2);
+							if (titlerow.toLowerCase().contains(titletocheck.toLowerCase())){
+								//title found in row. do stuff.
+								outputNetwork.getNode(Integer.parseInt(outputNetwork.getEdge(i).get("target").toString())).setString("foundterm", "YES");
+							}	
+							
+						}*/
+					
+					
+					
+					/*todo go through each edge, take source and look for any other occurence
+					 *  of that source in edges where target is not the same. tag all pars of
+					 *   new targets and add speperate new edges to new network where 
+					 *   source = new target, target = current looking target. Do this over and over.
+					 *    Then go through each node thats  just a document and add that to the network, 
+					 *    then go through each node, and search for all edges sources and targest that 
+					 *    have that number and change it incrementaly. making all nodes 1 - x. instead of random numbers.
+					 */
+					
+					
+					
+					
+					/*Boolean didonce = false;
+					int counter = 0;
+					int initialsize = outputNetwork.getNodeCount();
+					for (int i = 0; i < initialsize-1; i++){
+						//this.logger.log(1, "doing "+Integer.toString(i)+" out of "+Integer.toString(outputNetwork.getNodeCount()));
+						try{
+							String authorcheck =  outputNetwork.getNode(i).getString("label");
+							String idres = "";
+							ArrayList<String> idarray = new ArrayList<String>();
+							
+								for (int j = 0; j < dataTable.getRowCount()-1; j++){
+									String authorrow = dataTable.getString(j, authorColumnIndex);
+									if (authorrow.toLowerCase().contains(authorcheck.toLowerCase())){
+										//author found in row. do stuff.
+										idres = idres + "|" + dataTable.getString(j, dataTableColumnIndex).toLowerCase();
+										idarray.add(dataTable.getString(j, dataTableColumnIndex).toLowerCase());
+									}	
+									
+								}
+								
+								if (idarray.size() == 1){
+									outputNetwork.getNode(i).setString("label", idarray.get(0)); 
+								}
+								else if (idarray.size() > 1){
+									outputNetwork.getNode(i).setString("label", idarray.get(0)); 
+									for (int o = 1; o < idarray.size(); o++){
+										outputNetwork.addNode();
+									//	outputNetwork.getnode
+									//	outputNetwork.addEdge(outputNetwork.getNode(outputNetwork.getNodeCount()-1), outputNetwork.getNode(i).edges().next());
+
+
+										outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("label", idarray.get(o)); 
+									}
+								}
+								else {
+									//this.logger.log(1, "Found something weird:"+idres);
+									outputNetwork.getNode(i).setString("label", "remove"); 
+								}
+									
+								//what ever was done add it to the node.
+								
+								//outputNetwork.getNode(i).setString("docidsout", idres); 
+							
+							
+						}
+						catch (IndexOutOfBoundsException ex ){
+							erorcount++;
+							//outputNetwork.getNode(i).setString("docidsout", ex.toString()); 
+							
+						}
+						
+						
+					}*/
+					
+					
+				/*	for (int i = 0; i < outputNetwork.getNodeCount()-1; i++){
+						try{
+							outputNetwork.getNode(i).setString("id",Integer.toString(i));
+						}
+						catch (IndexOutOfBoundsException ex ){
+							
+						}
+					}*/
+					/*outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addNode();
+					outputNetwork.addEdge(9568, 9569);*/

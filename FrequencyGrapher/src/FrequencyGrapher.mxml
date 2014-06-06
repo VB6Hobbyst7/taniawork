@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"    
+					   xmlns:s="library://ns.adobe.com/flex/spark" showStatusBar="false"
+					   xmlns:mx="library://ns.adobe.com/flex/mx" width="1400" height="900" 
+					   xmlns:amcharts="http://www.amcharts.com/com_internal">
+	<fx:Script>
+		<![CDATA[
+			import flash.filters.DropShadowFilter;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.core.IUIComponent;
+			import mx.graphics.ImageSnapshot;
+			import mx.rpc.events.ResultEvent;
+			private var fileToDownload:FileReference;
+            [Bindable]private var shadow:DropShadowFilter = new DropShadowFilter(2,45,0,0.5);
+			[Bindable]
+			public var displayType:String = "segment";
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			[Bindable]
+			public var freqArray:ArrayCollection = new ArrayCollection();
+			[Bindable]private var displayArray:ArrayCollection = new ArrayCollection();
+			public var currentlySearching:Number = -1;
+			public function prefillData(u:uint):void {
+				if (u == 1){
+					databasename.text = "factivamathew";
+					tablename.text = "list";
+					searchcolumn.text = "tailparagraphs";
+					datecolumn.text = "year";
+				}
+				else if (u == 2){
+					databasename.text = "patentdatamain";
+					tablename.text = "list";
+					searchcolumn.text = "text";
+					datecolumn.text = "PriorityDate";
+				}
+			}
+			public function snap():void {
+				if (lc.selected){
+					takeSnapshot(linechart);
+				}
+				else if (ac.selected){
+					takeSnapshot(areachart);
+				}
+				else if (am.selected){
+					takeSnapshot(ballonCont);
+				}
+			}
+			private function takeSnapshot(source:IBitmapDrawable):void {
+				if ((saveurl.text != "")&&(saveurl.text.indexOf(".") != -1)){
+					try{
+						var imageSnap:ImageSnapshot = ImageSnapshot.captureImage(source);
+						var imageByteArray:ByteArray = imageSnap.data as ByteArray;
+						var fr:FileReference = new FileReference();
+						fr.save(imageByteArray,saveurl.text);
+					}
+					catch(e:Error){
+						
+					}
+				}
+				
+			}
+			public function clear(u:uint):void {
+				for (var i:uint = 0; i < displayArray.length; i++){
+					if (u == 1){
+						displayArray[i].val1 = 0;	
+					}
+					else if (u == 2){
+						displayArray[i].val2 = 0;
+					}
+					else if (u == 3){
+						displayArray[i].val3 = 0;
+					}
+					else if (u == 4){
+						displayArray[i].val4 = 0;
+					}
+				}
+				displayArray.refresh();
+				linechart.dataProvider = displayArray;
+				//areachart.dataProvider = displayArray;
+				//am1.dataProvider = displayArray;
+				//am2.dataProvider = displayArray;
+			}
+			public function performSearch(u:uint):void {
+				currentlySearching = u;
+				clear(u);
+				var text:String = searchText.text.toString();
+				var termArray:Array = new Array();
+				if (text != ""){
+					if (text.indexOf("\n") != -1){
+					do {
+						termArray.push(text.substring(0,text.indexOf("\n")));
+						text = text.substring(text.indexOf("\n")+1,text.length);	
+					}while (text.indexOf("\n") != -1);
+					}
+					termArray.push(text);
+				}
+				var andorchoice:String = radiogroup1.selectedValue.toString();
+				var query:String = "select "+datecolumn.text+" AS year, count(*) as frequency from "+tablename.text+" where";
+				for (var i:uint = 0; i < termArray.length; i++){
+					if (i == termArray.length-1){
+						query = query + " "+searchcolumn.text+" like '%"+termArray[i]+"%'";
+					}
+					else {
+						query = query + " "+searchcolumn.text+" like '%"+termArray[i]+"%' "+andorchoice+" ";
+					}
+				}
+				query = query + " group by year order by count(*) desc";
+				s1 = query;
+				s2 = databasename.text;
+				searchDatabase.send();
+			}
+			public function afterSearchDatabase(ev:ResultEvent):void {
+				freqArray = new ArrayCollection();
+				if (ev.result != null){
+					try{
+						freqArray = ev.result[0].lists.list;
+						var dataSortField:SortField = new SortField();
+						dataSortField.name = "year";
+						dataSortField.numeric = true;
+						var numericDataSort:Sort = new Sort();
+						numericDataSort.fields = [dataSortField];
+						freqArray.sort = numericDataSort;
+						freqArray.refresh();
+						var p:uint = 0;
+						var lastYear:uint = 0;
+						var proc:Boolean = false;
+						for (var i:uint = 0; i < freqArray.length; i++){
+							if ((freqArray[i].year != 0)&&(freqArray[i].year != 2012)){
+								if (lastYear == 0){
+									lastYear = freqArray[i].year;
+								}
+								else {
+									if (freqArray[i].year > lastYear+1){
+										do {
+											lastYear++;
+											if (currentlySearching == 1){
+												proc = false;
+												for (p = 0; p < displayArray.length; p++){
+													if (displayArray[p].year == lastYear){
+														displayArray[p].val1 = 0;	
+														proc = true;
+													}
+												}
+												if (proc == false){
+													displayArray.addItem({year:lastYear,val1:0,val2:0,val3:0,val4:0});
+												}
+											}
+											else if (currentlySearching == 2){
+												proc = false;
+												for (p = 0; p < displayArray.length; p++){
+													if (displayArray[p].year == lastYear){
+														displayArray[p].val2 = 0;	
+														proc = true;
+													}
+												}
+												if (proc == false){
+													displayArray.addItem({year:lastYear,val1:0,val2:0,val3:0,val4:0});
+												}
+											} 
+											else if (currentlySearching == 3){
+												proc = false;
+												for (p = 0; p < displayArray.length; p++){
+													if (displayArray[p].year == lastYear){
+														displayArray[p].val3 = 0;	
+														proc = true;
+													}
+												}
+												if (proc == false){
+													displayArray.addItem({year:lastYear,val1:0,val2:0,val3:0,val4:0});
+												}
+											} 
+											else if (currentlySearching == 4){
+												proc = false;
+												for (p = 0; p < displayArray.length; p++){
+													if (displayArray[p].year == lastYear){
+														displayArray[p].val4 = 0;	
+														proc = true;
+													}
+												}
+												if (proc == false){
+													displayArray.addItem({year:lastYear,val1:0,val2:0,val3:0,val4:0});
+												}
+											} 
+											
+										}while (freqArray[i].year > lastYear+1);
+									}
+									if (currentlySearching == 1){
+										proc = false;
+										for (p = 0; p < displayArray.length; p++){
+											if (displayArray[p].year == freqArray[i].year){
+												displayArray[p].val1 = freqArray[i].frequency;	
+												proc = true;
+											}
+										}
+										if (proc == false){
+											displayArray.addItem({year:freqArray[i].year,val1:freqArray[i].frequency,val2:0,val3:0,val4:0});
+										}	
+									}
+									else if (currentlySearching == 2){
+										proc = false;
+										for (p = 0; p < displayArray.length; p++){
+											if (displayArray[p].year == freqArray[i].year){
+												displayArray[p].val2 = freqArray[i].frequency;	
+												proc = true;
+											}
+										}
+										if (proc == false){
+											displayArray.addItem({year:freqArray[i].year,val1:0,val2:freqArray[i].frequency,val3:0,val4:0});
+										}	
+									} 
+									else if (currentlySearching == 3){
+										proc = false;
+										for (p = 0; p < displayArray.length; p++){
+											if (displayArray[p].year == freqArray[i].year){
+												displayArray[p].val3 = freqArray[i].frequency;	
+												proc = true;
+											}
+										}
+										if (proc == false){
+											displayArray.addItem({year:freqArray[i].year,val1:0,val2:0,val3:freqArray[i].frequency,val4:0});
+										}	
+									} 
+									else if (currentlySearching == 4){
+										proc = false;
+										for (p = 0; p < displayArray.length; p++){
+											if (displayArray[p].year == freqArray[i].year){
+												displayArray[p].val4 = freqArray[i].frequency;	
+												proc = true;
+											}
+										}
+										if (proc == false){
+											displayArray.addItem({year:freqArray[i].year,val1:0,val2:0,val3:0,val4:freqArray[i].frequency});
+										}	
+									} 
+									lastYear = freqArray[i].year;
+								}
+							}
+						}
+					}
+					catch(e:Error){
+					}
+				}
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "year";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				displayArray.sort = numericDataSort;
+				displayArray.refresh();
+				linechart.dataProvider = displayArray;
+				//areachart.dataProvider = displayArray;
+				//am1.dataProvider = displayArray;
+				//am2.dataProvider = displayArray;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "searchDatabase"
+					   result="afterSearchDatabase(event);"   resultFormat="array"
+					   url = "http://www.myradar.ca/php/searchDataset.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+			</s:request>
+		</s:HTTPService>
+		<s:RadioButtonGroup id="radiogroup1"/>
+		<s:RadioButtonGroup id="radiogroup2"/>
+	</fx:Declarations>
+		<mx:LineChart id="linechart" left="0" right="0" visible="{lc.selected}" top="0" height="712" color="0x323232"
+					  dataProvider="{displayArray}"   fontSize="12" showAllDataTips="{showPeakDisplay.selected}" showDataTips="true">
+			<mx:horizontalAxis>
+				<mx:CategoryAxis  categoryField="year"/>
+			</mx:horizontalAxis>
+			
+			<mx:series>
+				<mx:LineSeries yField="val1"  form="{dropy.selectedItem}" displayName="Search #1"/>
+				<mx:LineSeries yField="val2"  form="{dropy.selectedItem}" displayName="Search #2"/>
+				<mx:LineSeries yField="val3"  form="{dropy.selectedItem}" displayName="Search #3"/>
+				<mx:LineSeries yField="val4"  form="{dropy.selectedItem}" displayName="Search #4"/>
+			</mx:series>
+		</mx:LineChart>
+	<mx:AreaChart id="areachart" left="0" right="0" visible="{ac.selected}" top="0" height="748" color="0x323232"
+				  dataProvider="{displayArray}" showAllDataTips="{showPeakDisplay.selected}" showDataTips="true">
+		
+		<mx:horizontalAxis>
+			<mx:CategoryAxis categoryField="year"/>
+		</mx:horizontalAxis>
+		
+		<mx:series>
+			<mx:AreaSeries yField="val1"   form="{dropy.selectedItem}" displayName="Search #1"/>
+			<mx:AreaSeries yField="val2"  form="{dropy.selectedItem}" displayName="Search #2"/>
+			<mx:AreaSeries yField="val3"  form="{dropy.selectedItem}" displayName="Search #3"/>
+			<mx:AreaSeries yField="val4"  form="{dropy.selectedItem}" displayName="Search #4"/>
+		</mx:series>
+		</mx:AreaChart>
+	<s:BorderContainer id="ballonCont" left="0" right="0" visible="{am.selected}"  top="0" height="748" >
+		<s:HGroup x="0" y="0" width="100%" height="100%">
+			<!--amcharts:AmPieChart id = "am1"
+				width="50%"
+				height="100%"
+				dataProvider="{displayArray}"
+				valueField="val1"
+				titleField="year"
+				angle="5"
+				depth3D="5"
+				innerRadius="10"
+				groupPercent="3"
+				gradient="radial"
+				filters="{[shadow]}"
+				startDuration="1.5"
+				startRadius="100"
+				marginLeft="0"
+				marginRight="0"
+				labelWidth="100">
+				
+				<amcharts:balloon>
+					<amcharts:AmBalloon cornerRadius="10" borderThickness="2" borderColor="#FFFFFF" borderAlpha="1"/>                
+				</amcharts:balloon>
+				
+			</amcharts:AmPieChart>
+			
+			<amcharts:AmSerialChart 
+				width="50%" id = "am2"
+				height="100%"
+				marginTop="15"
+				marginLeft="55"
+				marginRight="15"
+				marginBottom="80"
+				dataProvider="{displayArray}"
+				categoryField="year"
+				startDuration="1"
+				angle="30"
+				depth3D="15">
+				<amcharts:categoryAxis>
+					<amcharts:CategoryAxis gridCount="{displayArray.length}" labelRotation="90"/>
+				</amcharts:categoryAxis>
+				<amcharts:graphs>
+					<amcharts:AmGraph balloonText="[[category]]: [[value]]" id="g0"
+									  valueField="val1" type="column" lineAlpha="0" fillAlphas="[0.8]"/>                        
+				</amcharts:graphs>
+				<amcharts:balloon>
+					<amcharts:AmBalloon cornerRadius="10" borderThickness="2" borderColor="#FFFFFF" borderAlpha="1"/>                
+				</amcharts:balloon>    
+				<amcharts:chartCursor>
+					<amcharts:ChartCursor zoomable="false" cursorAlpha="0" categoryBalloonEnabled="false"/>                    
+				</amcharts:chartCursor>    
+			</amcharts:AmSerialChart-->
+		</s:HGroup>
+	</s:BorderContainer>
+		<s:Label x="431" y="756" width="115" height="27"
+				 text="Insert Search Terms Seperated by Return"/>
+		<s:Label x="748" y="771" width="119" text="Resulting SQL Query"/>
+		<s:TextArea id="searchText" x="427" y="785" width="124" height="107" borderAlpha="1.0"
+					borderColor="#000000"/>
+		<s:TextArea id="qres" x="746" y="786" width="190" height="106" editable="false" text="{s1}"/>
+		<mx:Legend x="940" y="781" width="460" height="27" color="0x323232"
+				   dataProvider="{linechart}" layoutDirection="ltr"/>
+		<s:Button x="554" y="786" width="91" label="Display as #1" click="performSearch(1);"
+				  fontSize="10"/>
+	<s:Button x="647" y="786" width="91" label="Clear #1" click="clear(1);"
+			  fontSize="10"/>
+	<s:Button x="647" y="808" width="91" label="Clear #2" click="clear(2);"
+			  fontSize="10"/>
+	<s:Button x="647" y="830" width="91" label="Clear #3" click="clear(3);"
+			  fontSize="10"/>
+	<s:Button x="647" y="852" width="91" label="Clear #4" click="clear(4);"
+			  fontSize="10"/>
+	<s:Button x="554" y="808" width="91" label="Display as #2" click="performSearch(2);"
+			  fontSize="10"/>
+	<s:Button x="554" y="830" width="91" label="Display as #3" click="performSearch(3);"
+			  fontSize="10"/>
+	<s:Button x="554" y="852" width="91" label="Display as #4" click="performSearch(4);"
+			  fontSize="10"/>
+		<s:Label x="24" y="793" text="Database Name:"/>
+	<s:Label x="260" y="802" width="132" height="29" text="Preloaded Database Information"/>
+		<s:Label x="49" y="819" text="Table Name:"/>
+		<s:TextInput id="databasename" x="121" y="788" color="#606060" text="factivamathew"/>
+		<s:TextInput id="tablename" x="121" y="813" color="#606060" text="list"/>
+		<s:Label x="12" y="843" text="Column To Search :"/>
+		<s:TextInput id="searchcolumn" x="121" y="838" color="#606060" text="tailparagraphs"/>
+		<s:Label x="39" y="868" text="Date Column :"/>
+	<s:Label x="958" y="823" text="Line Display Format:"/>
+	<s:Label x="940" y="846" text="Show Peak Display Info:"/>
+	<s:Label x="1212" y="812" text="Graph Type"/>
+		<s:TextInput id="datecolumn" x="121" y="863" color="#606060" text="year"/>
+		<s:HGroup x="520" y="876" width="86">
+		</s:HGroup>
+	<s:DropDownList id = "dropy" selectedIndex="0" x="1075" y="819">
+		<mx:ArrayCollection>
+			<fx:String>segment</fx:String>
+			<fx:String>step</fx:String>
+			<fx:String>vertical</fx:String>
+			<fx:String>horizontal</fx:String>
+			<fx:String>reverseStep</fx:String>
+			<fx:String>curve</fx:String>
+		</mx:ArrayCollection></s:DropDownList>
+	<s:CheckBox id="showPeakDisplay" x="1078" y="842"/>
+	<s:VGroup x="1210" y="826" width="167">
+		<s:RadioButton id="lc" label="Line Chart" groupName="radiogroup2" selected="true"/>
+		<s:RadioButton id="ac" label="Area Chart" groupName="radiogroup2" />
+		<s:RadioButton id="am" label="Ballon (only displays search 1)" groupName="radiogroup2"/>
+	</s:VGroup>
+	<s:Button x="1078" y="865" click="snap();" label="Save Screen"/>
+	<s:TextInput id="saveurl" x="962" y="866" width="107" height="21" text="test.jpg"/>
+	<s:Button x="258" y="836" label="Factiva Stem Cell Data" click="prefillData(1);"/>
+	<s:Button x="258" y="862" label="WO Patent Data" click="prefillData(2);"/>
+	<s:RadioButton x="558" y="874" label="and" groupName="radiogroup1"/>
+	<s:RadioButton x="604" y="874" label="or" groupName="radiogroup1" selected="true"/>
+</s:WindowedApplication>

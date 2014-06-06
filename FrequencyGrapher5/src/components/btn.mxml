@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		width="332" height="25">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:RichText id="labelDisplay" x="0" y="0" width="332" color="#464646" fontFamily="Myriad Pro"
+				fontSize="25" tabStops="S0 S50 S100 S150 S200" textAlign="center"
+				tabStops.down="S0 S50 S100 S150 S200 S250 S300" textDecoration.down="underline"
+				tabStops.over="S0 S50 S100 S150 S200 S250 S300" textDecoration.over="underline"/>
+</s:Skin>

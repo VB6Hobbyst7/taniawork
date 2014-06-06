@@ -1,0 +1,2576 @@
+
+                             1801 of 1820 DOCUMENTS
+
+                    Copyright 1990 Globe Newspaper Company
+                                The Boston Globe
+
+                     March 29, 1990, Thursday, City Edition
+
+SECTION: NATIONAL/FOREIGN; Pg. 1 p
+
+LENGTH: 842 words
+
+HEADLINE: Genes that curb cancer reported;
+Findings may help dictate therapy
+
+BYLINE: By Richard A. Knox, Globe Staff
+
+DATELINE: DAYTONA BEACH, Fla.
+
+BODY:
+
+   Scientists are finding a new class of genes that inhibit the ability of
+cancer cells to spread throughout the body.
+
+   Three or possibly four such genes have been discovered in recent months,
+opening up new avenues for understanding cancer's deadliest characteristic.
+
+   Dr. Patricia Steeg, a National Cancer Institute researcher who recently
+discovered the first such gene, said at an American Cancer Society seminar here
+this week that her finding should soon lead to an antibody test that predicts if
+a newly diagnosed cancer has already spread. If positive, such a test would
+signal the need for more aggressive therapy.
+
+   Two companies already have licensed the federal patent on the gene that Steeg
+discovered with a view toward devising and marketing such a test.
+
+   Beyond that, Steeg said the gene may lead to novel new therapies for keeping
+cancer in check.
+
+   The new genes are part of a fast-growing list of biochemical switches in the
+genetic heart of human and animal cells that act in concert and independently to
+initiate cancer, suppress it and keep specific cell types in their place.
+Scientists have found nearly 50 so-called oncogenes, or cancer-causing genes,
+since the mid-1980s.
+
+   More recently, attention has shifted to anti-oncogenes, of which four are
+known.  The loss or mutation of these genes in a cell permits it to become
+malignant, or at least sets the stage for malignancy.
+
+   The genes that inhibit cancer spread, or metastasis, constitute a new
+subgroup of anti-oncogenes.
+
+   Acting in various ways yet to be understood, the anti-metastasis genes
+suppress cancer cells' ability to escape from their initial sites and start new
+colonies in other tissues. It is this trait that makes cancer deadly; patients
+almost always die from the metastasized tumors rather than from the primary, or
+original, malignancy.
+
+   Steeg has found her gene, called NM-23, in a wide variety of human and animal
+cells, cancerous and normal. Cancer cells consistently contain reduced levels of
+the small protein for which it is the blueprint, suggesting that this protein
+normally keeps cells in check.
+
+   The other newly found antimetastasis genes are called TIMP-1 and TIMP-2,
+which direct the production of a substance that inhibits the breakdown of
+connective tissue. Malfunction of these genes may permit cancer cells to break
+free of normal barriers and invade nearby tissues and blood vessels.
+
+   A fourth gene, called 18-Q and reported in January by Dr. Bertram Vogelstein
+of Johns Hopkins University, seems specific to colon cancer.
+
+   Dr. Alfred Knudson of the Fox Chase Cancer Center in Philadelphia, an
+oncogene pioneer, noted that 18-Q codes for a protein normally found on the
+surface of cells. Loss or inactivation of the gene is one of several "events"
+contributing to colon cancer, he said. This suggests that 18-Q might have
+something to do with the way such cells are normally kept in order.
+
+   Knudson speculated in a telephone interview yesterday that antimetastasis
+genes such as NM-23 and 18-Q act late in the cancer process, while other
+oncogenes and anti-oncogenes act in earlier stages, even before birth.
+
+   Steeg believes NM-23 plays a vital role in orderly embryonic development
+because it is remarkably similar to a fruit fly gene.  When scientists
+deliberately mutate the fruit fly gene, the embryonic fly fails to develop and
+dies in a way that resembles late-stage metastatic cancer cells.
+
+   Steeg said she has developed several lines of evidence that indicate NM-23's
+antimetastasis role and its relevance to human cancer.
+
+   For instance, she has shown that NM-23 activity was consistently low in
+breast cancer cells taken from women whose malignancy had spread to nearby lymph
+nodes.
+
+   Among women who had no evidence of breast cancer cells in lymph nodes, 75
+percent had high levels of NM-23 activity. This is consistent with the
+hypothesis that the gene's normal role is to keep cells in check.
+
+   The rest had low NM-23 levels, a finding Steeg said was "particularly
+interesting" because 25 percent of breast cancer patients without evidence of
+lymph node involvement at the time of diagnosis later develop metastatic
+disease. A test for NM-23 levels would identify these high-risk women and permit
+chemotherapy to be focused on them, sparing the other 75 percent.
+
+   Steeg also found that women with low levels of NM-23 activity had breast
+cancer cells of a type that is more aggressive and likely to spread. The cells
+did not have estrogen receptors on their surfaces, a bad sign, and they were
+more primitive in appearance.
+
+   The Cancer Institute researcher has recently found that many human tumors
+have lost one copy of the NM-23 gene, which resides near the center of
+chromosome 17. "This is a hallmark for a suppressor gene," she said.
+
+   Currently, Steeg is attempting to put NM-23 back into metastatic mouse cancer
+cells to see if it inhibits their ability to spread. She plans the same
+experiment with metastatic human cancer cells and foresees the possibility that
+gene therapy might someday tame human malignancies.
+
+LOAD-DATE: March 30, 1990
+
+
+                             1802 of 1820 DOCUMENTS
+
+                  Copyright 1990 The New York Times Company
+                               The New York Times
+
+                 March 24, 1990, Saturday, Late Edition - Final
+
+SECTION: Section 1; Page 10, Column 3; National Desk
+
+LENGTH: 616 words
+
+HEADLINE: Government Approves Novel Drug To Treat Immune System Disease
+
+BYLINE: By NATALIE ANGIER
+
+BODY:
+
+   The Food and Drug Administration approved a novel type of drug yesterday for
+the treatment of a rare genetic disease that devastates the immune system.
+
+   Beyond helping children afflicted with the disorder, adenosine deaminase
+deficiency, the drug could be used against many severe enzyme diseases that now
+defy therapy, scientists said.
+
+   The new drug, PEG-ADA, is a chemically altered form of the ADA enzyme, which
+is partly or completely deficient in children who suffer from the hereditary
+ailment. In the absence of ADA, toxins build up in the body and destroy many
+critical white blood cells of the immune system. As a result, patients often
+fall prey to massive infections and die in the first few years of life.
+
+   The disease is very similar to the disorder that afflicted the ''bubble boy''
+from Texas, who had to live in a sterile plastic enclosure as a shield against
+infections.
+
+Early Attempts Failed
+
+   Doctors have long wanted to treat ADA-deficient children by administering
+replacement doses of the enzyme, with the hope that the introduced ADA would
+break down enough of the accumulated toxins to rescue the immune system. But
+early attempts at injecting natural forms of ADA, which were isolated from
+humans or cows, proved fruitless. Once in the body, the enzyme degraded too
+rapidly to perform its intended task.
+
+   Researchers at Enzon Inc., a biopharmaceutical company in South Plainfield,
+N.J., who developed the drug, solved the problem by chemically attaching strands
+of a polymer called polyethylene glycol to ADA purified from cow intestines. The
+investigators found that the plastic stabilized the ADA and prolonged its life
+span in the bloodstream without disrupting its enzymatic muscle. Despite its
+bovine origin, the ADA worked exactly as the human enzyme does.
+
+   Since clinical trials began in 1986, doctors have treated 12 children with
+PEG-ADA: 9 in the United States and 3 in Europe. The young patients receive
+intramuscular injections of the modified enzyme once a week. All have shown
+signs of improvement, gaining weight, growing taller and fighting off
+infections.
+
+   Once confined to isolation, either in the hospital or at home, the children
+have even been able to attend school, free of fears that they would expose
+themselves to potentially lethal pathogens like chickenpox and influenza.
+
+'First Effective Example'
+
+   ''This is first effective example of enzyme replacement therapy for any
+genetic disease,'' said Dr. Michael Hershfield of Duke University Medical
+School, a clinical investigator of PEG-ADA.
+
+   But not all the children have experienced a restoration of the immune system
+to normal or near-normal levels.
+
+   Another team of researchers, headed by Dr. W. French Anderson and Dr. R.
+Michael Blaese at the National Institutes of Health, recently proposed that they
+try to treat ADA-deficient children by inserting the gene for ADA into the
+patients' blood cells.
+
+   The scientists said they would use such human gene therapy techniques in
+conjunction with PEG-ADA therapy. They hope that the combined approach will
+result in a genuine cure for the disorder.
+
+   Researchers at Enzon and elsewhere are now striving to apply the PEG
+stabilizer to other enzymes. Among the more promising candidates are enzymes
+able to dissolve dangerous metabolites that result from stroke or lung
+infections and enzymes that could selectively attack childhood leukemia cells.
+
+   ''PEG-ADA will serve as a prototype for other agents and enzymes that are
+ordinarily too short-lived in the bloodstream to be of clinical use,'' said Dr.
+Roger Kobayashi of the University of California at Los Angeles. ''It's really
+quite astonishing how well the modification works.''
+
+
+                             1803 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                March 23, 1990, Friday, San Diego County Edition
+
+SECTION: Metro; Part B; Page 2; Column 1; Metro Desk
+
+LENGTH: 1205 words
+
+HEADLINE: BIOTECH FIRM TAKES THE SIMPLE ROUTE TO GENE THERAPY SUCCESS
+
+BYLINE: By LINDA ROACH MONROE, TIMES STAFF WRITER
+
+BODY:
+
+   The experiment was so elementary, and the results so surprising, that
+researchers working with San Diego's Vical Inc. couldn't really believe what
+they were seeing. It all seemed too simple.
+
+   They had been injecting submicroscopic fatty globules containing DNA or RNA
+into mice to see what would happen. The idea was that the fat globules, called
+liposomes, would be taken up by cells. The cells would use the genetic material
+inside to make proteins they couldn't otherwise make.
+
+   The researchers found moderate success with that, but the rigors of science
+demanded that the experiment have a "control" portion -- injecting the raw DNA
+or RNA into the mice to show that the liposomes themselves were making it
+possible for the new genes to be incorporated into the cell's processes.
+
+   It turned out the cells like the raw material even better and began making
+the new proteins for as long as six months.
+
+   "This was a big surprise, and that's really what you're looking for in this
+area," said Philip L. Felgner, director of product development at Vical. Felgner
+worked on the experiment with Dr. Jon Wolff and others at the University of
+Wisconsin at Madison.
+
+   Researchers spent several months longer trying to find flaws in their methods
+or their conclusions. The literature of science is littered with examples of
+experimental results that deserved the label of too good to be true, explained
+Dr. Karl Y. Hostetler, vice president for research and development at Vical.
+
+   "We didn't want any fiascoes," he said.
+
+   Vical hopes that the results of this checking and double-checking, reported
+in today's issue of the journal Science, will convert the company from a
+bare-bones start-up to a major player in the ranks of San Diego's biotechnology
+community.
+
+   The company, which was founded in 1987, hopes to find financing to more than
+double its scientific staff of 22 as a result of the study. It is talking with
+several large drug companies to see if any would like to buy into the follow-up
+studies on the new gene transfer method, said Vical President Wick Goodspeed.
+
+   Some familiar names in San Diego science and business have played a role in
+Vical. Among them:
+
+   Hostetler, who is on leave from his longtime post as professor of medicine in
+residence at UC San Diego. His specialties include investigating ways to use
+lipid chemistry to improve the effectiveness of drugs.
+
+   Dr. Douglas D. Richman, a founder and scientific adviser to the firm. Richman
+is a professor in residence of medicine and pathology at UCSD, specializing in
+virology and clinical trials of AIDS treatments.
+
+   Dr. Dennis A. Carson, also a scientific adviser to the firm. Carson recently
+resigned as head of the division of clinical immunology at Scripps Clinic to
+become head of UCSD's new institute for research on aging.
+
+   Timothy Wollaeger, chairman of the board. Wollaeger formerly was senior vice
+president in charge of finance and administration for Hybritech Inc., the
+monoclonal antibody firm whose success was capped in 1986 with its $485-million
+acquisition by Eli Lilly & Co.
+
+   Howard E. (Ted) Greene, a director of Vical. He formerly was chief executive
+officer for Hybritech. Greene and Wollaeger were the driving forces behind
+Biovest Partners, a venture capital firm that financed several San Diego biotech
+firms.
+
+   W. Larry Respess, a Vical director. A leader in biotech patent law, he
+formerly was general counsel of Gen-Probe and Hybritech.
+
+   Until now, the best combination of science and business for Vical has been
+the multi-year research contract it received last summer from Burroughs Wellcome
+Co. to develop new forms of AZT for AIDS therapy. The study is investigating the
+idea that encasing AZT in fat globules would make it more powerful within the
+body.
+
+   The gene-insertion technique reported in Science this week is being suggested
+as a way to cause the body to generate proteins that would block persistent
+viral infections, ranging from AIDS to herpes. It also is seen as having
+potential use as a way to trigger cells to immunize the body against diseases,
+researchers say.
+
+   Vical is calling the new method "gene therapeutics," to distinguish it from
+the traditional goal of gene therapy, which uses viruses to insert missing genes
+into the genetic codes of people with genetic diseases.
+
+   The so-called retroviral method has proved difficult and slow, despite
+several years of intense effort by research groups around the country, including
+a group led by Dr. Theodore Friedmann at UCSD.
+
+   Because retroviruses insert their own genetic code into the cells of their
+host, the method is also expected to be problematic as a gene therapy technique
+-- since some scientists worry that this could harm the patient irreversibly in
+some unforeseen way.
+
+   Inserting the genes themselves into muscle cells -- without any retroviral
+carrier -- avoids this stumbling block entirely, Felgner said. The genes do
+their work of producing proteins, called expression, but they don't seem to
+affect the cell's own genetic structure, he said.
+
+   "People have worked in the gene therapy area for years assuming that a rather
+complex viral delivery system would be required in order to get expression. And
+we have found that you can do it very simply," Felgner said.
+
+   It was the slowness of the gene therapy field that led Felgner's
+collaborator, Wolff of the University of Wisconsin, to decide less than two
+years ago to get out of it altogether, Wolff said in a telephone interview.
+
+   Wolff was an assistant professor and a researcher in Friedmann's UCSD lab
+before going to Wisconsin as an assistant professor of pediatrics and medical
+genetics in 1988.
+
+   "I had pretty much planned to get out of the gene therapy field because I got
+discouraged with the retroviral approach. Scientifically, it wasn't very
+challenging," he said. "Everybody was doing the same thing, and nothing was
+working that well."
+
+   The results of the research contract with Vical, begun in January, 1989, have
+rekindled his enthusiasm, Wolff said.
+
+   He believes that, in the end, genetic therapies will involve a variety of
+techniques, not just the Vical method. But he and Felgner acknowledge that they
+expect some resistance to their ideas from the traditional gene therapy
+community.
+
+   "You're talking about somebody who has spent his life in this field, and who
+would like to make the real breakthroughs that are going to allow it to be used
+in patients with diseases," Felgner said. "There's quite a bit at stake."
+
+   Other collaborators with Wolff and Felgner on the research were Robert W.
+Malone of Vical and Phillip Williams, Wang Chong, Gyula Acsadi and Agnes Jani in
+Wisconsin.
+
+   Vical is planning to try to patent the technique, even though it involves no
+novel or complex steps unfamiliar to molecular biologists. In essence, it
+involves preparing DNA or RNA with standard techniques and then injecting it in
+the conventional way into muscle.
+
+   "The reason why we have patent position is that it was such a total surprise.
+Some of those things are the best patents you can get," Felgner said. "Nobody
+who was 'skilled in the art' would have ever thought that what we have
+accomplished here was even possible. Nobody would have even thought to do the
+experiment."
+
+
+                             1804 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                      March 23, 1990, Friday, Home Edition
+
+SECTION: Part A; Page 3; Column 1; Metro Desk
+
+LENGTH: 1043 words
+
+HEADLINE: BIG ADVANCE IN GENETIC TREATMENTS REPORTED;
+MEDICINE: RESEARCHERS SAY NEW TECHNIQUE COULD ALLOW DOCTORS TO FIGHT DISEASES
+SUCH AS MUSCULAR DYSTROPHY SIMPLY BY INJECTING MATERIAL DIRECTLY INTO MUSCLE
+TISSUE.
+
+BYLINE: By THOMAS H. MAUGH II, TIMES SCIENCE WRITER
+
+BODY:
+
+   Researchers have developed a revolutionary way to treat genetic diseases that
+could greatly accelerate human gene therapy, which has been delayed for a decade
+by ethical considerations and technical problems.
+
+   Special genetic material would simply be injected into muscle tissue every
+few days or weeks in much the same fashion that insulin is now injected daily to
+treat diabetes.
+
+   The technique, developed by San Diego and Wisconsin scientists, could apply
+to a wide range of genetic diseases for which there is now no adequate therapy,
+ranging from muscular dystrophy to rare diseases of the immune system.
+
+   It might also serve as a way to deliver genetic engineering products, such as
+human growth hormone, much more cheaply than is currently possible.
+
+   In addition, according to researchers, it could be a valuable tool in the
+search for an AIDS vaccine or to help fight infections by the AIDS virus.
+
+   Conventional gene therapy involves using genetic-engineering techniques to
+replace a defective gene that causes illness with a healthy one. Geneticists
+have not yet received approval from regulatory agencies to attempt such therapy
+in humans.
+
+   Until now, scientists have experimented with replacing defective genes by
+using special viruses to insert healthy genetic material into an individual's
+own DNA. But researchers and critics have feared that the viruses would insert
+the genes at the wrong site in DNA, thereby disrupting healthy genes.
+
+   In the surprisingly simple new technique, the researchers would simply inject
+specially prepared genetic material into the person's muscle tissue, stimulating
+production of an enzyme or protein whose absence is the cause of the disease.
+The protein would be carried by the bloodstream to body tissues where it is
+needed.
+
+   Because a virus is not used, the injected material would pose no risk to the
+recipient's genes.
+
+   The added genetic material would break down in a period of days to weeks, so
+the genetic therapy would be reversible if adverse effects should appear.
+
+   The researchers, from Vical Inc. in San Diego and the University of Wisconsin
+Medical Center in Madison, report in today's Science magazine that they have
+used the technique successfully to produce proteins in mice. They hope to extend
+the studies to humans within five years, most likely for the treatment of
+muscular dystrophy.
+
+   "We are ushering in a very major change . . . that is going to push gene
+therapy ahead much faster in the next decade," said biochemist Philip L. Felgner
+of Vical.
+
+   Although the researchers were looking for a way to introduce genetic
+information into cells, their discovery was serendipitous.
+
+   Felgner and his colleagues were working with messenger ribonucleic acid
+(mRNA), which serves as a sort of working copy of the genetic information
+contained in DNA (deoxyribonucleic acid) that is used by the cell's
+protein-making machinery.
+
+   The mRNA has certain potential therapeutic applications in its own right, and
+many laboratories are looking for ways to get it inside cells. Vical has been
+working with liposomes, microscopic globules of fat that would encase the mRNA
+and carry it into cells. To test how well the liposomes worked, researchers
+decided to inject naked mRNA into tissues, assuming that none of it would make
+it into cells.
+
+   They were wrong.
+
+   The naked mRNA was taken up by the cells faster than the mRNA in liposomes.
+"I didn't believe it at first," said medical geneticist Jon A. Wolff of
+Wisconsin. "It was a total surprise," Felgner added. "Nobody would have even
+thought to (try it)."
+
+   After they convinced themselves that the mRNA was being taken up, research
+progressed rapidly. "The procedure is extremely simple," Felgner said. "It's
+simple to administer the mRNA, and it's simple to make it. It's straightforward
+molecular biology."
+
+   They do have to modify the mRNA, though. Special segments of RNA must be
+added to the ends of the RNA gene for the cells to make proteins from it.
+Additional segments must be added if the cells are to secrete the proteins into
+the bloodstream.
+
+   The mRNA is broken down and absorbed by the cells within two or three days,
+so continuous replacement is necessary. But Felgner and Wolff have been able to
+circumvent that problem by modifying the genetic information so that it persists
+for as long as six months.
+
+   One of the most promising uses of the technique might be for treating
+muscular dystrophy, which causes progressive weakening and wasting of muscles.
+About one in every 3,500 males develops the disease.
+
+   Researchers discovered two years ago that the muscle cells of muscular
+dystrophy victims lack a specific protein, called dystrophin, that is necessary
+for muscle function. Felgner speculates that the new technique could readily be
+used to have muscle cells produce the protein right where it is needed. He is
+now preparing experiments in which the dystrophin gene will be injected into
+dystrophic mice, and hopes to have them completed by the end of the year.
+
+   The technique theoretically could also be used to treat any genetic disease
+requiring that a protein or enzyme be released into the blood. In one type of
+rare immunodeficiency disease that genetic engineers are contemplating treating,
+for example, the victims are missing a crucial enzyme called adenosine
+deaminase.
+
+   Felgner speculates that such a condition could be treated easily with the new
+technique, so that muscle cells would secrete the missing enzyme.
+
+   Other missing hormones and biological agents that now must be injected on a
+regular basis, such as human growth hormone, could be produced in the same
+fashion. Because injections of a plasmid would be required only every six months
+or so, rather than daily or several times a week, the cost would be greatly
+reduced.
+
+   The technique probably could not be used for treating diabetes, however,
+because the production of insulin must be much more closely regulated than is
+possible in muscle cells.
+
+   Finally, the technique could be used to produce vaccines against the AIDS
+virus and others. If muscle cells could be induced to produce certain AIDS
+proteins, speculated immunologist Howard Gray of Cytel Corp. in San Diego, a
+much more effective immune response would be produced against the virus.
+
+
+                             1805 of 1820 DOCUMENTS
+
+                    Copyright 1990 Globe Newspaper Company
+                                The Boston Globe
+
+                      March 19, 1990, Monday, City Edition
+
+SECTION: SCIENCE & TECHNOLOGY; Pg. 25 p.
+
+LENGTH: 1272 words
+
+HEADLINE: Workshops take teachers into 'real world' of genetics;
+Massachusetts program provides way for instructors;
+to explore social issues in a rapidly expanding field;
+GENETICS
+
+BYLINE: By Richard Saltus, Globe Staff
+
+DATELINE: GARDNER
+
+BODY:
+
+   The subject is human genetics, but at the moment the emphasis is on the
+"human."
+
+   As biology teachers from various Massachusetts high schools watch raptly, a
+video unfolds a drama that tears at the heart.
+
+    The episode poignantly illustrates the power of new tests that predict
+genetic disease, but also the agonizing dilemmas that people may face in
+attempting to use the information.
+
+   In the video, a pregnant woman partially paralyzed by a birth defect learns
+that her fetus is affected by a similar condition. From her wheelchair she
+declares she wishes to go ahead with the pregnancy. Her distraught and fearful
+husband, however, advocates abortion.
+
+   "You and the doctor are saying by discussing an abortion of the fetus that I
+shouldn't have been born!" cries the woman. Not at all, insists the husband, but
+he had hoped they could have a normal child.
+
+   "Tell me, what's normal?" asks the wife, indicating with a gesture her own
+situation. "Who decides - and what happens to the rest of us?"
+
+   Issues like this are becoming more and more relevant as scientists gain
+increasing power to uncover defective genes. The changes have come so fast, and
+have been so recent, that biology teachers must struggle to keep up the pace of
+genetic advance. And many received their training before the explosion of DNA
+discoveries in the 1970s and '80s.
+
+   To help close this gap, the Massachusetts Genetics Program, an agency within
+the state Department of Public Health, organized the two-day course that drew
+about 80 teachers to Gardner last week.
+
+   The course is among only a few nationwide and ranks as one of the most
+ambitious. Others will surely follow, just as special science and engineering
+courses proliferated after the first Soviet Sputnik was launched in 1957,
+prompting a huge effort to update teachers.
+
+   "It's a brave new world out there, and every day we're finding out about new
+genetic conditions and ones that can be diagnosed prenatally," said Dr. Solveig
+Pflueger, a medical geneticist at Baystate Medical Center in Springfield, who
+described for the teachers how genes can go wrong to cause inherited diseases.
+"You and your students are going to be living through the period of the human
+genome project, designer genes, sex selection of children," he told them.
+
+   The genome project is a massive quest just under way to decipher all human
+genes in an attempt to uncover the causes of diseases that have an inherited
+factor, and to better understand how an embryo is genetically programmed to
+develop into a staggeringly complex adult human.
+
+    As the couple in the video fade from the screen, the watching teachers break
+into debate: How can the husband and wife settle the crisis? Did the doctor
+improperly try to influence them? Does the mere existence of prenatal testing
+for disabilities foster discrimination against those born with them?
+
+   The videotaped sequence was at the heart of a bioethics workshop, but there
+were many others. Teachers learned to recognize and sort out the 23 pairs of
+human chromosomes in magnified photographs; they participated in an exercise
+called "Chances/Choices," in which a hypothetical family attempts to cope with
+the appearance of one inherited disease after another.
+
+   At other sessions, the teachers were intensively briefed on the more
+prevalent and severe genetic diseases, such as sickle cell anemia, cystic
+fibrosis, hemophilia and Marfan syndrome. The participants said later they not
+only had learned much information about the diseases, but also felt they would
+be better prepared to perhaps sense if a student in their classes might have one
+of the conditions.
+
+   Jan Warsing, a genetics counselor and primary organizer of the course for the
+Massachusetts Genetics Program, said the three two-day briefings scheduled this
+year should include about 230 high school teachers. The course held in Gardner
+was the second; another will be given in Northampton on April 10 and 11.
+
+   "Genetics is changing so rapidly, and this is our way of trying to help them
+stay current," Warsing said.  In addition, she said, the information will
+dispersed by a ripple effect from one teacher to many students.  "This will have
+more impact than on just the number of teachers here, and in the long run, we're
+going to have a much more informed public" on human genetics.
+
+   Marsha Lanes, director of the state genetics program, briefed the teachers on
+potential applications of genetic research that are troubling to scientists,
+ethicists and consumers alike.
+
+   For example, if screening to detect defective genes becomes routine among the
+entire population, should it be mandatory or voluntary?
+
+   Would it be fair for companies to test workers, and then bar them from
+employment if they are found to carry genes that make them susceptible to
+disease from exposures to chemicals in the workplace? What will happen if
+doctors begin routinely using tests that can reveal genetic tendencies to
+conditions like heart disease or cancer, but which may be misleading because
+genes are not the whole cause?
+
+   "Nature vs. nurture is a fallacy," said Lanes. "No disease is determined
+entirely by either genetic or environmental factors."
+
+    Besides the sessions on genetic disease, the teachers attended briefings on
+topics such as linkage mapping, a method of tracing disease genes through family
+pedigrees, and on DNA fingerprinting. The latter is a new and somewhat
+controversial technique for linking a criminal suspect to a crime by comparing
+distinctive patterns of the DNA in his blood with that in samples of blood,
+semen or other tissue from a crime scene.
+
+    This is the second year of the short course, which has counterparts in other
+states but should be offered far more widely, said Joseph McInerney,
+president-elect of the National Association of Biology Teachers.
+
+   "A lot is happening, but not enough," said McInerney."We really need to
+educate the population about the personal and societal implications" of gene
+technology but many courses are seriously outdated. McInerney is director of the
+Biological Sciences Curriculum Study in Colorado Springs, Colo.
+
+   Even when the facts are correct, the interpretation may not reflect current
+thinking, he said, noting that "a lot of texts give the idea that genetics
+equals destiny" - i.e., that genetic traits or tendencies can't be changed by
+experience.
+
+   Special efforts like the Massachusetts course are badly needed, because
+"these kids are going to face enormous decisions" as adults, he said.  "It's a
+case of bringing the teachers up to speed, so they can help kids make rational
+decisions."
+
+   McInerney was referring to personal decisions, such whether to make use of
+the large array of genetic tests that will undoubtedly become routinely
+available, and what to do if genetic problems are discovered.
+
+   Some of today's students will one day be immersed in issues as varied as gene
+therapy, potential discrimination against carriers of certain genes, and whether
+national health insurance should be established to deal with inequalities in
+coverage caused by genetic susceptibility.
+
+   At the end of the two days, the majority of teachers said they had found the
+experience rigorous but rewarding.
+
+    "This is one of the most relevant courses like this I've ever had," said Bob
+Becker, a teacher at Wachusett Regional High School.
+
+   Robert Gibbons, who teaches biology at Hudson High School, agreed. "I have a
+child with cystic fibrosis, so I have a vested interest," he said. But that
+aside, added Gibbons, "this is one of the very best" special educational
+offerings, and if necessary, "I'd have fought tooth and nail to come here."
+
+GRAPHIC: PHOTO, 1. GLOBE PHOTO/JOHN MOTTERN / Genetics technologist Betty Thorpe
+(standing) and teacher Mary Hare Greaves at Gardner workshop.  2. GLOBE
+PHOTO/JOHN MOTTERN / Marsha Lanes and Jan Warsing at Gardner conference.
+
+LOAD-DATE: March 22, 1990
+
+
+                             1806 of 1820 DOCUMENTS
+
+                  Copyright 1990 The New York Times Company
+                               The New York Times
+
+                  March 11, 1990, Sunday, Late Edition - Final
+
+SECTION: Section 4; Page 5, Column 4; Week in Review Desk
+
+LENGTH: 494 words
+
+HEADLINE: IDEAS AND TRENDS;
+Gene Therapy Moves A Step Closer to Reality
+
+BYLINE: By GEORGE JOHNSON
+
+BODY:
+
+   WITH an anatomy consisting of no more than a glob of genetic material wrapped
+in a protective coat of protein, viruses exist on the boundary between the
+living and the dead. Under a plan announced last week, these borderline
+creatures would be used as messengers to smuggle missing genes into the cells of
+children otherwise doomed by a devastating congenital disorder.
+
+   Since the late 1970's when scientists learned how to splice human insulin
+genes into bacteria, turning them into living chemical factories, molecular
+biology has promised to revolutionize medicine. Using the techniques developed
+to alter bacteria, scientists hope to edit and repair the defective genetic
+instructions that cause thousands of inherited diseases like cystic fibrosis and
+Duchenne's muscular dystrophy.
+
+   An important step was taken on Wednesday when a Government panel gave
+preliminary approval to what scientists hope will be the first successful
+attempt at gene therapy. The target is ADA deficiency, a disease so rare that it
+affects only about 20 people in the world. Victims are born without the gene for
+making adenosine deaminase, an enzyme that breaks down biological byproducts
+that can accumulate in the body and poison T-cells and B-cells, important
+components of the immune system.
+
+   Their defenses destroyed, victims usually die of infections in their first
+few years. One patient, David, the ''bubble boy'' from Texas, spent his 12-year
+life sealed in a sterile enclosure, awaiting a cure that never came. With the
+new therapy, scientists plan to start with a mouse virus that has been modified
+so that it won't cause disease. The gene that makes adenosine deaminase is to be
+spliced into the virus's genetic material and the virus used to infect T-cells
+that have been removed from a patient's blood.
+
+   As in a natural viral infection, the virus (technically a retrovirus) would
+latch onto a cell and squirt its genetic material into it. This, along with the
+new gene, would be incorporated into the T-cell's own DNA. Finally, these
+altered cells would be injected back into the bloodstream, where they would
+begin manufacturing the enzyme. Scientists hope that regular transfusions would
+keep the children alive.
+
+Regulatory Hurdles
+
+   Though the treatment would benefit only a handful of patients, the same
+techniques might be used against other genetic diseases.
+
+   But first the proposal, which was approved by the Institutional Biosafety
+Committee of the National Institutes of Health, must vault a half-dozen more
+regulatory hurdles. In addition to the layers of red tape, the scientists can
+almost count on confronting protesters who oppose genetic experiments as an
+intrusion on the sanctity of life. In the mid-1980's scientists fought three
+years of legal battles before they were allowed to spray a strawberry patch with
+bacteria altered to fight frost. Considering the stakes, scientists hope that
+this time experiments can begin within the year.
+
+GRAPHIC: Photo: Doctors hope to use gene therapy, for the first time, to treat a
+rare disease: the genetic disorder that afflicted David, the Texas boy who lived
+his short life in a plastic bubble (Baylor College of Medicine)
+
+
+                             1807 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                     March 8, 1990, Thursday, Home Edition
+
+SECTION: Part A; Page 17; Column 2; National Desk
+
+LENGTH: 554 words
+
+HEADLINE: GENE TRANSFER FOR HUMAN ILLNESS GETS OK
+
+BYLINE: By MARLENE CIMONS, TIMES STAFF WRITER
+
+DATELINE: WASHINGTON
+
+BODY:
+
+   A federal scientific panel Wednesday took a potentially major new step in
+gene therapy as it for the first time approved a plan to treat an illness by
+inserting new genes in patients.
+
+   The experimental gene therapy will be used to treat a rare and almost always
+fatal childhood immune deficiency disorder.
+
+   If the research is successful, the "potential for gene therapy could lead to
+a range of treatments for many presently incurable diseases," said Dr. W. French
+Anderson of the National Heart, Lung and Blood Institute and one of the
+researchers on the project.
+
+   "Its basic importance is that it is the first step to something that could be
+a major treatment procedure over the next 10-20 years," Anderson added. He
+characterized Wednesday's approval as, "really the first step. If this is
+successful, it will lead to a second step and a third step." The treatment
+proposal was approved by the Institutional Biosafety Committee of the National
+Institutes of Health. It must now be further approved by six other panels, and
+then must be approved by the Food and Drug Administration.
+
+   "It's a long way from being done," said Dr. R. Michael Blaese, a National
+Cancer Institute scientist who is also one of the researchers on the project.
+
+   However, Blaese predicted that "ultimately in the next century there will be
+an infinite number of possibilities for using genes to treat disease. In the
+next decade or so, you will probably see them used in the treatment of cancer,
+hemophilia and other diseases."
+
+   The new therapy will treat the disease adenosine deaminase deficiency.
+Adenosine deaminase is an enzyme that performs an essential function in the
+immune system. Without the enzyme, the body's ability to fight infection is
+crippled.
+
+   Currently, the only successful treatment for the disease is a bone marrow
+transplant from a sibling who is an identical match. However, the researchers
+hope to treat the disease by replacing the gene that makes the crucial enzyme.
+
+   The researchers have learned how to replace the gene in lymphocytes that are
+grown in tissue cultures in the lab. They thus propose to take a small amount of
+the patient's enzyme-deficient blood, then isolate the lymphocytes, or white
+cells, from the blood. The lymphocytes are then to be grown in a tissue culture,
+where they increase 1,000 fold.
+
+   Next, the researchers will add normal genes to the white cells. Then the
+healthy white cells with the new genes will be put back into the patient.
+
+   It is presumed that the corrected white cells will then flourish, begin
+producing the essential enzyme, and thus restore a functioning immune system.
+
+   The therapy would not be a permanent cure, Blaese said, since the enzyme
+would be produced only as long as the genetically manipulated cells live.
+
+   "We don't know how long these cells last," he said. "Some lymphocytes,
+however, can live for years."
+
+   Adenosine deaminase deficiency is "very, very rare," Blaese said. "There are
+only 20 to 30 patients in the whole world."
+
+   Last May, genetically engineered cells were injected into a human patient for
+the first time. The federally approved experiment was designed not to use the
+genes as a therapy, however, but as marker genes to track the movement in the
+body of cancer fighting white blood cells. Blaese was also involved in that
+experiment.
+
+
+                             1808 of 1820 DOCUMENTS
+
+                  Copyright 1990 The New York Times Company
+                               The New York Times
+
+                 March 8, 1990, Thursday, Late Edition - Final
+
+SECTION: Section A; Page 1, Column 4; National Desk
+
+LENGTH: 970 words
+
+HEADLINE: Gene Implant Therapy Is Backed For Children With Rare Disease
+
+BYLINE: By NATALIE ANGIER, Special to The New York Times
+
+DATELINE: BETHESDA, Md., March 7
+
+BODY:
+
+   Gene therapy for human disease took a leap from the theoretical realms of the
+laboratory toward the real world of practicing medicine today. A National
+Institutes of Health panel approved a proposal to treat children with a severe
+genetic disease by inserting new genes into their blood cells.
+
+   The Institutional Biosafety Committee at the National Institutes of Health
+held the nation's first public hearing on a human gene therapy project and then
+approved it as safe without opposition. The project still needs the approval of
+six other Federal regulatory panels, and the researchers are unlikely to begin
+clinical trials of the therapy before the end of this year.
+
+First Obstacle Surmounted
+
+   But in weathering the initial scrutiny of the 12-member safety panel of
+scientists and local citizens, human gene therapy surmounted its first hurdle on
+the long regulatory road to the patient's bedside.
+
+   ''As far as I know this is the first public review of a human gene therapy
+program ever,'' said Dr. W. French Anderson of the National Heart, Lung and
+Blood Institute, an author of the therapy proposal.
+
+   Under the proposal, Dr. Anderson and Dr. R. Michael Blaese of the National
+Cancer Institute and their colleagues will try to treat young children suffering
+from adenosine deaminase deficiency. ADA deficiency, a genetic disorder that
+destroys their immune systems, afflicted the famous ''bubble boy'' from Texas,
+who had to live in a sterile plastic enclosure as a protection against
+infection.
+
+Hopes on Possible Impact
+
+   Should their initial experiment prove successful, the scientists say, it will
+open a new chapter in treating hereditary diseases.
+
+   Researchers believe human gene therapy may also prove valuable in the battle
+against cystic fibrosis, familial cholesterol disorders, metabolic deficiencies
+of the liver and other genetic disorders. In principle, the new technique will
+allow doctors to introduce any sort of necessary gene into patients lacking
+healthy copies of it.
+
+   The method could also be used to implant in a patient's cells foreign genes
+that would make compounds to attack tumor cells selectively, or even the AIDS
+virus.
+
+   ''I hope that this will become a very powerful tool in the physician's
+armamentarium,'' Dr. Blaese said. ''I predict that in the next decade we will
+see human gene therapy used specially for diseases that we don't think of
+primarily as genetic such as cancer.''
+
+   In children who lack the ADA enzyme, toxic chemicals build up in the body and
+destroy certain white blood cells of the immune system, known as T-cells and
+B-cells. Patients ordinarily die of large-scale infections in the first few
+years of life. The disease is extremely rare, Dr. Blaese said, affecting no more
+than 20 people in the world at any time.
+
+Plan on Correcting Deficiency
+
+   Bone marrow transplants have helped a few patients but only when a perfectly
+matched donor can be found; otherwise no effective treatments exist. In their
+trials Dr. Blaese and Dr. Anderson plan to correct ADA deficiency by taking
+blood from the patient, isolating the T-cells, growing them in vast quantities
+in the laboratory, and infecting them with a genetically engineered virus.
+
+   The virus is a mouse retrovirus that can infect human cells but has been
+carefully redesigned so it cannot replicate or cause disease in humans. The
+researchers have sliced into this crippled mouse virus a copy of the human gene
+for the ADA enzyme.
+
+   Once the viral package has infected the patient's cultured T-cells, it can
+integrate into the chromosomes, where the gene for ADA will switch on and begin
+producing the life-saving enzyme. The researchers will then inject the T-cells
+back into the patient through a simple blood transfusion.
+
+   If all goes well, the T-cells will produce enough ADA enzyme to prevent the
+destruction of the child's immune system. Dr. Nelson Wivel, director of the
+N.I.H. office of recombinant DNA activities, which regulates most bioengineering
+research, said ''the big question is whether the cells will express enough of
+the ADA product'' to correct the disease.
+
+   Another question is how long the treatment will last. Most types of T-cells
+live for only weeks or months, and so, at first, patients will probably need
+regular reinfusions of the engineered blood cells to replenish the supply of ADA
+enzyme.
+
+   The researchers hope eventually to isolate longer-lived types of T-cells like
+the memory cells that confer years of resistance to disease. If they could
+infect such memory cells with the recombinant virus, patients would then have a
+store of cells capable of propagating the ADA enzyme indefinitely.
+
+Concern About Safety
+
+   The panel that met today was concerned largely with questions of the safety
+of human gene therapy. The panel members considered whether there was a chance
+that the recombinant mouse virus could somehow become activated into a dangerous
+form once inside the patient. Extensive laboratory and animal studies seem to
+rule out that possibility. In addition, Dr. Anderson and Dr. Blaese have been
+working with Dr. Steven Rosenberg of the N.C.I. on another type of gene transfer
+experiment suggesting that the viral shuttle they use is safe and effective for
+delivering foreign genes into human cells.
+
+   More intense scrutiny of the therapy will come March 30, when the proposal
+will be presented to the Human Gene Therapy Subcommittee, a division of the
+Recombinant DNA Advisory Committee of the National Institutes of Health. At that
+point a national panel of 25 scientists, legal scholars, ethicists and other
+experts will thrash out all the medical and ethical issues of the proposed
+experiment. Not until the proposal wins the approval of that and other review
+boards as well as the F.D.A. and the director of the N.I.H. can human trials
+proceed.
+
+GRAPHIC: drawings
+
+
+                             1809 of 1820 DOCUMENTS
+
+                  Copyright 1990 The New York Times Company
+                               The New York Times
+
+                 March 8, 1990, Thursday, Late Edition - Final
+
+SECTION: Section A; Page 2, Column 5; Metropolitan Desk
+
+HEADLINE: NEWS SUMMARY
+
+BODY:
+
+
+
+Many West Germans are troubled by the tone of world debate on German
+reunification. A tone, they say, that indicates serious doubt about West
+Germany's commitment to peace and democracy.    A1
+
+
+
+   Fast merger of Germanys is opposed by Social Democrats    A13
+
+
+   Alleged Libyan chemical arms plant splits U.S. and Bonn    A17
+
+
+   Ethnic Albanians find a voice in a Yugoslav province    A13
+
+
+
+   Aid requests from new democracies are hounding Washington policymakers who
+must find the money to give. Lawmakers are pondering a cut in aid to other
+countries or a diminished U.S. role in world affairs.    A14
+
+
+
+Unrest spread to Bophuthatswana four days after a coup and protests in Ciskei,
+another South African-created homeland. In the new demonstrations, seven people
+were reported killed and 450 were treated for gunshot wounds.    A16
+
+
+
+   A Cabinet vote on Israeli peace talks was postponed. The coalition
+government, which could dissolve over the matter, failed to complete its debate
+on Secretary Baker's plan for Israeli-Palestinian negotiations.    A5
+
+
+
+   Teheran denies direct discussions with U.S. on hostages    A6
+
+
+   Iran agrees to second U.N. human rights inquiry    A8
+
+
+   Afghanistan says the leader of a failed coup is in Pakistan    A3
+
+
+   In Nicaragua, victors are menaced    A3
+
+
+   Castro to stop giving military aid to Nicaragua    A3
+
+
+   Felix Bloch appealing his ouster by the State Department    A11
+
+
+
+   NATIONAL    A18-22, B8-9
+
+Nutritional labeling will be required for virtually all packaged foods beginning
+next year, the Bush Administration announced. The plan also would provide
+definitions for terms like ''low fat.''    A1
+
+
+
+   Gene therapy for human diseases received its first important approval when a
+National Institutes of Health panel said the procedure is safe. The treatment
+offers patients injections of genetic material they lack.    A1
+
+
+
+   Health counselors at colleges say many students do not use condoms because
+warnings have focused on AIDS, a disease that heterosexuals on campus do not
+fear.    A18
+
+
+
+   Low risk seen for women postponing pregnancy    B9
+
+
+   Federal court dismisses Planned Parenthood suit    A22
+
+
+
+   A new summary of Catholic beliefs being circulated in draft form is creating
+a dispute among Catholic scholars. Some say church teachings need to be
+reassembled; others say the plan puts a conservative stamp on those beliefs.
+A1
+
+
+
+   A Philadelphia subway car crashed, killing 3 people and injuring at least 150
+others in the morning rush hour. The train collided with steel pillars in a
+downtown tunnel.    A1
+
+
+
+   Bush says poor financing imperils transportation system    A20
+
+
+
+   A top aide to Samuel Pierce would receive immunity in exchange for testimony
+about Mr. Pierce's role in political favoritism at H.U.D., in a re-ported
+arrangement with Congressional investigators.    A18
+
+
+
+   An Italian investor bought MGM/ UA for $1 billion. The sale of the film
+company to Giancarlo Parretti's Pathe Communications, which owns European movie
+theaters, reflects the growing foreign interest in Hollywood.    D1
+
+
+
+   News analysis: President Bush was attacked by Representative Richard Gephardt
+in a move that may have hurt Mr. Gephardt's plan for direct Soviet aid but did
+raise nagging questions about the President's response to changes abroad.    A22
+
+
+
+   Judge will not bar North as witness in Poindexter trial    A21
+
+
+   House drops inquiry on Gingrich, but will admonish him    A20
+
+
+   Minority enrollment shows gains at law schools    A20
+
+
+   Awaiting AWACS decision, Saudis gave to fight drugs    B8
+
+
+
+   REGIONAL    B1-7
+
+Mayor Dinkins named Barbara Sabol to head the city's Human Resources
+Administration, which is responsible for addressing homelessness, welfare and
+child care. Ms. Sabol had been a top official at the State Department of Social
+Services.    B1
+
+
+
+   A telephone rate increase was denied by the Public Service Commission. The
+commission's staff had come under heavy criticism for negotiating New York
+Telephone's proposed $445 million increase without holding public hearings.
+B7
+
+
+
+   G.O.P. to ignore Cuomo plan and use old budget as guide    B4
+
+
+
+   AIDS in New York State prisons is not prevented or adequately treated in a
+violation of inmates' protection from cruel and unusual punishment, a lawsuit
+charged.    B3
+
+
+
+   Two men were awarded $76 million by a Brooklyn jury that concluded that five
+police officers beat the men and shot at them on a Coney Island street without
+reason.    B1
+
+
+
+   A barge that exploded in Arthur Kill spilled more than 100,000 gallons of
+heating oil. While cleanup crews skimmed oil from the water, investigators
+searched for the cause of the mysterious blast.    B1
+
+
+
+   Environmentalists fear the cumulative toll of spills    B2
+
+
+
+   Tax cuts for companies in Tarrytown are forcing the Westchester community,
+and a neighboring town, either to make cuts in education spending or shoulder a
+sharp increase in tax rates.    B6
+
+
+
+   Boy, 12, set afire by man after resisting crack offer    B1
+
+
+   Bensonhurst witness, once in hiding, returns to New York    B2
+
+
+   DNA tests link Golub to killing, expert says    B4
+
+
+   Officer says he was target in Lower East Side shoot-out    B3
+
+
+
+   BUSINESS DIGEST    D1
+
+
+
+   THE HOME SECTION
+
+A magazine's ''Oscars'' for design    C1
+
+
+   Hurtless house for children built    C1
+
+
+   Lagerfeld's camouflaged furs    C1
+
+
+   Close to Home    C2
+
+
+   Reviving the warmth of chestnut    C5
+
+
+   Quilts of yore    C6
+
+
+   On the town with retarded people    C7
+
+
+   Parent & Child    C8
+
+
+   Off the beaten path in Milan    C10
+
+
+
+   ARTS/ENTERTAINMENT
+
+Running the City Opera  C15
+
+
+   Theater: ''Acid Paradise''    C24
+
+
+   Art: New arts center in Ohio    C15
+
+
+   Music: Vienna Philharmonic    C15
+
+
+   La Monte Young    C19
+
+
+   Dance: usan Marshall    C19
+
+
+   Word and Image: Liberals starting a journal    C20
+
+
+   Volume II of Johnson biography    C21
+
+
+   Dinkins appoints WNYC head    C22
+
+
+
+   SPORTS
+
+Baseball: Try, try again    B11
+
+
+   Basketball: Sixers beat Knicks    B11
+
+
+   No great urgency in Big East    B11
+
+
+   Column: Anderson on Knicks    B11
+
+
+
+   HEALTH    B10
+
+
+
+   Personal Health
+Overtreatment is found in newborn jaundice
+
+OBITUARIES    D25
+
+
+
+   Charlotte M. Sitterly, an astrophysicist
+William Appleman Williams, historian
+Joe Sewell, ex-major league baseball player
+
+EDITORIALS/LETTERS/OP-ED
+
+Editorials    A24
+
+
+
+   $150 billion a year
+Topics: Nice neighborhood
+
+Letters    A24
+
+
+
+   A. M. Rosenthal: The President's bomb    A25
+
+
+   Tom Wicker: Cheney vs. Webster    A25
+
+
+   Tom Engelhardt: At Pantheon, closed books    A25
+
+
+   Timothy E. Wirth: Clean fuels, clean air    A25
+
+
+
+                             1810 of 1820 DOCUMENTS
+
+
+                          Copyright 1990 The Oregonian
+                              All Rights Reserved
+                        The Oregonian (Portland, Oregon)
+
+                             March 8, 1990 Thursday
+                                 FOURTH Edition
+
+SECTION: SCIENCE; Pg. E03
+
+LENGTH: 680 words
+
+HEADLINE: FIRST USE OF GENE THERAPY OK'D ON CHILDREN WITH RARE DISORDER
+
+BYLINE: NATALIE ANGIER, New York Times News Service <
+
+DATELINE: BETHESDA, Md.
+
+BODY:
+
+   Thursday, March 8, 1990 FIRST USE OF GENE THERAPY OK'D ON CHILDREN WITH RARE
+DISORDER
+
+   Gene therapy for human disease took a leap from the theoretical  realms of
+the laboratory toward the real world of practicing medicine  Wednesday as a
+National Institutes of Health panel approved a proposal to  treat children with
+a severe genetic disease by inserting new genes into their blood cells.
+
+   The Institutional Biosafety Committee at the National Institutes of Health
+held the nation's first public hearing on a human gene therapy project and  then
+approved it as safe without opposition.
+
+   The project still needs the approval of six other federal regulatory  panels,
+and the researchers are unlikely to begin clinical trials of the  therapy before
+the end of this year.
+
+   But in weathering the initial scrutiny of the 12-member biosafety panel of
+scientists and local citizens, human gene therapy surmounted its first hurdle
+on the long regulatory road to the patient's bedside.
+
+   ``As far as I know this is the first public review of a human gene therapy
+program ever,'' said Dr. W. French Anderson of the National Heart, Lung and
+Blood Institute, an author of the therapy proposal.
+
+   Under the proposal, Anderson and Dr. R. Michael Blaese of the National
+Cancer Institute and their colleagues will try to treat young children
+suffering from adenosine deaminase deficiency.
+
+   ADA deficiency, a genetic disorder that destroys their immune systems,
+afflicted the famous ``bubble boy'' from Texas, who had to live in a sterile
+plastic enclosure as a protection against infection.
+
+   Should their initial experiment prove successful, the scientists say, it
+will open a new chapter in treating hereditary diseases.
+
+   Researchers believe human gene therapy may also prove valuable in the  battle
+against cystic fibrosis, familial cholesterol disorders, metabolic  deficiencies
+of the liver and other genetic disorders.
+
+   In principle, the new technique will allow doctors to introduce any sort of
+necessary gene into patients lacking healthy copies of it.
+
+   The method could also be used to implant in a patient's cells foreign genes
+that would make compounds to attack tumor cells selectively, or even the AIDS
+virus.
+
+   ``I hope that this will become a very powerful tool in the physician's
+armamentarium,'' Blaese said.
+
+   ``I predict that in the next decade we will see human gene therapy used
+specially for diseases that we don't think of primarily as genetic, such as
+cancer.''
+
+   In children who lack the ADA enzyme, toxic chemicals build up in the body
+and destroy certain white blood cells of the immune system known as T-cells  and
+B-cells.
+
+   Patients normally die of large-scale infections in the first few years of
+life.
+
+   The disease is extremely rare, Blaese said, affecting no more than 20  people
+in the world at any time.
+
+   Bone marrow transplants have helped a few patients but only when a  perfectly
+matched donor can be found; otherwise no effective treatments  exist.
+
+   In their trials Blaese and Anderson plan to correct ADA deficiency by  taking
+blood from the patient, isolating the T-cells, growing them in vast  quantities
+in the laboratory, and infecting them with a genetically engineered virus.
+
+   The virus is a mouse retrovirus that can infect human cells but has been
+carefully redesigned so it cannot replicate or cause disease in humans.
+
+   The researchers have sliced into this crippled mouse virus a copy of the
+human gene for the ADA enzyme.
+
+   Once the viral package has infected the patient's cultured T-cells, it can
+integrate into the chromosomes, where the gene for ADA will switch on and  begin
+producing the life-saving enzyme.
+
+   The researchers will then inject the T-cells back into the patient through  a
+simple blood transfusion.
+
+   If all goes well, the T-cells will produce enough ADA enzyme to temporarily
+prevent the destruction of the child's immune system.
+
+   Dr. Nelson Wivel, director of the NIH office of recombinant DNA activities,
+which regulates most bioengineering research, said ``the big question is
+whether the cells will express enough of the ADA product'' to correct the
+disease.
+
+LOAD-DATE: April 4, 2006
+
+
+                             1811 of 1820 DOCUMENTS
+
+
+                          Copyright 1990 The Oregonian
+                              All Rights Reserved
+                        The Oregonian (Portland, Oregon)
+
+                             March 8, 1990 Thursday
+                                 FOURTH Edition
+
+SECTION: SCIENCE; Pg. E03
+
+LENGTH: 680 words
+
+HEADLINE: FIRST USE OF GENE THERAPY OK'D ON CHILDREN WITH RARE DISORDER
+
+BYLINE: NATALIE ANGIER, New York Times News Service <
+
+DATELINE: BETHESDA, Md.
+
+BODY:
+
+   Thursday, March 8, 1990 FIRST USE OF GENE THERAPY OK'D ON CHILDREN WITH RARE
+DISORDER
+
+   Gene therapy for human disease took a leap from the theoretical  realms of
+the laboratory toward the real world of practicing medicine  Wednesday as a
+National Institutes of Health panel approved a proposal to  treat children with
+a severe genetic disease by inserting new genes into their blood cells.
+
+   The Institutional Biosafety Committee at the National Institutes of Health
+held the nation's first public hearing on a human gene therapy project and  then
+approved it as safe without opposition.
+
+   The project still needs the approval of six other federal regulatory  panels,
+and the researchers are unlikely to begin clinical trials of the  therapy before
+the end of this year.
+
+   But in weathering the initial scrutiny of the 12-member biosafety panel of
+scientists and local citizens, human gene therapy surmounted its first hurdle
+on the long regulatory road to the patient's bedside.
+
+   ``As far as I know this is the first public review of a human gene therapy
+program ever,'' said Dr. W. French Anderson of the National Heart, Lung and
+Blood Institute, an author of the therapy proposal.
+
+   Under the proposal, Anderson and Dr. R. Michael Blaese of the National
+Cancer Institute and their colleagues will try to treat young children
+suffering from adenosine deaminase deficiency.
+
+   ADA deficiency, a genetic disorder that destroys their immune systems,
+afflicted the famous ``bubble boy'' from Texas, who had to live in a sterile
+plastic enclosure as a protection against infection.
+
+   Should their initial experiment prove successful, the scientists say, it
+will open a new chapter in treating hereditary diseases.
+
+   Researchers believe human gene therapy may also prove valuable in the  battle
+against cystic fibrosis, familial cholesterol disorders, metabolic  deficiencies
+of the liver and other genetic disorders.
+
+   In principle, the new technique will allow doctors to introduce any sort of
+necessary gene into patients lacking healthy copies of it.
+
+   The method could also be used to implant in a patient's cells foreign genes
+that would make compounds to attack tumor cells selectively, or even the AIDS
+virus.
+
+   ``I hope that this will become a very powerful tool in the physician's
+armamentarium,'' Blaese said.
+
+   ``I predict that in the next decade we will see human gene therapy used
+specially for diseases that we don't think of primarily as genetic, such as
+cancer.''
+
+   In children who lack the ADA enzyme, toxic chemicals build up in the body
+and destroy certain white blood cells of the immune system known as T-cells  and
+B-cells.
+
+   Patients normally die of large-scale infections in the first few years of
+life.
+
+   The disease is extremely rare, Blaese said, affecting no more than 20  people
+in the world at any time.
+
+   Bone marrow transplants have helped a few patients but only when a  perfectly
+matched donor can be found; otherwise no effective treatments  exist.
+
+   In their trials Blaese and Anderson plan to correct ADA deficiency by  taking
+blood from the patient, isolating the T-cells, growing them in vast  quantities
+in the laboratory, and infecting them with a genetically engineered virus.
+
+   The virus is a mouse retrovirus that can infect human cells but has been
+carefully redesigned so it cannot replicate or cause disease in humans.
+
+   The researchers have sliced into this crippled mouse virus a copy of the
+human gene for the ADA enzyme.
+
+   Once the viral package has infected the patient's cultured T-cells, it can
+integrate into the chromosomes, where the gene for ADA will switch on and  begin
+producing the life-saving enzyme.
+
+   The researchers will then inject the T-cells back into the patient through  a
+simple blood transfusion.
+
+   If all goes well, the T-cells will produce enough ADA enzyme to temporarily
+prevent the destruction of the child's immune system.
+
+   Dr. Nelson Wivel, director of the NIH office of recombinant DNA activities,
+which regulates most bioengineering research, said ``the big question is
+whether the cells will express enough of the ADA product'' to correct the
+disease.
+
+LOAD-DATE: April 4, 2006
+
+
+                             1812 of 1820 DOCUMENTS
+
+                           Times Publishing Company
+                         St. Petersburg Times (Florida)
+
+
+
+                     March 8, 1990, Thursday, City Edition
+
+SECTION: NATIONAL; MEDICINE; Pg. 4A
+
+LENGTH: 453 words
+
+HEADLINE: Human gene therapy clears first hurdle
+
+DATELINE: BETHESDA, MD.; VIENNA, Austria
+
+BODY:
+
+
+   BETHESDA, Md.  A National Institutes of Health panel on Wednesday approved a
+proposal to treat children with a severe genetic disease by inserting new genes
+into their blood cells. The Institutional Biosafety Committee at the National
+Institutes of Health held the nation's first public hearing on a human gene
+therapy project and then approved it as safe without opposition.  The project
+still needs the approval of six other federal panels.  Under the proposal,
+scientists will try to treat young children suffering from adenosine deaminase
+deficiency. ADA deficiency, a genetic disorder that destroys their immune
+systems, afflicted the famous "bubble boy" from Texas, who had to live in a
+sterile plastic enclosure. The new technique may allow doctors to introduce any
+sort of necessary gene into patients lacking healthy copies of it. The method
+could also be used to implant in a patient's cells foreign genes that would make
+compounds to attack tumor cells selectively, or even the AIDS virus.
+ Abortion pill study
+ may open more markets
+ Buoyed by promising results from the largest study yet on the French abortion
+pill, RU 486, the drug's manufacturer is considering marketing the drug in other
+countries. The drug has been available only in France. With the new data, its
+manufacturer, Roussell-Uclaf said Wednesday the company is considering marketing
+RU 486 in Britain, the Netherlands and Scandinavian countries. Although the drug
+maker said the United States was not ready for RU 486, experts were optimistic
+the drug would be available here fairly soon. The new study, being published
+today in The New England Journal of Medicine, reports on the experiences of
+2,115 French women who took RU 486 within 49 days of their last menstrual
+period. The drug induced abortions in 96 percent of the women with no serious
+side effects. The researchers, Dr. Louise Silvestre and her colleagues at
+Roussell-Uclaf, concluded that RU 486 was as safe and effective as a suction
+abortion.
+ Vaccine curbs AIDS
+ infection in chimpanzee
+ VIENNA, Austria An AIDS vaccine produced by an Austrian firm has prevented the
+development of infection in a chimpanzee since it was inoculated two years ago.
+The pharmaceutical company Immuno AG inoculated a chimpanzee with the vaccine
+and injected the animal with the AIDS virus, a spokesman said Wednesday. The
+virus showed no sign of spreading in the animal after two years, while a
+"control" chimpanzee which had not been inoculated showed signs of infection
+within three months. The vaccine, known as GP 160, would need modification
+before it was suitable for  humans, the spokesman said.
+
+
+LOAD-DATE: November 11, 1992
+
+
+                             1813 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                     February 23, 1990, Friday, P.M. Final
+
+SECTION: Part P; Page 2; Column 1; Late Final Desk
+
+LENGTH: 133 words
+
+HEADLINE: HEALTH;
+GENE THERAPY APPROVAL SOUGHT
+
+BYLINE: From Times Wire Services
+
+DATELINE: BETHESDA, Md.
+
+BODY:
+
+   Scientists sought permission today for the first attempt at human gene
+therapy -- research that will involve children stricken by a rare, inherited
+immune disorder that has forced some to live in plastic bubbles.
+
+   In a proposal filed with federal review committees, National Institutes of
+Health researchers said they want to correct the children's illness, caused by
+the failure of a defective gene to make a vital enzyme, by inserting correct
+copies of the gene into their white blood cells.
+
+   If approved by the review panels and the Food and Drug Administration, the
+gene therapy effort headed by Drs. W. French Anderson and Michael Blaese could
+begin this summer.
+
+   The project would mark the first time researchers have transferred a gene
+into a human in hopes of treating a disease.
+
+
+                             1814 of 1820 DOCUMENTS
+
+                      Copyright 1990 The Washington Post
+                              The Washington Post
+
+                    February 23, 1990, Friday, Final Edition
+
+SECTION: FIRST SECTION; PAGE A8
+
+LENGTH: 703 words
+
+HEADLINE: New Hope in Treating Hereditary Illness;
+Researchers Seek to Replace Defective Gene in Blood Cells
+
+SERIES: Occasional
+
+BYLINE: Larry Thompson, Washington Post Staff Writer
+
+BODY:
+
+   The first attempt to treat a hereditary disease by installing new genes in a
+patient's cells is, after years of promise and preparation, about to begin at
+the National Institutes of Health.
+
+   Scientists there plan to file a proposal today to transfer copies of the
+correct version of a human gene into the white blood cells of children who,
+because they inherited a defective version, suffer severe combined
+immunodeficiency, a rare disease that destroys the immune system.
+
+   In the past, these children, like the famous Texas "bubble boy," sometimes
+lived their shortened lives in sterile plastic enclosures that protected them
+from all bacteria and viruses. Today, the children either receive bone marrow
+transplants if a donor can be found or are treated with weekly injections that
+replace the missing enzyme that the defective gene was supposed to make. Without
+the enzyme, immune systems fail to work. Neither treatment is perfect; the NIH
+researchers hope ultimately to cure the children by permanently replacing the
+defective gene.
+
+   Although fewer than two dozen people are known to have the disease in the
+United States, the NIH plan is significant because gene therapy, as the method
+is called, is considered a promising way to treat many more common genetic
+diseases.
+
+   "This is the first time that a proposal for gene therapy . . . has been
+formally submitted," said LeRoy Walters, an ethicist from Georgetown University
+and chairman of a key federal committee that must approve the proposed
+experiment.
+
+   In the experiment, the scientists would use a genetically modified mouse
+virus to carry the human gene for making adenosine deaminase, ADA, the missing
+enzyme. The lack of ADA causes the buildup of a toxic chemical that destroys the
+child's immune system. Replacing the missing enzyme removes the toxin and
+restores the immune system.
+
+   To get the gene into the body, physicians will remove blood from an afflicted
+child, separate out a certain kind of white blood cell, called a T cell, and
+cause it to proliferate in the laboratory.
+
+   The mouse virus carrying the ADA gene is mixed with the T cells in the
+laboratory. The virus, which is altered so it cannot cause illness, infects the
+white blood cells and permanently inserts the human gene it carries. The blood
+cells start making ADA.
+
+   Using a special growth hormone, billions of the genetically modified T cells
+can be grown in the laboratory and then injected back into the children as a
+simple blood transfusion.
+
+   The scientists, according to an NIH source who asked not to be identified,
+expect the genetically repaired T cells to function normally and to completely
+restore the child's immune defenses.
+
+   Although the T cells will be permanently altered by the gene therapy, this
+treatment probably will not provide a permanent cure. T cells only live from
+weeks to months, so to maintain the effect the children will have to receive
+transfusions with genetically engineered cells every few weeks or months.
+
+   The current experiment is expected to be proposed by the teams of R. Michael
+Blaese of the National Cancer Institute and W. French Anderson of the National
+Heart Lung and Blood Institute. Neither Blaese nor Anderson wanted to discuss
+the proposed experiments. They said they would wait until the final version of
+the proposal is submitted to federal review committees.
+
+   Anderson and Blaese already are collaborating with the cancer institute's
+Steven A. Rosenberg to transfer a bacterial gene into special T cells that
+Rosenberg uses to attack cancer. These experiments are intended to track the T
+cells in the body but not to enhance their cancer-killing power, so it is not
+considered gene therapy.
+
+   Three NIH committees must review the Blaese-Anderson experiment over the next
+month, with the first public review coming on March 30 when there is a meeting
+of the human gene therapy subcommittee of the NIH Recombinant DNA Advisory
+Committee, or RAC. The full committee won't consider the gene therapy experiment
+until its June meeting, so even though the scientists are essentially ready to
+go, the first children will not be treated before summer. The experiment also
+must be approved by the Food and Drug Administration.
+
+
+                             1815 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                   February 18, 1990, Sunday, Bulldog Edition
+
+SECTION: Part A; Page 3; Column 6; Advance Desk
+
+LENGTH: 1403 words
+
+HEADLINE: SCIENTISTS HARNESSING BODY'S NATURAL AGENTS AS POWERFUL HEALERS
+
+BYLINE: By LARRY THOMPSON, THE WASHINGTON POST
+
+BODY:
+
+   Instead of the sharp edge of the scalpel or a massive blast of toxic
+chemicals to wipe out illness, doctors are turning to the body to heal itself.
+
+   They are taking the body's natural products -- hormones, antibodies, enzymes
+and even whole cells -- to attack disease and restore normal functioning.
+Cancer, Parkinson's disease, heart disorders and hormone deficiencies are all
+the targets of this new approach to treating illness.
+
+   Harnessing these new "natural" agents produced by the body might be called
+biological therapy, or biotherapy, much as toxic chemicals used to treat cancer
+are called chemotherapy.
+
+   It all started with the genetic-engineering revolution in the 1970s when
+scientists learned how to manipulate genes in the laboratory. Previously rare
+human proteins -- interferon, interleukin-2, human insulin and human-growth
+factor -- could suddenly be mass produced with these new gene-engineering
+techniques. Although the early experiments in human patients failed to live up
+to expectations, solid gains have been made and physicians remain optimistic
+about the role of biotherapies.
+
+   "In the next decade, the major advance will be genetic therapies," said Bruce
+A. Chabner, director of the National Cancer Institute's division of cancer
+treatment. Genetic manipulation, for example, is being increasingly studied as a
+way to fight diseases such as cancer and AIDS.
+
+   The idea of biotherapies has been around for decades, though the first ones
+were crude. Cow insulin, a protein essential for signaling cells to pull sugar
+from the blood, was discovered in the 1920s and injected into the bodies of
+diabetics.
+
+   Vaccination -- the injection of a living but inactive virus or bacteria into
+the body -- showed that it was possible to manipulate the body's natural
+defenses. The immune system was programmed to prevent subsequent infection by
+that particular bacteria or virus.
+
+   Just before World War II, doctors discovered that blood could be transfused
+between individuals. And beginning in the 1960s came the organ transplants --
+heart, lungs, liver, pancreas, kidney, even bone marrow.
+
+   The common factor between these now standard treatments is that they use
+natural substances -- cells in the transfusion, organs in the transplants,
+viruses in the vaccines, protein in the insulin. But they are limited. Blood
+doesn't always match; organs are rejected; improperly prepared vaccines can
+cause the disease they were intended to prevent.
+
+   Most of the problems came from incomplete understanding of the biology. The
+new generation of biotherapies is changing that, putting in doctors' hands some
+of the most powerful treatments ever developed. Biotherapies fall, generally,
+into three groups: proteins, genes and cells.
+
+   In the last five years, physicians have been putting to use the natural
+medicines produced for the first time by the biotechnology labs. Genetic
+engineers have learned to put specific human genes into bacteria, turning the
+bacteria into miniature factories that grow large quantities of the human
+proteins doctors can use against a certain disease. The new protein biotherapies
+include:
+
+   * Clot busters. Several natural proteins have been found that rapidly
+dissolve blood clots. Physicians now routinely inject these clot busters to stop
+heart attacks in mid-attack -- something that never had been possible.
+Additionally, these drugs also have been used experimentally to stop strokes and
+open painful blockages in leg arteries.
+
+   * Blood boosters. A set of proteins has been found that stimulate the bone
+marrow to produce both red blood cells and certain types of white blood cells.
+Growing red blood cells is revolutionizing the care for end-stage renal failure,
+which causes the body to stop making blood. Before this discovery, these
+patients needed constant transfusions.
+
+   Stimulating white blood cells boosts immunity to various types of infections.
+It can prevent some of the secondary diseases associated with AIDS. Its most
+important use, however, may be the countering of the immune-destroying effects
+of cancer chemotherapy, thus allowing physicians to treat tumors with larger
+doses of the poisonous drugs and kill the cancer.
+
+   * Height control. Human-growth factor can literally add inches to children of
+short stature. They don't always reach normal height, but they reach heights
+previously impossible. Some also have talked about using this powerful hormone
+for weight loss, and there have been reports of use by some athletes seeking an
+extra edge.
+
+   * Antibodies. The body's immune system produces thousands of different-shaped
+proteins called antibodies that recognize invading bacteria and viruses by their
+shape -- and then attack them. Scientists have learned how to make antibodies of
+any given type -- called monoclonal antibodies -- that can be used to diagnose
+disease both in the lab and in the body and can be used to attack cancer cells
+directly.
+
+   Organ transplants and blood transfusions have led the way in the use of
+living cells or tissues to treat an illness. But the new biotherapies take it
+all a quantum leap further.
+
+   * Brain transplants. Clearly the brain itself cannot be transplanted, but
+parts of the brain wear out for uncertain reasons. Parkinson's disease arises
+with the loss of certain brains cells that produce a chemical needed for normal
+movement. Neurosurgeons have now experimented with transplanting into the brain
+patches of human cells that produce the missing chemical. Preliminary
+experiments with nerve cells taken from aborted fetuses reportedly show promise.
+
+   * Tissue transplants. In diabetes, pancreatic cells stop secreting the
+protein insulin. Although insulin can be injected every day, control of blood
+sugar is better when a pancreas is transplanted into the body. A number of human
+experiments are under way to inject just the insulin-making cells in the hope
+that they will work better and be easier to protect from rejection.
+
+   * Killing cancer. Researchers at the National Cancer Institute have found
+that certain white blood cells are primed to attack cancers. They remove those
+cells and stimulate them in the lab with a growth factor called interleukin-2.
+Once several billion of the white blood cells have grown in the lab, they are
+put back into the patient's body and attack the tumor. More than half of the
+patients with the skin cancer malignant melanoma and with kidney cancer now
+respond to this treatment.
+
+   The third general form of biotherapy, genetic, relies on the recent ability
+to insert genes into cells of the body. Genes control the production of
+proteins, so gene transfers can be used to replace a missing protein
+permanently. This is the future of medicine, many believe. About 4,000 inherited
+diseases could be attacked by this technology.
+
+   * First steps. In the first gene transfer experiments in humans, begun last
+year at the National Institutes of Health, cancer researchers put a bacterial
+gene into the white blood cells they already had been turning into cancer
+killers. The gene allows them to track the altered blood cells in the body and
+to see which type best kills the cancer. Future experiments in which other genes
+are added should boost the cell's cancer-killing power.
+
+   * Artificial organs. The biggest problem with gene therapy is getting the
+altered cells back into the body so that they survive. One approach under
+development in animals creates an artificial organ by growing the gene-modified
+cells on a synthetic pad that is surgically placed in the animal's abdomen.
+Hormones are added that make blood vessels grow into the pad. Theoretically, the
+newly created organ could be designed to secrete any protein to treat a wide
+array of illnesses.
+
+   Although the new biotherapies have begun to radically alter the treatment of
+disease, they also have created controversies. For example, some of the tissue
+transplanted for diabetes and Parkinson's comes from aborted fetuses. Groups
+opposed to abortion have so strongly opposed the use of this material that the
+government no longer funds any related research.
+
+   The debate will grow more intense as the massive project to identify and
+analyze every single human gene, now being developed at NIH, gets under way. It
+will speed the ability to detect diseases for which nothing can be done. That
+means doctors will be able to tell which patients are likely to get which
+diseases. Will patients want to know?
+
+
+                             1816 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+              February 16, 1990, Friday, San Diego County Edition
+
+SECTION: Metro; Part B; Page 1; Column 2; Metro Desk
+
+LENGTH: 627 words
+
+HEADLINE: SAN DIEGO AT LARGE / ANTHONY PERRY:  TALK IS ANYTHING BUT CHEAP AT LA
+JOLLA'S SALK INSTITUTE
+
+BYLINE: By Anthony Perry
+
+BODY:
+
+   When it comes to science, researchers at the Salk Institute in La Jolla are
+at the top of the heap: trying to crack the secrets of AIDS, gene therapy, what
+makes the brain tick, and more.
+
+   But in media relations, Salk lags.
+
+   Unlike UC San Diego and other science centers, Salk
+
+   does not have a public-affairs staff that encourages media attention.
+Interviews are rare.
+
+   The late Frederic de Hoffman, Salk president from 1972 to 1988, was a
+strong-willed nuclear physicist who had worked on the Manhattan Project and at
+General Atomics. He preferred that reporters be kept at bay.
+
+   Under De Hoffman's successor, Salk, a private institution that receives
+federal funds, has gone a step further by establishing an informal policy of
+asking for money, in some cases, before agreeing to interviews.
+
+   A documentary film maker from Los Angeles was told last week it would cost
+$10,000 for an hour interview with Salk President Dr. Renato Dulbecco, who
+received the Nobel Prize in 1975 for virus research.
+
+   Lacking a spare 10 grand, the film maker left.
+
+   Kenneth Klivington, an assistant to Dulbecco, said Salk researchers will
+continue to do some free interviews but will seek payment when they feel the
+interviewer is demanding too much time, is ill-prepared, or is just "fishing"
+for a story.
+
+   "The goal of the Salk Institute is to create an environment devoted entirely
+to research," Klivington said. "Interviews can be very disruptive. We will
+continue to cooperate when there is truly a newsworthy reason, but there will be
+cases when payment seems appropriate."
+
+   Pierre Kandorfer, the film maker, said he was "stunned" by the request.
+
+   He's doing a documentary for French television on whether the United States
+can maintain its competitive edge in scientific research. He's arranged free
+interviews with scientists at Caltech and UC Berkeley.
+
+   Charles Petit, science writer for the San Francisco Chronicle and president
+of the 1,500-member National Assn. of Science Writers, said he's never heard of
+a science institution charging for interviews. He called the idea "dumb."
+
+Well, It's Different
+
+   Items everywhere you look.
+
+   * The Central City Assn. stickball tournament trophy was delivered Thursday
+to the Hall of Champions. It takes a place of honor March 29.
+
+   You can't miss it. It's the one with a hubcap from a '57 Chevy and two
+stickball bats made from broom handles.
+
+   * Hide the bureaucrats and the statists. The Libertarian Party state
+convention opens today at the Hanalei Hotel in Mission Valley.
+
+   Opening act is the unveiling of the advertisement that Libertarians have
+placed in the national Colombian newspaper to coincide with President Bush's
+attendance at the drug summit in Cartagena.
+
+   The ad says Libertarians believe the drug wars will end only when drugs are
+legalized.
+
+   * Kee McFarlane, the Los Angeles social worker whose interviews were central
+to the McMartin child molestation case, is married to San Diego County Deputy
+Dist. Atty. Harry Elias.
+
+   Elias heads the D.A.'s child abuse unit. The couple met at a child abuse
+seminar in late 1986 and married a year later.
+
+Robbery Not Par For the Course
+
+   Gentlemen, pick your weapons.
+
+   * Two golfers from Vista were robbed while playing at the Fallbrook Country
+Club.
+
+   The twosome had just teed off and were searching for a ball in the rough. A
+scruffy fellow emerged from the bushes and demanded money.
+
+   One of the golfers pulled a putter. The scruffy fellow then pulled a gun. He
+got away with $100 plus credit cards.
+
+   * Trent Archer explains why ads for his stun-gun company are on the door to
+the outhouse on the bluff over Black's Beach.
+
+   "I'm a surfer, and Black's is my favorite spot," he says. "It seemed
+natural."
+
+   A surfer selling stun guns. Only in San Diego.
+
+GRAPHIC: Photo,
+
+
+                             1817 of 1820 DOCUMENTS
+
+                      Copyright 1990 The Washington Post
+                              The Washington Post
+
+                    January 30, 1990, Tuesday, Final Edition
+
+SECTION: HEALTH; PAGE Z10
+
+LENGTH: 1412 words
+
+HEADLINE: 'Patient, Heal Thyself' Are Words for the '90s;
+Doctors Turning Away From the Cutting and the Toxic to Utilize Natural Body
+Products
+
+SERIES: Occasional
+
+BYLINE: Larry Thompson, Washington Post Staff Writer
+
+BODY:
+
+   Instead of the sharp edge of the scalpel or a massive blast of toxic
+chemicals to wipe out illness, doctors are turning to the body to heal itself.
+
+   They are taking the body's natural products -- hormones, antibodies, enzymes
+and even whole cells -- to attack disease and restore normal functioning.
+Cancer, Parkinson's disease, heart disorders and hormone deficiencies are all
+the targets of this new approach to treating illness.
+
+   Harnessing these new "natural" agents produced by the body might be called
+biological therapy, or biotherapy, much as toxic chemicals used to treat cancer
+are called chemotherapy.
+
+   It all started with the genetic engineering revolution in the 1970s when
+scientists learned how to manipulate genes in the laboratory. Previously rare
+human proteins -- interferon, interleukin-2, human insulin and human growth
+factor -- could suddenly be mass produced with these new gene engineering
+techniques. Although the early experiments in human patients failed to live up
+to initial expectations, solid gains have been made and physicians remain
+optimistic about the role of biotherapies.
+
+   "In the next decade, the major advance will be genetic therapies," said Bruce
+A. Chabner, director of the National Cancer Institute's division of cancer
+treatment. Genetic manipulation, for example, is being increasingly studied as a
+way to fight diseases such as cancer and AIDS.
+
+   The idea of biotherapies has been around for decades, though the first were
+crude. Cow insulin, a protein essential for signalling cells to pull sugar from
+the blood, was discovered in the 1920s and injected into the bodies of
+diabetics.
+
+   Vaccination -- the injection of a living but inactive virus or bacteria into
+the body -- showed that it was possible to manipulate the body's natural
+defenses. The immune system was programmed to prevent subsequent infection by
+that particular bacteria or virus.
+
+   Just before World War II, doctors discovered that blood could be transfused
+between individuals. And beginning in the 1960s came the organ transplants --
+heart, lungs, liver, pancreas, kidney, even bone marrow.
+
+   The common factor between these now-standard treatments is that they use
+natural substances -- cells in the transfusion; organs in the tranplants;
+viruses in the vaccines; protein in the insulin. But they were limited. Blood
+doesn't always match; organs are rejected; improperly prepared vaccines can
+cause the disease they were intended to prevent.
+
+   Most of the problems came from incomplete understanding of the biology. The
+new generation of biotherapies is changing that, putting in doctors' hands, some
+of the most powerful treatments ever developed. Biotherapies fall, generally,
+into three groups: proteins, genes and cells.
+
+   Protein Therapy
+
+   In the last five years, physicians have been putting to use the natural
+medicines produced for the first time by the biotechnology labs. Genetic
+engineers have learned to put specific human genes into bacteria, turning the
+bacteria into miniature factories which grow large quantities of the human
+proteins doctors can use against a certain disease. The new protein biotherapies
+include:
+
+   Clot busters. Several natural proteins have been found that rapidly dissolve
+blood clots. Physicians now routinely inject these clot busters to stop heart
+attacks in mid-attack -- something which never had been possible. Additionally,
+these drugs also have been used experimentally to stop strokes and open painful
+blockages in leg arteries.
+
+   Blood boosters. A set of proteins has been found that stimulates the bone
+marrow to produce both red blood cells and certain types of white blood cells.
+Growing red blood cells is revolutionizing the care for end-stage renal failure,
+which causes the body to stop making blood. Before this discovery, these
+patients needed constant transfusions.
+
+   Stimulating white blood cells boosts immunity to various types of infections.
+It can prevent some of the secondary diseases associated with AIDS. Its most
+important use, however, may be from countering the immune destroying effects of
+cancer chemotherapy, thus allowing physicians to treat tumors with a bigger dose
+of the poisonous drugs and kill the cancer.
+
+   Height control. Human growth facter can literally add inches to children of
+short stature. They don't always reach normal height, but they reach heights
+previously impossible. Some also have talked about using this powerful hormone
+for weight-loss, and there have been reports of use by some athletes seeking an
+extra edge.
+
+   Antibodies. The body's immune system produces thousands of different-shaped
+proteins called antibodies that recognize invading bacteria and viruses by their
+shape -- and then attack them. Scientists have learned how to make antibodies of
+any given type -- called monoclonal antibodies -- that can be used to diagnose
+disease both in the lab and in the body and can be used to attack cancer cells
+directly.
+
+   Cell Therapy
+
+   Organ transplants and blood transfusions have led the way in the use of
+living cells or tissues to treat an illness. But the new biotherapies take it
+all a quantum leap farther.
+
+   Brain transplants. Clearly the brain itself cannot be transplanted, but parts
+of the brain wear out for uncertain reasons. Parkinson's disease arises with the
+loss of certain brains cells that make a chemical needed for normal movement.
+Neurosurgeons have now experimented with transplanting into the brain patches of
+human cells that produce the missing chemical. Preliminary experiments with
+nerve cells taken from aborted fetuses reportedly show promise.
+
+   Tissue transplants. In diabetes, pancreas cells stop secreting the protein
+insulin. While insulin can be injected every day, control of blood sugar control
+is better when a pancrease is transplanted into the body. A number of human
+experiments already are under way to inject just the insulin-making cells in the
+hopes that they will work better and be easier to protect from rejection.
+
+   Killing cancer. Researchers at the National Cancer Institute have found that
+certain white blood cells are primed to attack cancers. They remove those cells
+and stimulate them in the lab with a growth factor called interleukin-2. Once
+several billion of the white blood cells have grown in the lab, they are put
+back into the patient's body and attack the tumor. More than half of the
+patients with the skin cancer malignant melanoma and with kidney cancer now
+respond to this treatment.
+
+   Gene Therapy
+
+   The third general form of biotherapy, genetic, relies on the recent ability
+to insert genes into cells of the body. Genes control the production of
+proteins, so gene transfers can be used to replace a missing protein
+permanently. This is the future of medicine, many believe. Some 4,000 inherited
+diseases could be attacked by this technology.
+
+   First steps. In the first gene transfer experiments in humans, begun last
+year at the National Institutes of Health, cancer researchers put a bacterial
+gene into the white blood cells they already had been turning into cancer
+killers. The gene will allow them to track the altered blood cells in the body
+and to see which type best kill the cancer. Future experiments in which other
+genes are added should boost the cell's cancer-killing power.
+
+   Artificial organs. The biggest problem with gene therapy is getting the
+altered cells back into the body so that they survive. One approach now under
+development in animals creates an artificial organ by growing the gene-modified
+cells on a synthetic pad that is surgically placed in the animal's abdomen.
+Hormones are added that make blood vessels grow into the pad. Theoretically, the
+newly created organ could be designed to secrete any protein to treat a wide
+array of illnesses.
+
+   Although the new biotherapies have begun to radically alter the treatment of
+disease, they also created controversies. For example, some of the tissue
+transplanted for diabetes and Parkinson's comes from the aborted fetus. Groups
+opposed to abortion have so strongly opposed the use of this material that the
+government no longer funds any related research.
+
+   The debate will grow more intense as the massive project to identify and
+analyze every single human gene, now being developed at NIH, gets underway. It
+will speed the ability to detect diseases for which nothing can be done. That
+means doctors will be able to tell which patients are likely to get which
+diseases. Will patients want to know?
+
+GRAPHIC: ILLUSTRATION, NICHOLAS WILTON FOR TWP
+
+
+                             1818 of 1820 DOCUMENTS
+
+
+                   Copyright 1990 The San Diego Union-Tribune
+                          The San Diego Union-Tribune
+
+                            January 28, 1990 Sunday
+
+SECTION: OPINION; Pg. C-3
+
+LENGTH: 916 words
+
+HEADLINE: Clear priority for the '90s: financing U.S. health care
+
+BYLINE: Dr. Gerard N. Burrow, Burrow is dean of the UCSD School of Medicine and
+vice chancellor for health sciences.
+
+BODY:
+
+   Perhaps the decade that has just ended can best be described for medicine as
+a decade of paradox.
+
+   To paraphrase Dickens, it was the best of times and the worst of times.
+Unquestionably, the AIDS scourge has dominated medicine.
+
+   Simultaneously, however, the decade began with the announcement by a global
+commission that smallpox had been totally eradicated in the world.
+
+   Successful organ transplantation has become a routine occurrence.
+
+   Premature babies weighing as little as one pound routinely survive. But
+despite these major advances in health care, as many as 37 million Americans
+have no health insurance.
+
+   More than 25 percent of women who deliver at UCSD Medical Center have
+received no prenatal care. The major health concerns of the '90s are being
+shaped by environmental and social issues including pollution and toxins in the
+environment, hazards in the workplace, drugs, violence and the spread of AIDS.
+Profound changes in demographics during the next decade will also heavily impact
+the health care system.
+
+   The number of Americans over age 75 is projected to increase by 34 percent,
+and older individuals tend to use medical services at a much higher rate. A
+clear priority for the next decade is financing the American health care system,
+which requires radical change.
+
+   Despite efforts at containment, medical costs have increased an average of 10
+percent per year for the last decade. A recent Harris Poll indicated that 80
+percent of Americans believe that our health care system requires fundamental
+change, although only 24 percent felt that health care was one of the areas in
+which the government should spend more money. Over the next 10 years we can
+expect to see the end of unrestricted fee-for-service health insurance, replaced
+by universal coverage of basic health services through a creative, pluralistic
+financing approach. What about the practice of medicine over the next decade?
+
+   As a consequence of advances in molecular and cellular biology, a true
+revolution is occurring in clinical medicine. The fact that San Diego has one of
+the highest concentrations of biotechnology companies in the nation is further
+impetus for medical progress -- from "laboratory bench" to "bedside" to the
+public sector through biotechnology. In the past year alone, San Diego
+researchers have announced major breakthroughs in the production of antibodies
+against disease, in the growth of human skin grafts to better treat burn victims
+and in the successful use of genetically altered cells in animal models of
+Parkinson's disease and cancer. Genetics research, which will fundamentally
+change the practice of medicine, is an area in which San Diego has become a
+center of national importance.
+
+   Genetic engineering has already given us the ability to produce human
+insulin, human growth hormone, hepatitis vaccine and a growing list of other
+products that allow us to better manage disease. Advances in this arena are
+allowing us to understand the basis of abnormal cell growth and, potentially,
+how to correct or even prevent it in cancer patients.
+
+   This basic arsenal of knowledge should allow us to develop an effective
+weapon to fight AIDS as well as a variety of incapacitating disease in the
+developing world like malaria. Building on current research, we will see
+significant advances in our understanding of the brain, with the possibility of
+preventing or reversing memory loss and regenerating or replacing damaged nerve
+cells.
+
+   The feasibility of this approach recently has been proven in animal studies
+at UCSD; developing a treatment for human patients is the next logical step. A
+better understanding of the immune system will lead to better understanding of
+diseases with an immune component, like rheumatoid arthritis.
+
+   Immunological research is progressing at such a rate that it is almost
+certain that we will solve the rejection problems in organ transplantation, but
+the shortage of donors will be limiting. This shortage will provide the impetus
+toward improved technology and ultimately the emergence of the "bionic man" with
+biologically synthesized organs, implantable drug delivery systems and lifelike
+artificial limbs and joints. By the year 2000, we will have mapped a significant
+portion of the human genome, giving us a blueprint for the most basic functions
+of human life. Gene therapy -- basically the insertion of healthy genes into
+damaged cells to correct malfunction that gives rise to disease -- will be a
+reality. This will be vitally important for patients whose disease is caused by
+a single, identifiable genetic defect. On a broader scale, we may see the
+development of genetic screening tests to allow identification of individuals at
+high risk of developing certain diseases, like heart disease or Alzheimer's
+disease. As we enter a decade of transition, with molecular genetics potentially
+changing the way we approach the diagnosis and treatment of disease, we can be
+hopeful that we will witness the amelioration of certain chronic diseases.
+
+   Does this mean that we are moving toward immortality?
+
+   Not at all. There is good evidence that like other machines, the body
+eventually wears out even in the absence of disease.
+
+   Our goal as physicians, and as teachers of the next generation of healers, is
+not to help the patient strive for immortality, but to use the tools of humanity
+as well as technology to keep the "machine" in good running order until the
+"warranty" runs out. Burrow is dean of the UCSD School of Medicine and vice
+chancellor for health sciences.
+
+GRAPHIC: 1 DRAWING; PHOTOBY: North America Syndicate
+
+LOAD-DATE: August 1, 2007
+
+
+                             1819 of 1820 DOCUMENTS
+
+           Copyright 1990 The Times Mirror Company; Los Angeles Times
+
+                               All Rights Reserved
+                               Los Angeles Times
+
+                    January 16, 1990, Tuesday, Home Edition
+
+SECTION: Part A; Page 25; Column 1; Metro Desk
+
+LENGTH: 908 words
+
+HEADLINE: GENE THERAPY PROVIDES INTERNAL BAND-AID;
+MEDICINE: RESEARCHERS SAY THE TECHNIQUE IS A STEP TOWARD REDUCING RISK OF HEART
+ATTACKS AND STROKES.
+
+BYLINE: By LINDA ROACH MONROE, TIMES STAFF WRITER
+
+DATELINE: SAN ANTONIO
+
+BODY:
+
+   Michigan doctors have succeeded in using genetically altered cells to act as
+an internal Band-Aid, a technique that eventually might be used to prevent
+atherosclerotic lesions from worsening, it was reported here Monday.
+
+   Although the work so far has been done only in animals, and with genes that
+do not produce biologically active products, the research represents a leap
+toward gene therapy to prevent heart attacks and strokes, the president of the
+American Heart Assn. told science writers.
+
+   The Michigan work is generating much excitement among cardiovascular
+researchers because it "points out to them the potential for broadly moving
+their field and other fields forward," Dr. Myron L. Weisfeldt said.
+
+   Dr. Elizabeth G. Nabel, assistant professor of medicine at the University of
+Michigan, reported at the meeting that her research group had used a common
+cardiovascular technique -- balloon angioplasty -- to insert genetically
+engineered cells into the arteries of Yucatan mini-pigs.
+
+   The group infected endothelial cells -- which line the interior of the blood
+vessels -- that had been taken from the pigs earlier with a retrovirus that had
+itself been altered with a bacterial gene. Because a retrovirus inserts its own
+genetic code into infected cells, the enzyme-producing bacterial gene became
+part of the pig cells' genetic machinery.
+
+   The altered cells were inserted into the pig artery through a balloon
+catheter. There they established a healing layer of endothelial cells over the
+atherosclerotic lesion, which is an accumulation of fat-filled cells on the
+artery wall. The layer successfully produced the bacterial enzyme, showing that
+a foreign gene could work in this way, Nabel said.
+
+   Aware of problems that other proposed gene therapies have had in obtaining
+results, Nabel was cautiously optimistic. "We have established the feasibility
+of using endothelial cells as factories for artery repair," Nabel said.
+
+   The endothelial cells eventually might be modified to secrete anti-clotting
+proteins to prevent blockage of the artery at atherosclerotic plaque sites.
+Noting that plaques themselves produce substances that promote their own growth,
+Nabel said the endothelial Band-Aid might also contain genes to block these
+growth promoters.
+
+   Since endothelial cells are in organs throughout the body, she added, these
+designer cells might even be engineered to produce anti-cancer drugs at tumor
+sites.
+
+   Still, she called such applications "pie in the sky," and said she did not
+expect the research to bear clinical fruit for perhaps 20 years.
+
+   Part of the reason for that is the extensive safety monitoring that would
+have to be done before such techniques could be used in humans, she said.
+Retroviruses would have to be shown unable to cause harmful infection before
+they could be used in humans. The inserted genes would also need to have only a
+localized effect, so they would not harm other body systems.
+
+   Weisfeldt, however, said he thought that if the technique proves promising,
+it might be usable early on in people for whom there is no other hope of
+survival. For instance, heart transplant patients often develop life-threatening
+atherosclerosis a few years after transplant as a result of the operation.
+
+   Endothelial cells have become a prime target for genetic engineers because
+their location inside the blood vessel ensures that hormones or other biological
+agents they produce will be distributed throughout the body. They are also
+easier to work with than bone marrow cells, which had previously been the target
+of choice.
+
+   Geneticists around the country are already experimenting in animals with
+altered endothelial cells that deliver CD4, a protein that blocks the AIDS
+virus; a clotting factor to prevent excessive bleeding in hemophilia; adenosine
+deaminate, which is missing in children with certain genetic disorders of the
+immune system; and von Willebrand's factor, which cures another genetic bleeding
+disorder.
+
+   Researchers speculate the technique could also be used to produce tissue
+plasminogen activator, which would prevent the formation of blood clots that
+cause strokes and heart attacks, and even insulin for diabetics.
+
+   Most researchers agree that several years will elapse before attempts are
+made at human therapy by genetic engineering. To date, genetically engineered
+cells have been introduced into only a handful of humans as part of an
+anti-cancer therapy devised at the National Cancer Institute.
+
+   Last May, researchers there used genetic engineering techniques to insert
+markers into white blood cells that are used in therapy of malignant melanoma, a
+particularly severe form of skin cancer, to help track the cells through the
+body. A total of 10 patients are to be treated, and so far no ill effects from
+the genetically engineered cells have been observed.
+
+   REPAIRING INJURED ARTERIES
+
+   In miniature pigs, scientists at the University of Michigan used this
+two-ballon technique to insert replacements for the injured cell layer that
+normally lines the arteries, but which is damaged in atherosclerosis. Because
+the inserted cells successfully produced an enzyme that they had been
+genetically altered to make, the researchers see the angioplasty technique --
+already used to unblock arteries in humans -- as a potential way to both repair
+injured artery walls and make them produce lesion-inhibiting proteins that would
+reverse or prevent further atherosclerosis.
+
+GRAPHIC: Drawing, REPAIRING INJURED ARTERIES, Los Angeles Times
+
+
+                             1820 of 1820 DOCUMENTS
+
+
+                   Copyright 1990 The San Diego Union-Tribune
+                          The San Diego Union-Tribune
+
+                            January 14, 1990 Sunday
+
+SECTION: BUSINESS; Pg. I-1
+
+LENGTH: 1255 words
+
+HEADLINE: Biotechnology stocks viewed with wariness
+
+BYLINE: Robert Henwood, Special to The San Diego Union
+
+DATELINE: SAN FRANCISCO
+
+BODY:
+
+   SAN FRANCISCO -- Sarah Gordon knows how Sir Edmund Hillary felt.
+
+   Hillary, the first man to conquer Mount Everest, found the going tougher as
+he approached the summit. Gordon, chief biotechnology analyst for San
+Francisco-based Hambrecht & Quist, knows the prices of the stocks she follows
+are in a rarified atmosphere. "Last year it was easy being a biotech analyst;
+this year could be a lot tougher," said British-born Gordon. Gordon aired her
+views at Hambrecht & Quist's 8th annual Life Sciences Conference last week in
+San Francisco, where some 140 companies made presentations to a record 1,300
+attendees. "The gains we saw in the biotech stocks last year were essentially
+because there were clear fundamentals developing within the group and there were
+many undervalued stocks," Gordon said.
+
+   "Looking forward into 1990, the companies are much more realistically valued.
+
+   Those to focus on now are the ones making real product progress, in the
+public markets at least." Gordon's premier pick for 1990 is Emeryville-based
+Chiron, whose share price more than doubled last year.
+
+   "They're going to build a very valuable franchise in the blood-banking
+business and hopefully in the vaccine area as well," she said. Food and Drug
+Administration approval is expected by midyear for Chiron's diagnostic test for
+hepatitis C, already selling in Europe.
+
+   Also, the company's recent acquisition of Du Pont's AIDS and hepatitis B
+blood-screening business made Chiron the No. 2 player behind Abbott Laboratories
+in diagnostics worldwide. Where the Dow Jones Medical-Biotechnology Index
+swooned 39 percent in 1988, led by a 62 percent plunge in Genentech's stock, it
+rebounded nearly 48 percent last year to show the 13th best percentage gain
+among DJ's 82 industry indices. Interest in Amgen's erythropoietin drug, Epogen,
+for anemia associated with kidney disease, was the driving force for the sector.
+Analysts, chastened in 1988 for wildly overestimating the sales of Activase
+(t-PA), Genentech's thrombolytic agent, proved to be too conservative where
+Epogen was concerned. Amgen's president and chief operating officer, Harry
+Hixson, told the conference that Epogen had reached $95 million in sales in its
+first seven months, rapid market penetration by anyone's standards.
+
+   Epogen is now stocked by 90 percent of kidney dialysis providers and relevant
+hospital pharmacies. In introducing Hixson, Gordon said she believed Thousand
+Oaks-based Amgen would have an even bigger success in Neupogen for chemotherapy
+patients. Neupogen enhances white blood cell production through the use of a
+granulocyte colony. David MacCallum, H&Q's managing director for Life Sciences
+and Health Care, noted biotechnology had produced three drugs so far with annual
+sales exceeding $100 million.
+
+   All are from Genentech.
+
+   Epogen obviously will be next to cross the threshold. "By 1992, there could
+be four more for the industry," he said.
+
+   "And by 1995 there will probably be a dozen biotech products with sales north
+of $100 million, some of them ranging up to the $500 million mark." Last year,
+Gordon had said, "In biotechnology we're either flying high or hanging on by our
+fingertips."
+
+   Now, she sees that changing. "With specific products either to be approved or
+close to approval this year, the extreme cyclicality of this group will be
+reduced," Gordon said. "Advances in product development are becoming apparent in
+a much broader range of companies.
+
+   Two years ago we talked a lot about Genentech, last year Amgen, but this year
+there's a much broader range of companies -- Xoma, Centocor, Chiron and others.
+
+   That breadth will add stability." Gordon noted that the successful biotech
+products had been recombinant (DNA), quick uptake replacement products such as
+human growth hormone, insulin, hepatitis B vaccine and EPO. "Other markets, like
+t-PA and alpha interferon, have grown slowly but now show well over $100 million
+in sales annually," she said.
+
+   "Interleukin-2, already approved in Europe, should follow the same path after
+receiving FDA approval this year and become an interesting anti-cancer product.
+"But what we'll see over the next few years is, finally, the emergence of
+significant (monoclonal) antibody products," Gordon said.
+
+   "They have taken longer to come to commercial fruition.
+
+   I think of Xoma, with its graft-vs.-host disease product, Xomazyme CD5 Plus,
+for bone marrow transplant complications, which is close to FDA approval in the
+United States." Antibodies are the foot soldiers of the immune system.
+
+   Monoclonal antibodies are B lymphocite cells linked to a rapidly dividing
+cancer cell to produce a hybridoma.
+
+   Each hybridoma secretes large amounts of identical monoclonal antibodies.
+Gordon also mentioned the sepsis market (medications for blood infections),
+particularly Xoma's mouse-based antibody, Xomen E5, and Centocor's human-based
+Centoxin, both designed to neutralize the endotoxins released in gram-negative
+septicemia. Centocor filed for FDA approval of Centoxin in September.
+
+   Jim Wavle, the company's president and chief operating officer, revealed "the
+incidence of gram-negative sepsis has grown dramatically in the last 20 years.
+"Approximately 200,000 patients in the U.S. develop gram-negative sepsis
+(frequently in the hospital) with bacteremia each year," he said. "Thirty-five
+(percent) to 45 percent of them die within one month of infection." Agricultural
+biotechnology is an area "now worth taking a look at," according to Gordon.
+
+   She mentioned Calgene, of Davis, which with partner Campbell Soup soon will
+file for FDA approval of the first genetically engineered food, a tomato that
+stays fresh longer. Scientists, using Calgene's "anti-sense" technology, can now
+switch off production of an enzyme responsible for tomato softening and rotting.
+Gordon noted use of anti-sense technology in genetic therapy had made big
+strides in recent years. In introducing ISIS Pharmaceuticals of Carlsbad, one of
+13 San Diego companies to make presentations, Gordon called the privately held
+company "one of the two (the other is Gilead Sciences) leading companies in
+anti-sense technology today." ISIS, started with $5.2 million in venture capital
+in March, is headed by Stanley Crooke, former head of research at SmithKline
+Beckman. "Traditional drugs are generally small molecules that interact with
+modest specificity with their target proteins and modulate the performance of
+those proteins to generate some therapeutic gains," Crooke said. "In contrast,
+anti-sense oligonucleotides will interact with extraordinary specificity with
+the messenger RNA (ribonucleic acid), or with the gene that produces the
+protein, and as a result prevent the production of proteins that cause disease."
+Crooke used the "lock and (skeleton) key" analogy to describe traditional drugs,
+noting that sometimes the keys "open locks that you're not particularly
+interested in having opened. "Anti-sense drugs interact at multiple points in
+the message, through hybridization, so the analogy that makes more sense is to
+think of those plastic keys you use to open your hotel room these days.
+
+   Instead of interacting with a single tumbler, you're interacting at multiple
+sites on the plastic and as a consequence you can be very specific about what
+doors you open. "In addition, once you have the plastic and once you have the
+holes punched, you can stamp out key after key relatively rapidly.
+
+   You can stamp out a lot of drugs." H&Q chairman Gordon Macklin recalled that
+the first Life Sciences conference lured just 150 attendees to hear 24
+companies.
+
+LOAD-DATE: August 1, 2007

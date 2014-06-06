@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+		width="72" height="13" fc:manageBounds="false">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.CheckBox")]
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over"  />
+		<s:State name="down"  />
+		<s:State name="disabled"  />
+		<s:State name="upAndSelected" />
+		<s:State name="overAndSelected"  />
+		<s:State name="downAndSelected"  />
+		<s:State name="disabledAndSelected"  />
+	</s:states>
+	
+	<s:Group x="0" verticalCenter="0"
+			 alpha.disabled="0.5"
+			 alpha.disabledAndSelected="0.5">
+		<!-- background -->
+		<s:Rect x="0.5" y="0.5" width="12" height="12" >
+			<s:stroke>            
+				<s:SolidColorStroke color="#5C5C5C" />
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#EEEEEE" color.over="#FFFFFF" color.overAndSelected="#FFFFFF"
+							  color.down="#FFFFFF" color.downAndSelected="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- shadow (down states only) -->
+		<s:Rect  x="1.5" y="1.5" width="10" height="10" includeIn="down, downAndSelected">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90">
+					<s:GradientEntry color="#5C5C5C" alpha="0.25" ratio="0"/>
+					<s:GradientEntry color="#5C5C5C" alpha="0" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		
+		<!-- checkmark -->
+		<s:Path data="M 3.5 6.5 l 2 2 l 6 -7" 
+				includeIn="upAndSelected, overAndSelected, downAndSelected, disabledAndSelected">
+			<s:stroke>
+				<s:SolidColorStroke weight="2" caps="square" color="#464646" />
+			</s:stroke>
+		</s:Path>
+	</s:Group>
+	
+	<!-- Label -->
+	<s:RichText id="labelDisplay" x="18" alpha="0.5" color="#FFFFFF" fontFamily="Myriad Pro"
+				tabStops="S0 S50 S100" textAlign="start" verticalAlign="middle" verticalCenter="0.5"/>
+	
+</s:Skin>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark"  creationComplete="init();"
+					   xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	
+	<fx:Declarations>
+		<fx:String id="filePath"/>
+		<fx:String id="fileLoc"/>
+		<fx:String id="authorSurname"/>
+		<fx:String id="authorForename"/>
+		<fx:String id="authorAffiliation"/>
+		<fx:String id="titleName"/>
+		<fx:String id="publishername"/>
+		<fx:String id="publisherloc"/>
+		<fx:String id="fileText"/>
+		<fx:String id="keyWords"/>
+		<fx:String id="termOut"/>
+		<fx:int id="date"/>
+		<fx:int id="numDocs"/>
+		<fx:String id="s1"/>
+		<fx:String id="s2"/>
+		<fx:String id="s3"/>
+		<fx:String id="s4"/>
+		<fx:String id="s5"/>
+		<fx:String id="s6"/>
+		<fx:String id="s7"/>
+		
+		<s:HTTPService id = "parseFile" url="{filePath}" result="gotFile(event);" 
+					   method="GET"  resultFormat="text"/>
+		
+		<s:HTTPService id = "putit"
+					   resultFormat="text"
+					   url = "http://localhost/factivaMathewparser/src/php/putData.php"
+					   method="POST" result="putit_resultHandler(event)" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+				<s7>{s7}</s7>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<fx:Script source="parsingFunctions.as" />
+	<s:Label id = "fd"  x="26" y="89" text="Status" width="77" height="17"/>
+	<s:Label id = "numa"  x="55" y="114" text="{counter.toString()}" width="77" height="17"/>
+	
+
+</s:WindowedApplication>
