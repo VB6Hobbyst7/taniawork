@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Application xmlns:ATE="http://ns.adobe.com/ate/2009"
+			   xmlns:ai="http://ns.adobe.com/ai/2009"
+			   xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+			   xmlns:lib="assets.graphics.l1pg1edited2.*"
+			   xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flm="http://ns.adobe.com/flame/2008"
+			   xmlns:model="fr.kapit.lab.demo.model.*"
+			   xmlns:views="fr.kapit.lab.demo.ui.views.*"
+			   xmlns:my="*"
+			   preloader="fr.kapit.lab.demo.preloader.GenericPreloader"
+			   xmlns:graphics="assets.graphics.*"
+			   creationComplete="init();"  xmlns:local="flexlib.containers.*"
+			   scriptTimeLimit="12000" 
+			   backgroundColor="#6A5F5E"
+			   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Style source="Main.css"/>
+	<fx:Script source="func/loader.as" />
+	<fx:Script source="func/resultFunctions.as" />
+	<fx:Script source="func/workspaceDisplay.as" />
+	<fx:Script source="func/mouse.as" />
+	<fx:Script source="func/imports.as" />
+	<fx:Script source="func/searchFunctions.as" />
+	<fx:Script source="func/creationFunctions.as" />
+	<fx:Script source="func/crumbFunctions.as" />
+	<fx:Script source="func/seedFunctions.as" />
+	<fx:Declarations >
+		<model:ApplicationModel id="appModel" />
+		<fx:String id="alphaStartP" />
+		<fx:String id="alphaEndP" />
+		<fx:String id="catoP" />
+		<fx:int id="endDateP" />
+		<fx:int id="startDateP" />
+		<fx:int id="idout" />
+		<fx:String id="authorTextOut" />
+		<fx:int id="levelSpan1" />
+		<fx:int id="levelSpan2" />
+		<s:HTTPService id = "getHomeSquares" url="http://www.paperdrill.info/program/php/getItemsByDateSpan.php" 
+					   result="afterHomeSquareCall(event)"
+					   method="GET" resultFormat="object"/>
+		<s:HTTPService id = "getAlphaSquares" url="http://www.paperdrill.info/program/php/getItemsByAlphaSpan.php" 
+					   result="afterAlphaSquareCall(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<cato>{catoP}</cato>
+				<endDate>{endDateP}</endDate>
+				<startDate>{startDateP}</startDate>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getResults" url="http://www.paperdrill.info/program/php/getResultsBySpan.php"
+					   result="displayResults(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<cato>{catoP}</cato>
+				<endDate>{endDateP}</endDate>
+				<startDate>{startDateP}</startDate>
+				<alphaStart>{alphaStartP}</alphaStart>
+				<alphaEnd>{alphaEndP}</alphaEnd>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getDocText" url="http://www.paperdrill.info/program/php/getDocText.php" 
+					   result="displayDocText(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<idout>{idout}</idout>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getLinks" requestTimeout="0" url="http://www.myradar.ca/paperdrill/getLinks_v4.php" 
+					   result="afterGetLinks(event)"
+					   method="POST"  resultFormat="object">
+			<s:request xmlns="">
+				<levelSpan1>{levelSpan1}</levelSpan1>
+				<levelSpan2>{levelSpan2}</levelSpan2>
+				<id>{authorTextOut}</id>
+				<maxChain>{20000}</maxChain>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<fx:DesignLayer d:id="2" d:userLabel="Layer 1">
+	
+			
+			<s:Scroller  right="0" left="0" top="0" bottom="0"  >
+				<s:Group> 
+				
+				   
+		
+		<!-- Logo and Background -->
+		<graphics:Graphic1 x="1" y="0"/>
+		<graphics:Graphic2 x="54" y="10"/>
+		
+		<graphics:Graphic27 x="50" y="85" right="30" left="30" />
+		<graphics:Graphic10 right="250" left="30" y="170"/>
+		<!-- Top info section -->
+		<graphics:Graphic9 x="50" y="116" left="30" right="250"/>
+		<graphics:Graphic7 id = "th1" visible = "true" x="81" y="135"/>
+		<graphics:Graphic8 id = "th2" visible = "true" x="274" y="135"/>
+		<s:Label x="154" y="127" id = "th3" visible="{showLabels}" width="122"
+				 height="34" color="#7BA2AD" fontFamily="Georgia"
+				 fontSize="30" text="Label" textAlign="center" verticalAlign="middle"/>
+		<!-- End of Top info section -->
+		
+		<s:Group id="mainHolder" right="30">
+			<!--********************************************************************************-->
+			
+			<!-- End of Logo and Background -->
+			<!--********************************************************************************-->	
+			<!-- Search Section -->
+			<graphics:Graphic11 x="814" y="118"/>
+				<graphics:Graphic23 x="775" y="115"/>
+			<s:TextInput id="searchText" d:userLabel="searchBar" x="858" y="121"
+						 skinClass="components.searchbarskin"/>
+			<s:Button d:userLabel="goButton" x="963" y="146" label="GO" buttonMode="true"
+					  click="goSearch();" mouseEnabled="true" skinClass="components.goBtnSkin"/>
+			<s:Button id="citingButton" x="797" y="155" alpha="1" label="citing" buttonMode="true"
+					  mouseEnabled="true" skinClass="components.cbubbleBtnSkin"
+					   click="waterButtonClick(2)"/>
+			<s:Button id="citedButton" x="799" y="140" label="cited" buttonMode="true"
+					  mouseEnabled="true" skinClass="components.cbubbleBtnSkin" click="waterButtonClick(1)"/>
+			<s:Label x="961" y="183" buttonMode="true" fontSize="10" id = "clearButtono"
+					 mouseOut="textButtonOut(event)" 
+					 mouseOver="textButtonOver(event)" text="Clear"
+					 useHandCursor="true"/>
+			<!-- End of Search Section -->
+			<!--********************************************************************************-->
+			<!-- Control Panel Section -->
+			<graphics:Graphic26 d:userLabel="controlPanelBack" x="777" y="201"/>
+			<s:Group d:userLabel="controlPanelLables" x="787" y="238">
+				<graphics:Graphic13 x="0" y="0"/>
+				<graphics:Graphic25 x="0" y="21"/>
+				<graphics:Graphic21 x="0" y="44"/>
+				<graphics:Graphic12 x="0" y="72"/>
+				<s:DropDownList x="48.2" y="148" labelField="name" id = "citingLevel" width="58" skinClass="numDropSkin" height="15"
+								dataProvider="{fChoice}" change = "pathLengthChange(event);"   />
+				<s:DropDownList x="49.15" y="94" id = "citedLevel" width="58" skinClass="numDropSkin" height="15" 
+								dataProvider="{fChoice}"  labelField="name" change = "pathLengthChange(event);"  />
+				<graphics:Graphic14 x="0" y="127"/>
+				<graphics:Graphic15 x="0" y="181"/>
+			</s:Group>
+			<s:Button x="787" y="212" label="OPTIONS " buttonMode="true" enabled="false"
+					  mouseEnabled="true" skinClass="components.optionsBtnSkin"/>
+			<s:Button x="846" y="212" width="104" label="UPLOAD ARTICLES" buttonMode="true"
+					enabled="true" mouseEnabled="true" skinClass="components.optionsBtnSkin"/>
+			<s:RichText ai:aa="2" color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10"
+						fontWeight="bold" d:id="33" kerning="off" tabStops="S36" text="/" 
+						trackingRight="4%" d:userLabel="/" flm:variant="33" whiteSpaceCollapse="preserve" x="816" y="498"/>
+			<s:Button x="787" y="498" label="Save" buttonMode="true"
+					  skinClass="components.save_exportbtn"/>
+			<s:Button x="824" y="498" label="Export" buttonMode="true"
+					  skinClass="components.save_exportbtn"/>
+			<s:Label x="786" y="442" fontSize="10" text="Report Top                 Authors"/>
+			<s:Label id="arrangeType" x="852" y="259" width="114" color="#525252" fontSize="11"
+					 text="Publication Date"/>
+			<s:DropDownList id="df1"  x="826" y="440" width="58.000023"
+							height="15" change="drillLengthChange();" 
+							dataProvider="{fChoice}"
+							selectedIndex="0" skinClass="numDropSkin"/>
+			<s:Label x="787" y="387" fontSize="10" text="Levels Deep"/>
+			<s:Label x="787" y="333" fontSize="10" text="Levels Deep"/>
+			<!-- End Control Panel Section -->
+			<!--********************************************************************************-->
+			<!-- Top Tools Section -->
+			<s:Button d:userLabel="homeButton" x="797" y="55" label="home " buttonMode="true"
+					  enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+			<s:Button d:userLabel="helpButton" x="843" y="55" label="help" buttonMode="true"
+					  enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+			<s:Button d:userLabel="saveButton" x="883" y="55" label="save" buttonMode="true"
+					  enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+			<s:Button d:userLabel="prefButton" x="922" y="55" width="64" label="preferences"
+					  buttonMode="true" enabled="true" mouseEnabled="true"
+					  skinClass="components.toolbarBtnSkin"/>
+			<graphics:Graphic3 x="831" y="55"/>
+			<!-- End of Top Tools Section -->	
+			<!--********************************************************************************-->
+			
+			<!--********************************************************************************-->
+			<!-- Crumb tool section -->
+			<!-- End of crumb section -->
+			<!--********************************************************************************-->
+					
+		</s:Group>
+		<!--********************************************************************************-->
+		
+		
+		<s:Button buttonMode="false" id="backButton" skinClass="components.Black_White1Button" 
+				  visible="false" x="19" y="158" />
+					
+		<s:BorderContainer id="labelHolder" left="0" right="0" top="0" height="684"
+						   backgroundAlpha="0" borderAlpha="0">
+			
+					
+		<s:Label visible="{showLabels}" left="46" top="182" width="188" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" text="publication dates to 1985"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label visible="{showLabels}" top="182" width="158" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" horizontalCenter="-231" text="1985-1992"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label visible="{showLabels}" top="182" width="158" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" horizontalCenter="-47" text="1992-2005"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label visible="{showLabels}" right="340" top="182" width="158" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" text="2005-2011" textAlign="center"
+				 verticalAlign="middle"/>
+		<s:Label visible="{showLabels2}" left="96" top="182" width="158" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" text="A - J" textAlign="center"
+				 verticalAlign="middle"/>
+		<s:Label visible="{showLabels2}" top="182" width="158" height="23" color="#7BA2AD"
+				 fontFamily="Georgia" fontSize="16" horizontalCenter="-151" text="K - Q"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label visible="{showLabels2}" right="400" top="182" width="158" height="23"
+				 color="#7BA2AD" fontFamily="Georgia" fontSize="16" text="R - Z" textAlign="center"
+				 verticalAlign="middle"/>		
+		<s:Label x="43" y="352"  visible="{showLabels}" width="158" rotation="-90"
+				 height="23" color="#7BA2AD" fontFamily="Georgia"
+				 fontSize="16" text="Sciences" textAlign="center"  verticalAlign="middle"/>
+		<s:Label x="44" y="529"  visible="{showLabels}" width="158" rotation="-90"
+				 height="23" color="#7BA2AD" fontFamily="Georgia"
+				 fontSize="16" text="Medicine" textAlign="center"  verticalAlign="middle"/>
+		<s:Label x="44" y="712"  visible="{showLabels}" width="158"
+				 height="23" color="#7BA2AD" fontFamily="Georgia"
+				 fontSize="16" text="Business" textAlign="center" rotation="-90"  verticalAlign="middle"/>
+		</s:BorderContainer>
+		
+		<!-- Main Work Space Section -->
+		
+		<s:BorderContainer id="recHolder" visible="true" right="250" left="30"  top="205"  height="523"
+						    backgroundAlpha="0.0" borderAlpha="0.0"/>
+		<s:BorderContainer id="recHolder2" visible="false" top="205" right="250" left="30" height="523"
+						    backgroundAlpha="0.0" borderAlpha="0.0"/>
+		<views:MainView id="resultHolder" visible="false" top="180" right="250" left="30" height="537" appModel="{ appModel }"/>
+		<!--s:List id="resultHolder" visible="false" top="180" right="250" left="30" height="537"
+				  itemRenderer="itemResultRen2">
+			<s:layout>
+				<my:FlowLayout1 clipAndEnableScrolling="true"
+								horizontalGap="1" 
+								/>
+			</s:layout>
+		</s:List-->
+					
+		<!--local:FlowBox id="resultHolder" visible="false" top="180" width="723" height="537"
+						   horizontalCenter="-105" verticalGap="0" horizontalGap="0" backgroundAlpha="0.0" borderAlpha="0.0"/-->
+		<local:FlowBox id="citation1Holder" visible="false" top="180" right="250" left="30" height="537"
+				    verticalGap="0" horizontalGap="0" backgroundAlpha="0.0" borderAlpha="0.0"/>
+		<s:BorderContainer id="citation2Holder" visible="false" top="180" right="250" left="30" height="537"
+					  backgroundAlpha="0.0" borderAlpha="0.0"/>
+		<!-- End of Main Work Space Section -->
+		<!--********************************************************************************-->
+		<!-- Citation View Mode -->
+		<s:BorderContainer id="citationViewHolder" visible="false" top="731" width="153" height="29"
+						   backgroundAlpha="0.7" borderAlpha="1.0" borderColor="#000000"
+						   borderWeight="1" horizontalCenter="180">
+			<s:TextArea x="8" top="3" width="68" height="22" borderAlpha="0" color="#000000" 
+						 mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+						fontSize="12" skinClass="infoTextSkin" text="Text Mode"
+						id = "textModeBtn" click="citationViewSwitch(1)"
+						 buttonMode="true" mouseEnabled="true"/>
+			<s:TextArea x="81" top="3" width="64" height="20" borderAlpha="0" color="#D96E27"
+						mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+						fontSize="12" skinClass="infoTextSkin" text="Tile Mode"
+						buttonMode="true" mouseEnabled="true"
+						id = "tileModeBtn" click="citationViewSwitch(2)"/>
+		</s:BorderContainer>
+		 <!--End of Citaion View Mode -->
+		<!--********************************************************************************-->
+		<!-- Influence Holder -->
+		<s:BorderContainer id="citationInfluenceHolder" visible="false" top="205" width="695" height="523"
+						   horizontalCenter="-92" backgroundAlpha="0.0" borderAlpha="0.0">
+			<s:BorderContainer x="188" y="140" width="238"  borderAlpha="0" backgroundColor="#CCCCCC" height="153">
+				<s:BorderContainer x="2" y="1" width="233" borderAlpha="0" height="149">
+				<s:TextArea id="influenceTitle" x="8" y="5" width="209" height="46" borderAlpha="0" 
+							skinClass="infoTextSkin"
+							text="..."/>
+				<s:TextArea id="influenceAuthor" x="8" y="52" width="210" height="46" borderAlpha="0"
+							skinClass="infoTextSkin"
+							text="How culture influences ...................."/>
+				<s:TextArea x="8" y="103" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" 
+							text="1st level citations:"/>
+				<s:TextArea x="8" y="113" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" 
+							text="2nd level citations:"/>
+				<s:TextArea x="8" y="123" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" 
+							text="3rd level citations:"/>
+					
+				<s:TextArea x="86" y="103" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" id="influenceLevel1"
+							text="0000"/>
+				<s:TextArea x="86" y="113" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" id="influenceLevel2"
+							text="0000"/>
+				<s:TextArea x="86" y="123" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+							skinClass="infoTextSkin" id="influenceLevel3"
+							text="0000"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+		</s:BorderContainer>
+		<!-- End of Influence Holder -->
+		<!--********************************************************************************-->
+		<!-- INFO BOX -->
+		<s:BorderContainer id="infoBox" visible="false"  x="287" y="511" width="289" height="153" backgroundAlpha="0.0" borderVisible="false" 
+						   mouseOver="overBoxe(event);"  color="#747474" backgroundColor="#7D7D7D" >
+			<s:BorderContainer x="32.4" y="20.4" width="20" height="20" cornerRadius="0" borderColor="#696969" backgroundColor="#FFFFFF" rotation="45"/>
+			<s:BorderContainer x="12" y="28" width="270" cornerRadius="8" borderColor="#696969" backgroundColor="#FFFFFF" height="158">
+				<s:Label id = "citeType" visible="false" text="-1" />
+				<s:TextArea id = "infoAuthor" text="AuthorName"
+							fontFamily="Verdana" top="2" width="258"  height="39"  
+							horizontalCenter="0"  textAlign="center"  editable="false" 
+							skinClass="infoTextoskin" color="#000000"/>
+				<s:TextArea contentBackgroundAlpha="0.0" id = "infoBoxText"
+							text="This is what the text could look like if it was long and unreasonable in length&#xd;blah blah blah&#xd;"
+							fontFamily="Verdana" top="43" editable="false" left="5" bottom="22" right="5" 
+							skinClass="infoTextoskin" color="#000000"/>
+				<s:Button click="startSeed(event);" id="infoBoxButton"  x="188" y="132" skinClass="seedSkin"/>
+				<s:Button click="viewDoc(event);" skinClass="viewdocskin" id="infoBoxButton0" x="103" y="132"/>
+			</s:BorderContainer>
+		</s:BorderContainer>
+		<!-- END OF INFO BOX -->
+		<!--********************************************************************************-->
+		<!-- TEXT Display Container -->
+		<s:BorderContainer id="textico" visible="false" top="177" width="727" height="550"
+						   backgroundAlpha="0.75" backgroundColor="#FFFFFF" cornerRadius="10"
+						   horizontalCenter="-109" scaleX="0" scaleY="0">
+			<s:Image buttonMode="true" click="closetextico();"  useHandCursor="true" mouseOver="glowItem(event)" 
+					  mouseOut="unglowItem(event);"  x="710" y="-7" source="assets/images/close_button.png"
+					  width="22" height="23" id="closeButton"/>
+			<s:TextArea contentBackgroundAlpha="0.0" id = "texticoBody"
+						fontFamily="Verdana" left="15" right="15" top="15" bottom="15" fontSize="20" editable="false"
+						skinClass="infoTextoskin" color="#000000"/>
+		</s:BorderContainer>
+		<!-- END OF TEXT Display Container -->
+		<!--********************************************************************************-->
+		<s:Label id="status" visible="true" top="367" width="289" color="#353535"
+				 fontFamily="Myriad Pro" fontSize="28" horizontalCenter="-109"
+				 text="Loading Please Wait"/>
+		<s:Label id="cancler" visible="false" mouseOut="textButtonOut(event);" 
+				  mouseOver="textButtonOver(event)" click="stopEverything();" top="394" width="289" color="#353535"
+				 fontFamily="Myriad Pro" fontSize="18" horizontalCenter="-62" text="Cancel Request"
+				 textAlign="left"/>
+		<!--********************************************************************************-->
+				</s:Group>        
+			</s:Scroller>  
+	</fx:DesignLayer>
+	<s:Button d:userLabel="backButton" x="50" y="96" left="30" label="back" buttonMode="true"
+			  enabled="true" mouseEnabled="true" click="crumbBack();" skinClass="components.toolbarBtnSkin"/>
+	<mx:HBox id="crumbBox" visible="true" x="104" y="92"  right="30" height="16"/>
+
+</s:Application>

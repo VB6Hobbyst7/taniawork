@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group y="1" alpha="0.850006" flm:isolated="false" flm:knockout="false">
+		<Group>
+			<mask>
+				<Group x="-0.15" y="-1.05" ai:spare="1">
+					<Rect width="211.19" height="532.05">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Path winding="nonZero" x="0.81" y="-0.05" data="M 4 0 C 4 0 0 0 0 4 L 0 526.05 C 0 526.05 0 530.05 4 530.05 L 205.19 530.05 C 205.19 530.05 209.19 530.05 209.19 526.05 L 209.19 4 C 209.19 4 209.19 0 205.19 0 L 4 0 Z">
+				<fill>
+					<SolidColor color="#FFFFFF"/>
+				</fill>
+			</Path>
+		</Group>
+	</Group>
+	<Line x="0.5" y="99.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="153.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="205.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="284.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Group alpha="0.850006" flm:isolated="false" flm:knockout="false">
+		<Group>
+			<mask>
+				<Group x="-0.3" y="-0.15" ai:spare="1">
+					<Rect width="211.315" height="28.1997">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Path winding="nonZero" x="0.81" y="0.95" data="M 4 0 C 4 0 0 0 0 4 L 0 25.95 L 209.065 25.95 L 209.065 4 C 209.065 4 209.065 0 205.065 0 L 4 0 Z">
+				<fill>
+					<SolidColor color="#FFFFFF"/>
+				</fill>
+			</Path>
+			<Path winding="nonZero" x="0.685" y="0.825" data="M 4.125 0.125 C 4.125 0.125 0.125 0.125 0.125 4.125 L 0.125 26.075 L 209.19 26.075 L 209.19 4.125 C 209.19 4.125 209.19 0.125 205.19 0.125 L 4.125 0.125 Z">
+				<stroke>
+					<SolidColorStroke caps="none" color="#A89F99" joints="miter" miterLimit="4" weight="0.25"/>
+				</stroke>
+			</Path>
+		</Group>
+	</Group>
+	<RichText x="60" y="10" color="#453C3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="15" d:userLabel="|" flm:variant="13">
+		<content><p><span>|</span></p></content>
+	</RichText>
+</Graphic>

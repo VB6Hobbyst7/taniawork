@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:graphics="assets.graphics.*"
+			   scriptTimeLimit="12000" 
+			    creationComplete="init();"
+				xmlns:local="flexlib.containers.*"
+			   backgroundColor="#6A5F5E"
+			   minWidth="955" minHeight="600">
+	<fx:Style source="main.css"/>
+	<fx:Script source="func/loader.as" />
+	<fx:Script source="func/resultFunctions.as" />
+	<fx:Script source="func/workspaceDisplay.as" />
+	<fx:Script source="func/mouse.as" />
+	<fx:Script source="func/imports.as" />
+	<fx:Script source="func/searchFunctions.as" />
+	<fx:Script source="func/creationFunctions.as" />
+	<fx:Script source="func/crumbFunctions.as" />
+	<fx:Script source="func/seedFunctions.as" />
+	<s:Scroller   right="0" left="0" top="0" >
+		<s:Group> 
+			<!-- Logo and Background -->
+			<s:Image x="26" y="7" width="419" height="83" source="assets/images/inkelogo.png"  
+					 useHandCursor="true" mouseEnabled="true" buttonMode="true" 
+					 click="navigateToURL(new URLRequest('http://paperdrill.info'),'_parent')" />
+			<s:BorderContainer borderAlpha="1" height="1" borderColor="#FFFFFF" y="89" left="30" right="30" />
+			<s:BorderContainer  backgroundColor="#ECF3F4" borderColor="#FFFFFF" right="250" left="30" y="170" height="561" />
+			<!-- Top info section -->
+			<s:BorderContainer y="116" left="30" right="250" height="53" backgroundAlpha="1"
+							   backgroundColor="#FFFFFF" borderAlpha="1" borderColor="#FFFFFF"
+							   cornerRadius="3"/>
+			<s:Label id="th1" visible="true" x="65" y="133" width="91" height="27"
+						 color="#7AA3AE" 
+						fontFamily="Georgia" fontSize="21" text="We Have"/>
+			<s:Label id="th2" visible="true" x="277" y="133" width="233" height="27"
+					 color="#7AA3AE" 
+					 fontFamily="Georgia" fontSize="21" text="articles in our system"/>
+			
+			<s:Label x="154" y="125" id = "th3" visible="{showLabels}" width="122"
+					 height="34" color="#7BA2AD" fontFamily="Georgia"
+					 fontSize="30" text="Label" textAlign="center" verticalAlign="middle"/>
+			
+			<s:Group id="toolHolder" right="30">
+				<!--********************************************************************************-->
+				
+				<!-- End of Logo and Background -->
+				<!--********************************************************************************-->	
+				<!-- Search Section -->
+				<s:BorderContainer x="814" y="118"  width="175" height="77" backgroundColor="#EEEEEE"  cornerRadius="3" >
+					<s:DropDownList  id="searchOptions" x="27" y="60" width="118" height="15" 
+									  selectedIndex="0" labelField="name"
+									dataProvider="{sChoice}" skinClass="searchChoiceSkin"></s:DropDownList>
+					<s:TextInput id="searchText" x="42" y="2" height="57" enter="goSearch();"
+								 skinClass="components.searchbarskin"/>
+					<s:Button  x="148" y="26" label="GO" buttonMode="true"  useHandCursor="true"
+							   click="goSearch();" mouseEnabled="true" skinClass="components.goBtnSkin"/>
+				</s:BorderContainer>
+				<s:Image source="assets/images/watercircle.png" x="776" y="115" />
+				<s:Button id="citingButton" x="797" y="155" alpha="1" label="citing" buttonMode="true"
+						  mouseEnabled="true" skinClass="components.cbubbleBtnSkin"  useHandCursor="true"
+						  click="waterButtonClick(2)"/>
+				<s:Button id="citedButton" x="799" y="140" label="cited" buttonMode="true"  useHandCursor="true"
+						  mouseEnabled="true" skinClass="components.cbubbleBtnSkin" click="waterButtonClick(1)"/>
+				<s:Label id="clearButtono" x="961" y="183" buttonMode="true" fontFamily="Myriad Pro"
+						 fontSize="10" mouseOut="textButtonOut(event)"
+						 mouseOver="textButtonOver(event)" text="Clear" useHandCursor="true"/>
+				<!-- End of Search Section -->
+				<!--********************************************************************************-->
+				<!-- Control Panel Section -->
+				<s:Image x="777" y="201" source="assets/images/toolback.png"/>
+				
+				<s:Group  x="787" y="238">
+					<s:Label x="0" y="0" color="#525151" fontFamily="Myriad Pro" fontWeight="bold"
+							 text="Heatmap"/>
+					<s:Label x="0" y="74" color="#525151" fontFamily="Myriad Pro" fontWeight="bold"
+							 text="Works Cited"/>
+					<s:Label x="0" y="127" color="#525151" fontFamily="Myriad Pro" fontWeight="bold"
+							 text="Works Citing"/>
+					<s:Label x="0" y="176" color="#525151" fontFamily="Myriad Pro" fontWeight="bold"
+							 text="Drill"/>
+					<s:Label x="0" y="255" color="#525151" fontFamily="Myriad Pro" fontWeight="bold"
+							 text="Save / Export"/>
+					<s:Label x="0" y="20" color="#4E4E4E" fontFamily="Myriad Pro" fontWeight="normal"
+							 text="Arranged by"/>
+					<s:Label x="0" y="40" color="#4E4E4E" fontFamily="Myriad Pro" fontWeight="normal"
+							 text="Show Heat colors :"/>
+					<s:Label x="70" y="20" id="arrangeType" color="#4E4E4E" fontFamily="Myriad Pro" fontWeight="normal"
+							 text="Publication Date"/>
+					<s:DropDownList x="67.2" y="148" labelField="name" id = "citingLevel" width="58" skinClass="numDropSkin" height="15"
+									dataProvider="{fChoice}" change = "pathLengthChange(event);"   />
+					<s:DropDownList x="67.15" y="94" id = "citedLevel" width="58" skinClass="numDropSkin" height="15" 
+									dataProvider="{fChoice}"  labelField="name" change = "pathLengthChange(event);"  />
+					<s:Label x="-1" y="150" color="#4E4E4E" fontFamily="Myriad Pro" fontSize="12"
+							 text="Levels Deep"/>
+					<s:Label x="-1" y="206" color="#4E4E4E" fontFamily="Myriad Pro" fontSize="12"
+							 text="Report top"/>
+					<s:Label x="0" y="275" color="#4E4E4E" fontFamily="Myriad Pro" fontSize="12" click="exportResults();" 
+							 mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)" useHandCursor="true" buttonMode="true"
+							 text="Export Displayed Items"/>
+					<s:CheckBox x="99" y="36" id="heatCheck"  selected="true" change="heatShowChange();"/>
+				</s:Group>
+				<s:Button x="787" y="212" label="OPTIONS " buttonMode="true" enabled="false"  useHandCursor="true"
+						  mouseEnabled="true" skinClass="components.optionsBtnSkin"/>
+				<s:Button x="846" y="212" width="104" label="UPLOAD ARTICLES" buttonMode="true"  useHandCursor="true"
+						  enabled="true" mouseEnabled="true" skinClass="components.optionsBtnSkin"/>
+				<s:DropDownList id="df1"  x="843" y="442" width="58.000023"
+								height="15" change="drillLengthChange();" 
+								dataProvider="{dChoice}" labelField="name" 
+								selectedIndex="1" skinClass="numDropSkin"/>
+				<s:Label x="787" y="333" color="#4E4E4E" fontFamily="Myriad Pro" fontSize="12"
+						 text="Levels Deep"/>
+				<!-- End Control Panel Section -->
+				<!--********************************************************************************-->
+				<!-- Top Tools Section -->
+				<s:Button  x="797" y="55" label="home " buttonMode="true"  
+						   click="navigateToURL(new URLRequest('http://paperdrill.info'),'_parent')"  useHandCursor="true"
+						   enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+				<s:Button x="843" y="55" label="help" buttonMode="true"  useHandCursor="true"
+						  enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+				<s:Button  x="883" y="55" label="save" click="exportResults();"  buttonMode="true"  useHandCursor="true"
+						   enabled="true" mouseEnabled="true" skinClass="components.toolbarBtnSkin"/>
+				<s:Button x="922" y="55" width="64" label="preferences"  useHandCursor="true"
+						  buttonMode="true" enabled="true" mouseEnabled="true"
+						  skinClass="components.toolbarBtnSkin"/>
+				
+				<s:Label x="911" y="445" color="#4E4E4E" fontFamily="Myriad Pro" fontSize="12"
+						 text="Authors"/>
+			
+			</s:Group>
+			<!-- Main Work Space Section -->
+		
+			<s:BorderContainer id="view1" visible="true" right="250" left="30"  
+							   top="170"  height="560" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:BorderContainer id="view1Holder" top="0" right="0" left="0" bottom="15" 
+								    backgroundAlpha="0" borderAlpha="1"/>
+				<s:BorderContainer id="view1UserCats" bottom="1" left="0" height="15" width="425" 
+								   backgroundAlpha="0" borderAlpha="1">
+					<s:TextInput id="userCat1" y="0" left="43" width="71" height="13" color="#313131"
+								 enabled="true" fontFamily="Myriad Pro" fontSize="12"
+								 skinClass="catSkin" text="science" textAlign="center"/>
+					<s:TextInput id="userCat2" y="0" left="157" width="71" height="14"
+								 color="#313131" enabled="true" fontFamily="Myriad Pro"
+								 fontSize="12" skinClass="catSkin" text="medic" textAlign="center"/>
+					<s:TextInput id="userCat3" left="274" width="71" height="14" color="#313131"
+								 enabled="true" fontFamily="Myriad Pro" fontSize="12"
+								 skinClass="catSkin" text="busines" textAlign="center"/>
+					<s:Label left="2" color="#313131" fontFamily="Myriad Pro" fontSize="13"
+							 fontWeight="normal" text="Catg 1:"/>
+					<s:Label y="0" left="116" color="#313131" fontFamily="Myriad Pro" fontSize="13"
+							 fontWeight="normal" text="Catg 2:"/>
+					<s:Label y="0" left="232" color="#313131" fontFamily="Myriad Pro" fontSize="13"
+							 fontWeight="normal" text="Catg 3:"/>
+					<s:Label y="0" right="7" buttonMode="true" click="runHomeSquareFetch();"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="true" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="Refresh"/>
+				</s:BorderContainer>
+				<s:BorderContainer id="view1Tools" bottom="1" right="0" height="15" width="100" 
+								   backgroundAlpha="0" borderAlpha="1">
+					<s:Label id="v1option1" left="2" buttonMode="true" click="changeView(1,1);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="false" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="View 1"/>
+					<s:Label id="v1option2" right="2" buttonMode="true" click="changeView(1,2);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="true" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="View 2"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			
+			<s:BorderContainer id="view2" visible="false" right="250" left="30"  
+							   top="170"  height="560" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:BorderContainer id="view2Holder" top="0" right="0" left="0" bottom="15" 
+								   backgroundAlpha="0" borderAlpha="1"/>
+				<s:BorderContainer id="view2Tools" bottom="1" right="0" height="15" width="100" 
+								   backgroundAlpha="0" borderAlpha="1">
+					<s:Label id="v2option1" left="2" buttonMode="true" click="changeView(2,1);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="false" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="View 1"/>
+					<s:Label id="v2option2" right="2" buttonMode="true" click="changeView(2,2);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="true" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="View 2"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			
+			<s:BorderContainer id="view3" visible="false" right="250" left="30"   
+							   top="170"  height="560" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:Scroller  right="0" left="0" top="0" horizontalScrollPolicy="off" bottom="15"   >
+					<s:Group> 
+						<local:FlowBox id="view3Holder1" horizontalScrollPolicy="off"  maxHeight="542" visible="true" top="0" right="0" left="0" bottom="15" 
+								 borderAlpha="1"/>
+						<s:BorderContainer id="view3Holder2"   visible="false" top="0" right="0" left="0" bottom="15" 
+										   backgroundAlpha="0" borderAlpha="0">
+						</s:BorderContainer>
+					</s:Group>        
+				</s:Scroller>
+				<s:BorderContainer id="view3Tools" bottom="1" right="0" height="15" width="150" 
+								   backgroundAlpha="0" borderAlpha="1">
+					<s:Label id="v3option1" left="2" buttonMode="true" click="changeView(3,1);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="false" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="Tile Mode"/>
+					<s:Label id="v3option2" right="2" buttonMode="true" click="changeView(3,2);"  useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="true" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="Text Mode"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			
+			<s:BorderContainer id="view4" visible="false" right="250" left="30"  
+							   top="170"  height="560" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:Scroller  right="0" left="0" top="0" bottom="15"  >
+					<s:Group> 
+						<s:BorderContainer id="view4Holder1" visible="true" top="0" right="5" left="5" bottom="5"
+										   backgroundAlpha="0.0" borderAlpha="0.0"/>
+					</s:Group>        
+				</s:Scroller>
+			</s:BorderContainer>
+			
+			<s:BorderContainer id="view5" visible="false" right="250" left="30"  
+							   top="170"  height="560" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:Scroller  right="0" left="0" top="0" bottom="15"  >
+					<s:Group> 
+						<local:FlowBox id="view5Holder1" visible="true" top="0" right="0" left="0" bottom="15" 
+									   borderAlpha="1"/>
+						<s:BorderContainer id="view5Holder2"  visible="false" top="0" right="0" left="0" bottom="15" 
+										   backgroundAlpha="0" borderAlpha="0">
+						</s:BorderContainer>
+					</s:Group>        
+				</s:Scroller>
+				<s:BorderContainer id="view5Tools" bottom="1" right="0" height="15" width="150" 
+								   backgroundAlpha="0" borderAlpha="1">
+					<s:Label id="v5option1" left="2" buttonMode="true" click="changeView(5,1);"  
+							 useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="false" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="Tile Mode"/>
+					<s:Label id="v5option2" right="2" buttonMode="true" click="changeView(5,2);" 
+							 useHandCursor="true"
+							 color="#313131" enabled="true" fontFamily="Myriad Pro" fontSize="14"
+							 fontWeight="bold" mouseEnabled="true" mouseOut="textButtonOut(event);"
+							 mouseOver="textButtonOver(event)" text="Text Mode"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+		
+			<!-- End of Main Work Space Section -->
+			
+			<!-- Influence Holder -->
+			<s:BorderContainer id="citationInfluenceHolder" visible="false" top="205" width="695" height="523"
+							   horizontalCenter="-92" backgroundAlpha="0.0" borderAlpha="0.0">
+				<s:BorderContainer x="188" y="140" width="238"  borderAlpha="0" backgroundColor="#CCCCCC" height="153">
+					<s:BorderContainer x="2" y="1" width="233" borderAlpha="0" height="149">
+						<s:TextArea id="influenceTitle" x="8" y="5" width="209" height="46" borderAlpha="0" 
+									skinClass="infoTextSkin"
+									text="..."/>
+						<s:TextArea id="influenceAuthor" x="8" y="52" width="210" height="46" borderAlpha="0"
+									skinClass="infoTextSkin"
+									text="How culture influences ...................."/>
+						<s:TextArea x="8" y="103" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" 
+									text="1st level citations:"/>
+						<s:TextArea x="8" y="113" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" 
+									text="2nd level citations:"/>
+						<s:TextArea x="8" y="123" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" 
+									text="3rd level citations:"/>
+						
+						<s:TextArea x="86" y="103" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" id="influenceLevel1"
+									text="0000"/>
+						<s:TextArea x="86" y="113" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" id="influenceLevel2"
+									text="0000"/>
+						<s:TextArea x="86" y="123" height="40" borderAlpha="0" color="#D96E27" fontSize="9"
+									skinClass="infoTextSkin" id="influenceLevel3"
+									text="0000"/>
+					</s:BorderContainer>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			<!-- End of Influence Holder -->
+			<!--********************************************************************************-->
+			<!-- INFO BOX -->
+			<s:BorderContainer id="infoBox" visible="false"  x="287" y="511" width="289" height="153" backgroundAlpha="0.0" borderVisible="false" 
+							   mouseOver="overBoxe(event);"  color="#747474" backgroundColor="#7D7D7D" >
+				<s:BorderContainer x="32.4" y="20.4" width="20" height="20" cornerRadius="0" borderColor="#696969" backgroundColor="#FFFFFF" rotation="45"/>
+				<s:BorderContainer x="12" y="28" width="270" cornerRadius="8" borderColor="#696969" backgroundColor="#FFFFFF" height="158">
+					<s:Label id = "citeType" visible="false" text="-1" />
+					<s:TextArea id = "infoAuthor" text="AuthorName"
+								fontFamily="Verdana" top="2" width="258"  height="39"  
+								horizontalCenter="0"  textAlign="center"  editable="false" 
+								skinClass="infoTextoskin" color="#000000"/>
+					<s:TextArea contentBackgroundAlpha="0.0" id = "infoBoxText"
+								text="This is what the text could look like if it was long and unreasonable in length&#xd;blah blah blah&#xd;"
+								fontFamily="Verdana" top="43" editable="false" left="5" bottom="22" right="5" 
+								skinClass="infoTextoskin" color="#000000"/>
+					<s:Button click="startSeed(event);" id="infoBoxButton" useHandCursor="true" buttonMode="true"  x="188" y="132" skinClass="seedSkin"/>
+					<s:Button click="viewDoc(event);" skinClass="viewdocskin" useHandCursor="true" buttonMode="true" id="infoBoxButton0" x="103" y="132"/>
+				</s:BorderContainer>
+			</s:BorderContainer>
+			<!-- END OF INFO BOX -->
+			<!--********************************************************************************-->
+			<!-- TEXT Display Container -->
+			<s:BorderContainer id="textico" visible="false" top="177" width="727" height="550"
+							   backgroundAlpha="0.75" backgroundColor="#FFFFFF" cornerRadius="10"
+							   horizontalCenter="-109" scaleX="0" scaleY="0">
+				<s:Image buttonMode="true" click="closetextico();"  useHandCursor="true" mouseOver="glowItem(event)"  
+						 mouseOut="unglowItem(event);"  x="710" y="-7" source="assets/images/close_button.png"
+						 width="22" height="23" id="closeButton"/>
+				<s:TextArea contentBackgroundAlpha="0.0" id = "texticoBody"
+							fontFamily="Verdana" left="15" right="15" top="15" bottom="15" fontSize="20" editable="false"
+							skinClass="infoTextoskin" color="#000000"/>
+			</s:BorderContainer>
+			<!-- END OF TEXT Display Container -->
+			<!--********************************************************************************-->
+			<s:Label id="status" visible="true" top="367" width="289" color="#353535"
+					 fontFamily="Myriad Pro" fontSize="28" horizontalCenter="-109"
+					 text="Loading Please Wait"/>
+			<s:Label id="cancler" visible="false" mouseOut="textButtonOut(event);"  useHandCursor="true"
+					 mouseOver="textButtonOver(event)" click="stopEverything();" top="394" width="289" color="#353535"
+					 fontFamily="Myriad Pro" fontSize="18" horizontalCenter="-62" text="Cancel Request"
+					 textAlign="left"/>
+			<!--********************************************************************************-->
+			
+			
+			
+		</s:Group>        
+	</s:Scroller>  
+	
+	<s:Label y="97" left="30" buttonMode="true" click="crumbBack();" color="#FFFFFF" enabled="true"
+			 fontFamily="Myriad Pro" fontSize="14" mouseEnabled="true"  useHandCursor="true"
+			 mouseOut="textButtonOut(event);" mouseOver="textButtonOver(event)" text="Back"/>
+	
+	<mx:HBox id="crumbBox" visible="true" y="98" left="62" right="30" height="16"/>
+	
+	
+	<fx:Declarations>
+		<fx:String id="alphaStartP" />
+		<fx:String id="alphaEndP" />
+		<fx:String id="catoP" />
+		<fx:int id="endDateP" />
+		<fx:int id="startDateP" />
+		<fx:int id="idout" />
+		<fx:String id="authorTextOut" />
+		<fx:int id="levelSpan1" />
+		<fx:int id="levelSpan2" />
+		<s:HTTPService id = "getHomeSquares" url="http://paperdrill.info/program/php/getItemsByDateSpan.php" 
+					   result="afterHomeSquareCall(event)"
+					   method="POST" resultFormat="object">
+			<s:request xmlns="">
+				<caty1>{caty1}</caty1>
+				<caty2>{caty2}</caty2>
+				<caty3>{caty3}</caty3>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getAlphaSquares" url="http://paperdrill.info/program/php/getItemsByAlphaSpan.php" 
+					   result="afterAlphaSquareCall(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<cato>{catoP}</cato>
+				<endDate>{endDateP}</endDate>
+				<startDate>{startDateP}</startDate>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getResults" url="http://paperdrill.info/program/php/getResultsBySpan.php"
+					   result="afterResultCall(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<cato>{catoP}</cato>
+				<endDate>{endDateP}</endDate>
+				<startDate>{startDateP}</startDate>
+				<alphaStart>{alphaStartP}</alphaStart>
+				<alphaEnd>{alphaEndP}</alphaEnd>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getDocText" url="http://paperdrill.info/program/php/getDocText.php" 
+					   result="displayDocText(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<idout>{idout}</idout>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getSearchResults" url="http://paperdrill.info/program/php/getSearchResults.php" 
+					   result="afterGetSearchResults(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<searchTexto>{searchTexto}</searchTexto>
+				<searchType>{searchOptions.selectedIndex}</searchType>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getSingleItem" url="http://paperdrill.info/program/php/getSingleItem.php" 
+					   result="afterGetSingleItem(event)"
+					   method="POST"  resultFormat="array">
+			<s:request xmlns="">
+				<singleBookId>{singleBookId}</singleBookId>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getLinks" requestTimeout="0" url="http://www.myradar.ca/paperdrill/getLinks_v4.php" 
+					   result="afterGetLinks(event)"
+					   method="POST"  resultFormat="object">
+			<s:request xmlns="">
+				<levelSpan1>{levelSpan1}</levelSpan1>
+				<levelSpan2>{levelSpan2}</levelSpan2>
+				<id>{authorTextOut}</id>
+				<maxChain>{20000}</maxChain>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+</s:Application>

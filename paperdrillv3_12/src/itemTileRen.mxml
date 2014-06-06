@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				mouseOver="mouseOverr(event)" mouseOut="mouseOutr(event)"
+				autoDrawBackground="true" >
+	<fx:Script>
+		<![CDATA[	
+			import spark.effects.Scale;
+			
+			protected function mouseOverr(event:MouseEvent):void
+			{
+				var sc:Scale = new Scale();
+				sc.target = recy;
+				sc.scaleXTo = 3;
+				sc.scaleYTo = 3;
+				sc.duration = 400;
+				sc.play();
+				
+			}
+			protected function mouseOutr(event:MouseEvent):void
+			{
+				var sc:Scale = new Scale();
+				sc.target = recy;
+				sc.scaleXTo = 1;
+				sc.scaleYTo = 1;
+				sc.duration = 400;
+				sc.play();
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Rect id="recy" width="15" height="15" >
+		<s:stroke>
+			<s:SolidColorStroke 
+				color="0x000000" 
+				weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor 
+				color="0x000000"
+				 alpha="0.4"
+				/>
+		</s:fill>
+	</s:Rect>
+	<!--s:BorderContainer id="cont" width="15" height="15" backgroundAlpha="0.50"
+					   backgroundColor="#000000" borderAlpha="1.0" borderColor="#696969"
+					   borderVisible="false" borderWeight="1" cornerRadius="1"
+					   dropShadowVisible="false">
+		
+	</s:BorderContainer-->
+</s:ItemRenderer>

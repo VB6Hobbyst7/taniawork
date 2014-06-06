@@ -1,0 +1,9 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@font-face
+{
+	fontFamily: "Myriad Pro";
+	src: url("assets/MYRIADPRO-REGULAR.OTF");
+	embedAsCFF: true;
+}

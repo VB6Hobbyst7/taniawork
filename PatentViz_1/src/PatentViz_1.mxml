@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:graphics="assets.graphics.*"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:amcharts="http://www.amcharts.com/com_internal"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:components="com.hillelcoren.components.*"
+			   xmlns:model="fr.kapit.lab.demo.model.*"
+			   xmlns:views="fr.kapit.lab.demo.ui.views.*"
+			   xmlns:esri="http://www.esri.com/2008/ags"
+			   preloader="fr.kapit.lab.demo.preloader.GenericPreloader"
+			   width="100%" height="100%"
+			   minWidth="1280" minHeight="720" 
+			   backgroundColor="#FFFFFF"
+			   pageTitle="Patent Viz"
+			    creationComplete="init();"
+			   preloaderChromeColor="#FFFFFF" >
+	<fx:Style source="main.css"/>
+	<fx:Script source="func/screenshot.as" />
+	<fx:Script source="func/menufunctions.as" />
+	<fx:Script source="func/mapfunctions.as" />
+
+	<fx:Script source="func/freqgraphfunctions.as" />
+	<fx:Script source="func/networkfunctions.as" />
+	<fx:Declarations>
+		<s:HTTPService id = "customquery"
+					   resultFormat="array"
+					   url = "http://enactforum.org/patentviz/customquery.php"
+					   method="GET" >
+			<s:request xmlns="">
+				<cus1>{cus1}</cus1>
+				<cus2>{cus2}</cus2>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "searchDatabase"
+					   result="afterSearchDatabase(event);"   resultFormat="array"
+					   url = "http://enactforum.org/patentviz/searchDataset.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "searchDatabase2"
+					   result="afterSearchDatabase(event);"   resultFormat="array"
+					   url = "http://enactforum.org/patentviz/searchDataset2.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "insertDataset"
+					   result="afterInsert(event);"  
+					   url = "http://enactforum.org/patentviz/insertDataItem.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+				<s7>{s7}</s7>
+				<s8>{s8}</s8>
+				<s9>{s9}</s9>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getDatasetList"
+					   result="afterGetDatasetlist(event);"   resultFormat="array"
+					   url = "http://enactforum.org/patentviz/getDatasetList.php"
+					   method="GET" >
+		</s:HTTPService>
+		<s:RadioButtonGroup id="radiogroup2"/>
+		<s:RadioButtonGroup id="andorgroup"/>
+		<s:RadioButtonGroup id="dateRadioGroup"/>
+		<model:ApplicationModel id="appModel" />
+		<esri:QueryTask id="queryTask"			 
+						executeComplete="afterComplete(event);"
+						url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/0"
+						useAMF="false"/>
+		<esri:Query id="query"
+					outFields="[CITY_NAME,FID]"
+					returnGeometry="true"/>
+		<esri:SimpleMarkerSymbol id="defaultSymbol"
+								 alpha="0.5"
+								 color="0x0000FF"
+								 size="13"
+								 style="circle">
+			<esri:SimpleLineSymbol/>
+		</esri:SimpleMarkerSymbol>
+	</fx:Declarations>
+
+	<s:Group id="maincontainer" visible="true" width="100%" height="100%">
+		<s:BorderContainer id="topbar" backgroundAlpha="#555555"  borderAlpha="0"  top="0"  height="50" width="100%" >
+			<s:HGroup height="100%" paddingLeft="10" width="100%" verticalAlign="middle">
+				<s:Label text="PatentViz"
+						 left="15" fontSize="30" 
+						 verticalCenter="0"/>
+				<s:Label id="sidebarbackbtn" visible="true" text="&lt; BACK" fontSize="16" click="sidebarBackClick();"
+						 mouseOver="tOver(event)" mouseDown="tOver(event)"
+						 mouseOut="tOut(event)"  mouseUp="tOut(event)"/>
+			</s:HGroup>
+			
+		</s:BorderContainer>
+		<s:BorderContainer id="sidebar" backgroundAlpha="#EEEEEE"  borderAlpha="0"  top="50" bottom="0" 
+						   width="350" left="0">
+			
+			
+			<s:VGroup width="100%" top="0" bottom="0" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10" id="step1" visible="false">
+				<s:Label left="15" color="#333333"   fontWeight="bold"
+							fontSize="20" text="What would you like to do?"/>
+				<s:BorderContainer height="1.5"  borderAlpha="0" backgroundAlpha="1"
+								   backgroundColor="#000000" width="100%"/>
+				<s:Button left="15"  
+						  label="Load Exsisting Source" 
+						  buttonMode="true"
+						  click="loadExsistingSource()" 
+						  skinClass="components.btn"/>
+				<s:Button  left="15" width="332.006" 
+						   label="Load MySql Database" buttonMode="true"
+						  click="loadMysqlDatabase()" skinClass="components.btn"/>
+				<s:Button  left="15" width="332.006" 
+						   label="Load CSV File" buttonMode="true"
+						  click="loadCSVFile()" skinClass="components.btn"/>
+			</s:VGroup>
+			
+			<s:VGroup width="100%"  top="0" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10" bottom="0" id="step2" visible="false">
+				<s:Label left="15" color="#333333"   fontWeight="bold"
+							fontSize="20" text="Which Dataset"/>
+				<s:List id="exsistlist"  width="100%" height="100%" alternatingItemColors="[0xf5f5f5,0xebebeb ]" 
+						 contentBackgroundAlpha="0" borderAlpha="0"
+						dataProvider="{datasetArray}" horizontalCenter="0" itemRenderer="components.datasetItem"
+						textAlign="center" verticalCenter="0">	
+					<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  gap="1"/>
+					</s:layout>
+				</s:List>
+				<s:Button  x="555" y="531" label="Load Data Source" click="loaddatasource();"/>
+			</s:VGroup>
+			
+			<s:VGroup id="step3_1" visible="true" top="0" bottom="0" width="100%"
+					  horizontalAlign="center" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10">
+				<s:HGroup verticalAlign="middle" horizontalAlign="center" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="19"  fontWeight="bold"
+							  text="Enter Server Information" textAlign="end"/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17" 
+							  text="Server Address" textAlign="end"/>
+					<s:TextInput id="t1"  x="499" y="234" text="localhost"/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17" 
+							  text="User Name" textAlign="end"/>
+					<s:TextInput id="t2"  x="499" y="260" text="root"/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">	
+					<s:Label  color="#333333"
+							  fontSize="17"  text="User Password"
+							  textAlign="end"/>
+					<s:TextInput id="t3"  x="499" y="286" text=""/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17" 
+							  text="Database Name" textAlign="end"/>
+					<s:TextInput id="t4"  x="499" y="312" text=""/>
+					
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17"  text="Table Name"
+							  textAlign="end"/>
+					<s:TextInput id="t5"  x="499" y="338" text=""/>
+					
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17"  text="Column to Search"
+							  textAlign="end"/>
+					<s:TextInput id="t6"  x="499" y="364" text=""/>
+					
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17" 
+							  text="Date Column" textAlign="end"/>
+					<s:TextInput id="t7"  x="499" y="391" text=""/>
+					
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17"  text="Name Connection"
+							  textAlign="end"/>
+					<s:TextInput id="t8"  x="499" y="417"/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle" horizontalAlign="right" width="100%">
+					<s:Label  color="#333333"
+							  fontSize="17"  text="Date Search Accuracy"
+							  textAlign="end"/>
+						<s:RadioButton  label="Month" groupName="dateRadioGroup"
+										selected="false"/>
+						<s:RadioButton  label="Year" groupName="dateRadioGroup"
+										selected="true"/>
+				</s:HGroup>
+				<s:Button   label="Proceed" click="insertDataSet();"/>
+			</s:VGroup>
+			<s:VGroup width="100%"  top="0" bottom="0" id="step3_2" visible="false">
+				
+			</s:VGroup>
+			<s:VGroup width="100%" top="0" bottom="0" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10" id="step4_1" visible="false">
+				<s:Label left="15" color="#333333"  
+				fontSize="20" text="Analyze" fontWeight="bold"/>
+				<s:BorderContainer height="1.5"  borderAlpha="0" backgroundAlpha="1"
+								   backgroundColor="#000000" width="100%"/>
+				<s:Button left="15"  
+						  label="Use Frequency Grapher" 
+						  buttonMode="true"
+						  click="useFreqGrapher()" 
+						  skinClass="components.btn"/>
+				<s:Button left="15"  
+						  label="Use Geo Maping Tool" 
+						  buttonMode="true"
+						  click="useGeoMapper()" 
+						  skinClass="components.btn"/>
+				<s:Button left="15"  
+						  label="Use Network Tool" 
+						  buttonMode="true"
+						  click="useNetowrkTool()" 
+						  skinClass="components.btn"/>
+				<s:Button left="15"   width="350"
+						  label="Export co-assignee for ora" 
+						  buttonMode="true"
+						  skinClass="components.btn"/>
+				<s:Button left="15"   width="350"
+						  label="Export co-inventor for ora" 
+						  buttonMode="true"
+						  skinClass="components.btn"/>
+				<s:Button left="15"   width="350"
+						  label="Export patent citation for ora" 
+						  buttonMode="true"
+						  skinClass="components.btn"/>
+				<s:Button left="15"   width="350"
+						  label="Export unique assingees, frequency and location" 
+						  buttonMode="true"
+						  skinClass="components.btn"/>
+			</s:VGroup>
+			
+			<s:Group width="100%" height="100%"   top="0" bottom="0" id="step4_2" visible="true">
+				<s:VGroup width="100%" height="100%"  paddingLeft="10" paddingTop="10" 
+						  paddingBottom="10"  paddingRight="10" >
+					<s:Label  x="7" y="6" color="#000000"  fontWeight="bold"
+								 fontSize="17"  text="Create New Search"/>
+					<s:HGroup width="100%" verticalAlign="middle">
+						<s:Label  x="25" y="64" color="#000000" 
+									 fontSize="13"  text="Search Title"/>
+						<s:TextInput id="searchTitle" width="100%" text=""/>
+					</s:HGroup>
+					<s:HGroup width="100%" verticalAlign="middle">
+						<s:VGroup width="50%" >
+							<s:Label color="#000000" width="98%" text="Search Terms (seperated by return)"
+										 fontSize="13"/>
+							<s:HGroup>
+								<s:RadioButton label="and" groupName="andorgroup"/>
+								<s:RadioButton label="or" groupName="andorgroup" selected="true"/>
+							</s:HGroup>
+							
+							<s:Button label="Display" click="display();"/>
+						</s:VGroup>
+						<s:TextArea id="searchText" width="50%" height="132" text=""/>
+					</s:HGroup>
+					<s:HGroup width="100%" verticalAlign="middle">
+						<s:VGroup width="50%">
+							<s:Group width="100%">
+								<s:Label left="0" color="#000000"  fontSize="17" text="Legend"/>
+								<s:Button right="0" width="98" label="Delete Search" click="deleteSearch();"/>
+							</s:Group>
+							
+							<s:List id="legendList" width="100%" height="197"
+									dataProvider="{legendArray}" labelField="name"
+									skinClass="components.legendskin">
+							</s:List>
+						</s:VGroup>
+						<s:VGroup width="50%">
+							
+							<s:Label color="#000000"  fontSize="17" text="Style"/>
+							<s:Label color="#000000"  fontSize="13" text="Font Size"/>
+							<s:DropDownList id="fsize" selectedIndex="1">
+								<mx:ArrayCollection>
+									<fx:String>12</fx:String>
+									<fx:String>13</fx:String>
+									<fx:String>14</fx:String>
+									<fx:String>15</fx:String>
+									<fx:String>16</fx:String>
+									<fx:String>17</fx:String>
+									<fx:String>18</fx:String>
+									<fx:String>19</fx:String>
+									<fx:String>20</fx:String>
+									<fx:String>21</fx:String>
+									<fx:String>22</fx:String>
+								</mx:ArrayCollection>
+							</s:DropDownList>
+							<s:Label color="#000000"  fontSize="13"
+										text="Font Style"/>
+							<s:DropDownList id="fstyle" selectedIndex="2">
+								<mx:ArrayCollection>
+									<fx:String>Georgia</fx:String>
+									<fx:String>Verdana</fx:String>
+									<fx:String>HelveticaNeue</fx:String>
+									<fx:String>Minion Pro</fx:String>
+									<fx:String>Calibri</fx:String>
+								</mx:ArrayCollection>
+							</s:DropDownList>
+							<s:Label color="#000000"  fontSize="13"
+										text="Label Rotation"/>
+							<s:DropDownList id="lrotation" dataProvider="{rotationArray}" labelField="angle"
+											selectedIndex="40">
+							</s:DropDownList>
+							
+					
+							<s:Label color="#000000"  fontSize="13"
+										text="Line Format :"/>
+							<s:DropDownList id="dropy" width="92">
+								<mx:ArrayCollection>
+									<fx:String>segment</fx:String>
+									<fx:String>step</fx:String>
+									<fx:String>vertical</fx:String>
+									<fx:String>horizontal</fx:String>
+									<fx:String>reverseStep</fx:String>
+									<fx:String>curve</fx:String>
+								</mx:ArrayCollection></s:DropDownList>
+						</s:VGroup>
+					</s:HGroup>
+					<s:RadioButton id="lc"  label="Line Chart" groupName="radiogroup2"
+								   selected="true"/>
+					<s:RadioButton id="ac"  label="Area Chart" groupName="radiogroup2"/>
+					<s:RadioButton id="am"  label="Pie and Bar (displays search 1)"
+								   groupName="radiogroup2"/>
+					<s:RadioButton id="stac"  label="Stacked Area (displays 1-4 search)"
+								   groupName="radiogroup2"/>
+					<s:RadioButton id="stbc"  label="Stacked Bar (displays 1-6 search)"
+								   groupName="radiogroup2"/>
+					<s:RadioButton id="grid"  label="Excell Grid" groupName="radiogroup2"/>
+					<s:HGroup>
+						<s:Button click="snap();" label="Save Graph As :"/>
+						<s:TextInput id="saveurl"  text="text.jpg"/>	
+						<mx:Button label="ClipBoard" click="handleCopyClick()" />
+					</s:HGroup>
+					
+				</s:VGroup>
+			</s:Group>
+			
+			<s:VGroup width="100%" top="0" bottom="0" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10" id="step4_3" visible="false">
+				<s:Label left="15" color="#333333"  
+						 fontSize="20" text="Geo Mapping Tool" fontWeight="bold"/>
+				<s:BorderContainer height="1.5"  borderAlpha="0" backgroundAlpha="1"
+								   backgroundColor="#000000" width="100%"/>
+				
+			</s:VGroup>
+			
+			<s:VGroup width="100%" top="0" bottom="0" paddingLeft="10" paddingTop="10" 
+					  paddingBottom="10"  paddingRight="10" id="step4_4" visible="false">
+				<s:Label left="15" color="#333333"  
+						 fontSize="20" text="Network Tool" fontWeight="bold"/>
+				<s:BorderContainer height="1.5"  borderAlpha="0" backgroundAlpha="1"
+								   backgroundColor="#000000" width="100%"/>
+				<s:Button left="15"  
+						  label="Create Publication Citation Network" 
+						  buttonMode="true"
+						  click="publicationCitationNetworkCreator()" 
+						  skinClass="components.btn"/>
+				
+				
+			</s:VGroup>
+		</s:BorderContainer>
+		<!-- MAIN CONTAINER -->
+		<s:BorderContainer id="actioncontainer"  borderAlpha="0" visible="true" backgroundAlpha="#DDDDDD" 
+						   top="50" bottom="0" height="100%"  right="0" left="350">
+			<mx:Canvas id="graphCont" backgroundAlpha="0.0" verticalScrollPolicy="on"
+					   visible="true" left="0" top="0"  height="100%"
+					   width="100%">
+				<s:BorderContainer width="100%" height="100%" id="gridCont" visible="{grid.selected}"	>
+					<components:CopyPasteDataGrid  width="100%" height="100%"  allowMultipleSelection="true"
+												   keyUp="myKeyUpHandler(event);" id="leftDataGrid"
+												   dataProvider="{displayArray}" >
+						
+					</components:CopyPasteDataGrid >
+				</s:BorderContainer>
+				
+				<mx:LineChart id="linechart" visible="{lc.selected}" fontFamily="{fstyle.selectedItem}"
+							  color="0x323232" dataProvider="{displayArray}" fontSize="{Number(fsize.selectedItem)}"
+							  showAllDataTips="false" showDataTips="true"
+							  width="100%" height="100%">
+					<mx:horizontalAxis>
+						<mx:CategoryAxis title="Year" id="a1" ticksBetweenLabels="false"  categoryField="year"/>
+					</mx:horizontalAxis>
+					<mx:horizontalAxisRenderers>
+						<mx:AxisRenderer labelRotation="{lrotation.selectedItem.angle}" axis="{a1}"/>
+					</mx:horizontalAxisRenderers>
+					<mx:verticalAxis>
+						<mx:LinearAxis
+							title="Frequency" id="b1"/>
+					</mx:verticalAxis>
+					
+					<mx:verticalAxisRenderers>
+						<mx:AxisRenderer labelRotation="180" axis="{b1}"/>
+					</mx:verticalAxisRenderers>
+					<mx:series>
+						<mx:LineSeries yField="val1" id="vvar1"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val2" id="vvar2" form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val3" id="vvar3"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val4" id="vvar4"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val5" id="vvar5"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val6" id="vvar6"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val7" id="vvar7"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val8" id="vvar8"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val9" id="vvar9"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val10" id="vvar10"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val11" id="vvar11"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val12" id="vvar12"  form="{dropy.selectedItem}" displayName="name"/>
+						<mx:LineSeries yField="val13" id="vvar13"  form="{dropy.selectedItem}" displayName="name"/>
+					</mx:series>
+				</mx:LineChart>
+				<mx:AreaChart id="areachart" width="100%"  height="100%" visible="{ac.selected}"  
+							  color="0x323232" fontFamily="{fstyle.selectedItem}" fontSize="{Number(fsize.selectedItem)}"
+							  dataProvider="{displayArray}" showAllDataTips="false" showDataTips="true">
+					
+					<mx:horizontalAxis>
+						<mx:CategoryAxis  title="Year" id = "a2" ticksBetweenLabels="false" categoryField="year"/>
+					</mx:horizontalAxis>
+					
+					<mx:horizontalAxisRenderers>
+						<mx:AxisRenderer labelRotation="{lrotation.selectedItem.angle}" axis="{a2}"/>
+					</mx:horizontalAxisRenderers>
+					
+					<mx:verticalAxis>
+						<mx:LinearAxis
+							title="Frequency" id="b2"/>
+					</mx:verticalAxis>
+					
+					<mx:verticalAxisRenderers>
+						<mx:AxisRenderer labelRotation="180" axis="{b2}"/>
+					</mx:verticalAxisRenderers>
+					
+					<mx:series>
+						<mx:AreaSeries yField="val1"   form="{dropy.selectedItem}" displayName="val1"/>
+						<mx:AreaSeries yField="val2"  form="{dropy.selectedItem}" displayName="val2"/>
+						<mx:AreaSeries yField="val3"  form="{dropy.selectedItem}" displayName="val3"/>
+						<mx:AreaSeries yField="val4"  form="{dropy.selectedItem}" displayName="val4"/>
+						<mx:AreaSeries yField="val5"  form="{dropy.selectedItem}" displayName="val5"/>
+						<mx:AreaSeries yField="val6"  form="{dropy.selectedItem}" displayName="val6"/>
+						<mx:AreaSeries yField="val7"  form="{dropy.selectedItem}" displayName="val7"/>
+						<mx:AreaSeries yField="val8"  form="{dropy.selectedItem}" displayName="val8"/>
+						<mx:AreaSeries yField="val9"  form="{dropy.selectedItem}" displayName="val9"/>
+						<mx:AreaSeries yField="val10"  form="{dropy.selectedItem}" displayName="val10"/>
+						<mx:AreaSeries yField="val11"  form="{dropy.selectedItem}" displayName="val11"/>
+						<mx:AreaSeries yField="val12"  form="{dropy.selectedItem}" displayName="val12"/>
+						<mx:AreaSeries yField="val13"  form="{dropy.selectedItem}" displayName="val13"/>
+					</mx:series>
+				</mx:AreaChart>
+			</mx:Canvas>
+			<mx:Canvas id="mapCont" backgroundAlpha="0.0" verticalScrollPolicy="on"
+					   visible="true" left="0" top="0"  height="100%"
+					   width="100%">
+				<s:Group  width="100%" height="100%" visible="true">
+					<esri:Map id="myMap" extentChange="onExtentChange(event)">
+						<esri:extent>
+							<esri:Extent xmin="-14015000" ymin="4579000" xmax="-12757000" ymax="4865000">
+								<esri:SpatialReference wkid="102100"/>
+							</esri:Extent>
+						</esri:extent>
+						<esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+						<esri:GraphicsLayer id="myGraphicsLayer" symbol="{defaultSymbol}"/>
+					</esri:Map>
+				</s:Group>
+			</mx:Canvas>
+			<mx:Canvas id="networkCont" backgroundAlpha="0.0" verticalScrollPolicy="on"
+					   visible="true" left="0" top="0"  height="100%"
+					   width="100%">
+				<views:MainView id="mainView" width="100%" height="100%" appModel="{ appModel }"/>
+			</mx:Canvas>
+		</s:BorderContainer>
+		<!-- END OF MAIN CONTAINER -->
+	</s:Group>
+</s:WindowedApplication>

@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group implements="fr.kapit.lab.demo.ui.components.IConfigPanel"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:component="fr.kapit.lab.demo.panel.component.*"
+		 xmlns:forms="fr.kapit.lab.demo.forms.*"
+		 width="100%"
+		 >
+
+	<fx:Library>
+		<fx:Definition name="HSeparator">
+			<s:Group width="100%" height="1">
+				<s:Rect left="0" right="0" top="0" bottom="0">
+					<s:fill>
+						<s:SolidColor color="0x919191"/>
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+		</fx:Definition>
+	</fx:Library>
+
+	<fx:Declarations>
+		<s:ArrayCollection id="layoutList">
+			<component:LayoutSelectorHeaderButton
+				layoutType="{HierarchicalLayout.ID}"
+				state="HierarchicalLayout"
+				label="Hierarchical tree" tooltip="Hierarchical tree : HierarchicalLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_HIERARCHICAL}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{SugiyamaLayout.ID}"
+				state="SugiyamaLayout"
+				label="Hierarchical cyclic" tooltip="Hierarchical cyclic : SugiyamaLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_HIERARCHICAL_CYCLIC}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{OrthogonalLayout.ID}"
+				state="OrthogonalLayout"
+				label="Orthogonal" tooltip="Orthogonal : OrthogonalLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_ORTHOGONAL}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{SingleCycleCircularLayout.ID}"
+				state="SingleCycleCircularLayout"
+				label="Circular" tooltip="Circular : SingleCycleCircularLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_CIRCULAR}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{BalloonLayout.ID}"
+				state="BalloonLayout"
+				label="Balloon" tooltip="Balloon : BalloonLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_BALLOON}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{RadialLayout.ID}"
+				state="RadialLayout"
+				label="Radial" tooltip="Radial : RadialLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_RADIAL}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{StaticGEMLayout.ID}"
+				state="StaticGEMLayout"
+				label="Organic" tooltip="Organic : StaticGEMLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_ORGANIC}"
+				/>
+			<component:LayoutSelectorHeaderButton
+				layoutType="{ProgressiveFadeLayout.ID}"
+				state="ProgressiveFadeLayout"
+				label="Organic animated" tooltip="Organic animated : ProgressiveFadeLayout"
+				icon="{EmbeddedAssets.IMG_LAYOUT_ORGANIC_ANIMATED}"
+				/>
+		</s:ArrayCollection>
+
+		<!-- true / false , labeled as "yes" / "no" -->
+		<s:ArrayCollection id="booleans">
+			<fx:Object label="Yes" value="{true}" hint="true" />
+			<fx:Object label="No" value="{false}" hint="false" />
+		</s:ArrayCollection>
+
+		<!-- default spacing values, used to modify the laoyout -->
+		<s:ArrayCollection id="defaultSpacings">
+			<fx:Object label="Low" value="{20}" hint="20" />
+			<fx:Object label="Medium" value="{60}" hint="60" />
+			<fx:Object label="High" value="{200}" hint="200" />
+		</s:ArrayCollection>
+
+		<!-- default angle values, used for circular and balloon layout -->
+		<s:ArrayCollection id="defaultAngles">
+			<fx:Object label="360" value="{360}" hint="360" />
+			<fx:Object label="180" value="{180}" hint="180" />
+		</s:ArrayCollection>
+
+		<s:ArrayCollection id="rootSelectionPolicies">
+			<fx:Object label="Directed" value="{RootSelectionType.DIRECTED_ROOT_SELECTION}" hint="RootSelectionType.DIRECTED_ROOT_SELECTION" />
+			<fx:Object label="Most closed" value="{RootSelectionType.MOST_CLOSED_ROOT_SELECTION}" hint="RootSelectionType.MOST_CLOSED_ROOT_SELECTION" />
+			<fx:Object label="Most surrounded" value="{RootSelectionType.MOST_SURROUNDED_ROOT_SELECTION}" hint="RootSelectionType.MOST_SURROUNDED_ROOT_SELECTION" />
+			<fx:Object label="Most weighted" value="{RootSelectionType.MOST_WEIGHTED_ROOT_SELECTION}" hint="RootSelectionType.MOST_WEIGHTED_ROOT_SELECTION" />
+		</s:ArrayCollection>
+
+		<s:ArrayCollection id="edgeDrawingTypes">
+			<fx:Object label="Straight" value="{EdgeDrawType.STRAIGHT_LINE}" hint="EdgeDrawType.STRAIGHT_LINE" />
+			<fx:Object label="Straight polyline" value="{EdgeDrawType.STRAIGHT_POLYLINE}" hint="EdgeDrawType.STRAIGHT_POLYLINE" />
+			<fx:Object label="Curved polyline" value="{EdgeDrawType.CURVED_POLYLINE}" hint="EdgeDrawType.CURVED_POLYLINE" />
+			<fx:Object label="Orthogonal polyline" value="{EdgeDrawType.ORTHOGONAL_STRAIGHT_POLYLINE}" hint="EdgeDrawType.ORTHOGONAL_STRAIGHT_POLYLINE" />
+			<fx:Object label="Orthogonal curved" value="{EdgeDrawType.ORTHOGONAL_CURVED_POLYLINE}" hint="EdgeDrawType.ORTHOGONAL_CURVED_POLYLINE" />
+		</s:ArrayCollection>
+
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.events.ModelChange;
+			
+			import fr.kapit.datavisualization.assets.EmbeddedAssets;
+			import fr.kapit.diagrammer.base.uicomponent.DiagramGroup;
+			import fr.kapit.diagrammer.base.uicomponent.container.DiagramTable;
+			import fr.kapit.lab.demo.model.ApplicationModel;
+			import fr.kapit.lab.demo.models.ILayoutModel;
+			import fr.kapit.lab.demo.popup.ErrorPopup;
+			import fr.kapit.layouts.algorithms.balloon.BalloonLayout;
+			import fr.kapit.layouts.algorithms.circular.SingleCycleCircularLayout;
+			import fr.kapit.layouts.algorithms.forcedirected.fade.ProgressiveFadeLayout;
+			import fr.kapit.layouts.algorithms.forcedirected.gem.StaticGEMLayout;
+			import fr.kapit.layouts.algorithms.hierarchical.HierarchicalLayout;
+			import fr.kapit.layouts.algorithms.orthogonal.OrthogonalLayout;
+			import fr.kapit.layouts.algorithms.radial.RadialLayout;
+			import fr.kapit.layouts.algorithms.sugiyama.SugiyamaLayout;
+			import fr.kapit.layouts.constants.EdgeDrawType;
+			import fr.kapit.layouts.constants.OrientationType;
+			import fr.kapit.layouts.constants.RootSelectionType;
+			import fr.kapit.visualizer.events.VisualizerEvent;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.events.IndexChangeEvent;
+
+			/**
+			 * @private
+			 * Reference to the application model.
+			 */
+			private var _applicationModel:ApplicationModel = null;
+
+			/**
+			 * @private
+			 * Instance of popup to display error on layouts
+			 */
+			private var _layoutErrorPopup:IFlexDisplayObject;
+
+			private var _lastSelectedLayout:int = 0;
+			private var _previousSelectedLayout:*;
+			[Bindable] private var hasGroup:Boolean
+			
+
+			/**
+			 * Reference to the current layoutModel; the layoutModel is a wrapper
+			 * around the visulizer.layout property
+			 */
+			public function get layoutModel():ILayoutModel
+			{
+				if (!appModel)
+					return null;
+				if (!appModel.diagrammerModel)
+					return null;
+
+				return appModel.diagrammerModel.layoutModel;
+			}
+
+			/**
+			 * Reference to the current application model.
+			 */
+			[Bindable]
+			public function get appModel():ApplicationModel
+			{
+				return _applicationModel;
+			}
+			/** @private */
+			public function set appModel(value:ApplicationModel):void
+			{
+				_applicationModel = value;
+			}
+	
+			public function layoutCommitComplete(event:VisualizerEvent):void
+			{
+			}
+			
+			public function onElementCreated(event:VisualizerEvent):void
+			{
+				hasGroup=(appModel.diagrammer.graph.metaNodes.length != 0);
+			}
+
+			[Bindable] public var enableControls:Boolean = true;
+
+			protected function layoutSelector_changeHandler(event:IndexChangeEvent =null):void
+			{
+				if (!appModel.diagrammerModel)
+					return;
+				
+				layoutSelector.requireSelection = true;//no layout is selected after we import a graph. 
+													   //But we don't allow users to switch off manually a layout
+				var hadTables:Boolean = false;
+				var hadGroups:Boolean = false;
+				_previousSelectedLayout = appModel.diagrammerModel.layoutID;
+				/*
+				* If there is some tables or groups in graph, the layout "organic animated"
+				* is bugged, so the user is not allowed to launch it
+				*/
+				if(layoutSelector.selectedItem.layoutType == ProgressiveFadeLayout.ID)
+				{
+					var nodesMap:Dictionary = appModel.diagrammerModel.diagrammer.nodesMap;
+					for each(var node:* in nodesMap)
+					{
+						if(node is DiagramTable) hadTables = true;
+						if(node is DiagramGroup) hadGroups = true;
+					}
+				}
+				if(!hadTables && !hadGroups)
+				{
+					_lastSelectedLayout = layoutSelector.selectedIndex;
+					var objButton:LayoutSelectorHeaderButton = LayoutSelectorHeaderButton(layoutSelector.selectedItem);
+					// switches the current visual state
+					currentState = objButton.state;
+					// change visualizer.layoutID property
+					appModel.diagrammerModel.layoutID = objButton.layoutType;
+					//update default link style
+					appModel.diagrammerModel.updateDefaultLinkLine();
+				}
+				else
+				{
+					_layoutErrorPopup = PopUpManager.createPopUp(this.stage.getChildAt(0), ErrorPopup, true); // sorry about that...
+					PopUpManager.centerPopUp(_layoutErrorPopup);
+					ErrorPopup(_layoutErrorPopup).height = 185;
+					ErrorPopup(_layoutErrorPopup).title = "Error";
+					ErrorPopup(_layoutErrorPopup).showBtClose = false;
+					ErrorPopup(_layoutErrorPopup).errorLabel = "Cannot rendered this layout, because there is table(s) and/or group(s) in the graph.\n\n[note:Organic animated is in beta version]";
+					ErrorPopup(_layoutErrorPopup).addEventListener(Event.CLOSE, closeErrorPopupHandler);
+				}
+			}
+
+
+			protected function closeErrorPopupHandler(event:Event):void
+			{
+				PopUpManager.removePopUp(_layoutErrorPopup);
+				layoutSelector.selectedIndex = _lastSelectedLayout;
+			}
+
+			/**
+			 * Handles change of orientation on the Hierachical tree.
+			 * Whenever the orientation changes, we need to enforce the values
+			 * for horizontal and vertical spacing.
+			 *
+			 * @param event
+			 */
+			protected function hierarchicalOrientation_modified(event:Event):void
+			{
+				layoutModel.orientation = uint(hierarchicalLayoutOrientation.value);
+				// applies the selected spacing values on the graphe
+				hierarchicalVerticalSpacing_modified(null);
+				hierarchicalHorizontalSpacing_modified(null);
+
+				if (hierarchicalLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+				{
+					hierarchicalVerticalSpacing.toolTip = "Diagrammer::layout.layerDistance";
+					hierarchicalHorizontalSpacing.toolTip = "Diagrammer::layout.defaultNodeDistance";
+				}
+				else
+				{
+					hierarchicalVerticalSpacing.toolTip = "Diagrammer::layout.defaultNodeDistance";
+					hierarchicalHorizontalSpacing.toolTip = "Diagrammer::layout.layerDistance";
+				}
+			}
+
+			/**
+			 * Handles change of vertical nodes spacing on the Hierarchical tree.
+			 * If the layout <code>orientation</code> is vertical (top-down),
+			 * then the vertical spacing is the <code>layerDistance</code>
+			 * property.
+			 * If the layout orientation is horizontal (left-right), then the
+			 * vertical spacing is the <code>defaultNodeDistance</code>
+			 * property.
+			 *
+			 * @param event
+			 */
+			protected function hierarchicalVerticalSpacing_modified(event:Event):void
+			{
+				if (hierarchicalLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+					layoutModel.layerDistance = hierarchicalVerticalSpacing.value;
+				else
+					layoutModel.defaultNodeDistance = hierarchicalVerticalSpacing.value;
+			}
+			/**
+			 * Handles change of horizontal nodes spacing on the Hierarchical tree.
+			 * If the layout <code>orientation</code> is vertical (top-down),
+			 * then the horizontal spacing is the <code>defaultNodeDistance</code>
+			 * property.
+			 * If the layout orientation is horizontal (left-right), then the
+			 * horizontal spacing is the <code>layerDistance</code> property.
+			 *
+			 * @param event
+			 */
+			protected function hierarchicalHorizontalSpacing_modified(event:Event):void
+			{
+				if (hierarchicalLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+					layoutModel.defaultNodeDistance = hierarchicalHorizontalSpacing.value
+				else
+					layoutModel.layerDistance = hierarchicalHorizontalSpacing.value
+			}
+
+
+			/**
+			 * Handles change of orientation on the Hierachical cyclic
+			 * (SugiyamaLayout).
+			 * Whenever the orientation changes, we need to enforce the values
+			 * for horizontal and vertical spacing
+			 *
+			 * @param event
+			 */
+			protected function sugiyamaOrientation_modified(event:Event):void
+			{
+				layoutModel.orientation = uint(sugiyamaLayoutOrientation.value);
+				// applies the selected spacing values on the graphe
+				sugiyamaVerticalSpacing_modified(null);
+				sugiyamaHorizontalSpacing_modified(null);
+
+				if (sugiyamaLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+				{
+					sugiyamaVerticalSpacing.toolTip = "Diagrammer::layout.verticalDistance";
+					sugiyamaHorizontalSpacing.toolTip = "Diagrammer::layout.horizontalDistance";
+				}
+				else
+				{
+					sugiyamaVerticalSpacing.toolTip = "Diagrammer::layout.horizontalDistance";
+					sugiyamaHorizontalSpacing.toolTip = "Diagrammer::layout.verticalDistance";
+				}
+			}
+			/**
+			 * Handles change of vertical nodes spacing on the Hierarchical
+			 * cyclic (sugiyama layout).
+			 * If the layout <code>orientation</code> is vertical (top-down),
+			 * then the vertical spacing is the <code>layerDistance</code>
+			 * property.
+			 * If the layout orientation is horizontal (left-right), then the
+			 * vertical spacing is the <code>defaultNodeDistance</code>
+			 * property.
+			 *
+			 * @param event
+			 */
+			protected function sugiyamaVerticalSpacing_modified(event:Event):void
+			{
+				if (sugiyamaLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+					layoutModel.verticalDistance = sugiyamaVerticalSpacing.value;
+				else
+					layoutModel.horizontalDistance = sugiyamaVerticalSpacing.value;
+			}
+			/**
+			 * Handles change of horizontal nodes spacing on the Hierarchical
+			 * cyclic  (sugiyama layout).
+			 * If the layout <code>orientation</code> is vertical (top-down),
+			 * then the horizontal spacing is the <code>defaultNodeDistance</code>
+			 * property.
+			 * If the layout orientation is horizontal (left-right), then the
+			 * horizontal spacing is the <code>layerDistance</code> property.
+			 *
+			 * @param event
+			 */
+			protected function sugiyamaHorizontalSpacing_modified(event:Event):void
+			{
+				if (sugiyamaLayoutOrientation.value == OrientationType.ORIENTATION_TOP_DOWN)
+					layoutModel.horizontalDistance = sugiyamaHorizontalSpacing.value
+				else
+					layoutModel.verticalDistance = sugiyamaHorizontalSpacing.value
+			}
+			
+			/**
+			 * The graph layout is not saved in this demo
+			 * so we reset the layout buttons after we import 
+			 * a graph
+			 **/
+			public function unselectLayout():void
+			{
+				layoutSelector.requireSelection = false;
+				layoutSelector.selectedIndex = -1;
+				enableControls = false;
+			}
+
+			// Routing
+			protected function hierarchicalLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(hierarchicalLayoutRouting.value);
+			}
+			protected function sugiyamaLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(sugiyamaLayoutRouting.value);
+			}
+			protected function orthogonalLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(orthogonalLayoutRouting.value);
+			}
+			protected function circularLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(circularLayoutRouting.value);
+			}
+			protected function balloonLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(balloonLayoutRouting.value);
+			}
+			protected function radialLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(radialLayoutRouting.value);
+			}
+			protected function organicLayoutRoutingButton_clickHandler(event:MouseEvent):void
+			{
+				appModel.diagrammerModel.rootEdge(organicLayoutRouting.value);
+			}
+			
+
+
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="HierarchicalLayout" />
+		<s:State name="SugiyamaLayout" />
+		<s:State name="OrthogonalLayout" />
+		<s:State name="SingleCycleCircularLayout" />
+		<s:State name="BalloonLayout" />
+		<s:State name="RadialLayout" />
+		<s:State name="StaticGEMLayout" />
+		<s:State name="ProgressiveFadeLayout" />
+	</s:states>
+
+
+	<component:KapPanel width="100%" label="Layouts" labelProperty="{layoutSelector.selectedItem.label}" visible="{!appModel.diagrammerModel.isEmpty}" includeInLayout="{!appModel.diagrammerModel.isEmpty}">
+
+		<component:headerContent>
+			<s:VGroup width="160"
+					  left="10" top="10" bottom="10" right="10">
+				<component:KapHeaderPanelButtonBar id="layoutSelector"
+												   dataProvider="{layoutList}" numRows="2"
+												   selectedIndex="0" requireSelection="true"
+												   change="layoutSelector_changeHandler(event)"
+												   />
+			</s:VGroup>
+		</component:headerContent>
+
+		<component:panelContent>
+			<s:VGroup top="10" bottom="10" left="10" width="140" excludeFrom="ProgressiveFadeLayout" enabled="{enableControls}">
+
+				<!-- Hierarchical tree -->
+				<s:VGroup width="100%" includeIn="HierarchicalLayout" gap="10">
+					<forms:VRadioSelector id="hierarchicalLayoutOrientation"
+										  toolTip="Diagrammer::layout.orientation" label="Orientation"
+										  value="{OrientationType.ORIENTATION_TOP_DOWN}"
+										  modified="hierarchicalOrientation_modified(event)"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Vertical" value="{OrientationType.ORIENTATION_TOP_DOWN}" />
+								<fx:Object label="Horizontal" value="{OrientationType.ORIENTATION_LEFT_RIGHT}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}" />
+
+					<forms:VRadioSelector id="hierarchicalLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="hierarchicalLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="hierarchicalLayoutRoutingButton_clickHandler(event)"/>
+
+					<fx:HSeparator />
+
+					<s:Label fontWeight="bold" text="Spacing" paddingBottom="-5"/>
+
+					<forms:VDropDownListSelector id="hierarchicalVerticalSpacing"
+												 dataProvider="{defaultSpacings}"
+												 toolTip="Diagrammer::layout.layerDistance" label="Vertical"
+												 titleWeight="normal"
+												 selectedIndex="{0}"
+												 modified="hierarchicalVerticalSpacing_modified(event)"
+												 />
+					<forms:VDropDownListSelector id="hierarchicalHorizontalSpacing"
+												 dataProvider="{defaultSpacings}"
+												 toolTip="Diagrammer::layout.defaultNodeDistance" label="Horizontal"
+												 titleWeight="normal"
+												 selectedIndex="{0}"
+												 modified="hierarchicalHorizontalSpacing_modified(event)"
+												 />
+
+					<fx:HSeparator />
+
+					<forms:VDropDownListSelector
+						dataProvider="{edgeDrawingTypes}"
+						toolTip="Diagrammer::layout.edgeDrawing" label="Line style"
+						selectedIndex="{0}"
+						modified="{layoutModel.edgeDrawing = event.target.value}"
+						/>
+				</s:VGroup>
+
+
+				<!-- Hierarchical cyclic -->
+				<s:VGroup width="100%" includeIn="SugiyamaLayout" gap="10">
+					<forms:VRadioSelector id="sugiyamaLayoutOrientation"
+										  toolTip="Diagrammer::layout.orientation" label="Orientation"
+										  value="{OrientationType.ORIENTATION_TOP_DOWN}"
+										  modified="sugiyamaOrientation_modified(event)"
+										  visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Vertical" value="{OrientationType.ORIENTATION_TOP_DOWN}" />
+								<fx:Object label="Horizontal" value="{OrientationType.ORIENTATION_LEFT_RIGHT}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}"/>
+
+					<forms:VRadioSelector id="sugiyamaLayoutRouting"
+										  label="Routing"
+										  value="{false}"
+										  visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="sugiyamaLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="sugiyamaLayoutRoutingButton_clickHandler(event)"/>
+
+					<fx:HSeparator />
+
+					<s:Label fontWeight="bold" text="Spacing" paddingBottom="-5"/>
+
+					<forms:VDropDownListSelector id="sugiyamaVerticalSpacing"
+												 dataProvider="{defaultSpacings}"
+												 toolTip="Diagrammer::layout.verticalDistance" label="Vertical"
+												 titleWeight="normal"
+												 selectedIndex="{0}"
+												 modified="sugiyamaVerticalSpacing_modified(event)"
+
+												 />
+					<forms:VDropDownListSelector id="sugiyamaHorizontalSpacing"
+												 dataProvider="{defaultSpacings}"
+												 toolTip="Diagrammer::layout.horizontalDistance" label="Horizontal"
+												 titleWeight="normal"
+												 selectedIndex="{0}"
+												 modified="sugiyamaHorizontalSpacing_modified(event)"
+												 />
+
+					<fx:HSeparator />
+
+					<forms:VDropDownListSelector
+						dataProvider="{edgeDrawingTypes}"
+						toolTip="Diagrammer::layout.edgeDrawing" label="Line style"
+						selectedIndex="{0}"
+						modified="{layoutModel.edgeDrawing = event.target.value}"
+						/>
+				</s:VGroup>
+
+
+				<!-- Orthogonal -->
+				<s:VGroup width="100%" includeIn="OrthogonalLayout" gap="10">
+					<forms:VDropDownListSelector
+						dataProvider="{defaultSpacings}"
+						toolTip="Diagrammer::layout.nodesSpacing" label="Grid spacing"
+						selectedIndex="{0}"
+						modified="{layoutModel.nodesSpacing = event.target.value}"
+						/>
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}"/>
+					<forms:VRadioSelector id="orthogonalLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="orthogonalLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="orthogonalLayoutRoutingButton_clickHandler(event)"/>
+					<fx:HSeparator />
+					<forms:VRadioSelector
+						dataProvider="{booleans}"
+						toolTip="Diagrammer::layout.usePseudoOrthogonalEdges" label="Use diagonal edges"
+						value="{false}"
+						modified="{layoutModel.usePseudoOrthogonalEdges = event.target.value}"
+						/>
+
+				</s:VGroup>
+
+				<!-- Circular -->
+				<s:VGroup width="100%" includeIn="SingleCycleCircularLayout" gap="10">
+					<forms:VRadioSelector
+						dataProvider="{defaultAngles}"
+						toolTip="Diagrammer::layout.angularSector" label="Layout angle"
+						value="{360}"
+						modified="{layoutModel.angularSector = event.target.value}"
+						/>
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}"/>
+					<forms:VRadioSelector id="circularLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="circularLayoutRoutingButton" label="Route edges" width="100%"
+							  click="circularLayoutRoutingButton_clickHandler(event)"/>
+					<fx:HSeparator />
+					<forms:VDropDownListSelector
+						dataProvider="{defaultSpacings}"
+						toolTip="Diagrammer::layout.nodesSpacing" label="Nodes spacing"
+						selectedIndex="{0}"
+						modified="{layoutModel.nodesSpacing = event.target.value}"
+						/>
+				</s:VGroup>
+
+
+				<!-- Balloon -->
+				<s:VGroup width="100%" includeIn="BalloonLayout" gap="10">
+					<forms:VRadioSelector
+						dataProvider="{defaultAngles}"
+						toolTip="Diagrammer::layout.rootAngularSector" label="Root wedge angle"
+						value="{360}"
+						modified="{layoutModel.rootAngularSector = event.target.value}"
+						/>
+					<forms:VRadioSelector
+						dataProvider="{defaultAngles}"
+						toolTip="Diagrammer::layout.childAngularSector" label="Child wedge angle"
+						value="{360}"
+						modified="{layoutModel.childAngularSector = event.target.value}"
+						/>
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}" />
+					<forms:VRadioSelector id="balloonLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="balloonLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="balloonLayoutRoutingButton_clickHandler(event)"/>
+					<fx:HSeparator />
+					<forms:VDropDownListSelector id="balloonRootSelectionPolicy"
+												 dataProvider="{rootSelectionPolicies}"
+												 label="Root selection policy"
+												 toolTip="Diagrammer::layout.rootSelectionPolicy = {balloonRootSelectionPolicy.selectedItem.hint}"
+												 value="{RootSelectionType.DIRECTED_ROOT_SELECTION}"
+												 modified="{layoutModel.rootSelectionPolicy = event.target.value}"
+												 />
+					<fx:HSeparator />
+					<forms:VRadioSelector
+						dataProvider="{booleans}"
+						toolTip="Diagrammer::layout.useEvenAngles" label="Equal angle distribution"
+						value="{false}"
+						modified="{layoutModel.useEvenAngles = event.target.value}"
+						/>
+				</s:VGroup>
+
+
+				<!-- Radial -->
+				<s:VGroup width="100%" includeIn="RadialLayout" gap="10">
+					<forms:VRadioSelector
+						dataProvider="{defaultAngles}"
+						toolTip="Diagrammer::layout.angle2" label="Layout angle"
+						value="{360}"
+						modified="{layoutModel.angle2 = event.target.value}"
+						/>
+					<fx:HSeparator visible="{!hasGroup}" includeInLayout="{!hasGroup}"/>
+					<forms:VRadioSelector id="radialLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="radialLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="radialLayoutRoutingButton_clickHandler(event)"/>
+					<fx:HSeparator />
+					<forms:VDropDownListSelector id="radialRootSelectionPolicy"
+												 dataProvider="{rootSelectionPolicies}"
+												 label="Root selection policy"
+												 toolTip="Diagrammer::layout.rootSelectionPolicy = {radialRootSelectionPolicy.selectedItem.hint}"
+												 value="{RootSelectionType.DIRECTED_ROOT_SELECTION}"
+												 modified="{layoutModel.rootSelectionPolicy = event.target.value}"
+												 />
+				</s:VGroup>
+
+				<!-- Organic -->
+				<s:VGroup width="100%" includeIn="StaticGEMLayout" gap="10">
+					<forms:VRadioSelector id="organicLayoutRouting"
+										  label="Routing"
+										  value="{false}" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+										  >
+						<forms:dataProvider>
+							<s:ArrayCollection>
+								<fx:Object label="Simple" value="{false}" />
+								<fx:Object label="Orthogonal" value="{true}" />
+							</s:ArrayCollection>
+						</forms:dataProvider>
+					</forms:VRadioSelector>
+					<s:Button id="organicLayoutRoutingButton" label="Route edges" width="100%" visible="{!hasGroup}" includeInLayout="{!hasGroup}"
+							  click="organicLayoutRoutingButton_clickHandler(event)"/>
+				</s:VGroup>
+			</s:VGroup>
+		</component:panelContent>
+	</component:KapPanel>
+</s:Group>

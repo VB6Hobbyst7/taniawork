@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#595959" columnCount="1" fontFamily="Arial" fontSize="10" kerning="off" tabStops="S36 S72 S108" whiteSpaceCollapse="preserve" ai:aa="2" d:id="23" d:userLabel="Turn off heatmap colours" flm:variant="23">
+		<content><p><span trackingRight="0.3%">T</span><span trackingRight="3.9%">urn</span><span trackingRight="4%"> </span><span trackingRight="3.9%">o</span><span trackingRight="2.2%">f</span><span trackingRight="4%">f </span><span trackingRight="3.9%">hea</span><span trackingRight="4%">t</span><span trackingRight="3.9%">map</span><span trackingRight="4%"> c</span><span trackingRight="3.9%">olour</span><span>s</span></p></content>
+	</RichText>
+</Graphic>

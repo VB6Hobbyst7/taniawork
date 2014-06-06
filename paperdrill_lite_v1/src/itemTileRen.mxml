@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+			
+				autoDrawBackground="true" >
+	<fx:Script>
+		<![CDATA[	
+			import spark.effects.Scale;
+			public var ti:Timer = new Timer(5000,0);
+			
+			protected function click(event:MouseEvent):void
+			{
+				var sc:Scale = new Scale();
+				sc.target = recy;
+				sc.scaleXTo = 10;
+				sc.scaleYTo = 5;
+				sc.duration = 400;
+				sc.play();
+				ti = new Timer(5000,0);
+				ti.addEventListener(TimerEvent.TIMER,aftertimer);
+				ti.start();
+				
+			}
+			protected function mouseOverr(event:MouseEvent):void
+			{
+			//	ti.stop();
+				//ti.removeEventListener(TimerEvent.TIMER, aftertimer);
+				ti = new Timer(5000,0);
+				ti.addEventListener(TimerEvent.TIMER,aftertimer);
+				ti.start();
+				
+			}
+			public function aftertimer(ev:TimerEvent):void {
+				var sc:Scale = new Scale();
+				sc.target = recy;
+				sc.scaleXTo = 1;
+				sc.scaleYTo = 1;
+				sc.duration = 400;
+				sc.play();
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:Rect id="recy" width="15" height="15" >
+		<s:stroke>
+			<s:SolidColorStroke 
+				color="0x000000" 
+				weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor 
+				color="0x000000"
+				 alpha="0.4"
+				/>
+		</s:fill>
+	</s:Rect>
+	<s:Label visible="false" id="authorID" text="{data.bookID}"/>
+	<!--s:BorderContainer id="cont" width="15" height="15" backgroundAlpha="0.50"
+					   backgroundColor="#000000" borderAlpha="1.0" borderColor="#696969"
+					   borderVisible="false" borderWeight="1" cornerRadius="1"
+					   dropShadowVisible="false">
+		
+	</s:BorderContainer-->
+</s:ItemRenderer>

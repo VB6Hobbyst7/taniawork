@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Rect y="1" width="733" height="561">
+		<fill>
+			<SolidColor color="#ECF3F4"/>
+		</fill>
+	</Rect>
+	<Rect x="0.5" y="0.5" width="733" height="561">
+		<stroke>
+			<SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Rect>
+</Graphic>

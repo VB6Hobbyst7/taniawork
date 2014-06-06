@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:layouts="org.flexlayouts.layouts.*" xmlns:my="*"
+		 xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:components="org.flexlayouts.components.*"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"  width="300" >
+	<fx:Script>
+		<![CDATA[
+			import flexlib.containers.utilityClasses.FlowLayout;
+			
+			import mx.collections.ArrayCollection;
+			
+			import org.flexlayouts.layouts.CircleLayout;
+			import org.flexlayouts.layouts.SnakeLayout;
+			
+			import spark.layouts.TileLayout;
+			[Bindable]
+			public var colData:ArrayCollection = new ArrayCollection;
+			[Bindable]
+			public var colDataT:ArrayCollection = new ArrayCollection;
+			[Bindable]
+			public var colLabelText:String = "";
+			[Bindable]
+			public var layoutIndex:Number = 0;
+			[Bindable]
+			public var layout1:FlowLayout1 = new FlowLayout1();
+			[Bindable]
+			public var layout2:SnakeLayout = new SnakeLayout();
+			[Bindable]
+			public var layout3:CircleLayout = new CircleLayout();
+			[Bindable]
+			public var layout4:TileLayout = new TileLayout();
+			[Bindable]
+			public var layoutArray:ArrayCollection = new ArrayCollection([{layout:layout1},{layout:layout2},{layout:layout3},{layout:layout4}]);
+			[Bindable]
+			public var mode:uint = 0;
+			
+			public function textButtonOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function textButtonOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function goLay(u:uint):void {
+				layoutIndex = u-1;
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:Label x="7" y="8" fontFamily="Myriad Pro" fontSize="19" id="colLabel" text="{colLabelText}" />
+	<s:List id="listo" visible="{(mode == 0)}" x="0" top="36" width="100%" height="100%"
+			contentBackgroundAlpha="0.0" dataProvider="{colData}" itemRenderer="itemResultRen">
+	<s:layout>
+		<my:FlowLayout1 clipAndEnableScrolling="true"
+			horizontalGap="1" 
+			/>
+	</s:layout>
+	</s:List>
+	<s:List width="100%" top="36" bottom="20" id="listo2" contentBackgroundAlpha="0.0" dataProvider="{colDataT}"
+			visible="{(mode == 1)}"
+			itemRenderer="itemTileRen" layout="{layoutArray.getItemAt(layoutIndex).layout}">
+	
+	</s:List>
+	<s:TextArea  left="8" bottom="0" width="68" height="22" borderAlpha="0" visible="{(mode == 1)}"
+				 color="#000000" fontSize="12"  editable="false"
+				skinClass="infoTextSkin" text="Layout: "/>
+	<s:TextArea id="c1" left="52" bottom="0" width="45" height="22" borderAlpha="0" editable="false"  visible="{(mode == 1)}"
+				buttonMode="true" color="#000000" fontSize="12" mouseEnabled="true" 
+				mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+				skinClass="infoTextSkin" text="Flow" click="goLay(1);"/>
+	<s:TextArea id="c2" left="90" bottom="0" width="45" height="22" borderAlpha="0" editable="false"  visible="{(mode == 1)}"
+				buttonMode="true" color="#000000" fontSize="12" mouseEnabled="true"
+				mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+				skinClass="infoTextSkin" text="Snake" click="goLay(2);"/>
+	<s:TextArea id="c3" left="132" bottom="0" width="45" height="22" borderAlpha="0" editable="false"  visible="{(mode == 1)}"
+				buttonMode="true" color="#000000" fontSize="12" mouseEnabled="true"
+				mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+				skinClass="infoTextSkin" text="Circle" click="goLay(3);"/>
+	<s:TextArea id="c4" left="167" bottom="0" width="45" height="22" borderAlpha="0"
+				buttonMode="true" color="#000000" fontSize="12" mouseEnabled="true" editable="false"  visible="{(mode == 1)}"
+				mouseOut="textButtonOut(event)" mouseOver="textButtonOver(event)"
+				skinClass="infoTextSkin" text="Tile" click="goLay(4);"/>
+	
+</s:Group>

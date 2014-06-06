@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+		width="21" height="20">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Path x="0.68" y="0.443" winding="nonZero" data="M 19.32 9.66 C 19.32 14.995 14.995 19.32 9.66 19.32 C 4.325 19.32 0 14.995 0 9.66 C 0 4.325 4.325 0 9.66 0 C 14.995 0 19.32 4.325 19.32 9.66">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#FFFFFF" joints="miter" miterLimit="4"
+								weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry alpha="1" color="#999999" ratio="0"/>
+				<s:GradientEntry alpha="1.0" color="#FFFFFF" ratio="0.49019607843137253"/>
+				<s:GradientEntry alpha="1.0" color="#FFFFFF" ratio="0.5725490196078431"/>
+				<s:GradientEntry alpha="1.0" color="#999999" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:filters>
+			<s:GlowFilter includeIn="over" alpha="1.0" blurX="6.0" blurY="6.0" color="#666666"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="down" alpha="1.0" blurX="6.0" blurY="6.0" color="#000000"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+	</s:Path>
+	<s:RichText id="labelDisplay" x="4" y="7" alpha="0.8" color="#5E5959" fontFamily="Georgia"
+				fontSize="8" fontWeight="bold" kerning="on" tabStops="S0"/>
+</s:Skin>

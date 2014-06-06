@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#595959" columnCount="1" fontFamily="Arial" fontSize="10" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="26" d:userLabel="Levels deep" flm:variant="26">
+		<content><p><span trackingRight="3.9%">Le</span><span trackingRight="4%">v</span><span trackingRight="3.9%">el</span><span trackingRight="4%">s </span><span trackingRight="3.9%">dee</span><span>p</span></p></content>
+	</RichText>
+</Graphic>

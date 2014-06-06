@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:ai="http://ns.adobe.com/ai/2009"
+		width="102" height="69">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt"/>
+	</s:states>
+	<s:Path x="0.125" y="0.092" winding="nonZero" data="M 4 0 C 4 0 0 0 0 4 L 0 64.022 C 0 64.022 0 68.022 4 68.022 L 97.11 68.022 C 97.11 68.022 101.11 68.022 101.11 64.022 L 101.11 4 C 101.11 4 101.11 0 97.11 0 L 4 0 Z">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+	</s:Path>
+	<s:Path x="0" y="-0.033" winding="nonZero" data="M 4.125 0.125 C 4.125 0.125 0.125 0.125 0.125 4.125 L 0.125 64.147 C 0.125 64.147 0.125 68.147 4.125 68.147 L 97.235 68.147 C 97.235 68.147 101.235 68.147 101.235 64.147 L 101.235 4.125 C 101.235 4.125 101.235 0.125 97.235 0.125 L 4.125 0.125 Z">
+		<s:stroke>
+			<s:SolidColorStroke weight="0.25" caps="none" joints="miter" miterLimit="4" color="#A89F99"/>
+		</s:stroke>
+	</s:Path>
+	<s:RichText id="promptDisplay" includeIn="disabledWithPrompt,normalWithPrompt"
+				x="5" y="5" fontFamily="Myriad Pro"/>
+	<s:RichEditableText id="textDisplay" x="5" y="5" width="92" fontFamily="Myriad Pro"
+						heightInLines="1"
+						height="54"/>
+</s:Skin>

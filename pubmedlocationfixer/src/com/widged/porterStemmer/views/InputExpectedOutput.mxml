@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<v:InputExpectedOutputClass 
+   xmlns:v="com.widged.porterStemmer.views.*" 
+   xmlns:mx="http://www.adobe.com/2006/mxml" 
+   paddingLeft="{bodyPadding}" paddingRight="{bodyPadding}"
+   paddingTop="{bodyPadding}" paddingBottom="{bodyPadding}"
+   width="100%" height="100%"
+   creationComplete="onCreationComplete()"
+>
+
+   <mx:VBox>
+      <mx:Button 
+         label="Load Vocabulary"
+         click="onVocabularyClick()"
+      />
+      
+      <mx:Spacer height="20" />
+      
+      <mx:Label
+         text="Filter on input (regexp):"
+      />
+      <mx:TextInput
+         id="filterValue"
+         width="150"
+         enter="onFilterEnter()" 
+      />
+
+      <mx:Spacer height="20" />
+
+      <!--
+      <mx:Button 
+         label="stem!"
+         click="onStemClick()"
+      />
+      -->
+   </mx:VBox>
+
+   <mx:Spacer width="100%" />
+
+    <mx:DataGrid id="dataGrid" 
+       dataProvider="{vocabularyCollection}" 
+       height="100%"
+       scroll="onGridScroll()"
+    >
+        <mx:columns>
+                <mx:DataGridColumn dataField="i" headerText="Input"/>
+                <mx:DataGridColumn dataField="e" headerText="Expected"/>
+                <mx:DataGridColumn dataField="o" headerText="Output"/>
+                <mx:DataGridColumn dataField="c" headerText="Check"/>
+        </mx:columns>
+    </mx:DataGrid>
+    
+   
+</v:InputExpectedOutputClass>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	title="Select contacts for inviting"
+	showCloseButton="true" close="closeMe()"
+	layout="vertical" width="400" height="300" xmlns:displayobjs="com.adobe.contacts.displayobjs.*">
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.contacts.contactsretrievers.GmailContactsRetriever;
+			import com.adobe.contacts.events.ContactsSelectionComponentEvent;
+			import com.adobe.contacts.objects.Contact;
+			import com.adobe.contacts.events.ContactsSelectAllEvent;
+			import com.adobe.contacts.events.ContactsRetrieverResponse;
+			import mx.messaging.SubscriptionInfo;
+			import mx.effects.easing.Bounce;
+
+			import mx.managers.PopUpManager;
+			import mx.controls.PopUpButton;
+
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+
+			[Bindable]
+			private var contacts:ArrayCollection;
+			
+			private function closeMe():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function getContacts():void
+			{
+				userMsg.text = "";
+				if(userEmailTxt.text.length > 0)
+				{
+					getContactsBtn.enabled = false;
+					userMsg.text = "Loading contacts, please wait ...";
+					if(serviceProviderCmb.selectedItem == "GMail")
+					{
+						var c:GmailContactsRetriever = new GmailContactsRetriever();
+						c.addEventListener(ContactsRetrieverResponse.GMAIL_RETRIEVE_CONTACTS_SUCCESS,
+						handleGetContacts);
+						c.addEventListener(ContactsRetrieverResponse.GMAIL_RETRIEVE_CONTACTS_FAILURE,
+						handleGetContacts);
+						c.getContacts(userEmailTxt.text,userPasswordTxt.text,200);
+						addEventListener(ContactsSelectAllEvent.ALL_CONTACTS_SELECTION_CHANGED, 
+						handleContactsSelectionChange);											
+					}
+					else
+					{
+						userMsg.text = "Please select a service provider";
+					}
+				}
+				else
+				{
+					userMsg.text = "Please enter your Email";
+					getContactsBtn.enabled = true;
+				}
+			}
+			
+			private function handleContactsSelectionChange(event:ContactsSelectAllEvent):void
+			{
+				if(event.selectAll)
+				{
+					changeContactsSelection(true);
+				}	
+				else
+				{
+					changeContactsSelection(false);
+				}
+			}
+			
+			private function handleGetContacts(event:ContactsRetrieverResponse):void
+			{
+				getContactsBtn.enabled = true;
+				if(event.type == ContactsRetrieverResponse.GMAIL_RETRIEVE_CONTACTS_SUCCESS)
+				{
+					userMsg.text = "";
+					this.currentState = "ShowContacts";
+					contacts = event.contacts;										
+				}
+				else
+				{
+					userMsg.text = event.errorMessage;
+				}				
+			}
+			
+			private function changeContactsSelection(selectAll:Boolean):void
+			{
+				var c:Contact;
+				if(selectAll)
+				{
+					for(var i:int = 0 ; i < contacts.length ; i++)
+					{
+						c = contacts.getItemAt(i) as Contact;
+						if(c != null)
+						{
+							c.selectedForInvite = true;	
+						}						
+					}
+					contacts.refresh();
+				}
+				else
+				{
+					for(var j:int = 0 ; j < contacts.length ; j++)
+					{
+						c = contacts.getItemAt(j) as Contact;
+						if(c != null)
+						{
+							c.selectedForInvite = false;	
+						}						
+					}
+					contacts.refresh();					
+				}
+			}	
+			
+			private function contactsSelected():void
+			{
+				var selContacts:ArrayCollection = new ArrayCollection();
+				var c:Contact;
+				for(var i:int = 0 ; i < contacts.length ; i++)
+				{
+					c = contacts.getItemAt(i) as Contact;
+					if(c != null && c.selectedForInvite)
+					{
+						selContacts.addItem(c);
+					}
+				}
+				var event:ContactsSelectionComponentEvent = new ContactsSelectionComponentEvent(
+				ContactsSelectionComponentEvent.CONTACTS_SELECTION_COMPLETED);
+				event.selectedContacts = selContacts;
+				dispatchEvent(event);
+				currentState = "";
+				closeMe();
+			}		
+		]]>
+	</mx:Script>
+
+	<mx:states>
+		<mx:State name="ShowContacts">
+			<mx:RemoveChild target="{loginCnvs}"/>
+			<mx:AddChild>
+				<mx:Canvas id="contactsCnvs" width="100%" height="100%">
+					<mx:DataGrid id="contactsDG" width="100%" dataProvider="{contacts}" height="212">
+						<mx:columns>
+							<mx:DataGridColumn headerText="Email" dataField="emailAddress"/>
+							<displayobjs:CheckBoxHeaderColumn
+								textAlign="center"
+								sortable="false"
+								headerRenderer="com.adobe.contacts.displayobjs.ContactSelectHeaderRenderer" 
+							  	itemRenderer="com.adobe.contacts.displayobjs.ContactSelectItemRenderer"
+							 	dataField="selectedForInvite"							 	
+								/>								
+						</mx:columns>
+					</mx:DataGrid>				
+					<mx:Button label="Invite selected contacts"
+						id="selectBtn" 
+						x="198" y="220" click="contactsSelected()"/>
+					<mx:Button label="Cancel" id="cancelBtn" click="currentState = ''" x="10" y="220" width="151"/>					
+				</mx:Canvas>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:Canvas id="loginCnvs" width="100%" height="100%">
+		<mx:Label text="Service provider" x="11" y="39"/>
+		<mx:ComboBox id="serviceProviderCmb" x="136" y="37">
+			<mx:Array>
+				<mx:String>GMail</mx:String>
+			</mx:Array>
+		</mx:ComboBox>
+		<mx:Label text="Email" x="69" y="80"/>
+		<mx:TextInput id="userEmailTxt" x="136" y="78"/>
+		<mx:Label text="Password" x="48" y="110"/>
+		<mx:TextInput id="userPasswordTxt" displayAsPassword="true" 
+			x="136" y="108" enter="getContacts()"/>
+		<mx:Button id="getContactsBtn" label="Submit" x="136" y="138" click="getContacts()"/>		
+		<mx:Label id="userMsg" text="" x="10" y="188" width="352" textAlign="center"/>
+	</mx:Canvas>
+</mx:TitleWindow>

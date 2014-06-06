@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var startNum:Number = 0;
+			[Bindable]
+			public var resSet:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var urlString:String = "";
+			[Bindable]
+			public var urlString2:String = "";
+			[Bindable]
+			public var nexturl:String = "";
+			[Bindable]
+			public var wiponum:String = "";
+			[Bindable]
+			public var newAssignee:String = "";
+			[Bindable]
+			public var datalist:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var index:Number = 0;
+			protected function init(event:FlexEvent):void
+			{
+				startNum = 0;
+				getData.url = "app:/data/test.csv";
+				getData.send();
+				
+			}
+			protected function afterGetData(event:ResultEvent):void
+			{		
+				var text:String = event.result.toString();
+		
+				text = text.substring(text.indexOf("\r\n")+2,text.length);
+				do{
+					var line:String = text.substring(0,text.indexOf("\r\n"));
+					text = text.substring(text.indexOf("\r\n")+1,text.length);
+					var id:String = line.substring(0,line.indexOf(","));
+					line = line.substring(line.indexOf(",")+1,line.length);
+					var authors:String = line;
+					authors = authors.substring(1,authors.length-2);
+					var au1:String = authors.substring(0,authors.indexOf(","));
+					var au2:String = authors.substring(authors.lastIndexOf(",")+2,authors.length);
+				
+	
+					au1 = au1.replace(/\s+/g,"+");
+					au2 = au2.replace(/\s+/g,"+");
+					var stop:String = "";
+					datalist.addItem({id:id,au1:au1,au2:au2,patents:"none"});
+				}while (text.indexOf("\r\n") != -1);
+				updater(index);
+					
+			}
+			public function afterGetId(ev:ResultEvent):void {
+			//	var stop:String = "";
+			//	resSet = ev.result.pubs.pub;
+			//	updater(startNum);	
+			}
+			public function updater(u:Number):void {
+				urlString = "http://www.patentlens.net/patentlens/quick.html?query=%22"+datalist[u].au1+"%22+AND+%22"+datalist[u].au2+"%22&stemming=true&collections=US_B,EP_B,AU_B,WO_A,AU_A&language=en&pageLength=10";
+				getLensp.send();
+				num1.text = u.toString();
+				num2.text = datalist.length.toString();;
+				
+			}
+			public function afterLens(ev:ResultEvent):void {	
+				try{
+					if (ev.result.toString().indexOf("Your search matched no documents.") != -1){
+						//none
+					}
+					else {
+						//some
+						var stop:String = "";
+						datalist[index].patents = urlString;
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+				if (index < datalist.length-1){
+					index++;
+					updater(index);
+				}
+				else {
+					var stop2:String = "";
+					writeToCsv();
+				}
+				
+				
+				
+			
+				
+				
+			}
+			public function writeToCsv():void {
+				var csvText:String = "id,patents";
+				for (var i:uint = 0; i < datalist.length; i++){
+					csvText = csvText + "\r" + datalist[i].id +
+						"," + datalist[i].patents;
+				}
+				var fileRef:FileReference = new FileReference();
+				fileRef.save(csvText,"result.csv");
+				
+				var stop:String = "";
+				
+			}
+			public function afterdownFile(ev:ResultEvent):void {
+				
+				var tempString:String = ev.result.toString();
+				newAssignee = tempString.substring(tempString.indexOf(": A2  -")+8,tempString.length);
+				newAssignee = newAssignee.substring(0,newAssignee.indexOf("\n"));
+				if (newAssignee.indexOf("<b>") == -1){
+					updateAssignee.send();
+				}
+				else {
+					if (startNum < 600000){
+						startNum = startNum + 1;
+						updater(startNum);	
+					}
+				}
+				
+				
+				
+				
+			}
+			public function afterAssigneeUpdate(ev:ResultEvent):void {
+				var stop:String = "";
+				if (startNum < 600000){
+					startNum = startNum + 1;
+					updater(startNum);	
+				}
+			}
+		
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getData" resultFormat="text" result="afterGetData(event)">
+		</s:HTTPService>
+		<s:HTTPService id = "getId"
+					   result="afterGetId(event);"
+					   url = "http://localhost/patentlensassigneelocationfetcher/bin-debug/php/getpubid.php"
+					   method="POST" >
+			
+		</s:HTTPService>
+		<s:HTTPService id = "getLensp"
+					   result="afterLens(event);" resultFormat="text"
+					   url = "http://localhost:8888/patentlenseauthorsearch/php/curlo.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<urlString>{urlString}</urlString>
+			</s:request>
+		</s:HTTPService>
+		
+		<s:HTTPService id = "downFile"
+					   result="afterdownFile(event);" resultFormat="text"
+					   url = "http://localhost/patentlensassigneelocationfetcher/bin-debug/php/downFile.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<urlString2>{urlString2}</urlString2>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "updateAssignee"
+					   result="afterAssigneeUpdate(event);" resultFormat="text"
+					   url = "http://localhost/patentlensassigneelocationfetcher/bin-debug/php/updateAssignee.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<wiponum>{wiponum}</wiponum>
+				<newAssignee>{newAssignee}</newAssignee>
+			</s:request>
+		</s:HTTPService>
+		
+	</fx:Declarations>
+	<s:Label x="193" y="79" text="doing"/>
+	<s:Label x="254" y="79" text="/"/>
+	<s:Label id="num1" x="230" y="79"/>
+	<s:Label id="num2" x="265" y="79"/>
+</s:WindowedApplication>

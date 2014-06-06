@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Rect width="220" height="200">
+		<fill>
+			<SolidColor color="#FFFFFF"/>
+		</fill>
+	</Rect>
+	<Line x="1.5" y="20.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#D8D8D8" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="40.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#B3B3B3" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="60.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#D8D8D8" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="80.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#B3B3B3" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="100.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#D8D8D8" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="119.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#B3B3B3" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="139.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#D8D8D8" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="159.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#B3B3B3" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1.5" y="179.5" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#D8D8D8" joints="miter" miterLimit="10" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="1" y="199" xTo="218">
+		<stroke>
+			<SolidColorStroke caps="square" color="#666666" joints="miter" miterLimit="10" weight="2"/>
+		</stroke>
+	</Line>
+	<Line x="1" y="1" yFrom="198">
+		<stroke>
+			<SolidColorStroke caps="square" color="#666666" joints="miter" miterLimit="10" weight="2"/>
+		</stroke>
+	</Line>
+	<Rect x="20" y="20" width="30" height="178">
+		<fill>
+			<SolidColor color="#D1D1D1"/>
+		</fill>
+	</Rect>
+	<Rect x="61" y="81" width="29" height="117">
+		<fill>
+			<SolidColor color="#9E9E9E"/>
+		</fill>
+	</Rect>
+	<Rect x="101" y="51" width="29" height="147">
+		<fill>
+			<SolidColor color="#BFBFBF"/>
+		</fill>
+	</Rect>
+	<Rect x="141" y="120" width="29" height="78">
+		<fill>
+			<SolidColor color="#808080"/>
+		</fill>
+	</Rect>
+	<Rect x="182" y="159" width="30" height="39">
+		<fill>
+			<SolidColor color="#666666"/>
+		</fill>
+	</Rect>
+</Graphic>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:ai="http://ns.adobe.com/ai/2009"
+		xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+		xmlns:flm="http://ns.adobe.com/flame/2008"
+		width="26" height="10">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:RichText id="labelDisplay" d:id="33" d:userLabel="Save / Export" x="0" y="0" ai:aa="2"
+				color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold"
+				kerning="off" tabStops="S36" trackingRight="0" flm:variant="33"
+				whiteSpaceCollapse="preserve"
+				color.disabled="#999999" tabStops.disabled="S0"
+				color.down="#000000" tabStops.down="S0" textDecoration.down="underline"
+				tabStops.over="S0" textDecoration.over="underline">
+	</s:RichText>
+</s:Skin>

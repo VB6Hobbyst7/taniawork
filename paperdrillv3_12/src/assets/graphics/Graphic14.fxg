@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="27" d:userLabel="Wo" flm:variant="27">
+		<content><p><span trackingRight="2.2%">W</span><span>o</span></p></content>
+	</RichText>
+	<RichText x="17" color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold" kerning="off" tabStops="S36" trackingRight="0" whiteSpaceCollapse="preserve" ai:aa="2" d:id="28" d:userLabel="rks citing" flm:variant="28">
+		<content><p><span trackingRight="3.9%">rks</span><span trackingRight="4%"><![CDATA[ ]]></span><span trackingRight="3.9%">c</span><span trackingRight="4%">i</span><span trackingRight="3.9%">t</span><span trackingRight="4%">in</span><span>g</span></p></content>
+	</RichText>
+</Graphic>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText x="29" y="11" color="#ECE5D5" columnCount="1" fontFamily="Myriad Pro" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="49" d:userLabel=" |  " flm:variant="54">
+		<content><p><span trackingRight="2.5%"> | </span><span> </span></p></content>
+	</RichText>
+	<Line x="0.5" y="0.5" xTo="847">
+		<stroke>
+			<SolidColorStroke caps="none" color="#C7C0BA" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+</Graphic>

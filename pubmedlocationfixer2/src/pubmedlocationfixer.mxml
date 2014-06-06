@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="getdata(event)" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			public var dataArray:ArrayCollection = new ArrayCollection();
+			public var updateArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			
+			protected function getdata(event:FlexEvent):void
+			{
+				getData.send();
+				
+			}
+			public function afterGetData(ev:ResultEvent):void {
+				var stop:String = "";
+				dataArray = new ArrayCollection();
+				updateArray = new ArrayCollection();
+				dataArray = ev.result.items.item;
+				for (var i:uint = 0; i < dataArray.length; i++){
+					
+					var id:String = dataArray[i].id;
+					var country:String = dataArray[i].country;
+					var affiliation:String = dataArray[i].affiliation;
+					
+					var id2:String = "";
+					var country2:String = "";
+					var affiliation2:String = "";
+					
+					
+					var ccount:uint = countComma(affiliation);
+					
+				
+					
+					
+					if (affiliation.indexOf("@") != -1){
+					
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("@"));
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("."));
+					}
+					
+					
+					if (affiliation.indexOf("@") != -1){
+						
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("@"));
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("."));
+					}
+					
+					
+					if (affiliation.indexOf("@") != -1){
+						
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("@"));
+						affiliation = affiliation.substring(0,affiliation.lastIndexOf("."));
+					}
+					
+					affiliation = fixText(affiliation);
+					
+					
+					
+					
+					if (ccount > 8){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						
+					}
+					else if (ccount == 8){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						
+					}
+					else if (ccount == 7){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						
+					}
+					else if (ccount == 6){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						var stop2:String = "";
+					}
+					else if (ccount == 5){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation2 = affiliation2.substring(affiliation2.indexOf(",")+1,affiliation2.length);
+						
+						var stop23:String = "";
+					}
+					else if (ccount == 4){
+						affiliation2 = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						
+						var stop24:String = "";
+					}
+					else {
+						affiliation2 = affiliation;
+					}
+					
+					updateArray.addItem({id:id,affiliation:affiliation2});
+				}
+				
+				
+				updateStuff();
+			}
+			public var updateCounter:uint = 50819;
+			public function updateStuff():void {
+				s1 = updateArray[updateCounter].id;
+				s2 = updateArray[updateCounter].affiliation;
+				putData.send();
+			}
+			public function afterUpdateToDatabase(ev:ResultEvent):void {
+				if (updateCounter < updateArray.length-1){
+					updateCounter++;
+					s1 = updateArray[updateCounter].id;
+					s2 = updateArray[updateCounter].affiliation;
+					trace(s1);
+					if (s1 == "841"){
+						var sotpsdf:String = "";
+					}
+					putData.send();
+					
+				}
+				else {
+					var sopttt:String  = "";
+				}
+			}
+			public function countComma(s:String):uint {
+				var count:uint = 0;
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				return count;
+			}
+			
+			public function fixText(s:String):String {
+				var text:String = s;
+				
+				if (text.indexOf("Ã") != -1){
+					//var j:RegExp =/Ã/gi;
+					//text = text.replace(j, "e");
+					//var slkjsd:String  = "";
+				}
+				
+				
+				
+				
+				return text;
+			}
+			// url="http://www.myradar.ca/php/scpubmed/getAffData.php"
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getData"  result="afterGetData(event)" useProxy="false"
+					   url="http://localhost/pubmedlocationfixer2/bin-debug/php/getItem.php"
+					   method="GET" >
+		</s:HTTPService>
+		<s:HTTPService id="putData"  result="afterUpdateToDatabase(event)"
+					   url="http://localhost/pubmedlocationfixer2/bin-debug/php/updateAuthorLinkage.php" 
+					   method="POST" useProxy="false">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+			</s:request>
+		</s:HTTPService>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:WindowedApplication>

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Line x="0.5" y="0.5" xTo="847">
+		<stroke>
+			<SolidColorStroke caps="none" color="#C7C0BA" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+</Graphic>

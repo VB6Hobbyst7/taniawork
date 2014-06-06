@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:BitmapImage height="43" id="bitmapimage1" smooth="true" source="@Embed('/assets/images/Arrow2/Black _ White 1.png')" d:userLabel="Black &amp; White 1" width="45" x="0" y="0">
+		<s:filters>
+			<s:GlowFilter includeIn="over" blurX="10" blurY="10" inner="true" color="#000000" strength="1" alpha="1.0" quality="2" knockout="false"/>
+			<s:GlowFilter includeIn="down" blurX="20" blurY="20" inner="true" color="#000000" strength="1" alpha="1.0" quality="2" knockout="false"/>
+		</s:filters>
+	</s:BitmapImage>
+</s:Skin>

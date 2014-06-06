@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="20" d:userLabel="Heatm" flm:variant="20">
+		<content><p><span trackingRight="3.9%">Heat</span><span>m</span></p></content>
+	</RichText>
+	<RichText x="33" color="#3F3F3F" columnCount="1" fontFamily="Arial" fontSize="10" fontWeight="bold" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="21" d:userLabel="ap" flm:variant="21">
+		<content><p><span trackingRight="3.9%">a</span><span>p</span></p></content>
+	</RichText>
+</Graphic>

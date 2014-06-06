@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"  mouseOut="outut(event)"
+			 width="100%"  height="300" >
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.container.ScrollPolicy;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var nfoURL:String = "";
+			public var nfoValue:String = "";
+			public function downloadItem(event:MouseEvent):void
+			{
+				nfoURL = "";
+				nfoValue = "";
+				if (data.chosenLink.toString().indexOf("nfo.rlsbb") != -1){
+					nfoURL = data.chosenLink;
+					getRlsNfo.send();
+				}
+				else {
+					System.setClipboard(data.chosenLink);
+				}
+				
+			}
+			public function afterRlsNfoGet(ev:ResultEvent):void {
+				nfoValue = ev.result.toString();
+		
+				Alert.show("Click Ok To Download", "Download",
+					Alert.OK | Alert.CANCEL, this,
+					callback, null, Alert.OK);
+
+				
+			}
+			public function callback(event:CloseEvent):void 
+			{
+				// Check to see if the OK button was pressed.
+				if (event.detail == Alert.OK)
+					System.setClipboard(nfoValue);
+			}
+
+			public function overer(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+				htmlStuff.verticalScrollPolicy = "on";
+			}
+			
+			public function outut(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				htmlStuff.verticalScrollPolicy = "off";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getRlsNfo" url="{nfoURL}" result="afterRlsNfoGet(event)" method="GET" resultFormat="text" />
+	</fx:Declarations>
+	<s:BorderContainer width="100%" height="100%" >
+		<s:Image left="5" top="5" width="201" height="201" source="{data.iconurl}"/>
+		<s:Label id="title" left="213" right="90" top="5" fontFamily="Verdana" fontSize="22"
+				 fontWeight="bold" text="{data.title}"/>
+		<s:Label id="cat" left="213" top="64" width="308" fontFamily="Verdana" fontSize="20"
+				 text="{data.cat}"/>
+		 <s:Button visible="{data.chosenLink != 'NONE'}" right="5" top="5" label="Download"
+				   click="downloadItem(event)" fontFamily="Verdana"/>
+		<mx:HTML id="htmlStuff" left="213" right="90" top="90" bottom="0" fontFamily="Verdana"
+				 fontSize="10" htmlText="{data.content}" mouseOut="outut(event)"
+				 mouseOver="overer(event)" verticalScrollPolicy="off"/>
+	</s:BorderContainer>
+	
+</s:ItemRenderer>

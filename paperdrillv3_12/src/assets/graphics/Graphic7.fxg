@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#7AA3AE" columnCount="1" fontFamily="Adobe Garamond Pro" fontSize="21.06" kerning="off" tabStops="S36 S72" whiteSpaceCollapse="preserve" ai:aa="2" d:id="58" d:userLabel="We have " flm:variant="63">
+		<content><p><span trackingRight="-7.7%">W</span><span>e ha</span><span trackingRight="-0.5%">v</span><span>e </span></p></content>
+	</RichText>
+</Graphic>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:CheckBox xmlns:mx="http://www.adobe.com/2006/mxml" change="handleSelectionChange()">
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.contacts.objects.Contact;
+			import mx.controls.DataGrid;
+			
+			private var _myInstance:Contact;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(value != null && value is Contact)
+				{
+					_myInstance = value as Contact;
+					this.selected = _myInstance.selectedForInvite;
+				}
+			}
+			
+			private function handleSelectionChange():void
+			{
+				if(_myInstance != null)
+				{
+					_myInstance.selectedForInvite = this.selected;
+				}
+			}
+			
+			override public function validateProperties():void
+			{
+				super.validateProperties();
+				if (listData)
+				{					
+					var dg:DataGrid = DataGrid(listData.owner);		
+					var column:CheckBoxHeaderColumn =	dg.columns[listData.columnIndex];
+					column.addEventListener("click",columnHeaderClickHandler);
+				}
+			}
+			private function columnHeaderClickHandler(event:MouseEvent):void
+			{
+				selected = event.target.selected;
+				handleSelectionChange();
+			}
+			
+		]]>
+	</mx:Script>
+</mx:CheckBox>

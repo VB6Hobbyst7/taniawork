@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<v:InputOutputClass 
+   xmlns:v="com.widged.porterStemmer.views.*" 
+   xmlns:mx="http://www.adobe.com/2006/mxml" 
+   paddingLeft="10" paddingRight="10"
+   paddingTop="10" paddingBottom="10"
+   creationComplete="onCreationComplete()"
+>
+ 
+   <mx:XML id="inputXML" 
+   format="e4x" source="etc/testcases.xml"
+/>
+   <mx:VBox>
+      
+      <mx:Button 
+         label="stem!"
+         click="onStemClick()"
+      />
+      <mx:Button 
+         label="Load Test Cases"
+         click="onTestCasesClick()"
+      />
+   
+   </mx:VBox>
+   <mx:TextArea id="stemmerInput" 
+      height="{areaHeight}"
+      text="loading data..."
+   />
+   
+   <mx:TextArea id="stemmerOutput" 
+      height="{areaHeight}"
+      verticalScrollPosition="{stemmerInput.verticalScrollPosition}"
+      verticalScrollPolicy="off"
+   /> 
+</v:InputOutputClass>

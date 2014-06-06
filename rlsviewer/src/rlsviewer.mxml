@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="start(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.HTML;
+			import mx.controls.Text;
+			import mx.core.UIComponent;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+			public var time:Timer;
+			public var firstTime:Boolean = true;
+			public var totalRlsText:String = "";
+		
+			public function start(event:FlexEvent):void
+			{
+				time = new Timer(6000,0);
+				time.addEventListener(TimerEvent.TIMER, timerFinish);
+				time.start();
+				loadRls();
+				
+			}
+			public function timerFinish(ev:TimerEvent):void {
+				time.stop();
+				time.removeEventListener(TimerEvent.TIMER, timerFinish);
+				time = new Timer(6000,0);
+				time.addEventListener(TimerEvent.TIMER, timerFinish);
+				time.start();	
+				loadRls();
+			}
+			public function loadRls():void {
+				totalRlsText = "";
+				getRls1.send();
+				
+				
+			}
+			public function afterRlsGet1(ev:ResultEvent):void {
+				totalRlsText = ev.result.toString();
+				getRls2.send();
+			}
+			public function afterRlsGet2(ev:ResultEvent):void {
+				totalRlsText = totalRlsText + ev.result.toString();
+				getRls3.send();
+			}
+			public function afterRlsGet3(ev:ResultEvent):void {
+				totalRlsText = totalRlsText + ev.result.toString();
+				getRls4.send();
+			}
+			public function afterRlsGet4(ev:ResultEvent):void {
+				totalRlsText = totalRlsText + ev.result.toString();
+				getRls5.send();
+			}
+			public function afterRlsGet5(ev:ResultEvent):void {
+				totalRlsText = totalRlsText + ev.result.toString();
+				getRls6.send();
+			}
+			public function afterRlsGet6(ev:ResultEvent):void {
+				totalRlsText = totalRlsText + ev.result.toString();
+				var text:String = totalRlsText;
+				var j:RegExp;
+				j = new RegExp("\n","g");
+				text = text.replace(j,"");
+				j = new RegExp("\t","g");
+				text = text.replace(j,"");
+				var ammountOfItemsAdded:uint = 0;
+				//htmltest.htmlText = text;
+				do{
+					text = text.substring(text.indexOf("<div class=\"post\">")+18,text.length);
+					text = text.substring(text.indexOf("<h3 class=\"postTitle\">")+22,text.length);
+					text = text.substring(text.indexOf("rel=\"bookmark\">")+15,text.length);
+					var title:String = text.substring(0,text.indexOf("</"));
+					var cat:String = text.substring(text.indexOf("rel=\"category tag\">")+19,text.length);
+					cat = cat.substring(0,cat.indexOf("</"));
+					j = new RegExp("&amp;","g");
+					cat = cat.replace(j,"&");
+					text = text.substring(text.indexOf("<div class=\"postContent\">")+25,text.length);
+					var iconurl:String = text.substring(text.indexOf("src=\"")+5,text.length);
+					iconurl = iconurl.substring(0,iconurl.indexOf("\""));
+					text = text.substring(text.indexOf("</p>")+4,text.length);
+				//	var content:String= "<html><body>"+text.substring(0,text.indexOf("<strong>Links"))+"</html></body>";
+					var content:String= text.substring(0,text.indexOf("<strong>Links"));
+					var restOfContent:String = text.substring(0,text.indexOf("<div class=\"fblikebutton_button\""));
+					var saveRestOfContent:String = restOfContent;
+					var uploadedURL:String = "NONE";
+					var uploadedURLS:Array = new Array();
+					if (restOfContent.indexOf("UPLOADED") != -1){
+						do{
+							restOfContent = restOfContent.substring(0,restOfContent.lastIndexOf("UPLOADED"));
+							restOfContent = restOfContent.substring(0,restOfContent.lastIndexOf(">")-1);
+							var restOfContent2:String = restOfContent.substring(restOfContent.lastIndexOf("<a href=\"")+9,restOfContent.length);
+							if ((restOfContent2.indexOf("nfo.rlsbb") != -1)||(restOfContent2.indexOf("uploaded") != -1)||(restOfContent2.indexOf("ul.to") != -1)){
+								uploadedURL = restOfContent2;
+								uploadedURLS.push(uploadedURL);
+							}
+							restOfContent = restOfContent.substring(0,restOfContent.lastIndexOf("<a href=\""));
+							
+						}while(restOfContent.indexOf("UPLOADED") != -1);
+						
+					}
+					
+					if (uploadedURLS.length > 1){
+						var chosenLink:String = "";
+						for (var i:uint = 0; i < uploadedURLS.length; i++){
+							if (uploadedURLS[i].toString().indexOf("720") != -1){
+								chosenLink = uploadedURLS[i];
+							}
+						}
+						if (chosenLink == ""){
+							chosenLink = uploadedURLS[uploadedURLS.length-1];
+						}
+					}
+					else if (uploadedURLS.length == 1){
+						chosenLink = uploadedURLS[0];
+					}
+					else {
+						chosenLink = "NONE";
+					}
+					
+					if (saveRestOfContent.indexOf("<img") != -1){
+						var temp:String = saveRestOfContent.substring(0,saveRestOfContent.indexOf("<img"));
+						saveRestOfContent = saveRestOfContent.substring(saveRestOfContent.indexOf("<img"),saveRestOfContent.length);
+						saveRestOfContent = saveRestOfContent.substring(saveRestOfContent.indexOf("/>")+2,saveRestOfContent.length);
+						saveRestOfContent = temp+saveRestOfContent;
+					}
+					
+					if (iconurl.indexOf("fastpic.ru") != -1){
+						j = new RegExp("/big/","g");
+						iconurl = iconurl.replace(j,"/thumb/");
+						j = new RegExp("jpg","g");
+						iconurl = iconurl.replace(j,"jpeg");
+					}
+					
+					
+					if (firstTime == true){
+						dataList.addItem({content:saveRestOfContent,chosenLink:chosenLink,
+							title:title,cat:cat,iconurl:iconurl});
+					}
+					else {
+						var fail1:Boolean = false;
+						for (var i:uint = 0; i < dataList.length; i++){
+							if (dataList[i].title == title){
+								fail1 = true;
+								if (dataList[i].chosenLink != chosenLink){
+									dataList[i].chosenLink = chosenLink;
+									dataList[i].saveRestOfContent = saveRestOfContent;
+								//	streamList.dataProvider.dispatchEvent(new CollectionEvent.COLLECTION_CHANGE());
+								}
+							}
+						}
+
+						
+						if (fail1 == false) {
+							dataList.addItemAt({content:saveRestOfContent,chosenLink:chosenLink,
+								title:title,cat:cat,iconurl:iconurl},ammountOfItemsAdded);
+							ammountOfItemsAdded++;
+						}
+					}
+				
+					
+					
+				}while (text.indexOf("<div class=\"post\">") != -1);
+				firstTime = false;
+				ammountOfItemsAdded = 0;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getRls1" url="http://www.rlsbb.com" result="afterRlsGet1(event)" method="GET" resultFormat="text" />
+		<s:HTTPService id="getRls2" url="http://www.rlsbb.com/page/2/" result="afterRlsGet2(event)" method="GET" resultFormat="text" />
+		<s:HTTPService id="getRls3" url="http://www.rlsbb.com/page/3/" result="afterRlsGet3(event)" method="GET" resultFormat="text" />
+		<s:HTTPService id="getRls4" url="http://www.rlsbb.com/page/4/" result="afterRlsGet4(event)" method="GET" resultFormat="text" />
+		<s:HTTPService id="getRls5" url="http://www.rlsbb.com/page/5/" result="afterRlsGet5(event)" method="GET" resultFormat="text" />
+		<s:HTTPService id="getRls6" url="http://www.rlsbb.com/page/6/" result="afterRlsGet6(event)" method="GET" resultFormat="text" />
+	</fx:Declarations>
+	<s:List id="streamList" visible="true"  width="100%" height="100%"
+			dataProvider="{dataList}" itemRenderer="resultRen">
+		<s:layout>
+			<s:VerticalLayout  verticalAlign="top" horizontalAlign="left"
+							  gap="0"
+							  
+							  variableRowHeight="true"/>
+		</s:layout>
+	
+	</s:List>
+	
+	
+	
+</s:WindowedApplication>

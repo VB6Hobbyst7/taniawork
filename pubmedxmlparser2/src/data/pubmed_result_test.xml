@@ -1,0 +1,924 @@
+<?xml version="1.0"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2011//EN" "http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_110101.dtd">
+<PubmedArticleSet>
+
+<PubmedArticle>
+    <MedlineCitation Status="Publisher" Owner="NLM">
+        <PMID Version="1">21932428</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>9</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1097-0274</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                        <Day>19</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>American journal of industrial medicine</Title>
+            </Journal>
+            <ArticleTitle>Respiratory protective equipment, mask use, and respiratory outcomes among World Trade Center rescue and recovery workers.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn/>
+            </Pagination>
+            <ELocationID EIdType="doi">10.1002/ajim.21009</ELocationID>
+            <Abstract>
+                <AbstractText>BACKGROUND: Serious respiratory illnesses have been reported among rescue/recovery workers (RRW) following the World Trade Center (WTC) attacks. METHODS: We studied RRW enrolled in the WTC Health Registry to assess the effects of different respiratory protection equipment (RPE) types on respiratory outcomes, such as recurrent respiratory symptoms and diseases possibly associated with 9/11 exposures. We performed descriptive and multivariate analyses adjusting for demographics and exposure variables. RESULTS: A total of 9,296 RRW met inclusion criteria. The strongest predictors of using adequate RPE were being affiliated with construction, utilities or environmental remediation organizations and having received RPE training. Workers who used respirators were less likely to report adverse respiratory outcomes compared to those who reported no/lower levels of respiratory protection. CONCLUSIONS: Level of respiratory protection was associated with the odds of reporting respiratory symptoms and diseases. Training, selection, fit testing, and consistent use of RPE should be emphasized among emergency responders. Am. J. Ind. Med. © 2011 Wiley-Liss, Inc.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 Wiley-Liss, Inc.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Division of Health Studies, Agency for Toxic Substances and Disease Registries, Atlanta, Georgia. vantao@cdc.gov.</Affiliation>
+            <AuthorList>
+                <Author>
+                    <LastName>Antao</LastName>
+                    <ForeName>Vinicius C</ForeName>
+                    <Initials>VC</Initials>
+                </Author>
+                <Author>
+                    <LastName>Pallos</LastName>
+                    <ForeName>L Lászlo</ForeName>
+                    <Initials>LL</Initials>
+                </Author>
+                <Author>
+                    <LastName>Shim</LastName>
+                    <ForeName>Youn K</ForeName>
+                    <Initials>YK</Initials>
+                </Author>
+                <Author>
+                    <LastName>Sapp</LastName>
+                    <ForeName>James H</ForeName>
+                    <Initials>JH</Initials>
+                    <Suffix>2nd</Suffix>
+                </Author>
+                <Author>
+                    <LastName>Brackbill</LastName>
+                    <ForeName>Robert M</ForeName>
+                    <Initials>RM</Initials>
+                </Author>
+                <Author>
+                    <LastName>Cone</LastName>
+                    <ForeName>James E</ForeName>
+                    <Initials>JE</Initials>
+                </Author>
+                <Author>
+                    <LastName>Stellman</LastName>
+                    <ForeName>Steven D</ForeName>
+                    <Initials>SD</Initials>
+                </Author>
+                <Author>
+                    <LastName>Farfel</LastName>
+                    <ForeName>Mark R</ForeName>
+                    <Initials>MR</Initials>
+                </Author>
+            </AuthorList>
+            <Language>ENG</Language>
+            <PublicationTypeList>
+                <PublicationType>JOURNAL ARTICLE</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>19</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <MedlineTA>Am J Ind Med</MedlineTA>
+            <NlmUniqueID>8101110</NlmUniqueID>
+            <ISSNLinking>0271-3586</ISSNLinking>
+        </MedlineJournalInfo>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>aheadofprint</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/ajim.21009</ArticleId>
+            <ArticleId IdType="pubmed">21932428</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Status="Publisher" Owner="NLM">
+        <PMID Version="1">21932425</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>9</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1097-0274</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                        <Day>19</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>American journal of industrial medicine</Title>
+            </Journal>
+            <ArticleTitle>Longitudinal lung function declines among california flavoring manufacturing workers.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn/>
+            </Pagination>
+            <ELocationID EIdType="doi">10.1002/ajim.21013</ELocationID>
+            <Abstract>
+                <AbstractText>BACKGROUND: The California Department of Public Health received serial spirometry data for flavoring manufacturing workers at 20 companies at risk of bronchiolitis obliterans. METHODS: We graded spirometry quality; identified individual workers with excessive decline in forced expiratory volume in 1 s (FEV(1) ) using relative longitudinal limits of decline based on 4% average within-person variability; and analyzed declines by occupational risk factors. RESULTS: The quality of 1,697 spirometry tests from 725 workers varied by 18 providers, with poorer quality from commercial providers. Of 416 workers with at least two tests, 40 (9.6%) had abnormal FEV(1) decline. Of 289 workers with high quality spirometry, 21 (7.3%) had abnormal decline. Only one of the 21 had airways obstruction. Abnormal FEV(1) decline rates (per person-month) were greater among workers at companies using ≥800 lbs/year diacetyl than at companies using lesser amounts. Abnormal FEV(1) decline rates were greater at companies previously having four-person clusters of spirometric obstruction than at companies with no or only one worker with obstruction. CONCLUSIONS: Spirometric surveillance of flavoring workers can identify individual workers with an abnormal FEV(1) decline for preventive intervention, even when the FEV(1) itself remains within the normal range. Good quality spirometry and classification of abnormal with relative longitudinal limit of decline minimize misclassification of possible work-related health effects. Am. J. Ind. Med. © 2011 Wiley-Liss, Inc.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 Wiley-Liss, Inc.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Division of Respiratory Disease Studies, National Institute for Occupational Safety and Health (NIOSH), Morgantown, West Virginia. kkreiss@cdc.gov.</Affiliation>
+            <AuthorList>
+                <Author>
+                    <LastName>Kreiss</LastName>
+                    <ForeName>Kathleen</ForeName>
+                    <Initials>K</Initials>
+                </Author>
+                <Author>
+                    <LastName>Fedan</LastName>
+                    <ForeName>Kathleen B</ForeName>
+                    <Initials>KB</Initials>
+                </Author>
+                <Author>
+                    <LastName>Nasrullah</LastName>
+                    <ForeName>Muazzam</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+                <Author>
+                    <LastName>Kim</LastName>
+                    <ForeName>Thomas J</ForeName>
+                    <Initials>TJ</Initials>
+                </Author>
+                <Author>
+                    <LastName>Materna</LastName>
+                    <ForeName>Barbara L</ForeName>
+                    <Initials>BL</Initials>
+                </Author>
+                <Author>
+                    <LastName>Prudhomme</LastName>
+                    <ForeName>Janice C</ForeName>
+                    <Initials>JC</Initials>
+                </Author>
+                <Author>
+                    <LastName>Enright</LastName>
+                    <ForeName>Paul L</ForeName>
+                    <Initials>PL</Initials>
+                </Author>
+            </AuthorList>
+            <Language>ENG</Language>
+            <PublicationTypeList>
+                <PublicationType>JOURNAL ARTICLE</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>19</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <MedlineTA>Am J Ind Med</MedlineTA>
+            <NlmUniqueID>8101110</NlmUniqueID>
+            <ISSNLinking>0271-3586</ISSNLinking>
+        </MedlineJournalInfo>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>aheadofprint</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/ajim.21013</ArticleId>
+            <ArticleId IdType="pubmed">21932425</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Status="Publisher" Owner="NLM">
+        <PMID Version="1">21932422</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>9</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1097-0215</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                        <Day>19</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>International journal of cancer. Journal international du cancer</Title>
+            </Journal>
+            <ArticleTitle>Serum IGF1, IGF2, and IGFBP3 and risk of advanced colorectal adenoma.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn/>
+            </Pagination>
+            <ELocationID EIdType="doi">10.1002/ijc.26438</ELocationID>
+            <Abstract>
+                <AbstractText>The insulin-like growth factor (IGF) signaling pathway is involved in cell proliferation and differentiation. Elevated serum IGF1 levels have been associated with increased colorectal cancer risk; however, studies of this association with colorectal adenoma are inconclusive. We examined serum IGF1, IGF2, and IGFBP3 levels in relation to risk of advanced colorectal adenoma in a case-control study within the Prostate, Lung, Colorectal, and Ovarian Cancer Screening Trial. A total of 764 advanced, left-sided colorectal adenoma cases and 775 controls frequency-matched on gender and ethnicity, without evidence of a left-sided polyp on sigmoidoscopy were included in the current study. Serum levels of IGF1, IGF2, and IGFBP3 were measured using an enzyme linked immunosorbent assay in serum samples collected at baseline. Logistic regression was used to estimate the odds ratios (OR) and 95% confidence intervals (CI) for the associations adjusting for age, race, sex, year of blood draw, body mass index, smoking, and education. Higher IGF1 levels were associated with increased adenoma risk: ORs = 1.58 (95% CI=1.16-2.16), 1.42 (95% CI=1.04-1.93), and 1.80 (95% CI=1.30-2.47) for the second, third, and fourth quartiles, respectively (P(trend) =0.002). Elevated IGF2 levels were also associated with increased adenoma risk (OR=1.43, 95% CI=1.05-1.96 for the fourth vs. first quartile, P(trend) =0.02), but the association was no longer significant after adjustment for IGF1 (P(trend) =0.28). IGFBP3 levels were not associated with adenoma risk. Our analysis showed a significant positive association between circulating IGF1 levels and risk of advanced colorectal adenoma, suggesting that IGF1 is associated with the pivotal precursor to colorectal cancer. © 2011 Wiley-Liss, Inc.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 UICC.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Bethesda, MD. gaoying@mail.nih.gov.</Affiliation>
+            <AuthorList>
+                <Author>
+                    <LastName>Gao</LastName>
+                    <ForeName>Ying</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author>
+                    <LastName>Katki</LastName>
+                    <ForeName>Hormuzd</ForeName>
+                    <Initials>H</Initials>
+                </Author>
+                <Author>
+                    <LastName>Graubard</LastName>
+                    <ForeName>Barry</ForeName>
+                    <Initials>B</Initials>
+                </Author>
+                <Author>
+                    <LastName>Pollak</LastName>
+                    <ForeName>Michael</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+                <Author>
+                    <LastName>Martin</LastName>
+                    <ForeName>Michael</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+                <Author>
+                    <LastName>Tao</LastName>
+                    <ForeName>Yuzhen</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author>
+                    <LastName>Schoen</LastName>
+                    <ForeName>Robert E</ForeName>
+                    <Initials>RE</Initials>
+                </Author>
+                <Author>
+                    <LastName>Church</LastName>
+                    <ForeName>Timothy</ForeName>
+                    <Initials>T</Initials>
+                </Author>
+                <Author>
+                    <LastName>Hayes</LastName>
+                    <ForeName>Richard B</ForeName>
+                    <Initials>RB</Initials>
+                </Author>
+                <Author>
+                    <LastName>Greene</LastName>
+                    <ForeName>Mark H</ForeName>
+                    <Initials>MH</Initials>
+                </Author>
+                <Author>
+                    <LastName>Berndt</LastName>
+                    <ForeName>Sonja I</ForeName>
+                    <Initials>SI</Initials>
+                </Author>
+            </AuthorList>
+            <Language>ENG</Language>
+            <PublicationTypeList>
+                <PublicationType>JOURNAL ARTICLE</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>19</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <MedlineTA>Int J Cancer</MedlineTA>
+            <NlmUniqueID>0042124</NlmUniqueID>
+            <ISSNLinking>0020-7136</ISSNLinking>
+        </MedlineJournalInfo>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>aheadofprint</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/ijc.26438</ArticleId>
+            <ArticleId IdType="pubmed">21932422</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Status="Publisher" Owner="NLM">
+        <PMID Version="1">21932423</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>9</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1097-0045</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                        <Day>19</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>The Prostate</Title>
+            </Journal>
+            <ArticleTitle>XMRV accelerates cellular proliferation, transformational activity, and invasiveness of prostate cancer cells by downregulating p27(Kip1).</ArticleTitle>
+            <Pagination>
+                <MedlinePgn/>
+            </Pagination>
+            <ELocationID EIdType="doi">10.1002/pros.21491</ELocationID>
+            <Abstract>
+                <AbstractText>BACKGROUND: Xenotropic murine leukemia virus-related retrovirus (XMRV) is a recently discovered gammaretrovirus that was originally detected in prostate tumors. However, a causal relationship between XMRV and prostate cancer remains controversial due to conflicting reports on its etiologic occurrence. Even though gammaretroviruses are known to induce cancer in animals, a mechanism for XMRV-induced carcinogenesis remains unknown. Several mechanisms including insertional mutagenesis, proinflammatory effects, oncogenic viral proteins, immune suppression, and altered epithelial/stromal interactions have been proposed for a role of XMRV in prostate cancer. However, biochemical data supporting any of these mechanisms are lacking. Therefore, our aim was to evaluate a potential role of XMRV in prostate carcinogenesis. METHODS: Growth kinetics of prostate cancer cells are conducted by MTT assay. In vitro transformation and invasion was carried out by soft agar colony formation, and Matrigel cell invasion assay, respectively. p27(Kip1) expression was determined by Western blot and MMP activation was evaluated by gelatin-zymography. Up-regulation of miR221 and miR222 expression was examined by real-time PCR. RESULTS: We demonstrate that XMRV infection can accelerate cellular proliferation, enhance transformation, and increase invasiveness of slow growing prostate cancer cells. The molecular basis of these viral induced activities is mediated by the downregulation of cyclin/cyclin dependent kinase inhibitor p27(Kip1) . Downstream analyses illustrated that XMRV infection upregulates miR221 and miR222 expression that target p27(Kip1) mRNA. CONCLUSIONS: We propose that downregulation of p27(Kip1) by XMRV infection facilitates transition of G1 to S, thereby accelerates growth of prostate cancer cells. Our findings implicate that if XMRV is present in humans, then under appropriate cellular microenvironment it may serve as a cofactor to promote cancer progression in the prostate. Prostate © 2011 Wiley-Liss, Inc.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 Wiley-Liss, Inc.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Laboratory of Retrovirology and Epigenetics, Center for AIDS Health Disparities Research, Vanderbilt-Meharry Center For AIDS Research (CFAR), Meharry Medical College School of Medicine, Nashville, Tennessee; Department of Biochemistry and Cancer Biology, Meharry Medical College School of Medicine, Nashville, Tennessee.</Affiliation>
+            <AuthorList>
+                <Author>
+                    <LastName>Pandhare-Dash</LastName>
+                    <ForeName>Jui</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author>
+                    <LastName>Mantri</LastName>
+                    <ForeName>Chinmay K</ForeName>
+                    <Initials>CK</Initials>
+                </Author>
+                <Author>
+                    <LastName>Gong</LastName>
+                    <ForeName>Yuanying</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author>
+                    <LastName>Chen</LastName>
+                    <ForeName>Zhenbang</ForeName>
+                    <Initials>Z</Initials>
+                </Author>
+                <Author>
+                    <LastName>Dash</LastName>
+                    <ForeName>Chandravanu</ForeName>
+                    <Initials>C</Initials>
+                </Author>
+            </AuthorList>
+            <Language>ENG</Language>
+            <PublicationTypeList>
+                <PublicationType>JOURNAL ARTICLE</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>19</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <MedlineTA>Prostate</MedlineTA>
+            <NlmUniqueID>8101368</NlmUniqueID>
+            <ISSNLinking>0270-4137</ISSNLinking>
+        </MedlineJournalInfo>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>aheadofprint</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/pros.21491</ArticleId>
+            <ArticleId IdType="pubmed">21932423</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Status="Publisher" Owner="NLM">
+        <PMID Version="1">21932442</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>9</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1615-9861</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                        <Day>19</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Proteomics</Title>
+            </Journal>
+            <ArticleTitle>IMAC/TiO(2) enrich for peptide modifications other than phosphorylation: Implications for chromatographic choice and database searching in phosphoproteomics.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn/>
+            </Pagination>
+            <ELocationID EIdType="doi">10.1002/pmic.201100143</ELocationID>
+            <Abstract>
+                <AbstractText>Protein regulation by reversible phosphorylation is fundamental in nature and large-scale phosphoproteomic analyses are becoming routine in proteomics laboratories. These analyses utilise phosphopeptide separation and enrichment techniques linked to LC-MS/MS. Herein, we report that IMAC and TiO(2) also enrich for non-phosphorylated modified peptides such as acetylated, deamidated and carbamylated peptides. Urea and digestion conditions commonly used in phosphoproteomic workflows are the likely sources of the induced modifications (deamidation and carbamylation) and can easily modify phosphopeptides. Including these variable modifications in database searches increased the total number of identified phosphopeptides by 15%. We also show that SCX fractionation provides poor resolution of phosphopeptides, and actually enriches these alternatively modified peptides. By switching to reverse phase chromatography we show a significant improvement in the number of identified phosphopeptides. We recommend that users of phosphopeptide enrichment strategies avoid using urea as a denaturant and that careful consideration is given to chromatographic conditions and the types of variable modifications used in database searches. Thus the capacity of IMAC and TiO(2) to enrich phosphopeptides bearing modifications other than phosphorylation is a previously unappreciated property of these chromatographies with practical implications for the field of phosphoproteomics.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 WILEY-VCH Verlag GmbH &amp; Co. KGaA, Weinheim.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Cancer Proteomics Laboratory, EGA Institute for Women's Health, University College London, UK.</Affiliation>
+            <AuthorList>
+                <Author>
+                    <LastName>Worthington</LastName>
+                    <ForeName>Jenny</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author>
+                    <LastName>Cutillas</LastName>
+                    <ForeName>Pedro R</ForeName>
+                    <Initials>PR</Initials>
+                </Author>
+                <Author>
+                    <LastName>Timms</LastName>
+                    <ForeName>John F</ForeName>
+                    <Initials>JF</Initials>
+                </Author>
+            </AuthorList>
+            <Language>ENG</Language>
+            <PublicationTypeList>
+                <PublicationType>JOURNAL ARTICLE</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>19</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <MedlineTA>Proteomics</MedlineTA>
+            <NlmUniqueID>101092707</NlmUniqueID>
+            <ISSNLinking>1615-9853</ISSNLinking>
+        </MedlineJournalInfo>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>aheadofprint</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/pmic.201100143</ArticleId>
+            <ArticleId IdType="pubmed">21932442</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="In-Data-Review">
+        <PMID Version="1">21932435</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>09</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Electronic">1542-9768</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>93</Volume>
+                    <Issue>3</Issue>
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Sep</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Birth defects research. Part C, Embryo today : reviews</Title>
+                <ISOAbbreviation>Birth Defects Res. C Embryo Today</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>The developing zebrafish (Danio rerio): A vertebrate model for high-throughput screening of chemical libraries.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>268-80</MedlinePgn>
+            </Pagination>
+            <ELocationID EIdType="doi" ValidYN="Y">10.1002/bdrc.20212</ELocationID>
+            <Abstract>
+                <AbstractText>The zebrafish, Danio rerio, a small, tropical freshwater species native to Pakistan and India, has become a National Institutes of Health-sanctioned model organism and, due to its many advantages as an experimental vertebrate, it has garnered intense interest from the world's scientific community. Some have labeled the zebrafish, the &quot;vertebrate Drosophila,&quot; due to its genetic tractability, small size, low cost, and rapid development. The transparency of the embryo, external development, and the many hundreds of mutant and transgenic lines available add to the allure. Now it appears, the zebrafish can be used for high-throughput screening (HTS) of drug libraries in the discovery process of promising new therapeutics. In this review, various types of screening methods are briefly outlined, as are a variety of screens for different disease models, to highlight the range of zebrafish HTS possibilities. High-content screening (HCS) has been available for cell-based screens for some time and, very recently, HCS is being adapted for the zebrafish. This will allow analysis, at high resolution, of drug effects on whole vertebrates; thus, whole body effects as well as those on specific organs and tissues may be determined. Birth Defects Research (Part C) 93:268-280, 2011. © 2011 Wiley-Liss, Inc.</AbstractText>
+                <CopyrightInformation>Copyright © 2011 Wiley-Liss, Inc.</CopyrightInformation>
+            </Abstract>
+            <Affiliation>Department of Biological Sciences, The University of Memphis, Memphis, Tennessee. Clessman@memphis.edu.</Affiliation>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Lessman</LastName>
+                    <ForeName>Charles A</ForeName>
+                    <Initials>CA</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType>Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Birth Defects Res C Embryo Today</MedlineTA>
+            <NlmUniqueID>101167665</NlmUniqueID>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="doi">10.1002/bdrc.20212</ArticleId>
+            <ArticleId IdType="pubmed">21932435</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">21932456</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>09</Month>
+            <Day>19</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2011</Year>
+            <Month>09</Month>
+            <Day>20</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Electronic">1872-9800</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>69</Volume>
+                    <Issue>8</Issue>
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Aug</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Applied radiation and isotopes : including data, instrumentation and methods for use in agriculture, industry and medicine</Title>
+                <ISOAbbreviation>Appl Radiat Isot</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Proceedings of the 6th CHERNE Workshop, Coimbra, Portugal.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>1103-64</MedlinePgn>
+            </Pagination>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType>Congresses</PublicationType>
+                <PublicationType>Overall</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>England</Country>
+            <MedlineTA>Appl Radiat Isot</MedlineTA>
+            <NlmUniqueID>9306253</NlmUniqueID>
+            <ISSNLinking>0969-8043</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y">Engineering</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y">Health Physics</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y">Radiation Protection</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>1</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">21932456</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="In-Process">
+        <PMID Version="1">21932464</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>09</Month>
+            <Day>20</Day>
+        </DateCreated>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1068-8838</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>85</Volume>
+                    <Issue>8</Issue>
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Aug</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Hospitals &amp; health networks / AHA</Title>
+                <ISOAbbreviation>Hosp Health Netw</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Health care's Sam Walton?</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>8, 10</MedlinePgn>
+            </Pagination>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Bille</LastName>
+                    <ForeName>Todd J</ForeName>
+                    <Initials>TJ</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType>Letter</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Hosp Health Netw</MedlineTA>
+            <NlmUniqueID>9312077</NlmUniqueID>
+            <ISSNLinking>1068-8838</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>AIM</CitationSubset>
+        <CitationSubset>IM</CitationSubset>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">21932464</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="In-Process">
+        <PMID Version="1">21932453</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>09</Month>
+            <Day>19</Day>
+        </DateCreated>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Electronic">1528-3984</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>32</Volume>
+                    <Issue>4</Issue>
+                    <PubDate>
+                        <MedlineDate>2011 Jul-Aug</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Geriatric nursing (New York, N.Y.)</Title>
+                <ISOAbbreviation>Geriatr Nurs</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Chaos and uncertainty: the post-caregiving transition.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>288-93</MedlinePgn>
+            </Pagination>
+            <Affiliation>College of Nursing and Health Innovation, Arizona State University, Phoenix, AZ, USA.</Affiliation>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Ume</LastName>
+                    <ForeName>Ebere P</ForeName>
+                    <Initials>EP</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Evans</LastName>
+                    <ForeName>Bronwynne C</ForeName>
+                    <Initials>BC</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <GrantList CompleteYN="Y">
+                <Grant>
+                    <GrantID>3R01NR010541-02S1</GrantID>
+                    <Acronym>NR</Acronym>
+                    <Agency>NINR NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+            </GrantList>
+            <PublicationTypeList>
+                <PublicationType>Journal Article</PublicationType>
+                <PublicationType>Research Support, N.I.H., Extramural</PublicationType>
+                <PublicationType>Research Support, Non-U.S. Gov't</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Geriatr Nurs</MedlineTA>
+            <NlmUniqueID>8309633</NlmUniqueID>
+            <ISSNLinking>0197-4572</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>N</CitationSubset>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2011</Year>
+                <Month>9</Month>
+                <Day>21</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">21932453</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>

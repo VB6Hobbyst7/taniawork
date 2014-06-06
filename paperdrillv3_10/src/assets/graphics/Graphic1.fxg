@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Group>
+		<mask>
+			<Group ai:spare="1">
+				<Rect width="1024" height="768">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Rect>
+			</Group>
+		</mask>
+		<Rect width="1024" height="768">
+			<fill>
+				<SolidColor color="#6A5F5E"/>
+			</fill>
+		</Rect>
+	</Group>
+</Graphic>

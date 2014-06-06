@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Line x="0.5" y="0.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="54.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="106.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+	<Line x="0.5" y="185.5" xTo="210">
+		<stroke>
+			<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="1"/>
+		</stroke>
+	</Line>
+</Graphic>

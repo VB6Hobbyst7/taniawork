@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="getdata(event)" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			public var dataArray:ArrayCollection = new ArrayCollection();
+			public var updateArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			public var totalText:String = "";
+			protected function getdata(event:FlexEvent):void
+			{
+				getData.send();
+				
+			}
+			public function afterGetData(ev:ResultEvent):void {
+				var stop:String = "";
+				dataArray = new ArrayCollection();
+				updateArray = new ArrayCollection();
+				dataArray = ev.result.items.item;
+				totalText = "title\taffiliation\tcountry";
+				for (var i:uint = 0; i < dataArray.length; i++){
+					
+					var title:String = "";
+					var country:String = dataArray[i].country;
+					var affiliation:String = "";
+					
+					
+					if (country == "ca"){
+					/*	title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) > 3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "ch"){
+						/*country = "china";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) > 3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "ge"){
+						/*country = "Germany";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) >3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "ot"){
+						/*country = "Germany";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) >3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "it"){
+						/*title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) > 3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "japan"){
+					/*	country = "Japan";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (affiliation.indexOf(".") != -1){
+							if (affiliation.lastIndexOf(",") < affiliation.indexOf(".")){
+								affiliation = affiliation.substring(0,affiliation.indexOf("."));
+								var stopasdfds:String = "";
+							}
+						}
+						
+						if (affiliation.indexOf("college of medical technology") != -1){
+							var stopddd:String = "";
+						}
+						
+						
+						
+						
+						
+						var j:RegExp = new RegExp("japan Japan");
+						affiliation = affiliation.replace(j,"japan");
+						j = new RegExp("japan. Japan");
+						affiliation = affiliation.replace(j,"japan");
+						j = new RegExp("japan, Japan");
+						affiliation = affiliation.replace(j,"japan");
+						j = new RegExp("japanJapan");
+						affiliation = affiliation.replace(j,"japan");
+						
+						if (affiliation.indexOf("japan Japan") != -1){
+							var stoplksjdf:String = "";
+						}
+						
+						
+						
+						
+						
+						
+						if (countComma(affiliation) >4){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						if (countComma(affiliation) >3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 1){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "usa"){
+						/*country = "United States";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (countComma(affiliation) >3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "austria"){
+						/*country = "Austria";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (affiliation.indexOf(".") != -1){
+							if (affiliation.lastIndexOf(",") < affiliation.indexOf(".")){
+								affiliation = affiliation.substring(0,affiliation.indexOf("."));
+								var stopasdfds:String = "";
+							}
+						}
+												
+
+						
+						if (countComma(affiliation) >4){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						if (countComma(affiliation) >3){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 1){
+							affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+							+ "\t" + country;*/
+					}
+					else if (country == "uk"){
+						country = "Austria";
+						title = dataArray[i].title;
+						affiliation = dataArray[i].affiliation;
+						if (affiliation.indexOf(".") != -1){
+						if (affiliation.lastIndexOf(",") < affiliation.indexOf(".")){
+						affiliation = affiliation.substring(0,affiliation.indexOf("."));
+						var stopasdfds:String = "";
+						}
+						}
+						
+						
+						
+						if (countComma(affiliation) >4){
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						if (countComma(affiliation) >3){
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 2){
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						else if (countComma(affiliation) > 1){
+						affiliation = affiliation.substring(affiliation.indexOf(",")+1,affiliation.length);
+						}
+						totalText = totalText + "\r\n" + title + "\t" + affiliation 
+						+ "\t" + country;
+					}
+					
+				}
+				
+				
+				var fileReferenceSave:FileReference = new FileReference();
+				fileReferenceSave.save(totalText,"uk.txt");
+			}
+			public var updateCounter:uint = 0;
+		
+			public function countComma(s:String):uint {
+				var count:uint = 0;
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				
+				if (s.indexOf(",") != -1){
+					count++;
+					s = s.substring(s.indexOf(",")+1,s.length);
+				}
+				return count;
+			}
+			
+			public function fixText(s:String):String {
+				var text:String = s;
+				
+				if (text.indexOf("Ã") != -1){
+					//var j:RegExp =/Ã/gi;
+					//text = text.replace(j, "e");
+					//var slkjsd:String  = "";
+				}
+				
+				
+				
+				
+				return text;
+			}
+			// url="http://www.myradar.ca/php/scpubmed/getAffData.php"
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getData"  result="afterGetData(event)" useProxy="false"
+					   url="http://localhost/pubmedlocationexporter/bin-debug/php/getItem.php"
+					   method="GET" >
+		</s:HTTPService>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:WindowedApplication>

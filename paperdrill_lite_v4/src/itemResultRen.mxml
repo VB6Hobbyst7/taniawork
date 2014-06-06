@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true" >
+	<fx:Script>
+		<![CDATA[	
+		/*	[Bindable]
+			public var bookTitle:String = "";
+			[Bindable]
+			public var bookAuthor:String = "";
+			[Bindable]
+			public var docBoxViewable:Boolean = false;
+			[Bindable]
+			public var heatcount:String = "0";
+			public function dataChange():void {
+				
+				bookTitle = data.bookTitle;
+				bookAuthor = data.bookAuthor;
+				docBoxViewable = (data.hasabstract == 1);
+				heatcount = data.heatcount.toString();
+			}*/
+		]]>
+	</fx:Script>
+	<s:Rect width="185" height="102" >
+		<s:stroke>
+			<s:SolidColorStroke 
+				color="0x000000" 
+				weight="0.5"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor 
+				color="0x000000"
+				alpha="0.05"
+				/>
+		</s:fill>
+		
+	</s:Rect>
+	<s:Label id="bookTitleLabel" left="10" maxDisplayedLines="4" fontFamily="Myriad Pro"
+			 top="10" height="{(102/2)+5}" width="165" mouseEnabled="false"
+			 fontSize="10" text="{data.bookTitle}"/>
+	<s:Label id="bookAuthorLabel" left="10" fontFamily="Myriad Pro" maxDisplayedLines="2"
+			 bottom="20" height="{(102/2)-30}" width="165" mouseEnabled="false"
+			 color="#696969" fontSize="10" text="{data.bookAuthor}"/>
+	<s:Button useHandCursor="true" buttonMode="true"
+			   id="infoBoxButton" 
+			  bottom="1" right="-1" skinClass="seedSkinShort"/>
+	<s:Button useHandCursor="true" buttonMode="true"
+			  id="docBoxButton" visible="{data.hasabstract == 1}"
+			  bottom="1" right="36" skinClass="viewdocskinShort"/>
+	<s:Label id="heatLabel" left="56" fontFamily="Myriad Pro" maxDisplayedLines="2"
+			 bottom="1" height="15" width="61" mouseEnabled="false"
+			 color="#696969" fontSize="10" text="Heat : {data.heatcount.toString()}"/>
+	<s:Label id="heatLabel0" left="4" fontFamily="Myriad Pro" maxDisplayedLines="2"
+			 bottom="1" height="15" width="72" mouseEnabled="false"
+			 color="#696969" fontSize="10" text="date : {data.date.toString()}"/>
+	
+	
+
+</s:ItemRenderer>

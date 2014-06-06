@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:buttons="fr.kapit.lab.demo.buttons.*"
+		 xmlns:components="fr.kapit.lab.demo.menubar.components.*"
+		 addedToStage="hgroup1_addedToStageHandler(event)">
+
+	<fx:Library>
+		<fx:Definition name="SeparatorLine">
+			<s:Group height="30" width="2">
+				<s:Rect width="1" height="30">
+					<s:fill>
+						<s:SolidColor color="0x8E8E8E"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="1" height="30" left="1">
+					<s:fill>
+						<s:SolidColor color="0xDBDBDB"/>
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+		</fx:Definition>
+	</fx:Library>
+	
+	<fx:Metadata>
+		[Event(name="graphImported", type="flash.events.Event")]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import fr.kapit.datavisualization.assets.EmbeddedAssets;
+			import fr.kapit.diagrammer.Diagrammer;
+			import fr.kapit.diagrammer.actions.LinkAction;
+			import fr.kapit.diagrammer.actions.data.LinkActionData;
+			import fr.kapit.lab.demo.menubar.events.ToolBarEvent;
+			import fr.kapit.lab.demo.model.DiagrammerModel;
+			import fr.kapit.lab.demo.models.constants.DefaultLinkConstant;
+			import fr.kapit.lab.demo.popup.ConfirmPopup;
+			import fr.kapit.lab.demo.popup.ErrorPopup;
+			import fr.kapit.lab.demo.ui.components.properties.IPropertiesConfigPanel;
+			import fr.kapit.visualizer.actions.ZoomAction;
+			import fr.kapit.visualizer.actions.data.ZoomActionData;
+			import fr.kapit.visualizer.base.IGroup;
+			import fr.kapit.visualizer.base.ISprite;
+			import fr.kapit.visualizer.events.VisualizerEvent;
+			import fr.kapit.visualizer.renderers.IGroupRenderer;
+			import fr.kapit.visualizer.renderers.ITableRenderer;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.events.IndexChangeEvent;
+
+			[Bindable]
+			public var model:DiagrammerModel;
+
+			[Bindable]
+			private var _hasNodesSelected:Boolean;
+
+			[Bindable]
+			private var _hasGroupsSelected:Boolean;
+
+			/* [Bindable]
+			private var _isAllRemoved:Boolean */
+
+			private var _newCreatedNode:ISprite;
+			private var _exportedXml:XML
+			
+			private var _importedFile:FileReference;
+			
+			private var _cursorAction:Class;
+			private var _zoomStateActivated:Boolean;
+
+
+			/**
+			 * @private
+			 * Instance of popup to confirm deletion of all nodes
+			 */
+			private var _confirmRemovePopup:IFlexDisplayObject;
+
+			/**
+			 * @private
+			 * Instance of popup to to display the export/import messages.
+			 */
+			private var _errorPopup:IFlexDisplayObject;
+
+			protected function hgroup1_addedToStageHandler(event:Event):void
+			{
+				init();
+				setSelectionState();
+			}
+
+			protected function init():void
+			{
+				_cursorAction = null;
+				_zoomStateActivated = false;
+				model.visualizer.updateAction(ZoomAction.ID, new ZoomActionData);
+				cursorManager.removeAllCursors();
+				
+				model.unregisterAllListeners();
+				model.diagrammer.mouseChildren = true;
+				model.enableLinkMode = false;
+				model.enableMultiSelection = false;
+				model.enablePan = false;
+				model.enableSelectAndResizeNodes(false);
+				model.unselectAll();
+			}
+
+			/**
+			 * Method invoked to update the panel according to state of
+			 * the data visualization component (selection, style...).
+			 */
+			public function synchronize():void
+			{
+				_hasGroupsSelected = model.isGroupSelection(true);
+				//_hasNodesSelected = model.isNodeSelection(true);
+				_hasNodesSelected = model.diagrammer.selection.concat().length > 0;
+			}
+
+			protected function setSelectionState():void
+			{
+				model.enableSelectAndResizeNodes(true);
+				model.enableMultiSelection = true;
+			}
+
+			protected function setPanState():void
+			{
+				model.enablePan = true;
+			}
+
+			protected function setZoomState(isOutState:Boolean):void
+			{
+				_cursorAction = isOutState ? EmbeddedAssets.IMG_ZOOM_OUT : EmbeddedAssets.IMG_ZOOM_IN;
+				_zoomStateActivated = true;
+				model.enableZoom(true, isOutState);
+			}
+
+			protected function setCreateLinkState():void
+			{
+				model.enableLinkMode = true;
+				model.defaultLinkStyle = String(toolBar.selectedItem.selectedTool.data);
+				model.registerListener(KeyboardEvent.KEY_UP, linkmodeKeyUpHandler);
+				model.diagrammer.setFocus();
+			}
+
+			protected function linkmodeKeyUpHandler(event:KeyboardEvent):void
+			{
+				model.isLogEnabled = false;
+				if(event.keyCode == Keyboard.ESCAPE)
+				{
+					init();
+					callLater(setCreateLinkState);
+				}
+				model.isLogEnabled = true;
+			}
+
+			protected function setCreateShapeState():void
+			{
+				model.registerListener(MouseEvent.CLICK, addShapeHandler);
+				_cursorAction = toolBar.selectedItem.selectedTool.icon;
+			}
+
+			protected function addShapeHandler(event:MouseEvent):void
+			{
+				var container:IGroup=null;
+				var addNode:Boolean=false;
+				if(event.target is IGroup)
+				{
+					container = event.target as IGroup;
+					addNode=true;
+				}
+				else if(event.target is IGroupRenderer || event.target is ITableRenderer)
+				{
+					container = event.target.item as IGroup;
+					addNode=true;
+				}
+				else if(event.target is Diagrammer)
+				{
+					addNode=true;
+				}
+				if(addNode)
+				{
+					var shape:String = String(toolBar.selectedItem.selectedTool.data);
+					var size:int = 50;
+					_newCreatedNode = model.addNode("label", shape, new Point(model.diagrammer.mouseX-(container?container.x:0), model.diagrammer.mouseY-(container?container.y:0)), size,container);
+					model.unselectAll();
+					_newCreatedNode.isSelected = true;
+					model.diagrammer.dispatchVisualizerEvent(VisualizerEvent.ELEMENTS_SELECTION_CHANGED, model.diagrammer.selection);
+				}
+			}
+
+			protected function btundo_clickHandler(event:MouseEvent):void
+			{
+				undoRedo(true);
+			}
+
+
+			protected function btredo_clickHandler(event:MouseEvent):void
+			{
+				undoRedo(false);
+			}
+
+			protected function undoRedo(isUndo:Boolean):void
+			{
+				try {
+					isUndo ? model.undo() : model.redo();
+					model.history.checkUndoRedoTasks(null);
+					model.diagrammer.unselectAll();
+				}
+				catch(e:Error){ }
+			}
+
+			protected function toolBar_selectionChangedHandler(event:ToolBarEvent):void
+			{
+				init();
+
+				switch(event.toolBar.selectedIndex)
+				{
+					case 0 : setSelectionState(); break;
+					case 1 : setPanState(); break;
+					case 2 : setCreateLinkState(); break;
+					case 3 : setCreateShapeState(); model.isEmpty = false; break;
+					case 4 : setZoomState(true); break;
+					case 5 : setZoomState(false); break;
+				}
+			}
+
+			protected function btgroup_clickHandler(event:MouseEvent):void
+			{
+				model.createGroup();
+			}
+
+			protected function btungroup_clickHandler(event:MouseEvent):void
+			{
+				model.destroyGroups();
+			}
+
+			protected function addtable_clickHandler(event:MouseEvent):void
+			{
+				model.addTable();
+			}
+			
+			public function get cursorAction():Class
+			{
+				return _cursorAction;
+			}
+			
+			public function get zoomStateActivated():Boolean
+			{
+				return _zoomStateActivated;
+			}
+
+			protected function exportGraph_clickHandler(event:MouseEvent):void
+			{
+				saveXML();
+			}
+			
+			protected function importGraph_clickHandler(event:MouseEvent):void
+			{
+				_importedFile = new FileReference;
+				_importedFile.addEventListener(Event.SELECT, importedFile_selectHandler);
+				_importedFile.browse([new FileFilter("XML File", "*.xml")]);
+			}
+			
+			protected function importedFile_selectHandler(event:Event):void
+			{
+				_importedFile.addEventListener(Event.COMPLETE, importedFile_completeHandler);
+				_importedFile.addEventListener(IOErrorEvent.IO_ERROR, importedFile_errorHandler);
+				_importedFile.addEventListener(SecurityErrorEvent.SECURITY_ERROR, importedFile_errorHandler);
+				_importedFile.load();
+			}
+			
+			protected function importedFile_completeHandler(event:Event):void
+			{
+				const type:String = ".xml";
+				if (_importedFile.name.toLowerCase().indexOf(type) != (_importedFile.name.length - type.length)) 
+					return importedFile_errorHandler(null);
+
+				try {
+					var xml:XML = new XML(_importedFile.data.readUTFBytes(_importedFile.data.bytesAvailable));
+					if (xml.name() == "diagram")
+					{
+						model.diagrammer.fromXML(xml);
+						dispatchEvent(new Event("graphImported"));
+					}
+					else
+					{
+						importedFile_errorHandler(null);
+					}
+				} catch (e:*) {
+					importedFile_errorHandler(null);					
+				}
+					
+			}
+			protected function importedFile_errorHandler(event:ErrorEvent):void
+			{
+				_errorPopup = PopUpManager.createPopUp(this.parent, ErrorPopup, true);
+				PopUpManager.centerPopUp(_errorPopup);
+				ErrorPopup(_errorPopup).title = "Error";
+				ErrorPopup(_errorPopup).showBtClose = false;
+				ErrorPopup(_errorPopup).errorLabel = event ? "There was an error while the import of XML file." : "You must choose a previous exported XML file.";
+				ErrorPopup(_errorPopup).addEventListener(Event.CLOSE, closeErrorPopupHandler);
+			}
+			
+			protected function closeErrorPopupHandler(event:Event):void
+			{
+				PopUpManager.removePopUp(_errorPopup);
+			}
+			
+			private function createXML():void
+			{
+				model.diagrammer.nodeExportDataFunction = exportNodeFunction;
+				model.diagrammer.nodeImportDataFunction = importNodeFunction;
+				
+				_exportedXml = new XML;
+				if( (model.diagrammer.toXML()).children().length() !=0)
+					_exportedXml = model.diagrammer.toXML();
+			}
+			
+			private function saveXML():void
+			{
+				createXML();
+				var bytes:ByteArray = new ByteArray;
+				bytes.writeUTFBytes(_exportedXml);
+				var file:FileReference = new FileReference;
+				file.save(bytes, "diagrammer_graph.xml");
+			}
+			
+			private function exportNodeFunction(data:Object):XML
+			{
+				var xml:XML;
+				xml = new XML(<data/>);
+				if(data.hasOwnProperty("label"))
+					xml.@label = data["label"].toString();
+				if(data.hasOwnProperty("renderer"))
+				{
+					xml.@renderer = data["renderer"].toString();
+					xml.@size = data["size"].toString();
+				}
+				if(data.hasOwnProperty("colorPolicy"))
+					xml.@colorPolicy = data["colorPolicy"].toString()
+				if(data.hasOwnProperty("color"))
+					xml.@color = data["color"].toString()
+				return(xml);
+			}
+			private function importNodeFunction(xml:XML):Object
+			{
+				var data:Object=new Object;
+				data["renderer"] = xml.@renderer.toString();
+				data["label"] = xml.@label.toString();
+				data["size"] = xml.@size.toString();
+				data["colorPolicy"] = xml.@colorPolicy.toString()
+				data["color"] = xml.@color.toString()
+				return data;
+			}
+
+			protected function clearButton_clickHandler(event:MouseEvent):void
+			{
+				model.removeAll();
+				model.isEmpty = true;
+				model.diagrammer.dispatchVisualizerEvent(VisualizerEvent.DATA_LOADED, [],new Object());//reset overview
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xCCCCCC"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:HGroup left="10" gap="10" verticalAlign="middle" height="100%">
+		<components:ToolBar id="toolBar" selectionChanged="toolBar_selectionChangedHandler(event)">
+			<components:ToolBarItem id="toolSelection" skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemVerticalSkin">
+				<components:ToolBarTool label="Selection" icon="{EmbeddedAssets.IMG_MENUBAR_CURSOR}"/>
+			</components:ToolBarItem>
+			<components:ToolBarItem skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemVerticalSkin">
+				<components:ToolBarTool label="Pan" icon="{EmbeddedAssets.IMG_MENUBAR_HAND}"/>
+			</components:ToolBarItem>
+			<components:ToolBarItemDropDown id="toolLink" skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemDropDownSkin">
+				<components:ToolBarTool data="{DefaultLinkConstant.SIMPLE_ARROW}" label="Simple Arrow" icon="{EmbeddedAssets.IMG_MENUBAR_SIMPLE_ARROW}"/>
+				<components:ToolBarTool data="{DefaultLinkConstant.DOUBLE_ARROW}" label="Double Arrow" icon="{EmbeddedAssets.IMG_MENUBAR_DOUBLE_ARROW}"/>
+				<components:ToolBarTool data="{DefaultLinkConstant.SIMPLE_LINK}" label="Simple Link" icon="{EmbeddedAssets.IMG_MENUBAR_SIMPLE_LINK}"/>
+				<components:ToolBarTool data="{DefaultLinkConstant.DASHED_LINK}" label="Dashed Link" icon="{EmbeddedAssets.IMG_MENUBAR_DASHED_LINK}"/>
+			</components:ToolBarItemDropDown>
+			<components:ToolBarItemDropDown skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemDropDownSkin" columns="4">
+				<components:ToolBarTool data="rectangle" label="Box" icon="{EmbeddedAssets.IMG_MENUBAR_BOX}"/>
+				<components:ToolBarTool data="rectrounded" label="Rounded Box" icon="{EmbeddedAssets.IMG_MENUBAR_ROUNDEDBOX}"/>
+				<components:ToolBarTool data="losange" label="Losange" icon="{EmbeddedAssets.IMG_MENUBAR_LOSANGE}"/>
+				<components:ToolBarTool data="circle" label="Circle" icon="{EmbeddedAssets.IMG_MENUBAR_CIRCLE}"/>
+				<components:ToolBarTool data="hexagon" label="Hexagon" icon="{EmbeddedAssets.IMG_MENUBAR_POLY6}"/>
+				<components:ToolBarTool data="octagon" label="Octagon" icon="{EmbeddedAssets.IMG_MENUBAR_POLY8}"/>
+				<components:ToolBarTool data="trapeze" label="Trapeze" icon="{EmbeddedAssets.IMG_MENUBAR_TRAPEZE}"/>
+				<components:ToolBarTool data="document" label="Document" icon="{EmbeddedAssets.IMG_MENUBAR_DOCUMENT}"/>
+			</components:ToolBarItemDropDown>
+			<components:ToolBarItem skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemVerticalSkin">
+				<components:ToolBarTool label="Zoom Out" icon="{EmbeddedAssets.IMG_ZOOM_OUT}"/>
+			</components:ToolBarItem>
+			<components:ToolBarItem skinClass="fr.kapit.lab.demo.menubar.skins.ToolBarItemVerticalSkin">
+				<components:ToolBarTool label="Zoom In" icon="{EmbeddedAssets.IMG_ZOOM_IN}"/>
+			</components:ToolBarItem>
+		</components:ToolBar>
+
+		<fx:SeparatorLine />
+
+		<s:HGroup verticalAlign="middle" gap="3" height="30">
+			<buttons:IconButton toolTip="Undo (ctrl+z)"
+								width="30" height="100%"
+								iconActive="{EmbeddedAssets.IMG_MENUBAR_UNDO}"
+								iconInactive="{EmbeddedAssets.IMG_MENUBAR_UNDO_DISABLED}"
+								click="btundo_clickHandler(event)" enabled="{model.history.canUndo}" />
+			<buttons:IconButton toolTip="Redo (ctrl+y)"
+								width="30" height="100%"
+								iconActive="{EmbeddedAssets.IMG_MENUBAR_REDO}"
+								iconInactive="{EmbeddedAssets.IMG_MENUBAR_REDO_DISABLED}"
+								click="btredo_clickHandler(event)" enabled="{model.history.canRedo}" />
+		</s:HGroup>
+
+		<fx:SeparatorLine />
+
+		<s:HGroup verticalAlign="middle" gap="3" height="30">
+			<buttons:IconButton toolTip="Group (ctrl+g)"
+								width="30" height="100%"
+								iconActive="{EmbeddedAssets.IMG_MENUBAR_GROUP}"
+								iconInactive="{EmbeddedAssets.IMG_MENUBAR_GROUP_DISABLED}"
+								click="btgroup_clickHandler(event)" enabled="{_hasNodesSelected}" />
+			<buttons:IconButton toolTip="Ungroup (ctrl+shift+g)"
+								width="30" height="100%"
+								iconActive="{EmbeddedAssets.IMG_MENUBAR_UNGROUP}"
+								iconInactive="{EmbeddedAssets.IMG_MENUBAR_UNGROUP_DISABLED}"
+								click="btungroup_clickHandler(event)" enabled="{_hasGroupsSelected}" />
+		</s:HGroup>
+
+		<fx:SeparatorLine />
+
+		<buttons:Button label="Add table"
+						height="30" click="addtable_clickHandler(event)" 
+						toolTip="Hold Shift to drag a shape in the table"
+						/>
+		<fx:SeparatorLine />
+		<buttons:Button id="clearButton"
+						label="Clear Graph"
+						height="30" 
+						click="clearButton_clickHandler(event)" />
+		<fx:SeparatorLine />
+		<buttons:Button label="Export Graph" enabled="{!model.isEmpty}"
+						height="30" click="exportGraph_clickHandler(event)"
+						/>
+		<buttons:Button label="Import Graph"
+						height="30" click="importGraph_clickHandler(event)" />
+
+	</s:HGroup>
+</s:Group>

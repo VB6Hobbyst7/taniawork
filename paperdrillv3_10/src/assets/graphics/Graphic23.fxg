@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group>
+		<Ellipse x="3.5" y="3.5" width="72" height="72">
+			<stroke>
+				<SolidColorStroke caps="none" color="#6A5F5E" joints="miter" miterLimit="4" weight="7"/>
+			</stroke>
+		</Ellipse>
+		<Path winding="nonZero" x="3.741" y="3.779" data="M 0 36.004 C 0 55.856 16.157 72.005 36.004 72.005 C 55.863 72.005 72.017 55.856 72.017 36.004 C 72.017 26.389 68.271 17.346 61.468 10.545 C 54.667 3.745 45.621 0 36.004 0 C 16.157 0 0 16.15 0 36.004">
+			<fill>
+				<SolidColor color="#B3B3B3"/>
+			</fill>
+		</Path>
+		<Path winding="nonZero" x="4.379" y="3.095" data="M 0 35.375 C 0 54.876 15.865 70.745 35.366 70.745 C 54.867 70.745 70.741 54.876 70.741 35.375 C 70.741 25.926 67.065 17.045 60.383 10.365 C 53.697 3.679 44.818 0 35.366 0 C 15.865 0 0 15.871 0 35.375">
+			<fill>
+				<SolidColor color="#B3B3B3"/>
+			</fill>
+		</Path>
+		<Group x="7" y="6">
+			<mask>
+				<Group x="-0.1" y="-0.55" ai:spare="1">
+					<Path winding="nonZero" data="M25.2139 0C12.8779 2.84277 3.11914 12.4131 0 24.6421L0 41.4717C3.74121 56.1348 17.0313 66.9771 32.8633 66.9771 51.5996 66.9771 66.7871 51.792 66.7871 33.0566 66.7871 16.9497 55.5654 3.46777 40.5117 0L25.2139 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Rect d:id="9" flm:variant="7" width="67" height="66">
+				<fill>
+					<RadialGradient rotation="180" scaleX="-80.8136" scaleY="80.8202" x="40.3761" y="40.3758">
+						<GradientEntry color="#FFFFFF" ratio="0"/>
+						<GradientEntry color="#F6F6F6" ratio="0.509674"/>
+						<GradientEntry color="#D9D9D9" ratio="1"/>
+					</RadialGradient>
+				</fill>
+			</Rect>
+		</Group>
+		<Group x="14" y="62">
+			<mask>
+				<Group x="4.85" y="0.2" ai:spare="1">
+					<Path winding="nonZero" data="M39.9277 0C34.4033 3.66504 27.7988 5.81787 20.9492 5.81787 15.2334 5.81787 8.05859 3.95996 1.79492 0L0 0C5.61328 4.86279 12.9385 7.80566 20.9492 7.80566 28.957 7.80566 36.2734 4.86084 41.8867 0L39.9277 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group x="0.1" y="0.2" ai:spare="1">
+						<Rect width="53.7305" height="9.26416">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<BitmapImage source="@Embed('../images/l1pg1edited2/Image_0001.png')" x="54" y="10" rotation="180" ai:embed="1" width="54"/>
+			</Group>
+		</Group>
+		<Group x="7" y="45">
+			<mask>
+				<Group x="-0.45" y="0.3" ai:spare="1">
+					<Path winding="nonZero" data="M0 1.61377C1.53027 7.60791 4.75586 12.9248 9.13281 17.0249 4.59082 12.4409 1.34668 6.56689 0 0L0 1.61377Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Rect d:id="10" flm:variant="8" width="9" height="17">
+				<fill>
+					<LinearGradient rotation="90" scaleX="64.9708" x="4.55139" y="-30.5745">
+						<GradientEntry color="#FFFFFF" ratio="0"/>
+						<GradientEntry color="#B3B3B3" ratio="1"/>
+					</LinearGradient>
+				</fill>
+			</Rect>
+		</Group>
+		<Group x="6" y="13">
+			<mask>
+				<Group x="-0.15" y="0.1" ai:spare="1">
+					<Path winding="nonZero" data="M12.8613 0C7.83008 3.66992 3.91016 8.77197 1.70215 14.7061 0.59668 18.0527 0 21.6299 0 25.3477 0 34.6611 3.75195 43.1001 9.82617 49.229 11.7285 51.0117 13.8496 52.564 16.1455 53.8438 7.43457 47.6191 1.68652 37.0718 1.68652 25.876 1.68652 17.9512  5.26172 7.21875 13.0566 0L12.8613 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group x="-0.15" y="0.1" ai:spare="1">
+						<Rect width="16.6758" height="55.584">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<BitmapImage source="@Embed('../images/l1pg1edited2/Image_0002.png')" x="17" y="56" rotation="180" ai:embed="1" width="17" height="56"/>
+			</Group>
+		</Group>
+		<Group x="67" y="11">
+			<mask>
+				<Group y="7.6" ai:spare="1">
+					<Path winding="nonZero" data="M0 2.21973C3.24609 7.51172 5.13086 13.7051 5.13086 20.1147 5.13086 25.4858 3.48633 32.146 0 38.1279L0 40.1118C4.21777 34.459 6.71484 27.4458 6.71484 19.8486 6.71484 14.332 5.39648 9.12207 3.06055 4.51807 2.16895 2.92285 1.14258 1.41211 0 0L0 2.21973Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group y="0.25" ai:spare="1">
+						<Rect width="7.41113" height="55.584">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<BitmapImage source="@Embed('../images/l1pg1edited2/Image_0003.png')" x="7" y="56" rotation="180" ai:embed="1" width="7" height="56"/>
+			</Group>
+		</Group>
+		<Group x="17" y="8">
+			<mask>
+				<Group x="0.25" y="-0.4" ai:spare="1">
+					<Path winding="nonZero" data="M14.21 0C8.56348 1.64893 3.63965 4.89893 0 9.19678L0 9.91406C5.80176 4.16211 14.0449 0.544922 22.707 0.544922 32.8184 0.544922 42.3789 5.48096 48.1143 12.981 44.4385 6.80908 38.4141 2.10303 31.2129 0L14.21 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Rect d:id="12" flm:variant="10" width="49" height="13">
+				<fill>
+					<RadialGradient rotation="180" scaleX="-80.5712" scaleY="80.5712" x="29.9501" y="38.1285">
+						<GradientEntry color="#FFFFFF" ratio="0"/>
+						<GradientEntry color="#FAFAFA" ratio="1"/>
+					</RadialGradient>
+				</fill>
+			</Rect>
+		</Group>
+		<Group x="14" y="11">
+			<mask>
+				<Group x="0.1" y="0.25" ai:spare="1">
+					<Path winding="nonZero" data="M19.6162 0C10.3486 2.25977 3.53906 9.05713 0 18.0317L0 23.5259C7.66992 29.7358 15.6953 34.019 26.4072 34.019 37.916 34.019 46.373 29.3398 54.5273 22.5498 51.6904 11.3789 44.2295 2.625 33.4521 0L19.6162 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group x="0.1" y="0.25" ai:spare="1">
+						<Rect width="54.6572" height="35.2031">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<BitmapImage source="@Embed('../images/l1pg1edited2/Image_0004.png')" x="55" y="36" rotation="180" ai:embed="1" width="55" height="36"/>
+			</Group>
+		</Group>
+	</Group>
+</Graphic>

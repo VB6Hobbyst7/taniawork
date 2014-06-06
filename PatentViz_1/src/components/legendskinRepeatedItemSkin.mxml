@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" autoDrawBackground="false"
+	xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+	width="174" height="23"  >
+	
+    <s:states>
+		<s:State name="normal"/>			
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>
+	
+    <s:Rect left="0" top="0"
+			right.hovered="63" bottom.hovered="1"
+			right.normal="0" bottom.normal="0"
+			right.selected="63" bottom.selected="1">
+		<s:fill>
+			<s:SolidColor color.normal="#FFFFFF" color.hovered="#EEEEEE" color.selected="#CCCCCC"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:RichText x="3" y="5" text="{data.name}" color="{data.colorc}"
+				fontFamily.normal="Myriad Pro" fontSize.normal="14" tabStops.normal="S0" fontFamily.hovered="Arial" fontFamily.selected="Arial"/>
+
+</s:ItemRenderer>

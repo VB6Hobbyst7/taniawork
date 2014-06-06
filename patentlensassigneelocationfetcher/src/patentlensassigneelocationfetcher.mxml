@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var startNum:Number = 0;
+			[Bindable]
+			public var resSet:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var urlString:String = "";
+			
+			protected function init(event:FlexEvent):void
+			{
+				startNum = 0;
+				getId.send();
+				
+			}
+			public function afterGetId(ev:ResultEvent):void {
+				var stop:String = "";
+				resSet = ev.result.pubs.pub;
+				updater(startNum);	
+			}
+			public function updater(u:Number):void {
+				var id:String = resSet[u].id;
+				var wiponum:String = resSet[u].pubnum;
+				
+			
+				
+				urlString = "http://www.patentlens.net/patentlens/patents.html?patnums=";
+				urlString = urlString + wiponum.substring(0,2)+"_"+
+					wiponum.substring(2,6)+"_"+wiponum.substring(6,wiponum.indexOf("A"))
+				
+				//	urlStringout = urlStringout + "&language=en&query=%28"+wiponum.toString()+"%20in%20publication_number%29&stemming=true&returnTo=structured.html%3Fquery%3D"+wiponum.toString()+"#tab_1";
+				urlString = urlString + "&language=en&";//query=("+wiponum.toString()+"%20in%20publication_number)&stemming=true&pid=p0";
+				
+				
+				getLensp.send();
+				
+			}
+			public function afterLens(ev:ResultEvent):void {
+				var stop:String = "";
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getId"
+					   result="afterGetId(event);"
+					   url = "http://localhost/patentlensassigneelocationfetcher/bin-debug/php/getpubid.php"
+					   method="POST" >
+			
+		</s:HTTPService>
+		<s:HTTPService id = "getLensp"
+					   result="afterLens(event);" resultFormat="text"
+					   url = "http://localhost/patentlensassigneelocationfetcher/bin-debug/php/curlo.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<urlString>{urlString}</urlString>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+</s:WindowedApplication>

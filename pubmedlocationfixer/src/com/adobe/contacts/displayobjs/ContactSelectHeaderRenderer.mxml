@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:CheckBox xmlns:mx="http://www.adobe.com/2006/mxml" change="handleSelectionChange()">
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.contacts.events.ContactsSelectAllEvent;
+			import mx.events.DataGridEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.core.Application;
+
+			
+			private var _data:CheckBoxHeaderColumn;
+			override public function set data(value:Object):void
+			{
+				_data = value as CheckBoxHeaderColumn;
+				if(_data != null)
+				{
+					selected = _data.selected;	
+				}								
+			}
+			
+			private function handleSelectionChange():void
+			{
+				var helperEvent:ContactsSelectAllEvent;
+				if(this.selected)
+				{
+					helperEvent = new ContactsSelectAllEvent(
+					ContactsSelectAllEvent.ALL_CONTACTS_SELECTION_CHANGED);
+					helperEvent.selectAll = true;
+					dispatchEvent(helperEvent);	
+					_data.selected = true;
+				}
+				else
+				{
+					helperEvent = new ContactsSelectAllEvent(
+					ContactsSelectAllEvent.ALL_CONTACTS_SELECTION_CHANGED);
+					helperEvent.selectAll = false;
+					dispatchEvent(helperEvent);
+					_data.selected = false;						
+				}
+			}
+		]]>
+	</mx:Script>
+</mx:CheckBox>
