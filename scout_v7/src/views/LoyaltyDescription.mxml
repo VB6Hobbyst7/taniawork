@@ -5,7 +5,7 @@
 		xmlns:mobile="spark.skins.mobile.*"
 		menuKeyPressed="navigator.popView();" 
 		backKeyPressed="navigator.popView();"
-		backgroundColor="#FFFFFF" visible="true" 
+		backgroundColor="#c5c5c5" visible="true" 
 		viewActivate="onActivate(event)" 
 		title="{data.business_name}" >
 	<s:navigationContent >
@@ -17,9 +17,13 @@
 		<![CDATA[
 			import flash.events.Event;
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
 			import spark.events.IndexChangeEvent;
 			import spark.events.PopUpEvent;
 			import spark.events.ViewNavigatorEvent;
@@ -33,6 +37,10 @@
 			public var spendout:Number = 0;
 			[Bindable]
 			public var amountout:Number = 0;
+			[Bindable]
+			public var selectedRewardId:String = "";
+			[Bindable]
+			public var rewardDescription:String = "";
 			public function onActivate(event:Event):void
 			{
 				warn.visible = false;
@@ -73,20 +81,102 @@
 				if (loyaltyArray.length == 0){
 					warn.visible = true;
 				}
+				else {
+					var alphaval:Number = 1;
+					var alphasubtract:Number = 1/(loyaltyArray.length*2);
+					for (var i:uint = 0; i < loyaltyArray.length; i++){
+						loyaltyArray[i].alphao = alphaval;
+						alphaval = alphaval - alphasubtract;
+						if (alphaval <= 0.5){
+							alphaval == 0.5;
+						}
+						
+					}
+					loyaltyList.dataProvider = loyaltyArray;
+				}
 				busy = false;	
 			}
 			public function lListClick(ev:IndexChangeEvent):void {	
-				var stop:String = "";
 				if (loyaltyList.selectedIndex != -1){
 					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
 						spendout = ev.currentTarget.selectedItems[0].spend;
-						amountout = ev.currentTarget.selectedItems[0].amountout;
+						amountout = ev.currentTarget.selectedItems[0].amount;
+						selectedRewardId = ev.currentTarget.selectedItems[0].id;
+						rewardDescription = ev.currentTarget.selectedItems[0].name;
+						openRewardPopup();
 					}					
 				}
 			}
 			public function afterRedeem(ev:ResultEvent):void {
 				
 			}
+			
+			
+			
+			protected function closeRewardPopup():void
+			{
+				RewardPopupOut();
+			}
+			protected function openRewardPopup():void
+			{
+				RewardPopupIn();
+			}
+			public function RewardPopupIn():void {
+				rewardpopup.visible = true;
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = rewardpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function RewardPopupOut():void {
+				var fa:Fade = new Fade();
+				fa.addEventListener(EffectEvent.EFFECT_END, afterrewardout);
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = rewardpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function afterrewardout(ev:EffectEvent):void {
+				rewardpopup.visible = false;
+			}
+			
+			
+			
+			protected function closeStaffPinPopup():void
+			{
+				StaffPinPopupOut();
+			}
+			protected function openStaffPinPopup():void
+			{
+				StaffPinPopupIn();
+			}
+			public function StaffPinPopupIn():void {
+				rewardpopup.visible = true;
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = staffpinpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function StaffPinPopupOut():void {
+				var fa:Fade = new Fade();
+				fa.addEventListener(EffectEvent.EFFECT_END, afterstaffpinout);
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = staffpinpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function afterstaffpinout(ev:EffectEvent):void {
+				staffpinpopup.visible = false;
+			}
+			
+			
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -95,7 +185,7 @@
 					   url="https://scoutcard.ca/php/mobile_v2/getLoyaltyDescription.php"
 					   result="afterGetLoyaltyDescription(event)" >	
 			<s:request xmlns="">
-				<loyaltyid>{data.id}</loyaltyid>	
+				<merchid>{data.id}</merchid>	
 				<emailGo>{emailGo}</emailGo>
 			</s:request>
 		</s:HTTPService>
@@ -114,7 +204,7 @@
 		</s:HTTPService>
 	</fx:Declarations>
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-		<s:VGroup width="100%" paddingTop="5" gap="0"  horizontalAlign="center" height="100%" >
+		<s:VGroup width="100%" paddingTop="0" gap="0"  horizontalAlign="center" height="100%" >
 			
 			<s:Group width="100%"  height="{img1.width/(16/9)}"  >
 				<s:BitmapImage width="100%" id="img1" 
@@ -135,13 +225,12 @@
 									backgroundColor="#0aaae5" bottom="0" width="100%" 
 									height="5"/>
 			</s:Group>
-			<s:List id="loyaltyList" width="100%" height="100%"  horizontalScrollPolicy="off"
-				 change="lListClick(event);"
-					dataProvider="{loyaltyArray}" horizontalCenter="0" contentBackgroundAlpha="0"
-					itemRenderer="components.loyaltydescriptionitem" labelField="name"
-					selectedIndex="1">
+			<s:List id="loyaltyList" width="100%" height="100%" 
+					change="lListClick(event);" horizontalScrollPolicy="off"
+					horizontalCenter="0" contentBackgroundAlpha="0"
+					itemRenderer="components.loyaltydescriptionitem">
 				<s:layout>
-					<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="false"
+					<s:VerticalLayout horizontalAlign="contentJustify"  
 									  gap="0"/>
 				</s:layout>
 			</s:List>
@@ -153,7 +242,7 @@
 	
 	
 	
-	<s:Group width="100%" height="100%">
+	<s:Group id="rewardpopup" width="100%" height="100%" visible="false" alpha="0">
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
@@ -162,7 +251,8 @@
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
 				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
 			</s:Rect>
-			<s:VGroup width="100%" height="85%" top="0" horizontalAlign="center" paddingTop="30">
+			<s:Scroller left="0" right="0" top="0" bottom="{this.height*0.15}"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+			<s:VGroup width="100%" height="100%" top="0" gap="30" horizontalAlign="center" paddingTop="20">
 				<s:BitmapImage  contentLoader="{s_imageCache}">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/gift.png')"
@@ -172,13 +262,29 @@
 												source640dpi="@Embed('assets/640/gift.png')"/>
 					</s:source>
 				</s:BitmapImage>
-				<s:Label text="Enjoy the Reward!"  mouseEnabled="false"
+				<s:VGroup width="100%"  horizontalAlign="center" gap="10">
+					<s:Label text="Enjoy the Reward!"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#191919"/>
+					<s:Label text="You've Earned it."  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize2" color="#525f64"/>
+				</s:VGroup>
+				<s:Group height="15%" width="100%">
+					<s:HGroup width="100%" horizontalAlign="center" verticalCenter="0">
+						<s:Label text="{spendout.toString()}"  mouseEnabled="false"
+								 verticalCenter="0" horizontalCenter="0"
+								 styleName="textsize3" color="#389dc8"/>
+						<s:Label text="points"  mouseEnabled="false"
+								 verticalCenter="0" horizontalCenter="0"
+								 styleName="textsize3" color="#191919"/>
+					</s:HGroup>
+				</s:Group>
+				<s:Label text="{rewardDescription}" width="80%"  mouseEnabled="false"
 						 verticalCenter="0" horizontalCenter="0"
-						 styleName="textsize3" color="#191919"/>
-				<s:Label text="You've Earned it."  mouseEnabled="false"
-						 verticalCenter="0" horizontalCenter="0"
-						 styleName="textsize2" color="#525f64"/>
+						 styleName="textsize10" color="#222222"/>
 			</s:VGroup>
+				</s:Scroller>
 			<s:Group width="100%" height="15%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
@@ -187,6 +293,7 @@
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>
 				<s:Group width="50%" left="0" height="100%"
+						  click="closeRewardPopup()"
 						 mouseOver="gOver(event);"
 						 mouseOut="gOut(event);" 
 						 mouseUp="gOut(event);" 
@@ -196,6 +303,7 @@
 							 styleName="textsize3" color="#389dc8"/>
 				</s:Group>
 				<s:Group width="50%" right="0" height="100%"
+						 click="openStaffPinPopup()"
 						 mouseOver="gOver(event);"
 						 mouseOut="gOut(event);" 
 						 mouseUp="gOut(event);" 
@@ -206,6 +314,107 @@
 				</s:Group>
 			</s:Group>
 		</s:Group>
+	</s:Group>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:Group id="staffpinpopup" width="100%" height="100%" visible="false" alpha="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:VGroup width="100%" height="100%" gap="25" horizontalAlign="center" verticalAlign="middle">
+			<s:Label text="Hand to Staff Member"  mouseEnabled="false"
+					  width="100%" verticalAlign="middle" textAlign="center"
+					 styleName="textsize10" color="#FFFFFF"/>
+			<s:Group width="95%" height="590" horizontalCenter="0" verticalCenter="0" visible="true">
+				<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+					<s:fill><s:SolidColor alpha="1" color="#f0f0f0"/></s:fill>
+					<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+				</s:Rect>
+				<s:VGroup width="100%" height="100%" top="0" gap="0" horizontalAlign="center" verticalAlign="middle"
+						   paddingTop="4" paddingBottom="6" paddingRight="2"  paddingLeft="2">
+					
+					
+					
+					<s:Group  width="100%" height="20%" horizontalCenter="0">
+						<s:Line  right="5" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						</s:Line>
+					</s:Group>
+					
+					
+					
+					<s:Group  width="100%" height="20%" horizontalCenter="0">
+						<s:Line  right="5" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						</s:Line>
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+							<components:keypad  numberlabel="1" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  numberlabel="2" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad showrightline="false"   numberlabel="3" width="34%" top="0"  bottom="0"  height="100%"/>
+						</s:HGroup>
+					</s:Group>
+					
+					<s:Group  width="100%" height="20%" horizontalCenter="0">
+						<s:Line  right="5" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						</s:Line>
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+							<components:keypad  numberlabel="4" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  numberlabel="5" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad showrightline="false"   numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
+						</s:HGroup>
+					</s:Group>
+					
+					
+					<s:Group  width="100%" height="20%" horizontalCenter="0">
+						<s:Line  right="5" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						</s:Line>
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+							<components:keypad  numberlabel="7" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  numberlabel="8" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad showrightline="false"   numberlabel="9" width="34%" top="0"  bottom="0"  height="100%"/>
+						</s:HGroup>
+					</s:Group>
+					
+					
+					<s:Group  width="100%" height="20%" horizontalCenter="0">
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+							<components:keypad blx="15" bly="15"  numberlabel="C" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  numberlabel="0" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad showrightline="false" brx="15" bry="15" numberlabel="del" width="34%" top="0"  bottom="0"  height="100%"/>
+						</s:HGroup>
+					</s:Group>
+					
+					
+					
+				
+				</s:VGroup>
+			</s:Group>
+			<s:Group  mouseOver="gOver(event);" click="closeStaffPinPopup();"
+					  mouseOut="gOut(event);" 
+					  mouseUp="gOut(event);" 
+					  mouseDown="gDown(event);">
+				<s:BitmapImage contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/x.png')"
+												source240dpi="@Embed('assets/240/x.png')"
+												source320dpi="@Embed('assets/320/x.png')"
+												source480dpi="@Embed('assets/480/x.png')"
+												source640dpi="@Embed('assets/640/x.png')"/>
+					</s:source>
+				</s:BitmapImage>
+			</s:Group>
+		</s:VGroup>
 	</s:Group>
 	
 	

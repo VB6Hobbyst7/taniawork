@@ -59,14 +59,7 @@
 				foutcityback();
 				navigator.pushView(Stores);
 			}
-			protected function closeQR():void
-			{
-				qrholderout();
-			}
-			protected function openQR():void
-			{
-				qrholderin();
-			}
+			
 			public function settingsClick(event:MouseEvent):void
 			{
 				foutcityback();
@@ -100,6 +93,15 @@
 				fa.target = cityback;
 				fa.duration = 500;
 				fa.play();
+			}
+			
+			protected function closeQR():void
+			{
+				qrholderout();
+			}
+			protected function openQR():void
+			{
+				qrholderin();
 			}
 			public function qrholderin():void {
 				qrholder.visible = true;

@@ -1,49 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark">
-	<fx:Script>
-		<![CDATA[
-			import spark.core.ContentCache;
-			import spark.filters.GlowFilter;
-			static public const s_imageCache:ContentCache = new ContentCache();
-			[Bindable]
-			public var distance:String = "";
-			[Bindable]
-			public var myfave:Number = 0;
-			[Bindable]
-			public var picture:String = "";
-			
-			public function profDown(ev:MouseEvent):void {
-				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function profUp(ev:MouseEvent):void {
-				ev.currentTarget.filters = [];
-				var s:String = "";
-			}
-		]]>
-	</fx:Script>
-	<s:Group width="100%"  height="{mainlabel.height*3}"  >
-		<s:BorderContainer   width="100%" height="100%" bottom="0" backgroundColor="#025074" backgroundAlpha="1" borderVisible="false">
-			<s:HGroup verticalAlign="middle" paddingBottom="5" paddingTop="5">
-				<s:Group height="100%" width="100%" horizontalCenter="0" verticalCenter="0">
-					<s:Group id="repre" width="{this.height/1.2}"
-									   height="{repre.width}"  
-									  horizontalCenter="0" verticalCenter="0">
-						<s:Label  color="#FFFFFF"  
-								 horizontalCenter="0" styleName="textsize2"
-								 text="{data.spend}" textAlign="center"
-								 verticalAlign="middle" verticalCenter="0"></s:Label>
-					</s:Group>
-					
-				</s:Group>
-				
-				<s:VGroup  verticalAlign="middle" height="100%" paddingLeft="10" paddingRight="5" >
-					<s:Label color="#FFFFFF" id="mainlabel" maxDisplayedLines="1"  right="0" left="0" 
-							 styleName="textsize2" text="{data.name}"></s:Label>
-					
-				</s:VGroup>
-			</s:HGroup>
-		</s:BorderContainer>
+	<s:Group width="100%"  height="100%"  >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="{data.alphao}" color="#025074"/></s:fill>
+		</s:Rect>
+		<s:Label text="{data.spend}" color="#FFFFFF"  
+				 top="35" bottom="35" styleName="textsize2"
+				 verticalAlign="middle" verticalCenter="0"
+				 width="{this.width*0.1}" left="30" />
+		<s:Label text="{data.name}" color="#FFFFFF" 
+				 top="35" bottom="35" styleName="textsize2"
+				 verticalAlign="middle" verticalCenter="0"
+				 width="{this.width*0.8}" maxWidth="{this.width*0.8}"  
+				 left="100"  maxDisplayedLines="1"/>			
 	</s:Group>
 </s:ItemRenderer>
