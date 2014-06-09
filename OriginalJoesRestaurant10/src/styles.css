@@ -1,0 +1,108 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace components "components.*";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace local "*";
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeue";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeue";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeuecff";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+s|TextInput {
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	fontFamily: "HelveticaNeuecff";
+	
+}
+s|Label
+{
+	fontFamily: "HelveticaNeuecff";
+	trackingRight: 0;
+}
+s|LabelItemRenderer
+{
+	fontFamily: "HelveticaNeue";
+}
+s|ActionBar
+{	
+	borderAlpha: 1;
+	borderSize : 1;
+	borderColor: #ffffff;
+	backgroundAlpha: 1;
+	backgroundColor: #ffffff;
+	fontFamily: "HelveticaNeue";
+	paddingLeft: 10;
+	paddingRight: 10;
+	paddingTop: 2;
+	fontWeight:normal;
+	chromeColor: #eeeeee;
+	skinClass: ClassReference("skins.SolidActionBarSkin");
+	titleAlign: center;
+}
+s|ActionBar #titleDisplay
+{
+	color: #177af9; 
+	titleAlign: center;
+	fontWeight:normal;
+	fontFamily: "HelveticaNeue";
+}
+s|ActionBar.beveled s|Group#navigationGroup s|Button
+{
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+s|ActionBar.beveled s|Group#actionGroup s|Button
+{
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
