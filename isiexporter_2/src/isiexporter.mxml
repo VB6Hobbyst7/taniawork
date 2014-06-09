@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" width="1280" height="900"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.net.dns.AAAARecord;
+			import flash.net.dns.SRVRecord;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var startNum:Number = 0;
+			[Bindable]
+			public var resSet:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var urlString:String = "";
+			[Bindable]
+			public var urlString2:String = "";
+			[Bindable]
+			public var nexturl:String = "";
+			[Bindable]
+			public var wiponum:String = "";
+			[Bindable]
+			public var newAssignee:String = "";
+			[Bindable]
+			public var datalist:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var index:Number = 0;
+			[Bindable]
+			public var pageindex:Number = 0;
+			public var filename:String = "page";
+			[Bindable]
+			public var lineArray:Array = new Array();
+			[Bindable]
+			public var isioptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var myoptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var finalchoice:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var s1:String = "justsynth_v2";
+			[Bindable]
+			public var s2:String = "synthbio";
+			protected function init(event:FlexEvent):void
+			{
+				isioptions.addItem({name:"AU"});
+				isioptions.addItem({name:"TI"});
+				isioptions.addItem({name:"SO"});
+				isioptions.addItem({name:"AB"});
+				isioptions.addItem({name:"CR"});
+				isioptions.addItem({name:"PY"});
+				getData.send();
+				/*
+				code used for importing from a file directly
+				var dir:File = File.applicationDirectory; 
+				dir = dir.resolvePath("data/download"+pageindex.toString()+".txt"); 				
+				var fileStream:FileStream = new FileStream(); 
+				fileStream.open(dir, FileMode.READ); 
+				readfromcsvfile(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				startNum = 0;*/
+			}
+			public function afterGetData(ev:ResultEvent):void {
+				var text:String = ev.result.toString();	
+				lineArray = new Array();
+				lineArray = text.split("\n");
+				var fieldArray:Array = lineArray[0].split("\t");
+				for (var j:uint = 0; j < fieldArray.length; j++){
+					myoptions.addItem({name:fieldArray[j],sindex:-1});
+				}				
+				preloadvalues();
+			}
+			protected function readfromcsvfile(s:String):void
+			{		
+				var text:String = s;	
+				lineArray = new Array();
+				lineArray = s.split("\n");
+				var fieldArray:Array = lineArray[0].split(",");
+				for (var j:uint = 0; j < fieldArray.length; j++){
+					myoptions.addItem({name:fieldArray[j],sindex:-1});
+				}
+			}
+			public function preloadvalues():void {
+				
+			}
+			public function clean2(s:String):String {
+				var jd:RegExp;
+				jd = new RegExp(";","g");
+				s = s.replace(jd," ");
+				jd = new RegExp(",","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("(","g");
+				s = s.replace(jd," ");
+				jd = new RegExp(")","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("-","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp("'","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\r","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\n","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\\","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\"","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("/","g");
+				s = s.replace(jd," ");
+				return s;
+			}
+			public function clean(s:String):String {
+				var jd:RegExp;
+				jd = new RegExp(";","g");
+				s = s.replace(jd," ");
+				jd = new RegExp(",","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("(","g");
+				s = s.replace(jd," ");
+				jd = new RegExp(")","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("-","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("'","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\r","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\n","g");
+				s = s.replace(jd," ");
+				jd = new RegExp("\\","g");
+				s = s.replace(jd," ");
+				//jd = new RegExp("\"","g");
+				//s = s.replace(jd,"");
+				jd = new RegExp("/","g");
+				s = s.replace(jd," ");
+				return s;
+			}
+			public function abstractclean(s:String):String {
+				var jd:RegExp;
+				
+				
+				
+				jd = new RegExp("1.","g");
+				s = s.replace(jd,"");
+				jd = new RegExp(":","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("1.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("2.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("3.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("4.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("5.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("6.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("7.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("8.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("9.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("0.","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("1","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp("2","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("3","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("4","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("5","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("6","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("7","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("8","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("8","g");
+				s = s.replace(jd,"");
+				jd = new RegExp("0","g");
+				s = s.replace(jd,"");
+				
+				jd = new RegExp(" THE ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" A ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" IS ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" WHAT ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" BY ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" IN ","g");
+				s = s.replace(jd," ");
+				
+				
+				
+				jd = new RegExp(" OF ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" AND ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" BUT ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" OR ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" THAN ","g");
+				s = s.replace(jd," ");
+				
+				jd = new RegExp(" TO ","g");
+				s = s.replace(jd," ");
+				//jd = new RegExp("\.","g");
+				//s = s.replace(jd,"");
+				s = s.replace(/[~%&\\;:"',<>?#\]/g,"")
+				return s;
+			}
+			protected function autoconvertclick(event:MouseEvent):void
+			{
+				var deliberator:String = "\n";
+				var csvText:String = "";
+				var lastyear:String = "";
+				for (var k:uint = 1; k < lineArray.length; k++){	
+					var fieldArray:Array = getcsvline(lineArray[k]);
+					if (fieldArray.length > 1){
+						var string1:String = clean2(fieldArray[0]).toUpperCase();
+						var string2:String = clean2(fieldArray[1]).toUpperCase();
+						var string3:String = clean2(fieldArray[2]).toUpperCase();
+						var string4:String = clean2(fieldArray[3]).toUpperCase();
+						var string5:String = clean2(fieldArray[4]).toUpperCase();
+						var string6:String = clean2(fieldArray[5]).toUpperCase();
+						var string7:String = clean2(fieldArray[6]).toUpperCase();
+						var string8:String = clean2(fieldArray[7]).toUpperCase();
+						var string9:String = clean2(fieldArray[8]).toUpperCase();
+						var string10:String = clean2(fieldArray[9]).toUpperCase();
+						var string11:String = clean2(fieldArray[10]).toUpperCase();
+						var string12:String = clean2(fieldArray[11]).toUpperCase();
+						/*if ((lastyear != string2)&&(lastyear != "")){
+							if (lastyear.toLowerCase() != 'none'){
+							var f:File = new File("C:/CiteSpace/data1/"+"download"+lastyear+".txt");//File.documentsDirectory.resolvePath("download"+lastyear+"unique.txt"); 
+							var stream:FileStream = new FileStream();
+							stream.open(f, FileMode.WRITE);                                         
+							stream.writeUTFBytes(csvText.toUpperCase());
+							stream.close();
+							}
+							csvText = "";
+						}
+						lastyear = string2;*/
+						
+						
+						//category abstract way
+						var seperator:String = "|";
+						var catabs2:String = "";
+						var catabs:String = "";
+						if (string2.toLocaleLowerCase() != 'none'){
+							if (string7 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'biofule'
+								}
+								else {
+									catabs = catabs + seperator+'biofule'
+								}
+							}
+							
+							if (string8 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'yeast'
+								}
+								else {
+									catabs = catabs + seperator+'yeast'
+								}
+							}
+							
+							if (string9 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'plant'
+								}
+								else {
+									catabs = catabs + seperator+'plant'
+								}
+							}
+							
+							if (string10 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'treatment'
+								}
+								else {
+									catabs = catabs + seperator+'treatment'
+								}
+							}
+							
+							if (string11 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'bacteria'
+								}
+								else {
+									catabs = catabs + seperator+'bacteria'
+								}
+							}
+							
+							if (string12 == '1'){
+								if (catabs == ""){
+									catabs = catabs + 'microorganism'
+								}
+								else {
+									catabs = catabs + seperator+'microorganism'
+								}
+							}
+							
+							catabs2 = catabs;
+							csvText = csvText + deliberator+"FN ISI Export Format";
+							csvText = csvText + deliberator+"VR 1.0";
+							csvText = csvText + deliberator+"PT Patent";
+							csvText = csvText + deliberator+"AU "+string4;
+							csvText = csvText + deliberator+"TI "+string1;
+							//	csvText = csvText + deliberator+"TI "+catabs;
+							csvText = csvText + deliberator+"SO "+"SYNTHETIC BIOLOGY";
+							csvText = csvText + deliberator+"LA English";
+							csvText = csvText + deliberator+"DT Article";
+							//regular abstract way
+							csvText = csvText + deliberator+"DE None";//+catabs2;
+							csvText = csvText + deliberator+"ID "+catabs2;
+						
+							csvText = csvText + deliberator+"AB "+abstractclean(string3);
+							csvText = csvText + deliberator+""+"C1 XXXX";
+							csvText = csvText + deliberator+""+"RP XXXX";
+							csvText = csvText + deliberator+""+"SA ";
+							//	csvText = csvText + deliberator+"AB "+catabs;
+							
+							//citation section
+							var citationcount:Number = 0;
+							var citationarray:Array = string5.split(" | ");
+							if (string5.indexOf("NONE") == -1){
+								string5 = "";
+								var extrainfo:String =  string6;
+								for (var p:uint = 0; p < citationarray.length; p++){
+									var jd:RegExp = new RegExp(" ","g");
+									citationarray[p] = 	citationarray[p].replace(jd,"");
+									var extrasection:String = extrainfo.substring(extrainfo.indexOf(citationarray[p])+citationarray[p].length,extrainfo.length);
+									extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+									extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+									extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+									extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+									extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+									var citedyear:String = extrasection.substr(0,4);
+									if (p == 0){
+										//fieldresult = ""+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+										string5 = ""+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", "+catabs2+", V1, P1";
+										citationcount++;
+									}
+									else {
+										//fieldresult = fieldresult + deliberator+"   "+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+										string5 = string5 + "\n   "+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", "+catabs2+", V1, P1";
+										citationcount++;
+									}
+									
+								}
+								string5 = string5 + deliberator+"NR "+citationcount.toString();
+								var stop33:String = "";
+							}
+							else {
+								string5 = "";
+								string5 = string5 + deliberator+"NR 0";
+							}
+							
+							csvText = csvText + deliberator+"CR "+string5;
+							
+							csvText = csvText + deliberator+"PY "+string2;
+							
+							
+							
+							
+							
+							csvText = csvText + deliberator+"TC 0";
+							csvText = csvText + deliberator+"PU SAGE PUBLICATIONS LTD";
+							csvText = csvText + deliberator+"PI LONDON";
+							csvText = csvText + deliberator+"PA 6 BONHILL STREET, LONDON EC2A 4PU, ENGLAND";
+							csvText = csvText + deliberator+"SN 1043-4631";
+							csvText = csvText + deliberator+"J9 "+catabs2;
+							csvText = csvText + deliberator+"JI "+catabs2;
+							csvText = csvText + deliberator+"PD MAY";
+							csvText = csvText + deliberator+"VL 1";
+							csvText = csvText + deliberator+"IS 1";
+							csvText = csvText + deliberator+"BP 1";
+							csvText = csvText + deliberator+"EP 1";
+							csvText = csvText + deliberator+"PG 1";
+							csvText = csvText + deliberator+"UT ISI:00008729600"+k.toString();
+							csvText = csvText + deliberator+"SC "+catabs2;
+							csvText = csvText + deliberator+"GA 275DW";
+							csvText = csvText + deliberator+"ER";
+							csvText = csvText + "\n";
+							var stop222:String = "";	
+						}
+					
+					}
+					
+					
+				}
+				//if (lastyear.toLowerCase() != 'none'){
+				//var f:File = new File("C:/CiteSpace/data1/"+"download"+lastyear+".txt");//File.documentsDirectory.resolvePath("download"+lastyear+"unique.txt"); 
+					var f:File = new File("C:/Users/mark/Desktop/"+s1+"fullDocuments_v2.txt");
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.WRITE);                                         
+				stream.writeUTFBytes(csvText.toUpperCase());
+				stream.close();
+				//}
+				
+			}
+			protected function convertclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var deliberator:String = "\r\n";
+				finalchoice = new ArrayCollection();
+				for (var i:uint = 0; i < myoptions.length; i++){
+					var name:String = myoptions[i].name;
+					var choice:String = "";
+					if (myoptions[i].sindex != -1){
+						choice = isioptions[myoptions[i].sindex].name;
+						finalchoice.addItem({isiindex:myoptions[i].sindex,sindex:myoptions[i].sindex,choice:choice,name:name,myoptionsindex:i});
+					}
+					
+					
+				}
+				var csvText:String = "";
+				var j:uint = 0;
+				var lastyear:String = "";
+				var citationcount = 0;
+				for (var k:uint = 1; k < lineArray.length; k++){
+					if (lineArray[k].length > 3){
+						var fieldArray:Array = getcsvline(lineArray[k]);
+						var fieldresult:String = "";
+						
+						
+						var jd:RegExp = new RegExp("\"","g");
+						fieldArray[1] = fieldArray[1].replace(jd,"");
+						
+						if (fieldArray[1].length > 4){
+							var stop333:String = "";
+						}
+						
+						if ((lastyear != fieldArray[1])&&(lastyear != "")){
+							var f:File = new File("C:/CiteSpace/data1/"+"download"+lastyear+".txt");//File.documentsDirectory.resolvePath("download"+lastyear+"unique.txt"); 
+							var stream:FileStream = new FileStream();
+							stream.open(f, FileMode.WRITE);                                         
+							stream.writeUTFBytes(csvText.toUpperCase());
+							stream.close();
+							csvText = "";
+						}
+						lastyear = fieldArray[1];
+						csvText = csvText + deliberator+"PT Patent";
+						for (j = 0; j < isioptions.length; j++){
+							
+							/*else if (isioptions[j].name.toLowerCase() == 'ti'){
+							found = true;
+							fieldresult = "Title Here";
+							}
+							else if (isioptions[j].name.toLowerCase() == 'ab'){
+							found = true;
+							fieldresult = "Abstract Here";
+							}*/
+							
+							
+							if (isioptions[j].name.toLowerCase() == 'so'){
+								found = true;
+								fieldresult = "Synthetic Biology";
+								
+							}
+							else if (isioptions[j].name.toLowerCase() == 'dt'){
+								found = true;
+								fieldresult = "Patent";
+							}
+							else {
+								var found:Boolean = false;
+								for (var l:uint = 0; l < finalchoice.length; l++){
+									if (j == finalchoice[l].isiindex){
+										found = true;
+										fieldresult = fieldArray[finalchoice[l].myoptionsindex];
+										try{
+											var jd:RegExp = new RegExp("\"","g");
+											fieldresult = fieldresult.replace(jd,"");
+											fieldresult = clean(fieldresult);
+										}
+										catch(e:Error){
+											
+										}
+										
+										if ((finalchoice[l].choice.toLowerCase() == 'cr')&&(fieldresult != null)&&(fieldresult != '')){
+											citationcount = 0;
+											fieldresult = clean(fieldresult);
+											var citationarray:Array = fieldresult.split(" | ");
+											if (fieldresult.indexOf("None") == -1){
+												fieldresult = "";
+												var extrainfo:String =  fieldArray[ fieldArray.length-1];
+												for (var p:uint = 0; p < citationarray.length; p++){
+													var jd:RegExp = new RegExp(" ","g");
+													citationarray[p] = 	citationarray[p].replace(jd,"");
+													var extrasection:String = extrainfo.substring(extrainfo.indexOf(citationarray[p])+citationarray[p].length,extrainfo.length);
+													extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+													extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+													extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+													extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+													extrasection = extrasection.substring(extrasection.indexOf(" | ")+3,extrasection.length);
+													var citedyear:String = extrasection.substr(0,4);
+													if (p == 0){
+														//fieldresult = ""+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+														fieldresult = ""+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+														citationcount++;
+													}
+													else {
+														//fieldresult = fieldresult + deliberator+"   "+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+														fieldresult = fieldresult + "\n   "+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
+														citationcount++;
+													}
+													
+												}
+												fieldresult = fieldresult + deliberator+"NR "+citationcount.toString();
+												var stop33:String = "";
+											}
+											else {
+												fieldresult = "";
+											}
+											
+										}
+									
+										
+									}
+								}
+								if (found == false){
+									fieldresult = "";
+								}
+							}
+							
+							
+							
+							if (isioptions[j].name.toLowerCase() == 'au'){
+								fieldresult = fieldresult.substr(0,fieldresult.length)+"";
+								//fieldresult ="Smith, J";
+							
+							}
+							else {
+							
+							}
+							
+							csvText = csvText + deliberator+"" + isioptions[j].name +" "+ fieldresult;
+							
+						}
+					
+						csvText = csvText + deliberator+"TC 0";
+						csvText = csvText + deliberator+"PU SAGE PUBLICATIONS LTD";
+						csvText = csvText + deliberator+"PI LONDON";
+						csvText = csvText + deliberator+"PA 6 BONHILL STREET, LONDON EC2A 4PU, ENGLAND";
+						csvText = csvText + deliberator+"SN 1043-4631";
+						csvText = csvText + deliberator+"J9 SYNTHETIC BIOLOGY";
+						csvText = csvText + deliberator+"JI Synthetic Biology";
+						csvText = csvText + deliberator+"PD MAY";
+						csvText = csvText + deliberator+"VL 1";
+						csvText = csvText + deliberator+"IS 1";
+						csvText = csvText + deliberator+"BP 1";
+						csvText = csvText + deliberator+"EP 1";
+						csvText = csvText + deliberator+"PG 1";
+						csvText = csvText + deliberator+"UT ISI:000087296000000";
+						csvText = csvText + deliberator+"SC SYNTHETIC BIOLOGY";
+						csvText = csvText + deliberator+"GA 275DW";
+						csvText = csvText + deliberator+"ER";
+						csvText = csvText + "\n";
+					}
+				
+					
+				}
+				var f:File = new File("C:/CiteSpace/data1/"+"download"+lastyear+".txt");//File.documentsDirectory.resolvePath("download"+lastyear+"unique.txt"); 
+			
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.WRITE);                                         
+				stream.writeUTFBytes(csvText.toUpperCase());
+				stream.close();
+
+			
+				var stop:String = "";
+			}
+			public function getcsvline(s:String):Array {
+				var tempArray:Array = new Array();
+				var tempString:String = s;
+				tempArray = tempString.split("\t");
+				return tempArray;
+				//
+				//   url = "http://localhost/patentviz/get_data_isiexporter.php"
+				// 
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id = "getData" requestTimeout="0"
+					   result="afterGetData(event);"   resultFormat="text"
+					   url = "http://enactforum.org/patentviz/get_data_isiexporter.php"
+					   
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Label x="5" y="11" width="246" height="29" fontSize="20" text="ISI Exporter"
+			 textAlign="center" verticalAlign="middle"/>
+	<s:List x="42" y="68" width="576" height="100%" dataProvider="{myoptions}" itemRenderer="listitem"></s:List>
+	<s:Button x="547" y="33" label="Auto Convert" click="autoconvertclick(event)"/>
+	<s:Button x="647" y="33" label="Convert" click="convertclick(event)"/>
+</s:WindowedApplication>
