@@ -275,10 +275,10 @@
 						
 						//category abstract way
 						var seperator:String = "|";
-						var catabs2:String = "";
-						var catabs:String = "";
+						var catabs2:String = "Synthbio";
+						var catabs:String = "Synthbio";
 						if (string2.toLocaleLowerCase() != 'none'){
-							if (string7 == '1'){
+							/*if (string7 == '1'){
 								if (catabs == ""){
 									catabs = catabs + 'biofule'
 								}
@@ -332,11 +332,11 @@
 								}
 							}
 							
-							catabs2 = catabs;
+							catabs2 = catabs;*/
 							csvText = csvText + deliberator+"FN ISI Export Format";
 							csvText = csvText + deliberator+"VR 1.0";
 							csvText = csvText + deliberator+"PT Patent";
-							csvText = csvText + deliberator+"AU "+string4;
+							csvText = csvText + deliberator+"AU "+string4.toLowerCase();
 							csvText = csvText + deliberator+"TI "+string1;
 							//	csvText = csvText + deliberator+"TI "+catabs;
 							csvText = csvText + deliberator+"SO "+"SYNTHETIC BIOLOGY";
@@ -370,12 +370,12 @@
 									var citedyear:String = extrasection.substr(0,4);
 									if (p == 0){
 										//fieldresult = ""+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
-										string5 = ""+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", "+catabs2+", V1, P1";
+										string5 = ""+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
 										citationcount++;
 									}
 									else {
 										//fieldresult = fieldresult + deliberator+"   "+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
-										string5 = string5 + "\n   "+citationarray[p].substring(0,citationarray[p].length)+""+", "+citedyear+", "+catabs2+", V1, P1";
+										string5 = string5 + "\n   "+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
 										citationcount++;
 									}
 									
@@ -426,7 +426,7 @@
 					var f:File = new File("C:/Users/mark/Desktop/"+s1+"fullDocuments_v2.txt");
 				var stream:FileStream = new FileStream();
 				stream.open(f, FileMode.WRITE);                                         
-				stream.writeUTFBytes(csvText.toUpperCase());
+				stream.writeUTFBytes(csvText);
 				stream.close();
 				//}
 				
