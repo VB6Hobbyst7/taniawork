@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+		<s:Group width="100%"  horizontalCenter="0" bottom="5" top="5" right="5" left="5">
+			<s:BorderContainer   width="100%" height="100%" 
+								 backgroundAlpha="0" borderAlpha="0">
+				<s:Label color="#000000" fontSize="15" fontWeight="bold" 
+						 text="{data.id}: {data.name}"
+						 left="0" verticalCenter="0"></s:Label>
+				<s:HGroup right="0" verticalCenter="0">
+					<s:Label  fontSize="15" text="{data.goodcount}"
+							 color="#1BB73F" fontWeight="bold"></s:Label>
+					<s:Label color="#000000"  fontSize="15" text="|"></s:Label>
+					<s:Label  fontSize="15" text="{data.badcount}"
+							 color="#B30F0F" fontWeight="bold"></s:Label>
+				</s:HGroup>
+		
+		</s:BorderContainer>
+		</s:Group>
+	<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0"
+					   borderAlpha="1"  borderColor="#dcdcdc" height="1" />
+</s:ItemRenderer>

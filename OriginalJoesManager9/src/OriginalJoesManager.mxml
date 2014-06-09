@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   applicationDPI="160" 
+			   splashScreenImage="DynamicSplashScreen" 
+			   firstView="{s}" creationComplete="init(event)" 
+			   persistNavigatorState="true"   >
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import views.homeview;
+			[Bindable]
+			public var s:Class = views.homeview;
+			public var dispatcher:EventDispatcher;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			protected function init(event:FlexEvent):void
+			{
+				dispatcher = new EventDispatcher;
+			}
+		]]>
+	</fx:Script>
+</s:ViewNavigatorApplication>

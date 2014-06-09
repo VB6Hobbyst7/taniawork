@@ -1,0 +1,126 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("font/ProximaNova_Bold.ttf");
+	fontFamily: "proximaNova";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("font/ProximaNova_Reg.ttf");
+	fontFamily: "proximaNova";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/ProximaNova_RegIt.ttf");
+	fontFamily: "proximaNova";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/ProximaNova_SboldIt.ttf");
+	fontFamily: "proximaNova";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+
+
+@font-face {
+	src: url("font/ProximaNova_Reg.ttf");
+	fontFamily: "proximaNovacff";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/ProximaNova_Bold.ttf");
+	fontFamily: "proximaNovacff";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/ProximaNova_SboldIt.ttf");
+	fontFamily: "proximaNovacff";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/ProximaNova_RegIt.ttf");
+	fontFamily: "proximaNovacff";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace esri "http://www.esri.com/2008/ags";
+@namespace components "components.*";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace local "*";
+
+
+s|TextInput {
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	fontFamily: "proximaNova";
+	
+}
+
+s|DateSpinnerItemRenderer {
+	fontFamily: "proximaNova";
+}
+
+s|Label
+{
+	fontFamily: "proximaNovacff";
+}
+
+
+s|LabelItemRenderer
+{
+	fontFamily: "proximaNovacff";
+}
+
+s|ActionBar
+{
+	
+	borderAlpha: 1;
+	borderSize : 1;
+	borderColor: #111111;
+	backgroundAlpha: 1;
+	backgroundColor: #ffffff; 
+	
+	fontFamily: "proximaNova";
+	paddingLeft: 10;
+	paddingRight: 10;
+	paddingTop: 2;
+	chromeColor: #eeeeee;
+	skinClass: ClassReference("skins.SolidActionBarSkin");
+	titleAlign: center;
+}
+s|ActionBar #titleDisplay
+{
+	color: #770712; /* default color is white */
+	/*fontSize: 35;*/
+	titleAlign: center;
+	fontWeight: italic;
+	fontFamily: "proximaNova";
+}
+s|ActionBar.beveled s|Group#navigationGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+s|ActionBar.beveled s|Group#actionGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
