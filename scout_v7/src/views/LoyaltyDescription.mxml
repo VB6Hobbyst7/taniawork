@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:mobile="spark.skins.mobile.*"
+		menuKeyPressed="navigator.popView();" 
+		backKeyPressed="navigator.popView();"
+		backgroundColor="#FFFFFF" visible="true" 
+		viewActivate="onActivate(event)" 
+		title="{data.business_name}" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var spendout:Number = 0;
+			[Bindable]
+			public var amountout:Number = 0;
+			public function onActivate(event:Event):void
+			{
+				warn.visible = false;
+				setLoginVars();				
+				var tempamount:String = data.amount;
+				if (data.business_name != null){
+					img1.source = data.business_picture;
+					if ((data.amount == null)||(data.amount == 'null')||(data.amount == '')){
+						data.amount = '0';
+					}		
+				}
+				getLoyaltyDescription.send();
+			}
+			public function afterGetLoyaltyDescription(ev:ResultEvent):void  {
+				loyaltyArray = new ArrayCollection();
+				try{
+					var stop:String = "";
+					try{
+						loyaltyArray = ev.result[0].ress.res;
+					}
+					catch(e:Error){
+						try{
+							loyaltyArray.addItem(ev.result[0].ress.res);
+						}
+						catch(e:Error){}
+					}
+				
+					try{
+						if (loyaltyArray.length > 0){
+							data.amount = loyaltyArray[0].amount;
+							pointsamount.text  = loyaltyArray[0].amount+" Points";
+						}
+					}
+					catch(e:Error){}	
+				}
+				catch(e:Error){}
+				
+				if (loyaltyArray.length == 0){
+					warn.visible = true;
+				}
+				busy = false;	
+			}
+			public function lListClick(ev:IndexChangeEvent):void {	
+				var stop:String = "";
+				if (loyaltyList.selectedIndex != -1){
+					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
+						spendout = ev.currentTarget.selectedItems[0].spend;
+						amountout = ev.currentTarget.selectedItems[0].amountout;
+					}					
+				}
+			}
+			public function afterRedeem(ev:ResultEvent):void {
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLoyaltyDescription" method="GET" 
+					   resultFormat="array" 
+					   url="https://scoutcard.ca/php/mobile_v2/getLoyaltyDescription.php"
+					   result="afterGetLoyaltyDescription(event)" >	
+			<s:request xmlns="">
+				<loyaltyid>{data.id}</loyaltyid>	
+				<emailGo>{emailGo}</emailGo>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="goredeem" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/redeemloyalty.php"
+					   result="afterRedeem(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<loyaltyid>{data.id}</loyaltyid>
+				<locationid>{data.locationid}</locationid>
+				<newa>{amountout-spendout}</newa>
+				<amount>{amountout}</amount>
+				<spend>{spendout}</spend>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" paddingTop="5" gap="0"  horizontalAlign="center" height="100%" >
+			
+			<s:Group width="100%"  height="{img1.width/(16/9)}"  >
+				<s:BitmapImage width="100%" id="img1" 
+							   height="{img1.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
+				<s:BorderContainer  borderVisible="false" 
+									backgroundColor="#FFFFFF" bottom="0" width="100%" 
+									height="{img1.height/5}">
+					<s:HGroup width="100%" paddingLeft="10" height="100%" verticalAlign="middle" verticalCenter="0">
+						<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize1"
+								 maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
+								 verticalCenter="0"/>
+						<s:Label right="0"  height="100%" id="pointsamount" color="#0aaae5"  paddingRight="10"  styleName="textsize1"
+								 text="{data.amount} Points" textAlign="right" fontWeight="bold"
+								 verticalAlign="middle" verticalCenter="0"/>
+					</s:HGroup>
+				</s:BorderContainer>
+				<s:BorderContainer  borderVisible="false" 
+									backgroundColor="#0aaae5" bottom="0" width="100%" 
+									height="5"/>
+			</s:Group>
+			<s:List id="loyaltyList" width="100%" height="100%"  horizontalScrollPolicy="off"
+				 change="lListClick(event);"
+					dataProvider="{loyaltyArray}" horizontalCenter="0" contentBackgroundAlpha="0"
+					itemRenderer="components.loyaltydescriptionitem" labelField="name"
+					selectedIndex="1">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  variableRowHeight="false"
+									  gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:Label horizontalCenter="0" id="warn" visible="false" text="No Rewards Available" verticalCenter="0"/>
+	
+	
+	
+	
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+			</s:Rect>
+			<s:VGroup width="100%" height="85%" top="0" horizontalAlign="center" paddingTop="30">
+				<s:BitmapImage  contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/gift.png')"
+												source240dpi="@Embed('assets/240/gift.png')"
+												source320dpi="@Embed('assets/320/gift.png')"
+												source480dpi="@Embed('assets/480/gift.png')"
+												source640dpi="@Embed('assets/640/gift.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<s:Label text="Enjoy the Reward!"  mouseEnabled="false"
+						 verticalCenter="0" horizontalCenter="0"
+						 styleName="textsize3" color="#191919"/>
+				<s:Label text="You've Earned it."  mouseEnabled="false"
+						 verticalCenter="0" horizontalCenter="0"
+						 styleName="textsize2" color="#525f64"/>
+			</s:VGroup>
+			<s:Group width="100%" height="15%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+				</s:Line>
+				<s:Line height="100%"  horizontalCenter="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" left="0" height="100%"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Maybe Later"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize3" color="#389dc8"/>
+				</s:Group>
+				<s:Group width="50%" right="0" height="100%"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Redeem"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize3" color="#389dc8"/>
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	
+	
+	
+	
+	
+	
+</s:View>

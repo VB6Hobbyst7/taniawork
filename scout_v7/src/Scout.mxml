@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+  xmlns:s="library://ns.adobe.com/flex/spark"						
+  runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+  preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+  applicationComplete="onApplicationComplete()"
+  contentBackgroundAlpha="1"
+  contentBackgroundColor="#0aaae5"
+  backgroundColor="#ffffff"
+  splashScreenScaleMode="stretch"
+  frameRate="120"
+  splashScreenMinimumDisplayTime="1000"
+  persistNavigatorState="true" >
+	<fx:Style source="./main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.UncaughtErrorEvent;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import spark.components.BusyIndicator;
+			import spark.components.ButtonBar;
+			import spark.components.Group;
+			import spark.components.View;
+			import spark.components.ViewNavigator;
+			import spark.effects.Resize;
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.CrossFadeViewTransition;
+			import views.Home;
+			import views.Signin;
+			import views.Loyalty;
+			import views.Stores;
+			[Bindable]
+			public var VERSIONID:Number = 5;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			protected var sqlConnection:SQLConnection;
+			public var resData:ArrayCollection = new ArrayCollection();
+			protected function onApplicationComplete():void
+			{
+				NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
+				NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onDeactivate);
+				loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onError);
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+				verifyDataTablesViaVersion();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+					"email varchar(255)," +
+					"name varchar(255)," +
+					"country varchar(255)," +
+					"active varchar(255))";
+				stmt.execute();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+				stmt.execute();
+				resData = new ArrayCollection(stmt.getResult().data);
+				var loadManager:PersistenceManager = new PersistenceManager();
+				loadStuff(resData);
+
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				loadStuff(resData,event.latitude,event.longitude);
+			}
+			public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Number = -113.54009):void {
+				if (r.length != 0){
+					if (navigator.firstView == null){
+						if (navigator.activeView == null){
+							this.navigator.pushView(Home,null,null,crosstrans);
+						}
+					}
+				}
+				else {
+					this.navigator.pushView(Signin,null,null,crosstrans);
+				}
+			}
+			public function refresh(email:String):void {
+				this.navigator.pushView(Home);
+			}
+			public function logout():void {
+				this.navigator.pushView(Signin);
+			}
+			public function verifyDataTablesViaVersion():void {
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";
+				stmt.execute();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT version from versionhistory";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					var versiontocheck:String = resData[0].version;
+					if (versiontocheck != VERSIONID.toString()){
+						dropalldatatables();
+					}
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update versionhistory set version = ('"+VERSIONID.toString()+"')";
+					stmt.execute();
+				}
+				else {
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "insert into versionhistory values ('"+VERSIONID.toString()+"')";
+					stmt.execute();
+					dropalldatatables();
+				}
+			}
+			public function dropalldatatables():void {
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "DROP TABLE merchusers";
+				try{
+					stmt.execute();	
+				}
+				catch(e:Error){}
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "DROP TABLE localuser";
+				try{
+					stmt.execute();	
+				}
+				catch(e:Error){}
+			}
+			protected function onActivate(event:Event):void
+ 			{
+				stage.frameRate=120; 
+			}
+			protected function onDeactivate(event:Event):void 
+			{
+				stage.frameRate=2;
+			}
+			protected function onError(e:UncaughtErrorEvent):void
+			{
+    			e.preventDefault();
+			}
+		]]>
+	</fx:Script>
+</s:ViewNavigatorApplication>
