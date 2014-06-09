@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		backgroundColor="#f3f3f3"
+		destructionPolicy="never"
+		dataChange="dchange(event)"
+		backgroundAlpha="1"  
+		title="Menu" viewActivate="init()">
+	<s:navigationContent >
+		<s:Group width="100" height="100%" 
+				 mouseOver="gOver(event)"
+				 mouseUp="gOut(event)" mouseOut="gOut(event)"
+				 mouseDown="dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gotospecials:true}));">
+			<s:Label text="Specials" verticalCenter="0" left="0" color="#FFFFFF" />
+		</s:Group>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			protected function dchange(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var stop:String = "";
+				if (data != null){
+					try{
+						if (data.resreload == true){
+							currentselectmode = -1;
+							sv1label.text = "All";
+							goFilterScreen(1,1);
+							filterClick(1);
+							afterGetMenuCont();
+						}
+					}
+					catch(e:Error){
+						
+					}				
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/menufunctionscatall.as" />
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getMenu.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<locationid>{locationid}</locationid>		
+				<emailGo>{emailGo}</emailGo>
+				<categoryid>-1</categoryid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
+		<s:Group  id="promoarea" visible="true" width="100%"  height="{270/(320/Capabilities.screenDPI)}">		
+		<s:Image  source="{business_image}" 
+				  height="100%"
+					scaleMode="zoom"
+					width="100%"
+					right="0" />
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="0.3" color="#000000"/>
+					
+				</s:fill>
+			</s:Rect>
+			<s:VGroup left="{30/(320/Capabilities.screenDPI)}" height="100%" verticalAlign="middle">
+				<s:Label color="#FFFFFF"  verticalCenter="0"  styleName="textsize20" fontWeight="bold"
+						 left="{30/(320/Capabilities.screenDPI)}" 
+						 text="{business_name}"/>
+				<s:Label color="#FFFFFF"  verticalCenter="0"  styleName="textsize10"
+						 left="{30/(320/Capabilities.screenDPI)}" 
+						 text="{business_address}"/>
+			</s:VGroup>
+			
+		</s:Group>
+		
+		
+		
+		
+		
+		<s:Group width="100%" id="filterarea" >
+			<s:Rect width="100%"  height="{90/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor color="#8eddce"/>
+					
+				</s:fill>
+			</s:Rect>
+			<s:Image id="filterimage1" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="1"
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption1.png')"
+											source240dpi="@Embed('assets/240/catratingpriceoption1.png')"
+											source320dpi="@Embed('assets/320/catratingpriceoption1.png')"
+											source480dpi="@Embed('assets/320/catratingpriceoption1.png')"
+											source640dpi="@Embed('assets/320/catratingpriceoption1.png')"
+											/>
+				</s:source>
+			</s:Image>
+			<s:Image id="filterimage2" horizontalCenter="0" 
+					 mouseEnabled="false" alpha="0"  
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption2.png')"
+											source240dpi="@Embed('assets/240/catratingpriceoption2.png')"
+											source320dpi="@Embed('assets/320/catratingpriceoption2.png')"
+											source480dpi="@Embed('assets/320/catratingpriceoption2.png')"
+											source640dpi="@Embed('assets/320/catratingpriceoption2.png')"
+											/>
+				</s:source>
+				
+			</s:Image>
+			<s:Image id="filterimage3" horizontalCenter="0"  
+					 mouseEnabled="false" alpha="0"  
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption3.png')"
+											source240dpi="@Embed('assets/240/catratingpriceoption3.png')"
+											source320dpi="@Embed('assets/320/catratingpriceoption3.png')"
+											source480dpi="@Embed('assets/320/catratingpriceoption3.png')"
+											source640dpi="@Embed('assets/320/catratingpriceoption3.png')"
+											/>
+				</s:source>
+				
+			</s:Image>
+			
+			
+			<s:HGroup width="{filterimage1.width}" horizontalCenter="0" height="100%" >
+				<s:Group width="33%"  height="100%" id="toggleclick1" click="filterClick(1);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="33%"  height="100%" id="toggleclick2" click="filterClick(2);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="33%"  height="100%" id="toggleclick3" click="filterClick(3);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				
+			</s:HGroup>
+			
+		</s:Group>
+
+		<s:Group  width="100%"  id="dropgreay">
+			<s:Rect width="100%"  height="{75/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor color="#f2f2f2"/>
+					
+				</s:fill>
+			</s:Rect>
+			<s:Line   left="0" right="0"  bottom="0" > 
+				<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+			</s:Line>
+			<s:Image right="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" 
+					 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/close.png')"
+											source240dpi="@Embed('assets/240/close.png')"
+											source320dpi="@Embed('assets/320/close.png')"
+											source480dpi="@Embed('assets/320/close.png')"
+											source640dpi="@Embed('assets/320/close.png')"
+											/>
+				</s:source>
+			</s:Image>
+			<s:HGroup id="selectview1" visible="true"  mouseDown="goFilterScreen(1);" maxWidth="{this.width}"    alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
+						 styleName="textsize1" text="Sort" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv1label" mouseEnabled="false"  
+						 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="All" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview2"  mouseDown="goFilterScreen(2);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv2label" width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
+						 mouseEnabled="false" styleName="textsize1" text="Highest"
+						 verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview3"  mouseDown="goFilterScreen(3);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+						 text="Price" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv3label" width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
+						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			
+		</s:Group>
+	
+		<s:List  width="100%" horizontalCenter="0" height="100%"
+				contentBackgroundAlpha="0"  
+				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
+				dataProvider="{listData}" itemRenderer="components.menuResult"
+				selectedIndex="1" 
+				 change="menuListClick();"
+				click="menuListClick();" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	<s:Group id="nofind" visible="false" width="100%" height="100%">
+		<s:Label horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
+				 text="No Results Found" color="#8c8c8c"/>
+	</s:Group>
+	
+	
+	
+	<s:Group id="dropDownContainer"  alpha="0" visible="false"
+			 top="{dropgreay.y+dropgreay.height-1}"
+					  width="100%" height="100%">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="0.8" color="#FFFFFF"/>
+				
+			</s:fill>
+		</s:Rect>
+		<s:List width="100%" horizontalCenter="0" height="100%"
+				contentBackgroundAlpha="0" visible="true"
+				id="filterList1"  horizontalScrollPolicy="off" 
+				dataProvider="{filterData1}"
+				itemRenderer="components.dropdownitem"
+				click="filter1Click();" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+		
+		<s:List width="100%" horizontalCenter="0" height="100%"
+				contentBackgroundAlpha="0" visible="false"
+				id="filterList2"  horizontalScrollPolicy="off" 
+				dataProvider="{filterData2}"
+				itemRenderer="components.dropdownitem"
+				click="filter2Click();" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+		
+		<s:List width="100%" horizontalCenter="0" height="100%"
+				contentBackgroundAlpha="0" visible="false"
+				id="filterList3"  horizontalScrollPolicy="off" 
+				dataProvider="{filterData3}"
+				itemRenderer="components.dropdownitem"
+				click="filter3Click();" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+		
+	</s:Group>
+	
+</s:View>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  
+	xmlns:s="library://ns.adobe.com/flex/spark" >
+	<fx:Script>
+		<![CDATA[
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			
+		]]>
+	</fx:Script>
+	<s:Image verticalCenter="0"  contentLoader="{s_imageCache}"   horizontalCenter="0" mouseEnabled="false">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
+									source240dpi="@Embed('assets/240/backbtnnew.png')"
+									source320dpi="@Embed('assets/320/backbtnnew.png')"
+									source480dpi="@Embed('assets/320/backbtnnew.png')"
+									source640dpi="@Embed('assets/320/backbtnnew.png')"
+									/>
+		</s:source>
+	</s:Image>
+</s:Group>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   fontFamily="segoewp" 
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   xmlns:utils="utils.*"  
+			   backgroundColor="#43c7ae" 
+			   backgroundAlpha="1"  frameRate="120"
+			   splashScreenScaleMode="none" 
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
+			   applicationComplete="completeHandler()" 
+			   xmlns:dao="dao.*" 
+			   xmlns:components="components.*" >
+	<fx:Script source="./func/globalFunctions.as"/>
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import events.ActionEvent;
+			import model.Expense;
+			import model.Report;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import spark.components.View;
+			import spark.effects.Move;
+			import spark.effects.Resize;
+			import spark.transitions.CrossFadeViewTransition;
+			import views.ReportView;
+			import views.RestrictionInfo;
+			import views.StoreSpecials;
+			import views.calList;
+			import views.dishFullView;
+			import views.menuFullList;
+			import views.menuThinList;
+			import views.restrictionThinList;
+			import views.welcome;
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			public var crosstrans2:CrossFadeViewTransition = new CrossFadeViewTransition();
+			public var crosstrans3:CrossFadeViewTransition = new CrossFadeViewTransition();
+			public var leftnavview:String = "restriction";
+			public function completeHandler():void
+			{			
+				this.currentState = 'welcome';
+				this.stage.setAspectRatio(StageAspectRatio.LANDSCAPE);
+				var report:Report = srv.getLastReport();
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id);
+				systemManager.addEventListener(ActionEvent.DO_ACTION, function(event:ActionEvent):void
+				{
+					showView(menuFullList, event.data);						
+				});
+			}
+			public function showView(viewClass:Class, data:Object):void
+			{
+				
+				var iscalvisible:Boolean = false;
+				var report:Report = srv.getLastReport();
+				var goback:Boolean = false;
+				var gobackFromResInfo:Boolean = false;
+				var resinfo:Boolean = false;
+				var resreload:Boolean = false;
+				var gotospecials:Boolean = false;
+				var gotomenu:Boolean = false;
+				var gowelcomemode:Boolean = false;
+				
+				try{
+					if (data.goback == true){
+						goback = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.welcomemode == true){
+						gowelcomemode = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resinfo == true){
+						resinfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gobackFromResInfo == true){
+						gobackFromResInfo = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.resreload == true){
+						resreload = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotospecials == true){
+						gotospecials = true;
+					}
+				}
+				catch(e:Error){}
+				
+				try{
+					if (data.gotomenu == true){
+						gotomenu = true;
+					}
+				}
+				catch(e:Error){}
+
+					if (data.finished == true){
+						/*var activeView2:View = leftNav.activeView;
+						activeView2.data = data;
+						var activeView3:View = rightNav.activeView;
+						activeView3.data = data;*/
+						
+							
+						if (gowelcomemode){
+							var re:Resize = new Resize();
+							re.widthFrom = -1;
+							re.widthTo = this.width/2.5;
+							re.target = leftNav;
+							re.duration = 500;
+							
+							var re3:Resize = new Resize();
+							re3.heightFrom = -1;
+							re3.heightTo = 40;
+							re3.target = bottombar;
+							re3.duration = 500;
+							
+							var re2:Resize = new Resize();
+							re2.heightFrom = this.height;
+							re2.heightTo = this.height - 40;
+							re2.target = svn;
+							re2.duration = 500;
+							
+							re2.addEventListener(EffectEvent.EFFECT_END, afterresize);
+							
+							re3.play();
+							re2.play();
+							re.play();
+							
+							
+						
+							
+							
+						}
+						else if (resreload){
+							
+							var activeView:View = rightNav.activeView;
+							if (activeView is viewClass)
+								activeView.data = data;
+							
+							//rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else if (gotospecials){
+							iscalvisible = true;
+							leftNav.pushView(calList);
+							rightNav.pushView(StoreSpecials);
+						}	
+						else if (gotomenu){
+							if (iscalvisible){
+								iscalvisible = false;
+							
+							}
+							leftNav.pushView(restrictionThinList);
+							rightNav.pushView(menuFullList);
+						}	
+						else if (gobackFromResInfo){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList, null,null,crosstrans);
+							leftNav.popView();
+						}
+						else if (resinfo){
+							leftnavview = "restrictioninfo";
+							leftNav.pushView(RestrictionInfo,{description:data.description,name:data.name});
+						}
+						else if (goback == true){
+							leftnavview = "restriction";
+							//leftNav.pushView(restrictionThinList);
+							leftNav.popToFirstView();
+							//leftNav.popView();
+							//rightNav.popView();
+							//rightNav.popToFirstView();
+							rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else {
+							if (leftnavview != "menu"){
+								leftnavview = "menu";
+								leftNav.pushView(menuThinList,data);
+							}
+							rightNav.pushView(dishFullView,data);
+						}
+					}
+			}
+			public function afterresize(ev:EffectEvent):void {
+				crosstrans2.duration = 500;
+				//crosstrans2.addEventListener(FlexEvent.TRANSITION_END, afterCrossTrans2);
+				rightNav.pushView(menuFullList, null,null,crosstrans2);
+				if (leftNav.activeView.title != "Restrictions"){
+					leftNav.pushView(restrictionThinList, null,null,crosstrans);
+				}
+				this.currentState = 'notwelcome';
+			}
+			public function afterCrossTrans2(ev:FlexEvent):void {
+				var re:Resize = new Resize();
+				re.widthFrom = -1;
+				re.widthTo = this.width/2.5;
+				re.target = leftNav;
+				re.duration = 500;
+				
+				var re3:Resize = new Resize();
+				re3.heightFrom = -1;
+				re3.heightTo = 40;
+				re3.target = bottombar;
+				re3.duration = 500;
+				
+				var re2:Resize = new Resize();
+				re2.heightFrom = this.height;
+				re2.heightTo = this.height - 40;
+				re2.target = svn;
+				re2.duration = 500;
+				
+				re3.play();
+				re2.play();
+				re.play();
+			}
+			
+		
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+			}	
+			
+			protected function gotowelcome():void
+			{
+				// TODO Auto-generated method stub
+			
+				crosstrans3.duration = 500;
+				crosstrans3.addEventListener(FlexEvent.TRANSITION_END, afterCrossTrans3);
+				rightNav.pushView(welcome,null,null,crosstrans3);
+				this.currentState = 'welcome';
+			}
+			public function afterCrossTrans3(ev:FlexEvent):void {
+				var re:Resize = new Resize();
+				re.widthTo = -1;
+				re.widthFrom = this.width/2.5;
+				re.target = leftNav;
+				re.duration = 500;
+				
+				var re3:Resize = new Resize();
+				re3.heightTo = -1;
+				re3.heightFrom = 40;
+				re3.target = bottombar;
+				re3.duration = 500;
+				
+				var re2:Resize = new Resize();
+				re2.heightTo = this.height;
+				re2.heightFrom = this.height - 40;
+				re2.target = svn;
+				re2.duration = 500;
+				
+				re3.play();
+				re2.play();
+				re.play();
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="welcome"/>
+		<s:State name="notwelcome"/>
+	</s:states>
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+	<s:SplitViewNavigator id="svn" width="100%" height="{this.height}" top="0"    
+						  leading="0"  includeIn="notwelcome, welcome" 
+						  contentBackgroundAlpha="0"
+						  backgroundAlpha="1" backgroundColor="#cccccc"
+						  >
+		<s:ViewNavigator id="leftNav"  width="-1"
+						 includeIn="notwelcome, welcome" height="100%"  
+						 firstView="views.restrictionThinList"/>
+		<s:ViewNavigator id="rightNav"  width="100%" height="100%"
+						 includeIn="notwelcome, welcome" firstView="views.welcome"/>
+	</s:SplitViewNavigator>
+	<s:Group id="bottombar" width="100%" bottom="0" height="-1" >
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#4e4e4e"/>
+				
+			</s:fill>
+		</s:Rect>
+		<s:Group width="25%" height="100%" mouseDown="gotowelcome()">
+			<s:Image verticalCenter="0" id="smalllogo" left="20" mouseEnabled="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/smalllogo.png')"
+											source240dpi="@Embed('assets/320/smalllogo.png')"
+											source320dpi="@Embed('assets/320/smalllogo.png')"
+											source480dpi="@Embed('assets/320/smalllogo.png')"
+											source640dpi="@Embed('assets/320/smalllogo.png')"
+											/>
+				</s:source>
+			</s:Image>
+			<s:Label styleName="textsize2"  color="#FFFFFF" text="menutria" mouseEnabled="false"
+					 verticalCenter="0" left="{smalllogo.width + 25}"/>
+		</s:Group>
+		<s:Label styleName="textsize2"  color="#FFFFFF" verticalAlign="middle"  height="{bottombar.height}" verticalCenter="0" right="20" text="Their Menu, Your Way."/>
+	</s:Group>
+</s:Application>
