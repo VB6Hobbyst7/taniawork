@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:d="dao.*" xmlns:u="utils.*" 
+		xmlns:c="components.*"  activate="activ()" backgroundAlpha="1" backgroundColor="#2a3038"
+		title="">
+	
+	<fx:Script>
+		<![CDATA[
+			import events.MenuEvent;
+			import spark.filters.GlowFilter;
+			import flash.sensors.Geolocation;			
+			import model.Expense;		
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			
+			import mx.collections.ArrayCollection;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.CrossFadeViewTransition;
+			
+			[Bindable]
+			protected var busy:Boolean = false;
+			
+			protected var locationDirty:Boolean = false;
+			public var adminpasscode:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var userList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var code:String = "";
+			public function init():void {
+				//this.currentState = 'view1';
+				code = "";
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					"name varchar(255), " +
+					"pass INTEGER)";
+				stmt.execute();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM users where name = 'admin'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				adminpasscode = "";
+				if (resData.length != 0){
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].name == 'admin'){
+							adminpasscode = resData[0].pass;	
+						}
+					}
+					if (adminpasscode == ""){
+						/*stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into users values(0,:name,:pass)";
+						stmt.parameters[":name"] = "admin";
+						stmt.parameters[":pass"] = "1234";
+						stmt.execute();		*/
+						adminpasscode = "1234";
+					}
+				}
+				else {
+					//No Users Yet
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users values(0,:name,:pass)";
+					stmt.parameters[":name"] = "admin";
+					stmt.parameters[":pass"] = "1234";
+					stmt.execute();				
+				}
+			}
+			public function loginclick(event:MouseEvent):void
+			{
+				this.parentApplication.loginpad.visible = true;			
+			}
+			public function logoutclick(event:MouseEvent):void
+			{
+				this.parentApplication.loginpad.visible = false;	
+			}
+			public function doaction(u:uint):void {
+				var stmt:SQLStatement = new SQLStatement();
+				if (u == 1){
+					//add user
+					av1.visible = true;
+					av2.visible = false;
+					av3.visible = false;
+					warn1.visible = false;
+				}
+				else if (u == 2){
+					av1.visible = false;
+					av2.visible = true;
+					av3.visible = false;
+					warn2.visible = false;
+					if ((userListcont.selectedIndex != -1)&&(userListcont.selectedIndex != 0)&&(userListcont.selectedItem.name != "admin")){
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "delete from users where id = :id";
+						stmt.parameters[":id"] = userListcont.selectedItem.id;
+						stmt.execute();	
+						warn2.text = "User Deleted!";
+						warn2.visible = true;
+						redisplayUsers();
+					}
+					else {
+						warn2.text = "Please Select a User to Delete!";
+						warn2.visible = true;	
+					}
+					//delete user
+				}
+				else if (u == 3){
+					//change admin password
+					warn3.visible = false;
+					av3.visible = true;
+					av1.visible = false;
+					av2.visible = false;
+					
+				}
+			}
+			public function changeAdminPass():void {
+				var stmt:SQLStatement = new SQLStatement();
+				if ((changeAdminPassword.text != "")&&(changeAdminPassword.text.length == 4)&&
+					(!isNaN(Number(changeAdminPassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update users set pass = "+changeAdminPassword.text+" where name = 'admin'";	
+					stmt.execute();	
+					warn3.text = "Password Updated";
+					warn3.visible = true;
+					adminpasscode = changeAdminPassword.text;
+					redisplayUsers();
+				}
+				else {
+					warn3.text = "Password Must Be Numeric";
+					warn3.visible = true;
+				}	
+			}
+			public function addUser():void {
+				warn1.visible = false
+				if ((addusername.text != "")&&(adduserpassword.text != "")
+					&&(addusername.text != "admin")&&(adduserpassword.text.length == 4)&&
+					(!isNaN(Number(adduserpassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users (name, pass) values(:name,:pass)";
+					stmt.parameters[":name"] = addusername.text;
+					stmt.parameters[":pass"] = adduserpassword.text;
+					stmt.execute();	
+					warn1.text = "User Added!";
+					warn1.visible = true;
+					redisplayUsers();
+				}
+				else{
+					warn1.text = "Password Must Be Numberic.";
+					warn1.visible = true;
+				}
+			}
+			
+			public function redisplayUsers():void {
+				userList = new ArrayCollection();
+				//if (this.currentState == 'view2'){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM users";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						userList = resData;	
+						userListcont.dataProvider = userList;
+						
+					}
+					else {
+						
+					}
+				//}
+			}
+			
+			public function activ():void {
+				var stop:String = "";
+			}
+			public function showItems(u:uint):void {
+				busy = false;
+				if (u == 1){
+					
+				}
+				else if (u == 2){
+				
+				}
+				else if (u == 3){
+				
+				}
+				else if (u == 4){
+					
+				}
+				else if (u == 5){
+					
+				}
+			}
+			
+		
+			protected function geoUtil_locationUpdateHandler(event:Event):void
+			{
+				busy = false;
+				locationDirty = false;
+				data.location=geoUtil.location;
+				data.longitude=geoUtil.longitude;
+				data.latitude=geoUtil.latitude;
+			}
+			
+			protected function gpsButton_clickHandler():void
+			{
+				busy = true;
+				geoUtil.getLocation();
+			}
+			
+		
+			
+			public function dataChange(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var stop:String = "";
+				if (this.data != null){
+					if (this.data.index != 0){
+						showItems(this.data.index);
+					}
+				
+				}
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+		
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<u:GeolocationUtil id="geoUtil" locationUpdate="geoUtil_locationUpdateHandler(event)"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+	</fx:Declarations>
+
+	
+	
+	<s:BorderContainer id="men1" width="100%" height="100%">
+		<s:Label left="10" right="10" top="5" height="35" fontSize="24"
+				 text=" Welcome Administrator" textAlign="center"/>
+		<s:VGroup left="0" bottom="0" width="49%" height="45%">
+			<s:Label width="100%" height="26" fontSize="25" text="Menu Options"
+					 textAlign="center" verticalAlign="bottom"/>
+			<c:genericBlueButton click="doaction(1)" left="10" bottom="10" lbl="Add User" width="100%" height="53"
+										  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			</c:genericBlueButton>
+			<c:genericBlueButton click="doaction(2)" left="10" bottom="10" lbl="Delete User" width="100%" height="53"
+										  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			</c:genericBlueButton>
+			<c:genericBlueButton click="doaction(3)" left="10" bottom="10" lbl="Change Admin Password" width="100%" height="53"
+										  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			</c:genericBlueButton>
+			<c:genericBlueButton click="logoutclick(event)" left="10" bottom="98" lbl="Logout" width="100%" height="53"
+										  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+			</c:genericBlueButton>
+		</s:VGroup>
+		
+		<s:List id="userListcont" right="0" top="70" borderAlpha="1" itemRenderer="components.userListItem"
+				dataProvider="{userList}" borderColor="#02446F" bottom="9" width="50%"></s:List>
+		<s:BorderContainer left="0" borderAlpha="1" borderColor="#02446F" top="33" width="49%" height="150">
+			<s:BorderContainer id="av1" visible="true" width="100%" height="153" borderAlpha="0">
+				<s:VGroup x="0" top="25" width="100%" height="73">
+					<s:HGroup height="32" width="100%" verticalAlign="middle">
+						<s:Label width="90" text="User Name"/>
+						<s:TextInput id="addusername" y="6" width="80%" height="100%"/>
+					</s:HGroup>
+					<s:HGroup height="34" width="100%" verticalAlign="middle">
+						<s:Label width="90" text="Password"/>
+						<s:TextInput id="adduserpassword" y="5" width="80%" height="100%"
+									 maxChars="4"/>
+					</s:HGroup>
+					<s:Label id="warn1" visible="false" text="Password Must Be Numeric" />
+				</s:VGroup>
+				<c:genericBlueButton top="102" width="88" height="45" click="addUser()"
+											  horizontalCenter="0" lbl="Add"
+											  mouseDown="gDown(event)" mouseOut="gOut(event)"
+											  mouseOver="gOver(event)">
+				</c:genericBlueButton>
+				<s:Label top="0" width="100%" height="28" fontSize="25" horizontalCenter="0"
+						 text="Add A User" textAlign="center" verticalAlign="middle"/>
+			</s:BorderContainer>
+			<s:BorderContainer id="av2" visible="false" width="100%" height="100%" borderAlpha="0">
+				<s:Label id="warn2" visible="false" width="95%" height="50%" fontSize="20"
+						 horizontalCenter="0" text="Please Select A User To Delete"
+						 textAlign="center" verticalAlign="middle" verticalCenter="0"/>
+			</s:BorderContainer>
+			<s:BorderContainer id="av3" visible="false" width="100%" height="100%" borderAlpha="0">
+				<s:Label top="0" width="100%" height="34" fontSize="25" horizontalCenter="0"
+						 text="Admin Password" textAlign="center" verticalAlign="middle"/>
+				<s:HGroup left="0" right="0" top="29" height="38" verticalAlign="middle">
+					<s:Label width="90" text="Password"/>
+					<s:TextInput id="changeAdminPassword" y="5" width="80%" height="100%"
+								 maxChars="4"/>
+				</s:HGroup>
+				<c:genericBlueButton bottom="5" width="100" height="46"
+											  click="changeAdminPass();" horizontalCenter="0"
+											  lbl="Change" mouseDown="gDown(event)"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)">
+				</c:genericBlueButton>
+				<s:Label id="warn3" visible="true" bottom="55" width="95%" height="28"
+						 fontSize="20" horizontalCenter="0" text="Password Must Be Numeric"
+						 textAlign="center" verticalAlign="middle"/>
+			</s:BorderContainer>
+			
+			
+			
+		</s:BorderContainer>
+		<s:Label right="0" top="35" width="50%" height="34" fontSize="25" text="User Database"
+				 textAlign="center" verticalAlign="middle"/>
+	</s:BorderContainer>
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

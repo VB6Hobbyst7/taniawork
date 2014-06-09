@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				stateChangeComplete="stateChangedHandler()">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var bcolor:String = "#FFFFFF";
+			[Bindable]
+			public var clickStatus:String = "none";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function stateChangedHandler():void
+			{
+				/*if(currentState == "selected")
+				{
+					bcolor = "#B7B7B7";
+				}
+				else {
+					bcolor = "#FFFFFF";
+				}*/
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function changeUser(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				data.status = "change";
+			//	clickStatus = "change";
+			}
+			
+			public function deleteUser(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				data.status = "delete";
+				//clickStatus = "delete";
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:Group width="100%" height="50">
+		<s:Group id="v1" width="100%" includeIn="hovered,normal,up" height="100%" >
+			<s:Image source="assets/userlistback1.png"
+					 width="100%" height="100%" scaleMode="stretch"
+					 smooth="true"/>
+			<s:HGroup left="10" right="10" verticalAlign="middle"
+					  verticalCenter="0">
+				<s:Image  height="40" width="40" source="assets/profpics/{data.image}"/>
+				<s:VGroup width="80%" height="100%" verticalAlign="middle">
+					<s:Label color="#FFFFFF" width="100%" fontSize="15" text="{data.name}"></s:Label>
+					<s:HGroup height="50%" width="100%" verticalAlign="middle">
+						<s:Label color="#7b7b7c"  fontSize="15" text="{data.pass}"></s:Label>
+						<s:Label color="#7b7b7c"  fontSize="15" text="-"></s:Label>
+						<s:Label color="#7b7b7c"  fontSize="15" text="{data.pass}"></s:Label>
+					</s:HGroup>
+				</s:VGroup>
+			</s:HGroup>
+		</s:Group>
+		<s:Group id="v2" width="100%" includeIn="selected" height="100%" >
+			<s:Image source="assets/userlistback2.png" width="100%" height="100%" scaleMode="stretch"
+					 smooth="true" />
+			<s:HGroup left="10" right="10" verticalAlign="middle"
+					  verticalCenter="0" gap="15">
+				<s:HGroup  width="132" verticalAlign="middle">
+					<s:Image width="45%" height="80%" smooth="true" click="changeUser(event)"
+							 mouseDown="gDown(event);" mouseUp="gOut(event);" 
+							 mouseOut="gOut(event)" source="assets/usergearbtn.png"/>
+					<s:Image width="45%" height="80%" smooth="true"   click="deleteUser(event)"
+							 mouseDown="gDown(event);" mouseUp="gOut(event);" 
+							 mouseOut="gOut(event)" source="assets/userdeletebtn.png"/>
+				</s:HGroup>
+				<s:HGroup  verticalAlign="middle">
+					<s:Image  height="40" width="40" source="assets/profpics/{data.image}"/>
+					<s:VGroup width="100%" height="100%" verticalAlign="middle">
+						<s:Label color="#FFFFFF" width="100%" fontSize="15" text="{data.name}"></s:Label>
+						<s:HGroup height="50%" width="100%" verticalAlign="middle">
+							<s:Label color="#7b7b7c"  fontSize="15" text="{data.pass}"></s:Label>
+							<s:Label color="#7b7b7c"  fontSize="15" text="-"></s:Label>
+							<s:Label color="#7b7b7c"  fontSize="15" text="{data.pass}"></s:Label>
+						</s:HGroup>
+					</s:VGroup>
+				</s:HGroup>
+			</s:HGroup>
+		</s:Group>
+	</s:Group>
+</s:ItemRenderer>

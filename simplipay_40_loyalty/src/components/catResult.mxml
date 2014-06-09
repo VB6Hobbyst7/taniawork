@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:MultiDPIBitmapSource id="findafavitemback"
+								source160dpi="@Embed('assets/findafavitembackLow.png')"
+								source240dpi="@Embed('assets/findafavitembackMed.png')"
+								source320dpi="@Embed('assets/findafavitembackHigh.png')"/>
+		<s:MultiDPIBitmapSource id="arrow2"
+								source160dpi="@Embed('assets/arrow2_Low.png')"
+								source240dpi="@Embed('assets/arrow2_Med.png')"
+								source320dpi="@Embed('assets/arrow2_High.png')"/>
+	
+	</fx:Declarations>
+	<s:VGroup gap="0" width="100%" horizontalAlign="center" verticalAlign="middle"  >
+		<s:Group   height="100%" width="100%"  mouseOut="profUp(event)"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" >
+			<s:BitmapImage  width="100%" scaleMode="stretch"  contentLoader="{s_imageCache}" 
+							 source="{findafavitemback}"/>
+			<s:Label id="lala" left="20" color="#FFFFFF" fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"></s:Label>
+			<s:BitmapImage right="10" contentLoader="{s_imageCache}" source="{arrow2}"
+						   verticalCenter="0"/>
+		</s:Group>
+	</s:VGroup>	
+			
+</s:ItemRenderer>

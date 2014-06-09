@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:components="components.*"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:dao="dao.*"
+		xmlns:renderers="renderers.*"
+		title="" dataChange="changedata(event)"
+		backgroundColor="#22252a"
+		creationComplete="creationCompleteHandler()">
+	<s:titleContent>	
+		<s:BorderContainer backgroundAlpha="0" borderAlpha="0"   width="100%" height="100%">
+			<s:Image height="35" horizontalCenter="0" smooth="true" smoothingQuality="default"
+					 source="@Embed('assets/squarelogo.png')" verticalCenter="0">
+				<!--s:filters>
+				<s:GlowFilter alpha="1" strength="5" blurX="2" blurY="2" color="#FFFFFF" inner="false"/>
+				</s:filters-->
+			</s:Image>
+		</s:BorderContainer>
+	</s:titleContent>
+	<fx:Script>
+		<![CDATA[
+			import events.MenuEvent;
+			
+			import model.Report;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;	
+			[Bindable]
+			public var code:String = "";
+			[Bindable]
+			public var usertype:String = "";
+			protected function creationCompleteHandler():void
+			{
+			
+				
+			}
+			public function menu(u:uint):void {
+				if (u == 1){
+					m12.visible = true;
+					m22.visible = false;
+					m32.visible = false;
+					m42.visible = false;
+					m52.visible = false;
+					b1.visible = true;
+					b2.visible = false;
+					b3.visible = false;
+					b4.visible = false;
+					b5.visible = false;
+				}
+				else if (u == 2){
+					m12.visible = false;
+					m22.visible = true;
+					m32.visible = false;
+					m42.visible = false;
+					m52.visible = false;
+					b1.visible = false;
+					b2.visible = true;
+					b3.visible = false;
+					b4.visible = false;
+					b5.visible = false;
+				}
+				else if (u == 3){
+					m12.visible = false;
+					m22.visible = false;
+					m32.visible = true;
+					m42.visible = false;
+					m52.visible = false;
+					b1.visible = false;
+					b2.visible = false;
+					b3.visible = true;
+					b4.visible = false;
+					b5.visible = false;
+				}
+				else if (u == 4){
+					m12.visible = false;
+					m22.visible = false;
+					m32.visible = false;
+					m42.visible = true;
+					m52.visible = false;
+					b1.visible = false;
+					b2.visible = false;
+					b3.visible = false;
+					b4.visible = true;
+					b5.visible = false;
+				}
+				else if (u == 5){
+					m12.visible = false;
+					m22.visible = false;
+					m32.visible = false;
+					m42.visible = false;
+					m52.visible = true;
+					b1.visible = false;
+					b2.visible = false;
+					b3.visible = false;
+					b4.visible = false;
+					b5.visible = true;
+				}
+				dispatchEvent(new MenuEvent(MenuEvent.EDIT_EXPENSE,{index:u,code:code,usertype:usertype}))
+			}
+			
+			public function changedata(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				try{
+				if (this.data.usertype == "admin"){
+					code = this.data.code;
+					usertype = this.data.usertype;
+					vcont.top = 100;
+				}
+				else if (this.data.usertype == "user"){
+					var stop3:String = "";
+					code = this.data.code;
+					usertype = this.data.usertype;
+					adminTab.visible = false;
+					m22.visible = true;
+					b2.visible = true;
+					vcont.top = 0;
+				} 
+				}
+				catch(e:Error){
+					
+					
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<dao:ExpenseReportDAO id="srv"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+	</fx:Declarations>
+	<s:BorderContainer id="adminTab" top="0" left="0" width="100%"  mouseDown="menu(1);" height="100" backgroundColor="#22252a" borderAlpha="0">
+		<s:BorderContainer id="b1" visible="true" left="0" mouseEnabled="false" top="0" width="10" height="100%" backgroundColor="#d3701f"
+						   borderAlpha="0"/>
+		<s:Image id="m11" source="assets/menu1dark.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+		<s:Image id="m12" visible="true" source="assets/menu1light.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+	</s:BorderContainer>
+	<s:VGroup id="vcont" top="100" left="0" right="0" bottom="0" gap="0">
+		
+		<s:BorderContainer width="100%" height="100" mouseDown="menu(2);" backgroundColor="#22252a" borderAlpha="0">
+			<s:BorderContainer id="b2" visible="false" mouseEnabled="false" left="0" top="0" width="10" height="100%" backgroundColor="#d3701f"
+							   borderAlpha="0"/>
+			<s:Image id="m21" source="assets/menu2dark.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			<s:Image id="m22" visible="false" source="assets/menu2light.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="100" mouseDown="menu(3);" backgroundColor="#22252a" borderAlpha="0">
+			<s:BorderContainer id="b3" visible="false" mouseEnabled="false" left="0" top="0" width="10" height="100%" backgroundColor="#d3701f"
+							   borderAlpha="0"/>
+			<s:Image id="m31" source="assets/menu3dark.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			<s:Image id="m32" visible="false" source="assets/menu3light.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="100" mouseDown="menu(4);" backgroundColor="#22252a" borderAlpha="0">
+			<s:BorderContainer id="b4" visible="false" mouseEnabled="false" left="0" top="0" width="10" height="100%" backgroundColor="#d3701f"
+							   borderAlpha="0"/>
+			<s:Image id="m41" source="assets/menu4dark.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			<s:Image id="m42" visible="false" source="assets/menu4light.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="100" mouseDown="menu(5);" backgroundColor="#22252a" borderAlpha="0">
+			<s:BorderContainer id="b5" visible="false" mouseEnabled="false" left="0" top="0" width="10" height="100%" backgroundColor="#d3701f"
+							   borderAlpha="0"/>
+			<s:Image id="m51" source="assets/menu5dark.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			<s:Image id="m52" visible="false" source="assets/menu5light.png" mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+		</s:BorderContainer>
+	</s:VGroup>
+</s:View>

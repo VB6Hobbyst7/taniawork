@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Client Scanner">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.google.zxing.BarcodeFormat;
+			import com.google.zxing.BinaryBitmap;
+			import com.google.zxing.BufferedImageLuminanceSource;
+			import com.google.zxing.DecodeHintType;
+			import com.google.zxing.Result;
+			import com.google.zxing.client.result.ParsedResult;
+			import com.google.zxing.client.result.ResultParser;
+			import com.google.zxing.common.BitMatrix;
+			import com.google.zxing.common.ByteMatrix;
+			import com.google.zxing.common.GlobalHistogramBinarizer;
+			import com.google.zxing.common.flexdatatypes.HashTable;
+			import com.google.zxing.qrcode.QRCodeReader;
+			import com.google.zxing.qrcode.detector.Detector;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			protected var camera:Camera;
+			private var videoDisplay:Video=new Video(360, 360);
+			private var qrReader:QRCodeReader;
+			private var bmd:BitmapData;
+			private var cameraStarted:Boolean = false;
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				if (!cameraStarted) {
+					if (Camera.isSupported)
+					{
+						camera=Camera.getCamera();
+						camera.setMode(360, 360, 24);
+						
+						videoDisplay.x = 360;
+						sv.addChild(videoDisplay);
+						
+						videoDisplay.attachCamera(camera);
+						videoDisplay.rotation=90;
+						qrReader=new QRCodeReader;
+						btn.label = "Scan Now";
+						lbl.text = "";
+						cameraStarted = true;
+					}
+					else {
+						lbl.text = "no camera found";
+					}
+				}
+				else {
+					decodeSnapshot();
+				}
+			}
+			
+			public function decodeSnapshot():void
+			{
+				lbl.text="checking...";
+				bmd=new BitmapData(300, 300);
+				bmd.draw(videoDisplay, null, null, null, null, true);
+				videoDisplay.cacheAsBitmap=true;
+				videoDisplay.cacheAsBitmapMatrix=new Matrix;
+				decodeBitmapData(bmd, 300, 300);
+				bmd.dispose();
+				bmd=null;
+				System.gc();
+			}
+			
+			public function decodeBitmapData(bmpd:BitmapData, width:int, height:int):void
+			{
+				var lsource:BufferedImageLuminanceSource=new BufferedImageLuminanceSource(bmpd);
+				var bitmap:BinaryBitmap=new BinaryBitmap(new GlobalHistogramBinarizer(lsource));
+				
+				var ht:HashTable=null;
+				ht=this.getAllHints();
+				
+				var res:Result=null;
+				try {
+					res=qrReader.decode(bitmap, ht);
+				}
+				catch (event:Error) {
+				}
+				
+				if (res == null) {
+					videoDisplay.clear();
+					lbl.text="nothing decoded";
+				}
+				else {
+					var parsedResult:ParsedResult=ResultParser.parseResult(res);
+					lbl.text=parsedResult.getDisplayResult();
+					sv.removeChild(videoDisplay);
+					cameraStarted = false;
+					btn.label = "Start Camera";
+				}
+			}
+			
+			public function getAllHints():HashTable
+			{
+				var ht:HashTable=new HashTable;
+				ht.Add(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
+				return ht;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" height="100%" id="vg">
+		<s:SpriteVisualElement id="sv" top="20" width="200" height="200" horizontalCenter="0"/>
+		<s:Label id="lbl" left="10" right="10" bottom="66" fontSize="24" fontWeight="bold" text=""
+				 textAlign="center"/>
+		
+		<s:Button id="btn" left="0" bottom="0" width="100%" height="63" label="Scan QR Code"
+				  click="button1_clickHandler(event)"/>
+	</s:BorderContainer>
+</s:View>

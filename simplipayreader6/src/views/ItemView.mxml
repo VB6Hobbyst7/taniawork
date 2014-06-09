@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" dataChange="dataChange(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:d="dao.*" xmlns:u="utils.*"
+		keyUp="keypress(event)"
+		
+		xmlns:c="components.*" creationComplete="init();"
+		xmlns:charts="mx.charts.*"
+		xmlns:series="mx.charts.series.*"
+		xmlns:chartClasses="mx.charts.chartClasses.*" 
+		activate="activ()" backgroundAlpha="1" backgroundColor="#2a3038"
+		title="">
+	<fx:Script source="../func/externalScanFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import events.MenuEvent;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.sensors.Geolocation;
+			
+			import model.Expense;
+			
+			import mx.charts.LineChart;
+			import mx.charts.PieChart;
+			import mx.collections.*;
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.formatters.DateFormatter;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.CrossFadeViewTransition;
+			[Bindable]
+			public var editid:String = "";
+			[Bindable]
+			public var editpass:String = "";
+			[Bindable]
+			public var editimage:String = "default.png";
+			[Bindable]
+			public var editname:String = "";
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var todaysdate:String = "";
+			protected var locationDirty:Boolean = false;
+			public var adminpasscode:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var userList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var code:String = "";
+			[Bindable]
+			public var tranList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var loyalList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var usertype:String = "";
+			[Bindable]
+			private var expensesAC:ArrayCollection = new ArrayCollection( [
+				{ Month: "Jan", Profit: 2000, Expenses: 1500, Amount: 450 },
+				{ Month: "Feb", Profit: 1000, Expenses: 200, Amount: 600 },
+				{ Month: "Mar", Profit: 1500, Expenses: 500, Amount: 300 },
+				{ Month: "Apr", Profit: 1800, Expenses: 1200, Amount: 900 },
+				{ Month: "May", Profit: 2400, Expenses: 575, Amount: 500 } ]);
+			[Bindable]
+			private var medalsAC:ArrayCollection = 
+				new ArrayCollection( [
+					{Country: "USA", Gold: 35, Silver:39},
+					{Country:"China", Gold: 32, Silver:17} 
+				]);
+			public function init():void {
+				//set the current date for the top part of the admin screen
+				
+				
+				
+				
+				var CurrentDateTime:Date = new Date();
+				var CurrentDF:DateFormatter = new DateFormatter();
+				CurrentDF.formatString = "EEEE, MMM DD YYYY"
+				var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+				todaysdate =  DateTimeString;
+				redisplayUsers();
+				
+				
+			}
+		
+		/*	public function doaction(u:uint):void {
+				var stmt:SQLStatement = new SQLStatement();
+				if (u == 1){
+					//add user
+					av1.visible = true;
+					av2.visible = false;
+					av3.visible = false;
+					warn1.visible = false;
+				}
+				else if (u == 2){
+					av1.visible = false;
+					av2.visible = true;
+					av3.visible = false;
+					warn.visible = false;
+					if ((userListcont.selectedIndex != -1)&&(userListcont.selectedIndex != 0)&&(userListcont.selectedItem.name != "admin")){
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "delete from users where id = :id";
+						stmt.parameters[":id"] = userListcont.selectedItem.id;
+						stmt.execute();	
+						warn.text = "User Deleted!";
+						warn.visible = true;
+						redisplayUsers();
+					}
+					else {
+						warn.text = "Please Select a User to Delete!";
+						warn.visible = true;	
+					}
+					//delete user
+				}
+				else if (u == 3){
+					//change admin password
+					warn.visible = false;
+					av3.visible = true;
+					av1.visible = false;
+					av2.visible = false;
+					
+				}
+			}*/
+		/*	public function changeAdminPass():void {
+				var stmt:SQLStatement = new SQLStatement();
+				if ((changeAdminPassword.text != "")&&(changeAdminPassword.text.length == 4)&&
+					(!isNaN(Number(changeAdminPassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update users set pass = "+changeAdminPassword.text+" where name = 'admin'";	
+					stmt.execute();	
+					warn.text = "Password Updated";
+					warn.visible = true;
+					adminpasscode = changeAdminPassword.text;
+					redisplayUsers();
+				}
+				else {
+					warn.text = "Password Must Be Numeric";
+					warn.visible = true;
+				}	
+			}
+			public function addUser():void {
+				warn1.visible = false
+				if ((addusername.text != "")&&(adduserpassword.text != "")
+					&&(addusername.text != "admin")&&(adduserpassword.text.length == 4)&&
+					(!isNaN(Number(adduserpassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users (name, pass) values(:name,:pass)";
+					stmt.parameters[":name"] = addusername.text;
+					stmt.parameters[":pass"] = adduserpassword.text;
+					stmt.execute();	
+					warn1.text = "User Added!";
+					warn1.visible = true;
+					redisplayUsers();
+				}
+				else{
+					warn1.text = "Password Must Be Numberic.";
+					warn1.visible = true;
+				}
+			}
+			
+			public function redisplayUsers():void {
+				userList = new ArrayCollection();
+				//if (this.currentState == 'view2'){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM users";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						userList = resData;	
+						userListcont.dataProvider = userList;
+						
+					}
+					else {
+						
+					}
+				//}
+			}
+			*/
+			
+			public function addUser():void {
+				warn.visible = false
+				if ((employeeidField.text != "")&&(passwordField.text != "")
+					&&(employeeidField.text != "admin")&&(passwordField.text.length == 4)&&
+					(!isNaN(Number(passwordField.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"name varchar(255)," +
+						"pass varchar(255)," +
+						"image varchar(255)," +
+						"status varchar(255))";
+					stmt.execute();
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users (name, pass, image, status) values(:name,:pass,:image,:status)";
+					stmt.parameters[":name"] = employeeidField.text;
+					stmt.parameters[":pass"] = passwordField.text;
+					stmt.parameters[":image"] = "default.png";
+					stmt.parameters[":status"] = "none";
+					stmt.execute();	
+					warn.text = "User Added!";
+					warn.visible = true;
+					redisplayUsers();
+				}
+				else{
+					warn.text = "Password Must Be Numberic.";
+					warn.visible = true;
+				}
+			}
+			public function redisplayUsers():void {
+				userList = new ArrayCollection();
+				//if (this.currentState == 'view2'){
+				
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					"name varchar(255)," +
+					"pass varchar(255)," +
+					"image varchar(255)," +
+					"status varchar(255))";
+				stmt.execute();
+				stmt = new SQLStatement();
+
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM users";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					userList = resData;	
+					userListcont.dataProvider = userList;
+					
+				}
+				else {
+					
+				}
+				//}
+			}
+			
+			public function activ():void {
+			}
+			public function showItems(u:uint):void {
+				busy = false;
+				if (u == 1){
+					//admin view
+					men1.visible = true;
+					men2.visible = false;
+					men3.visible = false;
+					men4.visible = false;
+					men5.visible = false;
+				}
+				else if (u == 2){
+					//transaction view
+					men1.visible = false;
+					men2.visible = true;
+					men3.visible = false;
+					men4.visible = false;
+					men5.visible = false;
+				}
+				else if (u == 3){
+					//deals view
+					men1.visible = false;
+					men2.visible = false;
+					men3.visible = true;
+					men4.visible = false;
+					men5.visible = false;
+				}
+				else if (u == 4){
+					//external scan view
+					men1.visible = false;
+					men2.visible = false;
+					men3.visible = false;
+					men4.visible = true;
+					men5.visible = false;
+				}
+				else if (u == 5){
+					//qr scan view
+					men1.visible = false;
+					men2.visible = false;
+					men3.visible = false;
+					men4.visible = false;
+					men5.visible = true;
+				}
+			}
+			public function dataChange(event:FlexEvent):void
+			{
+				// This comes from the list and what action they chose
+				var stop:String = "";
+				
+				
+				
+				try{
+					if (this.data.usertype == "admin"){
+						code = this.data.code;
+						usertype = this.data.usertype;
+						showItems(this.data.index);
+					}
+					else if (this.data.usertype == "user"){
+						var stop3:String = "";
+						code = this.data.code;
+						usertype = this.data.usertype;
+						if (this.data.index == 1){
+							this.data.index == 2;
+							showItems(2);
+						}
+						else {
+							showItems(this.data.index);
+						}
+					} 
+				}
+				catch(e:Error){	
+					if (this.data != null){
+						if (this.data.index != 0){
+							showItems(this.data.index);
+						}
+					}
+				}	
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function userListChange(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (event.currentTarget.selectedItem.status != "none"){
+					var stop:String = "";
+					trace(event.currentTarget.selectedItem.status);
+					if (event.currentTarget.selectedItem.status == "change"){
+						editid = event.currentTarget.selectedItem.id;
+						editpass = event.currentTarget.selectedItem.password;
+						editimage = event.currentTarget.selectedItem.image;
+						editname = event.currentTarget.selectedItem.name;
+						
+
+						editprofileCard.visible = true;
+					}
+					else if (event.currentTarget.selectedItem.status == "delete"){
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+						var stmt:SQLStatement = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "delete from users where id = :id";
+						stmt.parameters[":id"] = event.currentTarget.selectedItem.id;
+						stmt.execute();	
+						warn.text = "User Deleted!";
+						warn.visible = true;
+						redisplayUsers();
+					}
+					try{
+						event.currentTarget.selectedItem.status = "none";
+					}
+					catch(e:Error){
+						
+					}
+					
+				}
+			}
+			public function cancelEdit():void{
+				editprofileCard.visible = false;
+			}
+			public function saveEdit():void {
+				editprofileCard.visible = false;
+			}
+			
+		]]>
+	</fx:Script>
+		
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+		<s:HTTPService id="payGo" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/handshake/startprocess.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<code>{code}</code>	
+				<amount>{amount}</amount>	
+				<gst>{gst}</gst>
+				<merchid>{merchid}</merchid>
+				<locationid>{locationid}</locationid>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+
+	<s:Group id="men1" visible="false" width="100%" height="100%">
+		<s:HGroup width="100%" gap="0" height="100%" >
+			<s:VGroup  height="100%" paddingLeft="10" paddingRight="10" width="65%" >
+				<s:Label text="{todaysdate}"  textAlign="center"
+						 color="#D3D7DD" fontSize="20" height="35"
+						 fontWeight="bold" verticalAlign="middle" />
+				<s:List id="userListcont" right="0" top="70" bottom="9" borderAlpha="0"
+					 contentBackgroundAlpha="1" contentBackgroundColor="#2a3038" dataProvider="{userList}"
+						itemRenderer="components.userListItem" click="userListChange(event)"
+						width="100%" height="100%"></s:List>
+			</s:VGroup>
+			<s:VGroup height="100%" paddingLeft="10" paddingRight="10" width="35%" >
+				<s:Label left="10" right="10" top="5" height="35"  text="ADD NEW USER"
+						 textAlign="center"
+						 color="#D3D7DD" fontSize="20"
+						 fontWeight="bold" verticalAlign="middle"/>
+				<s:HGroup width="100%" 
+						  height="118" verticalAlign="middle">
+					<s:Image source="assets/blankphoto.png" />
+					<s:VGroup width="100%" height="100%"  verticalAlign="middle"
+							  >
+						<s:Image source="assets/addphoto.png"
+								 smooth="true"/>
+						<s:Image source="assets/deletebtn.png"
+								 smooth="true"/>
+					</s:VGroup>
+				</s:HGroup>
+				<s:TextInput id="employeeidField"  right="10" left="10" fontSize="15" prompt="Employee ID"
+							 skinClass="components.darktextinput" 
+							 textAlign="left"/>
+				
+				<s:TextInput id="passwordField" maxChars="4" right="10" left="10" displayAsPassword="true"
+							 fontSize="15" prompt="Password" skinClass="components.darktextinput"
+							 textAlign="left"/>
+				
+			<s:Image source="assets/addnewuserbtn.png" click="addUser();"
+					 mouseDown="gDown(event);" mouseUp="gOut(event);" mouseOut="gOut(event)"
+					 smooth="true"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Group id="editprofileCard" visible="false" top="50" width="600" height="600"
+				 horizontalCenter="-0">
+			<s:Image top="0" horizontalCenter="0" smooth="true" source="assets/cardback.png"/>
+			<s:Group x="257" y="304" width="163" height="196" >
+			</s:Group>
+			<s:BitmapImage id="editImageImage" left="43" top="214" width="163" height="196"
+						   scaleMode="stretch" smooth="true" source="assets/profpics/{editimage}">
+				<s:mask>
+					<s:BorderContainer id="bmpMask"
+									   cornerRadius="5" borderAlpha="0.4" borderColor="#000000"
+									   width="163" height="196" />
+				</s:mask>
+			</s:BitmapImage>
+			<s:TextInput x="255" y="215" height="46" prompt="{editname}" text="{editname}"/>
+			<s:TextInput x="255" y="314" height="46" enabled="false" text="#{editid}"/>
+			<s:TextInput x="255" y="364" height="46" enabled="true" prompt="New Password"/>
+			<s:Image x="40" y="459" source="assets/cancelbtn.png" click="cancelEdit();"
+					 mouseDown="gDown(event);" mouseUp="gOut(event);" mouseOut="gOut(event)"/>
+			<s:Image x="338" y="459" source="assets/savebtn.png" click="saveEdit();"
+					 mouseDown="gDown(event);" mouseUp="gOut(event);" mouseOut="gOut(event)"/>
+		</s:Group>
+	</s:Group>
+	<s:Group id="men2" visible="false" width="100%" height="100%">
+	<s:Group width="100%" height="100%">
+		<s:VGroup  right="15" left="15" height="100%" >
+			<s:Group left="0" right="0" width="100%" height="40">
+			<s:Image left="15" top="3" width="196" height="29" scaleMode="stretch" smooth="true"
+					 source="@Embed('assets/calchoiceback.png')"/>
+			<s:HGroup right="0" width="247" height="100%" verticalAlign="middle">
+				<s:Image y="3" width="70" height="34" scaleMode="stretch" smooth="true"
+						 source="@Embed('assets/dailybtn.png')"/>
+				<s:Image y="4" width="72" height="34" scaleMode="stretch" smooth="true"
+						 source="@Embed('assets/weeklybtn.png')"/>
+				<s:Image y="3" width="84" height="34" scaleMode="stretch" smooth="true"
+						 source="@Embed('assets/monthlybtn.png')"/>
+				
+			</s:HGroup>
+		</s:Group>
+		<charts:AreaChart id="chart" left="20" right="20" top="50" width="100%" height="333"
+						  color="0x323232" dataProvider="{expensesAC}" paddingLeft="5"
+						  paddingRight="5">
+			<charts:horizontalAxis >
+				<charts:CategoryAxis categoryField="Month"/>
+			</charts:horizontalAxis>
+			<charts:verticalAxis >
+				<charts:CategoryAxis categoryField="Month"/>
+			</charts:verticalAxis>
+			<charts:series>
+				<series:AreaSeries  yField="Profit" form="curve" displayName="Profit"/>
+			</charts:series>
+		</charts:AreaChart>
+		<s:HGroup top="400" width="100%" height="100" gap="15">
+			<s:Image width="100%" height="100%" source="assets/transubback.png"/>
+			<s:Image width="100%" height="100%" source="assets/transubback.png"/>
+			<s:Image width="100%" height="100%" source="assets/transubback.png"/>
+		</s:HGroup>
+			<s:List id="transactionList" right="0" top="0" bottom="9" borderAlpha="0"
+					contentBackgroundAlpha="1" contentBackgroundColor="#2a3038" dataProvider="{tranList}"
+					itemRenderer="components.tranListItem"
+					width="100%" height="100%"></s:List>
+		
+		</s:VGroup>
+	</s:Group>
+		
+	</s:Group>
+	<s:Group id="men3" visible="false" width="100%" height="100%">
+		<s:VGroup horizontalAlign="center" paddingTop="15" width="100%" height="100%">
+			<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center" height="500">
+				<s:Group width="45%"  left="0" height="100%" >
+					<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+							 source="@Embed('assets/loyaltysubback.png')"/>
+					<s:Image  source="assets/loyaltytag.png"
+							 horizontalCenter="0" verticalCenter="-44"/>
+					<s:VGroup width="100%" height="100%" horizontalAlign="center">
+						<s:Label width="100%" height="35" color="#D3D7DD" fontSize="20"
+								 fontWeight="bold" text="Deals" textAlign="center"
+								 verticalAlign="middle"/>
+						<charts:PieChart id="pi1" width="100%" height="65%" color="0x323232" innerRadius=".6"
+										 dataProvider="{medalsAC}" paddingLeft="5" paddingRight="5">
+							
+							<charts:series>
+								<series:PieSeries labelPosition="none"  field="Gold">
+									<series:fills>
+										<s:SolidColor  color="0xdfa149" alpha="1.0"/>
+										<s:SolidColor  color="0x6dab36" alpha="1.0"/>
+									</series:fills>
+									<series:calloutStroke>
+										<s:SolidColorStroke weight="0" 
+															color="0x888888" alpha="0.0"/>
+									</series:calloutStroke>
+									<series:radialStroke>
+										<s:SolidColorStroke weight="0" 
+															color="#FFFFFF" alpha="0.0"/>
+									</series:radialStroke>
+									<series:stroke>
+										<s:SolidColorStroke color="0" 
+															alpha="0.20" weight="2"/>
+									</series:stroke>
+								</series:PieSeries>
+							</charts:series>
+						</charts:PieChart> 
+						<s:HGroup  height="100" verticalAlign="middle"
+								  width="90%">
+							<s:VGroup width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+								<s:HGroup height="70%" verticalAlign="middle" width="100%" >
+									<s:Image source="assets/loyaltysquare1.png"
+											 smooth.portrait="true"/>
+									<s:Label color="#DFA149" fontSize="40" fontWeight="bold"
+											 text="507" verticalAlign="middle"/>
+								</s:HGroup>
+								<s:Label width="100%" color="#D3D7DD" fontSize="16" fontWeight="bold"
+										 text="REDEEMED"/>
+							</s:VGroup>
+							<s:VGroup width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+								<s:HGroup height="70%" verticalAlign="middle" width="100%" >
+									<s:Image source="assets/loyaltysquare2.png"
+											 smooth.portrait="true"/>
+									<s:Label color="#6DAB36" fontSize="40" fontWeight="bold"
+											 text="507" verticalAlign="middle"/>
+								</s:HGroup>
+								<s:Label width="100%" color="#D3D7DD" fontSize="16" fontWeight="bold"
+										 text="UNREDEEMED"/>
+							</s:VGroup>
+						</s:HGroup>
+					</s:VGroup>
+				</s:Group>
+				<s:Group width="45%"  right="0" height="100%" >
+					<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+							 source="@Embed('assets/loyaltysubback.png')"/>
+					<s:Image  source="assets/loyaltyheart.png"
+							  horizontalCenter="0" verticalCenter="-44"/>
+					<s:VGroup width="100%" height="100%" horizontalAlign="center">
+						<s:Label width="100%" height="35" color="#D3D7DD" fontSize="20"
+								 fontWeight="bold" text="Loyalty" textAlign="center"
+								 verticalAlign="middle"/>
+						<charts:PieChart id="pi2" width="100%" height="65%" color="0x323232" innerRadius=".6"
+										 dataProvider="{medalsAC}" paddingLeft="5" paddingRight="5">
+							
+							<charts:series>
+								<series:PieSeries labelPosition="none" field="Gold">
+									<series:fills>
+										<s:SolidColor  color="0x6f55b9" alpha="1.0"/>
+										<s:SolidColor  color="0x1b91db" alpha="1.0"/>
+									</series:fills>
+									<series:calloutStroke>
+										<s:SolidColorStroke weight="0" 
+															color="0x888888" alpha="0.0"/>
+									</series:calloutStroke>
+									<series:radialStroke>
+										<s:SolidColorStroke weight="0" 
+															color="#FFFFFF" alpha="0.0"/>
+									</series:radialStroke>
+									<series:stroke>
+										<s:SolidColorStroke color="0" 
+															alpha="0.20" weight="2"/>
+									</series:stroke>
+								</series:PieSeries>
+							</charts:series>
+						</charts:PieChart> 
+						<s:HGroup width="90%" height="100" verticalAlign="middle">
+							<s:VGroup width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+								<s:HGroup height="70%" verticalAlign="middle" width="100%" >
+									<s:Image source="assets/loyaltysquare3.png"
+											 smooth.portrait="true"/>
+									<s:Label color="#6F55B9" fontSize="40" fontWeight="bold"
+											 text="507" verticalAlign="middle"/>
+								</s:HGroup>
+								<s:Label width="100%" color="#D3D7DD" fontSize="16" fontWeight="bold"
+										 text="FINISHED USER"/>
+							</s:VGroup>
+							<s:VGroup width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+								<s:HGroup height="70%" verticalAlign="middle" width="100%" >
+									<s:Image source="assets/loyaltysquare4.png"
+											 smooth.portrait="true"/>
+									<s:Label color="#1B91DB" fontSize="40" fontWeight="bold"
+											 text="507" verticalAlign="middle"/>
+								</s:HGroup>
+								<s:Label width="100%" color="#D3D7DD" fontSize="16" fontWeight="bold"
+										 text="ON PROCESS USER"/>
+							</s:VGroup>
+						</s:HGroup>
+					</s:VGroup>
+				</s:Group>
+			</s:HGroup>
+			
+			
+			<s:HGroup top="400" width="90%"  gap="15"
+					 height="81">
+				<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+						 source="assets/transubback.png"/>
+				<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+						 source="assets/transubback.png"/>
+				<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+						 source="assets/transubback.png"/>
+				<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+						 source="assets/transubback.png"/>
+
+			</s:HGroup>
+			<s:List id="loyaltyList" borderAlpha="0"
+					contentBackgroundAlpha="1" contentBackgroundColor="#2a3038" dataProvider="{loyalList}"
+					itemRenderer="components.loyalListItem"
+					width="90%" height="100%"></s:List>
+			
+		</s:VGroup>
+	</s:Group>
+	<s:Group id="men4" visible="true" width="100%" height="100%">
+		<s:Label visible="false" id="userLBL"  width="20"
+				 fontSize="25" fontWeight="normal" text="Please Scan a User"
+				 textAlign="center" />
+		<s:Label id="user" visible="false"  width="20" height="10" fontSize="12"
+				  text="User : {scannedText}"
+				 textAlign="left"/>
+		<s:Group width="100%" height="100%" >
+			<s:VGroup width="100%" height="100%">
+			<s:Group width="100%"  height="100" >
+				<s:HGroup width="100%" horizontalAlign="center" height="100%" >
+					<s:Button id="scanBTN" width="30%" height="100%" label="Scan User"
+							  click="scanPress(event);" color="#FFFFFF" enabled="false"/>
+					<s:Button id="processBTN" width="30%" height="100%" label="Process Payment"
+							  click="processPress(event);" color="#FFFFFF" enabled="false"/>
+					<s:Button id="resetBTN" width="30%" height="100%" label="Reset"
+							  click="resetPress(event);" color="#FFFFFF"/>
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group width="100%" height="177">
+				<s:Label right="15" top="10" color="#d3d7dd" fontSize="25" fontWeight="normal"
+						 text="Total"/>
+				<s:Label id="totalValue" right="15" top="30" bottom="4" width="100%" color="#d3d7dd"
+						 fontSize="80" fontWeight="bold" text="0.00" textAlign="right"
+						 verticalAlign="middle"/>
+				
+			</s:Group>
+			
+			
+			<s:Group width="100%"  height="80%" >
+				<s:Group id="numkeycont" left="0" right="0" top="0" bottom="0" >
+					<s:HGroup left="0"   right="0" top="0" bottom="0" verticalAlign="middle">
+						<s:VGroup horizontalAlign="center" height="100%" width="33.3%" >
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" 
+											   mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('7');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="7" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('4');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="4" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('1');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="1" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('0');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="0" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+						</s:VGroup>
+						
+						
+						<s:VGroup horizontalAlign="center" height="100%" width="33.3%" >
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('8');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="8" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('5');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="5" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('2');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="2" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('.');" horizontalCenter="-101">
+								<s:Label   color="#FFFFFF" fontSize="40"  mouseEnabled="false" fontWeight="bold" horizontalCenter="0"
+										   text="." verticalCenter="0"/>
+							</s:BorderContainer>
+						</s:VGroup>
+						
+						<s:VGroup horizontalAlign="center" height="100%" width="33.3%" >
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('9');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="9" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('6');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="6" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('3');" horizontalCenter="-101">
+								<s:Label  fontSize="40" fontWeight="bold" mouseEnabled="false" 
+										  horizontalCenter="0" text="3" verticalCenter="0"
+										  color="#D3D7DD"/>
+							</s:BorderContainer>
+							<s:BorderContainer top="45" width="100%" height="25%"  backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+											   click="process('c');" horizontalCenter="-101">
+								<s:Image width="50" height="50" horizontalCenter="0"
+										 mouseEnabled="false" smooth="true"
+										 source="@Embed('assets/delbtn.png')" verticalCenter="0"/>
+							</s:BorderContainer>
+						</s:VGroup>
+					</s:HGroup>
+				</s:Group>
+			</s:Group>
+			</s:VGroup>
+		</s:Group>
+		
+		
+	</s:Group>
+	<s:Group id="men5" visible="false" width="100%" height="100%">
+	</s:Group>
+	<s:Label id="warn" visible="false" horizontalCenter="0" verticalCenter="0"
+			 color="#FFFFFF" fontSize="30"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+</s:View>

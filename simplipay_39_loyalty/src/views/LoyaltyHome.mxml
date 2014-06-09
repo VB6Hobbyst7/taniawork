@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" 
+		xmlns:s="library://ns.adobe.com/flex/spark"   backgroundColor="#FFFFFF"
+		viewActivate="onActivate(event)" 
+		title="Loyalty" xmlns:components="components.*" >
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			public function onActivate(event:Event):void
+			{	
+				try{
+					var loadManager:PersistenceManager = new PersistenceManager();
+					if(loadManager.load()){
+						var savedData:Object = loadManager.getProperty("useremail");
+						if(savedData){
+							if (savedData.toString() != "ERRORBADERRORBAD"){
+								emailGo = savedData.toString();
+								var saveManager:PersistenceManager = new PersistenceManager();
+								saveManager.setProperty("useremail",savedData.toString());
+								getloyalty.send();		
+								loyaltylist.dataGroup.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onPropertyChange);	
+								
+							}
+							
+						}
+						else {
+							try{
+								sqlConnection = new SQLConnection();
+								sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+								var stmt:SQLStatement = new SQLStatement();
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "SELECT email, name, country, active FROM localuser";
+								stmt.execute();
+								var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+								
+								if (resData.length != 0){
+									//good login
+									var foundactive:Boolean = false;
+									for (var i:uint = 0; i < resData.length; i++){
+										if (resData[i].active == "yes"){
+											foundactive = true;
+											emailGo = resData[i].email;
+											nameGo = resData[i].name;
+											getloyalty.send();		
+											loyaltylist.dataGroup.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onPropertyChange);	
+										}
+										
+									}
+								}
+								else {
+									//bad login or no local saved login.
+									var stop:String = "";
+								}
+							}
+							catch(e:Error){
+								
+							}
+						}
+					}
+					
+				}
+				catch(e:Error){
+					
+				}	
+
+			}
+			
+			protected function onPropertyChange(event:PropertyChangeEvent):void
+			{
+				if (event.source == event.target && event.property == "verticalScrollPosition")
+				{
+					
+					var vScroll:Number = loyaltylist.dataGroup.verticalScrollPosition;
+					if(vScroll < -20){
+						//	trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							//	trace(arrowImage.rotation);
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+			}
+			public function afterGetloyalty(ev:ResultEvent):void  {
+				busy = false;
+				loyaltyArray =  new ArrayCollection();
+				try{
+					loyaltyArray = ev.result[0].ress.res;
+					
+				}
+				catch(e:Error){
+					try{
+						loyaltyArray.addItem( ev.result[0].ress.res);
+					}
+					catch(e:Error){
+						
+					}
+				}
+				sortPress(sortMode);
+				searchClick();
+				//sort array by most recent dates
+				var stop:String = "";
+			}
+			public function sortPress(u:uint):void {
+				//sortBTN.closeDropDown();
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField3:mx.collections.SortField = new mx.collections.SortField();
+				var numericDataSort:Sort = new Sort();
+				var stringDataSort:Sort = new Sort();
+				
+				
+				if (sortMode == u){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+				}
+				else {
+					reverse = false;
+				}
+				
+				
+				dataSortField.descending = reverse;
+				dataSortField2.descending = reverse;
+				dataSortField3.descending = reverse;
+				
+				
+				
+				sortMode = u;
+				
+				
+				if (u == 0){
+					dataSortField.name = "name";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					loyaltyArray.sort = stringDataSort;
+				}
+				else if (u == 1){
+					dataSortField.name = "amount";
+					dataSortField.numeric = true;
+					
+					numericDataSort.fields = [dataSortField];
+					loyaltyArray.sort = numericDataSort;
+					
+				}
+				
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+			}
+			public function loyaltyListChange(ev:IndexChangeEvent):void {
+				if (ev.newIndex != -1){
+					navigator.pushView(LoyaltyDescription, ev.currentTarget.selectedItems[0]);					
+				}
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				key.text = "";
+				try{
+					//trace(storeList.scroller.verticalScrollBar.value);
+					if(loyaltylist.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+					//	loyaltyArray.addItemAt({text:"loading...", name:"aaaaaa", distance :0},0);
+
+						getloyalty.send();
+							trace ("Updating List");
+							
+					} 
+				}
+				catch(e:Error){
+						
+					}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = loyaltylist.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				//if ((event.keyCode == 13)||(event.charCode == 13)){
+					searchClick();
+				//}
+			}
+			public function searchClick():void {
+				loyaltyArray.filterFunction = filterCompleted;
+				
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+				var s:String = "";
+				s.toLowerCase()
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.amount.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			public function goFilter():void {
+				//navigator.pushView(HomeloyaltyFilter);
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getloyalty" method="GET" 
+					   resultFormat="array" 	
+					   url="http://www.scoutcard.ca/php/loyalty/getloyaltyList.php"
+					   result="afterGetloyalty(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>	
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-15" height="100%" horizontalAlign="center">
+		<s:VGroup width="100%" height="100%" horizontalAlign="center">
+			<s:BorderContainer x="0" y="0"  borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0"
+							   dropShadowVisible="false" backgroundColor="#FFFFFF" width="100%">
+				<s:HGroup width="100%" horizontalAlign="center" paddingLeft="5" paddingRight="5" 
+						  verticalAlign="middle" height="98%">
+					<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   
+								  softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  
+								  id="key" left="5" right="5" top="1" width="100%" height="80%"
+								keyUp="press(event);" maxChars="20" prompt="Search Loyalty"
+								returnKeyLabel="search"/>
+					<s:Image click="searchClick();" mouseDown="profDown(event)" mouseUp="profUp(event)">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/search_Low.png')"
+													source240dpi="@Embed('assets/search_Med.png')"
+													source320dpi="@Embed('assets/search_High.png')"/>
+						</s:source>
+					</s:Image>
+				</s:HGroup>
+			</s:BorderContainer>
+			<s:Group width="100%" height="100%" visible="true" id="listCont">
+				<s:Group   top="0" bottom="0" width="100%"  >
+					<s:List width="95%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+							id="loyaltylist" labelField="name"  contentBackgroundColor="#FFFFFF"  
+							dataProvider="{loyaltyArray}" itemRenderer="components.loyaltyListItem"
+							selectedIndex="1" change="loyaltyListChange(event);"
+							 horizontalScrollPolicy="off" mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+						<s:layout>
+							<s:VerticalLayout gap="15">
+							</s:VerticalLayout>
+						</s:layout>
+					</s:List>
+					<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" 
+							  id="loadingGroup" visible="false" height="50">
+						<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48High.png')"/>
+						<s:Label id="loadText" color="#000000" text="Pull down to refresh"/>
+					</s:HGroup>
+				</s:Group>
+				
+			</s:Group>	
+			</s:VGroup>
+		</s:VGroup>
+		<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

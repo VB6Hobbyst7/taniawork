@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer   height="75" width="100%" borderAlpha="1" mouseOut="profUp(event)" backgroundAlpha="1"
+						 mouseOver="profDown(event)" mouseDown="profDown(event)" borderColor="#008DA9">
+		<s:VGroup top="3" height="100%" width="100%">
+			<s:Label text="{data.name}"></s:Label>
+			<s:Label color="#4A4A4A" fontSize="12" fontStyle="italic" text="{data.number}"></s:Label>
+			<s:Label color="#4A4A4A" fontSize="12" fontStyle="italic" text="{data.address}"></s:Label>
+			<s:Label color="#4A4A4A" fontSize="12" fontStyle="italic" text="{data.distance} km"></s:Label>
+		</s:VGroup>
+	</s:BorderContainer>
+	
+
+</s:ItemRenderer>

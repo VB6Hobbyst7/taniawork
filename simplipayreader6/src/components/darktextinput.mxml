@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:ai="http://ns.adobe.com/ai/2009"
+		width="100%" height="100%" creationComplete="init(event)">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var imageback:String = "";
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				//var nameo:String = this.id.toString();
+				if (this.promptDisplay.text == "Employee ID"){
+					imageback = "assets/admintexticon.png";
+					miniimage.visible = true;
+				}
+				else if (this.promptDisplay.text == "Password"){
+					imageback = "assets/lock.png";
+					miniimage.visible = true;
+				}
+				else {
+					miniimage.visible = false;
+				}
+				var stop:String = "";
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt"/>
+	</s:states>
+	<s:BorderContainer backgroundAlpha="1" backgroundColor="#343940" 
+					   width="100%" height="100%"
+					   cornerRadius="0" borderAlpha="0"  />
+	<s:Image width="100%" height="100%" scaleMode="stretch"
+			 smooth="true"
+			 source="@Embed('assets/darktextback.png')"/>
+	<s:Image   id="miniimage" source="{imageback}" visible="false" left="5" top="5" bottom="5" width="10"  />
+	<s:RichText id="promptDisplay" color="#8a8a8a" includeIn="disabledWithPrompt,normalWithPrompt"
+				x="22" verticalCenter="0" fontFamily="Myriad Pro"/>
+	<s:RichEditableText id="textDisplay" left="22" right="5" color="#FFFFFF"
+						 verticalCenter="0"  fontFamily="Myriad Pro"
+						heightInLines="1"/>
+</s:Skin>

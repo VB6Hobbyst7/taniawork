@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<s:BorderContainer width="100%" height="100%" 
+					   xmlns:components="components.*" creationComplete="init(event)"
+					   xmlns:mx="library://ns.adobe.com/flex/mx" 
+					   backgroundAlpha="1" backgroundColor="#22252a"
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:fx="http://ns.adobe.com/mxml/2009">
+		<fx:Script>
+			<![CDATA[
+				import flash.data.SQLConnection;
+				import flash.data.SQLStatement;
+				
+				import mx.collections.ArrayCollection;
+				import mx.events.FlexEvent;
+				import mx.events.ResizeEvent;
+				
+				import spark.filters.GlowFilter;
+				[Bindable]
+				public var code:String = "";
+				public var adminpasscode:String = "";
+				protected var sqlConnection:SQLConnection;
+				public var otherpasscodes:Array = new Array();
+				[Bindable]
+				public var usertype:String = "none";
+				public function init(event:FlexEvent):void
+				{
+					// sync with the database of users.
+					
+				/*	sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "drop table users;";
+					stmt.execute();*/
+					
+					
+					code = "";
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"name varchar(255), " +
+						"pass INTEGER, " +
+						"image varchar(255), " +
+						"status varchar(255))";
+					stmt.execute();
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM users";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					adminpasscode = "";
+					if (resData.length != 0){
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].name == 'admin'){
+								
+								adminpasscode = resData[i].pass;	
+							}
+							else {
+								otherpasscodes.push(resData[i].pass);
+								trace("other Code : "+resData[i].pass);
+							}
+						}
+						if (adminpasscode == ""){
+							adminpasscode = "1234";
+						}
+					}
+					else {
+						//No Users Yet
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into users values(0,:name,:pass,:image,:status)";
+						stmt.parameters[":name"] = "admin";
+						stmt.parameters[":pass"] = "1234";
+						stmt.parameters[":image"] = "default.png";
+						stmt.parameters[":status"] = "none";
+						stmt.execute();				
+					}
+					
+					trace("Admin Code : "+adminpasscode);
+				}
+				public function logprocess(s:String):void
+				{
+					if (s == 'c'){
+						code = "";
+						pinimage.visible = false;
+					}
+					else if (code.length < 4){	
+						if (s == 'X'){
+							code = "";
+							pinimage.visible = false;	
+						}
+						else {
+							code = code + s;
+							pinimage.source = "assets/pin"+code.length.toString()+".png";
+							pinimage.visible = true;
+						}
+					}
+					
+					var foundothercode:Boolean = false;	
+					for (var i:uint = 0; i < otherpasscodes.length; i++){
+						if (code == otherpasscodes[i]){
+							foundothercode = true;
+						}
+					}
+					
+					if (code == adminpasscode){
+						usertype = "admin";
+						code = "";
+						pinimage.visible = false;
+						
+						//this.visible = false;
+					}
+					else if(foundothercode){
+						usertype = "user";
+						code = "";
+						pinimage.visible = false;
+						
+					//	this.visible = false;
+					}
+					else if (code.length == 4){
+						code = "";
+						pinimage.visible = false;	
+					}
+				}
+				public function gOver(ev:MouseEvent):void {
+					var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+					ev.currentTarget.filters = [gl];
+				}
+				public function gDown(ev:MouseEvent):void {
+					var gl:GlowFilter = new GlowFilter(0x0a4972,0.4,200,200,50,1,true);
+					ev.currentTarget.filters = [gl];
+				}
+				public function gOut(ev:MouseEvent):void {
+					ev.currentTarget.filters = [];
+				}
+				
+			]]>
+		</fx:Script>
+		
+		<s:Label text="Welcome to Simplipay Client Scanner"
+				 top="11" color="#FFFFFF" 
+				 fontSize="30" fontWeight="bold"
+				 horizontalCenter="0"/>
+		<s:Label text="Please Enter Your QuickPin"
+				 top="65" color="#FFFFFF" 
+				 fontSize="16" fontWeight="normal"
+				 horizontalCenter="0"/>
+		<s:BorderContainer top="98" width="400" height="60" backgroundAlpha="0" borderAlpha="0"
+						   horizontalCenter="0">
+			<s:Image y="0" width="100%" height="100%" horizontalCenter="0" smooth="true"
+					 smoothingQuality="high" source="@Embed('assets/pin0.png')"/>
+			<s:Image id="pinimage" visible="false" y="0" width="100%" height="100%" horizontalCenter="0"
+					 source="assets/pin0.png" smoothingQuality="high" smooth="true"/>
+		</s:BorderContainer>
+		<s:BorderContainer id="numkeycont" left="5" right="5" top="200" bottom="5" backgroundAlpha="0"
+						   borderVisible="false" borderWeight="0">
+			<s:HGroup left="0" right="0" top="0" bottom="0" verticalAlign="middle">
+				<s:VGroup horizontalAlign="center" width="25%"  height="100%">
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)"
+										mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('1');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="1" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('4');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="4" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('7');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 verticalCenter="0"
+								 text="7"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				
+				<s:VGroup horizontalAlign="center" width="25%"  height="100%">
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('2');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="2" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('5');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="5" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('8');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="8" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				<s:VGroup horizontalAlign="center" width="25%"  height="100%">
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('3');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="3" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('6');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="6" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('9');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="9" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				<s:VGroup horizontalAlign="center" width="25%"  height="100%">
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('?');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="?" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('0');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" mouseEnabled="false"  fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="0" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="100%" height="33.3%" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('X');" horizontalCenter="-101">
+						<s:Image width="50" height="50" horizontalCenter="0" mouseEnabled="false"
+								 smooth="true" source="@Embed('assets/delbtn.png')" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+			</s:HGroup>
+		</s:BorderContainer>
+	</s:BorderContainer>

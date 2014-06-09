@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*" viewActivate="init()"
+		visible="true" title="Home" >
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			
+			import mx.collections.ArrayCollection;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var code:String = "";
+			public var adminpasscode:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var userList:ArrayCollection = new ArrayCollection();
+			public function init():void {
+				this.currentState = 'view1';
+				code = "";
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					"name varchar(255), " +
+					"pass INTEGER)";
+				stmt.execute();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM users where name = 'admin'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				adminpasscode = "";
+				if (resData.length != 0){
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].name == 'admin'){
+							adminpasscode = resData[0].pass;	
+						}
+					}
+					if (adminpasscode == ""){
+						/*stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into users values(0,:name,:pass)";
+						stmt.parameters[":name"] = "admin";
+						stmt.parameters[":pass"] = "1234";
+						stmt.execute();		*/
+						adminpasscode = "1234";
+					}
+				}
+				else {
+					//No Users Yet
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users values(0,:name,:pass)";
+					stmt.parameters[":name"] = "admin";
+					stmt.parameters[":pass"] = "1234";
+					stmt.execute();				
+				}
+			}
+			public function loginclick(event:MouseEvent):void
+			{
+				loginpad.visible = true;			
+			}
+			public function logoutclick(event:MouseEvent):void
+			{
+				loginpad.visible = false;	
+				this.currentState = 'view1';
+			}
+			public function doaction(u:uint):void {
+				var stmt:SQLStatement = new SQLStatement();
+				if (u == 1){
+					//add user
+					av1.visible = true;
+					av2.visible = false;
+					av3.visible = false;
+					warn1.visible = false;
+				}
+				else if (u == 2){
+					av1.visible = false;
+					av2.visible = true;
+					av3.visible = false;
+					warn2.visible = false;
+					if ((userListcont.selectedIndex != -1)&&(userListcont.selectedIndex != 0)&&(userListcont.selectedItem.name != "admin")){
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "delete from users where id = :id";
+						stmt.parameters[":id"] = userListcont.selectedItem.id;
+						stmt.execute();	
+						warn2.text = "User Deleted!";
+						warn2.visible = true;
+						redisplayUsers();
+					}
+					else {
+						warn2.text = "Please Select a User to Delete!";
+						warn2.visible = true;	
+					}
+					//delete user
+				}
+				else if (u == 3){
+					//change admin password
+					warn3.visible = false;
+					av3.visible = true;
+					av1.visible = false;
+					av2.visible = false;
+					
+				}
+			}
+			public function changeAdminPass():void {
+				var stmt:SQLStatement = new SQLStatement();
+				if ((changeAdminPassword.text != "")&&(changeAdminPassword.text.length == 4)&&
+					(!isNaN(Number(changeAdminPassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update users set pass = "+changeAdminPassword.text+" where name = 'admin'";	
+					stmt.execute();	
+					warn3.text = "Password Updated";
+					warn3.visible = true;
+					adminpasscode = changeAdminPassword.text;
+					redisplayUsers();
+				}
+				else {
+					warn3.text = "Password Must Be Numeric";
+					warn3.visible = true;
+				}	
+			}
+			public function addUser():void {
+				warn1.visible = false
+				if ((addusername.text != "")&&(adduserpassword.text != "")
+					&&(addusername.text != "admin")&&(adduserpassword.text.length == 4)&&
+					(!isNaN(Number(adduserpassword.text)))){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into users (name, pass) values(:name,:pass)";
+					stmt.parameters[":name"] = addusername.text;
+					stmt.parameters[":pass"] = adduserpassword.text;
+					stmt.execute();	
+					warn1.text = "User Added!";
+					warn1.visible = true;
+					redisplayUsers();
+				}
+				else{
+					warn1.text = "Password Must Be Numberic.";
+					warn1.visible = true;
+				}
+			}
+		
+			public function redisplayUsers():void {
+				userList = new ArrayCollection();
+				if (this.currentState == 'view2'){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM users";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						userList = resData;	
+						userListcont.dataProvider = userList;
+						
+					}
+					else {
+						
+					}
+				}
+			}
+			public function logprocess(s:String):void
+			{
+				if (s == 'c'){
+					code = "";
+				}
+				else if (code.length < 4){
+					
+					if (s == 'X'){
+						loginpad.visible = false;
+						code = "";
+						this.currentState = 'view1';
+					}
+					else {
+						code = code + s;
+					}
+					
+				}
+				
+				if (code == adminpasscode){
+					this.currentState = 'view2';
+					loginpad.visible = false;
+					code = "";
+					redisplayUsers();
+				}
+
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.7,30,30,4,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.7,30,30,4,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="view1"/>
+		<s:State name="view2"/>
+	</s:states>
+	
+		<s:BorderContainer width="100%" includeIn="view1" height="100%">
+			<s:Label left="10" right="10" top="17" height="50" fontSize="24"
+					 text=" Welcome to the Client Scanner" textAlign="center"/>
+			<components:genericBlueButton click="loginclick(event)" left="10" bottom="10" lbl="Login" width="191" height="66">
+			</components:genericBlueButton>
+		</s:BorderContainer>
+		<s:BorderContainer includeIn="view2" width="100%" height="100%">
+			<s:Label left="10" right="10" top="5" height="35" fontSize="24"
+					 text=" Welcome Administrator" textAlign="center"/>
+			<s:VGroup left="0" bottom="0" width="49%" height="45%">
+				<s:Label width="100%" height="26" fontSize="25" text="Menu Options"
+						 textAlign="center" verticalAlign="bottom"/>
+				<components:genericBlueButton click="doaction(1)" left="10" bottom="10" lbl="Add User" width="100%" height="53"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+				</components:genericBlueButton>
+				<components:genericBlueButton click="doaction(2)" left="10" bottom="10" lbl="Delete User" width="100%" height="53"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+				</components:genericBlueButton>
+				<components:genericBlueButton click="doaction(3)" left="10" bottom="10" lbl="Change Admin Password" width="100%" height="53"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+				</components:genericBlueButton>
+				<components:genericBlueButton click="logoutclick(event)" left="10" bottom="98" lbl="Logout" width="100%" height="53"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)">
+				</components:genericBlueButton>
+			</s:VGroup>
+			
+			<s:List id="userListcont" right="0" top="70" borderAlpha="1" itemRenderer="components.userListItem"
+					dataProvider="{userList}" borderColor="#02446F" bottom="9" width="50%"></s:List>
+			<s:BorderContainer left="0" borderAlpha="1" borderColor="#02446F" top="33" width="49%" height="150">
+				<s:BorderContainer id="av1" visible="true" width="100%" height="153" borderAlpha="0">
+					<s:VGroup x="0" top="25" width="100%" height="73">
+						<s:HGroup height="32" width="100%" verticalAlign="middle">
+							<s:Label width="90" text="User Name"/>
+							<s:TextInput id="addusername" y="6" width="80%" height="100%"/>
+						</s:HGroup>
+						<s:HGroup height="34" width="100%" verticalAlign="middle">
+							<s:Label width="90" text="Password"/>
+							<s:TextInput id="adduserpassword" y="5" width="80%" height="100%"
+										 maxChars="4"/>
+						</s:HGroup>
+						<s:Label id="warn1" visible="false" text="Password Must Be Numeric" />
+					</s:VGroup>
+					<components:genericBlueButton top="102" width="88" height="45" click="addUser()"
+												  horizontalCenter="0" lbl="Add"
+												  mouseDown="gDown(event)" mouseOut="gOut(event)"
+												  mouseOver="gOver(event)">
+					</components:genericBlueButton>
+					<s:Label top="0" width="100%" height="28" fontSize="25" horizontalCenter="0"
+							 text="Add A User" textAlign="center" verticalAlign="middle"/>
+				</s:BorderContainer>
+				<s:BorderContainer id="av2" visible="false" width="100%" height="100%" borderAlpha="0">
+					<s:Label id="warn2" visible="false" width="95%" height="50%" fontSize="20"
+							 horizontalCenter="0" text="Please Select A User To Delete"
+							 textAlign="center" verticalAlign="middle" verticalCenter="0"/>
+				</s:BorderContainer>
+				<s:BorderContainer id="av3" visible="false" width="100%" height="100%" borderAlpha="0">
+					<s:Label top="0" width="100%" height="34" fontSize="25" horizontalCenter="0"
+							 text="Admin Password" textAlign="center" verticalAlign="middle"/>
+					<s:HGroup left="0" right="0" top="29" height="38" verticalAlign="middle">
+						<s:Label width="90" text="Password"/>
+						<s:TextInput id="changeAdminPassword" y="5" width="80%" height="100%"
+									 maxChars="4"/>
+					</s:HGroup>
+					<components:genericBlueButton bottom="5" width="100" height="46"
+												  click="changeAdminPass();" horizontalCenter="0"
+												  lbl="Change" mouseDown="gDown(event)"
+												  mouseOut="gOut(event)" mouseOver="gOver(event)">
+					</components:genericBlueButton>
+					<s:Label id="warn3" visible="true" bottom="55" width="95%" height="28"
+							 fontSize="20" horizontalCenter="0" text="Password Must Be Numeric"
+							 textAlign="center" verticalAlign="middle"/>
+				</s:BorderContainer>
+				
+				
+				
+			</s:BorderContainer>
+			<s:Label right="0" top="35" width="50%" height="34" fontSize="25" text="User Database"
+					 textAlign="center" verticalAlign="middle"/>
+		</s:BorderContainer>
+	
+	
+	<s:BorderContainer width="100%" height="100%" id="loginpad" visible="false"
+					   backgroundAlpha="0.5" backgroundColor="#0A0A0A">
+		<s:Label text="{code}"
+				 top.view1="11" color.view1="#FFFFFF" fontSize.view1="40" fontWeight.view1="bold"
+				 horizontalCenter.view1="0"/>
+		<s:BorderContainer id="numkeycont" width="500" height="500" backgroundAlpha="0"
+						   borderVisible="false" borderWeight="0" horizontalCenter="0"
+						   bottom.view1="10" height.view1="85%" horizontalCenter.view1="0"
+						   verticalCenter.view2="0">
+			<s:HGroup left="0" right="0" top="0" bottom="0" verticalAlign="middle">
+				<s:VGroup horizontalAlign="center" >
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('7');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="7" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('4');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="4" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('1');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 verticalCenter="0"
+								 text="1"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}"  
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('0');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="0" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				
+				<s:VGroup>
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('8');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="8" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('5');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="5" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('2');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="2" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)"
+									   mouseDown="gDown(event)"  click="logprocess('X');"
+									   horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="X" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				<s:VGroup>
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('9');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="9" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('6');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="6" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('3');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="3" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="{numkeycont.width/3}" height="{numkeycont.height/4}" 
+									   backgroundColor="#02446F" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('c');" horizontalCenter="-101">
+						<s:Label   color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								   text="c" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+			</s:HGroup>
+		</s:BorderContainer>
+	</s:BorderContainer>
+</s:View>

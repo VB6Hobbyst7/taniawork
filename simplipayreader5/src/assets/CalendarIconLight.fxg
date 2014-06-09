@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="34" viewWidth="38" ai:appVersion="15.0.2.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="34" d:pageWidth="38" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="34503410" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Rect x="9" y="9" width="21" height="19" ai:objID="32de6880" ai:seqID="3">
+        <fill>
+          <SolidColor color="#AEB7B3"/>
+        </fill>
+      </Rect>
+      <Rect x="9" y="8" width="21" height="19" ai:objID="34766f00" ai:seqID="4">
+        <fill>
+          <SolidColor color="#1C5E97"/>
+        </fill>
+      </Rect>
+      <Group x="10" y="8" ai:objID="347920c0" ai:seqID="5">
+        <Rect width="19" height="6" ai:objID="34778ff0" ai:seqID="6" flm:variant="1" d:id="3">
+          <fill>
+            <LinearGradient x="9.49951" y="0.287109" scaleX="5.75963" rotation="90">
+              <GradientEntry ratio="0" color="#1C5E97"/>
+              <GradientEntry ratio="0.453974" color="#145387"/>
+              <GradientEntry ratio="1" color="#003860"/>
+            </LinearGradient>
+          </fill>
+        </Rect>
+        <Rect y="7" width="3" height="3" ai:objID="34477590" ai:seqID="7">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="4" y="7" width="3" height="3" ai:objID="fecd370" ai:seqID="8">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="8" y="7" width="3" height="3" ai:objID="31532be0" ai:seqID="9">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="12" y="7" width="3" height="3" ai:objID="fe4c1a0" ai:seqID="10">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="16" y="7" width="3" height="3" ai:objID="347d9b90" ai:seqID="11">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect y="11" width="3" height="3" ai:objID="3478da20" ai:seqID="12">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="4" y="11" width="3" height="3" ai:objID="344f9050" ai:seqID="13">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="8" y="11" width="3" height="3" ai:objID="347d1a40" ai:seqID="14">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="12" y="11" width="3" height="3" ai:objID="fe5ff40" ai:seqID="15">
+          <fill>
+            <SolidColor color="#FFD974"/>
+          </fill>
+        </Rect>
+        <Rect x="16" y="11" width="3" height="3" ai:objID="fea1920" ai:seqID="16">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect y="15" width="3" height="3" ai:objID="32d353a0" ai:seqID="17">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="4" y="15" width="3" height="3" ai:objID="fe613d0" ai:seqID="18">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="8" y="15" width="3" height="3" ai:objID="fe6e180" ai:seqID="19">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="12" y="15" width="3" height="3" ai:objID="fed7a10" ai:seqID="20">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+        <Rect x="16" y="15" width="3" height="3" ai:objID="347482b0" ai:seqID="21">
+          <fill>
+            <SolidColor color="#FFFFFF"/>
+          </fill>
+        </Rect>
+      </Group>
+      <Rect x="11" y="8.99951" width="17" height="2" ai:objID="3158fac0" ai:seqID="22">
+        <fill>
+          <SolidColor color="#5183B6"/>
+        </fill>
+      </Rect>
+    </Group>
+  </Group>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+    <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="FEE71FEB6B762ABF683E64B3C4C41C08" flm:original="1" d:ref="#3">
+      <variant:Rect width="19" height="6" ai:objID="34778ff0" ai:seqID="6">
+        <variant:fill>
+          <variant:LinearGradient x="9.49951" y="0.287109" scaleX="5.75963" rotation="90">
+            <variant:GradientEntry ratio="0" color="#1C5E97" flm:midpoint="0.644171752929688"/>
+            <variant:GradientEntry ratio="1" color="#003860"/>
+          </variant:LinearGradient>
+        </variant:fill>
+      </variant:Rect>
+    </mngo:VariantContent>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dict data="B includeXMP 0 B writeImages 1 B aiEditCap 1 I rasterizeResolution 72 I preserveFilterPolicy 3 I preserveTextPolicy 4 I versionKey 2 B downsampleLinkedImages 0 B includeSymbol 0 I expandBlendsOption 5 I preserveGradientPolicy 4 B includeObjectOutsideArtboard 0 "/>
+      </ai:SaveOptions>
+      <ai:DocData base="CalendarIconLight.assets/images" globalOffsetH="461" globalOffsetV="-283" rulerCanvasDiffH="480.5" rulerCanvasDiffV="300.5">
+        <ai:DocRasterSettings>
+          <ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+        </ai:DocRasterSettings>
+      </ai:DocData>
+      <ai:AutoGenImageList>
+        <ai:Dict/>
+      </ai:AutoGenImageList>
+    </ai:PrivateElement>
+    <ai:PrivateElement flm:hashcode="C4853622369268A31DC6023DFF1669AC" d:ref="#2">
+      <ai:LayerOptions color="5 79.31 257 128.502"/>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				stateChangeComplete="stateChangedHandler()">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var bcolor:String = "#FFFFFF";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function stateChangedHandler():void
+			{
+				/*if(currentState == "selected")
+				{
+					bcolor = "#B7B7B7";
+				}
+				else {
+					bcolor = "#FFFFFF";
+				}*/
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:VGroup gap="0" width="100%" >
+		<s:BorderContainer id="backCont"  height="100%" width="100%"  mouseOut="profUp(event)" 
+						   backgroundColor.normal="#FFFFFF" 
+						   backgroundColor.hovered="#EEEEEE" 
+						   backgroundColor.selected="#B7B7B7" 
+						   backgroundColor.up="#FFFFFF" 
+						   backgroundAlpha="1"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" borderAlpha="0">
+			<s:HGroup id="hgroupe" width="100%" verticalAlign="middle" height="100%" >
+				<s:Label color="#000000" width="25%" fontSize="15" text="{data.id}"></s:Label>
+				<s:Label color="#000000" fontSize="15" text="|"></s:Label>
+				<s:Label color="#000000" width="25%" fontSize="15" text="{data.name}"></s:Label>
+				<s:Label color="#000000" fontSize="15" text="|"></s:Label>
+				<s:Label color="#000000" width="25%" fontSize="15" text="{data.pass}"></s:Label>
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:BorderContainer height="1" width="100%" borderAlpha="0.5" borderColor="#00000" />
+	</s:VGroup>
+</s:ItemRenderer>

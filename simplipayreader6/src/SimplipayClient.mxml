@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   applicationDPI="160" xmlns:utils="utils.*" backgroundColor="#22252a" 
+			   applicationComplete="completeHandler()" xmlns:dao="dao.*"
+			   splashScreenImage="DynamicSplashScreen" xmlns:components="components.*">
+	<fx:Script>
+		<![CDATA[
+			import events.MenuEvent;
+			import model.Expense;
+			import model.Report;
+			import mx.events.ResizeEvent;
+			import spark.components.View;
+			import views.ItemView;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import views.ListView;
+			import views.ReportView;
+			public var code:String = "";
+			public var usertype:String = "";
+			protected var sqlConnection:SQLConnection;
+
+			protected function completeHandler():void
+			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("users.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS users (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					"name varchar(255), " +
+					"pass INTEGER, " +
+					"image varchar(255), " +
+					"status varchar(255))";
+				stmt.execute();
+				
+				logcont.addEventListener(MouseEvent.CLICK, checklogcont);
+			}
+			public function checklogcont(ev:MouseEvent):void {
+				if (logcont.usertype != "none"){
+					code = logcont.code;
+					usertype = logcont.usertype;
+					registerComplete();
+				}
+			}
+			public function registerComplete():void {
+				var report:Report = new Report();
+				report.code = code;
+				report.usertype = usertype;
+				leftNav.activeView.data = report;
+				rightNav.activeView.data = new Expense(report.id,code,usertype);
+				
+				systemManager.addEventListener(MenuEvent.ADD_REPORT, function(event:MenuEvent):void
+				{
+					showView(ReportView, new Report());						
+				});
+				systemManager.addEventListener(MenuEvent.ADD_EXPENSE, function(event:MenuEvent):void
+				{
+					showView(ItemView, new Expense(event.data.id));						
+				});
+				systemManager.addEventListener(MenuEvent.EDIT_EXPENSE, function(event:MenuEvent):void
+				{
+					showView(ItemView, event.data);						
+				});
+				systemManager.addEventListener(MenuEvent.EDIT_REPORT, function(event:MenuEvent):void
+				{
+					showView(ReportView, event.data);						
+				});
+				systemManager.addEventListener(MenuEvent.VIEW_EXPENSES, function(event:MenuEvent):void
+				{
+					leftNav.pushView(ListView, event.data);
+				});
+				logcont.visible = false;
+			}
+			
+			protected function showView(viewClass:Class, data:Object):void
+			{
+				var activeView:View = rightNav.activeView;
+				if (activeView is viewClass)
+					activeView.data = data;
+				else
+					rightNav.pushView(viewClass, data); 						
+			}
+			
+			override public function set currentState(state:String):void
+			{
+				super.currentState = state;
+				callLater(setFirstViewMode);
+			}
+			
+			
+			protected function setFirstViewMode():void
+			{
+				trace("State " + currentState);
+				if (currentState == "portrait")
+				{
+					if (svn)
+						svn.showFirstViewNavigatorInPopUp(listButton);
+				}
+				else
+				{
+					if (svn)
+						svn.hideViewNavigatorPopUp();
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<utils:StatesUtil target="{this}"/>
+		<dao:ExpenseReportDAO id="srv"/>
+	</fx:Declarations>
+	<fx:Style source="styles.css"/>
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	<s:SplitViewNavigator id="svn" width="100%" height="100%"  autoHideFirstViewNavigator="true">
+		<s:ViewNavigator id="leftNav" width="200" height="100%" firstView="views.ListView"/>
+		<s:ViewNavigator id="rightNav" width="100%" height="100%" firstView="views.ItemView">
+			<s:navigationContent>
+				<s:Button id="listButton" label="Menu" 
+						  click="svn.showFirstViewNavigatorInPopUp(listButton)" 
+						  includeInLayout.landscape="false" 
+						  visible.landscape="false"/>
+			</s:navigationContent>
+		</s:ViewNavigator>
+	</s:SplitViewNavigator>
+	<components:LoginScreen visible="true" id="logcont"/>
+</s:Application>

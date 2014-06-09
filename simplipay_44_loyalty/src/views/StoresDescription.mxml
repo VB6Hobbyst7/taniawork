@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#FFFFFF"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Store Detail">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/backbtn_Low.png')"
+										source240dpi="@Embed('assets/backbtn_Med.png')"
+										source320dpi="@Embed('assets/backbtn_High.png')"
+										source480dpi="@Embed('assets/backbtn_Higher.png')"
+										source640dpi="@Embed('assets/backbtn_Highest.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+			<s:Label color="#FFFFFF" click="viewrewards(event)" horizontalCenter="0" text="Rewards" verticalCenter="0"/>
+	</s:actionContent>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;	
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				//g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function view1_activateHandler(event:Event):void
+			{
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+				
+				try{
+				
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				img1.source = data.business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				var heightofmap:Number = this.height/2.5;
+				var widthofmap:Number = this.width/1.1;
+				//mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size="+(this.width/1.2).toString()+"x"+(this.width/1.2).toString()+"&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+				mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size=400x300&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+			}
+			public function onSwipe(event:TransformGestureEvent):void
+			{
+				var ev:MouseEvent;
+					switch(event.offsetX)
+					{
+						case 1:
+						{
+							// swiped right also back swipe
+							navigator.popView();
+							break;
+						}
+						case -1:
+						{
+							// swiped left
+							break;
+						}
+					}
+					switch(event.offsetY)
+					{
+						case 1:
+						{
+							// swiped down
+							break;
+						}
+						case -1:
+						{
+							// swiped up
+							break;
+						}
+					}
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			protected function viewrewards(event:MouseEvent):void
+			{
+				if ((data.amount == null)||(data.amount == 'null')){
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:'0'});
+				}
+				else {
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+				}
+			}	
+		]]>
+	</fx:Script>
+	<s:Scroller  left="0" right="0" top="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+		<s:VGroup  paddingLeft="15" paddingRight="15" top="0" paddingTop="5" bottom="0" gap="0" horizontalAlign="center">
+			<s:Image x="21" id="img1" width="{this.width}" height="{((this.width/1.2)/16)*9}" scaleMode="zoom" smooth="true"/>
+			<s:VGroup width="{img1.width}"  gap="25" horizontalAlign="center" paddingTop="10">
+				<s:Label id="selectedTitle" left="14" right="2" top="13" width="100%" color="#161616"
+					 styleName="textsize5" fontWeight="bold" text="{data.business_name}"/>
+				
+				<s:Label width="100%" color="#0099CB" styleName="textsize4"
+						 text="{data.business_number}" textDecoration="underline"
+						 verticalAlign="middle" click="navigateToURL(new URLRequest('tel:'+data.business_number));"/>
+				<s:Label width="100%" click="navigateToURL(new URLRequest('mailto:'+data.email));"
+						 color="#0099CB" maxDisplayedLines="1" styleName="textsize4"
+						 text="{data.email}" textDecoration="underline" verticalAlign="middle"/>
+				<s:Label width="100%" click="navigateToURL(new URLRequest(googleTravelUrl))"
+						 color="#0099CB" maxDisplayedLines="4" styleName="textsize4"
+						 text="{data.business_address1 + ', ' +data.business_city + ', ' +data.business_locality + ', ' +data.business_postalcode + ', ' +data.business_country}"
+						 textDecoration="none" verticalAlign="middle"/>
+				<s:HGroup width="100%">
+					<s:Label width="100%" color="#0099CB" textDecoration="underline"
+							 styleName="textsize2"
+							 text="Website" click="navigateToURL(new URLRequest(data.website));"  verticalAlign="middle"/>
+					<s:Label width="100%" color="#0099CB"  textDecoration="underline"
+							 styleName="textsize2"
+							 text="Facebook" click="navigateToURL(new URLRequest(data.facebook));"  verticalAlign="middle"/>
+					<s:Label width="100%"  color="#0099CB" textDecoration="underline"
+							  styleName="textsize2"
+							 text="Twitter" click="navigateToURL(new URLRequest(data.twitter));"  verticalAlign="middle"/>
+				</s:HGroup>
+			
+				<s:Label width="100%" maxDisplayedLines="5"
+						 color="#000000" styleName="textsize2"
+						 text="{data.business_description}"  verticalAlign="middle"/>
+				<s:Image id="mapimage" width="{this.width/1.2}" height="{mapimage.width}" smooth="true" />
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

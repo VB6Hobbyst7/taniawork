@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		title="Stores" 
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#22252a"
+		backgroundAlpha="1" 
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent>
+		<!--s:CalloutButton id="filterBTN"  label="Filter" 
+						 calloutDestructionPolicy="never" enabled="{internetPopup.visible == false}"
+						 horizontalPosition="after"  verticalPosition="after">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="filter1" visible="false" label="Total" enabled="true" fontSize="13" width="100" click="filterPress(0);"/>
+				<s:Button id="filter2" visible="false" label="Day" enabled="true"  fontSize="13" width="100" click="filterPress(1);"/>
+				<s:Button id="filter3" visible="false" label="Location" enabled="true" fontSize="13"  width="100" click="filterPress(2);"/>
+			</s:calloutContent>
+		</s:CalloutButton-->
+	</s:navigationContent>
+	<s:titleContent>	
+		<s:BorderContainer backgroundAlpha="0" borderAlpha="0"
+						   width="100%" height="100%">
+			<s:Image id="maplisttog"  horizontalCenter="29"
+					 mouseDown="togDown(event)"  source="{maplist1icon}"
+					 verticalCenter="0"/>
+		</s:BorderContainer>
+	</s:titleContent>
+	<s:actionContent>
+		<s:Group>
+		<s:CalloutButton  x="1" y="1" width="2" height="2" id="sortBTN" label="" 
+						 horizontalPosition="before"
+						 verticalPosition="after" 
+						 calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="sort1" label="Name" enabled="true"  width="100%" click="sortPress(0);"/>
+				<s:Button id="sort2" label="Distance" enabled="true"  width="100%" click="sortPress(1);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+		<s:Image id="img" x="0" y="0"  click="clickSortDrop();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/sortbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/sortbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/sortbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+</s:Group>
+	</s:actionContent>
+	<fx:Script source="../func/storefunctions.as" />
+	<fx:Script source="../func/pulldownfunctions.as" />
+	<fx:Script>
+		<![CDATA[
+			public function menugo(u:uint):void {
+				
+				if (u == 1){
+					//navigator.pushView(Stores);
+				}
+				else if (u == 2){
+					navigator.pushView(MyAccountHome);
+				}
+				else if (u == 3){
+					navigator.pushView(LoyaltyHome);
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:Callout id="sortCallout"
+				   width="{Math.floor(this.width * .3)}"
+				   height="{Math.floor(this.height * .3)}"
+				   skinClass="skins.BoxyCalloutSkin"
+				   mouseDownOutside="sortCallout.close()"
+				   backgroundColor="0x999999"
+				   contentBackgroundAlpha="0"/>
+		<s:Callout id="filterCallout"
+				   width="{Math.floor(this.width * .3)}"
+				   height="{Math.floor(this.height * .3)}"
+				   skinClass="skins.BoxyCalloutSkin"
+				   mouseDownOutside="filterCallout.close()"
+				   backgroundColor="0x999999"
+				   contentBackgroundAlpha="0"/>
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="https://simplipay.ca/php/locations/getLocationsMobile.php"
+					   result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<type>{locationType}</type>		
+				<mylat>{mylat}</mylat>		
+				<mylong>{mylong}</mylong>		
+				<myradius>{myradius}</myradius>	
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+	
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+		<s:MultiDPIBitmapSource id="checkicon"
+								source160dpi="@Embed('assets/interfaceimages/multi/searchLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/searchMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/searchHigh.png')"/>
+		<s:MultiDPIBitmapSource id="filterbtnicon"
+								source160dpi="@Embed('assets/interfaceimages/multi/filterbtnLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/filterbtnMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/filterbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="sortbtnicon"
+								source160dpi="@Embed('assets/interfaceimages/multi/sortbtnLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/sortbtnMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/sortbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="maplist1icon"
+								source160dpi="@Embed('assets/interfaceimages/multi/map-list1Low.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/map-list1Med.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/map-list1High.png')"/>
+		<s:MultiDPIBitmapSource id="maplist2icon"
+								source160dpi="@Embed('assets/interfaceimages/multi/map-list2Low.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/map-list2Med.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/map-list2High.png')"/>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-15" height="100%" horizontalAlign="center">
+	<s:VGroup width="100%" height="100%" horizontalAlign="center">
+		<s:BorderContainer x="0" y="0"  borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0"
+						   dropShadowVisible="false" backgroundColor="#22252a" width="100%">
+			<s:HGroup width="100%" horizontalAlign="center" paddingLeft="5" paddingRight="5" verticalAlign="middle" height="98%">
+				<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  id="key" left="5" right="5" top="1" width="100%" height="98%"
+							 keyUp="press(event);" maxChars="20" prompt="Search Stores"
+							 returnKeyLabel="search"/>
+				<s:Image click="searchClick();" mouseDown="profDown(event)" mouseUp="profUp(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/searchLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/searchMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/searchHigh.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:Group width="100%" height="100%" visible="true" id="listCont" >
+			<s:BorderContainer  backgroundColor="#22252a" backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+				<s:Group width="100%" x="0" height="100%"  top="0" bottom="0" visible="false" id="mapCont"  >
+					<controls:WebView  id="webView" visible="false" top="0" source="{totalurl}" width="100%" height="100%"/>
+				</s:Group>
+				<s:List width="95%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1"
+						contentBackgroundColor="#22252a" 
+						id="storeList" labelField="name"  
+						dataProvider="{listData}" itemRenderer="components.storeResult"
+						selectedIndex="1" click="storeListClick();" 
+						mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="12"/>
+					</s:layout>
+				</s:List>
+				<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+					<s:BitmapImage id="arrowImage"  source="@Embed('assets/interfaceimages/multi/Arrow-double-up-48High.png')"/>
+					<s:Label id="loadText" color="#CDCDCD" text="Pull down to refresh"/>
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:Group>
+		
+	</s:VGroup>
+		<s:HGroup bottom="0" width="100%"  gap="0" verticalAlign="bottom">
+			<s:Image  source="assets/t1.png"   click="menugo(1)"/>
+			<s:Image source="assets/t2.png"  click="menugo(2)"/>
+			<s:Image source="assets/t3.png" click="menugo(3)"/>
+		</s:HGroup>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

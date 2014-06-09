@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="itemrenderer1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				if ((data.isfav != null)&&(data.isfav != "null")){
+					myfave = data.isfav;
+				}
+				
+				if (data.business_name != null){
+					/*if ((data.business_picture == "none")||(data.business_picture == "")){
+						bmpImg.source = defaultimg2;
+					}
+					else {
+						bmpImg.source = data.business_picture;
+					}*/
+	
+				}
+				
+				var tempdistance:String = data.distance;
+				if (tempdistance.indexOf(".") != -1){
+					var tempbefore:String = tempdistance.substr(0,tempdistance.indexOf("."));
+					tempdistance = tempdistance.substring(tempdistance.indexOf(".")+1,tempdistance.length);
+					if (tempdistance.length > 2){
+						tempdistance = tempdistance.substr(0,2);
+					}
+					distance = tempbefore+"."+tempdistance;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="defaultimg2"
+								source160dpi="@Embed('assets/default2_Low.png')"
+								source240dpi="@Embed('assets/default2_Med.png')"
+								source320dpi="@Embed('assets/default2_High.png')"/>
+	</fx:Declarations>
+	<s:Group width="100%"  height="100%"  >
+		<s:BorderContainer   width="100%" height="100%" bottom="0" backgroundAlpha="0" borderAlpha="0">
+			<s:HGroup height="100%" paddingBottom="5" paddingLeft="10" paddingRight="0" paddingTop="5"
+					  verticalAlign="middle">
+				<s:BitmapImage x="5"  y="5" id="bmpImg"  width="{this.height/1.2}" 
+							   height="{bmpImg.width}" source="{data.business_picture}" contentLoader="{s_imageCache}" scaleMode="stretch" 
+							   >
+					
+				<s:mask>
+					 <s:BorderContainer id="bmpMask"
+										cornerRadius="8"
+										width="{bmpImg.width}" height="{bmpImg.height}" />
+				 </s:mask>
+				</s:BitmapImage>
+				
+				<s:VGroup top="3" height="100%" paddingLeft="10" paddingRight="5" paddingTop="5">
+					<s:Label width="100%" color="#4d4d4d" 
+							 fontWeight="bold" styleName="textsize2" text="{data.business_name}"
+							 verticalAlign="middle"></s:Label>
+					<s:Label color="#747474"  styleName="textsize2" fontStyle="italic" 
+							 text="{distance} km"></s:Label>
+					<s:Label color="#747474" styleName="textsize2"  text="Category"></s:Label>
+					
+				</s:VGroup>
+			</s:HGroup>
+			<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="1"  borderColor="#dcdcdc" height="1" />
+		</s:BorderContainer>
+		<s:Image right="10" 
+				 verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/arrow_Low.png')"
+										source240dpi="@Embed('assets/arrow_Med.png')"
+										source320dpi="@Embed('assets/arrow_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:Group>
+</s:ItemRenderer>

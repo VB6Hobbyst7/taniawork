@@ -1,0 +1,328 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("font/Ubuntu-R.ttf");
+	fontFamily: "ubuntu";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/Ubuntu-B.ttf");
+	fontFamily: "ubuntu";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/Ubuntu-BI.ttf");
+	fontFamily: "ubuntu";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/Ubuntu-RI.ttf");
+	fontFamily: "ubuntu";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/Ubuntu-R.ttf");
+	fontFamily: "ubuntuCFF";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/Ubuntu-B.ttf");
+	fontFamily: "ubuntuCFF";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/Ubuntu-BI.ttf");
+	fontFamily: "ubuntuCFF";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/Ubuntu-RI.ttf");
+	fontFamily: "ubuntuCFF";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace esri "http://www.esri.com/2008/ags";
+@namespace components "components.*";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace local "*";
+
+
+s|TextInput {
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	
+}
+
+
+s|Label
+{
+	fontFamily: "ubuntuCFF";
+}
+
+
+s|LabelItemRenderer
+{
+	fontFamily: "ubuntu";
+}
+
+s|ActionBar
+{	
+	defaultButtonAppearance: beveled;
+	skinClass: ClassReference("spark.skins.mobile.ActionBarSkin");
+	textShadowAlpha: .65;
+	textShadowColor: #000000;
+	paddingLeft: 0;
+	
+	fontFamily: "ubuntu";
+	paddingRight: 0;
+	paddingTop: 2;
+	chromeColor: #0aaae5;
+	skinClass: ClassReference("skins.SolidActionBarSkin");
+	titleAlign: center;
+}
+s|ActionBar #titleDisplay
+{
+	color: #FFFFFF; /* default color is white */
+	/*fontSize: 35;*/
+	fontFamily: "ubuntu";
+}
+s|ActionBar.beveled s|Group#navigationGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+}
+s|ActionBar.beveled s|Group#actionGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+}
+s|TabbedViewNavigator #tabBar
+{
+	chromeColor: #FFFFFF;
+	
+	color: #FFFFFF;
+	fontWeight: normal;
+	iconPlacement: top;
+	interactionMode: mouse;
+	fontFamily: "ubuntu";
+	textShadowAlpha: 0;
+	
+	
+}
+s|TabbedViewNavigator s|ButtonBarButton:upAndSelected,
+s|TabbedViewNavigator s|ButtonBarButton:overAndSelected,
+s|TabbedViewNavigator s|ButtonBarButton:downAndSelected
+{
+	chromeColor: #d7c9b9;
+	color: #e8d9c8;
+}
+
+s|TabbedViewNavigator s|ButtonBarButton:up
+{
+	color: #e8d9c8;
+}
+
+@media (application-dpi: 160) {
+	s|TabbedViewNavigator #tabBar
+	{
+		fontSize: 16;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		color:#FFFFFF;
+		
+		height:30;
+	}
+	s|Button {
+		fontSize: 16;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 20;
+	}
+	.textsize1
+	{
+		fontSize: 10;
+	}
+	.textsize2
+	{
+		fontSize: 12;
+	}
+	.textsize3
+	{
+		fontSize: 14;
+	}
+	.textsize4
+	{
+		fontSize: 16;
+	}
+	.textsize5
+	{
+		fontSize: 18;
+	}
+	.textsize6
+	{
+		fontSize: 20;
+	}
+	.textsize7
+	{
+		fontSize: 22;
+	}
+	.textsize8
+	{
+		fontSize: 24;
+	}
+	.textsize9
+	{
+		fontSize: 26;
+	}
+	.textsize10
+	{
+		fontSize: 28;
+	}
+	
+}
+
+@media (application-dpi: 240)
+{
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:40;
+		color:#FFFFFF;
+	}
+	s|TabbedViewNavigator #tabBar
+	{
+		fontSize: 18;
+	}
+	s|Button {
+		fontSize: 18;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 27;
+	}
+	.textsize1
+	{
+		fontSize: 20;
+	}
+	.textsize2
+	{
+		fontSize: 22;
+	}
+	.textsize3
+	{
+		fontSize: 24;
+	}
+	.textsize4
+	{
+		fontSize: 26;
+	}
+	.textsize5
+	{
+		fontSize: 28;
+	}
+	.textsize6
+	{
+		fontSize: 30;
+	}
+	.textsize7
+	{
+		fontSize: 32;
+	}
+	.textsize8
+	{
+		fontSize: 34;
+	}
+	.textsize9
+	{
+		fontSize: 36;
+	}
+	.textsize10
+	{
+		fontSize: 38;
+	}
+}
+
+@media (application-dpi: 320)
+{
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:50;
+		measuredDefaultHeight:50;
+		color:#FFFFFF;
+	}
+	s|TabbedViewNavigator #tabBar
+	{
+		
+		fontSize: 20;
+	}
+	s|Button {
+		fontSize: 20;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 35;
+	}
+	.textsize1
+	{
+		fontSize: 28;
+	}
+	.textsize2
+	{
+		fontSize: 30;
+	}
+	.textsize3
+	{
+		fontSize: 32;
+	}
+	.textsize4
+	{
+		fontSize: 34;
+	}
+	.textsize5
+	{
+		fontSize: 36;
+	}
+	.textsize6
+	{
+		fontSize: 38;
+	}
+	.textsize7
+	{
+		fontSize: 40;
+	}
+	.textsize8
+	{
+		fontSize: 42;
+	}
+	.textsize9
+	{
+		fontSize: 44;
+	}
+	.textsize10
+	{
+		fontSize: 46;
+	}
+}
+global
+{
+	content-background-color: #F0F0F0;
+}

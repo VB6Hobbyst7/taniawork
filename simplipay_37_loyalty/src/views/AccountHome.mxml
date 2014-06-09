@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		creationComplete="goGetBalance();"  backgroundColor="#FFFFFF"
+		title="Scoutcard" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="logout();" 
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/logout.png')"
+										source240dpi="@Embed('assets/logout.png')"
+										source320dpi="@Embed('assets/logout.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent >
+		<s:Image x="0" y="-2" click="usermenuclick();" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/usermen_Low.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/usermen_Med.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/usermen_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+
+			protected var sqlConnection:SQLConnection;
+			
+			[Bindable]
+			public var togstatus:Boolean = false;
+			
+			public function onActivate(event:Event):void
+			{
+				
+					try{
+						var loadManager:PersistenceManager = new PersistenceManager();
+						if(loadManager.load()){
+							var savedData:Object = loadManager.getProperty("useremail");
+							if(savedData){
+								if (savedData.toString() != "ERRORBADERRORBAD"){
+									emailGo = savedData.toString();
+									var saveManager:PersistenceManager = new PersistenceManager();
+									saveManager.setProperty("useremail",savedData.toString());
+									goGetBalance();
+									thisscroll.visible = true;
+									
+								}
+								
+							}
+							else {
+								try{
+									sqlConnection = new SQLConnection();
+									sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+									var stmt:SQLStatement = new SQLStatement();
+									stmt.sqlConnection = sqlConnection;
+									stmt.text = "SELECT email, name, country, active FROM localuser";
+									stmt.execute();
+									var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+									
+									if (resData.length != 0){
+										//good login
+										var foundactive:Boolean = false;
+										for (var i:uint = 0; i < resData.length; i++){
+											if (resData[i].active == "yes"){
+												foundactive = true;
+												emailGo = resData[i].email;
+												nameGo = resData[i].name;
+												goGetBalance();
+											}
+											
+										}
+									}
+									else {
+										//bad login or no local saved login.
+									}
+								}
+								catch(e:Error){
+									
+								}
+							}
+						}
+						
+						
+					
+						
+					}
+					catch(e:Error){
+
+					}	
+					
+					
+								
+						try{
+							var code:String = emailGo;
+							//this.title = data.name;
+							var sp:Sprite = new Sprite();
+							var qr:QRCode = new QRCode();
+							qr.encode(code+"formalendofstatement");
+							var img:Bitmap = new Bitmap(qr.bitmapData);
+							img.width = 400;
+							img.height = 400;
+							sp.addChild(img);
+							var u:UIComponent = new UIComponent();
+							u.addChild(sp);
+							u.horizontalCenter = 0;
+							u.verticalCenter = 0;
+							u.percentHeight = 100;
+							u.percentWidth = 100;
+							
+							qrholder.addElement(u);	
+						}
+						catch(e:Error){
+							navigator.popView();
+						}
+					
+				
+			}
+			
+			public function goGetBalance():void {
+				try{
+				if ((emailGo != null)&&(emailGo != "")){
+					getBalance.send();		
+				}
+				}
+				catch(e:Error) {
+					
+				}
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				var temptemp:Number = ev.result[0].res;
+			
+				var tempBalance:String = temptemp.toFixed(2);
+				if (tempBalance.indexOf(".") != -1){
+					var tempString:String = tempBalance.substring(tempBalance.indexOf(".")+1,tempBalance.length);
+					if (tempString.length > 2){
+						currentBalance = "$"+tempBalance.substring(0,tempBalance.indexOf(".")+1)+tempString.substring(0,2);
+					}
+					else {
+						currentBalance = "$"+tempBalance;
+					}
+				}
+				else {
+					currentBalance = "$"+tempBalance;
+				}
+			}
+			
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+					emailGo = "ERRORBADERRORBAD";
+					nameGo = "ERRORBADERRORBAD";
+					var saveManager:PersistenceManager = new PersistenceManager();
+					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+					//navigator.pushView(Login,{newmode:true});
+					this.parentApplication.logout();
+				}
+				catch(e:Error){
+					this.parentApplication.logout();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="taxofficon" source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+		<s:MultiDPIBitmapSource id="taxonicon" source160dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_High.png')"/>
+	</fx:Declarations>
+		<s:Scroller left="0" right="0" id="thisscroll" top="0" visible="true" 
+					bottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+			<s:Group width="100%"  >
+				
+				
+				
+				
+				<s:Label top="80" color="#2A3038" fontWeight="bold" horizontalCenter="0"
+						 lineThrough="false" text="{emailGo}" textAlign="center"
+						 verticalAlign="middle"/>
+				
+				
+				
+				
+				
+				<s:BorderContainer id="qrholder" width="400" height="400" backgroundAlpha="0" borderAlpha="0"
+								   horizontalCenter="0" verticalCenter="0">
+					
+				</s:BorderContainer>
+			</s:Group>
+			
+			
+		</s:Scroller>
+		
+		
+	
+</s:View>

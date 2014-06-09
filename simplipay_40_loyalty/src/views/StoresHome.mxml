@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#FFFFFF"
+		backgroundAlpha="1"  title="Locations"
+		viewActivate="view1_activateHandler(event)">
+	<s:navigationContent>
+		<s:Label color="#FFFFFF" click="goToMap()" horizontalCenter="0" text="Map" verticalCenter="0"/>
+	</s:navigationContent>
+	<fx:Script source="../func/storefunctions.as" />
+	<fx:Script source="../func/pulldownfunctions.as" />
+	<fx:Script>
+		<![CDATA[
+			public function goToMap():void {
+				navigator.pushView(StoresMap2,
+					{mapUrl:this.mapUrl,mylat:this.mylat,mylong:this.mylong,emailGo:emailGo});
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/locations/getLocationsMobile.php"
+					   result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<type>{locationType}</type>		
+				<mylat>{mylat}</mylat>		
+				<mylong>{mylong}</mylong>		
+				<myradius>{myradius}</myradius>	
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+		
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-15" height="100%" horizontalAlign="center">
+	<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
+		<s:BorderContainer x="0" y="0"  borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0"
+						   dropShadowVisible="false" backgroundColor="#ebebeb" width="100%">
+			<s:HGroup width="100%" horizontalAlign="center" paddingLeft="5" paddingRight="5" verticalAlign="middle" height="98%">
+				<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   
+							  softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  
+							  id="key" left="5" right="5" top="1" width="100%" height="80%"
+							 keyUp="press(event);" maxChars="20" prompt="Search Stores"
+							 returnKeyLabel="search"/>
+				<s:Image click="searchClick();" mouseDown="profDown(event)" mouseUp="profUp(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/search_Low.png')"
+												source240dpi="@Embed('assets/search_Med.png')"
+												source320dpi="@Embed('assets/search_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:Group width="100%" height="100%" visible="true" id="listCont" >
+			<s:BorderContainer  backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+				<s:List width="100%" horizontalCenter="0" top="0" bottom="0" 
+						alternatingItemColors="[0xf5f5f5,0xebebeb ]"
+						id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+						dataProvider="{listData}" itemRenderer="components.storeResult"
+						selectedIndex="1" click="storeListClick();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  gap="1"/>
+					</s:layout>
+				</s:List>
+				<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+					<s:BitmapImage id="arrowImage"  source="@Embed('assets/Arrow-double-up-48High.png')"/>
+					<s:Label id="loadText" color="#000000" text="Pull down to refresh"/>
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:Group>
+	</s:VGroup>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

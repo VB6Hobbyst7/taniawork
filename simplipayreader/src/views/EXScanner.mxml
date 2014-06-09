@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" viewActivate="view1_viewActivateHandler(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" keyDown="keypress(event)"
+		title="External Scanner" >
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var scanningMode:Boolean = false;
+			[Bindable]
+			public var scannedText:String = "";
+			[Bindable]
+			public var userID:String = "";
+			[Bindable]
+			public var payAmmount:Number = 0;
+			public function process(s:String):void
+			{
+				// TODO Auto-generated method stub
+				if (totalValue.text == "0.00"){
+					totalValue.text = "";
+				}
+				
+				if (s == 'c'){
+					totalValue.text = "";
+				}
+				else {
+					totalValue.text = totalValue.text + s;
+				}
+			}
+			public function scanPress(event:MouseEvent):void {
+				scanBTN.focusEnabled = false;
+				if (scanBTN.text == "Scan User"){
+					scannedText = "";
+					scanBTN.text = "Stop Scan";
+					userLBL.text = "Scanning User...";
+					scanningMode = true;
+					processBTN.enabled = false;
+				}
+				else if (scannedText.indexOf('#END') != -1){
+					scanBTN.text = "Scan User";
+					userLBL.text = "Scan Finished";
+					scanningMode = false;
+					if (scannedText.indexOf("@") == true){
+						processBTN.enabled = true;
+						userID = scannedText.substring(0,scannedText.indexOf('#!$$'));
+						payAmmount = Number(scannedText.substring(scannedText.indexOf('#!$$')+4,scannedText.length-4));
+						var stop:String = "";
+					}
+				}
+			}
+		
+			public function keypress(event:KeyboardEvent):void
+			{
+				if (scanningMode){
+					var me:String = String.fromCharCode(event.charCode);
+					scannedText = scannedText+me;
+				}
+			}
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				processBTN.enabled = false;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer width="100%" height="100%">
+<s:HGroup width="100%" height="100%" >
+	<s:VGroup height="100%" width="30%" >
+		<s:BorderContainer width="100%" borderWeight="3" borderColor="#02446F" height="446" >
+			<s:Label id="userLBL" top="31" width="100%" fontSize="25" horizontalCenter="0"
+					 text="Please Scan a User" textAlign="center"/>
+			<s:Label visible="false" id="user" top="70" width="100%" fontSize="25" horizontalCenter="0"
+					 text="User : {scannedText}" textAlign="center"/>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" borderWeight="3" borderColor="#02446F" height="198" >
+			
+			<s:BorderContainer top="2" width="100%" height="90" backgroundColor="#02446F"
+							   click="scanPress(event);" horizontalCenter="0">
+				<s:Label   id="scanBTN" color="#FFFFFF" fontSize="25" fontWeight="bold" horizontalCenter="0"
+						 text="Scan User" verticalCenter="0"/>
+			</s:BorderContainer>
+			<s:Button id="processBTN" bottom="2" width="100%" height="50%" label="Process Payment"
+					  enabled="false" horizontalCenter="0"/>
+		</s:BorderContainer>
+		
+		
+	</s:VGroup>
+	<s:VGroup height="100%" width="70%" >
+		
+		<s:BorderContainer width="100%" height="97" borderWeight="3" borderColor="#02446F" >
+			<s:Label left="10" top="10" fontFamily="Verdana" fontSize="25" fontWeight="normal"
+					 text="Total"/>
+			<s:Label id="totalValue" y="7" width="348" height="87" fontSize="35"
+					 horizontalCenter="45" text="0.00" textAlign="center" verticalAlign="middle"/>
+			
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" borderWeight="3" borderColor="#02446F" height="80%" >
+		<s:HGroup width="463" height="500" horizontalCenter="0" verticalAlign="middle"
+				  verticalCenter="0">
+			<s:VGroup horizontalAlign="center">
+				<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+								   click="process('7');" horizontalCenter="-101">
+					<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+							 text="7" verticalCenter="0"/>
+				</s:BorderContainer>
+			
+				<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+								   click="process('4');" horizontalCenter="-101">
+					<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+							 text="4" verticalCenter="0"/>
+				</s:BorderContainer>
+			
+				<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+								   click="process('7');" horizontalCenter="-101">
+					<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+							 text="7" verticalCenter="0"/>
+				</s:BorderContainer>
+				<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+								   click="process('0');" horizontalCenter="-101">
+					<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+							 text="0" verticalCenter="0"/>
+				</s:BorderContainer>
+			</s:VGroup>
+		
+			
+				<s:VGroup>
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('8');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="8" verticalCenter="0"/>
+					</s:BorderContainer>
+				
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('5');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="5" verticalCenter="0"/>
+					</s:BorderContainer>
+				
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('2');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="2" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('.');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="." verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+			
+				<s:VGroup>
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('9');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="9" verticalCenter="0"/>
+					</s:BorderContainer>
+			
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('6');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="6" verticalCenter="0"/>
+					</s:BorderContainer>
+				
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('3');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="3" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="148" height="122"  backgroundColor="#02446F"
+									   click="process('c');" horizontalCenter="-101">
+						<s:Label color="#FFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+								 text="c" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+			
+			</s:HGroup>
+			
+		
+			
+		</s:BorderContainer>
+	</s:VGroup>
+</s:HGroup>
+	
+		
+	</s:BorderContainer>
+</s:View>
