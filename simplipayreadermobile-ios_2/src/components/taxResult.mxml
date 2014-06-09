@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" width="100%"
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				contentBackgroundAlpha="1" contentBackgroundColor="#f5f6f7"  >
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+	<s:Rect  right="0" left="0" top="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#f5f6f7" 
+						  alpha="1" />
+		</s:fill>
+	</s:Rect>
+		<s:BorderContainer   height="100%" horizontalCenter="0" width="{lb.width}" borderVisible="false" dropShadowVisible="true"
+							 mouseOut="profUp(event)" backgroundColor="#f5f6f7" backgroundAlpha="1"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" borderAlpha="0">
+			<s:Image horizontalCenter="0" id="lb" verticalCenter="0"  >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/listback_Low.png')"
+											source240dpi="@Embed('assets/listback_Med.png')"
+											source320dpi="@Embed('assets/listback_High.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Image left="8" visible="{data.usealways == 'yes'}" source="@Embed('assets/taxcheck.png')" verticalCenter="0"/>
+				<s:Label left="40" width="45%" color="#6a6a6a" fontWeight="bold" text="{data.name}"
+						 textAlign="left" verticalCenter="0"></s:Label>
+				<s:Label right="60" width="45%" color="#747577" text="{data.value}%"
+						 textAlign="right" verticalCenter="0"></s:Label>
+		</s:BorderContainer>
+</s:ItemRenderer>

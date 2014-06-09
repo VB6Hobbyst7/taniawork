@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="New Account" actionBarVisible="true">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.google.zxing.Result;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			protected var sqlConnection:SQLConnection;
+			
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		
+	</fx:Declarations>
+	<s:Group left="0" right="0" top="0" bottom="0">
+		
+		
+		<s:Label color="#6a6a6a" fontWeight="bold" horizontalCenter="0"
+				 text="Please create an account at simplipay.ca" verticalCenter="-58"/>
+		
+		<s:Image click="navigateToURL(new URLRequest('https://www.scoutcard.ca/createaccount.php?type=merch'));"
+				 horizontalCenter="0"
+				 verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/continue_Low.png')"
+										source240dpi="@Embed('assets/continue_Med.png')"
+										source320dpi="@Embed('assets/continue_High.png')"/>
+			</s:source>
+		</s:Image>
+		
+	</s:Group>
+</s:View>

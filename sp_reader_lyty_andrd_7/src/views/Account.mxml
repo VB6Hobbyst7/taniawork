@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		 viewActivate="view1_viewActivateHandler(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" actionBarVisible="true" 
+		 title="Account">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="confirmclick();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/check_Low.png')"
+										source240dpi="@Embed('assets/check_Med.png')"
+										source320dpi="@Embed('assets/check_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Image x="0" y="-2" click="signoutclick();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/signout_Low.png')"
+										source240dpi="@Embed('assets/signout_Med.png')"
+										source320dpi="@Embed('assets/signout_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var useremail:String = "";
+			import spark.filters.GlowFilter;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function contclick():void {
+				navigator.pushView(Mainscreen,{i:0});	
+			}
+			public function confirmclick():void {
+				navigator.popView();
+			}
+			public function signoutclick():void {
+				
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "update merchusers set active = 'no'";
+				stmt.execute();
+				navigator.pushView(Home,{i:0});
+
+			}
+			
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				useremail = data.email;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup gap="20" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<s:BitmapImage >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/accountback_Low.png')"
+										source240dpi="@Embed('assets/accountback_Med.png')"
+										source320dpi="@Embed('assets/accountback_High.png')"/>
+			</s:source>
+		</s:BitmapImage>
+		<s:Label color="#626262" fontSize="50" text="{useremail}" textAlign="center"/>
+		<s:VGroup gap="0" width="100%" horizontalAlign="center">
+		</s:VGroup>
+	</s:VGroup>
+</s:View>

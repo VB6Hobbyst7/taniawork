@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		actionBarVisible="true" title="Tax Type"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		 viewActivate="view1_viewActivateHandler(event)"
+		 add="home_addHandler(event)"
+		xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="cancle()"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Image x="0" y="-2"
+				 click="save();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/save_Low.png')"
+										source240dpi="@Embed('assets/save_Med.png')"
+										source320dpi="@Embed('assets/save_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;	
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			protected var sqlConnection:SQLConnection;
+			import spark.filters.GlowFilter;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function save():void {
+				if ((taxname.text != "")&&(taxamount.text != "")&&(typevalue.text != "Tax Type")){
+					var stmt:SQLStatement = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+					
+					
+					var tempstatus:String = "yes";
+					if (taxtool.source == taxon){
+						tempstatus = 'yes';
+					}
+					else {
+						tempstatus = 'no';	
+					}
+					
+					
+					if (tempstatus == "yes"){
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "update taxes set usealways = 'no'";
+						stmt.execute();
+						
+					}
+					
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					/*stmt.text = "INSERT into creditcardinfo values(0,:email,:name,:cardnumber,:cvn" +
+					",:expdate,:cardtype,:address, :usealways)";*/
+					stmt.text = "INSERT into taxes (name, value, usealways)" +
+						" values(:name,:value,:usealways)";
+					stmt.parameters[":name"] = typevalue.text;
+					stmt.parameters[":value"] = taxamount.text;
+					stmt.parameters[":usealways"] = tempstatus;	
+					
+					stmt.execute();
+					
+					
+					
+					
+					navigator.popView();
+				}
+				
+			}
+			public function togDown():void {
+				if (taxtool.source == taxon){
+					taxtool.source = taxoff;
+				}
+				else {
+					taxtool.source = taxon;
+				}
+			}
+			public function cancle():void {
+				
+				var saveManager:PersistenceManager = new PersistenceManager();
+				saveManager.setProperty("selectedtaxtype","no go");
+				navigator.popView();
+				
+			}
+			protected function image2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigator.pushView(addnewtaxtype,{email:data.email,
+					merchid:data.merchid,
+					taxname:taxname.text,
+					taxamount:taxamount.text
+				});
+			}
+			
+			protected function home_addHandler(event:FlexEvent):void
+			{
+				if(!navigator.poppedViewReturnedObject) return; //Make sure there is something to get
+				var s:String = navigator.poppedViewReturnedObject.object.toString();
+				
+				if (s != ":::"){
+					var firsttext:String = s.substr(0,s.indexOf(":::"));
+					var lasttext:String = s.substring(s.indexOf(":::")+3,s.length);
+					
+					taxamount.text = lasttext;
+					taxname.text = firsttext;
+				}
+				
+			}
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				var saveManager:PersistenceManager = new PersistenceManager();
+				var test:String = "";
+				try{
+					test = saveManager.getProperty("selectedtaxtype").toString();
+				}
+				catch(e:Error){
+					test = "no go";
+				}
+				
+				if (test != "no go"){
+					var u:Number = Number(test);
+					
+					if (u == 0){
+						typevalue.text = "GST";
+						
+					}
+					else if (u == 1){
+						typevalue.text = "GST+PST";
+					}
+					else if (u == 2){
+						typevalue.text = "HST";
+					}
+					else if (u == 3){
+						typevalue.text = "GST+QST";
+					}
+					
+					
+				}
+				var stop:String = "";
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="taxon" source160dpi="@Embed('assets/taxtoolon_Low.png')"
+								source240dpi="@Embed('assets/taxtoolon_Med.png')"
+								source320dpi="@Embed('assets/taxtoolon_High.png')"/>
+		<s:MultiDPIBitmapSource id="taxoff" source160dpi="@Embed('assets/taxtooloff_Low.png')"
+								source240dpi="@Embed('assets/taxtooloff_Med.png')"
+								source320dpi="@Embed('assets/taxtooloff_High.png')"/>
+	</fx:Declarations>
+	<s:VGroup top="40" width="100%" gap="30" horizontalAlign="center">
+		<s:Group>
+			<s:Image >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxenabledback_Low.png')"
+											source240dpi="@Embed('assets/taxenabledback_Med.png')"
+											source320dpi="@Embed('assets/taxenabledback_High.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Image id="taxtool" source="{taxoff}" right="8" mouseDown="togDown()"   verticalCenter="0">
+			</s:Image>
+		</s:Group>
+		<s:Group>
+			<s:Image
+					 click="image2_clickHandler(event)" 
+					 >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/listback_Low.png')"
+											source240dpi="@Embed('assets/listback_Med.png')"
+											source320dpi="@Embed('assets/listback_High.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Label id="typevalue" left="20"  color="#6a6a6a"
+					 text="Tax Type" verticalCenter="0"/>
+		</s:Group>
+		<s:Group>
+			<s:Image>
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/addtaxback1_Low.png')"
+											source240dpi="@Embed('assets/addtaxback1_Med.png')"
+											source320dpi="@Embed('assets/addtaxback1_High.png')"/>
+				</s:source>
+			</s:Image>
+			<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  id="taxamount" y="88" borderVisible="false" color="#6a6a6a" softKeyboardType="number"
+						 contentBackgroundAlpha="0" horizontalCenter="0" prompt="Amount"/>
+			<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  id="taxname" top="9" borderVisible="false" color="#6a6a6a"
+						 contentBackgroundAlpha="0" horizontalCenter="0" prompt="Tax Name"/>
+		</s:Group>
+	</s:VGroup>
+</s:View>

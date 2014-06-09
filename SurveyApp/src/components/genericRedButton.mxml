@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  width="100%" height="100%" mouseDown="gDown(event)"
+		  mouseOut="gOut(event)" mouseOver="gOver(event)"  backgroundColor="#921b05" >
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			
+			[Bindable]
+			public var lbl:String = "";
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+	]]>
+	</fx:Script>
+		
+		<s:Label color="#FFFFFF" fontFamily="Arial" fontSize="18" fontWeight="normal"
+				 horizontalCenter="0" text="{lbl}" textAlign="center" verticalAlign="middle"
+				 verticalCenter="0"/>	
+</s:BorderContainer>

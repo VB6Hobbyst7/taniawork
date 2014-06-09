@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					    creationComplete="init4();"
+					   >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FileEvent;
+			import mx.rpc.events.FaultEvent;
+			
+			private function onChooseFile(e:FileEvent):void {
+				output.text = e.file.name;
+			}
+			public function loadCSV(ev:MouseEvent):void {
+				
+			}
+			public function loadXML(ev:MouseEvent):void {
+				
+			}
+			public function loadTAB(ev:MouseEvent):void {
+				
+			}
+			
+			protected function getLensp_faultHandler(event:FaultEvent):void
+			{
+				if (lensCounter != 500){
+					lensCounter++;
+					updateLensData();
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Script source="func/erich1n1parser.as" />
+	<fx:Script source="func/patentLensParser.as" />
+	<fx:Script source="func/actions.as" />
+	<fx:Declarations>
+		<fx:String id="s1" />
+		<fx:int id = "i1" />
+		<fx:String id="s2" />
+		<fx:String id="s3" />
+		<fx:String id="s4" />
+		<fx:String id="s5" />
+		<fx:String id="s6" />
+		<fx:String id="s7" />
+		<fx:String id="s8" />
+		<fx:String id="s9" />
+		<fx:String id="s10" />
+		<fx:String id="s11" />
+		<fx:String id="s12" />
+		<fx:String id="s13" />
+		<fx:String id="s14" />
+		
+		<fx:String id="s15" />
+		<fx:String id="s16" />
+		<fx:String id="s17" />
+		<fx:String id="s18" />
+		<fx:String id="s19" />
+		<fx:String id="s20" />
+		<fx:String id="s21" />
+		<fx:String id="s22" />
+		<fx:String id="s23" />
+		<fx:String id="s24" />
+		<fx:String id="s25" />
+		<fx:String id="s26" />
+		<fx:String id="s27" />
+		<fx:String id="s28" />
+		<fx:String id="s29" />
+		<fx:String id="s30" />
+		<fx:String id="s31" />
+		<fx:String id="s32" />
+		<fx:String id="s33" />
+		<fx:String id="s34" />
+		<fx:String id="s35" />
+		<fx:String id="s36" />
+		<fx:String id="s37" />
+		<fx:String id="s38" />
+		<fx:String id="s39" />
+		<fx:String id="s40" />
+		<fx:String id="s41" />
+		<fx:String id="s42" />
+		<fx:String id="s43" />
+		<fx:String id="s44" />
+		<fx:String id="s45" />
+		<fx:String id="s46" />
+		<fx:String id="s47" />
+		<fx:String id="s48" />
+		<fx:String id="s49" />
+		<fx:String id="s50" />
+		<fx:String id="s51" />
+	
+
+		<s:HTTPService id = "putit"
+					   resultFormat="text"
+		url = "http://localhost/googleclaimsparser/src/php/putData.php"
+			method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+				<s7>{s7}</s7>
+				<s8>{s8}</s8>
+				<s9>{s9}</s9>
+				<s10>{s10}</s10>
+				<s11>{s11}</s11>
+				<s12>{s12}</s12>
+				<s13>{s13}</s13>
+				<s14>{s14}</s14>
+				<s15>{s15}</s15>
+				<s16>{s16}</s16>
+				<s17>{s17}</s17>
+				<s18>{s18}</s18>
+				<s19>{s19}</s19>
+				<s20>{s20}</s20>
+				<s21>{s21}</s21>
+				<s22>{s22}</s22>
+				<s23>{s23}</s23>
+				<s24>{s24}</s24>
+				<s25>{s25}</s25>
+				<s26>{s26}</s26>
+				<s27>{s27}</s27>
+				<s28>{s28}</s28>
+				<s29>{s29}</s29>
+				<s30>{s30}</s30>
+				<s31>{s31}</s31>
+				<s32>{s32}</s32>
+				<s33>{s33}</s33>
+				<s34>{s34}</s34>
+				<s35>{s35}</s35>
+				<s36>{s36}</s36>
+				<s37>{s37}</s37>
+				<s38>{s38}</s38>
+				<s39>{s39}</s39>
+				<s40>{s40}</s40>
+				<s41>{s41}</s41>
+				<s42>{s42}</s42>
+				<s43>{s43}</s43>
+				<s44>{s44}</s44>
+				<s45>{s45}</s45>
+				<s46>{s46}</s46>
+				<s47>{s47}</s47>
+				<s48>{s48}</s48>
+				<s49>{s49}</s49>
+				<s50>{s50}</s50>
+				<s51>{s51}</s51>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "getId"
+					   result="afterGetId(event);"
+					   url = "http://localhost/googleclaimsparser/src/php/getpubid.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{i1}</s1>
+			</s:request>
+		</s:HTTPService>
+		
+		<s:HTTPService id = "updateClaim"
+					   result="afterUpdateClaim(event);"
+					   url = "http://localhost/googleclaimsparser/src/php/updateClaim.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<i1>{i1}</i1>
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+	
+		<s:HTTPService id = "getLensp" fault="getLensp_faultHandler(event)"
+					   result="afterLens(event);" resultFormat="text"
+					   url = "http://localhost/googleclaimsparser/src/php/curlo.php"
+					   method="POST" >
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+		
+		
+		<s:HTTPService id = "fileGET" resultFormat="text"
+					  />
+	</fx:Declarations>
+	<mx:FileSystemTree id="fileList" x="10" y="10" 
+					   width="400" fileChoose="onChooseFile(event)"/> 
+	<s:TextInput id="output" x="10" y="188" width="400"/>
+	<s:Label x="644" y="94" width="117" height="18" text="Counter 1"/>
+	<s:Label id="cc1" x="729" y="94" width="117" 
+			 height="18" text="Counter 1"/>
+	<s:Label id="cc2" x="729" y="117" width="117" 
+			 height="18" text="Counter 1"/>
+	<s:Label x="644" y="117" width="117" height="18" 
+			 text="counter2&#xd;"/>
+	<s:Button id="csvButton" x="11" y="213" click="loadCSV(event);" 
+			  width="95" label="Load as CSV"/>
+	<s:Button id="xmlButton" x="112" y="213" click="loadXML(event);"
+			  width="95" label="Load as XML"/>
+	<s:Button id="tabdeButton" x="212" y="213" click="loadTAB(event);"
+			  width="159" label="Load as Tab Deliberated"/>
+	<s:Label id="statusInfo" x="74" y="242" width="222" height="28" text="Status" textAlign="center"
+			 verticalAlign="middle"/>
+	<mx:HTML x="328" y="400" id = "htmo"/>
+</s:WindowedApplication>
+

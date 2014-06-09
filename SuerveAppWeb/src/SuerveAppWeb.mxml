@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955" minHeight="600" creationComplete="activ()"
+			   backgroundColor.portrait="#E5E5E5">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			import events.ReportEvent;
+			import flash.net.URLLoader;
+			import flash.net.URLRequest;
+			import flash.sensors.Geolocation;
+			import flash.utils.describeType;
+			import model.Expense;
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.formatters.DateFormatter;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			
+			[Bindable]
+			public var storeid:String = "1";
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var checklistidout:String = "";
+			[Bindable]
+			public var citemsdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var answerarrayid:Array = new Array();
+			[Bindable]
+			public var answerarrayavalue:Array = new Array();
+			protected var locationDirty:Boolean = false;
+			public function activ():void {
+				//checklistidout = "1";
+				//getCheckListItems.send();
+				busy = false;
+				warn.visible = false;
+				//citemsdata = new ArrayCollection();
+				citemsdata.addItem({id:0,checklistid:0,name:"1.	Do you obtain mice and/or mouse lines from a repository?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:1,checklistid:0,name:"2.	What was your experience?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Satisfactory", "Unsatisfactory"]});
+				citemsdata.addItem({id:2,checklistid:0,name:"3.	Do you use private suppliers?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:3,checklistid:0,name:"4.	What was your experience?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Satisfactory", "Unsatisfactory"]});
+				citemsdata.addItem({id:4,checklistid:0,name:"5.	In receiving live mice or mouse lines, have you experienced  (check all that apply)",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Administrative delays (eg. MTAs)", "Shipping delays", "Customs problems", "Contamination/damage", "Animal house problems", "Comments"]});
+				citemsdata.addItem({id:5,checklistid:0,name:"6.	Please specify if the repositories were ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["National (Locations)", "International (Locations)"]});
+				citemsdata.addItem({id:6,checklistid:0,name:"7.	Why did you use those repositories?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Proximity", "Cost", "Administrative ease", "All of these", "Other (Comments)"]});
+				citemsdata.addItem({id:7,checklistid:0,name:"8.	Do you attribute the repository/ies in your papers?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No","Sometimes"]});
+				citemsdata.addItem({id:8,checklistid:0,name:"9.	Do the repositories ask you for attribution?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No","Sometimes"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"10. Are you asked in your grant reports and/ or during paper submissions if you used a repository?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No","Sometimes"]});
+				citemsdata.addItem({id:10,checklistid:0,name:"11. Who asks for your use of repositories? ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Funders", "Journals","Both","Other?"]});
+				citemsdata.addItem({id:11,checklistid:0,name:"12. Have you made mouse line(s)?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes   (How many?.....)", "No"]});
+				citemsdata.addItem({id:12,checklistid:0,name:"13. Have you ever lost line(s) that you had made?     ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes   (How?.....)", "No"]});
+				citemsdata.addItem({id:13,checklistid:0,name:"14. Did you commercialize the line(s) and/or deposit the line(s) in a public repository?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Commercialized  (How many? .....)", "Deposited (How many?.....)","Both  (How many?.....)"]});
+				citemsdata.addItem({id:14,checklistid:0,name:"15. Please specify if the repositories were ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["National (Locations)", "International (Locations)"]});
+				citemsdata.addItem({id:15,checklistid:0,name:"16. Why did you deposit there",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Proximity", "Cost", "Administrative ease", "All of these", "Other (Comments)"]});
+				citemsdata.addItem({id:16,checklistid:0,name:"17. Have you/would you contribute phenotyping data to a database?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes   (Which ones?........... )", "No (Why not?...............)"]});
+				citemsdata.addItem({id:17,checklistid:0,name:"18. Have colleagues/collaborators requested you for mouse lines?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes (How often?)", "No"]});
+				citemsdata.addItem({id:18,checklistid:0,name:"19. Do you  request colleagues/collaborators for mouse lines?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes (How often?)", "No"]});
+				citemsdata.addItem({id:19,checklistid:0,name:"20. Have you ever denied a line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes (Why? Comments)", "No (Why? Comments)"]});
+				citemsdata.addItem({id:20,checklistid:0,name:"21. Have you ever been denied a line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes (Why? Comments)", "No (Why? Comments)"]});
+				citemsdata.addItem({id:21,checklistid:0,name:"22. Do/did you use an MTA for getting or sending lines?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes (Why? Comments)", "No (Why? Comments)"]});
+				citemsdata.addItem({id:22,checklistid:0,name:"23. Who drafts  your MTA?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Self", "Legal office","TTO","Other (Specify:...............)"]});
+				citemsdata.addItem({id:23,checklistid:0,name:"24. Do you  use the NIH UBMTA?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:24,checklistid:0,name:"25. Who processes the MTA?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Self", "Legal", "Office", "TTO", "Other Specify"]});
+				
+				citemsdata.addItem({id:25,checklistid:0,name:"26. Please describe your experience with MTAs.",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Easy", "Difficult", "Quick", "Delayed"]});
+				citemsdata.addItem({id:26,checklistid:0,name:"27. In depositing mice, have you experienced  ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Administrative holdups MTAs", "Shipping delays", "All of these", "Other Specify"]});
+				citemsdata.addItem({id:27,checklistid:0,name:"28. While depositing, did your agreement with the repository permit others to use your deposited line(s)?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No", "Sometimes"]});
+				citemsdata.addItem({id:28,checklistid:0,name:"29. When you deposit a line for use by others, do you ask to be attributed as the generator of those lines?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No", "Sometimes"]});
+				citemsdata.addItem({id:29,checklistid:0,name:"30. Do you receive feedback on the use and attribution of your line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No", "Sometimes"]});
+				citemsdata.addItem({id:30,checklistid:0,name:"31. Do you receive quality-related feedback from users of your deposited line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No", "Sometimes"]});
+				citemsdata.addItem({id:31,checklistid:0,name:"32. Are you asked in your grant reports and/ or during paper submissions about your data and material sharing?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No", "Sometimes"]});
+				citemsdata.addItem({id:32,checklistid:0,name:"33. Who asks about your data and material sharing? ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Funders examples", "Journals examples", "Neither", "Other Specify"]});
+				citemsdata.addItem({id:33,checklistid:0,name:"33. Have you heard of the International Knockout Mouse Consortium (IKMC) and/or the International Mouse Phenotyping Consortium (IMPC)?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["IKMC", "IMPC", "Both", "Neither"]});				
+				citemsdata.addItem({id:34,checklistid:0,name:"34. What is the utility of the IKMC conditional KO models and the IMPC phenotyping effort? ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Very useful Comments", "Somewhat useful Comments", "Not useful Comments", "Not sure Comments"]});
+				citemsdata.addItem({id:35,checklistid:0,name:"35. Would you like to be contacted with the results and reports of this survey? If yes, could we have your email address?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes Email", "No"]});
+				/*
+				citemsdata.addItem({id:9,checklistid:0,name:"25. Who processes the MTA?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"26. Please describe your experience with MTAs.",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"27. In depositing mice, have you experienced  ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"28. While depositing, did your agreement with the repository permit others to use your deposited line(s)?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"29. When you deposit a line for use by others, do you ask to be attributed as the generator of those lines?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"30. Do you receive feedback on the use and attribution of your line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"31. Do you receive quality-related feedback from users of your deposited line?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"32. Are you asked in your grant reports and/ or during paper submissions about your data and material sharing?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"33. Who asks about your data and material sharing? ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"33. Have you heard of the International Knockout Mouse Consortium (IKMC) and/or the International Mouse Phenotyping Consortium (IMPC)?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"34. What is the utility of the IKMC conditional KO models and the IMPC phenotyping effort? ",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				citemsdata.addItem({id:9,checklistid:0,name:"35. Would you like to be contacted with the results and reports of this survey? If yes, could we have your email address?",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				*/
+				//	citemsdata.addItem({id:9,checklistid:0,name:"test10",type:"5",alert:"-1",value:"",preanswer:"",radioarray:["Yes", "No"]});
+				
+				
+				citemsdata.refresh();
+				cListList.dataProvider = citemsdata;
+				
+			}
+			
+			public function submitCheckList(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				/*answerarrayid = new Array();
+				answerarrayavalue = new Array();
+				var checklistid:String = "";
+				for (var i:uint = 0; i < citemsdata.length; i++){
+				var valuee:String = citemsdata[i].avalue;
+				if (valuee == "errornovalue"){
+				if (citemsdata[i].type == '0'){
+				
+				}
+				else if (citemsdata[i].type == '1'){
+				var CurrentDateTime:Date = new Date();
+				var CurrentDF:DateFormatter = new DateFormatter();
+				CurrentDF.formatString = "EEE MMM DD LL:NN:SS"
+				var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+				valuee = DateTimeString;
+				}
+				else if (citemsdata[i].type == '2'){
+				valuee = "-20ºC";
+				}
+				else if (citemsdata[i].type == '3'){
+				valuee = "yes";
+				}
+				else if (citemsdata[i].type == '4'){
+				
+				}
+				
+				}
+				else if (citemsdata[i].type == '1'){
+				valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+				valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+				}
+				answerarrayid.push(citemsdata[i].id);
+				answerarrayavalue.push(valuee);
+				checklistid = citemsdata[i].checklistid;
+				}
+				cListList.visible = false;
+				busy = true;
+				
+				
+				var url:String = "http://enactforum.org/originaljoes/restaurant/putAnswers.php";
+				var request:URLRequest = new URLRequest(url);
+				request.method = URLRequestMethod.POST;
+				var requestVars:URLVariables = new URLVariables();
+				requestVars.myObject = com.adobe.serialization.json.JSON.encode(answerarrayid);
+				requestVars.myObject2 = com.adobe.serialization.json.JSON.encode(answerarrayavalue);
+				requestVars.myObject3 = com.adobe.serialization.json.JSON.encode(storeid);
+				requestVars.myObject4 = com.adobe.serialization.json.JSON.encode(checklistid);
+				request.data = requestVars;
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, afterload);
+				loader.load(request);
+				*/
+				
+				
+				//subAnswers.send();
+			}
+			public function afterload(ev:Event):void {
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+				//systemManager.dispatchEvent(new ReportEvent(ReportEvent.EXPENSE_SAVED, data));
+				
+			}
+			public function afterSubmitAnswers(ev:ResultEvent):void {
+				busy = false;
+				warn.visible = true;
+				var stop:String = "";
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<s:HTTPService id="subAnswers" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/restaurant/putAnswers.php"
+					   result="afterSubmitAnswers(event)" >
+			<s:request xmlns="">
+				<storeid>{storeid}</storeid>	
+				<answerarrayid>{answerarrayid}</answerarrayid>		
+				<answerarrayavalue>{answerarrayavalue}</answerarrayavalue>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	 <s:Label top="5" horizontalCenter="0" text="Survey Web App"
+			  fontSize.portrait="30"/>
+	<s:VGroup paddingTop="0" top="50" bottom="0" paddingLeft="0" paddingBottom="0" paddingRight="0"
+			  width="100%"  gap="20" visible="true">
+		<s:List id="cListList" right="0" top="70" bottom="9" borderAlpha="0"
+				dataProvider="{citemsdata}" visible="true" contentBackgroundAlpha="0"
+				itemRenderer="components.checkListListItem" 
+				width="100%" height="100%">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="10"
+								  variableRowHeight="true"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+	<s:Label id="warn" visible="false" fontSize="30" text="Submission Complete!" 
+			 horizontalCenter="0" verticalCenter="0" />
+	
+</s:Application>

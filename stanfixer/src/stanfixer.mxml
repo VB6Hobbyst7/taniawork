@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			public var fileArray:ArrayCollection = new ArrayCollection();
+			public var fileTitle:String = "Visible_Language.csv";
+			
+			public function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var file:File = File.applicationDirectory.resolvePath("data/"+fileTitle)
+				var fileStream:FileStream = new FileStream();
+				fileStream.open(file,FileMode.READ);
+				var text:String  = fileStream.readUTFBytes(fileStream.bytesAvailable);
+				text = text.substring(text.indexOf("\r")+1,text.length);
+				do {
+					var line:String = text.substring(0,text.indexOf("\r"));
+					var date:String = line.substring(0,line.indexOf(","));
+					line = line.substring(line.indexOf(",")+1,line.length);
+					var author:String = line.substring(0,line.indexOf(","));
+					line = line.substring(line.indexOf(",")+1,line.length);
+					var title:String = line.substring(0,line.indexOf(","));
+					line = line.substring(line.indexOf(",")+1,line.length);
+					var textReal:String = line.substring(0,line.length);
+					var reedited:Boolean = false;
+					
+					if (fileArray.length > 0){
+						var author2:String = fileArray[fileArray.length-1].author;
+						var title2:String = fileArray[fileArray.length-1].title;
+						if (author2.substring(0,author2.indexOf(" ")) == author.substring(0,author.indexOf(" "))){
+							if (title2.substring(0,title2.indexOf(" ")) == title.substring(0,title.indexOf(" "))){
+								var stop:String = "";	
+								fileArray[fileArray.length-1].text = fileArray[fileArray.length-1].text + " " + textReal;
+								reedited = true;
+							}
+						}
+						else if (title2 == title){
+							fileArray[fileArray.length-1].text = fileArray[fileArray.length-1].text + " " + textReal;
+							reedited = true;
+						}
+					}
+					// leave space
+					if (reedited == false){
+						fileArray.addItem({date:date,author:author,title:title,textReal:textReal});
+					}
+					reedited = false;
+					text = text.substring(text.indexOf("\r")+1,text.length);  
+					
+				}while (text.indexOf("\r") != -1);
+				var stop2:String = "";
+			writeToCsv();	
+			}
+			public function writeToCsv():void {
+				var csvText:String = "date,author,title,text";
+				for (var i:uint = 0; i < fileArray.length; i++){
+					csvText = csvText + "\r" + fileArray[i].date +
+						"," + fileArray[i].author +
+						"," + fileArray[i].title +
+						"," + fileArray[i].textReal;
+				}
+				var fileRef:FileReference = new FileReference();
+				fileRef.save(csvText,fileTitle);
+				
+				var stop:String = "";
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:WindowedApplication>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7" viewActivate="view1_viewActivateHandler(event)"
+		 actionBarVisible="true" title="Tax Type"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="goback();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			protected var sqlConnection:SQLConnection;
+			import spark.filters.GlowFilter;
+			
+			public function goback():void {
+				var returnedObject:Object = new Object();
+				returnedObject.myValue = data.taxname+":::"+data.taxamount;
+			//	navigator.poppedViewReturnedObject = returnedObject;
+				navigator.popView();
+			}
+			
+			
+		
+			override public function createReturnObject():Object
+			{
+				return  data.taxname+":::"+data.taxamount;
+			}
+			
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function gs(u:uint):void {
+				
+				
+			/*	var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt.sqlConnection = sqlConnection;
+				
+			*/
+				
+				
+				if (u == 0){
+					gt1.setStyle("color","#d3701f");
+					gt2.setStyle("color","#6a6a6a");
+					gt3.setStyle("color","#6a6a6a");
+					gt4.setStyle("color","#6a6a6a");
+					gt5.setStyle("color","#6a6a6a");
+					gtc1.visible = true;
+					gtc2.visible = false;
+					gtc3.visible = false;
+					gtc4.visible = false;
+					gtc5.visible = false;
+				//	stmt.text = "update taxes set name = 'GST', usealways = 'yes' where id = "+data.gstid;
+					
+				}
+				else if (u == 1){
+					gt1.setStyle("color","#6a6a6a");
+					gt2.setStyle("color","#d3701f");
+					gt3.setStyle("color","#6a6a6a");
+					gt4.setStyle("color","#6a6a6a");
+					gt5.setStyle("color","#6a6a6a");
+					gtc1.visible = false;
+					gtc2.visible = true;
+					gtc3.visible = false;
+					gtc4.visible = false;
+					gtc5.visible = false;
+					//stmt.text = "update taxes set name = 'PST', usealways = 'yes' where id = "+data.gstid;
+				}
+				else if (u == 2){
+					gt1.setStyle("color","#6a6a6a");
+					gt2.setStyle("color","#6a6a6a");
+					gt3.setStyle("color","#d3701f");
+					gt4.setStyle("color","#6a6a6a");
+					gt5.setStyle("color","#6a6a6a");
+					gtc1.visible = false;
+					gtc2.visible = false;
+					gtc3.visible = true;
+					gtc4.visible = false;
+					gtc5.visible = false;
+				//	stmt.text = "update taxes set name = 'HST', usealways = 'yes' where id = "+data.gstid;
+				}
+				else if (u == 3){
+					gt1.setStyle("color","#6a6a6a");
+					gt2.setStyle("color","#6a6a6a");
+					gt3.setStyle("color","#6a6a6a");
+					gt4.setStyle("color","#d3701f");
+					gt5.setStyle("color","#6a6a6a");
+					gtc1.visible = false;
+					gtc2.visible = false;
+					gtc3.visible = false;
+					gtc4.visible = true;
+					gtc5.visible = false;
+					//stmt.text = "update taxes set name = 'QST', usealways = 'yes' where id = "+data.gstid;
+				}
+				else if (u == 4){
+					gt1.setStyle("color","#6a6a6a");
+					gt2.setStyle("color","#6a6a6a");
+					gt3.setStyle("color","#6a6a6a");
+					gt4.setStyle("color","#6a6a6a");
+					gt5.setStyle("color","#d3701f");
+					gtc1.visible = false;
+					gtc2.visible = false;
+					gtc3.visible = false;
+					gtc4.visible = false;
+					gtc5.visible = true;
+				//	stmt.text = "update taxes set name = 'PEI PST', usealways = 'yes' where id = "+data.gstid;
+				}
+				
+				
+				var saveManager:PersistenceManager = new PersistenceManager();
+				saveManager.setProperty("selectedtaxtype",u.toString());
+				
+				
+			//	stmt.execute();
+			}
+			
+		
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				try{
+					var saveManager:PersistenceManager = new PersistenceManager();
+					
+					var test:String = "";
+					try{
+						test = saveManager.getProperty("selectedtaxtype").toString();
+					}
+					catch(e:Error){
+						test = "no go";
+					}
+					
+					if (test != "no go"){
+						var u:Number = Number(test);
+						
+						gs(u);
+						
+					}
+					
+				}
+				catch(e:Error){
+					gs(0);
+				}
+				
+				
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	</fx:Declarations>
+	<s:Image id="backimage"  horizontalCenter="0" top="40" >
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/gsttypeback_Low.png')"
+									source240dpi="@Embed('assets/gsttypeback_Med.png')"
+									source320dpi="@Embed('assets/gsttypeback_High.png')"/>
+		</s:source>
+	</s:Image>
+	<s:VGroup top="40" width="100%"  gap="30" horizontalAlign="center">
+		<s:VGroup gap="0" horizontalAlign="center" height="100%" width="100%" >
+			<s:Group id="g1" click="gs(0)"  height="{backimage.height/5}" width="{backimage.width}"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event);"
+					 mouseOut="gOut(event);">
+				<s:Image id="gtc1" right="20" verticalCenter="0" visible="false">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxcheck.png')"
+												source240dpi="@Embed('assets/taxcheck.png')"
+												source320dpi="@Embed('assets/taxcheck.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="gt1" x="29" y="25" color="#6a6a6a" fontWeight="bold" text="GST"/>
+			</s:Group>
+			<s:Group id="g2" click="gs(1)"  height="{backimage.height/5}" width="{backimage.width}"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event);" 
+					 mouseOut="gOut(event);" >
+				<s:Image id="gtc2" right="20" verticalCenter="0" visible="false">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxcheck.png')"
+												source240dpi="@Embed('assets/taxcheck.png')"
+												source320dpi="@Embed('assets/taxcheck.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="gt2" x="29" y="25" color="#6a6a6a" fontWeight="bold" text="PST"/>
+			</s:Group>
+			<s:Group id="g3" click="gs(2)"  height="{backimage.height/5}" width="{backimage.width}"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event);"
+					 mouseOut="gOut(event);"  >
+				<s:Image id="gtc3" right="20" verticalCenter="0" visible="false">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxcheck.png')"
+												source240dpi="@Embed('assets/taxcheck.png')"
+												source320dpi="@Embed('assets/taxcheck.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="gt3" x="29" y="25" color="#6a6a6a" fontWeight="bold" text="HST"/>
+			</s:Group>
+			<s:Group id="g4" click="gs(3)"  height="{backimage.height/5}" width="{backimage.width}"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event);" 
+					 mouseOut="gOut(event);" >
+				<s:Image id="gtc4" right="20" verticalCenter="0" visible="false">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxcheck.png')"
+												source240dpi="@Embed('assets/taxcheck.png')"
+												source320dpi="@Embed('assets/taxcheck.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="gt4" x="29" y="25" color="#6a6a6a" fontWeight="bold" text="QST"/>
+			</s:Group>
+			<s:Group id="g5" click="gs(4)"  height="{backimage.height/5}" width="{backimage.width}"
+					 mouseDown="gDown(event)" mouseOver="gOver(event)" mouseUp="gOut(event);" 
+					 mouseOut="gOut(event);"  >
+				<s:Image id="gtc5" right="20" verticalCenter="0" visible="false">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxcheck.png')"
+												source240dpi="@Embed('assets/taxcheck.png')"
+												source320dpi="@Embed('assets/taxcheck.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="gt5" x="29" y="25" color="#6a6a6a" fontWeight="bold" text="PEI PST"/>
+			</s:Group>
+			
+			
+		</s:VGroup>
+		<s:Image >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/gstselectorinfo_Low.png')"
+										source240dpi="@Embed('assets/gstselectorinfo_Med.png')"
+										source320dpi="@Embed('assets/gstselectorinfo_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:VGroup>
+</s:View>

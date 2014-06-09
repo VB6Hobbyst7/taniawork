@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		 viewActivate="view1_viewActivateHandler(event)"
+		 actionBarVisible="true" title="Tax"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.IndexChangedEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			protected var sqlConnection:SQLConnection;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(AddTax,{email:data.email,
+					merchid:data.merchid});
+			}
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				busy = true;
+				listData = new ArrayCollection();
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS taxes (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					"name varchar(255), " +
+					"value varchar(255), " +
+					"usealways varchar(255))";
+				stmt.execute();
+				getMyTax();
+			}
+			protected function getMyTax():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM taxes";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].usealways == "yes"){
+							foundactive = true;
+						}
+						listData.addItem({id:resData[i].id,name:resData[i].name,
+							value:resData[i].value,usealways:resData[i].usealways});
+						//add tax item to list
+					}
+					if (foundactive == false){
+						var stop:String = "";
+						if (listData.length > 0){
+							listData[0].usealways = "yes";
+						}
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "update taxes set  usealways = 'yes' where id = "+listData[0].id;
+						stmt.execute();
+					}
+				}
+				busy = false;
+			}
+			public function searchClick():void
+			{	
+				//filter the list
+				
+				listData.filterFunction = filterCompleted;
+				listData.refresh();
+				taxList.dataProvider = listData;
+				var s:String = "";
+				s.toLowerCase()
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			private function filterCompleted(item:Object):Boolean{
+				/*if((item.price.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.total.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.day.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.year.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.month.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.locationname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;*/
+				return false;
+			}
+			public function listchange(e:IndexChangeEvent):void {
+				var stop:String ="";
+				navigator.pushView(gstselector,{usealways:e.currentTarget.selectedItems[0].usealways,
+					gstname:e.currentTarget.selectedItems[0].name,
+					gstid:e.currentTarget.selectedItems[0].id,
+					value:e.currentTarget.selectedItems[0].value
+				});
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" top="20" horizontalAlign="center" >
+
+				<s:List id="taxList"  width="100%" top="10" maxHeight="{this.height-60}"
+						contentBackgroundAlpha="1" contentBackgroundColor="#f5f6f7" dataProvider="{listData}"
+						horizontalCenter="0" itemRenderer="components.taxResult" labelField="name"
+						 change="listchange(event);" selectionColor="#2a3038"
+						selectedIndex="1">	
+					<s:layout>
+						<s:VerticalLayout gap="5">
+						</s:VerticalLayout>
+					</s:layout>
+				</s:List>
+		<s:Image  click="image1_clickHandler(event)" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/addnewtaxtype_Low.png')"
+										source240dpi="@Embed('assets/addnewtaxtype_Med.png')"
+										source320dpi="@Embed('assets/addnewtaxtype_High.png')"/>
+			</s:source>
+		</s:Image>
+		<s:Image >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taxinfo_Low.png')"
+										source240dpi="@Embed('assets/taxinfo_Med.png')"
+										source320dpi="@Embed('assets/taxinfo_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

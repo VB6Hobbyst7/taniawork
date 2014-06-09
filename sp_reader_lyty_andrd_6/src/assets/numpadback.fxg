@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"  viewHeight= "140" viewWidth= "216">
+	<Library>
+	</Library>
+
+	<Group d:userLabel="Background" d:type="layer">
+		<BitmapImage source="@Embed('./numpadback_High.png')" x="0" y="0" blendMode="normal">
+		</BitmapImage>
+	</Group>
+	<Group d:userLabel="Layer_1" d:type="layer">
+	</Group>
+</Graphic>

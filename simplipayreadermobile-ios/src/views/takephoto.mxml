@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7" viewActivate="loadCam();"
+		 title="New Photo" actionBarVisible="true"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import com.google.zxing.BarcodeFormat;
+			import com.google.zxing.BinaryBitmap;
+			import com.google.zxing.BufferedImageLuminanceSource;
+			import com.google.zxing.DecodeHintType;
+			import com.google.zxing.Result;
+			import com.google.zxing.client.result.ParsedResult;
+			import com.google.zxing.client.result.ResultParser;
+			import com.google.zxing.common.BitMatrix;
+			import com.google.zxing.common.ByteMatrix;
+			import com.google.zxing.common.GlobalHistogramBinarizer;
+			import com.google.zxing.common.flexdatatypes.HashTable;
+			import com.google.zxing.qrcode.QRCodeReader;
+			import com.google.zxing.qrcode.detector.Detector;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			protected var camera:Camera;
+			private var videoDisplay:Video=new Video(360, 360);
+			private var qrReader:QRCodeReader;
+			private var bmd:BitmapData;
+			private var cameraStarted:Boolean = false;
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+			loadCam();
+			}
+			public function loadCam():void {
+				if (!cameraStarted) {
+					if (Camera.isSupported)
+					{
+						camera=Camera.getCamera();
+						camera.setMode(360, 360, 24);
+						
+						videoDisplay.x = 0;
+						sv.addChild(videoDisplay);
+						
+						videoDisplay.attachCamera(camera);
+						videoDisplay.rotation=0;
+						qrReader=new QRCodeReader;
+						btn.label = "Take Photo";
+						lbl.text = "";
+						cameraStarted = true;
+					}
+					else {
+						lbl.text = "no camera found";
+					}
+				}
+				else {
+					decodeSnapshot();
+				}
+			}
+			public function decodeSnapshot():void
+			{
+				lbl.text="Saving...";
+				bmd=new BitmapData(300, 300);
+				bmd.draw(videoDisplay, null, null, null, null, true);
+				videoDisplay.cacheAsBitmap=true;
+				videoDisplay.cacheAsBitmapMatrix=new Matrix;
+				//decodeBitmapData(bmd, 300, 300);
+				bmd.dispose();
+				bmd=null;
+				System.gc();
+				navigator.popView();
+			}
+			
+			public function decodeBitmapData(bmpd:BitmapData, width:int, height:int):void
+			{
+				var lsource:BufferedImageLuminanceSource=new BufferedImageLuminanceSource(bmpd);
+				var bitmap:BinaryBitmap=new BinaryBitmap(new GlobalHistogramBinarizer(lsource));
+				
+				var ht:HashTable=null;
+				ht=this.getAllHints();
+				
+				var res:Result=null;
+				try {
+					res=qrReader.decode(bitmap, ht);
+				}
+				catch (event:Error) {
+				}
+				
+				if (res == null) {
+					videoDisplay.clear();
+					lbl.text="nothing decoded";
+				}
+				else {
+					var parsedResult:ParsedResult=ResultParser.parseResult(res);
+					lbl.text=parsedResult.getDisplayResult();
+					sv.removeChild(videoDisplay);
+					cameraStarted = false;
+					btn.label = "Take Photo";
+				}
+			}
+			
+			public function getAllHints():HashTable
+			{
+				var ht:HashTable=new HashTable;
+				ht.Add(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
+				return ht;
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function contclick():void {
+				navigator.pushView(Mainscreen,{i:0});
+			}
+			public function addphoto():void {
+				navigator.pushView(takephoto,{i:0});
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	</fx:Declarations>
+	<s:VGroup id="vg" width="100%" horizontalAlign="center" horizontalCenter="0" verticalCenter="0">
+		<s:SpriteVisualElement id="sv" width="360" height="400"/>
+		<s:Label id="lbl" color="#FFFFFF" text=""/>
+		<s:Button id="btn" label="Take Photo" width="220" height="93" click="button1_clickHandler(event)"/>
+	</s:VGroup>
+</s:View>

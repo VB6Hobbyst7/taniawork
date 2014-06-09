@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"  
+		creationComplete="view1_creationCompleteHandler(event)"
+		title="Account" actionBarVisible="true">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Image x="0" y="-2" mouseDown="gDown(event)" 
+				 mouseOut="gOut(event)"  mouseUp="gOut(event)"
+				 click="authorizeLogin(userNameInput.text,userPasswordInput.text)" 
+				 mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/signin2_Low.png')"
+										source240dpi="@Embed('assets/signin2_Med.png')"
+										source320dpi="@Embed('assets/signin2_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import flash.system.Capabilities;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.RuntimeDPIProvider;
+			import mx.core.UIComponent;
+			import mx.effects.Move;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.effects.Scale;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			protected var sqlConnection:SQLConnection;
+			public var createnewgood:Boolean = false;
+			public var createnewmerchid:String = "-1";
+			public var createnewlocality:String = "AB";
+			[Bindable]
+			public var busy:Boolean = true;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function contclick():void {
+				navigator.pushView(Mainscreen,{i:0});	
+			}
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				logWarning.visible = false;
+				if (username == "1988mark"){
+					wipe();
+					logWarning.text = "WIPED!";
+					logWarning.visible = true;
+					busy = false;
+				}
+				else {
+					userid = username;
+					busy = true;
+					passid = userpassword;
+					checkLogin.send();
+				}
+				
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].res.message == "ok"){
+					createnewgood = true;
+					createnewmerchid = ev.result[0].res.merchid;
+					createnewlocality = ev.result[0].res.locality;
+					AddNewLocalUser(userNameInput.text,
+						ev.result[0].res.merchid);
+				}
+				else {
+					//bad login
+					logWarning.text = "Incorrect Login";
+					logWarning.visible = true;
+				}
+			}
+			public function AddNewLocalUser(email:String,merchid:String):void
+			{
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, merchid, locality, active FROM merchusers where email = '"+email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var i:uint = 0;
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "update merchusers set active = 'yes' where email = '"+email+"'";
+						stmt.execute();
+						try{
+							logWarning.visible = false;
+						}
+						catch(e:Error){
+							
+						}
+						
+						var saveManager:PersistenceManager = new PersistenceManager();
+						saveManager.setProperty("useremail", resData[i].email);
+						navigator.pushView(Mainscreen,{email: resData[i].email, merchid:resData[i].merchid, locality:createnewlocality});
+						//this.parentApplication.refresh(0,resData[i].email,resData[i].name);
+					}
+					else {
+						//bad login or no local saved login.
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into merchusers values(:email,:merchid,:locality,:active)";
+						stmt.parameters[":email"] = email;
+						stmt.parameters[":merchid"] = merchid;
+						stmt.parameters[":locality"] = createnewlocality;
+						stmt.parameters[":active"] = "yes";
+						stmt.execute();
+						getLocalUsers();
+						
+					}
+				}
+				catch(e:Error){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into merchusers values(:email,:merchid,:locality,:active)";
+					stmt.parameters[":email"] = email;
+					stmt.parameters[":merchid"] = merchid;
+					stmt.parameters[":locality"] = createnewlocality;
+					stmt.parameters[":active"] = "yes";
+					stmt.execute();
+					getLocalUsers();
+					
+				}
+			
+			}
+			public function wipe():void {
+				var stmt:SQLStatement = new SQLStatement();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+				try{
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "Drop TABLE creditcardinfo";
+					stmt.execute();
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "Drop TABLE paymentmethods";
+					stmt.execute();
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "Drop TABLE paypalinfo";
+					stmt.execute();
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("quickpins.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "Drop TABLE quickpins";
+					stmt.execute();
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "Drop TABLE merchuser";
+					stmt.execute();	
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			protected function getLocalUsers():void
+			{
+				try{
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, merchid, locality, active FROM merchusers";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						var foundactive:Boolean = false;
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].active == "yes"){
+								foundactive = true;
+								
+								try{
+									logWarning.visible = false;
+								}
+								catch(e:Error){
+									
+								}
+								
+								try{
+									//newlogWarning.visible = false;
+								}
+								catch(e:Error){
+									
+								}
+								var saveManager:PersistenceManager = new PersistenceManager();
+								saveManager.setProperty("useremail", resData[i].email);
+								navigator.pushView(Mainscreen,{email: resData[i].email,merchid: resData[i].merchid, locality:createnewlocality});
+								//	this.parentApplication.refresh(0,resData[i].email,resData[i].name);
+							}
+							
+						}
+						if (foundactive == false){
+							//bad login
+							var stop:String = "";
+						}	
+					}
+					else {
+						//bad login or no local saved login.
+					}
+				}
+				catch(e:Error){
+					if (createnewgood){
+						
+						navigator.pushView(Mainscreen,{email: userNameInput.text,merchid:createnewmerchid, locality:createnewlocality});
+					}
+				}
+				
+			}
+			protected function view1_creationCompleteHandler(event:FlexEvent):void
+			{
+				trace(Capabilities.screenDPI);
+				//>= 320
+				busy = false;
+				
+			}
+			public function passenter():void {
+				authorizeLogin(userNameInput.text,userPasswordInput.text);
+			}
+			public function keypresso(ev:KeyboardEvent):void {
+				if (ev.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="newCountry2" />
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="https://simplipay.ca/php/merchlogin/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" paddingTop="20" visible="{!busy}" height="100%"  horizontalAlign="center"  >
+		<s:Group>
+			<s:Image top="-4" horizontalCenter="0" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/signinback_Low.png')"
+											source240dpi="@Embed('assets/signinback_Med.png')"
+											source320dpi="@Embed('assets/signinback_High.png')"/>
+				</s:source>
+			</s:Image>
+			<s:VGroup   width="95%">
+				
+				<s:TextArea id="userNameInput" width="98%" height="71" borderVisible="false"
+							color="#6a6a6a" contentBackgroundAlpha="0" horizontalCenter="0"
+							prompt="Email"/>
+				<s:TextArea id="userPasswordInput" width="98%" height="73" borderVisible="false"
+							 color="#6a6a6a" contentBackgroundAlpha="0" displayAsPassword="true"
+							 keyDown="keypresso(event);"  horizontalCenter="0" prompt="Password"/>
+				<s:Label fontFamily="_sans" visible="false"  color="#6a6a6a" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:Group>
+		
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

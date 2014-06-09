@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		viewActivate="view1_viewActivateHandler(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" actionBarVisible="true" 
+		title="{titleo}">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="usermenuclick();" mouseDown="gDown2(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver2(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/usermen_Low.png')"
+										source240dpi="@Embed('assets/usermen_Med.png')"
+										source320dpi="@Embed('assets/usermen_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script source="../func/scanFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var titleo:String = "user@user.com";
+			[Bindable]
+			public var scannedText:String = "";
+			[Bindable]
+			public var scannedText2:String = "";
+			[Bindable]
+			public var scanningMode:Boolean = false;
+			[Bindable]
+			public var payamount:Number = 0;
+			[Bindable]
+			public var gst:String = "5";
+			public var codeArray:Array = new Array();
+			[Bindable]
+			public var myamount:String = "";
+		
+			public function gOver2(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.6,15,15,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown2(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.6,15,15,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			
+			public function newaccountclick():void {
+				navigator.pushView(CreateAccount,{i:0});
+			}
+			public function signinclick():void {
+				navigator.pushView(SignIn,{i:0});
+			}
+			public function process(s:String):void
+			{
+				warn.text = "Enter Cost to Scan..";
+				if (totalValue.text == "$0.00"){
+					totalValue.text = "$";
+				}
+				
+				if (s == 'c'){
+					totalValue.text = "$0.00";
+					scanBTN.enabled = true;
+					scanBTN.visible = false;
+					codeArray = new Array();
+					payamount = 0;
+					scannedText = "";
+					scannedText2 = "";
+					scanningMode = false;
+					userLBL.text = "Please Scan a User";
+				}
+				else {
+					if (scanningMode == false){
+						scanBTN.enabled = true;
+						scanBTN.visible = true;
+					}
+					
+					var ptv:String =  totalValue.text + s;
+					if (ptv.indexOf(".") != -1){
+						if (ptv.indexOf(".") != ptv.lastIndexOf(".")){
+							
+						}
+						else {
+							var temp:String = ptv.substring(ptv.indexOf(".")+1,ptv.length);
+							if (temp.length > 2){
+								
+							}
+							else {
+								totalValue.text = totalValue.text + s;
+							}	
+						}
+						
+					}
+					else {
+						totalValue.text = totalValue.text + s;
+					}
+					
+				}
+			}
+			public function usermenuclick():void {
+				navigator.pushView(Account,{email:data.email,
+					merchid:data.merchid,
+					locationid:data.locationid});
+			}
+			public function scanClick():void {
+				myamount = totalValue.text;
+					startScanner()
+			}
+		
+				
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.titleo = data.email;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="payGo" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/handshake/startprocess.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<code>{code}</code>	
+				<amount>{myamount}</amount>	
+				<gst>{data.gst}</gst>
+				<merchid>{data.merchid}</merchid>
+				<locationid>{data.merchid}</locationid>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Label visible="false" id="userLBL"  
+			 fontWeight="normal" text="Please Scan a User"
+			 textAlign="center" />
+	<s:Label id="user" visible="false" 
+			 text="User : {scannedText}"
+			 textAlign="left"/>
+	<s:Group width="100%" height="100%"  top="0" >
+		<s:VGroup width="100%" height="100%">
+
+			<s:Label id="totalValue" paddingRight="20" top="30" bottom="4" width="100%" height="120"
+					 color="#575859" fontSize="80" fontWeight="bold" text="$0.00" textAlign="right"
+					 verticalAlign="middle"/>
+			<s:Label id="totalValuewithtax" paddingRight="20" top="30" bottom="4" width="100%" color="#575859"
+					 fontSize="40" fontWeight="normal" text="$0.00 including tax" textAlign="right"
+					 verticalAlign="middle"/>
+			<s:TextInput id="adddescription" top="30" bottom="4" width="100%" height="50"
+						 borderVisible="false" color="#8A8A8A" contentBackgroundAlpha="0"
+						 fontSize="40"  paddingLeft="20"
+						 prompt="Add Description.." textAlign="left"/>
+		
+				
+			<s:Group width="100%"    >
+				<s:Label id="warn" left="0" right="0" color="#575859" fontSize="60"
+						 horizontalCenter="0" text="Enter Cost to Scan.." textAlign="center"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Image id="scanBTN" x="0" y="-2" visible="false" click="scanClick();" mouseDown="gDown(event)"
+						 mouseOut="gOut(event)" mouseOver="gOver(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taptoscan_Low.png')"
+												source240dpi="@Embed('assets/taptoscan_Med.png')"
+												source320dpi="@Embed('assets/taptoscan_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+			
+			<s:Group width="100%" visible="true"  height="65%" bottom="0" >
+				<s:Group id="numkeycont" left="0" right="0" top="0" bottom="0" >
+					<s:HGroup left="0" gap="0"   right="0" top="0" bottom="0" verticalAlign="middle">
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('1');" label="1"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('4');" label="4"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('7');" label="7"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('.');" label=".00"/>
+						</s:VGroup>
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('2');" label="2"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('5');" label="5"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('8');" label="8"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('0');" label="0"/>
+						</s:VGroup>
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('3');" label="3"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('6');" label="6"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('9');" label="9"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad2"
+									  click="process('c');" label=""/>
+						</s:VGroup>
+					</s:HGroup>
+				</s:Group>
+			</s:Group>
+		</s:VGroup>
+	</s:Group>
+</s:View>

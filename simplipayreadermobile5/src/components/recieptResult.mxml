@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+		<s:BorderContainer   height="100%" width="100%" borderVisible="false" dropShadowVisible="true"
+							 mouseOut="profUp(event)" backgroundColor="#f5f6f7" backgroundAlpha="1"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" borderAlpha="0">
+			<s:HGroup paddingLeft="15" paddingTop="5" paddingBottom="5" paddingRight="15" id="hgroupe" horizontalAlign="center" 
+					  verticalAlign="middle" width="100%" height="100%" >
+				<s:VGroup width="60%" height="100%" gap="15" verticalAlign="middle">
+					<s:Label color="#6a6a6a" fontWeight="bold" text="{data.locationname}"></s:Label>
+					<s:Label color="#6a6a6a" text="{data.day}/{data.month}/{data.year}"></s:Label>
+				</s:VGroup>
+				<s:VGroup width="40%" height="100%" gap="15" horizontalAlign="right" paddingRight="5"
+						  verticalAlign="middle">
+					<!--s:Label color="#ef7716"  text="Amount: ${data.price}"></s:Label-->
+					<s:Label color="#ef7716" text="Total Payment" textAlign="right"></s:Label>
+					<s:Label color="#ef7716" fontWeight="bold" text="Total: ${data.total}"
+							 textAlign="right" verticalAlign="top"></s:Label>
+				</s:VGroup>
+			</s:HGroup>
+		</s:BorderContainer>
+</s:ItemRenderer>

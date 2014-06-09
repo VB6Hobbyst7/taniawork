@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" actionBarVisible="false" >
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function newaccountclick():void {
+				navigator.pushView(CreateAccount,{i:0});
+			}
+			public function signinclick():void {
+				navigator.pushView(SignIn,{i:0});
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	</fx:Declarations>
+	<s:BitmapImage height="100%" width="100%" >
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/home-bg_Low.png')"
+									source240dpi="@Embed('assets/home-bg_Med.png')"
+									source320dpi="@Embed('assets/home-bg_High.png')"/>
+		</s:source>
+	</s:BitmapImage>
+	<s:VGroup gap="20" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		
+		<s:Image click="newaccountclick();"
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/newaccount_Low.png')"
+										source240dpi="@Embed('assets/newaccount_Med.png')"
+										source320dpi="@Embed('assets/newaccount_High.png')"/>
+			</s:source>
+		</s:Image>
+		<s:Image click="signinclick();"
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/signin_Low.png')"
+										source240dpi="@Embed('assets/signin_Med.png')"
+										source320dpi="@Embed('assets/signin_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:VGroup>
+</s:View>

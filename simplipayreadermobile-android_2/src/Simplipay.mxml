@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   fontFamily="ubuntu"
+			   applicationComplete="onApplicationComplete()"
+			   backgroundColor="#FFFFFF"
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+			   splashScreenScaleMode="none"
+			   splashScreenMinimumDisplayTime="1000">
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import spark.managers.PersistenceManager;
+			import views.Mainscreen;
+			protected var sqlConnection:SQLConnection;
+			public var v1:Mainscreen;
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function onApplicationComplete():void
+			{
+				this.stage.autoOrients = false;
+				NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
+				NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onDeactivate);
+				var stmt:SQLStatement = new SQLStatement();
+				// TODO Auto-generated method stub
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS merchusers (" +
+					"email varchar(255)," +
+					"merchid varchar(255)," +
+					"locality varchar(255)," +
+					"active varchar(255))";
+				stmt.execute();
+				getLocalUsers();
+			}
+			protected function getLocalUsers():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, merchid, locality, active FROM merchusers";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+							var saveManager:PersistenceManager = new PersistenceManager();
+							saveManager.setProperty("useremail", resData[i].email);
+							busy = true;
+							home.pushView(Mainscreen,{email:resData[i].email,
+								merchid:resData[i].merchid,locality:resData[i].locality});
+						}
+					}
+					if (foundactive == false){						
+					}
+				}
+				else {
+					//bad login or no local saved login.
+				}
+				busy = false;
+			}
+			protected function onActivate(event:Event):void
+			{
+				stage.frameRate=60; 
+			}
+			// Handle the application being sent to the background, garbage collect and lower frame rate to use less resources
+			protected function onDeactivate(event:Event):void 
+			{
+				System.gc();
+				stage.frameRate=2;
+			}
+		]]>
+	</fx:Script>
+	<s:ViewNavigator id="home" visible="{!busy}"  label="Home"   firstView='views.Home' width="100%" height="100%"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:Application>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		 viewActivate="view1_viewActivateHandler(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		 title="New Account" actionBarVisible="true">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Image x="0" y="-2" click="contclick();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/continue_Low.png')"
+										source240dpi="@Embed('assets/continue_Med.png')"
+										source320dpi="@Embed('assets/continue_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.google.zxing.Result;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			protected var sqlConnection:SQLConnection;
+
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function contclick():void {
+				logWarning.visible = false;
+				var fail:Boolean = false;
+				if (password1.text != password2.text){
+					logWarning.visible = true;
+					logWarning.text = "Passwords do not match";
+					fail = true;
+				}
+				
+				if ((firstname.text == "")||(lastname.text == "")||(email.text == "")||(email.text.indexOf("@") == -1)){
+					logWarning.visible = true;
+					logWarning.text = "Please Enter All Information";
+					fail = true;
+				}
+				
+				if (fail == false){
+					createNewUser.send();
+				}
+				
+				
+				
+			}
+			public function afterCreateNewUser(ev:ResultEvent):void {
+				if (ev.result[0].res.message == "ok"){
+					AddNewLocalUser(ev.result[0].res.email,
+						ev.result[0].res.name,
+						ev.result[0].res.locationid,
+						ev.result[0].res.merchid
+					);
+				}
+				else {
+					//bad login
+					logWarning.visible = true;
+					logWarning.text = ev.result[0].res.message;
+				}
+			}
+			public function AddNewLocalUser(email:String,name:String,locationid:String,merchid:String):void
+			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, locationid, merchid, active FROM merchusers where email = '"+email+"'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login
+					var i:uint = 0;
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update merchusers set active = 'yes' where email = '"+email+"'";
+					stmt.execute();
+					/*v11.visible = false;
+					v12.visible = false;
+					v2.visible = false;
+					v3.visible = false;*/
+					try{
+						logWarning.visible = false;
+					}
+					catch(e:Error){
+						
+					}
+					
+					var saveManager:PersistenceManager = new PersistenceManager();
+					saveManager.setProperty("useremail", resData[i].email);
+					navigator.pushView(Mainscreen,{email:resData[i].email,
+						merchid:resData[i].id,
+						locationid:resData[i].locationid});
+					//this.parentApplication.refresh(0,resData[i].email,resData[i].name);
+				}
+				else {
+					//bad login or no local saved login.
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into merchusers values(:email,:name,:locationid,:merchid,:active)";
+					stmt.parameters[":email"] = email;
+					stmt.parameters[":name"] = name;
+					stmt.parameters[":locationid"] = locationid;
+					stmt.parameters[":merchid"] = merchid;
+					stmt.parameters[":active"] = "yes";
+					stmt.execute();
+					getLocalUsers();
+					
+				}
+			}
+			protected function getLocalUsers():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, locationid, merchid, active FROM merchusers";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+							
+							try{
+								logWarning.visible = false;
+							}
+							catch(e:Error){
+								
+							}
+							
+						
+							var saveManager:PersistenceManager = new PersistenceManager();
+							saveManager.setProperty("useremail", resData[i].email);
+							navigator.pushView(Mainscreen,{email:resData[i].email,
+								merchid:resData[i].id,
+								locationid:resData[i].locationid});
+						//	this.parentApplication.refresh(0,resData[i].email,resData[i].name);
+						}
+						
+					}
+					if (foundactive == false){
+						//bad login
+						var stop:String = "";
+					}
+					
+					
+				}
+				else {
+					//bad login or no local saved login.
+				}
+			}
+			
+			public function addphoto():void {
+				navigator.pushView(takephoto,{i:0});
+			}
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/merchlogin/createNewUserMobile.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<newEmail2>{email.text}</newEmail2>		
+				<newPassword2>{password1.text}</newPassword2>	
+				<newName2>{firstname.text + " " + lastname.text}</newName2>			
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Group>
+		
+		<s:Image top="106" horizontalCenter="6" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/createnewback_Low.png')"
+										source240dpi="@Embed('assets/createnewback_Med.png')"
+										source320dpi="@Embed('assets/createnewback_High.png')"/>
+			</s:source>
+		</s:Image>
+		<s:Label top="38" color="#6a6a6a" fontWeight="bold" horizontalCenter="0"
+				 text="Enter Your Information"/>
+		<s:TextInput id="firstname" top="115" width="415" height="66" borderVisible="false"
+					 color="#6a6a6a" contentBackgroundAlpha="0" horizontalCenter="95"
+					 prompt="First Name"/>
+		<s:TextInput id="lastname" top="194" width="415" height="66" borderVisible="false"
+					 color="#6a6a6a" contentBackgroundAlpha="0" horizontalCenter="95"
+					 prompt="Last Name"/>
+		<s:TextInput id="email" top="329" width="567" height="66" borderVisible="false"
+					 color="#6a6a6a" contentBackgroundAlpha="0" horizontalCenter="0"
+					 prompt="Email Address"/>
+		<s:TextInput id="password1" top="459" width="567" height="66" borderVisible="false"
+					 color="#6a6a6a" contentBackgroundAlpha="0" displayAsPassword="true"
+					 horizontalCenter="0" prompt="Password (at least 8 characters)"/>
+		<s:TextInput id="password2" top="538" width="567" height="66" borderVisible="false"
+					 color="#6a6a6a" contentBackgroundAlpha="0" displayAsPassword="true"
+					 horizontalCenter="0" prompt="Confirm Password"/>
+		<s:Image top="106" mouseDown="gDown(event)" click="addphoto();" mouseOver="gOver(event)"
+				 mouseOut="gOut(event)" mouseUp="gOut(event)" horizontalCenter="-216" 
+				 source="assets/addphoto_High.png"/>
+		<s:Label top="656" fontFamily="_sans" visible="false"  color="#6a6a6a" id="logWarning"
+				 fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+
+	</s:Group>
+</s:View>

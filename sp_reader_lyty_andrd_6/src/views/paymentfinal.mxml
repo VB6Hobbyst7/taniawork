@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		 viewActivate="view1_viewActivateHandler(event)"
+		 actionBarVisible="true" title="Confirmation"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/back_Low.png')"
+										source240dpi="@Embed('assets/back_Med.png')"
+										source320dpi="@Embed('assets/back_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.IndexChangedEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			protected var sqlConnection:SQLConnection;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var warn:String = "";
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				warn = data.warn;
+				busy = false;
+				if (warn == 'Transaction successfully completed.'){
+					img1.visible = true;
+					img2.visible = false;
+				}
+				else {
+					img2.visible = true;
+					img1.visible = false;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" verticalAlign="middle" horizontalAlign="center" height="100%" >
+			
+		<s:Group>
+			<s:Image width="100%" id="img1" horizontalCenter="0"  visible="false"
+					 source="@Embed('assets/paygood.png')" verticalCenter="0"/>
+			<s:Image width="100%" id="img2" horizontalCenter="0" visible="false"
+					 source="@Embed('assets/paybad.png')" verticalCenter="0"/>
+		</s:Group>
+		<s:Label text="{warn}"  fontWeight="bold"   horizontalCenter="0" verticalCenter="0"/>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>
