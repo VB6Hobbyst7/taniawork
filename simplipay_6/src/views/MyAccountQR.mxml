@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Pay" xmlns:BarCode="BarCode.*" >	
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;	
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;	
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+		
+			public function onActivate(event:Event):void
+			{
+				topLBL.text = data.name;
+				var sp:Sprite = new Sprite();
+				var qr:QRCode = new QRCode();
+				qr.encode(data.email);
+				var img:Bitmap = new Bitmap(qr.bitmapData);
+				img.width = 249;
+				img.height = 249;
+				sp.addChild(img);
+				var u:UIComponent = new UIComponent();
+				u.addChild(sp);
+				u.horizontalCenter = 0;
+				u.verticalCenter = 0;
+				u.percentHeight = 100;
+				u.percentWidth = 100;
+				qrholder.addElement(u);	
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}			
+		]]>
+	</fx:Script>
+	<s:titleContent>	
+		<s:Button width="43" height="33" click="navigator.popView();"
+				  icon="@Embed('assets/back.png')"/>
+			<s:Label  id="topLBL" top="0" width="80%" color="#FFFFFF" fontSize="20" fontWeight="bold"
+					 horizontalCenter="-17" text="My Account" textAlign="center"
+					 verticalAlign="middle"/>
+	
+	</s:titleContent>
+	<s:BorderContainer visible="true" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:BorderContainer id="qrholder" top="56" width="250" height="250" 
+						   borderAlpha="0" backgroundAlpha="0" horizontalCenter="0">
+			
+		</s:BorderContainer>
+		
+		<s:Label  id="topLBL0" top="17" width="80%" color="#000000" fontSize="30" fontWeight="bold"
+				  horizontalCenter="0" text="Scan Now" textAlign="center"
+				  verticalAlign="middle"/>
+		
+	</s:BorderContainer>
+</s:View>

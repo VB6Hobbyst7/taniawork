@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		title="Scout" viewActivate="view1_viewActivateHandler(event)"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4"
+		xmlns:components="components.*" 
+		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
+	<fx:Script source="../func/globalFunctions.as"/>
+
+	<fx:Script>
+		<![CDATA[
+			import com.facebook.graph.FacebookMobile;			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			[Bindable]
+			public var currentBalance:String = "$0.00";	
+			public var profileShown:Boolean = false;
+			public var chosenMenuOption:uint = 1;
+			public var profWaiting:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			public var profDraging:Boolean = false;
+			import spark.core.ContentCache;
+			
+			
+			
+			import com.facebook.graph.FacebookMobile;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			//Your App Id as created on Facebook
+			private const APP_ID:String = "627244510654796";
+			//App origin URL
+			private const FACEBOOK_APP_ORIGIN:String = "https://scoutcard.ca";
+			//Permissions Array
+			private const PERMISSIONS:Array = ["email","user_birthday"];
+			
+			//SatgeWebView to render Facebook login
+			private var facebookWebView:StageWebView;
+			private var accessToken:String = "";
+			public var fbtnlbl:String = "Login to Facebook";
+			
+			
+			
+			
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var busy:Boolean = true;
+			public function create():void
+			{	busy = true;
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+					"email varchar(255)," +
+					"name varchar(255)," +
+					"country varchar(255)," +
+					"active varchar(255))";
+				stmt.execute();
+				getLocalUsers();
+			}	
+			
+			public function loginClick(event:MouseEvent):void
+			{	
+				this.currentState = 'login';
+				logWarning.visible = false;
+			}
+			public function createNewClick(event:MouseEvent):void {
+				this.currentState = 'create';
+				newlogWarning.visible = false;
+				FacebookMobile.init(APP_ID, onFacebookInit);
+			}
+			public function backToLoginOptions():void {
+				this.currentState = 'accountinfo';
+				try{
+					logWarning.visible = false;
+				}
+				catch(e:Error){
+					
+				}
+				try{
+					newlogWarning.visible = false;
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(ev.result[0].ress.email,
+						ev.result[0].ress.name,
+						ev.result[0].ress.country);
+				}
+				else {
+					//bad login
+					logWarning.text = ev.result[0].ress.message;
+					logWarning.visible = true;
+				}
+			}
+			protected function getLocalUsers():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country, active FROM localuser";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+					
+							try{
+								logWarning.visible = false;
+							}
+							catch(e:Error){
+								
+							}
+							
+							try{
+								newlogWarning.visible = false;
+							}
+							catch(e:Error){
+								
+							}
+							var saveManager:PersistenceManager = new PersistenceManager();
+							saveManager.setProperty("useremail", resData[i].email);
+							this.parentDocument.refresh(resData[i].email);	
+						}
+						
+					}			
+				}
+				else {
+				}
+				busy = false;
+			}
+			
+			public function AddNewLocalUser(email:String,name:String,country:String):void
+			{
+				busy = true;
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM localuser;";
+				stmt.execute();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":country"] = country;
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				getLocalUsers();
+
+			}
+			public function checkAvailability(username:String,userpassword:String):void {	
+				busy = true;
+				if ((nemail.text != "")
+					&&(nemail.text.indexOf("@") != -1)
+					&&(nname.text != "")
+					&&(nname2.text != "")
+					&&(npassword.text != "")
+					&&(npassword2.text != "")
+					&&(city.text != "")
+					&&(npassword.text == npassword2.text)){
+					newlogWarning.visible = false;
+					oemail = nemail.text;
+					opassword = npassword.text;
+					oname1 = nname.text;
+					oname2 = nname2.text;
+					ocity = city.text;
+					oprovince = province.selectedItem.name;
+					obirthday = String(dt.selectedDate.date);
+					obirthmonth = String(dt.selectedDate.month+1);
+					obirthyear = String(dt.selectedDate.fullYear);
+					ogender = gender.selectedValue.toString();
+					createNewUser.send();
+				}
+				else {
+					newlogWarning.visible = true;
+					busy = false;
+				}	
+			}
+			public function afterCreateNewUser(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(oemail,
+						oname1,
+						'canada'
+					);
+				}
+				else {
+					newlogWarning.visible = true;
+					busy = false;
+					newlogWarning.text = ev.result[0].ress.message;
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];		
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				busy = false;
+			}
+	
+			private function onFacebookInit(result:Object, fail:Object):void
+			{
+				busy = false;
+				fbLoginBtn.enabled = true;
+				
+				if(result)
+				{
+					accessToken = result.accessToken;
+					var tbday:String = result.user.birthday;
+					var temail:String = result.user.email;
+					var tfirst_name:String = result.user.first_name;
+					var tlast_name:String = result.user.last_name;
+					var tgender:String = result.user.gender;
+					var tlocation:String = result.user.location.name;
+					
+					nemail.text = temail;
+					nname.text = tfirst_name;
+					nname2.text = tlast_name;
+					city.text = tlocation.substring(0,tlocation.indexOf(","));
+					var tprov:String = tlocation.substring(tlocation.indexOf(",")+2,tlocation.length);
+					
+					
+					var tbday1:String = tbday.substring(0,tbday.indexOf("/"));
+					tbday = tbday.substring(tbday.indexOf("/")+1,tbday.length);
+					var tbday2:String = tbday.substring(0,tbday.indexOf("/"));
+					tbday = tbday.substring(tbday.indexOf("/")+1,tbday.length);
+					var tbday3:String = tbday;
+					
+					
+					dt.selectedDate = new Date(tbday3,Number(tbday1)-1,tbday2);
+					
+					if (tprov.toLocaleLowerCase() == "alberta"){
+						province.selectedIndex = 0;
+					}
+					
+					if (tgender.toLocaleLowerCase() == 'male'){
+						maleor.selected = true;
+					}
+					else {
+						femaleor.selected = true;
+					}
+					
+					
+					
+					
+				}
+			}
+			
+			private function onFBLoginClick(e:MouseEvent):void
+			{
+				busy = true;
+				if(fbtnlbl == "Login to Facebook")
+				{
+					facebookWebView = new StageWebView();
+					facebookWebView.viewPort = new Rectangle(0, navigator.actionBar.height, width, height);
+					FacebookMobile.login(onLogin, stage, PERMISSIONS,facebookWebView);
+				}
+				else if(fbtnlbl == "Logout")
+				{
+					FacebookMobile.logout(onLogout, FACEBOOK_APP_ORIGIN);
+				}
+			}
+			
+			private function onLogin(result:Object, fail:Object):void
+			{
+				busy = false;
+				if(result)
+				{
+					accessToken = result.accessToken;
+					
+					var tbday:String = result.user.birthday;
+					var temail:String = result.user.email;
+					var tfirst_name:String = result.user.first_name;
+					var tlast_name:String = result.user.last_name;
+					var tgender:String = result.user.gender;
+					var tlocation:String = result.user.location.name;
+					
+					nemail.text = temail;
+					nname.text = tfirst_name;
+					nname2.text = tlast_name;
+					city.text = tlocation.substring(0,tlocation.indexOf(","));
+					var tprov:String = tlocation.substring(tlocation.indexOf(",")+2,tlocation.length);
+					
+					
+					var tbday1:String = tbday.substring(0,tbday.indexOf("/"));
+					tbday = tbday.substring(tbday.indexOf("/")+1,tbday.length);
+					var tbday2:String = tbday.substring(0,tbday.indexOf("/"));
+					tbday = tbday.substring(tbday.indexOf("/")+1,tbday.length);
+					var tbday3:String = tbday;
+					
+					
+					dt.selectedDate = new Date(tbday3,Number(tbday1)-1,tbday2);
+					
+					if (tprov.toLocaleLowerCase() == "alberta"){
+						province.selectedIndex = 0;
+					}
+					
+					if (tgender.toLocaleLowerCase() == 'male'){
+						maleor.selected = true;
+					}
+					else {
+						femaleor.selected = true;
+					}
+					
+					
+					
+					
+					//setPostMessage(result.user);
+				}
+			}
+			
+			private function onLogout(success:Boolean):void
+			{
+				trace("onLogout");
+				fbtnlbl = "Login to Facebook";
+				
+				postConainer.includeInLayout = true;
+				postConainer.visible = true;
+			}
+			
+			private function setPostMessage(userObj:Object):void
+			{
+				fbtnlbl = "Logout";
+				fbLoginBtn.visible = false;
+				fbLoginBtn.includeInLayout = false;
+				
+				postConainer.includeInLayout = true;
+				postConainer.visible = true;
+				
+				nameLbl.text = "Welcome, " + userObj.name;
+				postTxtArea.text = "This is a message from the Test App";
+			}
+			
+			private function onPostOnWallClick(e:MouseEvent):void
+			{
+				busy = true;
+				var params:Object = {};
+				params.message = postTxtArea.text;
+				params.action_token = accessToken;
+				FacebookMobile.api("/me/feed", onPostStatus, params, "POST");
+			}
+			
+			private function onPostStatus(result:Object, fail:Object):void
+			{
+				busy = false;
+				if(result)
+				{
+					trace("Post Success!");
+				}
+				else
+				{
+					trace("Post Error!");
+				}
+			}
+			
+			private function onViewRemoving(e:ViewNavigatorEvent):void
+			{
+				try
+				{
+					facebookWebView.dispose();
+				}
+				catch(error:Error)
+				{
+					trace("No webview present");
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="newGendergroup"/>
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<fx:String id="newEmail2" />
+		<fx:String id="newPassword2" />
+		<fx:String id="newName2" />
+		<fx:String id="newGender2" />
+		<fx:String id="newBirthday2" />
+		<fx:String id="newBirthmonth2" />
+		<fx:String id="newBirthyear2" />
+		<fx:String id="newCountry2" />
+		<fx:String id="oemail" />
+		<fx:String id="opassword" />
+		<fx:String id="oname1" />
+		<fx:String id="oname2" />
+		<fx:String id="oquickpin" />
+		<fx:String id="oaddress1" />
+		<fx:String id="oaddress2" />
+		<fx:String id="ocity" />
+		<fx:String id="oprovince" />
+		<fx:String id="opostal" />
+		<fx:String id="ophone" />
+		<fx:String id="obirthday" />
+		<fx:String id="obirthmonth" />
+		<fx:String id="obirthyear" />
+		<fx:String id="ogender" />
+		<s:RadioButtonGroup id="gender"/>
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/checkLogin.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/createUser.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<oemail>{oemail}</oemail>		
+				<opassword>{opassword}</opassword>	
+				<oname1>{oname1}</oname1>		
+				<oname2>{oname2}</oname2>	
+				<ocity>{ocity}</ocity>
+				<oprovince>{oprovince}</oprovince>
+				<obirthday>{obirthday}</obirthday>
+				<obirthmonth>{obirthmonth}</obirthmonth>
+				<obirthyear>{obirthyear}</obirthyear>
+				<ogender>{ogender}</ogender>
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="signinicon"
+								source160dpi="@Embed('assets/signinbtnLow.png')"
+								source240dpi="@Embed('assets/signinbtnMed.png')"
+								source320dpi="@Embed('assets/signinbtnHigh.png')"
+								source480dpi="@Embed('assets/signinbtnHigher.png')"
+								source640dpi="@Embed('assets/signinbtnHighest.png')"/>
+		<s:MultiDPIBitmapSource id="signupicon"
+								source160dpi="@Embed('assets/signupbtnLow.png')"
+								source240dpi="@Embed('assets/signupbtnMed.png')"
+								source320dpi="@Embed('assets/signupbtnHigh.png')"
+								source480dpi="@Embed('assets/signupbtnHigher.png')"
+								source640dpi="@Embed('assets/signupbtnHighest.png')"/>
+		<s:MultiDPIBitmapSource id="cancelIcon"
+								source160dpi="@Embed('assets/cancelbtnLow.png')"
+								source240dpi="@Embed('assets/cancelbtnMed.png')"
+								source320dpi="@Embed('assets/cancelbtnHigh.png')"
+								source480dpi="@Embed('assets/cancelbtnHigher.png')"
+								source640dpi="@Embed('assets/cancelbtnHighest.png')"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="accountinfo"/>
+		<s:State name="loyaltyinfo"/>
+		<s:State name="login"/>
+		<s:State name="create"/>
+	</s:states>
+	<s:Scroller left="0"  id="v11" includeIn="accountinfo" visible="{busy == false}"   
+				right="0" top="10" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" verticalAlign="middle"  horizontalAlign="center"  >
+			<s:VGroup  gap="25" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="20" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				<s:BitmapImage top="12"  horizontalCenter="0"
+							   contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource id="myaccountinfog"
+												source160dpi="@Embed('assets/log1_Low.png')"
+												source240dpi="@Embed('assets/log1_Med.png')"
+												source320dpi="@Embed('assets/log1_High.png')"
+												source480dpi="@Embed('assets/log1_Higher.png')"
+												source640dpi="@Embed('assets/log1_Highest.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<s:BitmapImage top="12"  horizontalCenter="0"
+							   contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource
+												source160dpi="@Embed('assets/log2_Low.png')"
+												source240dpi="@Embed('assets/log2_Med.png')"
+												source320dpi="@Embed('assets/log2_High.png')"
+												source480dpi="@Embed('assets/log2_Higher.png')"
+												source640dpi="@Embed('assets/log2_Highest.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<s:BitmapImage top="12"  horizontalCenter="0"
+							   contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource 
+												source160dpi="@Embed('assets/log3_Low.png')"
+												source240dpi="@Embed('assets/log3_Med.png')"
+												source320dpi="@Embed('assets/log3_High.png')"
+												source480dpi="@Embed('assets/log3_Higher.png')"
+												source640dpi="@Embed('assets/log3_Highest.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{signupicon}" horizontalCenter="0"
+								 click="createNewClick(event)">
+				</cs:IconButton>
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{signinicon}" horizontalCenter="0"
+								 click="loginClick(event)"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Scroller left="0" id="v12" includeIn="loyaltyinfo" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		
+	</s:Scroller>
+	<s:Scroller left="0" id="v2" includeIn="login" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="40" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				<s:Label width="95%" fontWeight="bold" text="Sign In" textAlign="center"/>
+				<s:TextInput fontFamily="Arial" contentBackgroundColor="#FFFFFF"
+							 id="userNameInput" top="62" width="98%" horizontalCenter="0"
+							prompt="Email"/>
+				<s:TextInput  fontFamily="Arial" contentBackgroundColor="#FFFFFF"
+							 id="userPasswordInput" top="145" width="98%"
+							 keyDown="userPasswordInput_keyDownHandler(event)"
+							displayAsPassword="true" horizontalCenter="0" prompt="Password"
+							textAlign="left"/>
+				
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{signinicon}" horizontalCenter="0"
+								 click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
+				<cs:IconButton   skinClass="skins.ImageButtonSkin" icon="{cancelIcon}" horizontalCenter="0"
+								 click="backToLoginOptions();" />
+				<s:Label top="210" fontFamily="_sans" visible="false"  color="#000000" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Scroller left="0" id="v3" includeIn="create" right="0" top="0" bottom="0"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   top="10" bottom="0" paddingTop="40" horizontalAlign="center" verticalAlign="middle">
+				<s:Label width="95%" fontWeight="bold" text="Create Account" textAlign="center"/>
+				
+				
+				
+				
+				<s:SkinnableContainer width="100%" height="100%"
+									  top="10" bottom="10" left="10" right="10"
+									  backgroundAlpha="0">
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="center"  />
+					</s:layout>
+					
+					<s:Image  id="fbLoginBtn"
+							  width="80%"
+							  mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)"	
+							  click="onFBLoginClick(event)">
+						<s:source>
+							<s:MultiDPIBitmapSource 
+								source160dpi="@Embed('assets/loginwithfacebook_High.png')"
+								source240dpi="@Embed('assets/loginwithfacebook_High.png')"
+								source320dpi="@Embed('assets/loginwithfacebook_High.png')"
+								source480dpi="@Embed('assets/loginwithfacebook_Higher.png')"
+								source640dpi="@Embed('assets/loginwithfacebook_Highest.png')"/>
+						</s:source>
+					</s:Image>
+					
+					<s:VGroup id="postConainer"
+							  includeInLayout="false"
+							  visible="false"
+							  horizontalAlign="center"
+							  width="100%" height="100%">
+						<s:Label id="nameLbl" width="100%" />
+						<s:TextArea id="postTxtArea" contentBackgroundColor="#FFFFFF"
+									width="100%" height="50%" />
+						<s:Button id="postBtn"
+								  label="Post on Wall"
+								  width="50%"
+								  click="onPostOnWallClick(event)"/>
+					</s:VGroup>
+					
+				</s:SkinnableContainer>
+				
+				
+				
+				
+				
+				
+				
+				<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"  contentBackgroundColor="#FFFFFF"
+							 id="nemail" top="43" width="98%" horizontalCenter="0" prompt="Email"
+							 textAlign="left"/>
+				<s:TextInput fontFamily="Arial"   autoCapitalize="word"
+							 contentBackgroundColor="#FFFFFF"
+							 id="nname" y="117" width="98%" horizontalCenter="0" prompt="First Name"/>
+				<s:TextInput fontFamily="Arial"  autoCapitalize="word"
+							 contentBackgroundColor="#FFFFFF"
+							 id="nname2" y="117" width="98%" horizontalCenter="0" prompt="Last Name"/>
+				<s:TextInput fontFamily="Arial" contentBackgroundColor="#FFFFFF"
+							 id="npassword" y="79" width="98%" displayAsPassword="true"
+							 horizontalCenter="0" prompt="Password"  textAlign="left"/>
+				<s:TextInput fontFamily="Arial" contentBackgroundColor="#FFFFFF"
+							 id="npassword2" y="79" width="98%" displayAsPassword="true"
+							 horizontalCenter="0" prompt="Verify Password"  textAlign="left"/>
+				<s:TextInput fontFamily="Arial" contentBackgroundColor="#FFFFFF"
+							 id="city" y="79" width="98%"  autoCapitalize="word"
+							 horizontalCenter="0" prompt="City"  textAlign="left"/>
+				<s:BorderContainer y="152" width="98%" height="100%" backgroundAlpha="0"
+								   backgroundColor="#FFFFFF" borderAlpha="0" horizontalCenter="0">
+					<s:Label color="#000000"  fontWeight="bold" text="Province"
+							 verticalCenter="0"></s:Label>
+					
+					<s:SpinnerListContainer right="0" width="20%">
+					<s:SpinnerList id="province" right="0" height="100"
+								   labelField="name"  width="100%" 
+								   verticalCenter="0">
+						<s:ArrayList>
+							<fx:Object name="AB" />
+							<fx:Object name="BC" />
+							<fx:Object name="MB" />
+							<fx:Object name="NB" />
+							<fx:Object name="NS" />
+							<fx:Object name="ON" />
+							<fx:Object name="QC" />
+							<fx:Object name="SK" />
+							<fx:Object name="NT" />
+							<fx:Object name="YT" />
+							<fx:Object name="PE" />
+							<fx:Object name="NL" />
+							<fx:Object name="NU" />
+						</s:ArrayList>                        
+					</s:SpinnerList>
+					</s:SpinnerListContainer>
+				</s:BorderContainer>
+				
+				<s:BorderContainer y="152" width="98%" height="100%" backgroundAlpha="0"
+								   backgroundColor="#FFFFFF" borderAlpha="0" horizontalCenter="0">
+					<s:Label color="#000000"  fontWeight="bold" text="Birthday"
+							 verticalCenter="0">
+					</s:Label>
+					<s:DateSpinner id="dt" right="0" height="100" displayMode="date"
+								   maxDate="{new Date(2050,01,01)}" minDate="{new Date(1901,01,01)}"							 
+								   verticalCenter="0"/>
+				</s:BorderContainer>
+				<s:HGroup>
+					<s:RadioButton label="Male" id="maleor" color="#222222" fontWeight="normal" groupName="gender"
+								   selected="true"/>
+					<s:RadioButton label="Female" id="femaleor" color="#222222" fontWeight="normal"
+								   groupName="gender"/>
+				</s:HGroup>
+			
+				<cs:IconButton  top="262" skinClass="skins.ImageButtonSkin" icon="{signupicon}" horizontalCenter="0"
+								click="checkAvailability(nemail.text,npassword.text);" />
+				<cs:IconButton  top="262" skinClass="skins.ImageButtonSkin" icon="{cancelIcon}" horizontalCenter="0"
+								click="backToLoginOptions();" />
+				<s:Label top="290"  visible="false" id="newlogWarning" fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>						
+				<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+						 text="By Creating an account you agree to Scout's Terms of Service and Privacy Policy. "
+						 textAlign="center"/>
+				
+				<s:Label top="290" width="95%"
+						 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
+						 color="#174FDE" fontWeight="bold" horizontalCenter="0"
+						 text="Terms of Service" textAlign="center" textDecoration="underline"/>
+				<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+						 text="Privacy Policy" textDecoration="underline"
+						 textAlign="center"   color="#174FDE"
+						 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/pol'));"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:BorderContainer id="updatecont" width="100%" height="100%" visible="false" borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF">
+		<s:VGroup horizontalAlign="center" verticalAlign="middle" horizontalCenter="0" gap="30" verticalCenter="0">
+			<s:Label  verticalAlign="middle" text="New Update Available"/>
+			<s:Image 
+				mouseOut="profUp(event)" mouseDown="profDown(event)"
+				mouseUp="profUp(event)" mouseOver="profDown(event)" 
+				click="navigateToURL(new URLRequest('https://itunes.apple.com/ca/app/scout/id730533771?mt=8'))" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/Update_low.png')"
+											source240dpi="@Embed('../assets/Update_Med.png')"
+											source320dpi="@Embed('../assets/Update_High.png')"
+											source480dpi="@Embed('../assets/Update_Higher.png')"
+											source640dpi="@Embed('../assets/Update_Highest.png')"/>
+				</s:source>
+			</s:Image>
+		</s:VGroup>
+		
+		
+	</s:BorderContainer>
+</s:View>

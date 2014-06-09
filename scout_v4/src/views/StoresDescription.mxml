@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#FFFFFF"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Store Detail" xmlns:components="components.*">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent>
+			<s:Label color="#FFFFFF" click="viewrewards(event)" horizontalCenter="0" text="Rewards" verticalCenter="0"/>
+	</s:actionContent>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+	</fx:Style>
+	<fx:Script source="../func/globalFunctions.as"/>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var picture:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+		
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;	
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				//g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function view1_activateHandler(event:Event):void
+			{
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+				
+				try{
+				
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}	
+				img1.source = data.business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				var heightofmap:Number =this.width/2;
+				var widthofmap:Number = this.width;
+				//mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size="+(this.width/1.2).toString()+"x"+(this.width/1.2).toString()+"&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+				mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size="+widthofmap.toString()+"x"+heightofmap.toString()+"&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+			}
+			public function onSwipe(event:TransformGestureEvent):void
+			{
+				var ev:MouseEvent;
+					switch(event.offsetX)
+					{
+						case 1:
+						{
+							// swiped right also back swipe
+							navigator.popView();
+							break;
+						}
+						case -1:
+						{
+							// swiped left
+							break;
+						}
+					}
+					switch(event.offsetY)
+					{
+						case 1:
+						{
+							// swiped down
+							break;
+						}
+						case -1:
+						{
+							// swiped up
+							break;
+						}
+					}
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+		
+			protected function viewrewards(event:MouseEvent):void
+			{
+				if ((data.amount == null)||(data.amount == 'null')){
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:'0'});
+				}
+				else {
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+				}
+			}	
+		]]>
+	</fx:Script>
+	<s:Scroller  left="0" right="0" top="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+		<s:VGroup   id="vg1"  width="100%" top="0" paddingTop="5" bottom="0" gap="5" horizontalAlign="center">
+			<s:Group>
+				<s:Image x="0" id="img1" width="100%" height="{this.width/(16/9)}" scaleMode="zoom"/>
+				<s:Image  width="100%"  bottom="0"
+						  contentLoader="{s_imageCache}" 
+						  scaleMode="stretch"  	   >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/gradient.png')"
+												source240dpi="@Embed('../assets/320/gradient.png')"
+												source320dpi="@Embed('../assets/320/gradient.png')"
+												source480dpi="@Embed('../assets/320/gradient.png')"
+												source640dpi="@Embed('../assets/320/gradient.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="selectedTitle"  bottom="10" paddingLeft="20" paddingRight="10" width="100%" color="#FFFFFF"
+						 styleName="textsize3" text="{data.business_name}"/>
+			</s:Group>
+			<s:HGroup width="100%" paddingTop="20" paddingBottom="20">
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);" click="navigateToURL(new URLRequest(data.website));">
+					<s:Image  horizontalCenter="0" verticalCenter="0"  mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/web.png')"
+													source240dpi="@Embed('../assets/320/web.png')"
+													source320dpi="@Embed('../assets/320/web.png')"
+													source480dpi="@Embed('../assets/320/web.png')"
+													source640dpi="@Embed('../assets/320/web.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);" click="navigateToURL(new URLRequest('tel:'+data.business_number));">
+					<s:Image  horizontalCenter="0" verticalCenter="0"
+							  contentLoader="{s_imageCache}" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/phone.png')"
+													source240dpi="@Embed('../assets/320/phone.png')"
+													source320dpi="@Embed('../assets/320/phone.png')"
+													source480dpi="@Embed('../assets/320/phone.png')"
+													source640dpi="@Embed('../assets/320/phone.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);" click="navigateToURL(new URLRequest(data.facebook));"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/fb.png')"
+													source240dpi="@Embed('../assets/320/fb.png')"
+													source320dpi="@Embed('../assets/320/fb.png')"
+													source480dpi="@Embed('../assets/320/fb.png')"
+													source640dpi="@Embed('../assets/320/fb.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%" mouseDown="gDown(event);" mouseOver="gOver(event);" click="navigateToURL(new URLRequest(data.twitter));"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/tw.png')"
+													source240dpi="@Embed('../assets/320/tw.png')"
+													source320dpi="@Embed('../assets/320/tw.png')"
+													source480dpi="@Embed('../assets/320/tw.png')"
+													source640dpi="@Embed('../assets/320/tw.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:HGroup>
+			<s:BorderContainer height="1" width="100%" borderVisible="false"
+							   backgroundColor="#bababa" backgroundAlpha="1"	/>	
+			<s:HGroup width="100%" paddingTop="20" paddingBottom="20">
+				<s:VGroup height="100%" width="48%"  gap="25" verticalAlign="middle" horizontalAlign="center"
+						  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						  mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/briefcase.png')"
+													source240dpi="@Embed('../assets/320/briefcase.png')"
+													source320dpi="@Embed('../assets/320/briefcase.png')"
+													source480dpi="@Embed('../assets/320/briefcase.png')"
+													source640dpi="@Embed('../assets/320/briefcase.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Label styleName="textsize1" color="#929191" text="About Us" textAlign="center"/>
+				</s:VGroup>
+				<s:Group width="2%" height="100%">
+					<s:BorderContainer width="1" height="60%" backgroundColor="#bababa"				
+									   borderVisible="false" horizontalCenter="0" verticalCenter="0"/>
+				</s:Group>
+				<s:VGroup height="100%" width="48%" gap="25" verticalAlign="middle" horizontalAlign="center"
+						  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						  mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/heart.png')"
+													source240dpi="@Embed('../assets/320/heart.png')"
+													source320dpi="@Embed('../assets/320/heart.png')"
+													source480dpi="@Embed('../assets/320/heart.png')"
+													source640dpi="@Embed('../assets/320/heart.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Label styleName="textsize1" color="#929191" text="Rewards" textAlign="center"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:BorderContainer height="1" width="100%" borderVisible="false"
+							   backgroundColor="#bababa" backgroundAlpha="1"	/>	
+			
+			<s:HGroup width="100%" paddingBottom="15" paddingTop="15"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+					  mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:Group width="50%" height="100%" mouseEnabled="false">
+					<s:Label verticalCenter="2"  left="20" styleName="textsize3" mouseEnabled="false"
+							 color="#929191" text="Leave Feedback" textAlign="center"/>
+				</s:Group>
+				<s:HGroup width="50%" height="100%" mouseEnabled="false">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
+													source240dpi="@Embed('../assets/320/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/320/star.png')"
+													source640dpi="@Embed('../assets/320/star.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
+													source240dpi="@Embed('../assets/320/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/320/star.png')"
+													source640dpi="@Embed('../assets/320/star.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
+													source240dpi="@Embed('../assets/320/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/320/star.png')"
+													source640dpi="@Embed('../assets/320/star.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
+													source240dpi="@Embed('../assets/320/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/320/star.png')"
+													source640dpi="@Embed('../assets/320/star.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
+													source240dpi="@Embed('../assets/320/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/320/star.png')"
+													source640dpi="@Embed('../assets/320/star.png')"/>
+						</s:source>
+					</s:Image>
+				</s:HGroup>
+			</s:HGroup>
+			<s:Group>
+				<s:BorderContainer top="0" height="1" width="100%" borderVisible="false"
+								   backgroundColor="#bababa" backgroundAlpha="1"	/>	
+				<s:Image id="mapimage" top="1"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);"  click="navigateToURL(new URLRequest(googleTravelUrl))" 
+						 width="{this.width}"  />
+			</s:Group>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

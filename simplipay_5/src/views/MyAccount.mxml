@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="initHomeView(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" title="My Account" xmlns:BarCode="BarCode.*" >
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.effects.Fade;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			
+			
+			protected function genQR():void 
+			{
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = profV1;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV2;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = true;
+				
+			}
+			public function backFromQR():void {
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = profV2;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = false;
+			}
+			public function gotoSettings(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (profV1.visible){
+					fd.target = profV1;	
+				}
+				else if (profV2.visible){
+					fd.target = profV2;	
+				}
+				else if (profV4.visible){
+					fd.target = profV4;	
+				}
+				else if (profV5.visible){
+					fd.target = profV5;	
+				}
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV3;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = true;
+			}
+			public function backFromSettings(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = profV3;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = false;
+			}
+			
+			
+			
+			public function reload(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (profV1.alpha == 1){
+					fd.target = profV1;	
+				}
+				else if (profV2.alpha == 1){
+					fd.target = profV2;	
+				}
+				else if (profV3.alpha == 1){
+					fd.target = profV3;	
+				}
+				else if (profV5.alpha == 1){
+					fd.target = profV5;	
+				}
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV4;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = true;
+				
+			}
+			
+			public function manage(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (profV1.alpha == 1){
+					fd.target = profV1;	
+				}
+				else if (profV2.alpha == 1){
+					fd.target = profV2;	
+				}
+				else if (profV3.alpha == 1){
+					fd.target = profV3;	
+				}
+				else if (profV4.alpha == 1){
+					fd.target = profV4;	
+				}
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV5;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = true;
+				
+			}
+			
+			public function backFromReload(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = profV4;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = false;
+				
+			}
+			
+			public function backFromManage(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = profV5;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = profV1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				backBTN.visible = false;
+				
+			}
+			
+			public function removeVisibility(ev:EffectEvent):void {
+				ev.currentTarget.target.visible = false;
+			}
+			public function addVisibility(ev:EffectEvent):void {
+				ev.currentTarget.target.visible = true;
+			}
+			public function goBackMain(ev:MouseEvent):void {
+				 if (profV2.visible){
+					backFromQR();
+				}
+				else if (profV3.visible){
+					backFromSettings(ev);
+				}
+				else if (profV4.visible){
+					backFromReload(ev);
+				}
+				else if (profV5.visible){
+					backFromManage(ev);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Script source="../func/homeviewdisplayFunctions.as" />
+	<fx:Script source="../func/homeviewloginFunctions.as" />
+	<fx:Script source="../func/homeviewmouseFunctions.as" />
+	<s:titleContent>	
+		<s:Image id="backBTN"  visible="false"  click="goBackMain(event)" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" source="assets/backH.fw.png"/>
+
+			<s:Label  id="topLBL" top="0" width="80%" color="#FFFFFF" fontSize="20" fontWeight="bold"
+					 horizontalCenter="-17" text="My Account" textAlign="center"
+					 verticalAlign="middle"/>
+		<s:Image source="assets/gear.png" click="gotoSettings(event)"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"  height="30" width="30"/>
+	</s:titleContent>
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="newGendergroup"/>
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<fx:String id="newEmail2" />
+		<fx:String id="newPassword2" />
+		<fx:String id="newName2" />
+		<fx:String id="newGender2" />
+		<fx:String id="newBirthday2" />
+		<fx:String id="newBirthmonth2" />
+		<fx:String id="newBirthyear2" />
+		<fx:String id="newCountry2" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/createNewUserMobile.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<newEmail2>{newEmail2}</newEmail2>		
+				<newPassword2>{newPassword2}</newPassword2>	
+				<newName2>{newName2}</newName2>		
+				<newCountry2>{newCountry2}</newCountry2>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+
+	<s:BorderContainer id="v1" visible="false" width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		
+		<s:Label top="81" fontWeight="normal" horizontalCenter="0" text="The Fastest Way to Pay"/>
+		<s:Label top="106" width="268" color="#6F6F6F" fontSize="14" fontWeight="normal"
+				 horizontalCenter="0"
+				 text="Use your phone to pay for items, check your balance, and reload your account with credit."/>
+		<s:Image top="12" width="169" height="73" horizontalCenter="0" source="assets/howtopay.png"/>
+		<s:Image top="168" width="299" height="64" click="createNewClick(event)" horizontalCenter="0" source="assets/signup.png"/>
+		<s:Image top="232" width="299" height="64" click="loginClick(event)" horizontalCenter="0" source="assets/signin.png"/>
+		
+	</s:BorderContainer>
+	<s:BorderContainer id="v2" visible="false" width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:TextInput id="userNameInput" top="11" width="254" horizontalCenter="0" prompt="Username"/>
+		<s:TextInput id="userPasswordInput" top="43" width="254" displayAsPassword="true"
+					 horizontalCenter="0" prompt="Password"/>
+		<s:Button top="79" width="103" height="37" label="Sign In"
+				  click="authorizeLogin(userNameInput.text,userPasswordInput.text)"
+				  fontFamily="_sans" fontWeight="normal" horizontalCenter="77"/>
+		<s:Button top="79" width="103" click="backToLoginOptions();" height="37" label="Cancel" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="-75"/>
+		<s:Label top="123" fontFamily="_sans" visible="false" id="logWarning" fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+	<s:BorderContainer id="v3" visible="false" width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:Label top="12" color="#000000" fontFamily="_sans" fontWeight="normal"
+				 horizontalCenter="0" text="Enter Your Information"/>
+		<s:TextInput id="newEmail" top="43" width="214" horizontalCenter="0" prompt="Email"/>
+		<s:TextInput id="newPassword" y="79" width="214" displayAsPassword="true"
+					 horizontalCenter="0" prompt="password"/>
+		<s:TextInput id="newName" y="117" width="214" horizontalCenter="0" prompt="Name"/>
+		<s:Label y="160" color="#000000" fontFamily="_sans" fontWeight="normal"
+				 horizontalCenter="-75" text="Country" textAlign="right"/>
+		<s:DropDownList x="123" id="newCountry" selectedIndex="0" y="157" width="140"> 
+			<mx:ArrayCollection>
+				<fx:String>Canada</fx:String>
+				<fx:String>USA</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<s:Button top="187" width="103" height="37" click="checkAvailability(newEmail.text,newPassword.text);" label="Submit" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="55"/>
+		<s:Button top="187" width="103" height="37" click="backToLoginOptions();"  label="Cancel" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="-54"/>
+		<s:Label top="232" fontFamily="_sans" visible="false" id="newlogWarning" fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer id="profileMgt" backgroundAlpha="0" visible="true" width="100%" borderAlpha="0" height="100%">
+		<s:BorderContainer id="profV1"  visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+			<s:Image top="25" width="287" height="157" horizontalCenter="0"
+					 source="assets/myCard1.png" click="genQR();"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+			<s:Label id="currentBalanceLbl" top="218" fontSize="22" horizontalCenter="0"
+					 text="{currentBalance}"/>
+			<s:Image top="275" width="103" height="37" horizontalCenter="-65" click="reload(event)" mouseDown="gDown(event)"
+					 mouseOut="gOut(event)" mouseOver="gOver(event)" source="assets/reload.png"/>
+			<s:Image top="275" width="103" height="37" horizontalCenter="57" mouseDown="gDown(event)" click="manage(event)"
+					 mouseOut="gOut(event)" mouseOver="gOver(event)" source="assets/manage.png"/>
+		</s:BorderContainer>
+		<s:BorderContainer id="profV2" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+			<s:BorderContainer id="qrholder" top="56" width="250" height="250" 
+							   borderAlpha="0" backgroundAlpha="0" horizontalCenter="0">
+				
+			</s:BorderContainer>
+			
+			<s:Label  id="topLBL0" top="17" width="80%" color="#000000" fontSize="30" fontWeight="bold"
+					 horizontalCenter="0" text="Scan Now" textAlign="center"
+					 verticalAlign="middle"/>
+			
+		</s:BorderContainer>
+		<s:BorderContainer id="profV3" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+			<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+					 click="backFromSettings(event);" horizontalCenter="0" source="assets/backB.png"/>
+		</s:BorderContainer>
+		<s:BorderContainer id="profV4" visible="true" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		
+			<s:Label id="currentBalanceLbl2" top="10" fontSize="22" horizontalCenter="0"
+					 text="{currentBalance}"/>
+			<s:List x="10" y="50" width="296" itemRenderer="sidescrolleritem"  height="100" direction="ltr">
+				<s:layout>
+					<s:HorizontalLayout gap="0"
+									  
+									/>
+				</s:layout>
+				<s:dataProvider>
+					<s:ArrayList>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+						<fx:Object> src="@Embed('assets/gear.png)</fx:Object>
+					</s:ArrayList>
+				</s:dataProvider>
+			</s:List>
+		</s:BorderContainer>
+		<s:BorderContainer id="profV5" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+			
+		</s:BorderContainer>
+		
+	</s:BorderContainer>
+	
+	
+	
+	
+	
+	
+			
+	
+	
+</s:View>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"  creationComplete="initHomeView(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" title="My Account" >
+	
+	<fx:Script source="../func/homeviewdisplayFunctions.as" />
+	<fx:Script source="../func/homeviewloginFunctions.as" />
+	<fx:Script source="../func/homeviewmouseFunctions.as" />
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="newGendergroup"/>
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<fx:String id="newEmail2" />
+		<fx:String id="newPassword2" />
+		<fx:String id="newName2" />
+		<fx:String id="newGender2" />
+		<fx:String id="newBirthday2" />
+		<fx:String id="newBirthmonth2" />
+		<fx:String id="newBirthyear2" />
+		<fx:String id="newCountry2" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/createNewUserMobile.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<newEmail2>{newEmail2}</newEmail2>		
+				<newPassword2>{newPassword2}</newPassword2>	
+				<newName2>{newName2}</newName2>		
+				<newGender2>{newGender2}</newGender2>	
+				<newBirthday2>{newBirthday2}</newBirthday2>		
+				<newBirthmonth2>{newBirthmonth2}</newBirthmonth2>		
+				<newBirthyear2>{newBirthyear2}</newBirthyear2>		
+				<newCountry2>{newCountry2}</newCountry2>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:titleContent>
+		<s:Image width="100%"  horizontalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="assets/logowhite.png"
+					source240dpi="assets/logowhite.png"
+					source320dpi="assets/logowhite.png"/>
+			</s:source>
+		</s:Image>
+	</s:titleContent>	
+	
+	<s:BorderContainer id="menuCont" visible="true" width="100%" backgroundColor="#4D4D4D"  height="100%" backgroundAlpha="1"
+					   >
+		<s:BorderContainer id="profileShell" visible="true" x="0" y="0" width="100%" height="100%"
+						   backgroundAlpha="0" borderAlpha="0">
+			<s:BorderContainer id="loginCont" backgroundAlpha="0" visible="true" width="100%" height="100%" borderAlpha="0">		
+				<s:BorderContainer id="loginReg" backgroundAlpha="0" width="100%" height="100%" visible="true" borderAlpha="0" >
+					<s:TextInput id="userNameInput" top="74" horizontalCenter="0"/>
+					<s:TextInput id="userPasswordInput"  displayAsPassword="true" top="143" horizontalCenter="0"/>
+					<s:Label top="53" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="0" text="Email Address"/>
+					<s:Label top="19" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="0" text="Please Login for Profile Access"/>
+					<s:Label top="120" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="0" text="Password"/>
+					<s:Button top="188" width="77" height="29" label="Login"
+							  click="authorizeLogin(userNameInput.text,userPasswordInput.text)"
+							  fontFamily="_sans" fontWeight="normal" horizontalCenter="0"/>
+					<s:Button top="228" width="179" height="29" label="Create New Account"
+							  click="createNewClick(event)" fontFamily="_sans" fontWeight="normal"
+							  horizontalCenter="0"/>
+					<s:Label top="268" fontFamily="_sans" visible="false" id="logWarning" fontWeight="bold" horizontalCenter="0"
+							 text="Sorry Incorrect Information"/>
+				</s:BorderContainer>
+				
+				
+				<s:BorderContainer id="createNew" backgroundAlpha="0" width="100%" height="100%" visible="false" borderAlpha="0"  >
+					<s:Label top="10" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="0" text="Create New Account"/>
+					<s:TextInput id="newEmail"  horizontalCenter="35" top="43" width="214" />
+					<s:TextInput id="newPassword"   displayAsPassword="true" horizontalCenter="35" y="79" width="214"/>
+					<s:TextInput id="newName" horizontalCenter="35" y="117" width="214"/>
+					<s:Label top="51" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-100" text="Email" textAlign="right"/>
+					<s:Label y="164" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-102" text="Gender" textAlign="right"/>
+					<s:Label y="208" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-108" text="Birthday" textAlign="right"/>
+					<s:Label y="260" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-108" text="Country" textAlign="right"/>
+					<s:Label y="125" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-99" text="Name" textAlign="right"/>
+					<s:Label y="87" color="#FFFFFF" fontFamily="_sans" fontWeight="bold"
+							 horizontalCenter="-112" text="Password" textAlign="right"/>
+					<s:DateSpinner id="newBirthday" x="61"  y="195" width="100%" height="50" 
+								   name="birthday" selectedDate="{new Date(2011,11,31)}"/>
+					<s:HGroup x="90" y="157" width="220" horizontalAlign="left">
+						<s:RadioButton label="Male" color="#FFFFFF" groupName="newGendergroup"
+									   selected="true"/>
+						<s:RadioButton label="Female" color="#FFFFFF" groupName="newGendergroup"/>
+					</s:HGroup>
+					<s:DropDownList x="90" id="newCountry" selectedIndex="0" y="257" width="140"> 
+						<mx:ArrayCollection>
+							<fx:String>Canada</fx:String>
+							<fx:String>USA</fx:String>
+						</mx:ArrayCollection>
+					</s:DropDownList>
+				</s:BorderContainer>
+				<s:Button top="287" width="91" height="29" label="Submit"
+						  click="checkAvailability(userNameInput.text,userPasswordInput.text)"
+						  fontFamily="_sans" horizontalCenter="43" visible="{createNew.visible}"/>
+				<s:Button top="288" width="75" height="29" label="Back" visible="{createNew.visible}" click="loginClick(event)"
+						  fontFamily="_sans" horizontalCenter="-49"/>
+				<s:Label top="335" fontFamily="_sans" visible="false" id="newlogWarning" fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:BorderContainer>
+			
+			<s:BorderContainer id="profileMgt" backgroundAlpha="0" visible="false" width="100%" borderAlpha="0" height="100%">
+				<s:Image y="16" width="83" height="77" horizontalCenter="-108" source="assets/blankuser.gif"/>
+				<s:Label id="currentName" y="18" color="#FFFFFF" fontFamily="_sans" fontSize="35"
+						 horizontalCenter="29" text="John Smith"/>
+				<s:Label id="currentEmail" y="59" color="#FFFFFF" fontFamily="_sans" fontSize="20"
+						 horizontalCenter="27" text="john@hotmail.com"/>
+				<s:Label id="currentCountry" y="106" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+						 horizontalCenter="-50" text="Canada"/>
+				<s:Label id="currentGender" y="130" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+						 horizontalCenter="-60" text="Male"/>
+				<s:Label id="currentBirthday" y="155" color="#FFFFFF" fontFamily="_sans"
+						 fontSize="16" horizontalCenter="-44" text="01/01/01"/>
+				<s:Label y="106" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+						 horizontalCenter="-118" text="Country :"/>
+				<s:Label y="130" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+						 horizontalCenter="-118" text="Gender :"/>
+				<s:Label y="155" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+						 horizontalCenter="-116" text="Birthday :"/>
+				<s:Label bottom="2" click="logout()" color="#FFFFFF" fontFamily="_sans"
+						 fontSize="25" horizontalCenter="0" mouseOut="tOut(event)"
+						 mouseOver="tOver(event)" text="Logout"/>
+				<s:BorderContainer borderAlpha="0" id="qrholder" y="173" width="150" height="150" horizontalCenter="0">
+					
+				</s:BorderContainer>
+			</s:BorderContainer>
+			
+			
+			
+		</s:BorderContainer>	
+	</s:BorderContainer>
+	
+	
+</s:View>

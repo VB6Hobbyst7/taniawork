@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Loyalty" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="v1" visible="true" width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:Label top="81" fontWeight="normal" horizontalCenter="0" text="Make Your Money Count"/>
+		<s:Label top="311" color="#1357AC" mouseOut="tOut(event)" mouseOver="tOver(event)" fontWeight="normal" horizontalCenter="0"
+				 text="Learn about our Loyalty Program"/>
+		<s:Label top="106" width="268" color="#6F6F6F" fontSize="14" fontWeight="normal"
+				 horizontalCenter="0"
+				 text="With the Simplipay loyalty program your earn points every time you spend. Each point equals $1, so you can earn while you spend."/>
+		<s:Image top="7" width="169" height="66" horizontalCenter="0" source="assets/stats.png"/>
+		<s:Image top="168" width="299" height="64" horizontalCenter="0" source="assets/signup.png"/>
+		<s:Image top="232" width="299" height="64"  horizontalCenter="0" source="assets/signin.png"/>
+	</s:BorderContainer>
+</s:View>

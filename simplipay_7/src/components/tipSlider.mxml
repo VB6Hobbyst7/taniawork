@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   width="296"  height="50" borderAlpha="0.5" cornerRadius="0" creationComplete="init(event)" borderColor="#000000"  >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var tipList:ArrayCollection = new ArrayCollection();
+			
+			protected function init(event:FlexEvent):void
+			{
+				tipList.addItem({label:"",color:"0xFFFFFF"});
+				tipList.addItem({label:"",color:"0xFFFFFF"});
+				
+				tipList.addItem({label:"1$",color:"0x7F97F1"});
+				tipList.addItem({label:"2$",color:"0x7F97F1"});
+				tipList.addItem({label:"5$",color:"0x7F97F1"});
+				tipList.addItem({label:"10$",color:"s0x7F97F1"});
+				tipList.addItem({label:"20$",color:"0x7F97F1"});
+				tipList.addItem({label:"40$",color:"0x7F97F1"});
+				tipList.addItem({label:"80$",color:"0x7F97F1"});
+				tipList.addItem({label:"100$",color:"0x7F97F1"});
+				tipList.addItem({label:"150$",color:"0x7F97F1"});
+				
+				tipList.addItem({label:"",color:"0xFFFFFF"});
+				tipList.addItem({label:"",color:"0xFFFFFF"});
+				tipScroller.dataProvider = tipList;
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+		
+	
+	<s:List id="tipScroller" borderAlpha="0" contentBackgroundAlpha="0" dataProvider="{tipList}"  width="100%" height="100%"
+			verticalScrollPolicy="off" itemRenderer="components.sidescrolleritem"  direction="ltr">
+		<s:layout>
+			<s:HorizontalLayout gap="0"/>
+		</s:layout>			
+	</s:List>
+	<s:Image bottom="-1" alpha="0.25" horizontalCenter="0" source="assets/hslideSelector.png"/>
+	
+</s:BorderContainer>

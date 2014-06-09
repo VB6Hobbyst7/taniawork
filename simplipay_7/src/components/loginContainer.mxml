@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer width="100%" height="100%" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:fx="http://ns.adobe.com/mxml/2009" >
+	<fx:Script>
+		<![CDATA[
+			import spark.effects.Fade;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";	
+			[Bindable]
+			public var loginType:Number = -1;
+		]]>
+	</fx:Script>
+	<fx:Script source="../func/homeviewdisplayFunctions.as" />
+	<fx:Script source="../func/homeviewloginFunctions.as" />
+	<fx:Script source="../func/homeviewmouseFunctions.as" />
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="newGendergroup"/>
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<fx:String id="newEmail2" />
+		<fx:String id="newPassword2" />
+		<fx:String id="newName2" />
+		<fx:String id="newGender2" />
+		<fx:String id="newBirthday2" />
+		<fx:String id="newBirthmonth2" />
+		<fx:String id="newBirthyear2" />
+		<fx:String id="newCountry2" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="createNewUser" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/createNewUserMobile.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<newEmail2>{newEmail2}</newEmail2>		
+				<newPassword2>{newPassword2}</newPassword2>	
+				<newName2>{newName2}</newName2>		
+				<newCountry2>{newCountry2}</newCountry2>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0"  id="v11" visible="{loginType == 0}" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:BorderContainer  width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+				
+				
+				<s:Label top="81" fontWeight="normal" horizontalCenter="0" text="The Fastest Way to Pay"/>
+				<s:Label top="106" width="268" color="#6F6F6F" fontSize="14" fontWeight="normal"
+						 horizontalCenter="0"
+						 text="Use your phone to pay for items, check your balance, and reload your account with credit."/>
+				<s:Image top="12" width="169" height="73" horizontalCenter="0" source="assets/howtopay.png"/>
+				<s:Image top="168" width="299" height="64" click="createNewClick(event)" horizontalCenter="0" source="assets/signup.png"/>
+				<s:Image top="232" width="299" height="64" click="loginClick(event)" horizontalCenter="0" source="assets/signin.png"/>
+				
+			</s:BorderContainer>
+		</s:VGroup>
+		</s:Scroller>
+	<s:Scroller left="0" id="v12" visible="{loginType == 1}" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+	<s:BorderContainer  width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:Label top="81" fontWeight="normal" horizontalCenter="0" text="Make Your Money Count"/>
+		<s:Label top="311" color="#1357AC" mouseOut="tOut(event)" mouseOver="tOver(event)" fontWeight="normal" horizontalCenter="0"
+				 text="Learn about our Loyalty Program"/>
+		<s:Label top="106" width="268" color="#6F6F6F" fontSize="14" fontWeight="normal"
+				 horizontalCenter="0"
+				 text="With the Simplipay loyalty program your earn points every time you spend. Each point equals $1, so you can earn while you spend."/>
+		<s:Image top="7" width="169" height="66" horizontalCenter="0" source="assets/stats.png"/>
+		<s:Image top="168" width="299" height="64" click="createNewClick(event)" horizontalCenter="0" source="assets/signup.png"/>
+		<s:Image top="232" width="299" height="64"  click="loginClick(event)" horizontalCenter="0" source="assets/signin.png"/>
+	</s:BorderContainer>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Scroller left="0" id="v2" visible="false" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+	<s:BorderContainer  width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:TextInput id="userNameInput" top="11" width="254" horizontalCenter="0" prompt="Username"/>
+		<s:TextInput id="userPasswordInput" top="43" width="254" displayAsPassword="true"
+					 horizontalCenter="0" prompt="Password"/>
+		<s:Button top="79" width="103" height="37" label="Sign In"
+				  click="authorizeLogin(userNameInput.text,userPasswordInput.text)"
+				  fontFamily="_sans" fontWeight="normal" horizontalCenter="77"/>
+		<s:Button top="79" width="103" click="backToLoginOptions();" height="37" label="Cancel" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="-75"/>
+		<s:Label top="123" fontFamily="_sans" visible="false" id="logWarning" fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+		</s:VGroup>
+	</s:Scroller>
+			<s:Scroller left="0" id="v3" visible="false" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+				<s:VGroup width="100%" height="100%" >
+	<s:BorderContainer  width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:Label top="12" color="#000000" fontFamily="_sans" fontWeight="normal"
+				 horizontalCenter="0" text="Enter Your Information"/>
+		<s:TextInput id="newEmail" top="43" width="214" horizontalCenter="0" prompt="Email"/>
+		<s:TextInput id="newPassword" y="79" width="214" displayAsPassword="true"
+					 horizontalCenter="0" prompt="password"/>
+		<s:TextInput id="newName" y="117" width="214" horizontalCenter="0" prompt="Name"/>
+		<s:Label y="160" color="#000000" fontFamily="_sans" fontWeight="normal"
+				 horizontalCenter="-75" text="Country" textAlign="right"/>
+		<s:DropDownList x="123" id="newCountry" selectedIndex="0" y="157" width="140"> 
+			<mx:ArrayCollection>
+				<fx:String>Canada</fx:String>
+				<fx:String>USA</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<s:Button top="187" width="103" height="37" click="checkAvailability(newEmail.text,newPassword.text);" label="Submit" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="55"/>
+		<s:Button top="187" width="103" height="37" click="backToLoginOptions();"  label="Cancel" fontFamily="_sans"
+				  fontWeight="normal" horizontalCenter="-54"/>
+		<s:Label top="232" fontFamily="_sans" visible="false" id="newlogWarning" fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+				</s:VGroup>
+			</s:Scroller>
+</s:BorderContainer>

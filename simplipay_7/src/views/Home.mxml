@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Simplipay" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.EffectEvent;
+			import spark.effects.Fade;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.events.DragEvent;
+			import spark.filters.GlowFilter;
+			public var profDraging:Boolean = false;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					navigator.pushView(HomeMyStores, {index:u});
+				}
+				else if (u == 1){
+					navigator.pushView(HomeSettings, {index:u});
+				}
+				else if (u == 2){
+					navigator.pushView(HomeScanAndSave, {index:u});
+				}
+				else if (u == 3){
+					navigator.pushView(HomeHelp, {index:u});
+				}
+				else if (u == 4){
+					navigator.pushView(HomeDailyDeals, {index:u});
+				}
+				else if (u == 5){
+					navigator.pushView(HomeHistory, {index:u});
+				}
+			}	
+		]]>
+	</fx:Script>
+	<s:Scroller id="scroller" left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:HGroup top="25" width="100%" height="100%" horizontalCenter="0">
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:Image width="30%" height="75"  smooth="true" click="homeGo(0);"  
+						 source="assets/grid.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)" />
+				<s:Label text="My Stores" />
+				<s:Image width="30%" height="75" smooth="true" click="homeGo(1);"
+						 source="assets/gear.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Settings" />
+				<s:Image width="30%" height="75" smooth="true" click="homeGo(2);" 
+						 source="assets/flag.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Scan and Save" />
+			</s:VGroup>
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:Image width="30%" height="75" smooth="true" click="homeGo(3);" 
+						 source="assets/info.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Help" />
+				<s:Image width="30%" height="75" smooth="true" click="homeGo(4);" 
+						 source="assets/calendar.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Daily Deals" />
+				<s:Image width="30%" height="75" smooth="true" click="homeGo(5);" 
+						 source="assets/book.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="History" />
+			</s:VGroup>
+		</s:HGroup>		
+		</s:Scroller>
+</s:View>

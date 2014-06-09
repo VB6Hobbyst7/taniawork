@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" 
+		width="190" height="294" >
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.List")]
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<!-- border/fill -->
+	<s:Rect left="0" top="0"
+			right.disabled="63" bottom.disabled="167" alpha.disabled="0.5"
+			right.normal="0" bottom.normal="0">
+		<s:stroke>
+			<s:SolidColorStroke color="#666666" />
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="#FFFFFF" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:DataGroup id="dataGroup" left="1" right="78" top="1" bottom="182"
+				 clipAndEnableScrolling="true" itemRenderer="components.legendskinRepeatedItemSkin"
+				 alpha.disabled="0.5"
+				 right.normal="15" bottom.normal="15">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+	</s:DataGroup>
+
+    <!-- scrollbars -->
+    <s:HScrollBar left="0" right="78" bottom="167" viewport="{dataGroup}"
+				  alpha.disabled="0.5"
+				  right.normal="15" bottom.normal="1"/>
+    <s:VScrollBar right="63" bottom="182" viewport="{dataGroup}"
+				  top.disabled="0" alpha.disabled="0.5"
+				  right.normal="0" top.normal="1" bottom.normal="1"/>
+    
+</s:Skin>

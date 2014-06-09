@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="My Account" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;	
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			
+		
+			public function onActivate(event:Event):void
+			{
+			
+			}
+			public function accountGo(u:uint):void {
+				if (u == 0){
+					navigator.pushView(MyAccountSettings, {index:u});
+				}
+				else if (u == 1){
+					navigator.pushView(MyAccountQR, {index:u,email:data.email,name:data.name});
+				}
+				else if (u == 2){
+					navigator.pushView(MyAccountReload, {index:u});
+				}
+				else if (u == 3){
+					navigator.pushView(MyAccountManage, {index:u});
+				}
+				else if (u == 4){
+					
+				}
+				else if (u == 5){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+		]]>
+	</fx:Script>
+	<s:titleContent>	
+		<s:Image source="assets/gear.png" click="accountGo(0)"  mouseOut="gOut(event)" 
+				 mouseOver="gOver(event)" mouseDown="gDown(event)"  height="30" width="30"/>
+			<s:Label  id="topLBL" top="0" width="100%" color="#FFFFFF" fontSize="20" fontWeight="bold"
+					 horizontalCenter="-17" text="My Account" textAlign="center"
+					 verticalAlign="middle"/>
+		
+	</s:titleContent>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+	<s:BorderContainer  visible="true" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="21" width="287" height="157" horizontalCenter="0"
+				 source="assets/myCard1.png" click="accountGo(1);"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+		<components:tipSlider top="202" horizontalCenter="0"/>
+		<s:Label id="currentBalanceLbl" top="269" fontSize="22" horizontalCenter="0"
+				 text="{currentBalance}"/>
+		<s:Image top="309" width="103" height="37" horizontalCenter="-65" click="accountGo(2)" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" source="assets/reload.png"/>
+		<s:Image top="309" width="103" height="37" horizontalCenter="57" mouseDown="gDown(event)" click="accountGo(3)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)" source="assets/manage.png"/>
+	</s:BorderContainer>
+			</s:VGroup>
+		</s:Scroller>
+</s:View>

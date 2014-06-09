@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" 
+		xmlns:s="library://ns.adobe.com/flex/spark"   backgroundColor="#c5c5c5"
+		viewActivate="onActivate(event)" 
+		mouseDown="listFingerDown();" 
+		mouseUp="listFingerUp();"
+		mouseOut="listFingerUp();"
+		title="Loyalty" xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent>
+		</s:actionContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var prefound:Boolean = false;
+			public var maintimer:Timer = new Timer(5000,0);
+			public var timerval:Number = 5000;
+			public function onActivate(event:Event):void
+			{	
+				busy = true;
+				prefound = false;
+
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS userloyalty (" +
+					"id int(255)," +
+					"business_name varchar(255)," +
+					"business_picture varchar(255)," +
+					"amount varchar(255)," +
+					"userloyalty varchar(255))";				
+				stmt.execute();
+				
+				
+				try{
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM userloyalty";
+					stmt.execute();
+					var userData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (userData.length != 0){
+						loyaltyArray = userData;
+						busy = false;
+						prefound = true;
+						searchClick();
+					}
+					else {
+						loyaltyArray = new ArrayCollection();
+						
+					}	
+				}
+				catch(e:Error) {
+					loyaltyArray = new ArrayCollection();
+				}	
+				
+				
+				
+				try{
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var foundactive:Boolean = false;
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						emailGo = resData[0].email;
+						getloyalty.send();		
+					}
+					else {
+						emailGo = "none";
+					}	
+				}
+				catch(e:Error) {
+					emailGo = "none";
+				}
+				
+				maintimer = new Timer(timerval,0);
+				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+				maintimer.start();
+				try{
+					getloyalty.cancel();
+				}
+				catch(e:Error){
+					
+				}
+				
+				try{
+					getloyalty.send();
+				}
+				catch(e:Error){
+					
+				}
+				
+				
+			}
+			public function aftertimer(ev:TimerEvent):void {
+				
+				
+					if (loyaltyArray.length <= 0){
+						busy = true;
+						getloyalty.cancel();
+						loyaltyArray = new ArrayCollection();
+						maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
+						maintimer.stop();
+						timerval = timerval + 1000;
+						maintimer = new Timer(timerval,0);
+						maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
+						maintimer.start();
+						
+						
+						try{
+							getloyalty.send();
+						}
+						catch(e:Error){
+							
+						}
+					}
+					else {
+						maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
+						maintimer.stop();
+					}
+					
+				
+				
+			}
+			
+			public function afterGetloyalty(ev:ResultEvent):void  {
+				busy = false;
+				var stmt:SQLStatement = new SQLStatement();
+				
+				var old:Boolean = false;
+				try{
+					if (ev.result[0].response == "old"){
+						old = true;
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+				if (old){
+					updatecont.visible = true;
+				}
+				else if (isFingerDown == false){
+					
+					if (prefound == false){
+						loyaltyArray =  new ArrayCollection();
+						
+						try{
+							loyaltyArray = ev.result[0].ress.res;
+							
+						}
+						catch(e:Error){
+							try{
+								loyaltyArray.addItem( ev.result[0].ress.res);
+							}
+							catch(e:Error){
+								
+							}
+						}
+						
+						
+						if (loyaltyArray.length > 0){
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+							var stmt2:SQLStatement = new SQLStatement();
+							stmt2.sqlConnection = sqlConnection;
+							stmt2.text = "delete from userloyalty";
+							stmt2.execute();
+							var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+							var stringDataSort:Sort = new Sort();
+							dataSortField.name = "business_name";
+							dataSortField.numeric = false;
+							stringDataSort.fields = [dataSortField];
+							loyaltyArray.sort = stringDataSort;
+							loyaltyArray.refresh();
+							for (var i:uint = 0; i < loyaltyArray.length; i++){
+								prefound = false;
+								
+								stmt = new SQLStatement();
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "insert into userloyalty values(" +
+									loyaltyArray[i].id+",'" +
+									loyaltyArray[i].business_name+"','" +
+									loyaltyArray[i].business_picture+"','" +
+									loyaltyArray[i].amount+"','" +
+									loyaltyArray[i].userloyalty+"')";			
+								stmt.execute();
+							}
+							
+							
+							
+						}
+						
+						
+					}
+					else {
+						var templistData:ArrayCollection = new ArrayCollection();
+						try{			
+							templistData = ev.result[0].ress.res;		
+						}
+						catch(e:Error){
+							try{
+								templistData.addItem(ev.result[0].ress.res);
+							}
+							catch(e:Error){
+							}
+						}
+						
+						
+						if (templistData.length > 0){
+							stmt = new SQLStatement();
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+							var stmt3:SQLStatement = new SQLStatement();
+							stmt3.sqlConnection = sqlConnection;
+							stmt3.text = "delete from userloyalty";
+							stmt3.execute();
+							var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+							var stringDataSort2:Sort = new Sort();
+							dataSortField2.name = "business_name";
+							dataSortField2.numeric = false;
+							stringDataSort2.fields = [dataSortField2];
+							templistData.sort = stringDataSort2;
+							templistData.refresh();
+							for (var j:uint = 0; j < templistData.length; j++){
+								
+								stmt = new SQLStatement();
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "insert into userloyalty values(" +
+									templistData[j].id+",'" +
+									templistData[j].business_name+"','" +
+									templistData[j].business_picture+"','" +
+									templistData[j].amount+"','" +
+									templistData[j].userloyalty+"')";			
+								stmt.execute();
+								loyaltyArray = new ArrayCollection();
+								loyaltyArray = templistData;
+							}
+							
+						}
+						
+						
+					}
+					
+					
+					sortPress(sortMode);
+					searchClick();
+					//sort array by most recent dates
+					var stop:String = "";
+					noloyalty.visible = false;
+					if (loyaltyArray.length <= 0){
+						noloyalty.visible = true;
+						
+					}
+					
+				}
+				
+				
+			}
+			public function sortPress(u:uint):void {
+				//sortBTN.closeDropDown();
+				u = 0;
+				sortMode = 0;
+				
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var stringDataSort:Sort = new Sort();
+				dataSortField.name = "business_name";
+				dataSortField.numeric = false;
+				stringDataSort.fields = [dataSortField];
+				loyaltyArray.sort = stringDataSort;
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+			}
+			public function loyaltyListChange(ev:IndexChangeEvent):void {
+				if (ev.newIndex != -1){
+					navigator.pushView(LoyaltyDescription, ev.currentTarget.selectedItems[0]);					
+				}
+			}
+			
+			
+			public function press(event:KeyboardEvent):void {
+				//if ((event.keyCode == 13)||(event.charCode == 13)){
+					searchClick();
+				//}
+			}
+			public function searchClick():void {
+				loyaltyArray.filterFunction = filterCompleted;
+				
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+				var s:String = "";
+				s.toLowerCase()
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.amount.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			public function goFilter():void {
+				//navigator.pushView(HomeloyaltyFilter);
+			}
+			
+			[Bindable]
+			public var isFingerDown:Boolean = false;
+			public function listFingerDown():void {
+				isFingerDown = true;
+			}
+			public function listFingerUp():void {
+				isFingerDown = false;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getloyalty" method="GET" 
+					   resultFormat="array" 	
+					   url="http://www.scoutcard.ca/php/mobile_v2/getloyaltyList.php"
+					   result="afterGetloyalty(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+		<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
+			<s:BorderContainer x="0" y="0"  borderVisible="false" height="10%" backgroundAlpha="1" borderAlpha="0"
+							   dropShadowVisible="false" backgroundColor="#FFFFFF"  right="15" left="15">
+				<s:TextInput   fontFamily="Arial" contentBackgroundAlpha="0" borderVisible="false"
+							   id="key" left="5" right="5" verticalCenter="0" width="100%" height="80%"
+							   keyUp="press(event);" maxChars="20" prompt="Search Rewards" color="#b7b7b7b7"
+							   returnKeyLabel="search"/>		
+			</s:BorderContainer>
+			<s:Group width="100%" height="100%" visible="true" id="listCont">
+				<s:Group   top="0" bottom="0" width="100%"  >
+					<s:List width="100%" height="100%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+							id="loyaltylist" labelField="name"  contentBackgroundColor="#c5c5c5"  
+							dataProvider="{loyaltyArray}" itemRenderer="components.loyaltyListItem"
+							selectedIndex="1" change="loyaltyListChange(event);"
+							
+							horizontalScrollPolicy="off"  >
+						<s:layout>
+							<s:VerticalLayout gap="15">
+							</s:VerticalLayout>
+						</s:layout>
+					</s:List>
+				</s:Group>
+				<s:Label text="You haven't visited any Scout locations yet!" visible="false" id="noloyalty" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
+			</s:Group>	
+			</s:VGroup>
+		</s:VGroup>
+		<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:BorderContainer id="updatecont" width="100%" height="100%" visible="false" borderAlpha="0" backgroundAlpha="1" backgroundColor="#FFFFFF">
+		<s:VGroup horizontalAlign="center" verticalAlign="middle" horizontalCenter="0" gap="30" verticalCenter="0">
+			<s:Label  verticalAlign="middle" text="New Update Available"/>
+			<s:Image 
+				mouseOut="profUp(event)" mouseDown="profDown(event)"
+				mouseUp="profUp(event)" mouseOver="profDown(event)" 
+				click="navigateToURL(new URLRequest('https://itunes.apple.com/ca/app/scout/id730533771?mt=8'))" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/Update_low.png')"
+											source240dpi="@Embed('../assets/Update_Med.png')"
+											source320dpi="@Embed('../assets/Update_High.png')"
+											source480dpi="@Embed('../assets/Update_Higher.png')"
+											source640dpi="@Embed('../assets/Update_Highest.png')"/>
+				</s:source>
+			</s:Image>
+		</s:VGroup>
+		
+		
+	</s:BorderContainer>
+	<s:BorderContainer height="1" width="100%" backgroundAlpha="1" backgroundColor="#bababa" borderVisible="false" top="0"/>
+
+</s:View>

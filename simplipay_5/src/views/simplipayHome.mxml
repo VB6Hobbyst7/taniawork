@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Simplipay" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.EffectEvent;
+			
+			import spark.effects.Fade;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.events.DragEvent;
+			
+			import spark.filters.GlowFilter;
+			public var profDraging:Boolean = false;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+				
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				
+				
+				
+			}
+			
+
+			
+			protected function goV2():void 
+			{
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = v1;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v2;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function backFromV2():void {
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = v2;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+			}
+			public function goV3(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (v1.alpha == 1){
+					fd.target = v1;	
+				}
+				else if (v2.alpha == 1){
+					fd.target = v2;	
+				}
+				else if (v4.alpha == 1){
+					fd.target = v4;	
+				}
+				else if (v5.alpha == 1){
+					fd.target = v5;	
+				}
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v3;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+			}
+			public function backFromV3(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.duration = 1000;
+				fd.target = v3;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+			}
+			
+			
+			
+			public function goV4(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (v1.alpha == 1){
+					fd.target = v1;	
+				}
+				else if (v2.alpha == 1){
+					fd.target = v2;	
+				}
+				else if (v3.alpha == 1){
+					fd.target = v3;	
+				}
+				else if (v5.alpha == 1){
+					fd.target = v5;	
+				}
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v4;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+			
+			}
+			
+			public function goV5(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				if (v1.alpha == 1){
+					fd.target = v1;	
+				}
+				else if (v2.alpha == 1){
+					fd.target = v2;	
+				}
+				else if (v3.alpha == 1){
+					fd.target = v3;	
+				}
+				else if (v4.alpha == 1){
+					fd.target = v4;	
+				}
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v5;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			
+			public function backFromV4(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = v4;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			
+			public function backFromV5(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = v5;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function goV6(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				
+				fd.target = v1;	
+				
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v6;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function backFromV6(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = v6;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function goV7(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				
+				fd.target = v1;	
+				
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				fd.play();
+				
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v7;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function backFromV7(event:MouseEvent):void
+			{
+				var fd:Fade = new Fade();
+				fd.duration = 1000;
+				fd.target = v7;
+				fd.alphaFrom = 1;
+				fd.alphaTo = 0;
+				fd.addEventListener(EffectEvent.EFFECT_END, removeVisibility);
+				var fd2:Fade = new Fade();
+				fd2.duration = 1000;
+				fd2.target = v1;
+				fd2.alphaFrom = 0;
+				fd2.alphaTo = 1;	
+				fd.play();
+				fd2.play();
+				fd2.addEventListener(EffectEvent.EFFECT_END, addVisibility);
+				
+			}
+			public function removeVisibility(ev:EffectEvent):void {
+				ev.currentTarget.target.visible = false;
+			}
+			public function addVisibility(ev:EffectEvent):void {
+				ev.currentTarget.target.visible = true;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer id="v1" visible="true" width="100%" height="100%" backgroundAlpha="0" borderAlpha="0" >
+		<s:HGroup top="25" width="100%" height="100%" horizontalCenter="0">
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:Image width="30%" height="75" scaleMode="letterbox" click="goV2();" smooth="true" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+						 source="assets/grid.png"/>
+				<s:Label text="My Stores" />
+				<s:Image width="30%" height="75" smooth="true" click="goV3(event);" source="assets/gear.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Settings" />
+				<s:Image width="30%" height="75" smooth="true" click="goV4(event);" source="assets/flag.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Scan and Save" />
+			</s:VGroup>
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:Image width="30%" height="75" smooth="true" click="goV5(event);" source="assets/info.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Help" />
+				<s:Image width="30%" height="75" smooth="true" click="goV6(event);" source="assets/calendar.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Daily Deals" />
+				<s:Image width="30%" height="75" smooth="true" click="goV7(event);" source="assets/book.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="History" />
+			</s:VGroup>
+		</s:HGroup>		
+	</s:BorderContainer>
+	<s:BorderContainer id="v2" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV2();" horizontalCenter="0" source="assets/backB.png"/>	
+	</s:BorderContainer>
+	<s:BorderContainer id="v3" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV3(event);" horizontalCenter="0" source="assets/backB.png"/>
+	</s:BorderContainer>
+	<s:BorderContainer id="v4" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV4(event);" horizontalCenter="0" source="assets/backB.png"/>
+	</s:BorderContainer>
+	<s:BorderContainer id="v5" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV5(event);" horizontalCenter="0" source="assets/backB.png"/>
+	</s:BorderContainer>
+	<s:BorderContainer id="v6" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV6(event);" horizontalCenter="0" source="assets/backB.png"/>
+	</s:BorderContainer>
+	<s:BorderContainer id="v7" visible="false" width="100%" height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="298" width="209" height="59"  mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+				 click="backFromV7(event);" horizontalCenter="0" source="assets/backB.png"/>
+	</s:BorderContainer>
+	
+</s:View>

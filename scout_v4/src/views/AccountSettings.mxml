@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" backgroundColor="#FFFFFF"
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		title="Account" viewActivate="onActivate(event)" xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent >	
+	</s:actionContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Geolocation;
+			import flash.data.SQLConnection;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			protected var g:Geolocation = new Geolocation(); 
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function onActivate(event:Event):void
+			{
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+
+				busy = false;
+				catArray =  new ArrayCollection();
+				catArray.addItem({name:"Change Password"});
+				storeList.dataProvider = catArray;
+			}
+			public function onSwipe(event:TransformGestureEvent):void
+			{
+				var ev:MouseEvent;
+				switch(event.offsetX)
+				{
+					case 1:
+					{
+						// swiped right also back swipe
+						navigator.popView();
+						break;
+					}
+					case -1:
+					{
+						// swiped left
+						break;
+					}
+				}
+				switch(event.offsetY)
+				{
+					case 1:
+					{
+						// swiped down
+						break;
+					}
+					case -1:
+					{
+						// swiped up
+						break;
+					}
+				}
+			}
+			public function afterGetAllCategories(ev:ResultEvent):void  {
+			
+				
+			}
+			public function catListChange(ev:IndexChangeEvent):void {
+				//storeList.selectedItem.name
+				try{
+					if (storeList.selectedItem.name == "Change Password"){
+						navigator.pushView(AccountSettingsChangePwd);
+					}
+					else if (storeList.selectedItem.name == "Change Quick Pin"){
+						//navigator.pushView(AccountSettingsChangeQuickPin);
+					}
+				}
+				catch(e:Error){
+					
+				}
+				
+
+			}
+		
+		
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+			}
+		]]>
+	</fx:Script>
+	<s:Group  top="0" bottom="0" width="100%"  >
+		<s:List width="100%" horizontalCenter="0" top="40" bottom="0" 
+				  id="storeList" labelField="name" contentBackgroundAlpha="0"  
+				dataProvider="{catArray}" itemRenderer="components.catResult"
+				selectedIndex="1" change="catListChange(event);"  >
+			
+		</s:List>
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

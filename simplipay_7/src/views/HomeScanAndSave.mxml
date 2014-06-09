@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Scan and Save" >
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.EffectEvent;
+			import spark.effects.Fade;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import model.Smurf;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import mx.events.DragEvent;
+			import spark.filters.GlowFilter;
+			public var profDraging:Boolean = false;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+</s:View>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="My Account" creationComplete="init(event)">
+	<fx:Declarations></fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import org.qrcode.QRCode;
+			protected function init(event:FlexEvent):void
+			{
+				var sp:Sprite = new Sprite();
+				var qr:QRCode = new QRCode();
+				qr.encode("test");
+				var img:Bitmap = new Bitmap(qr.bitmapData);
+				sp.addChild(img);
+				var u:UIComponent = new UIComponent();
+				u.addChild(sp);
+				mygroup.addElement(u);				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	</fx:Declarations>
+	<s:VGroup id="mygroup" left="10" top="10">
+	</s:VGroup>
+</s:View>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:model="model.*" 
+		creationComplete="init(event)"  viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="{data.currentSelectedLocationName}">
+	<s:navigationContent>
+		<s:Button icon="@Embed('assets/back.png')" 
+				  click="navigator.popView();"/>
+	</s:navigationContent>
+	<s:titleContent >
+		<s:Label x="51" width="8" color="#FFFFFF" fontFamily="_sans" fontSize="14"/>
+		<s:Label x="51" width="255" color="#FFFFFF" fontFamily="_sans" fontSize="16"
+				 fontWeight="bold" text="{data.currentSelectedLocationName}"/>
+	</s:titleContent>	
+	<fx:Script>
+		<![CDATA[
+		
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import model.Smurf;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+
+			
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			
+			[Bindable]
+			private var _addrString:String;
+			
+			[Bindable]
+			private var _distString:String;
+			
+			private var _tu:TextUtil;
+			private var _sc:ShapeCollection;
+			
+			[Embed("../assets/sms.png")]
+			private var smsIcon:Class;
+			
+			[Embed("../assets/phone.png")]
+			private var phoneIcon:Class;
+			
+			[Embed("../assets/mail.png")]
+			private var mailIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			
+		
+			public function view1_activateHandler(event:Event):void
+			{
+			
+				
+				googleTravelUrl = "http://maps.google.com/maps?saddr="+data.mylat+","+data.mylong+"&daddr="+data.lat+","+data.long;
+				if (this.parentApplication.map) {	
+					if (!this.mapContainer.getChildByName("myMap")) this.mapContainer.addChild(this.parentApplication.map);
+				}
+				else {
+					if (!this.parentApplication.map) this.parentApplication.makeMap();
+					this.mapContainer.addChild(this.parentApplication.map);
+				}
+				
+				
+				if (!this.parentApplication.gpsTried) this.parentApplication.initGPS();
+				
+				if (this.parentApplication.gpsTried && this.parentApplication.gpsIsSupported) {
+					this.parentApplication.setGpsLatLng();
+				}
+				else {
+				}
+				busyTime.visible = false;
+				showItemOnMap();
+				
+			}
+			public function init(event:FlexEvent):void
+			{
+			
+			
+	
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+	
+			
+			private function showItemOnMap():void {
+				this.parentApplication.removeShapesFromMap();
+				
+				var p:Poi = new Poi(new LatLng(0,0));
+		
+				p.infoWindowTitleText = data.currentSelectedLocationName;
+				
+					p.latLng = new LatLng(Number(data.lat),Number(data.long));
+					p.infoContent = data.currentSelectedAddress;
+		
+				if (this.parentApplication.applicationDPI >= 240) {
+					var i:PinMapIcon = (p.icon as PinMapIcon);
+					i.iconWidth = 48;
+					p.icon = i;
+				}
+				
+				this.parentApplication.removeShapesFromMap();
+				this._sc = new ShapeCollection();
+				this._sc.name = "searchShapeCollection";
+				this._sc.add(p);
+				
+				this.parentApplication.map.addShapeCollection(this._sc);
+				
+				this.parentApplication.map.bestFit(false,2,16);	
+				
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer borderAlpha="0" left="0" top="1" width="100%" height="80" backgroundColor="#E2EAF4">
+		<s:Label id="selectedTitle" left="8" right="8" top="7" height="26" color="#080A4C"
+				 fontSize="12" fontWeight="bold" text="{data.currentSelectedLocationName}"
+				 />
+		<s:Label id="selectedAddress" left="8" right="10" top="23" height="26" color="#080A4C" mouseOver="tOver(event)" mouseOut="tOut(event)"
+				 fontSize="12" fontWeight="bold" text="{data.address}" click="navigateToURL(new URLRequest(googleTravelUrl))"/>
+		<s:Label id="selectedNumber" left="8" right="138" top="39" height="26" color="#080A4C"
+				 fontSize="12" fontWeight="bold" text="{data.number}"/>
+		<s:Label id="selectedWaitTime" left="8" top="54" width="172" height="22" color="#080A4C"
+				 fontSize="20" fontWeight="bold" text="{data.currentSelectedWaitTime}"/>
+		<s:Image x="188" y="37" width="38" height="38"
+				 click="navigateToURL(new URLRequest('tel:'+data.number));"
+				 source="../assets/phonebw.png"/>
+		<s:Image x="231" y="37" width="38" height="38"
+				 click="navigateToURL(new URLRequest('sms:'+data.number));"
+				 source="../assets/smsbw.png"/>
+		<s:Image x="276" y="37" width="38" height="38"
+				 click="navigateToURL(new URLRequest('mailto:'+data.email));"
+				 source="../assets/mailbw.png"/>
+	</s:BorderContainer>
+	
+	<s:VGroup  x="0" top="80" bottom="0" width="100%" gap="0">
+		
+		<mx:UIComponent id="mapContainer"
+						width="100%"
+						height="100%"
+						 />
+	</s:VGroup>
+	<s:BusyIndicator horizontalCenter="0" id="busyTime" 
+					 verticalCenter="0" visible="true" 
+					 symbolColor="blue" rotationInterval="200"/>
+	
+</s:View>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" title="Simplipay" viewActivate="view1_viewActivateHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import spark.events.ViewNavigatorEvent;
+
+			[Bindable]
+			[Embed("assets/launchpad_default_icon32.png")]
+			public var fbIcon:Class;
+
+			[Bindable]
+			protected var viewsAC:ArrayCollection = new ArrayCollection(); 
+
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				viewsAC.addItem({label:"Back/Home/Search Events", icon:fbIcon});
+				viewsAC.addItem({label:"Busy Indicator", icon:fbIcon});
+				viewsAC.addItem({label:"Cache Image Locally", icon:fbIcon});
+				viewsAC.addItem({label:"Camera", icon:fbIcon});
+				viewsAC.addItem({label:"Raw Camera", icon:fbIcon});
+				viewsAC.addItem({label:"Context Menu", icon:fbIcon});
+				viewsAC.addItem({label:"Full Screen", icon:fbIcon});
+				viewsAC.addItem({label:"Geolocation/GPS", icon:fbIcon});
+				viewsAC.addItem({label:"Local DB", icon:fbIcon});
+				viewsAC.addItem({label:"Multitouch", icon:fbIcon});
+				viewsAC.addItem({label:"HTML Content", icon:fbIcon});
+				viewsAC.addItem({label:"Mobile App Anatomy", icon:fbIcon});
+				viewsAC.addItem({label:"Network Info", icon:fbIcon});
+				viewsAC.addItem({label:"Rotate Screen", icon:fbIcon});
+				viewsAC.addItem({label:"Alert", icon:fbIcon});
+				viewsAC.addItem({label:"Skinnable Popup Container", icon:fbIcon});
+				viewsAC.addItem({label:"Fade View Transition", icon:fbIcon});
+				viewsAC.addItem({label:"Flip View Transition", icon:fbIcon});
+				viewsAC.addItem({label:"Slide View Transition", icon:fbIcon});
+				viewsAC.addItem({label:"Zoom View Transition", icon:fbIcon});
+			}
+
+			protected function onSampleSelect():void
+			{
+				if (viewsList.selectedItem.label=="Back/Home/Search Events")
+					navigator.pushView(views.SampleBackMenuSearchEvent);
+
+				if (viewsList.selectedItem.label=="Busy Indicator")
+					navigator.pushView(views.SampleBusyIndicator);
+
+				if (viewsList.selectedItem.label=="Raw Camera")
+					navigator.pushView(views.SampleCamera);
+
+				if (viewsList.selectedItem.label=="Cache Image Locally")
+					navigator.pushView(views.SampleCacheImageFile);
+
+				if (viewsList.selectedItem.label=="Camera")
+					navigator.pushView(views.SampleCameraCapture);
+
+				if (viewsList.selectedItem.label=="Context Menu")
+					navigator.pushView(views.SampleContextMenu);
+
+				if (viewsList.selectedItem.label=="Geolocation/GPS")
+					navigator.pushView(views.SampleGeolocation);
+
+				if (viewsList.selectedItem.label=="Local DB")
+					navigator.pushView(views.SampleSimpleDB);
+
+				if (viewsList.selectedItem.label=="Full Screen")
+					navigator.pushView(views.SampleFullScreen);
+
+				if (viewsList.selectedItem.label=="Multitouch")
+					navigator.pushView(views.SampleMultitouch);
+
+				if (viewsList.selectedItem.label=="HTML Content")
+					navigator.pushView(views.SampleHTMLContent);
+
+				if (viewsList.selectedItem.label=="Mobile App Anatomy")
+					navigator.pushView(views.SampleMobileAppAnatomy);
+
+				if (viewsList.selectedItem.label=="Network Info")
+					navigator.pushView(views.SampleNetworkInfo);
+
+				if (viewsList.selectedItem.label=="Rotate Screen")
+					navigator.pushView(views.SampleRotateScreen);
+
+				if (viewsList.selectedItem.label=="Skinnable Popup Container")
+					navigator.pushView(views.SampleSkinnablePopupContainer);
+
+				if (viewsList.selectedItem.label=="Alert")
+					navigator.pushView(views.SampleAlert);
+
+				if (viewsList.selectedItem.label=="View Menu")
+					navigator.pushView(views.SampleViewMenu);
+
+				if (viewsList.selectedItem.label=="Fade View Transition")
+					navigator.pushView(views.SampleFade);
+
+				if (viewsList.selectedItem.label=="Flip View Transition")
+					navigator.pushView(views.SampleFlip);
+
+				if (viewsList.selectedItem.label=="Slide View Transition")
+					navigator.pushView(views.SampleSlide);
+
+				if (viewsList.selectedItem.label=="Zoom View Transition")
+					navigator.pushView(views.SampleZoom);
+
+			}
+		]]>
+	</fx:Script>
+
+	<s:navigationContent/>
+		<s:List id="viewsList" top="0" bottom="0" left="0" right="0" dataProvider="{viewsAC}" change="onSampleSelect()">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:IconItemRenderer iconField="icon"/>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+</s:View>
