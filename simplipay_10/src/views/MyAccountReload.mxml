@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*"  xmlns:mobile="spark.skins.mobile.*"
+		title="Reload" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >	
+	<s:navigationContent>
+		<s:Button label="My Account" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;		
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;	
+			import org.qrcode.QRCode;			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			
+		
+			public function onActivate(event:Event):void
+			{
+			
+			
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function goPaymentType():void {
+				navigator.pushView(PaymentOptions, {index:1});
+			}
+			public function startReload():void {
+				navigator.popView();
+			}
+		]]>
+	</fx:Script>
+
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:BorderContainer width="100%" height="100%" backgroundAlpha="0" borderAlpha="0">
+				<s:Label id="currentBalanceLbl2" top="18" fontSize="30" horizontalCenter="0"
+						 text="{currentBalance}"/>
+				<s:Label id="currentBalanceLbl0" top="62" color="#434343" fontSize="20" horizontalCenter="-78"
+						 text="Reload Amount"/>
+				<s:Label id="currentBalanceLbl3" top="194" color="#434343" fontSize="20" horizontalCenter="-85"
+						 text="Payment Type"/>
+				<s:Label id="currentBalanceLbl4" top="270" color="#434343" fontSize="20" horizontalCenter="-52"
+						 text="Make this automatic?"/>
+				<components:paymentType top="222" click="goPaymentType();" horizontalCenter="0"/>
+				<s:Label id="currentBalanceLbl1" top="155" color="#434343" fontSize="20"
+						 horizontalCenter="-135" text="Or"/>
+				<components:tipSlider top="86" horizontalCenter="0"/>
+				<s:TextInput y="148" width="266" horizontalCenter="15" prompt="Other Amount"/>
+				<s:ToggleSwitch top="263" horizontalCenter="96"/>
+				<s:Button top="321" width="182" height="32" label="Continue" click="startReload();" horizontalCenter="0"/>
+			</s:BorderContainer>
+		
+			</s:VGroup>
+		</s:Scroller>
+</s:View>

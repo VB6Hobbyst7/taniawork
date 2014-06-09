@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="onActivate(event)" 
+		title="Find-a-Fav" >
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent >	
+		<!--s:Button label="Filter" click="goFilter();" fontSize="12"/--> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var findafavArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			protected var g:Geolocation = new Geolocation(); 
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+			
+					mylat = event.latitude;
+					mylong = event.longitude;
+					getFindaFav.send();
+				
+				
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function onActivate(event:Event):void
+			{
+				
+				
+				try{
+					locationType = "1";
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.59221;
+						mylong = -113.54009;
+						
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+					
+				}
+				
+				
+				
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country FROM localuser";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						emailGo = resData[0].email;
+						getFindaFav.send();	
+					}
+					else {
+						//bad login or no local saved login.
+						var stop:String = "";
+						navigator.popView();
+					}	
+					
+				}
+				catch(e:Error){
+					
+				}	
+					
+			}
+			public function afterGetFindaFav(ev:ResultEvent):void  {
+				findafavArray =  new ArrayCollection();
+				try{
+					findafavArray = ev.result[0].res.re;
+					storeList.dataProvider = findafavArray;
+				}
+				catch(e:Error){
+					var id:String = ev.result[0].res.re.id;
+					var address:String = ev.result[0].res.re.address;
+					var lat:Number = Number(ev.result[0].res.re.lat);
+					var long:Number = Number(ev.result[0].res.re.long);
+					var name:String = ev.result[0].res.re.name;
+					var number:String = ev.result[0].res.re.number;
+					var type:String = ev.result[0].res.re.type;
+					var tagline:String = ev.result[0].res.re.tagline;
+					var email:String = ev.result[0].res.re.email;
+					var imagelarge:String = ev.result[0].res.re.imagelarge;
+					var imagesmall:String = ev.result[0].res.re.imagesmall;
+					var currentSelectedLocationName:String = name;
+					var currentSelectedAddress:String = lat+", "+long;
+					findafavArray.addItem({id:id,address:address,lat:lat,long:long,name:name,type:type,number:number,
+						mylat:mylat,mylong:mylong,currentSelectedLocationName:currentSelectedLocationName,currentSelectedAddress:currentSelectedAddress,
+						tagline:tagline,imagelarge:imagelarge,email:email,imagesmall:imagesmall});
+				}
+				//sort array by most recent dates
+				
+			}
+			public function FindaFavListChange(ev:IndexChangeEvent):void {
+				if (ev.newIndex != -1){
+					var id:String = ev.currentTarget.selectedItems[0].id;
+					var address:String = ev.currentTarget.selectedItems[0].address;
+					var lat:Number = Number(ev.currentTarget.selectedItems[0].lat);
+					var long:Number = Number(ev.currentTarget.selectedItems[0].long);
+					var name:String = ev.currentTarget.selectedItems[0].name;
+					var number:String = ev.currentTarget.selectedItems[0].number;
+					var type:String = ev.currentTarget.selectedItems[0].type;
+					var tagline:String = ev.currentTarget.selectedItems[0].tagline;
+					var email:String = ev.currentTarget.selectedItems[0].email;
+					var imagelarge:String = ev.currentTarget.selectedItems[0].imagelarge;
+					var imagesmall:String = ev.currentTarget.selectedItems[0].imagesmall;
+					var currentSelectedLocationName:String = name;
+					var currentSelectedAddress:String = lat+", "+long;
+					navigator.pushView(itemDescription, {id:id,address:address,lat:lat,long:long,name:name,type:type,number:number,
+						mylat:mylat,mylong:mylong,currentSelectedLocationName:currentSelectedLocationName,currentSelectedAddress:currentSelectedAddress,
+						tagline:tagline,imagelarge:imagelarge,email:email,imagesmall:imagesmall});						
+				}
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				try{
+					trace(storeList.scroller.verticalScrollBar.value);
+					if(storeList.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+						//	listData.addItemAt({text:"loading..."},0);
+						
+					} 
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = storeList.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+				navigator.pushView(HomeFindAFavFilter);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getFindaFav" method="GET" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/findafav/getAllFindaFav.php"
+					   result="afterGetFindaFav(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+		
+	</fx:Declarations>
+	<s:BorderContainer  backgroundColor="#FFFFFF" backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+		<s:List width="306" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+				contentBackgroundColor="#FFFFFF"   id="storeList" labelField="name"  
+				dataProvider="{findafavArray}" itemRenderer="components.findafavResult"
+				selectedIndex="1" change="FindaFavListChange(event);" 
+				mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+			
+		</s:List>
+		<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+			<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48.png')"/>
+			<s:Label text="Pull down to refresh"  id="loadText"/>
+		</s:HGroup>
+	</s:BorderContainer>
+	
+</s:View>

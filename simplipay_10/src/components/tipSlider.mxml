@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   width="296"  height="50" borderAlpha="0.5" cornerRadius="0" creationComplete="init(event)" borderColor="#000000"  >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.MoveEvent;
+			import mx.events.StateChangeEvent;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable]
+			public var tipList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var currentSelected:String = "0";
+			
+			protected function init(event:FlexEvent):void
+			{	
+				
+				tipList.addItem({label:"$1",color:"0x6588A1"});
+				tipList.addItem({label:"$2",color:"0x6588A1"});
+				tipList.addItem({label:"$5",color:"0x6588A1"});
+				tipList.addItem({label:"$10",color:"0x6588A1"});
+				tipList.addItem({label:"$20",color:"0x6588A1"});
+				tipList.addItem({label:"$40",color:"0x6588A1"});
+				tipList.addItem({label:"$80",color:"0x6588A1"});
+				tipList.addItem({label:"$100",color:"0x6588A1"});
+				tipList.addItem({label:"$150",color:"0x6588A1"});
+				tipScroller.dataProvider = tipList;
+
+				
+				
+			}
+			
+		
+			public function getCurrentSelected():String {
+		   		if (tipScroller.selectedIndex != -1){
+					return tipScroller.selectedItem.label;
+				}
+				return "$0";
+			}
+			
+			protected function listChange(event:IndexChangeEvent):void
+			{
+				
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+		
+	
+	<s:List id="tipScroller" borderAlpha="0" contentBackgroundAlpha="0" dataProvider="{tipList}"  
+			width="100%" height="100%"
+			verticalScrollPolicy="off"  scrollSnappingMode="leadingEdge"
+			pageScrollingEnabled="true"  itemRenderer="components.sidescrolleritem" change="listChange(event)"  
+			direction="ltr">
+		<s:layout>
+			<s:HorizontalLayout gap="0"/>
+		</s:layout>			
+	</s:List>
+	<!--s:Image id="pointerImg" bottom="-1" alpha="0.25" horizontalCenter="0" source="assets/hslideSelector.png"/-->
+	
+</s:BorderContainer>

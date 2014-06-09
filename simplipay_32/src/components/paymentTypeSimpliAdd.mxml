@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				     creationComplete="init(event)" borderAlpha="0" backgroundAlpha="0">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var tipList:ArrayCollection = new ArrayCollection();
+			
+			protected function init(event:FlexEvent):void
+			{
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="none"/>
+		<s:State name="paypal"/>
+		<s:State name="creditcard"/>
+		<s:State name="simplipay"/>
+	</s:states>
+	<s:Group  width="100%" height="100%">
+		<s:Image  >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealspaymentoptionsLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/dailydealspaymentoptionsMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/dailydealspaymentoptionsHigh.png')"/>
+			</s:source>
+		</s:Image>
+		<s:BorderContainer borderAlpha="0"  backgroundAlpha="0" includeIn="none" width="100%" height="100%" >
+			<s:Label right="44" color="#FFFFFF" text="None&#xd;" verticalCenter="0"/>
+			
+		</s:BorderContainer>
+		<s:BorderContainer borderAlpha="0"  backgroundAlpha="0" includeIn="paypal" width="100%" height="100%" >
+			<s:Image right="44" verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalHigh.png')"/>
+				</s:source>
+			</s:Image>
+			
+		</s:BorderContainer>
+		<s:BorderContainer borderAlpha="0"  backgroundAlpha="0" includeIn="simplipay" width="100%" height="100%" >
+			<s:Image right="44" smooth="true" verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypesimplipayLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/cardtypesimplipayMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/cardtypesimplipayHigh.png')"/>
+				</s:source>
+			</s:Image>
+			
+		</s:BorderContainer>
+		<s:BorderContainer borderAlpha="0"  backgroundAlpha="0" includeIn="creditcard" width="100%" height="100%" >
+			<s:HGroup right="44" verticalCenter="0" >
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypevisaLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/cardtypevisaMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/cardtypevisaHigh.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Image >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardHigh.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+			
+			
+		</s:BorderContainer>
+	</s:Group>
+	
+	
+	
+	
+</s:BorderContainer>

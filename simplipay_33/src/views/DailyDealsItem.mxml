@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		mouseDown="{webView.visible = false;	
+		webView.focusEnabled = false;}"  
+		xmlns:maps="com.google.maps.*"  
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:model="model.*"  
+		xmlns:mobile="spark.skins.mobile.*"
+		xmlns:BarCode="BarCode.*" 
+		backgroundColor="#2a3038"  
+		xmlns:components="components.*" 
+		xmlns:controls="com.flexcapacitor.controls.*" >	
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="gobackone();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>	
+	<s:Button x="11" height="75%" label="Buy Now" visible="{purchased2 == false}" click="goPaymentType();"/>
+		<!--s:Button x="11" height="75%" label="Redeem" visible="{purchased2 == true}" click="useCoupon();"/-->
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.effects.Scale;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var mapUrl:String = "http://simplipay.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl+'?mylat='+mylat+'&mylong='+mylong;
+			[Bindable]
+			public var purchased2:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				
+				mylat = data.lat;
+				mylong = data.longa;
+				if (data.purchased == "yes"){
+					purchased2 = true;
+					this.title = "My Deals";
+				}
+				else {
+					purchased2 = false;
+					this.title = "Daily Deals";
+				}
+				//webView.
+				////contu.enabled = true;
+				try{
+				if ((data.email == null)||(data.email == "")){
+					////navigator.popToFirstView();
+
+				}
+				else {
+					goGetBalance();
+					purchaseCost = data.cost;
+					couponid = data.id;
+					try{
+						currentBalance = data.currentBalance2;
+					}
+					catch(e:Error){
+						
+					}
+					//data.email available
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+data.email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good data
+						if (resData[0].usealways == "yes"){
+							ccname = resData[0].name;
+							ccnumber = resData[0].cardnumber;
+							cvn = resData[0].cvn;
+							ccexpdate = resData[0].expdate;
+							cctype = resData[0].cardtype;
+							ccaddress = resData[0].address;
+						////	pt.currentState = 'creditcard';	
+						}
+						else {
+							//pt.currentState = 'simiplipay';
+						}
+						
+					}
+					else {
+						//bad data or no local saved data.
+						//pt.currentState = 'simiplipay';
+					}
+				}
+			}
+			catch(e:Error){
+				navigator.popToFirstView();
+			}
+			
+			}		
+			public function goGetBalance():void {
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getBalance.send();		
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function goPaymentType():void {
+				if (cody.visible == false){
+				try{
+					navigator.pushView(DailyDealsConfirmPayment, {index:1,
+						id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				catch(e:Error) {
+					navigator.pushView(DailyDealsConfirmPayment, {index:1,id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				}
+			}
+			public function goShare():void {
+				try{
+					navigator.pushView(DailyDealsShare, {index:1,id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				catch(e:Error) {
+					navigator.pushView(DailyDealsShare, {index:1,id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				
+			}
+			public function useCoupon():void {
+				try{
+					navigator.pushView(DailyDealsCouponUsage, {index:1,id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				catch(e:Error){
+					navigator.pushView(DailyDealsCouponUsage, {index:1,id:data.id,
+						locationid:data.locationid,
+						merchid:data.merchid,
+						deal_description:data.deal_description,
+						image:data.image,
+						sale_to_date:data.sale_to_date,
+						expiry_date:data.expiry_date,
+						start_date:data.start_date,
+						value:data.value,
+						cost:data.cost,
+						original_cost:data.original_cost,
+						purchasecount:data.purchasecount,
+						about:data.about,
+						custom_rule:data.custom_rule,
+						business_location:data.business_location,
+						business_phone_number:data.business_phone_number,
+						business_website:data.business_website,
+						company_description:data.company_description,
+						num_per_person:data.num_per_person,
+						num_as_gifts:data.num_as_gifts,
+						volumn_threshold:data.volumn_threshold,
+						max_volume:data.max_volume,
+						valid_days:data.valid_days,
+						use_age_require:data.use_age_require,
+						age_requirement:data.age_requirement,
+						appointment_required:data.appointment_required,
+						must_be_used_by_same_person:data.must_be_used_by_same_person,
+						must_use_all_before_date:data.must_use_all_before_date,
+						num_can_use_per_visit:data.num_can_use_per_visit,
+						people_per_table:data.people_per_table,
+						reservation_required:data.reservation_required,
+						dine_in_only:data.dine_in_only,
+						business_name:data.business_name});
+				}
+				
+			}
+			public function startReload():void {
+				
+				/*if (pt.currentState == 'paypal'){
+					navigator.pushView(Cart, {email:data.email,couponid:couponid, amount:purchaseCost, type:2});
+				}
+				else if (pt.currentState == 'creditcard'){
+					navigator.pushView(CreditCardLoader, {email:data.email,couponid:couponid, ccname:ccname,type:2, ccnumber:ccnumber,
+						cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:purchaseCost});
+				}
+				else if (pt.currentState == 'simplipay'){
+					navigator.pushView(simplipayPurchaseLoader, {email:data.email,couponid:couponid, amount:purchaseCost, type:2});
+				}*/
+				
+				
+				//navigator.popView();
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				var tempBalance:String = ev.result[0].res.toString();
+				if (tempBalance.indexOf(".") != -1){
+					var tempString:String = tempBalance.substring(tempBalance.indexOf(".")+1,tempBalance.length);
+					if (tempString.length > 2){
+						currentBalance = "$"+tempBalance.substring(0,tempBalance.indexOf(".")+1)+tempString.substring(0,2);
+					}
+					else {
+						currentBalance = "$"+tempBalance;
+					}
+				}
+				else {
+					currentBalance = "$"+tempBalance;
+				}
+				
+			}
+			public function togglecont1press():void {
+				togglecont1.visible = false;
+				var sc:Scale = new Scale();
+				if (toggle1.currentState == 'normal'){
+					toggle1.currentState = 'open';
+					sc.addEventListener(EffectEvent.EFFECT_END, aftertoggle1open);
+					sc.scaleYFrom = 0;
+					sc.scaleYTo = 1;
+					sc.duration = 500;
+					sc.target = togglecont1;
+					sc.play();
+				}
+				else {
+					toggle1.currentState = 'normal';
+					sc.scaleYFrom = 1;
+					sc.scaleYTo = 0;
+					sc.duration = 500;
+					sc.target = togglecont1;
+					sc.play();
+				}
+			}
+			public function aftertoggle1open(ev:EffectEvent):void {
+				togglecont1.visible = true;
+			}
+			public function togglecont3press():void {
+				togglecont3.visible = false;
+				var sc:Scale = new Scale();
+				if (toggle3.currentState == 'normal'){
+					toggle3.currentState = 'open';
+					sc.addEventListener(EffectEvent.EFFECT_END, aftertoggle3open);
+					sc.scaleYFrom = 0;
+					sc.scaleYTo = 1;
+					sc.duration = 500;
+					sc.target = togglecont3;
+					sc.play();
+				}
+				else {
+					toggle3.currentState = 'normal';
+					sc.scaleYFrom = 1;
+					sc.scaleYTo = 0;
+					sc.duration = 500;
+					sc.target = togglecont3;
+					sc.play();
+				}
+			}
+			public function aftertoggle3open(ev:EffectEvent):void {
+				togglecont3.visible = true;
+			}
+			public function togglecont2press():void {
+				webView.x = this.width/2-webView.width/2;
+				webView.y = this.height/2-webView.height/2
+				if (webView.visible){
+					webView.focusEnabled = false;
+					webView.visible = false;
+					//webclosebtn.visible = false;
+					webView.dispose();
+				}
+				else {
+					webView.focusEnabled = true;
+					webView.reload();
+					//webView.dispose();
+					webView.initialize();
+					webView.visible = true;
+					//webclosebtn.visible = true;
+					
+					
+					
+				}
+			}
+			
+			public function webcomp():void {
+				/*var myBitmap:Bitmap = new Bitmap(webView.takeSnapshot());
+				var myImage:Image = new Image();
+				myImage.source = myBitmap;
+				myImage.width = 200;
+				myImage.height = 200;
+				this.addElement(myImage);*/
+			}
+			public function closeWeb():void {
+				webView.visible = false;
+				//webclosebtn.visible = false;
+				webView.focusEnabled = false;
+			}
+			public function gobackone():void {
+				if (webView.visible == true){
+					closeWeb();
+				}
+				else {
+					navigator.popView();	
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="https://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<controls:WebView id="webView" complete="webcomp();"   visible="false"  
+					  source="{totalurl}"  right="10" left="10" top="26" bottom="10"/>
+
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		
+		<s:VGroup width="95%" paddingTop="20" horizontalAlign="center"  >
+			<s:Image x="21" width="600" height="300" scaleMode="stretch" smooth="true"
+					 source="{data.image}"/>
+			<s:Label color="#FFFFFF"  fontWeight="bold" lineThrough="false"
+					 text="{data.description}" textAlign="center" verticalAlign="middle"/>
+			<s:BorderContainer width="100%" horizontalCenter="0"  backgroundAlpha="0" borderAlpha="0" >
+				<s:Image horizontalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealshbackLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/dailydealshbackMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/dailydealshbackHigh.png')"/>
+					</s:source>
+				</s:Image>
+				<s:HGroup x="10" y="4" width="100%"  gap="30"
+						   height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:VGroup horizontalAlign="center" verticalAlign="middle" verticalCenter="0">
+						<s:Label color="#EF7716"  fontWeight="bold" lineThrough="false"
+								 text="${data.cost.toFixed(2)}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF"  fontWeight="normal" lineThrough="true"
+								 text="FROM ${data.original_cost.toFixed(2)}" textAlign="center" verticalAlign="middle"/>
+						
+					</s:VGroup>
+					<s:VGroup horizontalAlign="center" verticalAlign="middle" verticalCenter="0">
+						<s:Label color="#EF7716"  fontWeight="bold" lineThrough="false"
+								 text="${data.value.toFixed(2)}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF"  fontWeight="normal" lineThrough="false"
+								 text="VALUE" textAlign="center" verticalAlign="middle"/>
+					</s:VGroup>
+					<s:VGroup horizontalAlign="center" verticalAlign="middle" verticalCenter="0">
+						<s:Label color="#EF7716"  fontWeight="bold" lineThrough="false"
+								 text="{data.purchasecount}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF"  fontWeight="normal" lineThrough="false"
+								 text="BOUGHT" textAlign="center" verticalAlign="middle"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:BorderContainer>
+			
+			<components:listtoggleitem width="100%" id="toggle1" 
+									   horizontalCenter="0" currentState="normal"
+									   height="45" titlename="DEAL DESCRIPTION" />
+			<s:BorderContainer id="togglecont1"  visible="true"  width="100%" backgroundAlpha="0.5" 
+							   backgroundColor="#000000" borderAlpha="0" >
+				<s:TextArea  contentBackgroundAlpha="0" borderVisible="false" id="dealrulestext"
+							 right="5" left="5" editable="false"  top="5" color="#FFFFFF"  text="{data.deal_description}"
+						 textAlign="center" verticalAlign="middle"/>
+				
+			</s:BorderContainer>
+			<components:listtoggleitem width="100%" id="toggle3" 
+									   horizontalCenter="0" currentState="normal"
+									   height="45" titlename="ABOUT THIS DEAL" />
+			<s:BorderContainer id="togglecont3"  visible="true"  width="100%" backgroundAlpha="0.5" 
+							   backgroundColor="#000000" borderAlpha="0" >
+				<s:TextArea id="aboutdealtext" editable="false" borderVisible="false" contentBackgroundAlpha="0" 
+							color="#FFFFFF" right="5" left="5"  top="5"   text="{data.about}"
+						 textAlign="center" verticalAlign="middle"/>
+				
+			</s:BorderContainer>
+			<components:listtoggleitem width="100%" id="toggle4" 
+									   horizontalCenter="0" currentState="normal"
+									   height="45" titlename="DEAL RULES" />
+			<s:BorderContainer id="togglecont4"  visible="true"  width="100%" backgroundAlpha="0.5" 
+							   backgroundColor="#000000" borderAlpha="0" >
+				<s:TextArea id="ruledealtext" editable="false" borderVisible="false" contentBackgroundAlpha="0" 
+							color="#FFFFFF" right="5" left="5"  top="5"   text="{data.custom_rule}"
+							textAlign="center" verticalAlign="middle"/>
+				
+			</s:BorderContainer>
+			<components:listtoggleitem2 id="toggle2" width="100%" horizontalCenter="0" height="45" 
+										click="togglecont2press();" 
+										mouseDown="gDown(event)"
+										currentState="normal" titlename="MAP" />
+			<s:BorderContainer borderAlpha="0" backgroundAlpha="0"  >
+				<s:HGroup horizontalCenter="0" gap="0" paddingTop="20"  width="100%" visible="{purchased2 == false}">
+					<s:Image>
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsshareLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/dailydealsshareMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/dailydealsshareHigh.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image>
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsspacerLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/dailydealsspacerMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/dailydealsspacerHigh.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Image click="goPaymentType();"
+							>
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsbuynowLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/dailydealsbuynowMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/dailydealsbuynowHigh.png')"/>
+						</s:source>
+					</s:Image>
+				</s:HGroup>
+				<s:HGroup horizontalCenter="0" paddingTop="20" visible="{purchased2 == true}"  gap="0"
+						  verticalAlign="middle" horizontalAlign="center">
+					
+					<s:Image click="useCoupon();"
+							>
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/redeemcouponLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/redeemcouponMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/redeemcouponHigh.png')"/>
+						</s:source>
+					</s:Image>
+				</s:HGroup>
+			</s:BorderContainer>
+			</s:VGroup>
+		</s:Scroller>
+	<components:codeinput id="cody" visible="true" />
+</s:View>

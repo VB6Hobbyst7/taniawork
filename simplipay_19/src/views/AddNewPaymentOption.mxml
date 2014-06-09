@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Add New" xmlns:BarCode="BarCode.*" backgroundColor="#2a3038" >	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radiogroup1"/>
+	</fx:Declarations>
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="saveData();"
+				 source="assets/donebtn.png"/>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.paymentResult;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "";
+		
+			public function onActivate(event:Event):void
+			{
+				try{
+				
+					if ((data.email == "")||(data.email == null)){
+						navigator.popToFirstView();
+					}
+					else {
+						emailGo = data.email;		
+					}
+				}
+				catch(e:Error){
+					navigator.popToFirstView();
+				}
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}			
+			public function saveData():void {				
+				var nameoncard:String = nameoncardinput.text;
+				var cardnumber:String = cardnumberinput.text;
+				var csv:String = cvninput.text;
+				var expdate:String = exdateinput.text;
+				var cardtype:String = radiogroup1.selectedValue.toString();
+				var address:String = addressinput.text;
+				
+				if (expdate.length < 5){
+					expdate = "0"+expdate;
+				}
+				
+				if (expdate.indexOf("/") != -1){
+					var tempexpdate:String = expdate.substring(0,expdate.indexOf("/"))+"-"+expdate.substring(expdate.indexOf("/")+1,expdate.length);
+					expdate = tempexpdate;
+				}
+				
+				
+				if ((nameoncard != "")&&(cardnumber != "")&&(csv != "")&&(expdate != "")&&(cardtype != "")&&(address != "")
+				&&(cardnumber.length == 16)&&(csv.length == 3)&&(expdate.length == 5)&&(expdate.indexOf("-") != -1)){
+				try{	
+					
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update creditcardinfo set usealways = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+					
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					
+					stmt.sqlConnection = sqlConnection;
+					/*stmt.text = "INSERT into creditcardinfo values(0,:email,:name,:cardnumber,:cvn" +
+					",:expdate,:cardtype,:address, :usealways)";*/
+					stmt.text = "INSERT into creditcardinfo (email, name, cardnumber, cvn, expdate, cardtype, address, usealways)" +
+						" values(:email,:name,:cardnumber,:cvn" +
+						",:expdate,:cardtype,:address,:usealways)";
+					stmt.parameters[":email"] = data.email;
+					stmt.parameters[":name"] = nameoncard;
+					stmt.parameters[":cardnumber"] = cardnumber;
+					stmt.parameters[":cvn"] = csv;
+					stmt.parameters[":expdate"] = expdate;
+					stmt.parameters[":cardtype"] = cardtype;
+					stmt.parameters[":address"] = address;
+					stmt.parameters[":usealways"] = 'yes';
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'creditcard'";
+					stmt.execute();
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'no' where email = '"+emailGo+"' and name = 'simplipay'";
+					stmt.execute();
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'no' where email = '"+emailGo+"' and name = 'paypal'";
+					stmt.execute();
+					
+					
+				}
+				catch(e:Error){
+					
+					
+					/*try{
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+						var stmt:SQLStatement = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "Drop TABLE creditcardinfo";
+						stmt.execute();
+						
+					}
+					catch(e:Error){
+						var stop:String = "";
+					}*/
+					
+					
+					
+					
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					/*stmt.text = "INSERT into creditcardinfo values(0,:email,:name,:cardnumber,:cvn" +
+					",:expdate,:cardtype,:address, :usealways)";*/
+					stmt.text = "INSERT into creditcardinfo " +
+						" values(:email,:name,:cardnumber,:cvn" +
+						",:expdate,:cardtype,:address,:usealways)";
+					stmt.parameters[":email"] = data.email;
+					stmt.parameters[":name"] = nameoncard;
+					stmt.parameters[":cardnumber"] = cardnumber;
+					stmt.parameters[":cvn"] = csv;
+					stmt.parameters[":expdate"] = expdate;
+					stmt.parameters[":cardtype"] = cardtype;
+					stmt.parameters[":address"] = address;
+					stmt.parameters[":usealways"] = 'yes';
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'creditcard'";
+					stmt.execute();
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'no' where email = '"+emailGo+"' and name = 'simplipay'";
+					stmt.execute();
+					stmt = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update chosenpaymenttype set usealways = 'no' where email = '"+emailGo+"' and name = 'paypal'";
+					stmt.execute();
+					
+				}
+				
+					
+					navigator.popView();
+				}
+				else {
+					warn.visible = true;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" horizontalCenter="0"
+				   verticalCenter="0">
+			<s:TextInput width="308" enabled="false" fontSize="15"
+						 skinClass="components.darktextinput" text="Select Card Type"
+						 textAlign="left"/>
+			
+				<s:HGroup width="308" horizontalAlign="center" verticalAlign="middle">
+					<s:RadioButton id="visaradio" label="" groupName="radiogroup1" selected="true"
+								   value="visa"/>
+					<s:Image source="assets/cardtypevisa.png"/>
+					<s:RadioButton id="mcradio" label="" value="master card" groupName="radiogroup1"/>
+					<s:Image source="assets/cardtypemastercard.png"/>
+					<s:RadioButton id="amexradio" label="" value="amex" groupName="radiogroup1"/>
+					<s:Image source="assets/cardtypeamex.png"/>
+					<!--s:RadioButton id="simplipayradio" label="" groupName="radiogroup1"/>
+					<s:Image source="assets/cardtypesimplipay.png"/-->
+					<!--s:RadioButton id="paypalradio" label="" groupName="radiogroup1"/>
+					<s:Image source="assets/cardtypepaypal.png"/>
+					<s:RadioButton id="amexradio" label="" groupName="radiogroup1"/>
+					<s:Image source="assets/cardtypeamex.png"/-->
+					
+					
+				</s:HGroup>
+				
+			
+			
+			<s:VGroup id="ccinfo" width="308">
+				<s:TextInput id="nameoncardinput" width="308" fontSize="15" prompt="Name On Card"
+							 skinClass="components.darktextinput" textAlign="left"/>
+				<s:TextInput id="cardnumberinput"    restrict="0-9" width="308" fontSize="15" prompt="Card Number" maxChars="16"
+							 skinClass="components.darktextinput" textAlign="left" />
+				<s:TextInput id="cvninput" width="308" fontSize="15" prompt="CVN" maxChars="3"
+							 skinClass="components.darktextinput" textAlign="left" />
+				<s:TextInput id="exdateinput" width="308" fontSize="15" prompt="Expire Date (12/13)" maxChars="5"
+							 skinClass="components.darktextinput" textAlign="left"/>
+				<s:TextInput id="addressinput" width="308" fontSize="15" prompt="Billing Address"
+							 skinClass="components.darktextinput" textAlign="left"/>
+				<s:Label id="warn" visible="false" width="308" height="30" color="#FFFFFF"
+						 fontSize="25" horizontalCenter="0" text="Incorrect Input"
+						 textAlign="center" verticalAlign="middle"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

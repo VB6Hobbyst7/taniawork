@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  creationComplete="itemrenderer1_creationCompleteHandler(event)"
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var picture:String = "";
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				if ((data.business_picture == "none")||(data.business_picture == "")){
+					picture = "../assets/interfaceimages/multi/defaultlarge.png";
+				}
+				else {
+					picture = data.business_picture;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:MultiDPIBitmapSource id="findafavitemback"
+								source160dpi="@Embed('assets/interfaceimages/multi/findafavitembackLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/findafavitembackMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/findafavitembackHigh.png')"/>
+	
+	</fx:Declarations>
+	<s:VGroup gap="0" width="100%" horizontalAlign="center" verticalAlign="middle"  >
+		<s:Group   height="100%" width="100%"  mouseOut="profUp(event)"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" >
+			<s:BitmapImage  width="100%" scaleMode="stretch" id="favback"  contentLoader="{s_imageCache}" 
+							 source="{findafavitemback}"/>
+			<s:HGroup width="100%" height="{favback.height}" verticalAlign="middle">
+				
+				<s:Group  id="gg" width="{gg.height}" height="85%">
+					
+					
+					<s:BitmapImage id="bmpImg" left="9" top="2" width="90%" height="90%"
+								   contentLoader="{s_imageCache}"
+								   source="{picture}">
+						<s:mask>
+							<s:BorderContainer id="bmpMask"
+											   cornerRadius="5"
+											   height="{bmpImg.height}" width="{bmpImg.width}"  
+											    />
+						</s:mask>
+					</s:BitmapImage>
+					
+					
+					</s:Group>
+					<s:VGroup  height="{favback.height}"
+							  verticalAlign="middle">
+						<s:Label color="#FFFFFF" id="lala" fontWeight="bold" text="{data.business_name}"></s:Label>
+						<s:BorderContainer width="100%" backgroundAlpha="0" borderAlpha="0" >
+							<s:Label left="0"  fontSize="{lala.getStyle('fontSize')-3}" color="#FFFFFF" fontStyle="italic"
+									 text="{data.business_tagline}"></s:Label>						
+						</s:BorderContainer>
+					</s:VGroup>
+					
+				
+		
+			</s:HGroup>
+			
+		</s:Group>
+	</s:VGroup>	
+			
+</s:ItemRenderer>

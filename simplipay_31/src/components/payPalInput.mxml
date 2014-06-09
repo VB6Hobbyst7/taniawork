@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" currentState="{data.type}">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			
+			import views.AddCreditCard;
+			public function init():void {
+			//	this.addEventListener(
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			public function changeo(u:uint):void {
+				if (u == 0){
+					data.value = t0.text;
+				}
+				else if (u == 1){
+					data.value = t1.text;
+				} 
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		
+		<s:State name="view1"/>
+		<s:State name="view2"/>
+	
+	</s:states>
+	<s:VGroup  includeIn="view1" gap="0" width="100%" >
+		<s:BorderContainer    height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+							  borderAlpha="0">
+			<s:Label left="5" color="#464646"  fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"></s:Label>
+			<s:TextInput  id="t0" skinClass="components.textinputskin" change="changeo(0);" text="{data.value}"  right="5" width="186" verticalCenter="0" prompt="{data.prompt}"/>
+		</s:BorderContainer>
+	</s:VGroup>
+	<s:VGroup  includeIn="view2" gap="0" width="100%" >
+		<s:BorderContainer    height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+							  borderAlpha="0">
+			<s:Label left="5" color="#464646"   fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"></s:Label>
+			<s:TextInput  id="t1" skinClass="components.textinputskin" change="changeo(1);" text="{data.value}" displayAsPassword="true" right="5" width="186" verticalCenter="0" prompt="{data.prompt}"/>
+		</s:BorderContainer>
+	</s:VGroup>
+	
+	
+
+</s:ItemRenderer>

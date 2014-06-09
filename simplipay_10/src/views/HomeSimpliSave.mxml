@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="onActivate(event)" 
+		title="simpliSave" >
+	<s:navigationContent >
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent >	
+		<s:Button label="Filter" click="goFilter();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import model.Smurf;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import model.Smurf;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var simplisaveArray:ArrayCollection = new ArrayCollection();
+			public function onActivate(event:Event):void
+			{
+				getSimpliSave.send();	
+			}
+			public function afterGetSimpliSave(ev:ResultEvent):void  {
+				simplisaveArray =  new ArrayCollection();
+				try{
+					simplisaveArray = ev.result[0].res;
+					
+				}
+				catch(e:Error){
+					try{
+						var id:String = ev.result[0].res.id;
+						var date:String = ev.result[0].res.date;
+						var description:String = ev.result[0].res.description;
+						var image:String = ev.result[0].res.image;
+						var title:String = ev.result[0].res.title;
+						var value:String = ev.result[0].res.value;
+						simplisaveArray.addItem({id:id,title:title,description:description,value:value,
+							image:image,date:date});
+					}
+					catch(e:Error){
+						
+					}
+				}
+				//sort array by most recent dates
+				
+			}
+			public function simpliSaveListChange(ev:IndexChangeEvent):void {
+				if (ev.newIndex != -1){
+					var id:String = ev.currentTarget.selectedItems[0].id;
+					var date:String = ev.currentTarget.selectedItems[0].date;
+					var description:String = ev.currentTarget.selectedItems[0].description;
+					var image:String = ev.currentTarget.selectedItems[0].image;
+					var title:String = ev.currentTarget.selectedItems[0].title;
+					var value:String = ev.currentTarget.selectedItems[0].value;
+					
+					navigator.pushView(simpliSaveDescription, {id:id,date:date,description:description,
+						image:image,title:title,value:value});					
+				}
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				try{
+					trace(storeList.scroller.verticalScrollBar.value);
+					if(storeList.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+						//	listData.addItemAt({text:"loading..."},0);
+						
+					} 
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = storeList.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+				navigator.pushView(HomeSimpliSaveFilter);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSimpliSave" method="GET" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/simplisave/getAllSimpliSave.php"
+					   result="afterGetSimpliSave(event)" >	
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="30" backgroundAlpha="1" backgroundColor="#0977b6" width="100%">
+		<s:HGroup width="100%" height="100%">
+			<s:TextInput id="key" width="100%" prompt="Search Deals" returnKeyLabel="search" 
+						 enter="searchClick();" keyDown="press(event);"
+						 skinClass="skins.searchInput" height="27"  />
+		</s:HGroup>	
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" height="{this.height-30}" top="30" visible="true" id="listCont"
+					   backgroundColor="#FFFFFF" backgroundAlpha="1"  borderAlpha="0" >
+		
+		<s:BorderContainer  backgroundColor="#FFFFFF" backgroundAlpha="1" borderAlpha="0" width="100%"  >
+			<s:List width="100%" height="100%" contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"   id="storeList" labelField="name"  
+					dataProvider="{simplisaveArray}" itemRenderer="components.simpliSaveResult"
+					selectedIndex="1" change="simpliSaveListChange(event);" 
+					mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+				
+			</s:List>
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+				<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48.png')"/>
+				<s:Label text="Pull down to refresh"  id="loadText"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		
+	</s:BorderContainer>	
+</s:View>

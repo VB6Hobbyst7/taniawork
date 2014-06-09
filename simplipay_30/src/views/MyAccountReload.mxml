@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:maps="com.google.maps.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:model="model.*"
+		xmlns:mobile="spark.skins.mobile.*"
+		xmlns:BarCode="BarCode.*"
+		xmlns:components="components.*"
+		backgroundColor="#2a3038" title="Reload"
+		viewActivate="onActivate(event)">	
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();" 
+				 mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" 
+				 mouseOver="gOver(event)"
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ColorUtil;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+			public var loadAmmount2:String = "";
+			public function onActivate(event:Event):void
+			{
+				stage.autoOrients = true;
+				thisscroll.visible = true;
+				contu.enabled = true;
+				try{
+				if ((data.email == null)||(data.email == "")){
+					navigator.popToFirstView();
+
+				}
+				else {
+					goGetBalance();
+					try{
+						currentBalance = data.currentBalance2;
+					}
+					catch(e:Error){
+						
+					}
+					//data.email available
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					
+					//new
+					
+					var chosenpaymenttypename:String = "none";
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS chosenpaymenttype (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM chosenpaymenttype where email = '"+emailGo+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length == 0){
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+							" values(:email,:name,:usealways)";
+						stmt.parameters[":email"] = emailGo;
+						stmt.parameters[":name"] = "creditcard";
+						stmt.parameters[":usealways"] = "no";
+						stmt.execute();
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+							" values(:email,:name,:usealways)";
+						stmt.parameters[":email"] = emailGo;
+						stmt.parameters[":name"] = "paypal";
+						stmt.parameters[":usealways"] = "no";
+						stmt.execute();
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+							" values(:email,:name,:usealways)";
+						stmt.parameters[":email"] = emailGo;
+						stmt.parameters[":name"] = "simplipay";
+						stmt.parameters[":usealways"] = "no";
+						stmt.execute();
+					}
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM chosenpaymenttype where usealways = 'yes' and email = '"+emailGo+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						chosenpaymenttypename = resData[0].name;
+						
+					}
+					else {
+						
+					}
+					
+					
+					
+					
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+emailGo+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good data
+						for (var i:uint = 0; i < resData.length; i++){
+							if (resData[i].usealways == "yes"){
+								ccname = resData[i].name;
+								ccnumber = resData[i].cardnumber;
+								cvn = resData[i].cvn;
+								ccexpdate = resData[i].expdate;
+								cctype = resData[i].cardtype;
+								ccaddress = resData[i].address;
+								
+								
+								sqlConnection = new SQLConnection();
+								sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+								stmt.sqlConnection = sqlConnection;
+								stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'creditcard'";
+								stmt.execute();
+								chosenpaymenttypename = "creditcard";
+								
+							}
+							else {
+								//
+							}
+						}
+					}
+					else {
+						
+						
+					}
+					
+					
+					if (chosenpaymenttypename == "creditcard"){
+						pt.currentState = 'creditcard';	
+						
+					}
+					else if (chosenpaymenttypename == "simplipay"){
+						pt.currentState = 'paypal';
+						
+					}
+					else if (chosenpaymenttypename == "paypal"){
+						pt.currentState = 'paypal';
+						
+					}
+					else if (chosenpaymenttypename == "none"){
+						pt.currentState = 'paypal';
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'paypal'";
+						stmt.execute();
+						chosenpaymenttypename = "paypal";
+					}
+					
+					
+					
+					
+					
+					//old
+					/*
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+data.email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good data
+						if (resData[0].usealways == "yes"){
+							ccname = resData[0].name;
+							ccnumber = resData[0].cardnumber;
+							cvn = resData[0].cvn;
+							ccexpdate = resData[0].expdate;
+							cctype = resData[0].cardtype;
+							ccaddress = resData[0].address;
+							pt.currentState = 'creditcard';	
+						}
+						else {
+							pt.currentState = 'paypal';
+						}
+						
+					}
+					else {
+						//bad data or no local saved data.
+						pt.currentState = 'paypal';
+					}
+					
+					*/
+					
+					
+					
+					
+					
+				}
+			}
+			catch(e:Error){
+				navigator.popToFirstView();
+			}
+			
+			}		
+			public function goGetBalance():void {
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getBalance.send();		
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}	
+			public function goPaymentType():void {
+				navigator.pushView(PaymentOptions, {index:1,email:data.email});
+			}
+			public function startReload():void {
+				if (loadAmmount2 != ""){
+					if (pt.currentState == 'paypal'){
+							navigator.pushView(Cart, {email:data.email,type:1, amount:loadAmmount2});
+					}
+					else if (pt.currentState == 'creditcard'){
+						navigator.pushView(CreditCardLoader, {email:data.email,type:1, ccname:ccname, ccnumber:ccnumber,
+							cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:loadAmmount2});
+					}
+				}
+				else if ((otheramount.text != "")){
+					if (pt.currentState == 'paypal'){
+						navigator.pushView(Cart, {email:data.email, type:1, amount:otheramount.text});
+					}
+					else if (pt.currentState == 'creditcard'){
+						navigator.pushView(CreditCardLoader, {email:data.email, type:1, ccname:ccname, ccnumber:ccnumber,
+							cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:otheramount.text});
+					}
+				}
+				//navigator.popView();
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				var temptemp:Number = ev.result[0].res;
+				
+				var tempBalance:String = temptemp.toFixed(2);
+				if (tempBalance.indexOf(".") != -1){
+					var tempString:String = tempBalance.substring(tempBalance.indexOf(".")+1,tempBalance.length);
+					if (tempString.length > 2){
+						currentBalance = "$"+tempBalance.substring(0,tempBalance.indexOf(".")+1)+tempString.substring(0,2);
+					}
+					else {
+						currentBalance = "$"+tempBalance;
+					}
+				}
+				else {
+					currentBalance = "$"+tempBalance;
+				}
+			}
+			public function mdown(ev:MouseEvent):void {
+				var stop:String = "";
+				//var c:ColorUtil;
+				var gl:GlowFilter = new GlowFilter(000000,1,150,150,150,1,true,false);
+				gl.color = 0x083e61;
+				
+				if (ev.currentTarget.id == "am1"){
+					am1.filters = [gl];
+					am2.filters = [];
+					am3.filters = [];
+					am4.filters = [];
+					loadAmmount2 = "25";
+				}
+				else if (ev.currentTarget.id == "am2"){
+					am1.filters = [];
+					am2.filters = [gl];
+					am3.filters = [];
+					am4.filters = [];
+					loadAmmount2 = "50";
+				}
+				else if (ev.currentTarget.id == "am3"){
+					am1.filters = [];
+					am2.filters = [];
+					am3.filters = [gl];
+					am4.filters = [];
+					loadAmmount2 = "100";
+				}
+				else if (ev.currentTarget.id == "am4"){
+					am1.filters = [];
+					am2.filters = [];
+					am3.filters = [];
+					am4.filters = [gl];
+					loadAmmount2 = "200";
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" id="thisscroll" visible="true" bottom="0"
+				verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+			<s:Group  width="95%" top="0" bottom="0" >
+				<s:VGroup top="10" horizontalAlign="center" width="100%" >
+					<s:Image horizontalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/reloadamountLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/reloadamountMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/reloadamountHigh.png')"/>
+						</s:source>
+					</s:Image>
+
+					<s:HGroup  width="95%" gap="0"   top="86" horizontalCenter="0">
+						
+						<s:Group  >
+							<s:Image id="am1" mouseDown="mdown(event);">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/25darkLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/25darkMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/25darkHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0"
+									 mouseEnabled="false" styleName="textsize1" text="$25"
+									 verticalCenter="2"/>
+						</s:Group>
+						
+						<s:Group  >
+							<s:Image id="am2" mouseDown="mdown(event);">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/50darkLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/50darkMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/50darkHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0"
+									 mouseEnabled="false" styleName="textsize1" text="$50"
+									 verticalCenter="2"/>
+						</s:Group>
+						<s:Group   >
+							<s:Image id="am3" mouseDown="mdown(event);">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/100darkLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/100darkMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/100darkHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0"
+									 mouseEnabled="false" styleName="textsize1" text="$100"
+									 verticalCenter="2"/>
+						</s:Group>
+						<s:Group  >
+							<s:Image id="am4" mouseDown="mdown(event);">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/200darkLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/200darkMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/200darkHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0"
+									 mouseEnabled="false" styleName="textsize1" text="$200"
+									 verticalCenter="2"/>
+						</s:Group>
+					</s:HGroup>
+				<s:Label color="#FFFFFF" styleName="textsize1" text="OR"/>
+					<s:TextInput id="otheramount" width="100%"  maxChars="6"
+								 prompt="Enter Other Reload Amount Here" restrict="0-9"/>
+					<s:Group>
+						<s:Image id="imago">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/reloadbackimg1Low.png')"
+														source240dpi="@Embed('assets/interfaceimages/multi/reloadbackimg1Med.png')"
+														source320dpi="@Embed('assets/interfaceimages/multi/reloadbackimg1High.png')"/>
+							</s:source>
+						</s:Image>
+						<s:VGroup width="100%" >
+							<s:Group height="{imago.height/3}" width="100%" verticalCenter="0">
+								<s:Label left="10" color="#FFFFFF" styleName="textsize1"
+										 text="Current Balance" verticalCenter="0"/>
+								<s:Label id="currentBalanceLbl2" right="11" color="#EF7716"
+										 fontWeight="bold" styleName="textsize1"
+										 text="{currentBalance}" verticalCenter="0"/>
+							</s:Group>
+							<s:Group height="{imago.height/3.1}" width="100%" verticalCenter="0">
+								<components:paymentType id="pt" left="0" width="95%" 
+														click="goPaymentType();"
+														currentState="paypal" verticalCenter="0"/>
+							</s:Group>
+							<s:Group height="{imago.height/3.1}" width="100%" verticalCenter="0">
+								<s:Label id="currentBalanceLbl4" left="10" color="#FFFFFF"
+										 styleName="textsize1" text="Make this automatic?"
+										 verticalCenter="-9"/>
+								<s:ToggleSwitch right="10" verticalCenter="-9"/>
+							</s:Group>
+						</s:VGroup>
+					</s:Group>
+					
+				<!--components:dollarSlider id="loadAmount" top="86" horizontalCenter="0"/-->
+				
+				
+				<s:Image id="contu" click="startReload();" enabled="true" horizontalCenter="0"
+						 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/continuebtnLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/continuebtnMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/continuebtnHigh.png')"/>
+					</s:source>
+				</s:Image>
+					
+					
+					<!--  ADD TERMS OF SERVICE HERE -->
+					
+					
+					
+				</s:VGroup>
+			</s:Group>
+		
+			</s:VGroup>
+		</s:Scroller>
+</s:View>

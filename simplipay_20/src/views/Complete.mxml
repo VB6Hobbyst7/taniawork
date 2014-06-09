@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Order Complete" backgroundColor="#2a3038" >
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			protected function continueShopping(event:MouseEvent):void
+			{
+				navigator.popToFirstView();
+				//navigator.popView();
+				//navigator.popView();
+			}
+			
+			protected function back(event:MouseEvent):void
+			{
+				navigator.popToFirstView();
+				//navigator.popView();
+				//navigator.popView();
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}	
+		]]>
+	</fx:Script>
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
+	
+	<s:Group width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="20" verticalAlign="middle"  horizontalAlign="center"/>
+		</s:layout>
+		
+		<s:Label id="message" color="#FFFFFF" text="Thank you for shopping with us."/>
+		
+		<s:Button 
+			id="continueShoppingButton" 
+			label="Continue Shopping"
+			click="continueShopping(event)"/>		
+	</s:Group>
+
+</s:View>

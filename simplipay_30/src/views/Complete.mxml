@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Order Complete" backgroundColor="#2a3038" xmlns:cs="cs.*" >
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			protected function continueShopping(event:MouseEvent):void
+			{
+				navigator.popToFirstView();
+				//navigator.popView();
+				//navigator.popView();
+			}
+			
+			protected function back(event:MouseEvent):void
+			{
+				navigator.popToFirstView();
+				//navigator.popView();
+				//navigator.popView();
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+	
+	<s:MultiDPIBitmapSource id="contshop"
+							source160dpi="@Embed('assets/contshopping.png')"
+							source240dpi="@Embed('assets/contshopping.png')"
+							source320dpi="@Embed('assets/contshopping.png')"/>
+	</fx:Declarations>
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
+	
+	<s:Group width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="20" verticalAlign="middle"  horizontalAlign="center"/>
+		</s:layout>
+		
+		<s:Label id="message" color="#FFFFFF" styleName="textsize10" fontWeight="bold"
+				 text="TRANSACTION&#xd;COMPLETE" textAlign="center"/>
+		<s:Image source="assets/check.png"/>
+		<s:Label id="message0" color="#FFFFFF" fontWeight="bold" styleName="textsize8"
+				 text="THANK YOU" textAlign="center"/>
+		<s:Label id="message1" color="#FFFFFF" styleName="textsize8" fontWeight="bold"
+				 text="for shopping with simplipay!" textAlign="center"/>
+		
+		<cs:IconButton icon="{contshop}"
+			id="continueShoppingButton" 
+			skinClass="skins.ImageButtonSkin"
+			click="continueShopping(event)"/>		
+	</s:Group>
+
+</s:View>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Manage" xmlns:BarCode="BarCode.*" >
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[	
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+		
+			public function onActivate(event:Event):void
+			{
+			
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(new uint("0x0977b6"),1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(new uint("0x0977b6"),1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}			
+		]]>
+	</fx:Script>
+	<s:Image top="16" width="268" height="76" horizontalCenter="0" mouseDown="gDown(event)"
+			 mouseOut="gOut(event)" source="assets/refreshbalance.png"/>
+	<s:Image top="81" width="268" height="76" horizontalCenter="0" mouseDown="gDown(event)"
+			 mouseOut="gOut(event)" source="assets/recent.png"/>
+	<s:Image top="148" width="268" height="76" horizontalCenter="0" mouseDown="gDown(event)"
+			 mouseOut="gOut(event)" source="assets/autoreload.png"/>
+	<s:Image bottom="5" width="268" height="76" horizontalCenter="0" click="navigator.popView();" mouseDown="gDown(event)"
+			 mouseOut="gOut(event)" source="assets/cancel.png"/>
+</s:View>

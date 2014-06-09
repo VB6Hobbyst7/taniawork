@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" contentBackgroundAlpha="0" 
+				width="100%" height="100%">
+	<fx:Script>
+		<![CDATA[
+			import mx.effects.Move;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import spark.effects.Move3D;
+			import spark.effects.Rotate3D;
+			import spark.filters.GlowFilter;
+			public var moved:Boolean = false;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+		]]>
+	</fx:Script>
+	<s:Group visible="true"  height="300" right="0" left="0"  >
+		<!--s:BitmapImage width="100%"  height="100%" contentLoader="{s_imageCache}" scaleMode="stretch" 
+					   source="http://simplipay.ca/php/storeimages/{data.imagelarge}"/-->
+		<s:BitmapImage width="100%"  height="100%" contentLoader="{s_imageCache}" scaleMode="stretch" 
+					   source="{data.image}"/>
+		<s:BorderContainer backgroundAlpha="0.5"  borderAlpha="0" backgroundColor="#000000"
+						   borderVisible="false" width="100%" height="40%" bottom="0">
+			<s:VGroup   top="5" bottom="5" verticalAlign="middle" right="5" left="5" >
+				<s:Label color="#FFFFFF" fontWeight="bold" width="100%" paddingLeft="1" paddingRight="1" styleName="textsize7"
+						 text="{data.deal_description}" maxDisplayedLines="1" verticalCenter="0"/>
+				<s:Group width="100%" verticalCenter="0">
+					<s:HGroup verticalCenter="0">
+						<s:Label color="#BDBDBD" fontWeight="normal" lineThrough="true"
+								 styleName="textsize5" text="${data.original_cost.toFixed(2)}" textAlign="center"
+								 verticalAlign="middle"/>
+						<s:Label color="#EF7716" fontWeight="normal" styleName="textsize5"
+								 text="${data.cost.toFixed(2)}" textAlign="center" verticalAlign="middle"/>
+					</s:HGroup>
+					<s:Label right="0" color="#FFFFFF" styleName="textsize5"
+							 text="{data.purchasecount}+ BOUGHT" verticalCenter="0"/>
+				</s:Group>
+			</s:VGroup>
+		</s:BorderContainer>
+	</s:Group>
+</s:ItemRenderer>

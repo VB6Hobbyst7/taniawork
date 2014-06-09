@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Simplipay" creationComplete="init(event)" >
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.effects.Fade;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function homeGo(u:uint):void {				
+				if (u == 0){
+					navigator.pushView(HomeSimpliSave, {index:u});
+				}
+				else if (u == 1){
+					navigator.pushView(HomeFindAFav, {index:u});
+				}
+				else if (u == 3){
+					navigator.pushView(HomeMyFavs, {index:u});
+				}
+				else if (u == 4){
+					navigator.pushView(HomeSettings, {index:u});
+				}
+				else if (u == 5){
+					if (getLocalUsers != null){
+						navigator.pushView(HomeReciepts, getLocalUsers);
+					}
+					else {
+						navigator.pushView(MyAccount);
+					}
+					
+				}
+				else if (u == 6){
+					navigator.pushView(HomeHelp, {index:u});
+				}
+			}	
+			
+			public function init(event:FlexEvent):void
+			{
+				navigator.actionBar.height = 40;
+				
+			}
+			protected function getLocalUsers():Object
+			{
+				var sqlConnection:SQLConnection;
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country FROM localuser";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login	
+					return {name:resData[0].name,
+							email:resData[0].email};
+					
+				}
+				else {
+					//bad login or no local saved login.
+					
+				}
+				return null;
+			}
+		]]>
+	</fx:Script>
+	<s:Image left="0" right="0" top="0" bottom="0" alpha="0.8" scaleMode="stretch"
+			 source="assets/backdrop.png"/>
+	<s:Scroller id="scroller" left="0" right="0" top="15" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:HGroup  width="100%" height="100%" horizontalCenter="0">
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:VGroup width="100%" height="100%" horizontalAlign="center">
+					<s:Image width="30%" height="55"  smooth="true" click="homeGo(0);"  
+							 source="assets/homeimages/home-dailydeals.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)" />
+					<s:Label fontFamily="Arial" text="simpliSave"/>	
+				</s:VGroup>
+				<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+				<s:Image width="30%" height="57" smooth="true" click="homeGo(4);" 
+						 source="assets/homeimages/home-settings.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Settings" />
+					</s:VGroup>
+					<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+				<s:Image width="30%" height="58" smooth="true" click="homeGo(6);" 
+						 source="assets/homeimages/home-help.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Help" />
+					</s:VGroup>
+			</s:VGroup>
+			<s:VGroup width="50%" height="100%" gap="6" horizontalAlign="center">
+				<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+				<s:Image width="30%" height="52" smooth="true" click="homeGo(1);" 
+						 source="assets/homeimages/home-help.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Find-a-Fav" />
+					</s:VGroup>
+				<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+				<s:Image x="34" width="89" height="49" click="homeGo(3);" mouseDown="gDown(event)"
+						 mouseOut="gOut(event)" mouseOver="gOver(event)" scaleMode="letterbox"
+						 smooth="true" source="assets/homeimages/home-mystores.png"/>
+				<s:Label text="My Favs" />
+					</s:VGroup>
+				<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+				<s:Image width="30%" height="64" smooth="true" click="homeGo(5);" 
+						 source="assets/homeimages/home-history.png" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"/>
+				<s:Label text="Reciepts" />
+					</s:VGroup>
+			</s:VGroup>
+		</s:HGroup>		
+		</s:Scroller>
+</s:View>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx"  viewActivate="viewstart(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" backgroundColor="#22252a"
+		title="My Account" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			public var done:Boolean = false;
+			protected function viewstart(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				//navigator.actionBar.height = 40;
+				if (done == false){
+					loginCont.create();
+				}
+				
+				done = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:titleContent>	
+			<s:Label  id="topLBL" top="0" width="100%" color="#FFFFFF" fontSize="20" fontWeight="bold"
+					 horizontalCenter="0" text="My Account" textAlign="center"
+					 verticalAlign="middle"/>
+	</s:titleContent>
+	
+	<components:loginContainer id="loginCont" loginType="0"/>
+</s:View>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		creationComplete="goGetBalance();"  backgroundColor="#2a3038"
+		title="Pay" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+
+	<s:actionContent >
+		<s:Image x="0" y="-2" click="logout();" 
+				
+				 
+				
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/logout.png')"
+										source240dpi="@Embed('assets/logout.png')"
+										source320dpi="@Embed('assets/logout.png')"/>
+			</s:source>
+		</s:Image>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+
+			protected var sqlConnection:SQLConnection;
+			
+			[Bindable]
+			public var togstatus:Boolean = false;
+
+			public function onActivate(event:Event):void
+			{
+				
+					try{
+						var loadManager:PersistenceManager = new PersistenceManager();
+						if(loadManager.load()){
+							var savedData:Object = loadManager.getProperty("useremail");
+							if(savedData){
+								if (savedData.toString() != "ERRORBADERRORBAD"){
+									emailGo = savedData.toString();
+									var saveManager:PersistenceManager = new PersistenceManager();
+									saveManager.setProperty("useremail",savedData.toString());
+									goGetBalance();
+									thisscroll.visible = true;
+									
+								}
+								
+							}
+							else {
+								try{
+									sqlConnection = new SQLConnection();
+									sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+									var stmt:SQLStatement = new SQLStatement();
+									stmt.sqlConnection = sqlConnection;
+									stmt.text = "SELECT email, name, country, active FROM localuser";
+									stmt.execute();
+									var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+									
+									if (resData.length != 0){
+										//good login
+										var foundactive:Boolean = false;
+										for (var i:uint = 0; i < resData.length; i++){
+											if (resData[i].active == "yes"){
+												foundactive = true;
+												emailGo = resData[i].email;
+												nameGo = resData[i].name;
+												goGetBalance();
+											}
+											
+										}
+									}
+									else {
+										//bad login or no local saved login.
+									}
+								}
+								catch(e:Error){
+									
+								}
+							}
+						}
+						
+						
+					
+						
+					}
+					catch(e:Error){
+
+					}	
+				
+			}
+			
+			public function goGetBalance():void {
+				try{
+				if ((emailGo != null)&&(emailGo != "")){
+					getBalance.send();		
+				}
+				}
+				catch(e:Error) {
+					
+				}
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				var temptemp:Number = ev.result[0].res;
+			
+				var tempBalance:String = temptemp.toFixed(2);
+				if (tempBalance.indexOf(".") != -1){
+					var tempString:String = tempBalance.substring(tempBalance.indexOf(".")+1,tempBalance.length);
+					if (tempString.length > 2){
+						currentBalance = "$"+tempBalance.substring(0,tempBalance.indexOf(".")+1)+tempString.substring(0,2);
+					}
+					else {
+						currentBalance = "$"+tempBalance;
+					}
+				}
+				else {
+					currentBalance = "$"+tempBalance;
+				}
+			}
+			public function accountGo(u:uint):void {
+				if (u == 0){
+					navigator.pushView(MyAccountSettings, {index:u});
+				}
+				else if (u == 1){			
+					navigator.pushView(MyAccountQR, {type:1,index:u,email:emailGo,name:nameGo,
+						useloyalty:togstatus.toString(),simplisaveid:-1,tip:tipo.getCurrentSelected()});
+				}
+				else if (u == 2){
+					if (emailGo != ""){
+						navigator.pushView(MyAccountReload, {index:u,currentBalance2:currentBalance,email:emailGo});
+					}
+					
+					
+				}
+				else if (u == 3){
+					//navigator.pushView(MyAccountManage, {index:u});
+					manageOptions.visible = true;
+				}
+				else if (u == 4){
+					
+				}
+				else if (u == 5){
+					
+				}
+			}
+			public function Mclose(u:uint):void {
+				if (u == 1){
+					navigator.pushView(HomeReciepts, {index:u,email:emailGo,name:nameGo});
+				}
+				
+				goGetBalance();
+				manageOptions.visible = false;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
+					stmt.execute();
+					emailGo = "ERRORBADERRORBAD";
+					nameGo = "ERRORBADERRORBAD";
+					this.parentApplication.logout();
+				}
+				catch(e:Error){
+					this.parentApplication.logout();
+				}
+			}
+			public function togDown1():void {
+				if (togstatus){
+					togstatus = false;
+					useloyaltyswitch.source = taxofficon;
+				}
+				else {
+					togstatus = true;
+					useloyaltyswitch.source = taxonicon;
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="taxofficon" source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+		<s:MultiDPIBitmapSource id="taxonicon" source160dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_High.png')"/>
+	</fx:Declarations>
+		<s:Scroller left="0" right="0" id="thisscroll" top="0" visible="true" 
+					bottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+			<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center" verticalAlign="middle">
+				<s:Label color="#FFFFFF"  fontWeight="bold" lineThrough="false"
+						 text="{emailGo}" textAlign="center" verticalAlign="middle"/>
+				<s:VGroup  visible="true" verticalAlign="middle" horizontalAlign="center"
+						   width="100%" top="0" bottom="0" >
+					<s:Image id="scanimg" top="4" width="378" height="314" click="accountGo(1);"
+							 horizontalCenter="0"
+							 smooth="true">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/taptopayLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/taptopayMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/taptopayHigh.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Label top="181" width="{img1.width}" color="#FFFFFF"  horizontalCenter="-94"
+							 text="Tip Percentage"/>
+					<components:tipSlider id="tipo" top="197" horizontalCenter="0"/>
+					
+					
+					<s:BorderContainer top="266" backgroundAlpha="0" borderAlpha="0"  horizontalCenter="0" width="{img1.width}" >
+						<s:Image id="img1" top="0" horizontalCenter="0">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/purchasedcouponback1Low.png')"
+														source240dpi="@Embed('assets/interfaceimages/multi/purchasedcouponback1Med.png')"
+														source320dpi="@Embed('assets/interfaceimages/multi/purchasedcouponback1High.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Label left="10" color="#FFFFFF" fontWeight="normal" text="Current Balance :"
+								 textAlign="right" verticalAlign="middle" verticalCenter="-38"/>
+						<s:Label id="currentBalanceLbl" right="33" width="100%" color="#EF7716" fontWeight="bold"
+								 text="{currentBalance}" textAlign="right" verticalCenter="-35"/>
+						
+						<s:Label left="7" height="30" color="#FFFFFF" text="Use Available Loyalty"
+								 textAlign="right" verticalAlign="middle" verticalCenter="41"/>
+						<s:Image id="useloyaltyswitch" right="10" bottom="10" mouseDown="togDown1()"
+								 source="{taxofficon}"/>
+						<!--s:ToggleSwitch id="useloyaltyswitch" right="21" selected="false" verticalCenter="36"/-->
+					</s:BorderContainer>
+					
+					<s:HGroup>
+						<s:Image click="accountGo(2)"
+								 mouseUp="gOut(event)" scaleMode="stretch" smooth="true">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/reloadbtnLow.png')"
+														source240dpi="@Embed('assets/interfaceimages/multi/reloadbtnMed.png')"
+														source320dpi="@Embed('assets/interfaceimages/multi/reloadbtnHigh.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Image click="accountGo(3)"
+								 mouseUp="gOut(event)" scaleMode="stretch" smooth="true">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/managebtnLow.png')"
+														source240dpi="@Embed('assets/interfaceimages/multi/managebtnMed.png')"
+														source320dpi="@Embed('assets/interfaceimages/multi/managebtnHigh.png')"/>
+							</s:source>
+						</s:Image>
+					</s:HGroup>
+					
+					
+					
+				</s:VGroup>
+			</s:VGroup>
+		</s:Scroller>
+		<s:BorderContainer id="manageOptions" visible="false" left="0" right="0" bottom="0" height="100%"
+						   backgroundAlpha="0.5" backgroundColor="#000000" borderAlpha="0"
+						   horizontalCenter="0">
+			<s:VGroup   gap="5" width="100%" verticalAlign="bottom" horizontalAlign="center" height="100%">
+				<s:Image top="16"  horizontalCenter="0" click="Mclose(0);"
+						 source="assets/interfaceimages/original/refreshbalance.png"/>
+				<s:Image top="81"  horizontalCenter="0" click="Mclose(1);"
+						 source="assets/interfaceimages/original/recent.png"/>
+				
+				<s:Image bottom="5"  horizontalCenter="0" click="Mclose(0);"
+						 source="assets/interfaceimages/original/cancel.png"/>
+			</s:VGroup>
+		</s:BorderContainer>
+		<components:codeinput visible="true" />
+</s:View>

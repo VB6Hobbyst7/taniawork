@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Filter" >
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>	
+	
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	
+		
+
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="100%" backgroundAlpha="1" backgroundColor="#FFFFFF" width="100%">
+	
+		
+	</s:BorderContainer>	
+</s:View>

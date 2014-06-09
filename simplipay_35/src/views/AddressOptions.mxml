@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Addresses" xmlns:BarCode="BarCode.*" >	
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" /> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.paymentResult;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import views.AddCreditCard;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+		
+			public function onActivate(event:Event):void
+			{
+				dataList.addItem({name:"Test Address 1", type:1, selected:true, special:0});
+				dataList.addItem({name:"Test Address 2", type:1, selected:false, special:0});
+				dataList.addItem({name:"Add a New Address", type:2, selected:false, special:1});
+			
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+					
+			public function listChange(ev:IndexChangeEvent):void {
+				for (var i:uint = 0; i < dataList.length; i++){
+					if (dataList[i].name ==  addressList.selectedItem.name){
+						dataList[i].selected = true;
+					}
+					else {
+						dataList[i].selected = false;
+					}
+				}
+				
+				if (addressList.selectedItem.special == 1){
+					navigator.pushView(AddAddress, {name:"test"});
+				}
+				dataList.refresh();
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:List id="addressList" itemRenderer="components.paymentResult" change="listChange(event);" dataProvider="{dataList}" width="100%" height="100%">
+			
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

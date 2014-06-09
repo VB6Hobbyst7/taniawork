@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		menuKeyPressed="navigator.popView()" backgroundColor="#2a3038"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		viewActivate="view1_activateHandler(event)" 
+		creationComplete="init(event)"  
+		title="Reciepts"  backgroundAlpha="1" xmlns:components="components.*">	
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:CalloutButton id="sortBTN" label="Sort" horizontalPosition="before" 
+						 verticalPosition="after" calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="sort1" label="Total" enabled="true"  click="filterPress(0);"/>
+				<s:Button id="sort2" label="Day" enabled="true"   click="filterPress(1);"/>
+				<s:Button id="sort3" label="Location" enabled="true"  click="filterPress(2);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.core.UIComponent;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.filters.GlowFilter;
+			import spark.collections.SortField;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			public function filterPress(u:uint):void {
+				sortBTN.closeDropDown();
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField3:mx.collections.SortField = new mx.collections.SortField();
+				var numericDataSort:Sort = new Sort();
+				var stringDataSort:Sort = new Sort();
+				
+				
+				if (sortMode == u){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+				}
+				else {
+					reverse = false;
+				}
+				
+				
+				dataSortField.descending = reverse;
+				dataSortField2.descending = reverse;
+				dataSortField3.descending = reverse;
+				
+				
+				
+				sortMode = u;
+				
+				
+				if (u == 0){
+					dataSortField.name = "total";
+					dataSortField.numeric = true;
+					
+					numericDataSort.fields = [dataSortField];
+					listData.sort = numericDataSort;
+					
+				}
+				else if (u == 1){
+					dataSortField.name = "day";
+					dataSortField.numeric = true;
+					dataSortField2.name = "month";
+					dataSortField2.numeric = true;
+					dataSortField3.name = "year";
+					dataSortField3.numeric = true;
+					numericDataSort.fields = [dataSortField,dataSortField2,dataSortField3];
+					listData.sort = numericDataSort;
+					
+					
+				}
+				else if (u == 2){
+					dataSortField.name = "locationname";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					listData.sort = stringDataSort;
+					
+				}
+				listData.refresh();
+				recieptList.dataProvider = listData;
+			}
+			protected function view1_activateHandler(event:Event):void
+			{
+				busy = true;
+				try{
+					
+					recieptList.dataGroup.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onPropertyChange);	
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+							emailGo = resData[0].email;
+							operation1('france');
+					}
+					else {
+						//bad login or no local saved login.
+						navigator.popView();	
+					}			
+				}
+				catch(e:Error){
+				}	
+			}	
+			protected function onPropertyChange(event:PropertyChangeEvent):void
+			{
+				if (event.source == event.target && event.property == "verticalScrollPosition")
+				{
+					
+					var vScroll:Number = recieptList.dataGroup.verticalScrollPosition;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation);
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+			}
+			public function init(event:FlexEvent):void
+			{			
+			}
+			public function aftergetReciepts(event:ResultEvent):void
+			{
+				busy = false;
+				listData = new ArrayCollection();
+				try{
+					
+					listData = event.result[0].res;
+					recieptList.dataProvider = listData;
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(event.result[0].res);
+						recieptList.dataProvider = listData;
+					}
+					catch(e:Error){
+						
+					}
+				}
+				
+							
+					filterPress(sortMode);
+					
+			} 
+			public function aftersearchReciepts(event:ResultEvent):void
+			{
+				var stop:String = "";
+				listData = new ArrayCollection();
+				try{
+					listData = event.result[0].res.re;
+					recieptList.dataProvider = listData;
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(event.result[0].res.re);
+						recieptList.dataProvider = listData;
+					}
+					catch(e:Error){
+						//todo coming soon
+					}
+				}
+			}
+			public function recieptListChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					navigator.pushView(recieptDescription, {
+						id:ev.currentTarget.selectedItems[0].id,
+						email:ev.currentTarget.selectedItems[0].email,
+						merchid:ev.currentTarget.selectedItems[0].merchid,
+						locationid:ev.currentTarget.selectedItems[0].locationid,
+						day:ev.currentTarget.selectedItems[0].day,
+						month:ev.currentTarget.selectedItems[0].month,
+						year:ev.currentTarget.selectedItems[0].year,
+						time:ev.currentTarget.selectedItems[0].time,
+						price:ev.currentTarget.selectedItems[0].price,
+						tip:ev.currentTarget.selectedItems[0].tip,
+						total:ev.currentTarget.selectedItems[0].total,
+						type:ev.currentTarget.selectedItems[0].type,
+						description:ev.currentTarget.selectedItems[0].description,
+						locationname:ev.currentTarget.selectedItems[0].locationname
+					});					
+				}	
+			}
+			protected function operation1(q:String):void
+			{
+				getReciepts.send();	
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				try{
+				if(recieptList.scroller.verticalScrollBar.value < -90){
+					loadingGroup.visible = false;
+					listData.addItemAt({text:"loading..."},0);
+					operation1('france');
+				}
+				}
+				catch(e:Error){	
+				}
+			}
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{
+				try{
+				var vScroll:Number = recieptList.scroller.verticalScrollBar.value;
+				if(vScroll < -20){
+					trace(vScroll);
+					if(!loadingGroup.visible){
+						loadingGroup.visible = true;
+						fadeIn.play();
+					}
+					loadingGroup.y = vScroll*-1 - 60;
+					
+					if(vScroll < -90){
+						trace(arrowImage.rotation);
+						if(arrowImage.rotation == 0)  {
+							arrowImage.rotation = 180;
+						}
+						loadText.text = "Release to refesh...";
+						
+					}else{
+						if(arrowImage.rotation == 180)  {
+							arrowImage.rotation = 0;
+						}
+						loadText.text = "Pull down to refresh";
+					}
+					
+				}else{
+					loadingGroup.visible = false;
+				}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function searchClick():void
+			{	
+				//filter the list
+				
+				listData.filterFunction = filterCompleted;
+				listData.refresh();
+				recieptList.dataProvider = listData;
+				var s:String = "";
+				s.toLowerCase()
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.price.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.total.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.day.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.year.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.month.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.locationname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function press(event:KeyboardEvent):void {
+					searchClick();
+			}
+			
+			 protected function backKeyHandler():void
+			{
+				// TODO Auto-generated method stub
+				navigator.popView();
+			}
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getReciepts" method="POST" resultFormat="array"
+					   url="http://simplipay.ca/php/transaction/getTransactionsMobile.php"
+					   result="aftergetReciepts(event)" >
+			<s:request xmlns="">
+				<email>{emailGo}</email>
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+	</fx:Declarations>
+	<s:VGroup width="100%" height="100%" horizontalAlign="center">
+		<s:BorderContainer x="0" y="0"  borderVisible="false" backgroundAlpha="1" borderAlpha="0"
+						   dropShadowVisible="false" backgroundColor="#22252a" width="100%">
+			<s:HGroup width="100%" horizontalAlign="center" paddingLeft="5" paddingRight="5" verticalAlign="middle" height="100%">
+				<s:TextInput id="key" left="5" right="5" top="1" width="100%" height="75%"
+							 enter="searchClick();" keyUp="press(event);" prompt="Search Reciepts"
+							 returnKeyLabel="search"/>
+				<!--s:TextInput id="key" left="5" right="5" top="1" width="100%" height="25"
+				enter="searchClick();" keyUp="press(event);" prompt="Search Stores"
+				returnKeyLabel="search" skinClass="components.searchinput"/-->
+				<s:Image click="searchClick();" mouseDown="profDown(event)" mouseUp="profUp(event)">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/searchLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/searchMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/searchHigh.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:BorderContainer>
+		<s:Group width="100%" height="100%">
+			<s:BorderContainer  backgroundColor="#22252a" backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+			<s:List id="recieptList"  width="100%" top="0" bottom="0" change="recieptListChange(event);"
+					contentBackgroundAlpha="1" contentBackgroundColor="#2a3038" dataProvider="{listData}"
+					horizontalCenter="0" itemRenderer="components.recieptResult" labelField="name"
+					mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)"
+					selectedIndex="1">	
+				<s:layout>
+					<s:VerticalLayout gap="5">
+					</s:VerticalLayout>
+				</s:layout>
+			</s:List>
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+				<s:Image id="arrowImage"  source="@Embed('assets/interfaceimages/original/Arrow-double-up-48.png')"/>
+				<s:Label text="Pull down to refresh"  id="loadText"/>
+			</s:HGroup>	
+			</s:BorderContainer>
+		</s:Group>
+	</s:VGroup>
+	<components:codeinput visible="false" />
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

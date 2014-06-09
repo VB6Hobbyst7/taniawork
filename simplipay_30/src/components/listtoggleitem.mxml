@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- /joeflash/components/MaskedBorderContainer.mxml -->
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" backgroundAlpha="0" borderAlpha="0" 
+				   xmlns:s="library://ns.adobe.com/flex/spark"  currentState="normal"
+				   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var titlename:String = "";
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:MultiDPIBitmapSource id="listtoggleitemback"
+								source160dpi="@Embed('assets/interfaceimages/multi/listtoggleitembackLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/listtoggleitembackMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/listtoggleitembackHigh.png')"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="open"/>
+	</s:states>
+	<s:BitmapImage left="5" right="5" top="0" height="40"
+			 source="{listtoggleitemback}" contentLoader="{s_imageCache}"/>
+	<s:Label x="20" y="12" color="#EF7716"  fontWeight="bold" lineThrough="false"
+			 text="{titlename}" textAlign="center" verticalAlign="middle"
+			 x.open="20" y.open="10"
+			 x.normal="20" y.normal="10"/>
+
+</s:BorderContainer>

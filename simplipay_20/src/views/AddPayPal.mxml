@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="PayPal" xmlns:BarCode="BarCode.*" >	
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Done" click="saveData();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.AddAddress;
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+		
+			public function onActivate(event:Event):void
+			{
+				warn.visible = false;
+				try{
+					if ((data.email == null)||(data.email == "")){
+						navigator.popToFirstView();
+						
+					}
+				}
+				catch(e:Error){
+					navigator.popToFirstView();
+				}
+				
+				
+			dataList.addItem({name:"Email Address", prompt:"sample@sample.com", type:"view1", id:1,value:""});
+			dataList.addItem({name:"Password", prompt:"Password", type:"view2", id:2,value:""});
+		
+			}	
+			public function saveData():void {
+				
+				var email1:String = dataList[0].value;
+				var pass1:String = dataList[1].value;
+				
+				if ((email1.indexOf("@") != -1)&&(email1 != "")&&(pass1 != "")){
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS paymentmethods (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS paypalinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"paypalemail varchar(255), " +
+						"paypalpassword varchar(255))";
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into paymentmethods (id, email, name, usealways) values(0,:email,:name,:usealways)";
+					stmt.parameters[":email"] = data.email;
+					stmt.parameters[":name"] = "paypal";
+					stmt.parameters[":usealways"] = "yes";
+					stmt.execute();
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "INSERT into paypalinfo (id, email,paypalemail,paypalpassword) values(0,:email,:paypalemail,:paypalpassword)";
+					stmt.parameters[":email"] = data.email;
+					stmt.parameters[":paypalemail"] = email1;
+					stmt.parameters[":paypalpassword"] = pass1;
+					stmt.execute();
+					
+					
+					navigator.popView();
+				}
+				else {
+					warn.visible = true;
+				}
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}	
+			public function listChange(ev:IndexChangeEvent):void {
+				if (payList.selectedItem.type == "view4"){
+					navigator.pushView(AddressOptions, {name:"test"});
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="10" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="center">
+			<s:List  id="payList"  itemRenderer="components.payPalInput" change="listChange(event);"
+					dataProvider="{dataList}" width="100%" height="314">
+				<s:layout>
+					<s:VerticalLayout
+									  gap="0"
+									  horizontalAlign="center"
+									  variableRowHeight="true"/>
+				</s:layout>
+			</s:List>
+			<s:Label id="warn" visible="false" height="30" color="#02446F" fontSize="25"
+					 horizontalCenter="0" text="Incorrect Input" textAlign="center"
+					 verticalAlign="middle"/>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

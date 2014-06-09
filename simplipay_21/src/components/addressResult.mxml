@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import views.AddCreditCard;
+			public function init():void {
+			//	this.addEventListener(
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		
+			
+		]]>
+	</fx:Script>
+	<s:VGroup visible="{data.type == 1}" gap="0" width="100%" >
+		<s:BorderContainer   height="100%" width="100%" borderVisible="false"  mouseOut="profUp(event)" backgroundColor="#FFFFFF" backgroundAlpha="1"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" borderAlpha="0">
+		
+				
+			<s:Label left="5" color="#464646" fontSize="15" fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"></s:Label>
+					
+			<s:Image right="5" verticalCenter="0" source="assets/check.png" visible="{data.selected}" />
+			
+			
+		</s:BorderContainer>
+		<s:BorderContainer height="1" width="100%" borderAlpha="0.5" borderColor="#00000" />
+	</s:VGroup>
+	
+	<s:BorderContainer visible="{data.type == 2}"  borderAlpha="0" backgroundAlpha="0" horizontalCenter="0" width="200" >
+		<s:Image left="5" source="assets/addbutton.png" verticalCenter="0"/>
+		<s:Label left="30" color="#464646" fontSize="15" fontWeight="bold" text="{data.name}"
+				 verticalCenter="0"></s:Label>
+	</s:BorderContainer>
+	
+	
+
+</s:ItemRenderer>

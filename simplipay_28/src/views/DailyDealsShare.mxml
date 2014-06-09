@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*"  xmlns:mobile="spark.skins.mobile.*"
+		title="Share Coupon" xmlns:BarCode="BarCode.*" backgroundColor="#2a3038"   xmlns:components="components.*" >	
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Button label="Share" click="startShare();" color="#D8D8D8"/>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var subtotalval:String = "";
+			[Bindable]
+			public var quant:Number = 1;
+			
+			public function onActivate(event:Event):void
+			{
+				//contu.enabled = true;
+				try{
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						emailGo = resData[0].email;
+					}
+					else {
+						//bad login or no local saved login.
+						var stop:String = "";	
+						//navigator.popView();
+					}	
+					
+					
+					if ((emailGo == null)||(emailGo == "")){
+						navigator.popToFirstView();
+						
+					}
+					else {
+	
+					}
+				}
+				catch(e:Error){
+					navigator.popToFirstView();
+				}
+				
+			}		
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function startShare():void {
+				navigator.popView();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="95%" gap="2" paddingTop="20" horizontalAlign="center" horizontalCenter="0" height="100%" >
+			<s:Group width="100%" height="100%" >
+				<s:Image width="100%">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgHigh.png')"/>
+					</s:source>
+				</s:Image>
+				<s:VGroup width="100%" paddingTop="20" horizontalAlign="center" >
+					
+					<s:Label top="17" color="#02446F" fontWeight="bold" horizontalCenter="0"
+							 styleName="textsize6" text="Coupon Detials"/>
+					<s:Label top="54" color="#000000" fontWeight="bold" horizontalCenter="0"
+							 styleName="textsize4" text="{data.storename}"/>
+					<s:Label top="89" color="#000000" fontWeight="normal" horizontalCenter="0"
+							 styleName="textsize4" text="{data.description}"/>
+					<s:HGroup width="100%" height="73" horizontalAlign="center"
+							  verticalAlign="middle">
+						<s:Label top="167" width="20%" color="#000000" fontWeight="normal"
+								 horizontalCenter="-243" styleName="textsize4" text="Price"/>
+						<s:Label top="168" width="70%" color="#000000" fontWeight="normal"
+								 horizontalCenter="170" styleName="textsize4" text="{data.cost}"
+								 textAlign="right"/>
+					</s:HGroup>
+					<s:HGroup width="100%" paddingLeft="10"  horizontalAlign="center" verticalAlign="middle">
+						<s:Label width="101" color="#000000" fontWeight="normal"
+								 horizontalCenter="-241" styleName="textsize4" text="Email"/>
+						<s:TextInput id="emailText" right="33" width="75%" prompt="john@gmail.com"/>
+					</s:HGroup>
+					
+				</s:VGroup>
+			</s:Group>
+			<s:Image click="startShare();" horizontalCenter="0" smooth="true">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsshareLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/dailydealsshareMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/dailydealsshareHigh.png')"/>
+				</s:source>
+			</s:Image>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="currentBalanceLbl5" visible="false" top="98" color="#02446F" fontSize="30"
+			 horizontalCenter="0" text="{purchaseCost}"/>
+</s:View>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:spark="de.patrickheinzelmann.components.spark.*"
+				    borderAlpha="0" backgroundAlpha="0" cornerRadius="0"   >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.MoveEvent;
+			import mx.events.StateChangeEvent;
+			import mx.managers.ToolTipManager;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var tipList:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var currentSelected:String = "0";
+			[Bindable]
+			public var oldtempval:String= "";
+			public function getCurrentSelected():String {
+		   	//	if (tslide.value != -1){
+					return ("%"+String(tslide.value));
+				//}
+				//return "%0";
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function tipgo(u:Number):void {
+				var tempval:Number = tslide.value;
+				tempval = tempval + u;
+				
+				if (tempval > 100){
+					tempval = 100;
+				}
+				else if (tempval < 0){
+					tempval = 0;
+				}
+				
+				tslide.value = tempval;
+				oldtempval = tempval.toString()+"%";
+				labelDisplay.text = tempval.toString()+"%";
+				//tslide.showDataTip = true;
+				//tslide.dataTipFormatFunction("test");
+				toolio.x = tslide.thumb.x+50;
+				toolio.y = tslide.thumb.y-50;
+				toolio.visible = true;
+			}
+			private function myDataTipFunc(val:String):String {
+				return String(val) + "%";
+			}
+			public function tipclick():void {
+				toolio.visible = false;
+			}
+			public function tipUp():void {
+				tipgo(0);
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:HGroup  horizontalAlign="center" gap="0" >
+		<s:Image click="tipgo(-1);" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/tipminusLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/tipminusMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/tipminusHigh.png')"/>
+			</s:source>
+		</s:Image>
+		<s:Image >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/tipbackLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/tipbackMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/tipbackHigh.png')"/>
+			</s:source>
+		</s:Image>
+		<s:Image click="tipgo(1);" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/tipplusLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/tipplusMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/tipplusHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:HGroup>
+	<spark:HSlider id="tslide" showTrackHighlight="true" 
+				   mouseDown="tipclick();" mouseUp="tipUp();" 
+				   dataTipFormatFunction="myDataTipFunc" 
+				   accentColor="0xd98023" horizontalCenter="0" 
+				   verticalCenter="0" width="75%"
+			   maximum="50" minimum="0" stepSize="1" value="0" />
+	<s:Group id="toolio" height="45" width="95" visible="false">
+		<s:Rect  top="0" left="0" right="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x242a31" alpha="0.9"/>
+			</s:fill>
+			
+		</s:Rect>
+		<s:Label id="labelDisplay"  visible="true"
+				 horizontalCenter="0" verticalCenter="1"
+				 left="3" right="3" top="5" bottom="5"
+				 textAlign="center" verticalAlign="middle"
+				 color="white">
+		</s:Label>
+	</s:Group>
+</s:BorderContainer>

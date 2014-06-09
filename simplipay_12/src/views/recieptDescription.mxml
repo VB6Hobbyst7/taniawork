@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Reciept Detail">
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		s|Image {	
+			cornerRadius:50;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";	
+			}
+			public function view1_activateHandler(event:Event):void{
+			}
+			private function onViewDeactivate():void {
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+		]]>
+	</fx:Script>	
+	<s:Image left="0" right="0" top="0" bottom="0" alpha="0.8" scaleMode="stretch"
+			 source="assets/backdrop.png"/>
+	<s:BorderContainer visible="true" top="0" bottom="0" width="320" backgroundAlpha="0"
+					   borderAlpha="0" horizontalCenter="0">
+		<s:VGroup top="19" width="298" height="342" horizontalCenter="0">
+			<s:Label id="s1" left="14"  height="20" color="#000000"
+					 fontSize="20" fontWeight="bold" text="Location: {data.locationname}" />
+			<s:Label id="s2" left="13"  height="20" color="#484848" mouseOver="tOver(event)" mouseOut="tOut(event)"
+					 fontSize="14" fontWeight="bold" text="Price: {data.price}" click="navigateToURL(new URLRequest(googleTravelUrl))"/>
+			<s:Label id="s3"  top="57" height="20" color="#484848"
+					 fontSize="14" fontWeight="bold" text="Tip: {data.tip}"/>
+			<s:Label id="s4"  top="57" height="20" color="#484848"
+					 fontSize="14" fontWeight="bold" text="Total: {data.total}"/>
+			<s:Label id="s5"  top="57" height="20" color="#484848"
+					 fontSize="14" fontWeight="bold" text="Date: {data.day}/{data.month}/{data.year}"/>
+			<s:Label id="s6"  top="57" height="20" color="#484848"
+					 fontSize="14" fontWeight="bold" text="Time: {data.total}"/>
+		</s:VGroup>
+				
+	</s:BorderContainer>
+</s:View>

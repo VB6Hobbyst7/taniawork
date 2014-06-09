@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Filter" >
+	<s:navigationContent>
+		<s:Button label="Done" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+	
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	
+		
+
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="100%" backgroundAlpha="1" backgroundColor="#FFFFFF" width="100%">
+	
+		
+	</s:BorderContainer>	
+</s:View>

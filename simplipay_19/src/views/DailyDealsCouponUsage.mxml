@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+		backgroundColor="#22252a"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" creationComplete="goGetBalance();" 
+		title="Purchased Coupon" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;	
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+		
+			public function onActivate(event:Event):void
+			{
+				//navigator.actionBar.height = 40;
+				goGetBalance();
+			}
+			public function goGetBalance():void {
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getBalance.send();		
+				}
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				currentBalance = "$"+ev.result[0].res.toString();
+			}
+			public function accountGo(u:uint):void {
+				if (u == 0){
+				}
+				else if (u == 1){
+					
+					navigator.pushView(MyAccountQR, {useloyalty:useloyaltyswitch.selected,type:2,index:u,discount:data.value,
+						email:data.email,name:data.name,tip:tipo.getCurrentSelected(),simplisaveid:data.id});
+				}
+				else if (u == 2){
+					if (emailGo != ""){
+					}
+					
+					
+				}
+				else if (u == 3){
+					//navigator.pushView(MyAccountManage, {index:u});
+					manageOptions.visible = true;
+				}
+				else if (u == 4){
+					
+				}
+				else if (u == 5){
+					
+				}
+			}
+			public function Mclose(u:uint):void {
+				if (u == 1){
+					navigator.pushView(HomeReciepts, {index:u,email:data.email,name:data.name});
+				}
+				
+				goGetBalance();
+				manageOptions.visible = false;
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	
+	
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%"  verticalAlign="middle" horizontalAlign="center" height="100%" >
+	<s:BorderContainer  visible="true" width="100%" top="0" bottom="0" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image top="21" width="217" height="153" click="accountGo(1);" horizontalCenter="0"
+				 mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)"
+				 smooth="true" source="assets/taptopay.png"/>
+		<s:Label top="186" color="#FFFFFF" fontSize="16" horizontalCenter="-94"
+				 text="Tip Percentage"/>
+		<components:tipSlider id="tipo" top="202" horizontalCenter="0"/>
+		<s:Image top="220" width="300" horizontalCenter="0" source="assets/purchasedcouponback1.png"/>
+		<s:BorderContainer top="266" backgroundAlpha="0" borderAlpha="0"  horizontalCenter="0" width="300" >
+			<s:Label left="5" color="#FFFFFF" fontSize="16" fontWeight="normal"
+					 text="Current Balance :" textAlign="right" verticalAlign="middle"
+					 verticalCenter="0"/>
+			<s:Label id="currentBalanceLbl" right="5" width="121" color="#EF7716" fontSize="22"
+					 fontWeight="bold" text="{currentBalance}" textAlign="right" verticalCenter="0"/>
+		</s:BorderContainer>
+		<s:BorderContainer top="306" width="300" backgroundAlpha="0" borderAlpha="0"  horizontalCenter="0">
+			<s:Label left="5" height="30" color="#FFFFFF" fontSize="16" text="Use Available Loyalty"
+					 textAlign="right" verticalAlign="middle" verticalCenter="0"/>
+			<s:ToggleSwitch id="useloyaltyswitch" right="5" selected="false" verticalCenter="0"/>
+			
+		</s:BorderContainer>
+	</s:BorderContainer>
+			</s:VGroup>
+		</s:Scroller>
+	<s:BorderContainer id="manageOptions" visible="false" left="0" right="0" bottom="0" height="100%"
+					   backgroundAlpha="0.5" backgroundColor="#000000" borderAlpha="0"
+					   horizontalCenter="0">
+		<s:VGroup   gap="5" width="100%" verticalAlign="bottom" horizontalAlign="center" height="100%">
+			<s:Image top="16" width="268" height="50" horizontalCenter="0" click="Mclose(0);" mouseDown="gDown(event)"
+					 mouseOut="gOut(event)" source="assets/refreshbalance.png"/>
+			<s:Image top="81" width="268" height="50" horizontalCenter="0" click="Mclose(1);" mouseDown="gDown(event)"
+					 mouseOut="gOut(event)" source="assets/recent.png"/>
+	
+			<s:Image bottom="5" width="268" height="50" horizontalCenter="0" click="Mclose(0);" mouseDown="gDown(event)"
+					 mouseOut="gOut(event)" source="assets/cancel.png"/>
+		</s:VGroup>
+	</s:BorderContainer>
+	<!--components:codeinput visible="true" /-->
+</s:View>

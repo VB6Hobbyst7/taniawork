@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" width="306" height="170"
+				contentBackgroundAlpha="0" xmlns:components="components.*">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import mx.events.ResizeEvent;
+			
+			private var roundedMask:Sprite;
+			
+		
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		]]>
+	</fx:Script>
+
+			<s:BorderContainer width="306" height="167" cornerRadius="20" dropShadowVisible="true"
+							   horizontalCenter="0" mouseDown="profDown(event)" verticalCenter="0"
+							   mouseUp="profUp(event)" >
+				<s:BitmapImage id="bmpImg" y="-1" left="-1" right="-1" height="119"
+							   source="http://simplipay.ca/php/storeimages/{data.imagelarge}">
+					<s:mask>
+						<s:BorderContainer id="bmpMask"
+										   cornerRadius="20"
+										   width="{bmpImg.width}" height="119" />
+					</s:mask>
+				</s:BitmapImage>
+				
+				<s:BorderContainer top="25" width="50" cornerRadius="10" height="50" horizontalCenter="0"
+								   borderAlpha="2" borderColor="#FFFFFF">
+					<s:BitmapImage id="bmpImg2"  width="101%" height="101%" horizontalAlign="center" horizontalCenter="0" verticalCenter="0"
+								   source="http://simplipay.ca/php/storeimages/{data.imagesmall}">
+						<s:mask>
+							<s:BorderContainer id="bmpMask2" 
+											   cornerRadius="10"
+											   width="{bmpImg2.width}" height="{bmpImg2.height}" />
+						</s:mask>
+					</s:BitmapImage>
+				</s:BorderContainer>
+				
+			</s:BorderContainer>
+			
+		
+
+	
+</s:ItemRenderer>

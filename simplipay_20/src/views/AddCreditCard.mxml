@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Credit Card" xmlns:BarCode="BarCode.*" >	
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Done" click="saveData();" fontSize="12"/> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import views.AddAddress;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+		
+			public function onActivate(event:Event):void
+			{
+				warn.visible = false;
+				try{
+					if ((data.email == null)||(data.email == "")){
+						navigator.popToFirstView();
+						
+					}
+				}
+				catch(e:Error){
+					navigator.popToFirstView();
+				}
+				
+			dataList.addItem({name:"Name On Card", prompt:"eg. John Doe", type:"view1", id:1,value:""});
+			dataList.addItem({name:"Card Number", prompt:"Credit Card Number", maxChars:16, type:"view1", id:2,value:""});
+			dataList.addItem({name:"CVN", prompt:"Card Security Code", type:"view1", maxChars:3, id:3,value:""});
+			dataList.addItem({name:"Exp. Date", prompt:"Year",prompt2:"Month",maxChars1:4,maxChars2:2, type:"view2", id:4,value:""});
+			dataList.addItem({name:"Select Card Type", prompt:"", type:"view3", id:5,value:""});
+			dataList.addItem({name:"Billing Address", prompt:"Address",prompt2:"", type:"view1", id:6,value:""});
+			}			
+			public function saveData():void {				
+				var nameoncard:String = dataList[0].value;
+				var cardnumber:String = dataList[1].value;
+				var csv:String = dataList[2].value;
+				var expdate:String = dataList[3].value;
+				var cardtype:String = dataList[4].value;
+				var address:String = dataList[5].value;
+
+				if ((nameoncard != "")&&(cardnumber != "")&&(csv != "")&&(expdate != "")&&(cardtype != "")&&(address != "")){
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+						
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					/*stmt.text = "INSERT into creditcardinfo values(0,:email,:name,:cardnumber,:cvn" +
+						",:expdate,:cardtype,:address, :usealways)";*/
+					stmt.text = "INSERT into creditcardinfo (email, name, cardnumber, cvn, expdate, cardtype, address, usealways)" +
+						" values(0,:email,:name,:cardnumber,:cvn" +
+						",:expdate,:cardtype,:address, :usealways)";
+					stmt.parameters[":email"] = data.email;
+					stmt.parameters[":name"] = nameoncard;
+					stmt.parameters[":cardnumber"] = cardnumber;
+					stmt.parameters[":cvn"] = cardnumber;
+					stmt.parameters[":expdate"] = expdate;
+					stmt.parameters[":cardtype"] = cardtype;
+					stmt.parameters[":address"] = address;
+					stmt.parameters[":usealways"] = true;
+					stmt.execute();
+
+					navigator.popView();
+				}
+				else {
+					warn.visible = true;
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}	
+			public function listChange(ev:IndexChangeEvent):void {
+				if (payList.selectedItem.type == "view4"){
+					navigator.pushView(AddressOptions, {name:"test"});
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="10" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:List  id="payList"  itemRenderer="components.creditCardInput" change="listChange(event);"
+					dataProvider="{dataList}" width="100%" height="314">
+				<s:layout>
+					<s:VerticalLayout
+									  gap="0"
+									  horizontalAlign="center"
+									  variableRowHeight="true"/>
+				</s:layout>
+			</s:List>
+			<s:Label id="warn" visible="false" height="30" color="#02446F" fontSize="25"
+					 horizontalCenter="0" text="Incorrect Input" textAlign="center"
+					 verticalAlign="middle"/>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

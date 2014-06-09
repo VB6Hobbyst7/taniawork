@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Shopping Cart" 
+		xmlns:local="*" backgroundColor="#2a3038"
+		viewActivate="init(event)">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+		
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			
+			import valueObjects.Model;		
+			private var isCheckout:Boolean = new Boolean(true);
+			public var model:Model = new Model();
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var useremail:String = "";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var ccname:String = "";
+			[Bindable]
+			public var ccnumber:String = "";
+			[Bindable]
+			public var cvn:String = "";
+			[Bindable]
+			public var ccexpdate:String = "";
+			[Bindable]
+			public var cctype:String = "";
+			[Bindable]
+			public var ccaddress:String = "";	
+			[Bindable]
+			public var ptype:Number = -1;
+			[Bindable]
+			public var couponid:String = "";
+		
+			protected function init(event:ViewNavigatorEvent):void
+			{			
+				if ((data.email == "")||(data.email == null)){
+					navigator.popView();
+				}
+				else {
+					emailGo = data.email;
+					useremail = data.email;
+					ccname = data.ccname;
+					ccnumber = data.ccnumber;
+					cvn = data.cvn;
+					ccexpdate = data.ccexpdate;
+					cctype = data.cctype;
+					ccaddress = data.ccaddress;
+					amount = data.amount;
+					
+					try{
+						couponid = data.couponid;
+					}
+					catch(e:Error){
+						couponid = "";
+					}
+					ptype = data.type;
+					processCC.send();
+					
+				}
+			}	
+			public function afterProcess(ev:ResultEvent):void {
+				status.text = ev.result[0].res;
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="processCC" method="GET" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/ccpayment/process.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<email>{emailGo}</email>	
+				<ccname>{ccname}</ccname>	
+				<ccnumber>{ccnumber}</ccnumber>	
+				<cvn>{cvn}</cvn>	
+				<ccexpdate>{ccexpdate}</ccexpdate>	
+				<cctype>{cctype}</cctype>	
+				<ccaddress>{ccaddress}</ccaddress>		
+				<amount>{amount}</amount>	
+				<ptype>
+					{ptype}
+				</ptype>
+				<couponid>
+					{couponid}
+				</couponid>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	
+	<s:actionContent>	
+	</s:actionContent>
+	<s:Label text="Loading..." color="#FFFFFF" id="status" styleName="textsize8"  horizontalCenter="0" verticalCenter="0"/>
+</s:View>

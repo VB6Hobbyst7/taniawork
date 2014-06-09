@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"  backgroundColor="#2a3038"
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="onActivate(event)" 
+		title="Find-a-Fav"  add="home_addHandler(event)" xmlns:components="components.*">
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();"
+				>
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent >	
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var findafavArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			protected var g:Geolocation = new Geolocation(); 
+			[Bindable]
+			public var busy:Boolean = true;
+			
+			[Bindable]
+			public var taxstat1:Boolean = false;
+			[Bindable]
+			public var taxstat2:Boolean = false;
+			[Bindable]
+			public var taxstat3:Boolean = false;
+			
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+					
+				
+				
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			protected function home_addHandler(event:FlexEvent):void
+			{
+				cg4.enabled = false;
+				if(!navigator.poppedViewReturnedObject) return; //Make sure there is something to get
+				var s:String = navigator.poppedViewReturnedObject.object.toString();
+				
+				if (s != ":::"){
+					var type:String = s.substr(0,s.indexOf(":::"));
+					s = s.substring(s.indexOf(":::")+3,s.length);
+					var firsttext:String = s.substr(0,s.indexOf(":::"));
+					var lasttext:String = s.substring(s.indexOf(":::")+3,s.length);
+					
+					if (lasttext == "truetruetrue"){
+						taxtool1.source = taxtoolonicon
+						taxtool2.source = taxtoolonicon
+						taxtool3.source = taxtoolonicon
+						cg1.visible = true;
+						cg2.visible = true;
+						cg3.visible = true;
+					}
+					else if (lasttext == "falsetruetrue"){
+						taxtool1.source = taxtoolofficon
+						taxtool2.source = taxtoolonicon
+						taxtool3.source = taxtoolonicon
+						cg1.visible = false;
+						cg2.visible = true;
+						cg3.visible = true;
+					}
+					else if (lasttext == "truefalsetrue"){
+						taxtool1.source = taxtoolonicon
+						taxtool2.source = taxtoolofficon
+						taxtool3.source = taxtoolonicon
+						cg1.visible = true;
+						cg2.visible = false;
+						cg3.visible = true;	
+					}
+					else if (lasttext == "truetruefalse"){
+						taxtool1.source = taxtoolonicon
+						taxtool2.source = taxtoolonicon
+						taxtool3.source = taxtoolofficon
+						cg1.visible = true;
+						cg2.visible = true;
+						cg3.visible = false;
+					}
+					else if (lasttext == "falsefalsetrue"){
+						taxtool1.source = taxtoolofficon
+						taxtool2.source = taxtoolofficon
+						taxtool3.source = taxtoolonicon
+						cg1.visible = false;
+						cg2.visible = false;
+						cg3.visible = true;
+					}
+					else if (lasttext == "falsetruefalse"){
+						taxtool1.source = taxtoolofficon
+						taxtool2.source = taxtoolonicon
+						taxtool3.source = taxtoolofficon
+						cg1.visible = false;
+						cg2.visible = true;
+						cg3.visible = false;
+						cg4.enabled = true;
+					}
+					else if (lasttext == "truefalsefalse"){
+						taxtool1.source = taxtoolonicon
+						taxtool2.source = taxtoolofficon
+						taxtool3.source = taxtoolofficon
+						cg1.visible = true;
+						cg2.visible = false;
+						cg3.visible = false;
+					}
+					else if (lasttext == "falsefalsefalse"){
+						taxtool1.source = taxtoolofficon
+						taxtool2.source = taxtoolofficon
+						taxtool3.source = taxtoolofficon
+						cg1.visible = false;
+						cg2.visible = false;
+						cg3.visible = false;
+					}
+					
+					if (type == "cat"){
+						cg1label.text = firsttext;
+						cg4.enabled = true;
+					}
+					else if (type == "price"){
+						cg3label.text = firsttext;
+						cg4.enabled = true;
+					}
+					
+					taxstat1 = cg1.visible;
+					taxstat2 = cg2.visible;
+					taxstat3 = cg3.visible;
+					
+					var stop:String = "";
+					
+				}
+
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+				}
+				else {
+					cg4.visible = false;
+				}
+				
+			}
+			
+			public function onActivate(event:Event):void
+			{
+				busy = false;
+
+				
+			}
+		
+			
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+				
+			}
+			public function togDown1():void {
+				if (taxstat1){
+					taxstat1 = false;
+					taxtool1.source = taxtoolofficon;
+					cg1.visible = false;
+					if (cg2.visible){
+						cg4.enabled = true;
+					}
+					
+				}
+				else {
+					taxstat1 = true;
+					taxtool1.source = taxtoolonicon;
+					cg1.visible = true;
+					cg4.enabled = false;
+				}
+				
+				cg1label.text = "Select Category";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+					if ((taxstat1 == false)&&((cg2.visible)||(cg3.visible))){
+						cg4.enabled = true;
+					}
+				}
+				else {
+					cg4.visible = false;
+					cg4.enabled = false;
+				}
+			}
+			public function togDown2():void {
+				if (taxstat2){
+					taxstat2 = false;
+					taxtool2.source = taxtoolofficon;
+					cg2.visible = false;
+				}
+				else {
+					taxstat2 = true;
+					taxtool2.source = taxtoolonicon;
+					cg2.visible = true;
+				}
+				
+				cg2label.text = "Using Current Location";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+					if ((cg1.visible == false)){
+						cg4.enabled = true;
+					}
+				
+				}
+				else {
+					cg4.visible = false;
+					cg4.enabled = false;
+				}
+			}
+			public function togDown3():void {
+				if (taxstat3){
+					taxstat3 = false;
+					taxtool3.source = taxtoolofficon;
+					cg3.visible = false;
+				}
+				else {
+					taxstat3 = true;
+					taxtool3.source = taxtoolonicon;
+					cg3.visible = true;
+				}
+				
+				cg3label.text = "Select Maximum Price";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+					if ((cg1.visible == false)){
+						cg4.enabled = true;
+					}
+					
+				}
+				else {
+					cg4.visible = false;
+					cg4.enabled = false;
+				}
+			}
+			public function optionclick(u:uint):void {
+				if (u == 0){
+					//cat choice
+					navigator.pushView(HomeFindAFavCatChoice,{preselection:cg1.visible.toString()+cg2.visible.toString()+cg3.visible.toString()});
+				}
+				else if (u == 1){
+					//location choice
+				}
+				else if (u == 2){
+					//price range choice
+					//navigator.pushView(HomeFindAFavPriceChoice,{preselection:cg1.visible.toString()+cg2.visible.toString()+cg3.visible.toString()});
+				}
+				else if (u == 3){
+					navigator.pushView(HomeFindAFavResults,{cat:cg1label.text,useprice:cg3.visible,price:lowslide.currentSelected.toString()});
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="taxtoolonicon"
+								source160dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtoolon_High.png')"/>
+		<s:MultiDPIBitmapSource id="taxtoolofficon"
+								source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+								source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+								source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+	</fx:Declarations>
+	<s:VGroup horizontalCenter="0" horizontalAlign="center" height="100%" width="100%"  >
+		<s:HGroup width="95%" verticalAlign="middle">
+			<s:Group  width="100%" horizontalCenter="0">
+				<s:Image source="../assets/interfaceimages/multi/findafav1.png"/>
+				<s:Image id="taxtool1" bottom="20" horizontalCenter="0" mouseDown="togDown1()" source="{taxtoolofficon}"/>
+			</s:Group>
+			<s:Group >
+				<s:Image source="../assets/interfaceimages/multi/findafav2.png"/>
+				<s:Image id="taxtool2" bottom="20" horizontalCenter="0" mouseDown="togDown2()" source="{taxtoolofficon}"/>
+			</s:Group>
+			<s:Group >
+				<s:Image source="../assets/interfaceimages/multi/findafav3.png"/>
+				<s:Image id="taxtool3" bottom="20" horizontalCenter="0" mouseDown="togDown3()" source="{taxtoolofficon}"/>
+			</s:Group>
+		</s:HGroup>
+		<s:Group id="cg1" visible="false" click="optionclick(0);">
+			<s:Image source="../assets/interfaceimages/multi/findafavc1.png"/>
+			<s:Label id="cg1label" left="50" color="#FFFFFF" fontWeight="normal" text="Select Category"
+					 verticalCenter="0"></s:Label>
+		</s:Group>
+		<s:Group id="cg2" visible="false" >
+			<s:Image source="../assets/interfaceimages/multi/findafavc2.png"/>
+			<s:Label id="cg2label" left="50" color="#FFFFFF" fontWeight="normal" text="Using Current Location"
+					 verticalCenter="0"></s:Label>
+		</s:Group>
+		<s:VGroup id="cg3" horizontalAlign="center" visible="false" >
+			<!--s:Image source="../assets/interfaceimages/multi/findafavc3.png"/-->
+			<s:Label id="cg3label" left="50" color="#FFFFFF" fontWeight="normal" text="Select Maximum Price"
+					 verticalCenter="0"></s:Label>
+			<components:dollarSlider id="lowslide"  horizontalCenter="0"/>
+			
+		</s:VGroup>
+		<s:Group id="cg4" visible="false" click="optionclick(3);" enabled="false">
+			<s:Image source="../assets/interfaceimages/multi/find.png"/>
+		</s:Group>
+		
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

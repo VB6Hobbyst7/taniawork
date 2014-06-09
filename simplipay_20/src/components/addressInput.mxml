@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" currentState="{data.type}">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import views.AddCreditCard;
+			public function init():void {
+			//	this.addEventListener(
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		
+		<s:State name="view1"/>
+		
+	</s:states>
+	<s:VGroup  includeIn="view1" gap="0" width="100%" >
+		<s:BorderContainer    height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+							 borderAlpha="0" borderVisible="false">
+					<s:Label left="5" color="#464646" fontSize="15" fontWeight="bold" text="{data.name}"
+							 verticalCenter="0"></s:Label>
+					<s:TextInput  skinClass="components.textinputskin"  right="5" width="186" verticalCenter="0" prompt="{data.prompt}"/>
+		</s:BorderContainer>
+	</s:VGroup>
+	
+	
+
+</s:ItemRenderer>

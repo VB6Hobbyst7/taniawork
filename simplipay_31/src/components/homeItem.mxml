@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  width="100%" height="100%" horizontalAlign="center" 
+		  mouseOut="mouseOut(event)" mouseDown="mouseDown(event)"
+		  mouseOver="mouseOver(event)" minHeight="100"
+		  verticalAlign="middle"   mouseUp="mouseUp(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			
+			[Bindable]
+			public var imagetype:MultiDPIBitmapSource = new MultiDPIBitmapSource();
+			[Bindable]
+			public var lbl:String = "";
+			[Bindable]
+			public var special:Boolean = false;
+			[Bindable]
+			public var count:String = "";
+			
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			
+			public function mouseOut(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//backImg.source = "assets/homesquareback.png";
+				backImg.visible = true;
+				backImg2.visible = false;
+			}
+			
+			public function mouseOver(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//backImg.source = "assets/homesquarebackselected.png";
+				backImg2.visible = true;
+				backImg.visible = false;
+				
+			}
+			public function mouseDown(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				backImg2.visible = true;
+				backImg.visible = false;
+				
+			}
+			
+			public function mouseUp(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				backImg.visible = true;
+				backImg2.visible = false;
+			}
+			
+			//public function compp(event:FlexEvent):void
+			//{
+			//	// TODO Auto-generated method stub
+				//if (special){
+				//	getCount.send();
+				//}
+			//}
+		/*	public function afterGetCount(ev:ResultEvent):void {
+				var stop:String = "";
+				
+				try{
+					count = ev.result[0].res.count;
+				}
+				catch(e:Error){
+					count = "0";
+				}
+			}*/
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		 <!--s:HTTPService id="getCount" method="GET" 
+						resultFormat="array" 
+						url="http://simplipay.ca/php/simplisave/getCount.php"
+						result="afterGetCount(event)" >	
+		 </s:HTTPService--> 
+		<s:MultiDPIBitmapSource id="homesquareback"
+								source160dpi="@Embed('assets/homeimages/multi/homesquarebackLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/homesquarebackMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/homesquarebackHigh.png')"/>
+		<s:MultiDPIBitmapSource id="homesquarebackselected"
+								source160dpi="@Embed('assets/homeimages/multi/homesquarebackselectedLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/homesquarebackselectedMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/homesquarebackselectedHigh.png')"/>
+		<s:MultiDPIBitmapSource id="counterdot"
+								source160dpi="@Embed('assets/homeimages/multi/counterdotLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/counterdotMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/counterdotHigh.png')"/>
+	 </fx:Declarations>
+	<s:BorderContainer width="100%"  height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:BitmapImage id="backImg"  width="100%" smooth="true"  height="100%" horizontalCenter="0" verticalCenter="0"
+					   source="{homesquareback}" contentLoader="{s_imageCache}"/>
+		<s:BitmapImage id="backImg2"  width="100%" smooth="true"  height="100%" visible="false"  horizontalCenter="0" verticalCenter="0"
+					   source="{homesquarebackselected}"  contentLoader="{s_imageCache}"/>
+		<s:Group width="100%" height="100%" >
+			<s:BorderContainer width="50%" height="50%" backgroundAlpha="0" borderAlpha="0"
+							   horizontalCenter="0" verticalCenter="-20">
+				
+				<s:BitmapImage horizontalCenter="0" verticalCenter="0"
+							   contentLoader="{s_imageCache}" source="{imagetype}"/>
+				<!--s:Group right="-5" top="-5">
+					<s:BitmapImage visible="{special}"  contentLoader="{s_imageCache}"
+								   source="{counterdot}"/>
+					<s:Label visible="{special}" color="#FFFFFF" horizontalCenter="0"
+							 text="{count}" textAlign="center" verticalAlign="middle"
+							 verticalCenter="0"/>
+				</s:Group-->
+			</s:BorderContainer>
+			
+			
+		</s:Group>
+		<s:Label bottom="20" width="100%" color="#b1becd" text="{lbl}"
+				 textAlign="center"/>	
+	</s:BorderContainer>
+	
+	
+</s:VGroup>

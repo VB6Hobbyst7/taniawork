@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Shopping Cart"  
+		xmlns:local="*" backgroundColor="#2a3038"
+		creationComplete="stageWebView.hide()"
+		viewActivate="init(event)" 
+		deactivate="view1_deactivateHandler(event)">
+
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			
+			import valueObjects.Model;		
+			private var isCheckout:Boolean = new Boolean(true);
+			public var model:Model = new Model();
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var useremail:String = "";
+			[Bindable]
+			public var ptype:Number = -1;			
+			[Bindable]
+			public var couponid:String = "-1";
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var offsetval:uint = 100;
+			import mx.core.FlexGlobals;
+			[Bindable]
+			public var goingback:Boolean = false;
+			public function init2():void {
+				if (FlexGlobals.topLevelApplication.applicationDPI < 170){
+					offsetval = 40;
+				}
+				else if (FlexGlobals.topLevelApplication.applicationDPI < 250){
+					offsetval = 55;
+				}
+				else {
+					offsetval = 100;
+				}
+				
+				//stageWebView.show();
+			}
+			protected function init(event:ViewNavigatorEvent):void
+			{			
+				try{
+				if (FlexGlobals.topLevelApplication.applicationDPI < 170){
+					offsetval = 40;
+				}
+				else if (FlexGlobals.topLevelApplication.applicationDPI < 250){
+					offsetval = 55;
+				}
+				else {
+					offsetval = 100;
+				}
+				
+				stageWebView.yOffset = offsetval;
+				}
+				catch(e:Error) {
+					
+				}
+			
+				stage.autoOrients = false;
+				if ((data.email == "")||(data.email == null)){
+					mapCont.visible = false;
+					stageWebView.cancel();
+					navigator.popView();
+				}
+				else {
+					amount = data.amount;
+					useremail = data.email;
+					ptype = data.type;
+					try{
+						couponid = data.couponid.toString();
+					}
+					catch(e:Error){
+						couponid = "-1";
+					}
+					
+					if (amount.indexOf("$") != -1){
+						if (amount.charAt(0) == "$"){
+							amount = amount.substring(1,amount.length);
+						}
+						else {
+							amount = amount.substring(0,amount.length-1);
+						}
+					}
+					
+					payWithPayPal();
+				}
+							
+			/*	if (data != null) {
+					model = data as Model;
+					list.dataProvider = model.cart;
+					subTotal.text = "Subtotal is $" + getSubTotal(model.cart).toFixed(2);
+				}*/
+			}			
+			protected function getSubTotal(array:ArrayCollection):Number 
+			{
+				var subTotal:Number = new Number(0);
+				for (var i:Number = 0; i < array.length; i++)
+				{
+					var obj:Object = Object(array[i])
+					subTotal = subTotal + (obj["qty"] *  obj["price"]);
+				}
+				return subTotal;
+			}
+			
+			protected function backBtn_clickHandler(event:MouseEvent):void
+			{
+				if(stageWebView.url == null) {
+					//navigator.popView();
+					//navigator.popView();
+				}
+				
+				stageWebView.cancel();
+				currentState = "Start";
+				mapCont.visible = false;
+				navigator.popView();
+	
+				//continueShoppingButton.visible = true;
+				//buyButton.selected = false;
+			}
+			
+			public function payWithPayPal():void {
+				if (goingback == false){
+				isCheckout = true;
+				currentState="Wait";
+				//continueShoppingButton.visible = false;
+				
+				var urlVar: URLVariables = new URLVariables();	
+				urlVar.paymentAmount = Number(amount);
+				//var cartArray:ArrayCollection = model.cart;
+				
+			//	for (var i:Number = 0; i < cartArray.length; i++)
+				//{
+				var i:uint = 0;
+					urlVar['L_NAME' + i] = "Simplipay";
+					urlVar['L_NUMBER' + i] = "1";
+					urlVar['L_QTY' + i] = "1";
+					urlVar['L_EMAIL' + i] = data.email;
+					urlVar['L_COUPONID' + i] = couponid;
+					urlVar['L_PTYPE' + i] = data.type.toString();
+					urlVar['L_AMT' + i] = amount;
+				//}
+				urlVar.n = 1;
+
+				stageWebView.url="http://www.simplipay.ca/php/PayPalFlex/startPaymentFlex.php?" + urlVar;
+				var stop:String = "";
+				}
+			}
+			
+			private function cancelPayPal():void {
+				stageWebView.cancel();
+				mapCont.visible = false;
+				currentState = "Start"
+				isCheckout = false;
+				navigator.popView();
+			}
+
+			protected function continueShopping(event:MouseEvent):void
+			{
+				mapCont.visible = false;
+				navigator.popView();
+			}
+			
+			
+			protected function stageWebView_locationChangingHandler(event:LocationChangeEvent):void
+			{
+				trace("location changing " + event.location);
+			}
+			
+			
+			protected function stageWebView_locationChangeHandler(event:LocationChangeEvent):void
+			{
+				if (goingback == false){
+				trace("location change " + event.location);
+				var str:String = event.location;
+				if(isCheckout) {
+					if (str.indexOf("https://www.sandbox.paypal.com/") > -1) {
+						stageWebView.show();
+					}
+				}
+				
+				if ( (str.indexOf("cancel.php") > -1) ) {	
+					stageWebView.hide();
+					currentState="Start";
+					mapCont.visible = false;
+					navigator.popView();
+					//continueShoppingButton.visible = true;
+					//buyButton.selected = false;
+					
+				}
+			
+				if ( (str.indexOf("close.php") > -1) ) {
+					
+					model.cart = new ArrayCollection();
+					stageWebView.hide();
+					currentState="Start";		
+					mapCont.visible = false;
+					navigator.pushView(views.Complete);
+					//continueShoppingButton.visible = true;
+					//buyButton.selected = false;
+				}
+				}
+				
+			}
+		
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function goBack():void {
+				goingback = true;
+				stageWebView.hide();
+				currentState="Start";
+				mapCont.visible = false;
+				cancelPayPal();
+				navigator.popView();
+			}
+			
+			protected function view1_deactivateHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				stage.autoOrients = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="Start"/>
+		<s:State name="Wait" />
+	</s:states>
+	
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
+	<s:Group width="100%" x="0"  top="0" bottom="0" visible="true" id="mapCont"  >
+	<mobile:StageWebViewUIComponent  yOffset="{offsetval}" 
+		xmlns:mobile="com.soenkerohde.mobile.*" 
+		id="stageWebView"   width="100%" height="100%"
+		locationChanging="stageWebView_locationChangingHandler(event)" 
+		locationChange="stageWebView_locationChangeHandler(event)"/>
+		</s:Group>
+	
+	<s:VGroup width="100%" top="30" bottom="0">
+		
+		<s:List id="list" contentBackgroundAlpha="1" contentBackgroundColor="#2a3038"  width="100%"   >
+			<s:layout>
+				<s:VerticalLayout useVirtualLayout="false"  rowHeight="20" horizontalAlign="right" requestedMinRowCount="1"/>
+			</s:layout>
+			
+			<s:itemRenderer>
+				<fx:Component>
+					<s:LabelItemRenderer width="100%"   textAlign="right" 
+						 label="{data.name}  Qty: {data.qty}  ${data.price}" color="0xFFFFFF">
+					</s:LabelItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+		
+		<s:HGroup horizontalAlign="right" paddingRight="10" width="100%">	
+			<s:Label id="subTotal"
+					 color.Start="#FFFFFF"/>
+		</s:HGroup>
+		
+		<s:Group width="100%">
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="center" paddingTop="30" verticalAlign="middle" gap="30"/>
+			</s:layout>
+	
+			
+		
+			
+		</s:Group>
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

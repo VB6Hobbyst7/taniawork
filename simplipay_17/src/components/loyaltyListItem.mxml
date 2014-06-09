@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  horizontalCenter="0"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="170"
+				contentBackgroundAlpha="0" xmlns:components="components.*" creationComplete="init(event)">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var scaleval:Number = 0;
+			
+			private var roundedMask:Sprite;
+			[Bindable]
+			public var mmax:uint = 0;
+			[Bindable]
+			public var mmin:uint = 0;
+		
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var loyaltypercentage:Number = Number(data.loyaltypercentage);
+				var amount:Number = Number(data.amount);
+				var incr:Number = loyaltypercentage;
+				
+				if (incr == 0){
+					
+					incr = 10;
+				}
+				
+					if (amount != 0){
+						do{
+							mmax = mmax+incr;
+							
+							
+						}while(mmax < amount);
+						mmin = mmax-incr;
+					}
+					else {
+						mmax = incr;
+						mmin = 0;
+					}
+				
+				
+				
+				
+				var widtho:Number = scale1.width;
+				// 0 = 100%, widtho = 0%
+				var amountleft:Number = amount-mmin;
+			
+				var tempScaleVal:Number = (1-(amountleft/incr))*widtho;
+				if (tempScaleVal > widtho-50){
+					scaleval = widtho-50;
+				}
+				else {
+					scaleval =tempScaleVal;
+				}
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+
+			<s:BorderContainer width="100%" height="167" cornerRadius="20" dropShadowVisible="true"
+							   horizontalCenter="0" mouseDown="profDown(event)" verticalCenter="0"
+							   mouseUp="profUp(event)" >
+				<s:BitmapImage id="bmpImg" y="-1" left="-1" right="-1" height="119"
+							   source="http://simplipay.ca/php/storeimages/{data.imagelarge}">
+					<s:mask>
+						<s:BorderContainer id="bmpMask"
+										   cornerRadius="20"
+										   width="{bmpImg.width}" height="119" />
+					</s:mask>
+				</s:BitmapImage>
+				
+				<s:BorderContainer top="25" width="50" cornerRadius="10" height="50" horizontalCenter="0"
+								   borderAlpha="2" borderColor="#FFFFFF">
+					<s:BitmapImage id="bmpImg2"  width="101%" height="101%" horizontalAlign="center" horizontalCenter="0" verticalCenter="0"
+								   source="http://simplipay.ca/php/storeimages/{data.imagesmall}">
+						<s:mask>
+							<s:BorderContainer id="bmpMask2" 
+											   cornerRadius="10"
+											   width="{bmpImg2.width}" height="{bmpImg2.height}" />
+						</s:mask>
+					</s:BitmapImage>
+				</s:BorderContainer>
+				
+				
+				
+				
+				<s:Label left="10" bottom="18" width="123" height="17" color="#02446F" fontSize="21"
+						 text="${mmin}" textAlign="left"/>
+				<s:Label right="10" bottom="18" width="80" height="17" color="#02446F" fontSize="21"
+						 text="${mmax}" textAlign="right"/>
+				<s:BorderContainer id="scale1" left="60" right="60" bottom="10" height="30" borderAlpha="1" backgroundAlpha="0">
+					<s:BorderContainer id="scale2" left="0" right="{scaleval}" height="100%"
+									   backgroundColor="#02446F" borderAlpha="0">
+						<s:Label right="4" width="100%" height="100%" color="#FFFFFF" fontSize="15"
+								 fontWeight="normal" text="${data.amount}" textAlign="right"
+								 verticalAlign="middle" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:BorderContainer>
+
+				<s:Label x="10" y="9" width="255" height="34" color="#FFF6F6" fontSize="20"
+						 text="{data.name}"/>
+			</s:BorderContainer>
+			
+		
+
+	
+</s:ItemRenderer>

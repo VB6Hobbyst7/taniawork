@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:model="model.*"  
+		xmlns:mobile="spark.skins.mobile.*"
+		backgroundColor="#2a3038" visible="true" 
+		viewActivate="onActivate(event)" 
+		title="Loyalty" xmlns:controls="com.flexcapacitor.controls.*"  >
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="gobackone();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var nameGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var mapUrl:String = "https://simplipay.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl;
+			[Bindable]
+			public var purchased2:Boolean = false;
+			[Bindable]
+			public var picture:String = "";
+			
+			
+			[Bindable]
+			public var scaleval:Number = 0;
+			private var roundedMask:Sprite;
+			[Bindable]
+			public var mmax:uint = 0;
+			[Bindable]
+			public var mmin:uint = 0;
+			[Bindable]
+			public var superamount:String = "";
+			[Bindable]
+			public var minwidthval:Number = 7;
+			
+			
+			public function onActivate(event:Event):void
+			{
+
+				
+				var tempamount:String = data.amount;
+				if ((data.business_picture == "none")||(data.business_picture == "")){
+					picture = "../assets/interfaceimages/multi/defaultlarge.png";
+				}
+				else {
+					picture = data.business_picture;
+				}
+
+				scaleval = this.width-((data.spent/data.spend)*this.width);
+
+			}
+			
+			
+			
+			public function togglecont2press():void {
+				webView.x = this.width/2-webView.width/2;
+				webView.y = this.height/2-webView.height/2
+				
+				if (webView.visible){
+					webView.focusEnabled = false;
+					webView.visible = false;
+				//	webclosebtn.visible = false;
+					webView.dispose();
+				}
+				else {
+					webView.focusEnabled = true;
+					webView.reload();
+					//webView.dispose();
+					webView.initialize();
+					webView.visible = true;
+				//	webclosebtn.visible = true;
+					
+					
+					
+				}
+			}
+			public function closeWeb():void {
+				webView.visible = false;
+			//	webclosebtn.visible = false;
+				webView.focusEnabled = false;
+			}
+			public function gobackone():void {
+				if (webView.visible == true){
+					closeWeb();
+				}
+				else {
+					navigator.popView();	
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		]]>
+	</fx:Script>
+	<controls:WebView id="webView"   visible="false"  
+					  source="{totalurl}"  right="10" left="10" top="26" bottom="10"/>
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		
+		<s:VGroup width="95%" paddingTop="20" gap="20" horizontalAlign="center" height="100%" >
+			<s:Image x="21" width="80%" height="30%" scaleMode="stretch" smooth="true"
+					 source="{picture}"/>
+			<s:Label color="#FFFFFF"  fontWeight="bold" lineThrough="false"
+					 text="{data.name}" textAlign="center" verticalAlign="middle"/>
+			<s:Label color="#FFFFFF"   lineThrough="false"
+					 text="{data.business_tagline}" textAlign="center" verticalAlign="middle"/>
+			<s:Image width="95%" source="assets/interfaceimages/multi/seperator.png"/>
+			<s:Label color="#FFFFFF"   lineThrough="false" width="95%"
+					 text="Spend ${data.spend.toFixed(2)}, Earn ${data.make.toFixed(2)}" textAlign="left" verticalAlign="middle"/>
+			<s:BorderContainer backgroundColor="#24282e" backgroundAlpha="1" id="scale1"  width="95%" bottom="0" height="50" >
+				<s:BorderContainer id="scale2" left="0" right="{scaleval}"
+								   top="0" bottom="0"  
+								   borderAlpha="0">
+					<s:backgroundFill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="0xdb8425"/>
+							<s:GradientEntry color="0xcb5b19"/>
+						</s:LinearGradient>
+					</s:backgroundFill>
+					<s:Label right="4"  height="100%" color="#FFFFFF" 
+							 fontWeight="normal" text="${data.spent.toFixed(2)}" textAlign="right"
+							 verticalAlign="middle" verticalCenter="0"/>
+				</s:BorderContainer>			
+				<s:Label left="2"   color="#FFFFFF" 
+						 text="$0" textAlign="left" verticalAlign="middle"
+						 verticalCenter="0"/>
+				<s:Label right="2"   color="#FFFFFF"  
+						 text="${data.spend.toFixed(2)}" textAlign="right" verticalAlign="middle"
+						 verticalCenter="0"/>
+			</s:BorderContainer>
+			<s:HGroup horizontalCenter="0">
+				
+				<s:Label color="#8a8a8a"   
+						 text="Only " textAlign="left" verticalAlign="middle"/>
+				<s:Label color="#ef7716"   
+						 text="${(data.spend-data.spent).toFixed(2)}" textAlign="left" verticalAlign="middle"/>
+				<s:Label color="#8a8a8a"  
+						 text=" more to unlock " textAlign="left" verticalAlign="middle"/>
+				<s:Label color="#ef7716"  
+						 text="${(data.make).toFixed(2)}" textAlign="left" verticalAlign="middle"/>
+				<s:Label color="#8a8a8a" 
+						 text=" credit" textAlign="left" verticalAlign="middle"/>
+				
+			</s:HGroup>
+			<components:listtoggleitem2 id="toggle2" width="100%" horizontalCenter="0" 
+										click="togglecont2press();" 
+										mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)"
+										currentState="normal" titlename="View Map" />
+			
+		</s:VGroup>
+	</s:Scroller>
+	<components:codeinput visible="false" />
+	<!--s:Button right="10" id="webclosebtn" top="1"  visible="false"  label="Close"
+			  mouseDown="closeWeb();" /-->
+</s:View>

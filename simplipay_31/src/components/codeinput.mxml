@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer width="100%" height="100%" creationComplete="init(event)"  
+				   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009"  visible="true"
+				   backgroundAlpha="0.5" backgroundColor="#0A0A0A" xmlns:components="components.*" xmlns:cs="cs.*">
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.core.ContentCache;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var scanningMode:Boolean = false;
+			[Bindable]
+			public var scannedText:String = "";
+			public var scannedText2:String = "";
+			[Bindable]
+			public var userID:String = "";
+			[Bindable]
+			public var payamount:Number = 0;
+			[Bindable]
+			public var code:String = "";
+			[Bindable]
+			public var logcode:String = "";
+			[Bindable]
+			public var message:String = "Please Enter Your Quickpin";
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var gst:String = "5";
+			[Bindable]
+			public var merchid:uint = 1;
+			[Bindable]
+			public var locationid:uint = 133;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var emailGo:String = "none";
+			public var codeArray:Array = new Array();
+			[Bindable]
+			public var status:String = "none";
+			public var tempSavedLogCode:String = "";
+			
+			public function logprocess(s:String):void {
+				if (status == "none"){
+					tempSavedLogCode = "";
+					if (s == 'c'){
+						logcode = "";
+						pinimage.visible = false;
+					}
+					else if (s == '?'){
+						logcode = "";
+						pinimage.visible = false;
+						forgotCont.visible = true;
+						loginnumkeycont.visible = false;
+						//Forgotpassword
+					}
+					else if (logcode.length < 4){
+						logcode = logcode + s;
+						pinimage.source = "assets/pin"+logcode.length.toString()+".png";
+						pinimage.visible = true;
+
+					}
+					
+					
+					 if (logcode.length == 4){
+						if (checkcode(logcode)){
+							
+							this.visible = false;
+							logcode = "";
+							pinimage.visible = false;
+
+							
+						}
+						else {
+							logcode = "";
+							pinimage.visible = false;
+
+						}
+						
+					}	
+				}
+				else if (status == "changing"){
+					if (s == 'c'){
+						tempSavedLogCode = "";
+						logcode = "";
+						pinimage.visible = false;
+
+
+					}
+					else if (s == '?'){
+					
+					}
+					else if (logcode.length < 4){
+						logcode = logcode + s;
+						pinimage.source = "assets/pin"+logcode.length.toString()+".png";
+						pinimage.visible = true;
+
+
+					}
+					
+					if (logcode.length == 4){
+						tempSavedLogCode = logcode;
+						logcode = "";
+						pinimage.visible = false;
+
+
+						status = "changingconfirm";
+						message = "Re-Type your Password";
+						
+					}
+				}
+				else if (status == "changingconfirm"){
+					if (s == 'c'){
+						logcode = "";
+						pinimage.visible = false;
+
+
+					}
+					else if (s == '?'){
+						
+					}
+					else if (logcode.length < 4){
+						logcode = logcode + s;
+						pinimage.source = "assets/pin"+logcode.length.toString()+".png";
+						pinimage.visible = true;
+
+
+					}
+					
+					if (logcode.length == 4){
+						if (logcode == tempSavedLogCode){
+							//update db logcode
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("quickpins.db"));
+							var stmt:SQLStatement = new SQLStatement();
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "update quickpins set pin = "+logcode+" where email = '" + emailGo +"'";
+							stmt.execute();
+							pinimage.visible = false;
+
+
+							logcode = "";
+							tempSavedLogCode = "";
+							status = "none";
+							message = "Please Enter Your Quickpin";
+						}
+						else {
+							pinimage.visible = false;
+
+
+							logcode = "";
+							status = "changingconfirm";
+							message = "Incorect, please retype;";
+						}
+					}
+				}
+				else if (status == "creating"){
+					if (s == 'c'){
+						tempSavedLogCode = "";
+						logcode = "";
+						pinimage.visible = false;
+
+
+					}
+					else if (s == '?'){
+						
+					}
+					else if (logcode.length < 4){
+						logcode = logcode + s;
+						pinimage.source = "assets/pin"+logcode.length.toString()+".png";
+						pinimage.visible = true;
+
+
+					}
+					
+					if (logcode.length == 4){
+						pinimage.visible = false;
+
+
+						tempSavedLogCode = logcode;
+						logcode = "";
+						status = "creatingconfirm";
+						message = "Re-Type your Password";
+						
+					}
+				}
+				else if (status == "creatingconfirm"){
+					if (s == 'c'){
+						logcode = "";
+						pinimage.visible = false;
+
+
+					}
+					else if (s == '?'){
+						
+					}
+					else if (logcode.length < 4){
+						logcode = logcode + s;
+						pinimage.source = "assets/pin"+logcode.length.toString()+".png";
+						pinimage.visible = true;
+
+
+					}
+					
+					if (logcode.length == 4){
+						if (logcode == tempSavedLogCode){
+							//update db logcode
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("quickpins.db"));
+							stmt = new SQLStatement();
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "INSERT into quickpins values(:email,:pin)";
+							stmt.parameters[":email"] = emailGo;
+							stmt.parameters[":pin"] = logcode;
+							stmt.execute();
+							pinimage.visible = false;
+
+
+							logcode = "";
+							tempSavedLogCode = "";
+							status = "none";
+							message = "Please Enter Your Quickpin";
+						}
+						else {
+							pinimage.visible = false;
+
+
+							logcode = "";
+							status = "creatingconfirm";
+							message = "Incorect, please retype;";
+						}
+					}
+				}
+				
+			}
+			public function checkcode(s:String):Boolean {
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("quickpins.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				if (emailGo != "none"){
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS quickpins (" +
+						"email varchar(255)," +
+						"pin varchar(255))";
+					stmt.execute();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM quickpins where email = '" + emailGo +"' and pin = "+s;
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						logcode = "";
+						this.visible = false;
+						//or send response back to no close
+						return true;
+					}
+					else {
+						logcode = "";
+						//incorrect pin
+						this.visible = true;
+						return false;
+					}
+				}
+				
+				return false;
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.7,30,30,4,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.7,30,30,4,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+			public function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				message = "Please Enter Your Quickpin";
+				status = "none";
+				forgotCont.visible = false;
+				loginnumkeycont.visible = true;
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country FROM localuser where active = 'yes'";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					emailGo = resData[0].email;
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("quickpins.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS quickpins (" +
+						"email varchar(255)," +
+						"pin varchar(255))";
+					stmt.execute();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM quickpins where email = '" + emailGo +"'";
+					stmt.execute();
+					var resData2:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData2.length != 0){
+						//pin has been created
+						status = "none";
+					}
+					else {
+						//no pin ever created
+						message = "Please Create A Quickpin";
+						status = "creating";
+					}
+				}
+				else {
+					var stop:String = "";	
+					emailGo = "none"
+				}		
+			}
+			public function authorizeLogin(userpassword:String):void{	
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				if (ev.result[0].res.message == "ok"){
+					//ok pin can be changed
+					message = "Please Type Your New Password";
+					status = "changing";
+				}
+				else {
+					//bad login
+					message = "Password Incorect";
+					status = "none";
+				}
+				forgotCont.visible = false;
+				loginnumkeycont.visible = true;
+			}
+			public function backToPassCode():void {
+				forgotCont.visible = false;
+				loginnumkeycont.visible = true;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/login/checkLoginMobile.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{emailGo}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>	
+		<s:MultiDPIBitmapSource id="signinicon"
+													source160dpi="@Embed('assets/interfaceimages/multi/signinbtnLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/signinbtnMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/signinbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="cancelIcon"
+								source160dpi="@Embed('assets/interfaceimages/multi/cancelbtnLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/cancelbtnMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/cancelbtnHigh.png')"/>
+		<s:MultiDPIBitmapSource id="deleteicon"
+								source160dpi="@Embed('assets/interfaceimages/multi/delbtnLow.png')"
+								source240dpi="@Embed('assets/interfaceimages/multi/delbtnMed.png')"
+								source320dpi="@Embed('assets/interfaceimages/multi/delbtnHigh.png')"/>
+	</fx:Declarations>
+	<s:BorderContainer id="loginnumkeycont" visible="true" width="100%"  height="100%"
+					   backgroundAlpha="0" borderVisible="false" borderWeight="0"
+					   horizontalCenter="0" verticalCenter="0">
+		<s:VGroup gap="0" left="0"  right="0" top="0"  bottom="0" horizontalAlign="center" verticalAlign="middle">
+			<s:VGroup gap="0" left="0" paddingTop="5"  right="0" top="0"  bottom="0" horizontalAlign="center" verticalAlign="middle">
+				
+				<s:Label width="100%" height="100%" text="{message}" visible="true"
+						 color="#FFFFFF"  textAlign="center" verticalAlign="middle" fontWeight="bold"/>
+				<!--s:Label width="100%" height="100%" text="{logcode}" visible="true"
+						 color="#FFFFFF" fontSize="28" textAlign="center" verticalAlign="middle" fontWeight="bold"/-->
+				<s:BorderContainer width="300" height="28" backgroundAlpha="0" borderAlpha="0" >
+					<s:Image width="300" height="25" source="assets/pin0.png"/>
+					<s:Image id="pinimage" visible="false" width="300" height="25" source="assets/pin0.png"/>
+				</s:BorderContainer>
+			</s:VGroup>
+			
+			<s:HGroup left="0" gap="0" right="0" top="0" bottom="0" verticalAlign="middle">
+				<s:VGroup gap="0" horizontalAlign="center" >
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}"  height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('7');" >
+						<s:Label width="100%" height="100%" mouseEnabled="false"    color="#FFFFFF"  textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="7" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('4');" >
+						<s:Label x="0" y="0" width="100%" height="100%" mouseEnabled="false"  color="#FFFFFF" 
+								 fontWeight="bold" text="4" textAlign="center"
+								 verticalAlign="middle"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('1');" >
+						<s:Label width="100%" height="100%" color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								 verticalCenter="0"
+								 text="1"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}"  
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('0');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="0" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				
+				<s:VGroup gap="0">
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('8');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="8" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('5');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="5" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('2');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="2" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" visible="{status == 'none'}" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('?');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="?" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+				<s:VGroup gap="0">
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('9');" >
+						<s:Label width="100%" height="100%" color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								 text="9" 
+								 verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('6');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF" mouseEnabled="false"   textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="6" verticalCenter="0"/>
+					</s:BorderContainer>
+					
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('3');" >
+						<s:Label width="100%" height="100%"   color="#FFFFFF"  mouseEnabled="false"  textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="3" verticalCenter="0"/>
+					</s:BorderContainer>
+					<s:BorderContainer top="45" width="{loginnumkeycont.width/3}" height="{loginnumkeycont.height/4-18}" 
+									   backgroundColor="#1a2029" mouseOut="gOut(event)" mouseOver="gOver(event)" mouseDown="gDown(event)"
+									   click="logprocess('c');" >
+						<!--s:Label width="100%" height="100%"   color="#FFFFFF"  textAlign="center" verticalAlign="middle" fontWeight="bold" horizontalCenter="0"
+								   text="c" verticalCenter="0"/-->
+						<s:BitmapImage  horizontalCenter="0"
+								 source="{deleteicon}" verticalCenter="0"/>
+					</s:BorderContainer>
+				</s:VGroup>
+				
+			</s:HGroup>
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	<s:BorderContainer id="forgotCont" visible="true" width="100%"  height="100%"
+					   backgroundAlpha="0" borderVisible="false" borderWeight="0"
+					   horizontalCenter="0" verticalCenter="0">
+		<s:Label top="18" color="#FFFFFF" 
+				 horizontalCenter="0" text="Enter Your Password"/>
+		<s:TextInput id="userPasswordInput" top="71" width="254" displayAsPassword="true"
+					 horizontalCenter="0" prompt="Password"/>
+		<cs:IconButton top="114"  skinClass="skins.ImageButtonSkin" icon="{signinicon}"
+					   click="authorizeLogin(userPasswordInput.text)"   horizontalCenter="0"/>
+		<cs:IconButton top="149" skinClass="skins.ImageButtonSkin" icon="{cancelIcon}"
+					   click="backToPassCode();"   horizontalCenter="0"/>
+		<s:Label top="210" fontFamily="_sans" visible="false" id="logWarning" fontWeight="bold" horizontalCenter="0"
+				 text="Sorry Incorrect Information"/>
+	</s:BorderContainer>
+		
+</s:BorderContainer>

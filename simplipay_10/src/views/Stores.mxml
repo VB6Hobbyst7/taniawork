@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		menuKeyPressed="navigator.popToFirstView()"
+		backKeyPressed="navigator.popToFirstView()"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		viewActivate="view1_activateHandler(event)" 
+		creationComplete="init(event)"
+		title="Stores"  backgroundAlpha="1">
+	
+	<s:titleContent>	
+		<s:BorderContainer backgroundAlpha="0" borderAlpha="0"   width="100%" height="100%">
+			<s:Image  source="assets/filter.png"  height="27"  left="2" verticalCenter="0" />
+			<s:Image source="assets/map-list2.png"  mouseUp="togUp(event)" mouseDown="togDown(event)" 
+					 id="maplisttog"
+					 verticalCenter="0"  click="viewChoice(event)" height="27" horizontalCenter="0"/>
+			<s:Image  source="assets/star.png"  height="27"  right="2" verticalCenter="0" />
+		</s:BorderContainer>
+		  
+	</s:titleContent>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import model.Smurf;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+
+			
+			
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			
+			[Bindable]
+			private var _addrString:String;
+			
+			[Bindable]
+			private var _distString:String;
+			
+			private var _tu:TextUtil;
+			private var _sc:ShapeCollection;
+			
+			[Embed("../assets/sms.png")]
+			private var smsIcon:Class;
+			
+			[Embed("../assets/phone.png")]
+			private var phoneIcon:Class;
+			
+			[Embed("../assets/mail.png")]
+			private var mailIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			
+			protected var g:Geolocation = new Geolocation();    
+			[Bindable]
+			public var frontview:Boolean = true;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var smurf:Smurf;
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			protected function view1_activateHandler(event:Event):void
+			{
+				navigator.actionBar.height = 40;
+				try{
+					locationType = "1";
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.59221;
+						mylong = -113.54009;
+						getLocations.send();
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+					getLocations.send();
+				}
+				
+				
+				
+				
+				if (this.parentApplication.map) {	
+					if (!this.mapContainer.getChildByName("myMap")) this.mapContainer.addChild(this.parentApplication.map);
+				}
+				else {
+					if (!this.parentApplication.map) this.parentApplication.makeMap();
+					this.mapContainer.addChild(this.parentApplication.map);
+				}
+				
+				
+				if (!this.parentApplication.gpsTried) this.parentApplication.initGPS();
+				
+				if (this.parentApplication.gpsTried && this.parentApplication.gpsIsSupported) {
+					this.parentApplication.setGpsLatLng();
+				}
+				else {
+				}
+				this.parentApplication.removeShapesFromMap();
+				
+				busyTime.visible = false;
+				
+				
+				
+			}	
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				if (key.text == ""){
+					mylat = event.latitude;
+					mylong = event.longitude;
+					getLocations.send();
+				}
+				
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function init(event:FlexEvent):void
+			{
+				navigator.actionBar.height = 40;
+				radiusOptions = new ArrayCollection();
+				radiusOptions.addItem({label:10});
+				radiusOptions.addItem({label:20});
+				radiusOptions.addItem({label:50});
+				radiusOptions.addItem({label:75});
+				radiusOptions.addItem({label:90});
+				//avgRadius.selectedIndex = 2;
+				currentSelectedLocationName = "Local Wait Times";	
+			}
+			
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				var stop:String = "";
+				this._sc = new ShapeCollection();
+	
+				
+				listData = new ArrayCollection();
+				try{
+					
+					listData = event.result[0].res.re;
+					storeList.dataProvider = listData;
+					var totalDistance:Number = 0;
+					for (var i:uint = 0; i < listData.length; i++){
+						var latlng:LatLng = new LatLng(listData[i].lat,listData[i].long);
+						totalDistance = totalDistance + Number(listData[i].distance);
+						showItemOnMap(listData[i].name,listData[i].lat,listData[i].long,listData[i].address);
+					}
+					var avgText:String = (totalDistance/i).toString();
+					if (avgText.length > 4){
+						avgText = avgText.substr(0,4);
+					}
+					//avgMin.text = avgText+" km";
+
+					
+					
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(event.result[0].res.re);
+						storeList.dataProvider = listData;
+						var totalDistance:Number = 0;
+						for (var i:uint = 0; i < listData.length; i++){
+							var latlng:LatLng = new LatLng(listData[i].lat,listData[i].long);
+							totalDistance = totalDistance + Number(listData[i].distance);
+							showItemOnMap(listData[i].name,listData[i].lat,listData[i].long,listData[i].address);
+						}
+						var avgText:String = (totalDistance/i).toString();
+						if (avgText.length > 4){
+							avgText = avgText.substr(0,4);
+						}
+						//avgMin.text = avgText+" km";
+					}
+					catch(e:Error){
+						
+					}
+				}
+				
+				
+				this.parentApplication.map.addShapeCollection(this._sc);
+				this.parentApplication.map.bestFit(false,2,16);	
+			} 
+			public function afterSearchLocations(event:ResultEvent):void
+			{
+				var stop:String = "";
+				listData = new ArrayCollection();
+				try{
+					
+					listData = event.result[0].res.re;
+					storeList.dataProvider = listData;
+					var totalDistance:Number = 0;
+					for (var i:uint = 0; i < listData.length; i++){
+						var latlng:LatLng = new LatLng(listData[i].lat,listData[i].long);
+						totalDistance = totalDistance + Number(listData[i].distance);
+					}
+					var avgText:String = (totalDistance/i).toString();
+					if (avgText.length > 4){
+						avgText = avgText.substr(0,4);
+					}
+					//avgMin.text = avgText+" km";
+				}
+				catch(e:Error){
+					try{
+						
+						
+						listData.addItem(event.result[0].res.re);
+						storeList.dataProvider = listData;
+						var totalDistance:Number = 0;
+						for (var i:uint = 0; i < listData.length; i++){
+							var latlng:LatLng = new LatLng(listData[i].lat,listData[i].long);
+							totalDistance = totalDistance + Number(listData[i].distance);
+						}
+						var avgText:String = (totalDistance/i).toString();
+						if (avgText.length > 4){
+							avgText = avgText.substr(0,4);
+						}
+						//avgMin.text = avgText+" km";
+					}
+					catch(e:Error){
+						//todo coming soon
+					}
+				}
+			}
+			public function storeListChange(ev:IndexChangeEvent):void {
+				var stop:String = "";
+				if (ev.newIndex != -1){
+					var address:String = ev.currentTarget.selectedItems[0].address;
+					//var description:String = ev.currentTarget.selectedItems.address;
+					var id:String = ev.currentTarget.selectedItems[0].id;
+					var lat:Number = Number(ev.currentTarget.selectedItems[0].lat);
+					var long:Number = Number(ev.currentTarget.selectedItems[0].long);
+					var name:String = ev.currentTarget.selectedItems[0].name;
+					var number:String = ev.currentTarget.selectedItems[0].number;
+					var type:String = ev.currentTarget.selectedItems[0].type;
+					var tagline:String = ev.currentTarget.selectedItems[0].tagline;
+					var email:String = ev.currentTarget.selectedItems[0].email;
+					var imagelarge:String = ev.currentTarget.selectedItems[0].imagelarge;
+					var imagesmall:String = ev.currentTarget.selectedItems[0].imagesmall;
+					currentSelectedLocationName = name;
+					currentSelectedAddress = lat+", "+long;
+					var waittimeText:String = (ev.currentTarget.selectedItems[0].distance).toString();
+					if (waittimeText.length > 4){
+						waittimeText = waittimeText.substr(0,4);
+					}
+					currentSelectedWaitTime = waittimeText+" km";
+					navigator.pushView(itemDescription, {id:id,address:address,lat:lat,long:long,name:name,type:type,number:number,
+						currentSelectedLocationName:currentSelectedLocationName,currentSelectedAddress:currentSelectedAddress,
+						mylat:mylat,mylong:mylong,tagline:tagline,imagelarge:imagelarge,email:email,imagesmall:imagesmall,
+						currentSelectedWaitTime:currentSelectedWaitTime});					
+				}
+				
+			}
+			public function radiusChange(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				//myradius = Number(avgRadius.selectedItem.label);
+				getLocations.send();
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				try{
+					trace(storeList.scroller.verticalScrollBar.value);
+					if(storeList.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+						//	listData.addItemAt({text:"loading..."},0);
+						locationType = "1";
+						if (Geolocation.isSupported)
+						{
+							g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+							addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+						}
+						else
+						{	
+							mylat = 53.59221+Math.random();
+							mylong = -113.54009+Math.random();
+							getLocations.send();
+						}		
+					} 
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = storeList.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			public function searchClick():void
+			{
+				locationType = "1";
+				if (Geolocation.isSupported)
+				{
+					g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+					addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+				}
+				else
+				{	
+					mylat = 53.59221;
+					mylong = -113.54009;
+					getLocations.send();
+				}		
+				mysearch = key.text;
+				searchLocations.send();
+			}
+			
+			public function viewChoice(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				if (listCont.visible){
+					listCont.visible = false;
+					mapCont.visible = true;
+				}
+				else {
+					listCont.visible = true;
+					mapCont.visible = false;
+				}
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			
+			
+			private function showItemOnMap(name:String,lat:String,long:String,address:String):void {
+				
+				
+				var p:Poi = new Poi(new LatLng(0,0));
+				p.infoWindowTitleText = name;
+				p.latLng = new LatLng(Number(lat),Number(long));
+				p.infoContent = address;
+				
+				if (this.parentApplication.applicationDPI >= 240) {
+					var i:PinMapIcon = (p.icon as PinMapIcon);
+					i.iconWidth = 48;
+					p.icon = i;
+				}
+				
+				//this.parentApplication.removeShapesFromMap();
+			
+				this._sc.name = "searchShapeCollection";
+				this._sc.add(p);
+				
+				
+			
+				
+				
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			protected function togDown(event:MouseEvent):void
+			{
+				if (maplisttog.source == "assets/map-list2.png"){
+					maplisttog.source = "assets/map-list1.png"
+				}
+				else {
+					maplisttog.source = "assets/map-list2.png"
+				}
+				
+			}
+			
+			protected function togUp(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="POST" resultFormat="array"
+					   url="http://simplipay.ca/php/locations/getLocationsMobile.php" result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<type>{locationType}</type>		
+				<mylat>{mylat}</mylat>		
+				<mylong>{mylong}</mylong>		
+				<myradius>{myradius}</myradius>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="searchLocations" method="POST" resultFormat="array"
+					   url="http://simplipay.ca/php/locations/searchLocationsMobile.php" result="afterSearchLocations(event)" >
+			<s:request xmlns="">
+				<type>{locationType}</type>		
+				<mylat>{mylat}</mylat>		
+				<mylong>{mylong}</mylong>		
+				<myradius>{myradius}</myradius>	
+				<mysearch>{mysearch}</mysearch>
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="30" backgroundAlpha="1" backgroundColor="#0977b6" width="100%">
+		<s:HGroup width="100%" height="100%">
+			<s:TextInput id="key" width="100%" prompt="Search Stores" returnKeyLabel="search" 
+						 enter="searchClick();" keyDown="press(event);"
+						 skinClass="skins.searchInput" height="27" />
+		</s:HGroup>	
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" x="0" y="30" height="{this.height-30}" visible="true" id="listCont"
+					   backgroundColor="#FFFFFF" backgroundAlpha="1"  borderAlpha="0" >
+		
+			<s:BorderContainer  backgroundColor="#FFFFFF" backgroundAlpha="1" borderAlpha="0" width="100%"  >
+				<s:List width="100%" height="100%" contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"   id="storeList" labelField="name"  
+						dataProvider="{listData}" itemRenderer="components.storeResult"
+						selectedIndex="1" change="storeListChange(event);"
+						mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+					
+				</s:List>
+				<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+					<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48.png')"/>
+					<s:Label text="Pull down to refresh"  id="loadText"/>
+				</s:HGroup>
+			</s:BorderContainer>
+			
+	</s:BorderContainer>	
+	<s:BorderContainer width="100%" x="0" y="30" height="{this.height-30}" visible="false" id="mapCont" backgroundColor="#FFFFFF" backgroundAlpha="1"   borderAlpha="0" >
+		<mx:UIComponent id="mapContainer"
+						width="100%"
+						height="100%"
+						/>
+		<s:BusyIndicator horizontalCenter="0" id="busyTime" 
+						 verticalCenter="0" visible="true" 
+						 symbolColor="blue" rotationInterval="200"/>
+	</s:BorderContainer>
+	
+</s:View>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" currentState="{data.type}">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			import views.AddCreditCard;
+			public function init():void {
+			//	this.addEventListener(
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+			public function changeo(u:uint):void {
+				if (u == 0){
+					data.value = t0.text;
+				}
+				else if (u == 1){
+					data.value = d0.text.toString()+"/"+d1.text.toString();
+				} 
+				else if (u == 2){
+					//data.value = t1.text;
+				}
+			}
+			public function cardType(u:uint):void {
+				if (u == 0){
+					data.value = "visa";
+					cb.label = "Visa";
+				}
+				else if (u == 1){
+					data.value = "master card";
+					cb.label = "Master Card";
+				}
+				else if (u == 2){
+					data.value = "amex";
+					cb.label = "Amex";
+				}
+			
+				cb.closeDropDown();
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="view1"/>
+		<s:State name="view2"/>
+		<s:State name="view3"/>
+		<s:State name="view4"/>
+	</s:states>
+	<s:VGroup  includeIn="view1" gap="0" width="100%" >
+		<s:BorderContainer    height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+							 borderAlpha="0">
+					<s:Label left="5" color="#464646"  fontWeight="bold" text="{data.name}"
+							 verticalCenter="0"></s:Label>
+					<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  maxChars="{data.maxChars}"  id="t0"
+								 change="changeo(0);"  right="5" width="186" verticalCenter="0" prompt="{data.prompt}"/>
+		</s:BorderContainer>
+	</s:VGroup>
+	<s:VGroup includeIn="view2" gap="0" width="100%" >
+		<s:BorderContainer    height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+							 borderAlpha="0">
+				<s:Label left="5" color="#464646"  fontWeight="bold" text="{data.name}"
+						 verticalCenter="0"></s:Label>
+			<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"  id="d0" left="80" width="100" change="changeo(1);" prompt="{data.prompt}" maxChars="{data.maxChars1}"
+						 textAlign="center" verticalCenter="0"/>
+			<s:TextInput  softKeyboardActivating="setStyle('fontFamily', 'Arial')"   softKeyboardDeactivate="setStyle('fontFamily', 'ubuntu')"   id="d1" change="changeo(1);" maxChars="{data.maxChars2}"  right="5" width="100" verticalCenter="0" prompt="{data.prompt2}"/>
+		</s:BorderContainer>
+	</s:VGroup>
+	<s:VGroup includeIn="view3" height="100%" gap="0" width="100%" >
+	<s:BorderContainer   height="40" width="100%"  backgroundColor="#FFFFFF" backgroundAlpha="1"
+						 borderAlpha="0">
+			<!--s:Label left="5" color="#464646"  fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"></s:Label-->
+			<s:CalloutButton id="cb"    verticalCenter="0" right="5" left="5" height="33" label="Select Card Type"
+							 calloutDestructionPolicy="never"  skinClass="skins.CalloutButtonSkin"  horizontalPosition="middle" verticalPosition="middle">
+				<s:calloutLayout>
+					<s:VerticalLayout  paddingTop="2" paddingBottom="2" paddingLeft="0" paddingRight="0" horizontalAlign="center" gap="0"/>
+				</s:calloutLayout>
+				<s:calloutContent>
+					<s:Button label="Visa" click="cardType(0);"  width="100%" />
+					<s:Button label="Master Card" click="cardType(1);"  width="100%" />
+					<s:Button label="Amex" click="cardType(2);"  width="100%" />
+				</s:calloutContent>
+			</s:CalloutButton>
+	</s:BorderContainer>
+	</s:VGroup>
+	<s:VGroup includeIn="view4" gap="0"  width="100%" >
+		<s:BorderContainer    height="40" width="100%" backgroundColor="#FFFFFF" backgroundAlpha="1"
+							  borderAlpha="0">
+				<s:Label left="5" color="#464646"  width="100%"  fontWeight="bold" text="{data.name}"
+					 verticalCenter="0"	 ></s:Label>	
+		</s:BorderContainer>
+	</s:VGroup>
+</s:ItemRenderer>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		viewActivate="onActivate(event)" 
+		title="Loyalty" >
+	<s:navigationContent >
+	
+	</s:navigationContent>
+	<s:actionContent >	
+		<s:CalloutButton id="sortBTN"  label="Sort" horizontalPosition="before" 
+						 verticalPosition="after" calloutDestructionPolicy="never">
+			<s:calloutLayout>
+				<s:VerticalLayout paddingTop="2" paddingBottom="2" paddingLeft="2" 
+								  paddingRight="2" horizontalAlign="center" gap="3"/>
+			</s:calloutLayout>
+			<s:calloutContent>
+				<s:Button id="sort1" label="Name" enabled="true" fontSize="13" width="100" click="sortPress(0);"/>
+				<s:Button id="sort2" label="Amount" enabled="true"  fontSize="13" width="100" click="sortPress(1);"/>
+			</s:calloutContent>
+		</s:CalloutButton>
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var loyaltyArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getloyalty.send();		
+				}
+				loyaltylist.dataGroup.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onPropertyChange);	
+
+			}
+			protected function onPropertyChange(event:PropertyChangeEvent):void
+			{
+				if (event.source == event.target && event.property == "verticalScrollPosition")
+				{
+					
+					var vScroll:Number = loyaltylist.dataGroup.verticalScrollPosition;
+					if(vScroll < -20){
+						//	trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							//	trace(arrowImage.rotation);
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+			}
+			public function afterGetloyalty(ev:ResultEvent):void  {
+				loyaltyArray =  new ArrayCollection();
+				try{
+					loyaltyArray = ev.result[0].res.re;
+					
+				}
+				catch(e:Error){
+					try{
+						var id:String = ev.result[0].res.re.id;
+						var name:String = ev.result[0].res.re.name;
+						var tagline:String = ev.result[0].res.re.tagline;
+						var lat:String = ev.result[0].res.re.lat;
+						var long:String = ev.result[0].res.re.long;
+						var type:String = ev.result[0].res.re.type;
+						var description:String = ev.result[0].res.re.description;
+						var number:String = ev.result[0].res.re.number;
+						var address:String = ev.result[0].res.re.address;
+						var email:String = ev.result[0].res.re.email;
+						var usesloyalty:String = ev.result[0].res.re.usesloyalty;
+						var usesfindafav:String = ev.result[0].res.re.usesfindafav;
+						var categories:String = ev.result[0].res.re.categories;
+						var imagelarge:String = ev.result[0].res.re.imagelarge;
+						var imagesmall:String = ev.result[0].res.re.imagesmall;
+						var loyaltypercentage:String = ev.result[0].res.re.loyaltypercentage;
+						var amount:String = ev.result[0].res.re.amount;
+						loyaltyArray.addItem({id:id,name:name,tagline:tagline,lat:lat,long:long,type:type
+						,description:description,number:number,address:address,email:email,usesloyalty:usesloyalty,
+						usesfindafav:usesfindafav,categories:categories,imagelarge:imagelarge,imagesmall:imagesmall,
+						loyaltypercentage:loyaltypercentage,amount:amount});
+					}
+					catch(e:Error){
+						
+					}
+				}
+				sortPress(sortMode);
+				searchClick();
+				//sort array by most recent dates
+				var stop:String = "";
+			}
+			public function sortPress(u:uint):void {
+				var dataSortField:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
+				var dataSortField3:mx.collections.SortField = new mx.collections.SortField();
+				var numericDataSort:Sort = new Sort();
+				var stringDataSort:Sort = new Sort();
+				
+				
+				if (sortMode == u){
+					if (reverse){
+						reverse = false;
+					}
+					else {
+						reverse = true;
+					}
+				}
+				else {
+					reverse = false;
+				}
+				
+				
+				dataSortField.descending = reverse;
+				dataSortField2.descending = reverse;
+				dataSortField3.descending = reverse;
+				
+				
+				
+				sortMode = u;
+				
+				
+				if (u == 0){
+					dataSortField.name = "name";
+					dataSortField.numeric = false;
+					stringDataSort.fields = [dataSortField];
+					loyaltyArray.sort = stringDataSort;
+				}
+				else if (u == 1){
+					dataSortField.name = "amount";
+					dataSortField.numeric = true;
+					
+					numericDataSort.fields = [dataSortField];
+					loyaltyArray.sort = numericDataSort;
+					
+				}
+				
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+			}
+			public function loyaltyListChange(ev:IndexChangeEvent):void {
+				if (ev.newIndex != -1){
+					var id:String = ev.currentTarget.selectedItems[0].id;
+					var date:String = ev.currentTarget.selectedItems[0].date;
+					var description:String = ev.currentTarget.selectedItems[0].description;
+					var image:String = ev.currentTarget.selectedItems[0].image;
+					var title:String = ev.currentTarget.selectedItems[0].title;
+					var value:String = ev.currentTarget.selectedItems[0].value;
+					
+					//navigator.pushView(loyaltyDescription, {id:id,date:date,description:description,
+					//	image:image,title:title,value:value});					
+				}
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				key.text = "";
+				try{
+					//trace(storeList.scroller.verticalScrollBar.value);
+					if(loyaltylist.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+					//	loyaltyArray.addItemAt({text:"loading...", name:"aaaaaa", distance :0},0);
+
+						getloyalty.send();
+							trace ("Updating List");
+							
+					} 
+				}
+				catch(e:Error){
+						
+					}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = loyaltylist.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				//if ((event.keyCode == 13)||(event.charCode == 13)){
+					searchClick();
+				//}
+			}
+			public function searchClick():void {
+				if (key.text != ""){
+					loyaltyArray.filterFunction = filterCompleted;
+				}
+				else {
+					loyaltyArray.filterFunction = returnall;
+				}
+				
+				loyaltyArray.refresh();
+				loyaltylist.dataProvider = loyaltyArray;
+				var s:String = "";
+				s.toLowerCase()
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			public function goFilter():void {
+				//navigator.pushView(HomeloyaltyFilter);
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getloyalty" method="GET" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/loyalty/getloyalty.php"
+					   result="afterGetloyalty(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+		
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="30" backgroundAlpha="1" backgroundColor="#0977b6" width="100%">
+		<s:HGroup width="100%" height="100%">
+			<s:TextInput id="key" width="100%" prompt="Search Stores" returnKeyLabel="search" 
+						 enter="searchClick();" keyUp="press(event);"
+						 skinClass="skins.searchInput" height="27" />
+			<s:Image source="assets/search.png" mouseDown="profDown(event)" mouseUp="profUp(event)" click="searchClick();" />
+		</s:HGroup>	
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" bottom="0" top="30" visible="true" id="listCont"
+					   backgroundColor="#FFFFFF" backgroundAlpha="1"  borderAlpha="0" >
+		
+		<s:BorderContainer  backgroundColor="#FFFFFF" backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+			<s:List width="306" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"  
+					id="loyaltylist" labelField="name"  
+					dataProvider="{loyaltyArray}" itemRenderer="components.loyaltyListItem"
+					selectedIndex="1" change="loyaltyListChange(event);"
+					mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+				<s:layout>
+					<s:VerticalLayout gap="5">
+					</s:VerticalLayout>
+				</s:layout>
+			</s:List>
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+				<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48.png')"/>
+				<s:Label text="Pull down to refresh"  id="loadText"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		
+	</s:BorderContainer>	
+</s:View>

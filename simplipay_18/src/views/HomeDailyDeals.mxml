@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		viewActivate="onActivate(event)" 
+		title="Daily Deals" >
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.mapquest.*;
+			import com.mapquest.Config;
+			import com.mapquest.DistanceUnits;
+			import com.mapquest.LatLng;
+			import com.mapquest.mobile.TextUtil;
+			import com.mapquest.services.directions.DirectionsConstants;
+			import com.mapquest.tilemap.*;
+			import com.mapquest.tilemap.ShapeCollection;
+			import com.mapquest.tilemap.controls.shadymeadow.SMZoomControl;
+			import com.mapquest.tilemap.pois.*;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var simplisaveArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var purchasedArray:ArrayCollection = new ArrayCollection();
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = true;
+			
+			public function onActivate(event:Event):void
+			{
+				busy = true;
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						emailGo = resData[0].email;
+					}
+					else {
+						//bad login or no local saved login.
+						var stop:String = "";	
+						navigator.popView();
+					}	
+					getSimpliSave.send();	
+				}
+				catch(e:Error){
+					
+				}	
+				
+				
+				
+			}
+			public function afterGetSimpliSave(ev:ResultEvent):void  {
+				busy = false;
+				simplisaveArray =  new ArrayCollection();
+				try{
+					simplisaveArray = ev.result[0].res;
+					
+				}
+				catch(e:Error){
+					try{
+						simplisaveArray.addItem(ev.result[0].res);
+					}
+					catch(e:Error){
+						
+					}
+				}
+			}
+			public function simpliSaveListChange(ev:IndexChangeEvent):void {
+				if ((ev.newIndex != -1)&&(emailGo != "")){
+					navigator.pushView(DailyDealsItem, ev.currentTarget.selectedItems[0]);					
+				}
+			}
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				try{
+					trace(storeList.scroller.verticalScrollBar.value);
+					if(storeList.scroller.verticalScrollBar.value < -90){
+						loadingGroup.visible = false;
+						//	listData.addItemAt({text:"loading..."},0);
+						
+					} 
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+			protected function list_mouseMoveHandler(event:MouseEvent):void
+			{ 
+				try{
+					var vScroll:Number = storeList.scroller.verticalScrollBar.value;
+					if(vScroll < -20){
+						trace(vScroll);
+						if(!loadingGroup.visible){
+							loadingGroup.visible = true;
+							fadeIn.play();
+						}
+						loadingGroup.y = vScroll*-1 - 60;
+						
+						if(vScroll < -90){
+							trace(arrowImage.rotation); 
+							if(arrowImage.rotation == 0)  {
+								arrowImage.rotation = 180;
+							}
+							loadText.text = "Release to refesh...";
+							
+						}else{
+							if(arrowImage.rotation == 180)  {
+								arrowImage.rotation = 0;
+							}
+							loadText.text = "Pull down to refresh";
+						}
+						
+					}else{
+						loadingGroup.visible = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+				navigator.pushView(HomeSimpliSaveFilter);
+			}
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,0.6,10,10,15,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getSimpliSave" method="GET" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/simplisave/getAllSimpliSave.php"
+					   result="afterGetSimpliSave(event)" >	
+			
+		</s:HTTPService>
+		
+		<s:Fade id='fadeIn' target="{loadingGroup}" duration="500" alphaFrom="0" alphaTo="1"/>
+
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" height="30" backgroundAlpha="1" borderAlpha="0" dropShadowVisible="true" backgroundColor="#22252a" width="100%">
+			<s:TextInput id="key" left="5" right="5" top="1" height="25" enter="searchClick();"
+						 keyUp="press(event);" prompt="Search Daily Deals" returnKeyLabel="search"
+						 skinClass="components.searchinput"/>
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" bottom="0" top="30" visible="true" id="v1"
+					   backgroundColor="#2a3038" backgroundAlpha="1"  borderAlpha="0" >
+		
+		<s:BorderContainer  backgroundColor="#2a3038" backgroundAlpha="1" top="0" bottom="0" borderAlpha="0" width="100%"  >
+			<s:List width="306" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+					contentBackgroundColor="#2a3038"   id="storeList" labelField="name"  
+					dataProvider="{simplisaveArray}" itemRenderer="components.dailyDealsListItem"
+					selectedIndex="1" change="simpliSaveListChange(event);" 
+					mouseMove="list_mouseMoveHandler(event)" mouseUp="list_mouseUpHandler(event)" >
+				<s:layout>
+					<s:VerticalLayout gap="15">
+					</s:VerticalLayout>
+				</s:layout>
+			</s:List>
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" id="loadingGroup" visible="false" height="50">
+				<s:Image id="arrowImage"  source="@Embed('assets/Arrow-double-up-48.png')"/>
+				<s:Label text="Pull down to refresh"  id="loadText"/>
+			</s:HGroup>
+		</s:BorderContainer>
+		
+	</s:BorderContainer>	
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

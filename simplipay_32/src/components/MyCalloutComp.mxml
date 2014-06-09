@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="ac">
+			<fx:String>Boston, MA</fx:String>
+			<fx:String>Chicago, IL</fx:String>
+			<fx:String>Honolulu, HI</fx:String>
+			<fx:String>New York, NY</fx:String>
+			<fx:String>San Francisco, CA</fx:String>
+			<fx:String>San Jose, CA</fx:String>
+			<fx:String>Washington, DC</fx:String>
+		</s:ArrayCollection>		
+	</fx:Declarations>
+	
+	<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
+		<s:List id="list" dataProvider="{ac}" width="240" change="close(true, list.selectedItem)"/>
+	</s:VGroup>  
+</s:Callout>

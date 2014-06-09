@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  width="100%" height="100%" horizontalAlign="center" mouseOut="mouseOut(event)" mouseDown="mouseDown(event)"
+		  mouseOver="mouseOver(event)" minHeight="100" verticalAlign="middle"   mouseUp="mouseUp(event)">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var imagetype:String = "";
+			[Bindable]
+			public var lbl:String = "";
+			[Bindable]
+			public var special:Boolean = false;
+			
+			public function mouseOut(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//backImg.source = "assets/homesquareback.png";
+				backImg.visible = true;
+				backImg2.visible = false;
+			}
+			
+			public function mouseOver(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//backImg.source = "assets/homesquarebackselected.png";
+				backImg2.visible = true;
+				backImg.visible = false;
+				
+			}
+			public function mouseDown(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				backImg2.visible = true;
+				backImg.visible = false;
+				
+			}
+			
+			public function mouseUp(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				backImg.visible = true;
+				backImg2.visible = false;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%"  height="100%" borderAlpha="0" backgroundAlpha="0" >
+		<s:Image id="backImg"  width="100%" height="100%" source="assets/homesquareback.png" />
+		<s:Image id="backImg2"  width="100%" visible="false" height="100%" source="assets/homesquarebackselected.png" />
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+			<s:BorderContainer width="65" borderAlpha="0" backgroundAlpha="0" height="65" >
+				
+				<s:Image width="65" height="65" 
+						 smooth="true"
+						 source="{imagetype}"/>
+				<s:Image visible="{special}" x="49" y="-14" width="33" height="37"
+						 source="assets/homeimages/counterdot.png"/>
+			</s:BorderContainer>
+			
+			<s:Label fontFamily="Arial" color="#b1becd" text="{lbl}"/>	
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	
+	
+</s:VGroup>

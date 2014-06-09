@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx"  viewActivate="viewstart(event)"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" backgroundColor="#22252a"
+		title="My Account" xmlns:BarCode="BarCode.*" xmlns:components="components.*" >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			public var done:Boolean = false;
+			protected var sqlConnection:SQLConnection;
+			protected function viewstart(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				//navigator.actionBar.height = 40;
+				stage.autoOrients = true;
+				try{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, country, active FROM localuser";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+								this.parentDocument.navigator.pushView(MyAccountHome, {name:resData[i].name,
+									email:resData[i].email});
+								done = true;
+						}
+						
+					}
+					if (foundactive == false){
+						//bad login
+						var stop:String = "";
+						done = false;
+					}
+					
+					
+				}
+				else {
+					//bad login or no local saved login.
+				}
+				}
+				catch(e:Error){
+					done = false;
+				}
+				
+				
+				
+				if (done == false){
+					loginCont.create();
+					loginCont.visible = true;
+				}
+				else {
+					
+				}
+				
+				done = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:titleContent>	
+			<s:Label  id="topLBL" top="0" width="100%" color="#FFFFFF" fontSize="20" fontWeight="bold"
+					 horizontalCenter="0" text="My Account" textAlign="center"
+					 verticalAlign="middle"/>
+	</s:titleContent>
+	
+	<components:loginContainer id="loginCont" visible="false" loginType="0"/>
+</s:View>

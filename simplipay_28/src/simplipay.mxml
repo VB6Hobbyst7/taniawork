@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TabbedViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+								  xmlns:s="library://ns.adobe.com/flex/spark"
+								  xmlns:maps="com.google.maps.*"
+								  runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+								  applicationComplete="onApplicationComplete()"
+								  fontFamily="ubuntu" 	
+								  preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+								  splashScreenScaleMode="stretch"
+								  splashScreenMinimumDisplayTime="1000"
+								  persistNavigatorState="true"
+								  navigatorStateSaving="onPersisting(event)"
+									navigatorStateLoading="onRestoring(event)"
+									  >
+	<fx:Style source="main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.UncaughtErrorEvent;
+			import flash.sensors.Geolocation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.components.BusyIndicator;
+			import spark.components.ButtonBar;
+			import spark.components.Group;
+			import spark.components.View;
+			import spark.effects.Resize;
+			import spark.managers.PersistenceManager;
+			
+			import valueObjects.Model;
+			
+			import views.Home;
+			import views.Login;
+			import views.LoyaltyHome;
+			import views.MyAccountHome;
+			import views.Stores;
+			public var gps:Geolocation;
+			public var imgSize:int;
+			[Bindable]
+			public var assetPath:String;
+			public var biBusyIndicator:BusyIndicator;	
+			public var searchLocation:String;
+			public var searchTerm:String;
+			public var directionsLocations:Array;
+			
+			protected var sqlConnection:SQLConnection;
+		
+			protected function onApplicationComplete():void
+			{
+				this.stage.autoOrients = false;
+				
+				//persistNavigatorState="true"
+				//navigatorStateSaving="onPersisting(event)"
+				//navigatorStateLoading="onRestoring(event)"
+					
+				//tabbedNavigator.tabBar.height = 50;
+				// Request to be notified when the display state changes (minimized, maximized)
+				addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGING, onDisplayStateChange);
+				//this.tabHost.getTabWidget().setStripEnabled(false);
+				// Request to be notified when this application is activated (brought forward as the active window)
+				// or deactivated
+				NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
+				NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onDeactivate);
+
+				// Invoke listener - request to be notified when the AIR app is invoked (started), this could occur from the command line, UI or
+				// from opening an associated file
+				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+
+				// Get notified whan a global error occurs
+				loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onError);
+
+				// Capture exiting event
+				NativeApplication.nativeApplication.addEventListener(Event.EXITING,onAppExiting);
+
+				// Set the idle mode to KEEP AWAKE
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+				
+				//select the icon set we're going to use based on the application dpi
+				switch(this.applicationDPI) {
+					case 160:
+						this.imgSize = 45;
+						break;
+					case 240:
+						this.imgSize = 60;
+						break;
+					case 320:
+						this.imgSize = 90;
+						break;
+				}
+				this.assetPath = "assets/" + this.imgSize + "/";
+				this.splashScreenImage = null;
+				
+				
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+						"email varchar(255)," +
+						"name varchar(255)," +
+						"country varchar(255)," +
+						"active varchar(255))";
+					stmt.execute();
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					var loadManager:PersistenceManager = new PersistenceManager();
+					
+					
+					var vn1:ViewNavigator = new ViewNavigator();
+					vn1.firstView = views.Home;
+					vn1.label = "Home";
+					vn1.icon = homeimg;
+					vn1.percentWidth = 100;
+					vn1.percentHeight = 100;
+					
+					var vn2:ViewNavigator = new ViewNavigator();
+					vn2.firstView = views.Stores;
+					vn2.label = "Stores";
+					vn2.icon = storesimg;
+					vn2.percentWidth = 100;
+					vn2.percentHeight = 100;
+					
+					
+					
+					
+					this.tabbedNavigator.removeAll();
+					this.tabbedNavigator.validateNow();
+					
+					
+					var saveManager:PersistenceManager = new PersistenceManager();
+					if (resData.length != 0){
+						saveManager.setProperty("useremail", resData[0].email);
+						var vn3:ViewNavigator = new ViewNavigator();
+						vn3.firstView = views.LoyaltyHome;
+						vn3.label = "Loyalty";
+						vn3.icon = loyaltyimg;
+						vn3.percentWidth = 100;
+						vn3.percentHeight = 100;
+						var vn4:ViewNavigator = new ViewNavigator();
+						vn4.firstView = views.MyAccountHome;
+						vn4.label = "Pay";
+						vn4.icon = cardimg;
+						vn4.percentWidth = 100;
+						vn4.percentHeight = 100;
+						this.tabbedNavigator.addItem(vn1);
+						this.tabbedNavigator.addItem(vn4);
+						this.tabbedNavigator.addItem(vn3);
+						this.tabbedNavigator.addItem(vn2);
+					}
+					else {
+						saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+						var vn5:ViewNavigator = new ViewNavigator();
+						vn5.firstView = views.Login;
+						vn5.label = "Login";
+						vn5.icon = loyaltyimg;
+						vn5.percentWidth = 100;
+						vn5.percentHeight = 100;
+						this.tabbedNavigator.addItem(vn1);
+						this.tabbedNavigator.addItem(vn2);
+						this.tabbedNavigator.addItem(vn5);
+						
+					}	
+				}
+				catch(e:Error){
+					var vn5:ViewNavigator = new ViewNavigator();
+					vn5.firstView = views.Login;
+					vn5.label = "Login";
+					vn5.icon = loyaltyimg;
+					vn5.percentWidth = 100;
+					vn5.percentHeight = 100;
+					this.tabbedNavigator.addItem(vn1);
+					this.tabbedNavigator.addItem(vn2);
+					this.tabbedNavigator.addItem(vn5);
+				}
+			
+				
+				
+				
+			}
+			public function refresh(logintype:Number,email:String, name:String):void {
+				var saveManager:PersistenceManager = new PersistenceManager();
+				saveManager.setProperty("useremail",email);
+				var vn1:ViewNavigator = new ViewNavigator();
+				vn1.firstView = views.Home;
+				vn1.label = "Home";
+				vn1.icon = homeimg;
+				vn1.percentWidth = 100;
+				vn1.percentHeight = 100;
+				
+				var vn2:ViewNavigator = new ViewNavigator();
+				vn2.firstView = views.Stores;
+				vn2.label = "Stores";
+				vn2.icon = storesimg;
+				vn2.percentWidth = 100;
+				vn2.percentHeight = 100;
+				
+				var vn3:ViewNavigator = new ViewNavigator();
+				vn3.firstView = views.LoyaltyHome;
+				vn3.label = "Loyalty";
+				vn3.icon = loyaltyimg;
+				vn3.percentWidth = 100;
+				vn3.percentHeight = 100;
+				var vn4:ViewNavigator = new ViewNavigator();
+				vn4.firstView = views.MyAccountHome;
+				vn4.label = "Pay";
+				vn4.icon = cardimg;
+				vn4.percentWidth = 100;
+				vn4.percentHeight = 100;
+				
+				
+				this.tabbedNavigator.removeAll();
+				this.tabbedNavigator.validateNow();
+				this.tabbedNavigator.addItem(vn1);
+				this.tabbedNavigator.addItem(vn4);
+				this.tabbedNavigator.addItem(vn3);
+				this.tabbedNavigator.addItem(vn2);
+				
+			}
+			public function logout():void {
+				var saveManager:PersistenceManager = new PersistenceManager();
+				saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+				var vn1:ViewNavigator = new ViewNavigator();
+				vn1.firstView = views.Home;
+				vn1.label = "Home";
+				vn1.icon = homeimg;
+				vn1.percentWidth = 100;
+				vn1.percentHeight = 100;
+				
+				var vn2:ViewNavigator = new ViewNavigator();
+				vn2.firstView = views.Stores;
+				vn2.label = "Stores";
+				vn2.icon = storesimg;
+				vn2.percentWidth = 100;
+				vn2.percentHeight = 100;
+				var vn5:ViewNavigator = new ViewNavigator();
+				vn5.firstView = views.Login;
+				vn5.label = "Login";
+				vn5.icon = loyaltyimg;
+				vn5.percentWidth = 100;
+				vn5.percentHeight = 100;
+				
+				this.tabbedNavigator.removeAll();
+				this.tabbedNavigator.validateNow();
+				this.tabbedNavigator.addItem(vn1);
+				this.tabbedNavigator.addItem(vn2);
+				this.tabbedNavigator.addItem(vn5);
+
+			}
+			
+			protected function onDisplayStateChange(e:NativeWindowDisplayStateEvent):void
+			{
+				trace("Display State Changed from " + e.beforeDisplayState + " to " + e.afterDisplayState);
+			}
+
+			// The application is now in the foreground and active, restore the frameRate to the default
+			protected function onActivate(event:Event):void
+ 			{
+				trace("Handling application activate event");
+				stage.frameRate=60; 
+			}
+
+			// Handle the application being sent to the background, garbage collect and lower frame rate to use less resources
+			protected function onDeactivate(event:Event):void 
+			{
+				trace("Handling application deactivate event");
+				System.gc();
+				stage.frameRate=2;
+			}
+
+			// Called when application is first invoked
+			protected function onInvoke(invokeEvt:InvokeEvent):void 
+			{
+				trace("Handling invoke event");
+			}
+
+			// Handle Global Errors
+			protected function onError(e:UncaughtErrorEvent):void
+			{
+    			e.preventDefault();
+    			trace("An error has occurred and been caught by the global error handler: " + e.error.toString(), "My Global Error Handler");
+			}
+
+			// Called when application exits
+			protected function onAppExiting(e:Event):void
+			{
+				trace("Handling application exit event");
+			}
+
+			// Called when application is about to persist data (can call cancel if this is not desired)
+			protected function onPersisting(e:FlexEvent):void
+			{
+				trace("Handling persisting event");
+			}
+
+			// Called when application is about to restore data (can call cancel if this is not desired)
+			protected function onRestoring(e:FlexEvent):void
+			{
+				trace("Handling restoring event");
+				//
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="homeimg"
+								source160dpi="@Embed('assets/homeimages/multi/home-homeLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/home-homeMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/home-homeHigh.png')"/>
+		<s:MultiDPIBitmapSource id="cardimg"
+								source160dpi="@Embed('assets/homeimages/multi/home-cardLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/home-cardMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/home-cardHigh.png')"/>
+		<s:MultiDPIBitmapSource id="loyaltyimg"
+								source160dpi="@Embed('assets/homeimages/multi/home-loyaltyLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/home-loyaltyMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/home-loyaltyHigh.png')"/>
+		<s:MultiDPIBitmapSource id="storesimg"
+								source160dpi="@Embed('assets/homeimages/multi/home-storesLow.png')"
+								source240dpi="@Embed('assets/homeimages/multi/home-storesMed.png')"
+								source320dpi="@Embed('assets/homeimages/multi/home-storesHigh.png')"/>
+	</fx:Declarations>
+	<s:ViewNavigator id="home"  label="Home"   firstView='views.Home'  
+					 icon="{homeimg}"  width="100%" height="100%"/>
+	<!--s:ViewNavigator id="pay" label='Pay'   title="Pay" name="pay" 
+					 
+					 icon="{cardimg}"     width="100%" height="100%"/>
+	<s:ViewNavigator id="loyalty" label='Loyalty'  title="Loyalty" name="loyalty"
+					
+					 icon="{loyaltyimg}"    width="100%" height="100%"/-->
+	<s:ViewNavigator id="stores" label='Stores'  firstView='views.Stores' 
+					 icon="{storesimg}"   width="100%" height="100%"/>
+	
+	
+</s:TabbedViewNavigatorApplication>

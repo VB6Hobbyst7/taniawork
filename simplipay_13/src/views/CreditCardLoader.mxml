@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Shopping Cart" 
+		xmlns:local="*"
+		viewActivate="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			import valueObjects.Model;		
+			private var isCheckout:Boolean = new Boolean(true);
+			public var model:Model = new Model();
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var useremail:String = "";
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var ccname:String = "";
+			[Bindable]
+			public var ccnumber:String = "";
+			[Bindable]
+			public var cvn:String = "";
+			[Bindable]
+			public var ccexpdate:String = "";
+			[Bindable]
+			public var cctype:String = "";
+			[Bindable]
+			public var ccaddress:String = "";	
+		
+			protected function init(event:ViewNavigatorEvent):void
+			{			
+				if ((data.email == "")||(data.email == null)){
+					navigator.popView();
+				}
+				else {
+					emailGo = data.email;
+					useremail = data.email;
+					ccname = data.ccname;
+					ccnumber = data.ccnumber;
+					cvn = data.cvn;
+					ccexpdate = data.ccexpdate;
+					cctype = data.cctype;
+					ccaddress = data.ccaddress;
+					amount = data.amount;
+					amount = amount.substring(1,amount.length);
+					processCC.send();
+				
+					
+				}
+			}	
+			public function afterProcess(ev:ResultEvent):void {
+				
+				if (ev.result[0].res == "Good"){
+					var stop:String = "";
+					status.text = "Process Complete";
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="processCC" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/ccpayment/process.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<email>{emailGo}</email>	
+				<ccname>{ccname}</ccname>	
+				<ccnumber>{ccnumber}</ccnumber>	
+				<cvn>{cvn}</cvn>	
+				<ccexpdate>{ccexpdate}</ccexpdate>	
+				<cctype>{cctype}</cctype>	
+				<ccaddress>{ccaddress}</ccaddress>		
+				<amount>{amount}</amount>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:navigationContent  >
+		<s:Button id="backBtn" 
+			  label="Back" click="navigator.popView();" />	
+	</s:navigationContent>
+	<s:actionContent>	
+	</s:actionContent>
+	<s:Label text="Loading..." color="#02446F" id="status" fontSize="38"  horizontalCenter="0" verticalCenter="0"/>
+</s:View>

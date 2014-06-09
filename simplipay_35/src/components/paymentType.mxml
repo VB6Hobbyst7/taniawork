@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   width="100%"   creationComplete="init(event)"  >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var tipList:ArrayCollection = new ArrayCollection();
+			
+			protected function init(event:FlexEvent):void
+			{
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="none"/>
+		<s:State name="paypal"/>
+		<s:State name="creditcard"/>
+	</s:states>
+	<!--s:Image source="assets/interfaceimages/original/regpaymentmethod.png" width="100%" height="100%" /-->
+	<s:BorderContainer borderAlpha="0"  backgroundAlpha="0" includeIn="none" width="100%" height="100%" >
+		<s:Label color="#FFFFFF" styleName="textsize1" horizontalCenter="102" text="None&#xd;" verticalCenter="0"/>
+		
+	</s:BorderContainer>
+	<s:Group includeIn="paypal" width="100%" height="100%" >
+		<s:Image right="44" verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/cardtypepaypalHigh.png')"/>
+			</s:source>
+		</s:Image>
+		
+	</s:Group>
+	<s:Group includeIn="creditcard" width="100%" height="100%" >
+		<s:HGroup right="44" verticalCenter="0" >
+			<s:Image >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypevisaLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/cardtypevisaMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/cardtypevisaHigh.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Image >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/cardtypemastercardHigh.png')"/>
+				</s:source>
+			</s:Image>
+		</s:HGroup>
+	</s:Group>
+	<s:Label color="#FFFFFF" text="Payment Method" verticalCenter="0" left="10" />
+</s:Group>

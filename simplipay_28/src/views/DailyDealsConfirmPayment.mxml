@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*"  xmlns:mobile="spark.skins.mobile.*"
+		title="Confirm Purchase" xmlns:BarCode="BarCode.*" backgroundColor="#2a3038"   xmlns:components="components.*" >	
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var subtotalval:String = "";
+			[Bindable]
+			public var quant:Number = 1;
+			
+			public function onActivate(event:Event):void
+			{
+				//contu.enabled = true;
+				try{
+					
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						emailGo = resData[0].email;
+					}
+					else {
+						//bad login or no local saved login.
+						var stop:String = "";	
+						//navigator.popView();
+					}	
+					
+					
+					if ((emailGo == null)||(emailGo == "")){
+						navigator.popToFirstView();
+						
+					}
+					else {
+						goGetBalance();
+						purchaseCost = data.cost;
+						if (purchaseCost.charAt(0) == "$"){
+							subtotalval = purchaseCost.substring(1,purchaseCost.length);
+						}
+						else if (purchaseCost.charAt(purchaseCost.length-1) == "$"){
+							subtotalval = purchaseCost.substring(0,purchaseCost.length-2);
+
+						}
+						couponid = data.id;
+						try{
+							currentBalance = data.currentBalance2;
+						}
+						catch(e:Error){
+							
+						}
+						//emailGo available
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+						var stmt:SQLStatement = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"email varchar(255), " +
+							"name varchar(255), " +
+							"cardnumber varchar(255), " +
+							"cvn varchar(255), " +
+							"expdate varchar(255), " +
+							"cardtype varchar(255), " +
+							"address varchar(255), "+
+							"usealways varchar(255))";
+						stmt.execute();
+						
+						
+						
+						var chosenpaymenttypename:String = "none";
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+						var stmt:SQLStatement = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "CREATE TABLE IF NOT EXISTS chosenpaymenttype (" +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"email varchar(255), " +
+							"name varchar(255), " +
+							"usealways varchar(255))";
+						stmt.execute();
+						
+						
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "SELECT * FROM chosenpaymenttype where email = '"+emailGo+"'";
+						stmt.execute();
+						var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+						if (resData.length == 0){
+							stmt = new SQLStatement();
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+								" values(:email,:name,:usealways)";
+							stmt.parameters[":email"] = emailGo;
+							stmt.parameters[":name"] = "creditcard";
+							stmt.parameters[":usealways"] = "no";
+							stmt.execute();
+							stmt = new SQLStatement();
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+								" values(:email,:name,:usealways)";
+							stmt.parameters[":email"] = emailGo;
+							stmt.parameters[":name"] = "paypal";
+							stmt.parameters[":usealways"] = "no";
+							stmt.execute();
+							stmt = new SQLStatement();
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "INSERT into chosenpaymenttype (email, name, usealways)" +
+								" values(:email,:name,:usealways)";
+							stmt.parameters[":email"] = emailGo;
+							stmt.parameters[":name"] = "simplipay";
+							stmt.parameters[":usealways"] = "no";
+							stmt.execute();
+						}
+					
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "SELECT * FROM chosenpaymenttype where usealways = 'yes' and email = '"+emailGo+"'";
+						stmt.execute();
+						var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+						if (resData.length != 0){
+							chosenpaymenttypename = resData[0].name;
+							
+						}
+						else {
+							
+						}
+						
+						
+						
+						
+						
+						
+						
+						stmt = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "SELECT * FROM creditcardinfo where email = '"+emailGo+"'";
+						stmt.execute();
+						var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+						
+						if (resData.length != 0){
+							//good data
+							for (var i:uint = 0; i < resData.length; i++){
+								if (resData[i].usealways == "yes"){
+									ccname = resData[i].name;
+									ccnumber = resData[i].cardnumber;
+									cvn = resData[i].cvn;
+									ccexpdate = resData[i].expdate;
+									cctype = resData[i].cardtype;
+									ccaddress = resData[i].address;
+									
+									
+									sqlConnection = new SQLConnection();
+									sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+									stmt.sqlConnection = sqlConnection;
+									stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'creditcard'";
+									stmt.execute();
+									chosenpaymenttypename = "creditcard";
+									
+								}
+								else {
+									//
+								}
+							}
+						}
+						else {
+
+							
+						}
+						
+						
+						if (chosenpaymenttypename == "creditcard"){
+							pt.currentState = 'creditcard';	
+
+						}
+						else if (chosenpaymenttypename == "simplipay"){
+							pt.currentState = 'simplipay';
+
+						}
+						else if (chosenpaymenttypename == "paypal"){
+							pt.currentState = 'paypal';
+
+						}
+						else if (chosenpaymenttypename == "none"){
+							pt.currentState = 'paypal';
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "update chosenpaymenttype set usealways = 'yes' where email = '"+emailGo+"' and name = 'paypal'";
+							stmt.execute();
+							chosenpaymenttypename = "paypal";
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+					}
+				}
+				catch(e:Error){
+					navigator.popToFirstView();
+				}
+				
+			}		
+			public function goGetBalance():void {
+				if ((emailGo != null)&&(emailGo != "")){
+					emailGo = emailGo;
+					getBalance.send();		
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function goPaymentType():void {
+				navigator.pushView(PaymentOptions, {index:1,email:emailGo});
+			}
+			public function startReload():void {
+				
+				if (pt.currentState == 'paypal'){
+					navigator.pushView(Cart, {email:emailGo,couponid:couponid, amount:purchaseCost, type:2});
+				}
+				else if (pt.currentState == 'creditcard'){
+					navigator.pushView(CreditCardLoader, {email:emailGo,couponid:couponid, ccname:ccname,type:2, ccnumber:ccnumber,
+						cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:purchaseCost});
+				}
+				else if (pt.currentState == 'simplipay'){
+					navigator.pushView(simplipayPurchaseLoader, {email:emailGo,couponid:couponid, amount:purchaseCost, type:2});
+				}
+				
+				
+				//navigator.popView();
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				var tempBalance:String = ev.result[0].res.toString();
+				if (tempBalance.indexOf(".") != -1){
+					var tempString:String = tempBalance.substring(tempBalance.indexOf(".")+1,tempBalance.length);
+					if (tempString.length > 2){
+						currentBalance = "$"+tempBalance.substring(0,tempBalance.indexOf(".")+1)+tempString.substring(0,2);
+					}
+					else {
+						currentBalance = "$"+tempBalance;
+					}
+				}
+				else {
+					currentBalance = "$"+tempBalance;
+				}
+			}
+			
+			public function amount(u:Number):void
+			{
+				// TODO Auto-generated method stub
+				var curentquat:Number = quant;
+				curentquat = curentquat + u;
+				
+				if (curentquat < 1){
+					curentquat = 1;
+				}
+				quant = curentquat;
+				var tempcost:Number = 0;
+				if (purchaseCost.charAt(0) == "$"){
+					tempcost = Number(purchaseCost.substring(1,purchaseCost.length));
+				}
+				else if (purchaseCost.charAt(purchaseCost.length-1) == "$"){
+					tempcost = Number(purchaseCost.substring(0,purchaseCost.length-2));
+					
+				}
+				
+				
+				tempcost = tempcost * quant;
+				subtotalval = tempcost.toString();
+				
+				
+			}
+			public function sendasagift():void {
+				if (pt.currentState == 'paypal'){
+					navigator.pushView(DailyDealsSendAsGift, {email:emailGo,couponid:couponid, amount:purchaseCost, type:2});
+				}
+				else if (pt.currentState == 'creditcard'){
+					navigator.pushView(DailyDealsSendAsGift, {email:emailGo,couponid:couponid, ccname:ccname,type:2, ccnumber:ccnumber,
+						cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:purchaseCost});
+				}
+				else if (pt.currentState == 'simplipay'){
+					navigator.pushView(DailyDealsSendAsGift, {email:emailGo,couponid:couponid, amount:purchaseCost, type:2});
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="95%" gap="2" paddingTop="5" horizontalAlign="center" horizontalCenter="0" height="100%" >
+			<s:BorderContainer width="100%" backgroundAlpha="0" borderAlpha="0">
+				<s:Image id="bima" x="0" y="-1" horizontalCenter="0">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgLow.png')"
+												source240dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgMed.png')"
+												source320dpi="@Embed('assets/interfaceimages/multi/dailydealsreceiptbgHigh.png')"/>
+					</s:source>
+				</s:Image>
+				<s:VGroup y="0" width="{bima.width}" horizontalAlign="center" horizontalCenter="0"
+						  paddingTop="20">
+					<s:Label top="17" color="#02446F" fontWeight="bold"
+							 horizontalCenter="0" styleName="textsize4" text="PAYMENT DETAILS"/>
+					<s:Label top="54" color="#000000" fontFamily="textsize2" fontWeight="bold"
+							 horizontalCenter="0" text="{data.storename}"/>
+					<s:Label top="79" color="#000000" fontFamily="textsize2" fontWeight="normal"
+							 horizontalCenter="0" text="{data.description}"/>
+					<s:Group width="85%">
+						<s:Label left="0" color="#000000" fontFamily="textsize2" fontWeight="normal"
+								 text="Price" verticalCenter="0"/>
+						<s:Label right="0" color="#000000" fontFamily="textsize2" fontWeight="normal"
+								 text="{data.cost}" verticalCenter="0"/>
+					</s:Group>
+					<s:Group width="85%"  >
+						<s:Label left="0" color="#000000" fontFamily="textsize2" fontWeight="normal"
+								 text="Quantity" verticalCenter="0"/>
+						<s:HGroup right="0" width="207" verticalAlign="middle">
+							<s:Button x="186" y="13" height="80%" label="-" click="amount(-1)"/>
+							<s:TextInput x="223" y="127" width="50%" height="75%" editable="false"
+										 text="{quant.toString()}" textAlign="center"/>
+							<s:Button x="264" y="16" height="80%" label="+" click="amount(1)"/>
+						</s:HGroup>
+						
+					</s:Group>
+					<s:Group width="85%">
+						
+						<s:Label left="0" color="#000000" fontFamily="textsize2" fontWeight="bold"
+								 text="Subtotal" verticalCenter="0"/>
+						<s:Label right="0" width="75%" color="#EF7716" fontFamily="textsize2"
+								 fontWeight="bold" text="${subtotalval}" textAlign="right"
+								 verticalCenter="0"/>
+					</s:Group>
+					
+					<s:Image click="sendasagift();" mouseDown="gDown(event)" mouseOut="gOut(event)"
+							 mouseOver="gOver(event)" mouseUp="gOut(event)">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealssendasagiftLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/dailydealssendasagiftMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/dailydealssendasagiftHigh.png')"/>
+						</s:source>
+					</s:Image>
+					<components:paymentTypeSimpliAdd id="pt"   click="goPaymentType();"
+													 mouseDown="gDown(event)"
+													 mouseOut="gOut(event)" mouseUp="gOut(event)"  mouseOver="gOver(event)"
+													 currentState="simplipay" horizontalCenter="0"/>
+				</s:VGroup>
+			</s:BorderContainer>
+			<s:Image click="startReload();" horizontalCenter="0" mouseDown="gDown(event)"
+					 mouseOut="gOut(event)" mouseOver="gOver(event)" mouseUp="gOut(event)">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/dailydealsconfirmpurchaseLow.png')"
+											source240dpi="@Embed('assets/interfaceimages/multi/dailydealsconfirmpurchaseMed.png')"
+											source320dpi="@Embed('assets/interfaceimages/multi/dailydealsconfirmpurchaseHigh.png')"/>
+				</s:source>
+			</s:Image>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="currentBalanceLbl5" visible="false" top="98" color="#02446F"
+			 horizontalCenter="0" text="{purchaseCost}"/>
+</s:View>

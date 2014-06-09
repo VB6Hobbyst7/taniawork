@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Select Payment" xmlns:BarCode="BarCode.*" >	
+	<s:navigationContent>
+		<s:Button label="Reload Card" click="navigator.popView();" fontSize="12"/> 
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import components.paymentResult;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			import views.AddCreditCard;
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+		
+			public function onActivate(event:Event):void
+			{
+				try{
+				
+				if ((data.email == "")||(data.email == null)){
+					navigator.popToFirstView();
+				}
+				else {
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+data.email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					if (resData.length != 0){
+						//good data					
+						var foundusecc:Boolean = false
+						for (var i:uint = 0; i < resData.length; i++){
+							var selectedVal:Boolean = false
+								 if (resData[i].usealways == "yes"){
+									 selectedVal = true;
+									 foundusecc = true;
+								 }
+									dataList.addItem({name:"Credit Card: "+resData[i].name, ptype:"cc",
+										type:1, selected:selectedVal, special:0, ccid:resData[i].id});
+							
+						
+						}
+						if (foundusecc){
+							dataList.addItem({name:"PayPal", type:1, selected:false, special:0, ptype:"pp"});	
+						}
+						else {
+							dataList.addItem({name:"PayPal", type:1, selected:true, special:0, ptype:"pp"});	
+						}	
+					}
+					else {
+						dataList.addItem({name:"PayPal", type:1, selected:true, special:0, ptype:"pp"});
+					}
+					dataList.addItem({name:"Add a Credit Card", type:2, selected:false, special:1, ptype:"acc"});				
+				}
+			}
+			catch(e:Error){
+				navigator.popToFirstView();
+			}
+				
+			
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,1,4,4,1,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}			
+			public function listChange(ev:IndexChangeEvent):void {
+				for (var i:uint = 0; i < dataList.length; i++){
+					var stmt:SQLStatement = new SQLStatement();
+					if (dataList[i].name ==  payList.selectedItem.name){
+						dataList[i].selected = true;
+						
+						if (dataList[i].ptype == "cc"){
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "update creditcardinfo set usealways = 'yes' where id = "+dataList[i].ccid;
+							stmt.execute();
+						}
+						
+					}
+					else {
+						dataList[i].selected = false;
+						if (dataList[i].ptype == "cc"){
+							sqlConnection = new SQLConnection();
+							sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+							stmt.sqlConnection = sqlConnection;
+							stmt.text = "update creditcardinfo set usealways = 'no' where id = "+dataList[i].ccid;
+							stmt.execute();
+						}
+					}
+				}
+				
+				if (payList.selectedItem.special == 1){
+					navigator.pushView(AddCreditCard, {email:data.email});
+				}
+				else if (payList.selectedItem.special == 2){
+					
+					//navigator.pushView(AddPayPal, {email:data.email});
+				}
+				dataList.refresh();
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:List id="payList" itemRenderer="components.paymentResult" 
+					change="listChange(event);" dataProvider="{dataList}" width="100%" height="100%">
+			
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

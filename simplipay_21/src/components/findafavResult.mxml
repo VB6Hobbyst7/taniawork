@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   autoDrawBackground="false" contentBackgroundAlpha="0"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup gap="0" width="300" height="60" >
+		<s:Group   height="100%" width="100%"  mouseOut="profUp(event)"
+							 mouseOver="profDown(event)" mouseDown="profDown(event)" >
+			<s:Image width="100%" height="100%" scaleMode="stretch" smooth="true"
+					 source="@Embed('assets/findafavitemback.png')"/>
+			<s:Group  width="100%" height="100%" >
+				
+				
+				<s:BitmapImage id="bmpImg" x="9" y="11" width="40" height="40"
+							   source="http://simplipay.ca/php/storeimages/{data.imagesmall}" >
+					<s:mask>
+						<s:BorderContainer id="bmpMask"
+										   cornerRadius="5"
+										   width="40" height="40" />
+					</s:mask>
+				</s:BitmapImage>
+				
+				
+				
+				<s:VGroup x="57" top="0" bottom="0" width="243" paddingTop="10"
+						  verticalAlign="middle">
+					<s:Label color="#FFFFFF" fontSize="15" fontWeight="bold" text="{data.name}"></s:Label>
+					<s:BorderContainer width="100%" backgroundAlpha="0" borderAlpha="0" >
+						<s:Label color="#FFFFFF" fontSize="12" width="80%" fontStyle="italic" left="0" text="{data.tagline}"></s:Label>						
+					</s:BorderContainer>
+				</s:VGroup>
+				
+			</s:Group>
+		</s:Group>
+	</s:VGroup>
+</s:ItemRenderer>

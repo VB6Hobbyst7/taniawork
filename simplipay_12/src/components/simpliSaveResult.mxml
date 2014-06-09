@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init(event)"
+				xmlns:s="library://ns.adobe.com/flex/spark" contentBackgroundAlpha="0"  width="100%" height="160" >
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.effects.Move;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import spark.effects.Move3D;
+			import spark.effects.Rotate3D;
+			import spark.filters.GlowFilter;
+			public var moved:Boolean = false;
+		
+			public function flip():void {
+				var ro:Rotate3D = new Rotate3D();
+				ro.target = maincont;
+				ro.addEventListener(EffectEvent.EFFECT_END, rotateDone);
+				var mo:Move = new Move();
+				mo.target = maincont;
+				ro.autoCenterProjection = true;
+				ro.autoCenterTransform = true;
+				ro.duration = 500;
+				mo.duration = 500;
+				if (moved){
+					moved = false;
+					ro.angleXTo = 0;
+					mo.yTo = maincont.y - maincont.width/2;
+					v2.visible = false;
+				}
+				else {
+					v1.visible = false;
+				
+					moved = true;
+					ro.angleXTo = 180;
+					mo.yTo = maincont.y + maincont.width/2;
+				}
+				//mo.play();
+				ro.play();
+				
+			}
+			public function rotateDone(e:EffectEvent):void{
+				if (moved){
+					v1.visible = false;
+					v2.visible = true;
+				}
+				else {
+					v1.visible = true;
+					v2.visible = false;
+				}
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			
+			public function init(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var code:String = data.name;
+				
+				var sp:Sprite = new Sprite();
+				var qr:QRCode = new QRCode();
+				qr.encode(code+"formalendofstatement");
+				var img:Bitmap = new Bitmap(qr.bitmapData);
+				img.width = 100;
+				img.height = 100;
+				sp.addChild(img);
+				var u:UIComponent = new UIComponent();
+				u.addChild(sp);
+				u.horizontalCenter = 0;
+				u.verticalCenter = 0;
+				u.percentHeight = 100;
+				u.percentWidth = 100;
+				qrholder.addElement(u);	
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:BorderContainer click="flip()" mouseDown="gDown(event)"
+					   mouseOut="gOut(event)" mouseOver="gOver(event)" id="maincont" 
+					   width="100%" height="167" cornerRadius="20" dropShadowVisible="true"
+					  >
+		
+		
+	</s:BorderContainer>
+	<s:BorderContainer click="flip()" id="v1" visible="true" backgroundAlpha="0" 
+					   borderAlpha="0" width="100%" height="100%" >
+		<s:BitmapImage id="bmpImg" y="-1" left="-1" right="-1" height="119"
+					   source="http://simplipay.ca/php/storeimages/{data.imagelarge}" >
+			<s:mask>
+				<s:BorderContainer id="bmpMask"
+								   cornerRadius="20"
+								   width="{bmpImg.width}" height="119" />
+			</s:mask>
+		</s:BitmapImage>
+		
+		<s:BorderContainer top="25" width="50" cornerRadius="10" height="50" horizontalCenter="0" dropShadowVisible="true"
+						   borderAlpha="2" borderColor="#FFFFFF" backgroundAlpha="1" backgroundColor="#02446F" >
+			<s:Label width="100%" height="100%" color="#FFFFFF" fontSize="25" fontWeight="bold"
+					 horizontalCenter="0" text="{data.value}" textAlign="center"
+					 verticalAlign="middle" verticalCenter="0"/>
+		</s:BorderContainer>
+		
+		<s:Label x="10" y="125" width="204" height="17" text="{data.title}"/>
+		<s:Label x="10" y="143" width="204" height="16" text="{data.description}"/>
+		<s:Label x="10" y="9" width="255" height="34" color="#FFF6F6" fontSize="20"
+				 text="{data.name}"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer id="v2" click="flip()" visible="false" backgroundAlpha="0" borderAlpha="0" width="100%" height="100%" >
+		
+		
+		<s:BorderContainer id="qrholder" top="25" width="100" cornerRadius="10" height="100" horizontalCenter="0" dropShadowVisible="true"
+						   borderAlpha="2" borderColor="#FFFFFF" backgroundAlpha="1" backgroundColor="#02446F"/>
+	</s:BorderContainer>
+</s:ItemRenderer>

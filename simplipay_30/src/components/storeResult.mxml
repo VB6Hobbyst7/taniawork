@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="itemrenderer1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			import spark.filters.GlowFilter;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
+			public var distance:String = "";
+			[Bindable]
+			public var myfave:Number = 0;
+			[Bindable]
+			public var picture:String = "";
+			
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+			}
+			public function favBtnPress(event:MouseEvent):void
+			{
+				data.favpressed = true;
+				if (data.isfav != 0){
+					data.isfav = 0;
+					myfave = 0;
+				}
+				else {
+					data.isfav = 1;
+					myfave = 1;
+				}	
+			}	
+			
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				if ((data.isfav != null)&&(data.isfav != "null")){
+					myfave = data.isfav;
+				}
+				
+				if ((data.business_picture == "none")||(data.business_picture == "")){
+					picture = "../assets/interfaceimages/multi/defaultlarge.png";
+				}
+				else {
+					picture = data.business_picture;
+				}
+				
+				var tempdistance:String = data.distance;
+				if (tempdistance.indexOf(".") != -1){
+					var tempbefore:String = tempdistance.substr(0,tempdistance.indexOf("."));
+					tempdistance = tempdistance.substring(tempdistance.indexOf(".")+1,tempdistance.length);
+					if (tempdistance.length > 2){
+						tempdistance = tempdistance.substr(0,2);
+					}
+					distance = tempbefore+"."+tempdistance;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group width="100%"  height="300"  >
+		<!--s:BitmapImage width="100%"  height="100%" contentLoader="{s_imageCache}" scaleMode="stretch" 
+				 source="http://simplipay.ca/php/storeimages/{data.imagelarge}"/-->
+		<s:BitmapImage width="100%"  height="100%" contentLoader="{s_imageCache}" scaleMode="stretch" 
+					   source="{picture}"/>
+		<s:Group  height="120" width="120" right="0" top="0" >
+			<s:Image right="0" top="0" width="100%" height="100%" scaleMode="stretch" 
+					  click="favBtnPress(event)">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="assets/interfaceimages/multi/favtriLow.png"
+											source240dpi="assets/interfaceimages/multi/favtriMed.png"
+											source320dpi="assets/interfaceimages/multi/favtriHigh.png"/>
+				</s:source>
+			</s:Image>
+			<s:Image id="favBTN" right="3" top="3" width="50" height="50" click="favBtnPress(event)"
+					 mouseDown="profDown(event)" mouseOut="profUp(event)" mouseOver="profUp(event)"
+					 mouseUp="profUp(event)" 
+					 source="assets/interfaceimages/multi/star{myfave.toString()}High.png"/>
+		</s:Group>
+		<s:BorderContainer backgroundColor="#000000" backgroundAlpha="0.6" width="100%" height="30%" bottom="0" borderAlpha="0">
+			<s:VGroup top="3" paddingLeft="10" height="100%" width="100%">
+				<s:Label width="100%" height="50%" color="#FFFFFF" styleName="textsize7" fontWeight="bold"
+						 text="{data.business_name}" verticalAlign="middle"></s:Label>
+				<s:HGroup width="100%"  >
+					<s:Label color="#8A8A8A"  styleName="textsize5" width="80%" 
+							 fontStyle="italic" left="0" text="{data.business_tagline}"></s:Label>	
+					<s:Label color="#FFFFFF" styleName="textsize5"  fontStyle="italic" 
+							 text="{distance} km"></s:Label>
+				</s:HGroup>
+			</s:VGroup>
+		</s:BorderContainer>
+	</s:Group>
+</s:ItemRenderer>

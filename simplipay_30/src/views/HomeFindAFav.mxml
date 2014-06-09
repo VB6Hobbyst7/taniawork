@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"  backgroundColor="#2a3038"
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="onActivate(event)" 
+		title="Find-a-Fav"  add="home_addHandler(event)">
+	<s:navigationContent >
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent >	
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.effects.Fade;
+			import mx.effects.effectClasses.FadeInstance;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import mx.events.FlexEvent;	
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			public var profDraging:Boolean = false;
+			[Bindable]
+			public var locationType:String = "1";
+			[Bindable]
+			public var currentSelectedLocationName:String = "";
+			[Bindable]
+			public var currentSelectedWaitTime:String = "7 min";
+			[Bindable]
+			public var currentSelectedAddress:String = "";
+			[Bindable]
+			public var mylat:Number = -1;
+			[Bindable]
+			public var mylong:Number = -1;
+			[Bindable]
+			public var myradius:Number = 50;
+			[Bindable]
+			public var radiusOptions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var findafavArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var emailGo:String = "";
+			protected var sqlConnection:SQLConnection;
+			protected var g:Geolocation = new Geolocation(); 
+			[Bindable]
+			public var busy:Boolean = true;
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+					
+				
+				
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			protected function home_addHandler(event:FlexEvent):void
+			{
+				if(!navigator.poppedViewReturnedObject) return; //Make sure there is something to get
+				var s:String = navigator.poppedViewReturnedObject.object.toString();
+				
+				if (s != ":::"){
+					var type:String = s.substr(0,s.indexOf(":::"));
+					s = s.substring(s.indexOf(":::")+3,s.length);
+					var firsttext:String = s.substr(0,s.indexOf(":::"));
+					var lasttext:String = s.substring(s.indexOf(":::")+3,s.length);
+					
+					if (lasttext == "truetruetrue"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						cg1.visible = true;
+						cg2.visible = true;
+						cg3.visible = true;
+					}
+					else if (lasttext == "falsetruetrue"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						cg1.visible = false;
+						cg2.visible = true;
+						cg3.visible = true;
+					}
+					else if (lasttext == "truefalsetrue"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						cg1.visible = true;
+						cg2.visible = false;
+						cg3.visible = true;	
+					}
+					else if (lasttext == "truetruefalse"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						cg1.visible = true;
+						cg2.visible = true;
+						cg3.visible = false;
+					}
+					else if (lasttext == "falsefalsetrue"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						cg1.visible = false;
+						cg2.visible = false;
+						cg3.visible = true;
+					}
+					else if (lasttext == "falsetruefalse"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						cg1.visible = false;
+						cg2.visible = true;
+						cg3.visible = false;
+					}
+					else if (lasttext == "truefalsefalse"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtoolon.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						cg1.visible = true;
+						cg2.visible = false;
+						cg3.visible = false;
+					}
+					else if (lasttext == "falsefalsefalse"){
+						taxtool1.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool2.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						taxtool3.source = "../assets/interfaceimages/multi/taxtooloff.png"
+						cg1.visible = false;
+						cg2.visible = false;
+						cg3.visible = false;
+					}
+					
+					if (type == "cat"){
+						cg1label.text = firsttext;
+						cg4.enabled = true;
+					}
+					
+					var stop:String = "";
+					
+				}
+
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+				}
+				else {
+					cg4.visible = false;
+				}
+				
+			}
+			
+			public function onActivate(event:Event):void
+			{
+				busy = false;
+
+				
+			}
+		
+			
+		
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			public function press(event:KeyboardEvent):void {
+				if ((event.keyCode == 13)||(event.charCode == 13)){
+					//searchClick();
+				}
+			}
+			public function searchClick():void {
+				
+			}
+			public function goFilter():void {
+				
+			}
+			public function togDown1():void {
+				if (taxtool1.source == "../assets/interfaceimages/multi/taxtoolon.png"){
+					taxtool1.source = "../assets/interfaceimages/multi/taxtooloff.png"
+					cg1.visible = false;
+				}
+				else {
+					taxtool1.source = "../assets/interfaceimages/multi/taxtoolon.png"
+					cg1.visible = true;
+				}
+				
+				cg1label.text = "Select Category";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+				}
+				else {
+					cg4.visible = false;
+				}
+			}
+			public function togDown2():void {
+				if (taxtool2.source == "../assets/interfaceimages/multi/taxtoolon.png"){
+					taxtool2.source = "../assets/interfaceimages/multi/taxtooloff.png"
+					cg2.visible = false;
+				}
+				else {
+					taxtool2.source = "../assets/interfaceimages/multi/taxtoolon.png"
+					cg2.visible = true;
+				}
+				
+				cg2label.text = "Select Location";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+				}
+				else {
+					cg4.visible = false;
+				}
+			}
+			public function togDown3():void {
+				if (taxtool3.source == "../assets/interfaceimages/multi/taxtoolon.png"){
+					taxtool3.source = "../assets/interfaceimages/multi/taxtooloff.png"
+					cg3.visible = false;
+				}
+				else {
+					taxtool3.source = "../assets/interfaceimages/multi/taxtoolon.png"
+					cg3.visible = true;
+				}
+				
+				cg3label.text = "Select Price Range";
+				
+				if ((cg1.visible)||(cg2.visible)||(cg3.visible)){
+					cg4.visible = true;
+				}
+				else {
+					cg4.visible = false;
+				}
+			}
+			public function optionclick(u:uint):void {
+				if (u == 0){
+					//cat choice
+					navigator.pushView(HomeFindAFavCatChoice,{preselection:cg1.visible.toString()+cg2.visible.toString()+cg3.visible.toString()});
+				}
+				else if (u == 1){
+					//location choice
+				}
+				else if (u == 2){
+					//price range choice
+				}
+				else if (u == 3){
+					navigator.pushView(HomeFindAFavResults,{cat:cg1label.text});
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup horizontalCenter="0" horizontalAlign="center" height="100%" width="100%"  >
+		<s:HGroup width="95%">
+			<s:Group >
+				<s:Image source="../assets/interfaceimages/multi/findafav1.png"/>
+				<s:Image id="taxtool1" bottom="20" horizontalCenter="0" mouseDown="togDown1()">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+												source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+												source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+			<s:Group >
+				<s:Image source="../assets/interfaceimages/multi/findafav2.png"/>
+				<s:Image id="taxtool2" bottom="20" horizontalCenter="0" mouseDown="togDown2()">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+												source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+												source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+			<s:Group >
+				<s:Image source="../assets/interfaceimages/multi/findafav3.png"/>
+				<s:Image id="taxtool3" bottom="20" horizontalCenter="0" mouseDown="togDown3()">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Low.png')"
+												source240dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_Med.png')"
+												source320dpi="@Embed('../assets/interfaceimages/multi/taxtooloff_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+		</s:HGroup>
+		<s:Group id="cg1" visible="false" click="optionclick(0);" mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)">
+			<s:Image source="../assets/interfaceimages/multi/findafavc1.png"/>
+			<s:Label id="cg1label" left="50" color="#FFFFFF" fontWeight="normal" text="Select Category"
+					 verticalCenter="0"></s:Label>
+		</s:Group>
+		<s:Group id="cg2" visible="false" click="optionclick(1);" mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)">
+			<s:Image source="../assets/interfaceimages/multi/findafavc2.png"/>
+			<s:Label id="cg2label" left="50" color="#FFFFFF" fontWeight="normal" text="Select Location"
+					 verticalCenter="0"></s:Label>
+		</s:Group>
+		<s:Group id="cg3" visible="false" click="optionclick(2);" mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)">
+			<s:Image source="../assets/interfaceimages/multi/findafavc3.png"/>
+			<s:Label id="cg3label" left="50" color="#FFFFFF" fontWeight="normal" text="Select Price Range"
+					 verticalCenter="0"></s:Label>
+		</s:Group>
+		<s:Group id="cg4" visible="false" click="optionclick(3);" enabled="false" mouseDown="gDown(event)" mouseOver="gOver(event)" mouseOut="gOut(event)">
+			<s:Image source="../assets/interfaceimages/multi/find.png"/>
+		</s:Group>
+		
+	</s:VGroup>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+
+</s:View>

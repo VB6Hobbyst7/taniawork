@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:maps="com.google.maps.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:model="model.*"
+		xmlns:mobile="spark.skins.mobile.*"
+		xmlns:BarCode="BarCode.*"
+		xmlns:components="components.*"
+		backgroundColor="#22252a" fontSize="14" title="Reload"
+		viewActivate="onActivate(event)">	
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import com.google.maps.Color;
+			
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ColorUtil;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+		
+			public function onActivate(event:Event):void
+			{
+				contu.enabled = true;
+				try{
+				if ((data.email == null)||(data.email == "")){
+					navigator.popToFirstView();
+
+				}
+				else {
+					goGetBalance();
+					try{
+						currentBalance = data.currentBalance2;
+					}
+					catch(e:Error){
+						
+					}
+					//data.email available
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+data.email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good data
+						if (resData[0].usealways == "yes"){
+							ccname = resData[0].name;
+							ccnumber = resData[0].cardnumber;
+							cvn = resData[0].cvn;
+							ccexpdate = resData[0].expdate;
+							cctype = resData[0].cardtype;
+							ccaddress = resData[0].address;
+							pt.currentState = 'creditcard';	
+						}
+						else {
+							pt.currentState = 'paypal';
+						}
+						
+					}
+					else {
+						//bad data or no local saved data.
+						pt.currentState = 'paypal';
+					}
+				}
+			}
+			catch(e:Error){
+				navigator.popToFirstView();
+			}
+			
+			}		
+			public function goGetBalance():void {
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getBalance.send();		
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function goPaymentType():void {
+				navigator.pushView(PaymentOptions, {index:1,email:data.email});
+			}
+			public function startReload():void {
+			/*	if (loadAmount.getCurrentSelected() != "0"){
+				if (pt.currentState == 'paypal'){
+					navigator.pushView(Cart, {email:data.email,type:1, amount:loadAmount.getCurrentSelected()});
+				}
+				else if (pt.currentState == 'creditcard'){
+					navigator.pushView(CreditCardLoader, {email:data.email,type:1, ccname:ccname, ccnumber:ccnumber,
+						cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:loadAmount.getCurrentSelected()});
+				}
+				
+				}*/
+				//navigator.popView();
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				currentBalance = "$"+ev.result[0].res.toString();
+			}
+			public function mdown(ev:MouseEvent):void {
+				var stop:String = "";
+				//var c:ColorUtil;
+				var gl:GlowFilter = new GlowFilter(000000,1,100,100,100,1,true,false);
+				gl.color = 0x083e61;
+				
+				if (ev.currentTarget.source.toString().indexOf("25") != -1){
+					am1.filters = [gl];
+					am2.filters = [];
+					am3.filters = [];
+					am4.filters = [];
+				}
+				else if (ev.currentTarget.source.toString().indexOf("50") != -1){
+					am1.filters = [];
+					am2.filters = [gl];
+					am3.filters = [];
+					am4.filters = [];
+				}
+				else if (ev.currentTarget.source.toString().indexOf("100") != -1){
+					am1.filters = [];
+					am2.filters = [];
+					am3.filters = [gl];
+					am4.filters = [];
+				}
+				else if (ev.currentTarget.source.toString().indexOf("200") != -1){
+					am1.filters = [];
+					am2.filters = [];
+					am3.filters = [];
+					am4.filters = [gl];
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+			<s:Group  width="308" top="0" bottom="0" >
+				<s:VGroup top="10" horizontalAlign="center" width="100%" >
+					<s:Image  width="300" horizontalCenter="0" source="assets/reloadamount.png"/>
+
+					<s:HGroup  width="300" gap="0"  height="50" top="86" horizontalCenter="0">
+						
+						<s:Group width="25%"  height="50">
+							<s:Image id="am1" width="100%" height="100%" scaleMode="stretch" smooth="true"  mouseDown="mdown(event);" 
+									 source="@Embed('assets/25dark.png')" />
+							<s:Label color="#FFFFFF" fontSize="19" fontWeight="bold" horizontalCenter="0" mouseEnabled="false"
+									 text="$25" verticalCenter="2"/>
+						</s:Group>
+						
+						<s:Group width="25%"  height="50">
+							<s:Image id="am2" width="100%" height="100%" scaleMode="stretch" smooth="true" mouseDown="mdown(event);" 
+									 source="@Embed('assets/50dark.png')" />
+							<s:Label color="#FFFFFF" fontSize="19" fontWeight="bold" horizontalCenter="0" mouseEnabled="false"
+									 text="$50" verticalCenter="2"/>
+						</s:Group>
+						<s:Group width="25%"  height="50">
+							<s:Image id="am3" width="100%" height="100%" scaleMode="stretch" smooth="true" mouseDown="mdown(event);" 
+									 source="@Embed('assets/100dark.png')" />
+							<s:Label color="#FFFFFF" fontSize="19" fontWeight="bold" horizontalCenter="0" mouseEnabled="false"
+									 text="$100" verticalCenter="2"/>
+						</s:Group>
+						<s:Group width="25%"  height="50">
+							<s:Image id="am4" width="100%" height="100%" scaleMode="stretch" smooth="true" mouseDown="mdown(event);" 
+									 source="@Embed('assets/200dark.png')" />
+							<s:Label color="#FFFFFF" fontSize="19" fontWeight="bold" mouseEnabled="false"  horizontalCenter="0"
+									 text="$200" verticalCenter="2"/>
+						</s:Group>
+					</s:HGroup>
+				<s:Label fontSize="12" text="OR"/>
+					<s:TextInput id="otheramount"   restrict="0-9" width="308" fontSize="15" prompt="Enter Other Reload Amount Here" maxChars="6"
+								 skinClass="components.darktextinput" textAlign="left" />
+					
+					
+					<s:Group width="100%" height="120" >
+						<s:Image width="100%" height="120" source="assets/reloadbackimg1.png"/>
+						<s:Label left="10" top="13" color="#FFFFFF" fontSize="16"
+								 text="Current Balance"/>
+						<components:paymentType id="pt" y="43" width="308" height="35"
+												click="goPaymentType();" currentState="paypal"
+												horizontalCenter="0"/>
+						<s:Label id="currentBalanceLbl2" right="11" top="13" color="#EF7716"
+								 fontSize="16" fontWeight="bold" text="{currentBalance}"/>
+						<s:Label id="currentBalanceLbl4" left="10" top="92" color="#FFFFFF"
+								 fontSize="16" text="Make this automatic?"/>
+						<s:ToggleSwitch x="195" y="85"/>
+					</s:Group>
+				<!--components:dollarSlider id="loadAmount" top="86" horizontalCenter="0"/-->
+				
+				
+				<s:Image id="contu" top="312" width="300" height="41" click="startReload();"
+						 enabled="true" horizontalCenter="0" mouseDown="gDown(event)"
+						 mouseOut="gOut(event)" mouseOver="gOver(event)" smooth="true"
+						 source="assets/continuebtn.png"/>
+				</s:VGroup>
+			</s:Group>
+		
+			</s:VGroup>
+		</s:Scroller>
+</s:View>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" contentBackgroundAlpha="0" 
+				width="100%" height="160">
+	<fx:Script>
+		<![CDATA[
+			import mx.effects.Move;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import org.qrcode.QRCode;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import spark.effects.Move3D;
+			import spark.effects.Rotate3D;
+			import spark.filters.GlowFilter;
+			public var moved:Boolean = false;
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+		]]>
+	</fx:Script>
+	<s:BorderContainer  id="v1" visible="true" borderVisible="false" mouseDown="gDown(event)" mouseOut="gOut(event)"
+						 mouseOver="gOver(event)" mouseUp="gOut(event)"
+					   borderAlpha="0" width="100%" height="100%" backgroundAlpha="0.5"   backgroundColor="#000000" >
+		<s:Image id="bmpImg" width="100%" height="100%" scaleMode="stretch" smooth="true"
+				 smoothingQuality="default"
+				 source="http://simplipay.ca/php/storeimages/{data.imagelarge}"/>
+	<s:BorderContainer backgroundAlpha="0.5"  borderAlpha="0" backgroundColor="#000000" borderVisible="false" width="100%" height="40%" bottom="0">
+		<s:VGroup   top="5" bottom="5" verticalAlign="middle" right="5" left="5" >
+			<s:Label verticalCenter="0" color="#FFFFFF" fontWeight="bold" text="{data.description}"/>
+			<s:BorderContainer width="100%" verticalCenter="0" backgroundAlpha="0" borderVisible="false" borderAlpha="0">
+			<s:HGroup verticalCenter="0">
+				<s:Label color="#BDBDBD" fontSize="18" fontWeight="normal" lineThrough="true"
+						 text="{data.highcost}" textAlign="center" verticalAlign="middle"/>
+				<s:Label color="#EF7716" fontSize="18" fontWeight="normal"
+						 text="{data.cost}" textAlign="center"
+						 verticalAlign="middle" />
+			</s:HGroup>
+				<s:Label  right="0" verticalCenter="0" fontSize="18" color="#FFFFFF" text="{data.purchasecount}+ BOUGHT"/>
+			</s:BorderContainer>
+		</s:VGroup>
+	</s:BorderContainer>
+	</s:BorderContainer>
+</s:ItemRenderer>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
+		title="Credit Card" xmlns:BarCode="BarCode.*" >	
+	<s:navigationContent>
+		<s:Button label="Back" click="navigator.popView();" /> 
+	</s:navigationContent>
+	<s:actionContent>	
+		<s:Button label="Done" click="navigator.popView();" /> 
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var dataList:ArrayCollection = new ArrayCollection();
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "$0.00";
+		
+			public function onActivate(event:Event):void
+			{
+			dataList.addItem({name:"Nickname", prompt:"(optional)", type:"view1", id:1});
+			dataList.addItem({name:"First Name", prompt:"", type:"view1", id:2});
+			dataList.addItem({name:"Last Name", prompt:"", type:"view1", id:3});
+			dataList.addItem({name:"Street Address", prompt:"", type:"view1", id:4});
+			dataList.addItem({name:"Apt/Suite", prompt:"(optional)", type:"view1", id:5});
+			dataList.addItem({name:"City", prompt:"", type:"view1", id:6});
+			dataList.addItem({name:"Postal Code", prompt:"", type:"view1", id:7});
+			dataList.addItem({name:"Province", prompt:"", type:"view1", id:7});
+			dataList.addItem({name:"Phone Number", prompt:"", type:"view1", id:8});
+			
+			
+			
+			
+			}			
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			public function listChange(ev:IndexChangeEvent):void {
+				
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="10" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%" >
+			<s:List  id="payList"  itemRenderer="components.addressInput" change="listChange(event);"
+					dataProvider="{dataList}" width="100%" height="100%">
+				<s:layout>
+					<s:VerticalLayout
+									  gap="0"
+									  horizontalAlign="center"
+									  variableRowHeight="true"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

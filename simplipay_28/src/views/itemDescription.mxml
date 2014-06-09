@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:model="model.*"  
+		backgroundColor="#22252a"
+		viewActivate="view1_activateHandler(event)"
+		menuKeyPressed="navigator.popToFirstView();" 
+		backKeyPressed="navigator.popToFirstView();"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Store Detail">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="navigator.popView();" mouseDown="gDown(event)"
+				 mouseOut="gOut(event)" mouseOver="gOver(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/backbtnLow.png')"
+										source240dpi="@Embed('assets/interfaceimages/multi/backbtnMed.png')"
+										source320dpi="@Embed('assets/interfaceimages/multi/backbtnHigh.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Style>
+
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		s|Image {
+			
+			cornerRadius:50;
+			
+		}
+		
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+		
+			import flash.geom.ColorTransform;
+			import flash.sensors.Geolocation;
+			
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.StyleableTextField;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			public var actions:ArrayCollection;
+			[Bindable]
+			private var _data:Object;
+			
+			[Bindable]
+			private var _addrString:String;
+			
+			[Bindable]
+			private var _distString:String;
+			
+	
+			
+			[Embed("../assets/interfaceimages/original/sms.png")]
+			private var smsIcon:Class;
+			
+			[Embed("../assets/interfaceimages/original/phone.png")]
+			private var phoneIcon:Class;
+			
+			[Embed("../assets/interfaceimages/original/mail.png")]
+			private var mailIcon:Class;
+			
+			[Embed("../assets/interfaceimages/original/map-marker.png")]
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			import spark.filters.GlowFilter;
+			public function profDown(ev:MouseEvent):void {
+				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function profUp(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+				var s:String = "";
+				
+			}
+		
+			public function view1_activateHandler(event:Event):void
+			{
+				googleTravelUrl = "http://maps.google.com/maps?saddr="+data.mylat+","+data.mylong+"&daddr="+data.lat+","+data.long;	
+			}
+			private function onViewDeactivate():void {
+				//hide the map's infowindow
+				this.parentApplication.map.infoWindow.hide();
+				this.parentApplication.disableTraffic();
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+			
+		]]>
+	</fx:Script>	
+	
+
+	
+	<s:Scroller  left="0" right="0" top="0" bottom="0" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+		<s:VGroup  paddingLeft="10" paddingRight="10" top="0" bottom="0" gap="0" horizontalAlign="center">
+			<s:Image x="21" width="80%" height="300" scaleMode="stretch" smooth="true"
+					 source="http://simplipay.ca/php/storeimages/{data.imagelarge}"/>
+			<s:VGroup width="100%"  gap="8" horizontalAlign="center" paddingTop="10">
+				<s:Label id="selectedTitle" left="14" right="2" top="13" color="#FFFFFF"
+						 fontWeight="bold" text="{data.currentSelectedLocationName}"/>
+				<s:Label id="selectedTagLine" left="14" right="2" top="13" color="#FFFFFF"
+						 fontWeight="normal" text="{data.tagline}"/>
+				
+				<s:BorderContainer height="100%" width="100%" horizontalCenter="0" bottom="25" backgroundAlpha="0" borderAlpha="0">
+					<s:Image horizontalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/storedetailinfobackLow.png')"
+													source240dpi="@Embed('assets/interfaceimages/multi/storedetailinfobackMed.png')"
+													source320dpi="@Embed('assets/interfaceimages/multi/storedetailinfobackHigh.png')"/>
+						</s:source>
+					</s:Image>
+					<s:VGroup width="100%" height="50%" gap="7" horizontalCenter="0" paddingLeft="20"
+							  paddingRight="20" verticalCenter="20">
+						<s:HGroup width="100%" verticalAlign="middle" mouseDown="profDown(event)" mouseUp="profUp(event)"  
+								  click="navigateToURL(new URLRequest('tel:'+data.number));" gap="0">
+							<s:Image x="188" y="37">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/phoneLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/phoneMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/phoneHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label width="100%" color="#BEBEBE" text=" :   {data.number}"
+									 verticalAlign="middle"/>
+						</s:HGroup>
+						
+						<s:HGroup width="100%" mouseDown="profDown(event)" verticalAlign="middle" mouseUp="profUp(event)"  
+								  click="navigateToURL(new URLRequest('mailto:'+data.email));"
+								   gap="0">
+							<s:Image x="276" y="37"
+									 click="navigateToURL(new URLRequest('mailto:'+data.email));">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/mailLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/mailMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/mailHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label width="100%"
+									 click="navigateToURL(new URLRequest('mailto:'+data.email));"
+									 color="#BEBEBE" maxDisplayedLines="1" text=" :   {data.email}"
+									 verticalAlign="middle"/>
+						</s:HGroup>
+						<s:HGroup width="100%" mouseDown="profDown(event)" verticalAlign="middle" mouseUp="profUp(event)"  
+								  click="navigateToURL(new URLRequest(googleTravelUrl))"  gap="0">
+							<s:Image x="231" y="37"
+									 click="navigateToURL(new URLRequest(googleTravelUrl))">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/interfaceimages/multi/mappointLow.png')"
+															source240dpi="@Embed('assets/interfaceimages/multi/mappointMed.png')"
+															source320dpi="@Embed('assets/interfaceimages/multi/mappointHigh.png')"/>
+								</s:source>
+							</s:Image>
+							<s:Label width="100%"
+									 click="navigateToURL(new URLRequest(googleTravelUrl))"
+									 color="#BEBEBE" maxDisplayedLines="1"
+									 text=" :   {data.address}" verticalAlign="middle"/>
+						</s:HGroup>
+					</s:VGroup>
+					
+				</s:BorderContainer>
+				
+			</s:VGroup>
+		</s:VGroup>
+	
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" mouseDown="{webView.visible = false;	webView.focusEnabled = false;}"  xmlns:maps="com.google.maps.*"  resize="rezi(event)"  	
+		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*"  xmlns:mobile="spark.skins.mobile.*"
+		title="Daily Deals" xmlns:BarCode="BarCode.*" backgroundColor="#2a3038"  xmlns:components="components.*" xmlns:controls="com.flexcapacitor.controls.*" >	
+	<s:navigationContent >
+		<s:Image x="0" y="-2" width="55" mouseDown="gDown(event)" mouseOut="gOut(event)"
+				 mouseOver="gOver(event)" height="38" click="navigator.popView();"
+				 source="assets/backbtn.png"/>
+	</s:navigationContent>
+	<s:actionContent>		
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import org.qrcode.QRCode;
+			
+			import spark.effects.Fade;
+			import spark.effects.Scale;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.transitions.FlipViewTransition;
+			import spark.transitions.FlipViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var currentBalance:String = "....";
+			[Bindable]
+			public var emailGo:String = "";
+			public var ccname:String = "";
+			public var ccnumber:String = "";
+			public var cvn:String = "";
+			public var ccexpdate:String = "";
+			public var cctype:String = "";
+			public var ccaddress:String = "";
+			[Bindable]
+			public var purchaseCost:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var couponid:String = "";
+			[Bindable]
+			public var mapUrl:String = "http://simplipay.ca/php/locations/mobilemap.php";
+			[Bindable]
+			public var totalurl:String = mapUrl+'?mylat='+mylat+'&mylong='+mylong;
+			[Bindable]
+			public var purchased2:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				
+				mylat = data.lat;
+				mylong = data.longa;
+				if (data.purchased == "yes"){
+					purchased2 = true;
+				}
+				else {
+					purchased2 = false;
+				}
+				//webView.
+				////contu.enabled = true;
+				try{
+				if ((data.email == null)||(data.email == "")){
+					////navigator.popToFirstView();
+
+				}
+				else {
+					goGetBalance();
+					purchaseCost = data.cost;
+					couponid = data.id;
+					try{
+						currentBalance = data.currentBalance2;
+					}
+					catch(e:Error){
+						
+					}
+					//data.email available
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("paymentmethods.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "CREATE TABLE IF NOT EXISTS creditcardinfo (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"email varchar(255), " +
+						"name varchar(255), " +
+						"cardnumber varchar(255), " +
+						"cvn varchar(255), " +
+						"expdate varchar(255), " +
+						"cardtype varchar(255), " +
+						"address varchar(255), "+
+						"usealways varchar(255))";
+					stmt.execute();
+					
+					
+					
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT * FROM creditcardinfo where email = '"+data.email+"'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good data
+						if (resData[0].usealways == "yes"){
+							ccname = resData[0].name;
+							ccnumber = resData[0].cardnumber;
+							cvn = resData[0].cvn;
+							ccexpdate = resData[0].expdate;
+							cctype = resData[0].cardtype;
+							ccaddress = resData[0].address;
+						////	pt.currentState = 'creditcard';	
+						}
+						else {
+							//pt.currentState = 'simiplipay';
+						}
+						
+					}
+					else {
+						//bad data or no local saved data.
+						//pt.currentState = 'simiplipay';
+					}
+				}
+			}
+			catch(e:Error){
+				navigator.popToFirstView();
+			}
+			
+			}		
+			public function goGetBalance():void {
+				if ((data.email != null)&&(data.email != "")){
+					emailGo = data.email;
+					getBalance.send();		
+				}
+			}
+			public function tOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function tOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+			public function gOver(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}		
+			public function goPaymentType():void {
+				navigator.pushView(DailyDealsConfirmPayment, {index:1,storename:data.name,
+				cost:data.cost,date:data.date,description:data.description,highcost:data.highcost,
+				id:data.id,image:data.image,imagelarge:data.imagelarge,imagesmall:data.imagesmall,lat:data.lat,longa:data.longa,
+				locationid:data.locationid, merchid:data.merchid ,name:data.name,purchasecount:data.purchasecount,
+				title:data.title,value:data.value});
+			}
+			public function goShare():void {
+				navigator.pushView(DailyDealsShare, {index:1,storename:data.name,
+					cost:data.cost,date:data.date,description:data.description,highcost:data.highcost,
+					id:data.id,image:data.image,imagelarge:data.imagelarge,imagesmall:data.imagesmall,lat:data.lat,longa:data.longa,
+					locationid:data.locationid, merchid:data.merchid ,name:data.name,purchasecount:data.purchasecount,
+					title:data.title,value:data.value});
+			}
+			public function useCoupon():void {
+				navigator.pushView(DailyDealsCouponUsage, {index:1,storename:data.name,
+					cost:data.cost,date:data.date,description:data.description,highcost:data.highcost,
+					id:data.id,image:data.image,imagelarge:data.imagelarge,imagesmall:data.imagesmall,lat:data.lat,longa:data.longa,
+					locationid:data.locationid, merchid:data.merchid ,name:data.name,purchasecount:data.purchasecount,
+					title:data.title,value:data.value});
+			}
+			public function startReload():void {
+				
+				/*if (pt.currentState == 'paypal'){
+					navigator.pushView(Cart, {email:data.email,couponid:couponid, amount:purchaseCost, type:2});
+				}
+				else if (pt.currentState == 'creditcard'){
+					navigator.pushView(CreditCardLoader, {email:data.email,couponid:couponid, ccname:ccname,type:2, ccnumber:ccnumber,
+						cvn:cvn, ccexpdate:ccexpdate, cctype:cctype, ccaddress:ccaddress,amount:purchaseCost});
+				}
+				else if (pt.currentState == 'simplipay'){
+					navigator.pushView(simplipayPurchaseLoader, {email:data.email,couponid:couponid, amount:purchaseCost, type:2});
+				}*/
+				
+				
+				//navigator.popView();
+			}
+			public function afterGetBalance(ev:ResultEvent):void {
+				currentBalance = "$"+ev.result[0].res.toString();
+				
+			}
+			public function togglecont1press():void {
+				togglecont1.visible = false;
+				var sc:Scale = new Scale();
+				if (toggle1.currentState == 'normal'){
+					toggle1.currentState = 'open';
+					sc.addEventListener(EffectEvent.EFFECT_END, aftertoggle1open);
+					sc.scaleYFrom = 0;
+					sc.scaleYTo = 1;
+					sc.duration = 500;
+					sc.target = togglecont1;
+					sc.play();
+				}
+				else {
+					toggle1.currentState = 'normal';
+					sc.scaleYFrom = 1;
+					sc.scaleYTo = 0;
+					sc.duration = 500;
+					sc.target = togglecont1;
+					sc.play();
+				}
+			}
+			public function aftertoggle1open(ev:EffectEvent):void {
+				togglecont1.visible = true;
+			}
+			public function togglecont3press():void {
+				togglecont3.visible = false;
+				var sc:Scale = new Scale();
+				if (toggle3.currentState == 'normal'){
+					toggle3.currentState = 'open';
+					sc.addEventListener(EffectEvent.EFFECT_END, aftertoggle3open);
+					sc.scaleYFrom = 0;
+					sc.scaleYTo = 1;
+					sc.duration = 500;
+					sc.target = togglecont3;
+					sc.play();
+				}
+				else {
+					toggle3.currentState = 'normal';
+					sc.scaleYFrom = 1;
+					sc.scaleYTo = 0;
+					sc.duration = 500;
+					sc.target = togglecont3;
+					sc.play();
+				}
+			}
+			public function aftertoggle3open(ev:EffectEvent):void {
+				togglecont3.visible = true;
+			}
+			public function togglecont2press():void {
+				webView.x = this.width/2-webView.width/2;
+				webView.y = this.height/2-webView.height/2
+				if (webView.visible){
+					webView.focusEnabled = false;
+					webView.visible = false;
+					webView.dispose();
+				}
+				else {
+					webView.focusEnabled = true;
+					webView.reload();
+					//webView.dispose();
+					webView.initialize();
+					webView.visible = true;
+					
+					
+					
+				}
+			}
+			
+			public function webcomp():void {
+				/*var myBitmap:Bitmap = new Bitmap(webView.takeSnapshot());
+				var myImage:Image = new Image();
+				myImage.source = myBitmap;
+				myImage.width = 200;
+				myImage.height = 200;
+				this.addElement(myImage);*/
+			}
+			public function rezi(re:ResizeEvent):void {
+				/*if (this.width>this.height){
+					webView.y = this.width/2-184/2;
+					webView.x = this.height/2-184/2
+				}
+				else {*/
+					webView.x = this.width/2-184/2;
+					webView.y = this.height/2-184/2	
+				//}
+				
+				webView.visible = false;
+				webView.focusEnabled = false;
+				
+			
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+		<s:HTTPService id="getBalance" method="POST" 
+					   resultFormat="array" 
+					   url="http://simplipay.ca/php/users/getBalance.php"
+					   result="afterGetBalance(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<controls:WebView id="webView" complete="webcomp();"   visible="false"  
+					  source="{totalurl}" width="184" height="184"/>
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" horizontalAlign="center" height="100%" >
+			<s:Image id="bmpImg" width="100%" height="144" scaleMode="stretch" smooth="true"
+					 smoothingQuality="default"
+					 source="http://simplipay.ca/php/storeimages/{data.imagelarge}"/>
+			<s:Label color="#FFFFFF" fontSize="18" fontWeight="bold" lineThrough="false"
+					 text="{data.description}" textAlign="center" verticalAlign="middle"/>
+			<s:BorderContainer width="308" horizontalCenter="0" height="71" backgroundAlpha="0" borderAlpha="0" >
+				<s:Image width="308" height="65" horizontalCenter="-10" smooth="true"
+						 source="@Embed('assets/dailydealshback.png')"/>
+				<s:HGroup x="10" y="4" width="308"  gap="30"
+						  height="55" horizontalAlign="center" verticalAlign="middle">
+					<s:VGroup horizontalAlign="center" verticalCenter="0">
+						<s:Label color="#EF7716" fontSize="22" fontWeight="bold" lineThrough="false"
+								 text="{data.cost}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF" fontSize="14" fontWeight="normal" lineThrough="false"
+								 text="From {data.highcost}" textAlign="center" verticalAlign="middle"/>
+						
+					</s:VGroup>
+					<s:VGroup horizontalAlign="center" verticalCenter="0">
+						<s:Label color="#EF7716" fontSize="22" fontWeight="bold" lineThrough="false"
+								 text="{data.value}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF" fontSize="14" fontWeight="normal" lineThrough="false"
+								 text="DISCOUNT" textAlign="center" verticalAlign="middle"/>
+					</s:VGroup>
+					<s:VGroup horizontalAlign="center" verticalCenter="0">
+						<s:Label color="#EF7716" fontSize="22" fontWeight="bold" lineThrough="false"
+								 text="{data.purchasecount}" textAlign="center" verticalAlign="middle"/>
+						<s:Label color="#FFFFFF" fontSize="14" fontWeight="normal" lineThrough="false"
+								 text="BOUGHT" textAlign="center" verticalAlign="middle"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:BorderContainer>
+			
+			<components:listtoggleitem width="308" id="toggle1" click="togglecont1press();" 
+									    mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)"
+									   horizontalCenter="0" currentState="normal"
+									   height="45" titlename="DEAL RULES" />
+			<s:BorderContainer id="togglecont1"  visible="false" height="200" scaleY="0" width="308" backgroundAlpha="0.5" 
+							   backgroundColor="#000000" borderAlpha="0" >
+				<s:TextArea  contentBackgroundAlpha="0" borderVisible="false" id="dealrulestext"
+							 right="5" left="5"  top="5" color="#FFFFFF" fontSize="18" text="{data.rules}"
+						 textAlign="center" verticalAlign="middle"/>
+				
+			</s:BorderContainer>
+			<components:listtoggleitem width="308" id="toggle3" click="togglecont3press();" 
+									   mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)"
+									   horizontalCenter="0" currentState="normal"
+									   height="45" titlename="ABOUT THIS DEAL" />
+			<s:BorderContainer id="togglecont3"  visible="false" height="200" scaleY="0" width="308" backgroundAlpha="0.5" 
+							   backgroundColor="#000000" borderAlpha="0" >
+				<s:TextArea id="aboutdealtext" borderVisible="false" contentBackgroundAlpha="0" 
+							color="#FFFFFF" right="5" left="5"  top="5"  fontSize="18" text="{data.about}"
+						 textAlign="center" verticalAlign="middle"/>
+				
+			</s:BorderContainer>
+			<components:listtoggleitem2 id="toggle2" width="308" horizontalCenter="0" height="45" 
+									   click="togglecont2press();" 
+									   mouseDown="gDown(event)" mouseOut="gOut(event)" mouseOver="gOver(event)"
+									   currentState="normal" titlename="ABOUT THE DEAL" />
+			<s:BorderContainer borderAlpha="0" backgroundAlpha="0" height="55" width="308">
+				<s:HGroup height="55" gap="0"  width="308" visible="{purchased2 == false}">
+					<s:Image width="85" height="54" mouseDown="gDown(event)" mouseOut="gOut(event)"
+							 click="goShare();"
+							 mouseOver="gOver(event)" scaleMode="stretch" smooth="true"
+							 smoothingQuality="high" source="assets/dailydealsshare.png"/>
+					<s:Image width="136" height="54" scaleMode="stretch" smooth="true"
+							 smoothingQuality="high" source="assets/dailydealsspacer.png"/>
+					<s:Image width="85" height="54" click="goPaymentType();" mouseDown="gDown(event)"
+							 mouseOut="gOut(event)" mouseOver="gOver(event)" scaleMode="stretch"
+							 smooth="true" smoothingQuality="high"
+							 source="assets/dailydealsbuynow.png"/>
+				</s:HGroup>
+				<s:HGroup visible="{purchased2 == true}" width="308" height="55" gap="0"
+						  verticalAlign="middle" horizontalAlign="center">
+					
+					<s:Image width="100%" height="100%" click="useCoupon();" mouseDown="gDown(event)"
+							 mouseOut="gOut(event)" mouseOver="gOver(event)" smooth="true"
+							 source="@Embed('assets/redeemcoupon.png')"/>
+				</s:HGroup>
+			</s:BorderContainer>
+			
+			<!--s:BorderContainer width="100%" height="90" backgroundAlpha="0" borderAlpha="0">
+				<s:Label id="currentBalanceLbl2" top="18" color="#02446F" fontSize="30"
+						 horizontalCenter="0" text="{currentBalance}"/>
+				<s:Label id="currentBalanceLbl0" top="62" color="#02446F" fontSize="20" horizontalCenter="-71"
+						 text="Purchase Amount"/>
+				<s:Label id="currentBalanceLbl3" top="137" color="#02446F" fontSize="20" horizontalCenter="-85"
+						 text="Payment Type"/>
+				<components:paymentTypeSimpliAdd id="pt" top="165" currentState="simplipay" click="goPaymentType();" horizontalCenter="0"/>
+				
+				<components:genericBlueButton id="contu" enabled="true" top="302" width="182" height="41" lbl="Continue" mouseDown="gDown(event)"
+											  mouseOut="gOut(event)" mouseOver="gOver(event)" click="startReload();" horizontalCenter="0"  />
+				
+			</s:BorderContainer-->
+		
+			</s:VGroup>
+		</s:Scroller>
+	<!--s:Label id="currentBalanceLbl5" top="98" color="#02446F" fontSize="30"
+			 horizontalCenter="0" text="{purchaseCost}"/-->
+	<components:codeinput visible="false" />
+</s:View>
