@@ -370,12 +370,14 @@
 									var citedyear:String = extrasection.substr(0,4);
 									if (p == 0){
 										//fieldresult = ""+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
-										string5 = ""+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
+										//string5 = ""+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
+										string5 = ""+citationarray[p].toLowerCase();
 										citationcount++;
 									}
 									else {
 										//fieldresult = fieldresult + deliberator+"   "+"SMITH J"+", "+citedyear+", SYNTHETIC BIOLOGY, V1, P1";
-										string5 = string5 + "\n   "+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
+										string5 = string5 + "\n   "+citationarray[p].toLowerCase();
+									//	string5 = string5 + "\n   "+citationarray[p].toLowerCase()+""+", "+citedyear+", "+catabs2+", V1, P1";
 										citationcount++;
 									}
 									
@@ -423,7 +425,7 @@
 				}
 				//if (lastyear.toLowerCase() != 'none'){
 				//var f:File = new File("C:/CiteSpace/data1/"+"download"+lastyear+".txt");//File.documentsDirectory.resolvePath("download"+lastyear+"unique.txt"); 
-					var f:File = new File("C:/Users/mark/Desktop/"+s1+"fullDocuments_v2.txt");
+					var f:File = new File("C:/Users/mark/Desktop/"+s1+"fullDocuments_v3.txt");
 				var stream:FileStream = new FileStream();
 				stream.open(f, FileMode.WRITE);                                         
 				stream.writeUTFBytes(csvText);
