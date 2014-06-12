@@ -19,8 +19,13 @@
 			{
 				// TODO Auto-generated method stub
 				var go:GoViralExample = new GoViralExample();
+				go.height = 1000;
+				go.width = 600;
 				var ui:UIComponent = new UIComponent();
 				ui.addChild(go);
+				ui.width = 600;
+				ui.height = 1000;
+				go.init();
 				myvgroup.addElement(ui);
 			}
 			
