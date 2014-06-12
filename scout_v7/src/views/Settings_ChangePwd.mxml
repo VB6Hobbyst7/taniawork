@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:model="model.*" 
 		menuKeyPressed="navigator.popView()"
 		backKeyPressed="navigator.popView()"
-		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:model="model.*" 
-		title="Change Password" 	backgroundColor="#FFFFFF" 
-		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml" xmlns:components="components.*">	
-	<!--s:navigationContent >
+		 viewActivate="onActivate(event)"
+		title="Change Password" 	
+		backgroundColor="#f2f3f4" >	
+	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
-	<s:actionContent>		
-	</s:actionContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -24,67 +27,14 @@
 			import spark.core.ContentCache;
 			import spark.events.ViewNavigatorEvent;
 			import spark.filters.GlowFilter;
-			protected var sqlConnection:SQLConnection;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			[Bindable]
-			public var currentBalance:String = "$0.00";
-			[Bindable]
-			public var busy:Boolean = true;
-			[Bindable]
-			public var emailGo:String = "";
+			public var busy:Boolean = false;
 			public function onActivate(event:Event):void
 			{			
-				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
-
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "SELECT email, active FROM localuser where active = 'yes'";
-				stmt.execute();
-				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);				
-				if (resData.length != 0){
-					emailGo = resData[0].email;
-				}
-				else {
-					//bad login or no local saved login.
-					navigator.popView();	
-				}		
-				busy = false;
+				setLoginVars();		
 			}	
-			public function onSwipe(event:TransformGestureEvent):void
-			{
-				var ev:MouseEvent;
-				switch(event.offsetX)
-				{
-					case 1:
-					{
-						// swiped right also back swipe
-						navigator.popView();
-						break;
-					}
-					case -1:
-					{
-						// swiped left
-						break;
-					}
-				}
-				switch(event.offsetY)
-				{
-					case 1:
-					{
-						// swiped down
-						break;
-					}
-					case -1:
-					{
-						// swiped up
-						break;
-					}
-				}
-			}
 			public function changePass():void {
-				logWarning.visible = false;
+				popupholder1.visible = false;
 				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
 					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
 					busy = true;
@@ -93,32 +43,15 @@
 			}
 			public function afterChangePassword(ev:ResultEvent):void {
 				busy = false;
-				logWarning.text = ev.result[0].ress.message;
-				logWarning.visible = true;
+				logWarningTextinfo.text = ev.result[0].ress.message;
+				popupholder1.visible = true;
 				
-			}
-			public function tOver(ev:MouseEvent):void {
-				ev.currentTarget.setStyle("textDecoration","underline");
-			}
-			public function tOut(ev:MouseEvent):void {
-				ev.currentTarget.setStyle("textDecoration","none");
-			}
-			public function gOver(ev:MouseEvent):void {
-				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function gDown(ev:MouseEvent):void {
-				var gl:GlowFilter = new GlowFilter(000000,0.4,20,20,5,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function gOut(ev:MouseEvent):void {
-				ev.currentTarget.filters = [];
 			}			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 	
-		<s:HTTPService id="changePassword" method="POST" 
+		<s:HTTPService id="changePassword" method="GET" 
 					   resultFormat="array" 
 					   url="http://www.scoutcard.ca/php/mobile_v2/changePassword.php"
 					   result="afterChangePassword(event)" >
@@ -134,22 +67,123 @@
 		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
 			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
 					   paddingTop="20" bottom="0" horizontalAlign="center" verticalAlign="middle">
-				<s:TextInput id="oldpassword" top="37" width="98%" contentBackgroundColor="#FFFFFF"  fontFamily="Arial" horizontalCenter="0"
-							  displayAsPassword="true" prompt="Old Password"/>
-				<s:TextInput id="newpassword1" top="65" width="98%" contentBackgroundColor="#FFFFFF"  fontFamily="Arial"
-							 displayAsPassword="true" horizontalCenter="0" prompt="New Password"/>
-				<s:TextInput id="newpassword2" top="65" width="98%" contentBackgroundColor="#FFFFFF"  fontFamily="Arial"
-							 displayAsPassword="true" horizontalCenter="0" prompt="Confirm New Password"/>
-				<cs:IconButton   skinClass="skins.ImageButtonSkin" horizontalCenter="0"
-								 click="changePass();" />
-				<cs:IconButton   skinClass="skins.ImageButtonSkin"  horizontalCenter="0"
-								 click="navigator.popView();" />
-				<s:Label top="210" fontFamily="_sans" visible="false" right="2" left="2" height="100%" 
-						 color="#FFFFFF" id="logWarning"
-						 fontWeight="bold" horizontalCenter="0"
-						 text="Sorry Incorrect Information"/>
+				
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="oldpassword"  
+								 width="{550/(320/Capabilities.screenDPI)}"
+								 height="{100/(320/Capabilities.screenDPI)}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="Old Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="newpassword1"  
+								 width="{550/(320/Capabilities.screenDPI)}"
+								 height="{100/(320/Capabilities.screenDPI)}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="New Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="newpassword2"  
+								 width="{550/(320/Capabilities.screenDPI)}"
+								 height="{100/(320/Capabilities.screenDPI)}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="Confirm New Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				
+				
+				<s:Group width="100%" 
+						 mouseOver="gOver(event);"
+						 click="changePass();"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#bababa"/></s:fill>
+					</s:Rect>
+					<s:Label text="Submit Change" horizontalCenter="0" 
+							 verticalCenter="0" textAlign="center"
+							 color="#FFFFFF" styleName="textsize3" mouseEnabled="false"/>
+				</s:Group>
+
+				
 			</s:VGroup>
 		</s:VGroup>
 	</s:Scroller>
-	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/-->
+	<s:Group id="popupholder1"  width="100%" height="100%" visible="false">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group id="popupholder2" width="85%"  height="85%"
+				 horizontalCenter="0" verticalCenter="0"
+				 mouseDownOutside="{popupholder1.visible = false}">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+			</s:Rect>
+			
+			<!-- PUT POPUP CONTENTS HERE  -->
+			<s:Label id="logWarningTextinfo" textAlign="center"
+					 color="#656565"   width="90%"
+					 horizontalCenter="0"
+					 verticalCenter="0" 
+					 styleName="textsize13"
+					 verticalAlign="middle" 
+					 text="Sorry Incorrect Information"/>
+			<!-- END OF PUT POPUP CONTENTS HERE  -->
+			
+			<s:Group height="15%" width="100%" bottom="0" 
+					 click="{popupholder1.visible = false}"
+					 mouseDown="gDown(event);" mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
+				</s:Rect>
+				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
+						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>

@@ -5,6 +5,7 @@
 		backgroundColor="#f2f3f4"
 		menuKeyPressed="navigator.popView()"
 		backKeyPressed="navigator.popView()"
+		  viewActivate="init(event)"
 		title="Settings" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -14,6 +15,7 @@
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var busy:Boolean = false;
 			public function logout():void {
@@ -32,11 +34,24 @@
 					this.parentApplication.logout();
 				}
 			}
+			
+			public function changePasswordClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigator.pushView(Settings_ChangePwd);
+			}
+			
+			public function init(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				setLoginVars();		
+			}
+			
 		]]>
 	</fx:Script>
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" paddingTop="30" gap="30"  horizontalAlign="center" height="100%" >
-			<s:Group width="100%" height="250"
+			<s:Group width="100%" height="150"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);" 
@@ -48,31 +63,16 @@
 					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
 				</s:Line>
 				<components:next right="20" verticalCenter="0"/>
-				<s:VGroup paddingLeft="30" paddingTop="30" width="100%" height="100%" >
-					<s:Label text="User Name"
+				<s:VGroup paddingLeft="30" paddingTop="30" gap="30" width="100%" height="100%" >
+					<s:Label text="{nameGo}"
 							 verticalCenter="0" verticalAlign="middle" 
 							 textAlign="center"  mouseEnabled="false"
 							 styleName="textsize1"  color="#474646"/>
-					<s:Label text="Edmonton"
+					<s:Label text="{emailGo}"
 							 verticalCenter="0" verticalAlign="middle" 
 							 textAlign="center"  mouseEnabled="false"
 							 styleName="textsize1"  color="#474646"/>
-					<s:Label text="AB"
-							 verticalCenter="0" verticalAlign="middle" 
-							 textAlign="center"  mouseEnabled="false"
-							 styleName="textsize1"  color="#474646"/>
-					<s:Label text="T6E 4V7"
-							 verticalCenter="0" verticalAlign="middle" 
-							 textAlign="center"  mouseEnabled="false"
-							 styleName="textsize1"  color="#474646"/>
-					<s:Label text=""
-							 verticalCenter="0" verticalAlign="middle" 
-							 textAlign="center"  mouseEnabled="false"
-							 styleName="textsize1"  color="#474646"/>
-					<s:Label text="Birthday: Aug 24, 1988"
-							 verticalCenter="0" verticalAlign="middle" 
-							 textAlign="center"  mouseEnabled="false"
-							 styleName="textsize1"  color="#474646"/>
+					
 				</s:VGroup>
 			</s:Group>
 			<s:Group width="100%" height="100"
@@ -93,6 +93,7 @@
 						 styleName="textsize1"  color="#474646"/>
 			</s:Group>
 			<s:Group width="100%" height="100"
+					  click="changePasswordClick(event)"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);" 
@@ -110,6 +111,7 @@
 						 styleName="textsize1"  color="#474646"/>
 			</s:Group>
 			<s:Group width="100%" height="100"
+					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);" 

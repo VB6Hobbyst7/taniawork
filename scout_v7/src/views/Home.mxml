@@ -76,7 +76,8 @@
 			}
 			protected function activityClick(event:MouseEvent):void
 			{
-
+				foutcityback();
+				navigator.pushView(Activity);
 			}
 			public function fincityback():void {
 				var fa:Fade = new Fade();
@@ -234,7 +235,7 @@
 					</s:Group>
 					<s:Group width="50%" height="100%">
 						<s:Image bottom="0" horizontalCenter="0"  click="activityClick(event)"
-								  enabled="false" alpha="0.6"  contentLoader="{s_imageCache}"
+								  enabled="true" alpha="1"  contentLoader="{s_imageCache}"
 								 mouseDown="gDown(event);" mouseOver="gOver(event);"
 								 mouseOut="gOut(event);" mouseUp="gOut(event);">
 							<s:source>

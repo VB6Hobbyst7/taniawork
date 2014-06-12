@@ -235,12 +235,11 @@
 			</s:Rect>
 			
 			<!-- PUT POPUP CONTENTS HERE  -->
-			<s:Label id="logWarningTextinfo"
-					 color="#000000"  
-					 maxWidth="{500/(320/Capabilities.screenDPI)}"
+			<s:Label id="logWarningTextinfo" textAlign="center"
+					 color="#656565"   width="90%"
 					 horizontalCenter="0"
 					 verticalCenter="0" 
-					 styleName="textsize8"
+					 styleName="textsize13"
 					 verticalAlign="middle" 
 					 text="Sorry Incorrect Information"/>
 			<!-- END OF PUT POPUP CONTENTS HERE  -->

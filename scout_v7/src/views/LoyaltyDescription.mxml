@@ -16,13 +16,11 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.Event;
-			import flash.events.MouseEvent;
-			
+			import flash.events.MouseEvent;	
 			import mx.collections.ArrayCollection;
 			import mx.events.EffectEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.effects.Fade;
 			import spark.events.IndexChangeEvent;
 			import spark.events.PopUpEvent;
@@ -32,15 +30,21 @@
 			[Bindable]
 			public var loyaltyArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
+			public var staffArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
 			public var busy:Boolean = true;
 			[Bindable]
 			public var spendout:Number = 0;
 			[Bindable]
 			public var amountout:Number = 0;
 			[Bindable]
-			public var selectedRewardId:String = "";
+			public var selectedRewardID:String = "";
 			[Bindable]
 			public var rewardDescription:String = "";
+			[Bindable]
+			public var staffLocationID:String = "";
+			[Bindable]
+			public var staffID:String = "";
 			public function onActivate(event:Event):void
 			{
 				warn.visible = false;
@@ -56,8 +60,8 @@
 			}
 			public function afterGetLoyaltyDescription(ev:ResultEvent):void  {
 				loyaltyArray = new ArrayCollection();
+				staffArray = new ArrayCollection();
 				try{
-					var stop:String = "";
 					try{
 						loyaltyArray = ev.result[0].ress.res;
 					}
@@ -78,6 +82,27 @@
 				}
 				catch(e:Error){}
 				
+				
+				try{
+					try{
+						staffArray = ev.result[0].ress2.res2;
+					}
+					catch(e:Error){
+						try{
+							staffArray.addItem(ev.result[0].ress2.res2);
+						}
+						catch(e:Error){}
+					}
+					
+					try{
+						if (staffArray.length > 0){
+						}
+					}
+					catch(e:Error){}	
+				}
+				catch(e:Error){}
+				
+				
 				if (loyaltyArray.length == 0){
 					warn.visible = true;
 				}
@@ -96,23 +121,33 @@
 				}
 				busy = false;	
 			}
-			public function lListClick(ev:IndexChangeEvent):void {	
+			public function listClick(ev:IndexChangeEvent):void {	
 				if (loyaltyList.selectedIndex != -1){
 					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
 						spendout = ev.currentTarget.selectedItems[0].spend;
 						amountout = ev.currentTarget.selectedItems[0].amount;
-						selectedRewardId = ev.currentTarget.selectedItems[0].id;
+						selectedRewardID = ev.currentTarget.selectedItems[0].id;
 						rewardDescription = ev.currentTarget.selectedItems[0].name;
 						openRewardPopup();
+						loyaltyList.selectedIndex = -1;
 					}					
 				}
 			}
 			public function afterRedeem(ev:ResultEvent):void {
+				var stop:String = "";
+				StaffPinPopupOut();
+				RewardPopupOut();
+				openInfoPopup();
+				data.amount = data.amount - spendout;
+				fillcircles(0);
 				
+				for (var i:uint = 0; i < loyaltyArray.length; i++){
+					loyaltyArray[i].amount = data.amount;
+				}
+				loyaltyArray.refresh();
+				loyaltyList.dataProvider = loyaltyArray;
 			}
-			
-			
-			
+
 			protected function closeRewardPopup():void
 			{
 				RewardPopupOut();
@@ -154,7 +189,7 @@
 				StaffPinPopupIn();
 			}
 			public function StaffPinPopupIn():void {
-				rewardpopup.visible = true;
+				staffpinpopup.visible = true;
 				var fa:Fade = new Fade();
 				fa.alphaFrom = 0;
 				fa.alphaTo = 1;
@@ -177,6 +212,107 @@
 			
 			
 			
+			
+			
+			
+			
+			protected function closeInfoPopup():void
+			{
+				InfoPopupOut();
+			}
+			protected function openInfoPopup():void
+			{
+				InfoPopupIn();
+			}
+			public function InfoPopupIn():void {
+				infopopup.visible = true;
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = infopopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function InfoPopupOut():void {
+				var fa:Fade = new Fade();
+				fa.addEventListener(EffectEvent.EFFECT_END, afterinfoout);
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = infopopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function afterinfoout(ev:EffectEvent):void {
+				infopopup.visible = false;
+			}
+			
+			
+			
+			
+			
+			public var keystring:String = "";
+			public function keypad(s:String):void {
+				if (s == "c"){
+					keystring = "";
+				}
+				else if (s == "d"){
+					keystring = keystring.substr(0,keystring.length-2);
+				}
+				else {
+					keystring = keystring+s;
+				}
+				
+				
+				
+				
+				var goodpin:Boolean = false;
+				if (keystring.length == 4){
+					for (var i:uint= 0; i < staffArray.length; i++){
+						if (staffArray[i].emp_num == keystring){
+							goodpin = true;
+							staffLocationID = staffArray[i].locationid;
+							staffID = staffArray[i].id;
+						}
+					}
+					
+					if (goodpin){
+						goredeem.send();
+					}
+					else {
+						keystring = "";
+					}
+				}	
+				fillcircles(keystring.length);
+			}
+			public function fillcircles(u:Number):void {
+				if (u >= 4){
+					pin4.source = "assets/"+getDPIHeight().toString()+"/pin_active.png";
+				}
+				else {
+					pin4.source = "assets/"+getDPIHeight().toString()+"/pin.png";
+				}
+				
+				if (u >= 3){
+					pin3.source = "assets/"+getDPIHeight().toString()+"/pin_active.png";
+				}
+				else {
+					pin3.source = "assets/"+getDPIHeight().toString()+"/pin.png";
+				}
+				
+				if (u >= 2){
+					pin2.source = "assets/"+getDPIHeight().toString()+"/pin_active.png";
+				}
+				else {
+					pin2.source = "assets/"+getDPIHeight().toString()+"/pin.png";
+				}
+				
+				if (u >= 1){
+					pin1.source = "assets/"+getDPIHeight().toString()+"/pin_active.png";
+				}
+				else {
+					pin1.source = "assets/"+getDPIHeight().toString()+"/pin.png";
+				}
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -195,8 +331,10 @@
 					   result="afterRedeem(event)" >	
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
-				<loyaltyid>{data.id}</loyaltyid>
-				<locationid>{data.locationid}</locationid>
+				<loyaltyid>{selectedRewardID}</loyaltyid>
+				<locationid>{staffLocationID}</locationid>
+				<staffid>{staffID}</staffid>
+				<merchid>{data.id}</merchid>
 				<newa>{amountout-spendout}</newa>
 				<amount>{amountout}</amount>
 				<spend>{spendout}</spend>
@@ -209,24 +347,26 @@
 			<s:Group width="100%"  height="{img1.width/(16/9)}"  >
 				<s:BitmapImage width="100%" id="img1" 
 							   height="{img1.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
-				<s:BorderContainer  borderVisible="false" 
-									backgroundColor="#FFFFFF" bottom="0" width="100%" 
+				<s:Group  bottom="0" width="100%" 
 									height="{img1.height/5}">
-					<s:HGroup width="100%" paddingLeft="10" height="100%" verticalAlign="middle" verticalCenter="0">
-						<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize1"
+					<s:Rect width="100%" height="100%">
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:HGroup width="100%" paddingLeft="0" height="100%" verticalAlign="middle" verticalCenter="0">
+						<s:Label paddingLeft="30" width="100%"  color="#5e5c5c"   styleName="textsize1"
 								 maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 								 verticalCenter="0"/>
-						<s:Label right="0"  height="100%" id="pointsamount" color="#0aaae5"  paddingRight="10"  styleName="textsize1"
+						<s:Label   height="100%" id="pointsamount" color="#0aaae5"  paddingRight="30"  styleName="textsize1"
 								 text="{data.amount} Points" textAlign="right" fontWeight="bold"
 								 verticalAlign="middle" verticalCenter="0"/>
 					</s:HGroup>
-				</s:BorderContainer>
-				<s:BorderContainer  borderVisible="false" 
-									backgroundColor="#0aaae5" bottom="0" width="100%" 
-									height="5"/>
+				</s:Group>
+				<s:Rect width="100%" height="5" bottom="0">
+					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
+				</s:Rect>
 			</s:Group>
 			<s:List id="loyaltyList" width="100%" height="100%" 
-					change="lListClick(event);" horizontalScrollPolicy="off"
+					change="listClick(event);" horizontalScrollPolicy="off"
 					horizontalCenter="0" contentBackgroundAlpha="0"
 					itemRenderer="components.loyaltydescriptionitem">
 				<s:layout>
@@ -280,7 +420,7 @@
 								 styleName="textsize3" color="#191919"/>
 					</s:HGroup>
 				</s:Group>
-				<s:Label text="{rewardDescription}" width="80%"  mouseEnabled="false"
+				<s:Label text="{rewardDescription}" width="80%" textAlign="center"  mouseEnabled="false"
 						 verticalCenter="0" horizontalCenter="0"
 						 styleName="textsize10" color="#222222"/>
 			</s:VGroup>
@@ -317,13 +457,7 @@
 	</s:Group>
 	
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	<s:Group id="staffpinpopup" width="100%" height="100%" visible="false" alpha="0">
@@ -348,6 +482,48 @@
 						<s:Line  right="5" left="0"  bottom="0"  > 
 							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
 						</s:Line>
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="30" verticalAlign="middle" horizontalAlign="center">
+							<s:BitmapImage  id="pin1" contentLoader="{s_imageCache}">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
+															source240dpi="@Embed('assets/240/pin.png')"
+															source320dpi="@Embed('assets/320/pin.png')"
+															source480dpi="@Embed('assets/480/pin.png')"
+															source640dpi="@Embed('assets/640/pin.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							
+							<s:BitmapImage id="pin2"  contentLoader="{s_imageCache}">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
+															source240dpi="@Embed('assets/240/pin.png')"
+															source320dpi="@Embed('assets/320/pin.png')"
+															source480dpi="@Embed('assets/480/pin.png')"
+															source640dpi="@Embed('assets/640/pin.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							
+							
+							<s:BitmapImage id="pin3"  contentLoader="{s_imageCache}">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
+															source240dpi="@Embed('assets/240/pin.png')"
+															source320dpi="@Embed('assets/320/pin.png')"
+															source480dpi="@Embed('assets/480/pin.png')"
+															source640dpi="@Embed('assets/640/pin.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							
+							<s:BitmapImage id="pin4"  contentLoader="{s_imageCache}">
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
+															source240dpi="@Embed('assets/240/pin.png')"
+															source320dpi="@Embed('assets/320/pin.png')"
+															source480dpi="@Embed('assets/480/pin.png')"
+															source640dpi="@Embed('assets/640/pin.png')"/>
+								</s:source>
+							</s:BitmapImage>
+						</s:HGroup>
 					</s:Group>
 					
 					
@@ -357,9 +533,9 @@
 							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
-							<components:keypad  numberlabel="1" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad  numberlabel="2" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad showrightline="false"   numberlabel="3" width="34%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('1');"  numberlabel="1" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('2');"  numberlabel="2" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('3');"  showrightline="false"   numberlabel="3" width="34%" top="0"  bottom="0"  height="100%"/>
 						</s:HGroup>
 					</s:Group>
 					
@@ -368,9 +544,9 @@
 							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
-							<components:keypad  numberlabel="4" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad  numberlabel="5" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad showrightline="false"   numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  click="keypad('4');"  numberlabel="4" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('5');"  numberlabel="5" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  click="keypad('6');"  showrightline="false"   numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
 						</s:HGroup>
 					</s:Group>
 					
@@ -380,18 +556,18 @@
 							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
-							<components:keypad  numberlabel="7" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad  numberlabel="8" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad showrightline="false"   numberlabel="9" width="34%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('7');"   numberlabel="7" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('8');"  numberlabel="8" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('9');"  showrightline="false"   numberlabel="9" width="34%" top="0"  bottom="0"  height="100%"/>
 						</s:HGroup>
 					</s:Group>
 					
 					
 					<s:Group  width="100%" height="20%" horizontalCenter="0">
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
-							<components:keypad blx="15" bly="15"  numberlabel="C" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad  numberlabel="0" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad showrightline="false" brx="15" bry="15" numberlabel="del" width="34%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  click="keypad('c');"  blx="15" bly="15"  numberlabel="C" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('0');"    numberlabel="0" width="33%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('d');"  showrightline="false" brx="15" bry="15" numberlabel="del" width="34%" top="0"  bottom="0"  height="100%"/>
 						</s:HGroup>
 					</s:Group>
 					
@@ -421,5 +597,33 @@
 	
 	
 	
+	
+	<s:Group id="infopopup" width="100%" height="100%" visible="false" alpha="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20" >
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+			</s:Rect>
+			<s:Label text="Reward Successfully Redeemed" textAlign="center" width="80%"  mouseEnabled="false"
+					 top="100" horizontalCenter="0"
+					 styleName="textsize20" color="#727272"/>
+			
+			<s:Group height="15%" left="0" right="3" bottom="0" 
+					 click="closeInfoPopup();"
+					 mouseDown="gDown(event);" mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:Rect width="100%" height="100%" bottomLeftRadiusX="20" bottomLeftRadiusY="20"
+						 bottomRightRadiusX="20" bottomRightRadiusY="20">
+					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
+				</s:Rect>
+				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
+						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+
 	
 </s:View>
