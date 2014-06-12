@@ -6,8 +6,9 @@
 	<versionNumber>1.0.8</versionNumber>
 	<initialWindow>
 		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+		<autoOrients>true</autoOrients>
 		<renderMode>auto</renderMode>
-			<autoOrients>true</autoOrients>
+		<aspectRatio>portrait</aspectRatio>
 		<fullScreen>true</fullScreen>
 		<visible>true</visible>
 		<softKeyboardBehavior>none</softKeyboardBehavior>
@@ -83,6 +84,7 @@
 			</dict>
 			</array>
 		]]></InfoAdditions>
+		<requestedDisplayResolution>high</requestedDisplayResolution>
 	</iPhone>
 <extensions>
         <extensionID>com.milkmangames.extensions.GoViral</extensionID>
