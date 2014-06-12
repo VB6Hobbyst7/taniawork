@@ -822,8 +822,8 @@ public class GoViralExample extends Sprite
 	{
 		txtStatus=new TextField();
 		
-		txtStatus.defaultTextFormat=new flash.text.TextFormat("Arial",19);
-		txtStatus.width=stage.stageWidth;
+		txtStatus.defaultTextFormat=new flash.text.TextFormat("Arial",4);
+		txtStatus.width=600;//stage.stageWidth;
 		txtStatus.multiline=true;
 		txtStatus.wordWrap=true;
 		txtStatus.text="Ready";
@@ -848,7 +848,7 @@ public class GoViralExample extends Sprite
 		buttonContainer.y=txtStatus.height;
 		addChild(buttonContainer);
 		
-		var uiRect:Rectangle=new Rectangle(0,0,stage.stageWidth,stage.stageHeight);
+		var uiRect:Rectangle=new Rectangle(0,0,600,1000);
 		var layout:ButtonLayout=new ButtonLayout(uiRect,14);
 		layout.addButton(new SimpleButton(new Command("Send Test Email",sendTestEmail)));
 		layout.addButton(new SimpleButton(new Command("Send Pic Email",sendImageEmail)));		
@@ -884,7 +884,7 @@ public class GoViralExample extends Sprite
 		buttonContainer.y=txtStatus.height;
 		addChild(buttonContainer);
 		
-		var uiRect:Rectangle=new Rectangle(0,0,stage.stageWidth,stage.stageHeight);
+		var uiRect:Rectangle=new Rectangle(0,0,600,1000);
 		var layout:ButtonLayout=new ButtonLayout(uiRect,14);
 		layout.addButton(new SimpleButton(new Command("Login", loginFacebook)));
 		layout.addButton(new SimpleButton(new Command("Graph Action Dialog", facebookOpenGraphDialog)));
@@ -922,7 +922,7 @@ public class GoViralExample extends Sprite
 		buttonContainer.y=txtStatus.height;
 		addChild(buttonContainer);
 		
-		var uiRect:Rectangle=new Rectangle(0,0,stage.stageWidth,stage.stageHeight);
+		var uiRect:Rectangle=new Rectangle(0,0,600,1000);
 		var layout:ButtonLayout=new ButtonLayout(uiRect,14);
 
 		layout.addButton(new SimpleButton(new Command("post photo",postPhotoFacebook)));
