@@ -18,10 +18,12 @@
 			import flash.events.GeolocationEvent;
 			import flash.events.UncaughtErrorEvent;
 			import flash.sensors.Geolocation;
+			
 			import mx.collections.ArrayCollection;
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
+			
 			import spark.components.BusyIndicator;
 			import spark.components.ButtonBar;
 			import spark.components.Group;
@@ -31,9 +33,11 @@
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
 			import spark.transitions.CrossFadeViewTransition;
+			
+			import views.FacebookTest;
 			import views.Home;
-			import views.Signin;
 			import views.Loyalty;
+			import views.Signin;
 			import views.Stores;
 			[Bindable]
 			public var VERSIONID:Number = 5;
@@ -66,7 +70,8 @@
 				stmt.execute();
 				resData = new ArrayCollection(stmt.getResult().data);
 				var loadManager:PersistenceManager = new PersistenceManager();
-				loadStuff(resData);
+				this.navigator.pushView(FacebookTest,null,null,crosstrans);
+				//loadStuff(resData);
 
 			}
 			protected function onUpdate(event:GeolocationEvent):void
