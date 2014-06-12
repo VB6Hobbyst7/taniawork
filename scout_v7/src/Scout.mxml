@@ -70,8 +70,8 @@
 				stmt.execute();
 				resData = new ArrayCollection(stmt.getResult().data);
 				var loadManager:PersistenceManager = new PersistenceManager();
-				this.navigator.pushView(FacebookTest,null,null,crosstrans);
-				//loadStuff(resData);
+				
+				loadStuff(resData);
 
 			}
 			protected function onUpdate(event:GeolocationEvent):void

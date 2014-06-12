@@ -53,40 +53,43 @@ public class GoViralExample extends Sprite
 		if (!GoViral.isSupported())
 		{
 			log("Extension is not supported on this platform.");
-			return;
+			//return;
+		}
+		else {
+			GoViral.create();
+			
+			log("GoViral Extension Initialized: "+GoViral.VERSION);
+			
+			// initialize facebook.		
+			// this is to make sure you remembered to put in your app ID !
+			if (FACEBOOK_APP_ID=="YOUR_FACEBOOK_APP_ID")
+			{
+				log("You forgot to put in Facebook ID!");
+			}
+			else
+			{
+				log("Initializing facebook...");
+				GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
+				log("Facebook Initialized! GoViral v"+GoViral.VERSION);
+			}
+			
+			// set up all the event listeners.
+			// you only need the ones for the services you want to use.
+			
+			// facebook events
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_OUT,onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_CANCELED,onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
+			
+			// facebook events for manually updating permissions
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED, onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED, onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_FAILED, onFacebookEvent);
+			GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED, onFacebookEvent);
 		}
 
-		GoViral.create();
-	
-		log("GoViral Extension Initialized: "+GoViral.VERSION);
-
-		// initialize facebook.		
-		// this is to make sure you remembered to put in your app ID !
-		if (FACEBOOK_APP_ID=="YOUR_FACEBOOK_APP_ID")
-		{
-			log("You forgot to put in Facebook ID!");
-		}
-		else
-		{
-			log("Initializing facebook...");
-			GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
-			log("Facebook Initialized! GoViral v"+GoViral.VERSION);
-		}
 		
-		// set up all the event listeners.
-		// you only need the ones for the services you want to use.
-		
-		// facebook events
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_OUT,onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_CANCELED,onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
-		
-		// facebook events for manually updating permissions
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED, onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED, onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_FAILED, onFacebookEvent);
-		GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED, onFacebookEvent);
 
 		showMainUI();
 	}
@@ -822,7 +825,7 @@ public class GoViralExample extends Sprite
 	{
 		txtStatus=new TextField();
 		
-		txtStatus.defaultTextFormat=new flash.text.TextFormat("Arial",4);
+		txtStatus.defaultTextFormat=new flash.text.TextFormat("Arial",16);
 		txtStatus.width=600;//stage.stageWidth;
 		txtStatus.multiline=true;
 		txtStatus.wordWrap=true;

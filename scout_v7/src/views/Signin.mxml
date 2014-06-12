@@ -90,6 +90,12 @@
 				navigator.pushView(Signup_step1);
 			}
 			
+			public function fofacebook(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigator.pushView(FacebookTest);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>	
@@ -112,7 +118,7 @@
 					  paddingTop="{20/(320/Capabilities.screenDPI)}"
 					  bottom="0" horizontalAlign="center" verticalAlign="top">
 				<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
-				<components:facebook/>
+				<components:facebook click="fofacebook(event)"/>
 				<components:or/>
 				<components:twitter/>
 				<components:or/>
