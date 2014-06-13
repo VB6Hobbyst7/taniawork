@@ -30,7 +30,6 @@ import events.ActionEvent;
 import flash.system.Capabilities;
 [Bindable]
 public var picture:String = "";
-protected var sqlConnection:SQLConnection;
 [Bindable]
 public var busy:Boolean = true;
 [Bindable]
@@ -73,26 +72,7 @@ public function view1_activateHandler(event:Event):void
 	scroller.visible = true;
 	getMenuItemInformation.send();
 	
-	var ratingstring:String = "";
-	var ratingnumber:Number = 0;
-	
-	ratingstring = data.selectedData.rating.toString();
-	ratingnumber = Number(data.selectedData.rating.toString());
-	
-	if (ratingnumber == 0){
-		ratinglabel.text = "-";
-	}
-	else if (ratingnumber >= 10){
-		ratingnumber = 10;
-		ratinglabel.text = "10";
-	}
-	else if (ratingstring.length > 3){
-		ratingstring = ratingstring.substring(0,3);
-		ratinglabel.text = ratingstring;
-	}
-	else {
-		ratinglabel.text = ratingstring;
-	}
+
 	if ((data.selectedData.picture == "None")||(data.selectedData.picture == "")||(data.selectedData.picture == null)||(data.selectedData.picture == "null")){
 		img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
 	}

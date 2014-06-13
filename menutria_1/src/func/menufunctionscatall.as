@@ -44,8 +44,6 @@ private var _distString:String;
 public var googleTravelUrl:String = "";
 protected var g:Geolocation = new Geolocation();    
 [Bindable]
-public var locationid:String = "";
-[Bindable]
 public var radiusOptions:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var sortMode:Number = 0;
@@ -55,7 +53,6 @@ public var reverse:Boolean = false;
 public var emailGo:String = "none";
 [Bindable]
 public var locatoinidGo:Number = -1;
-protected var sqlConnection:SQLConnection;
 [Bindable]
 public var busy:Boolean = true;
 [Bindable]
@@ -78,15 +75,11 @@ public var filterData2:ArrayCollection = new ArrayCollection();
 public var filterData3:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var filterData4:ArrayCollection = new ArrayCollection();
-[Bindable]
-public var business_image:String = "http://www.mymenuapp.ca/uploadify/uploads/254545363fe71e679a.jpg";
-[Bindable]
-public var business_name:String = "Cactus Club";
-[Bindable]
-public var business_address:String = "15550  Jasper Ave, Edmonton Alberta";
 
 protected function init():void
 {
+	
+	setLoginVars();
 	
 	filterData1 = new ArrayCollection();
 	filterData2 = new ArrayCollection();
@@ -111,10 +104,10 @@ protected function init():void
 	showloading();
 	warn.visible = false;
 	busy = true;
-	locationid = '5';
 	emailGo = "guest";
 	getMenu.send();
 	filterarea.visible = true;
+	widepic.visible = true;
 }	
 
 public function afterGetMenu(ev:ResultEvent):void
@@ -177,14 +170,20 @@ public function afterGetMenuCont():void {
 						if ((resvaluesData[i].id == resData[k].restrictid)&&(resvaluesData[i].chosen == 'yes')){
 							goodstatus = 1;
 							for (var l:uint = 0; l < modData.length; l++){
-								if (resvaluesData[i].id == modData[l].restrictid){
+								if ((resvaluesData[i].id == modData[l].restrictid)&&(modData[l].menuid == resData[k].menuid)){
 									//show it but add warning
+									if (resData[k].menuid == "286"){
+										var stp:String = "";
+									}
 									goodstatus = 2;
 								}
 							}
 							
 							if (goodstatus == 1){
 								permabad = true;
+								if (resData[k].menuid == "286"){
+									var stpre:String = "";
+								}
 							}
 						}
 					}

@@ -12,20 +12,50 @@
 	<fx:Script  source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
-			import events.ActionEvent;
-			
+			import events.ActionEvent;		
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.components.SplitViewNavigator;
 			import spark.components.ViewNavigator;
 			[Bindable]
 			public var locationid:String = '5';
+			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			protected function afterGetInfo(ev:ResultEvent):void
+			public var doneonce:Boolean = false;
+		
+			protected function init(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
+				setLoginVars();
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt2:SQLStatement = new SQLStatement();
+				stmt2.sqlConnection = sqlConnection;
+				stmt2.text = "delete from resvalues";
+				stmt2.execute();
+
+				
+				
+				if (nameVAR == ""){
+					backimage.visible = true;
+					getLocations.send();
+					storeselection.visible = true;
+					storeselection.height = 200;
+					logouttool.visible = false;
+				}
+				else {
+					logouttool.visible = true;
+					backimage.visible = false;
+					backimage2.source = pictureVAR;
+					backimage2.visible = true;
+					
+				}
+			}
+			
+
+			protected function afterGetLocations(ev:ResultEvent):void
+			{
 				listData = new  ArrayCollection();
 				try{			
 					listData = ev.result[0].ress.res;		
@@ -39,19 +69,64 @@
 				var stop:String = "";
 			}
 			
-			protected function init(event:FlexEvent):void
-			{
-				//getLocationInfo.send();
-			}
-			public var doneonce:Boolean = false;
-			
 			protected function enterclick(event:MouseEvent):void
 			{
 				if (doneonce == false){
+					if (nameVAR == ""){
+						idVAR = listData[storelist.selectedIndex].id;
+						nameVAR = listData[storelist.selectedIndex].name;
+						addressVar = listData[storelist.selectedIndex].business_address1;
+						cityVAR = listData[storelist.selectedIndex].business_city;
+						localityVAR = listData[storelist.selectedIndex].business_locality;
+						postalcodeVAR = listData[storelist.selectedIndex].business_postalcode;
+						pictureVAR = listData[storelist.selectedIndex].business_picture;
+						
+						sqlConnection = new SQLConnection();
+						sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+						var stmt:SQLStatement = new SQLStatement();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "delete FROM resuser;";
+						stmt.execute();
+						stmt.sqlConnection = sqlConnection;
+						stmt.text = "INSERT into resuser values(:id,:name,:address,:city,:locality,:postalcode,:picture)";
+						stmt.parameters[":id"] = idVAR;
+						stmt.parameters[":name"] = nameVAR;
+						stmt.parameters[":address"] = addressVar;
+						stmt.parameters[":city"] = cityVAR;
+						stmt.parameters[":locality"] = localityVAR;
+						stmt.parameters[":postalcode"] = postalcodeVAR;
+						stmt.parameters[":picture"] = pictureVAR;
+						stmt.execute();
+					}
+					
 					doneonce = true;
 					dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,welcomemode:true}));
 				}
 			
+			}
+			
+			protected function logout(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM resuser;";
+				stmt.execute();
+				idVAR = "";
+				nameVAR = "";
+				addressVar ="";
+				cityVAR ="";
+				localityVAR = "";
+				postalcodeVAR = "";
+				pictureVAR = "";
+				backimage.visible = true;
+				backimage2.visible = false;
+				getLocations.send();
+				storeselection.visible = true;
+				storeselection.height = 200;
+				logouttool.visible = false;
 			}
 			
 		]]>
@@ -59,16 +134,24 @@
 	<fx:Script source="../func/loadingfunctions.as"/>
 	
 	<fx:Declarations>		
-		<s:HTTPService id="getLocationInfo" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocationInfo.php"
-					   result="afterGetInfo(event)">
-			<s:request xmlns="">
-				<locationid>{locationid}</locationid>		
-			</s:request>
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.mymenuapp.ca/php/mobile/getLocationsForTablet.php"
+					   result="afterGetLocations(event)">
 		</s:HTTPService>
 	</fx:Declarations>
 		<s:Group width="100%" height="100%"   id="megacont"  >
-			<s:Image  width="100%"  height="100%" scaleMode="zoom" >
+			<s:Image id="backimage" visible="false"  width="100%"  height="100%" contentLoader="{s_imageCache}"  scaleMode="zoom" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/default_back.jpg')"
+											source240dpi="@Embed('assets/240/default_back.jpg')"
+											source320dpi="@Embed('assets/320/default_back.jpg')"
+											source480dpi="@Embed('assets/320/default_back.jpg')"
+											source640dpi="@Embed('assets/320/default_back.jpg')"
+											/>
+				</s:source>
+			</s:Image>
+			<s:Image id="backimage2" smooth="true" visible="false" contentLoader="{s_imageCache}"   width="100%"  height="100%" scaleMode="zoom" />
+			<s:Image  width="100%"  height="100%" scaleMode="zoom" contentLoader="{s_imageCache}"  >
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/blur.png')"
 											source240dpi="@Embed('assets/240/blur.png')"
@@ -78,7 +161,8 @@
 											/>
 				</s:source>
 			</s:Image>
-			<s:Label styleName="textsize9" text="Cactus Club" color="#FFFFFF" bottom="20" right="20"/>
+			<s:Label styleName="textsize9" id="logouttool" click="logout(event)" text="Logout" color="#FFFFFF" bottom="20" left="20"/>
+			<s:Label styleName="textsize9" text="{nameVAR}" color="#FFFFFF" bottom="20" right="20"/>
 		</s:Group>
 	<s:VGroup gap="25" horizontalCenter="0" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
 		<s:Image >
@@ -91,9 +175,12 @@
 										/>
 			</s:source>
 		</s:Image>
+		<s:SpinnerListContainer id="storeselection" height="0" visible="false">
+			<s:SpinnerList id="storelist" width="200" labelField="name" dataProvider="{listData}"/>		
+		</s:SpinnerListContainer>
 		<components:transbutton  mouseDown="gDown(event);" mouseOver="gOver(event);"
 								 mouseOut="gOut(event);" mouseUp="gOut(event);" 
-								  click="enterclick(event)"
+								 click="enterclick(event)"
 								 horizontalCenter="0" />
 	</s:VGroup>
 </s:View>

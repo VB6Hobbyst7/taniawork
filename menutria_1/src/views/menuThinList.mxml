@@ -40,7 +40,7 @@
 					   url="http://www.mymenuapp.ca/php/mobile/getMenu.php"
 					   result="afterGetMenu(event)" >
 			<s:request xmlns="">
-				<locationid>{locationid}</locationid>		
+				<locationid>{idVAR}</locationid>		
 				<emailGo>{emailGo}</emailGo>
 				<categoryid>-1</categoryid>	
 			</s:request>
@@ -48,7 +48,7 @@
 	</fx:Declarations>
 	<s:VGroup width="100%" gap="-1" top="0" bottom="40" horizontalAlign="center">
 		<s:Group  id="promoarea" visible="true" width="100%"  height="{270/(320/Capabilities.screenDPI)}">		
-			<s:Image  source="{business_image}" 
+			<s:Image  source="{pictureVAR}"    visible="false" id="widepic"
 					  height="100%"
 					  scaleMode="zoom"
 					  width="100%"
@@ -62,7 +62,7 @@
 			<s:VGroup left="{30/(320/Capabilities.screenDPI)}" height="100%" verticalAlign="middle">
 				<s:Label color="#FFFFFF"  verticalCenter="0"  styleName="textsize20" fontWeight="bold"
 						 left="{30/(320/Capabilities.screenDPI)}" 
-						 text="{business_name}"/>
+						 text="{nameVAR}"/>
 				
 			</s:VGroup>
 			
@@ -185,7 +185,7 @@
 		<s:List  width="100%" horizontalCenter="0" height="100%"
 				 contentBackgroundAlpha="0"  
 				 id="menuList" labelField="name"  horizontalScrollPolicy="off" 
-				 dataProvider="{listData}" itemRenderer="components.menuResult"
+				 dataProvider="{listData}" itemRenderer="components.menuResult_thin"
 				 selectedIndex="1" 
 				 change="menuListClick();"
 				 click="menuListClick();" >

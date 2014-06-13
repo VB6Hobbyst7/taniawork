@@ -16,6 +16,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
+			[Bindable]
 			public var setheightval:Number = 200/(320/Capabilities.screenDPI);
 			protected function init2(event:FlexEvent):void
 			{
@@ -46,26 +47,42 @@
 								catLabel.text = data.categoryname;
 							}
 							
-							if (data.hideall == false) {
-							
-								megacont.height = 200/(320/Capabilities.screenDPI);
-								var n:Number = Number(data.rating);
-								nameLabel.text = data.name;
-								catLabel2.text = data.categoryname;
-								costLabel.text = "  $"+data.cost;
-								bmpImg.width = setheightval*(160/75);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
-								bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
-								bmpImg.maxHeight = this.height;
-								if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
-									bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
+							try{
+								if (data.hideall == false) {
+									megacont.height = 200/(320/Capabilities.screenDPI);
+									var n:Number = Number(data.rating);
+									nameLabel.text = data.name;
+									catLabel2.text = data.categoryname;
+									costLabel.text = "  $"+data.cost;
+									bmpImg.width = setheightval*(160/75);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+									bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+									bmpImg.maxHeight = this.height;
+									if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+										bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
+									}
+									else {
+										bmpImg.source = data.picture;
+									}
+									bmpImg.contentLoader = s_imageCache;
 								}
-								else {
-									bmpImg.source = data.picture;
-								}
-								bmpImg.contentLoader = s_imageCache;
-
-								
 							}
+							catch(e:Error){
+									megacont.height = 200/(320/Capabilities.screenDPI);
+									nameLabel.text = data.name;
+									catLabel2.text = data.categoryname;
+									costLabel.text = "  $"+data.cost;
+									bmpImg.width = setheightval*(160/75);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+									bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+									bmpImg.maxHeight = this.height;
+									if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+										bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
+									}
+									else {
+										bmpImg.source = data.picture;
+									}
+									bmpImg.contentLoader = s_imageCache;
+							}
+							
 							
 							
 						}
@@ -110,11 +127,28 @@
 								catLabel.text = data.categoryname;
 							}
 							
-							if (data.hideall == false) {
-								
+							try{
+								if (data.hideall == false) {
+									megacont.height = 200/(320/Capabilities.screenDPI);
+									var n:Number = Number(data.rating);
+									nameLabel.text =  data.name;
+									catLabel2.text = data.categoryname;
+									costLabel.text = "  $"+data.cost;
+									bmpImg.width = setheightval*(160/75);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+									bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+									if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+										bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
+									}
+									else {
+										bmpImg.source = data.picture;
+									}
+									bmpImg.contentLoader = s_imageCache;
+								}
+							}
+							catch(e:Error){
 								megacont.height = 200/(320/Capabilities.screenDPI);
 								var n:Number = Number(data.rating);
-								nameLabel.text = data.name;
+								nameLabel.text =  data.name;
 								catLabel2.text = data.categoryname;
 								costLabel.text = "  $"+data.cost;
 								bmpImg.width = setheightval*(160/75);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
@@ -126,11 +160,7 @@
 									bmpImg.source = data.picture;
 								}
 								bmpImg.contentLoader = s_imageCache;
-								
-								
-								
 							}
-							
 							
 						}
 						
@@ -180,7 +210,7 @@
 					paddingTop="{10/(320/Capabilities.screenDPI)}"
 					paddingBottom="{10/(320/Capabilities.screenDPI)}" 
 					paddingRight="{10/(320/Capabilities.screenDPI)}">
-				<s:Label id="nameLabel" width="100%" color="#4d4d4d" maxDisplayedLines="1" 
+				<s:Label id="nameLabel" width="95%" color="#4d4d4d" maxDisplayedLines="1" 
 						 fontWeight="bold" styleName="textsize5"
 						 verticalAlign="middle"></s:Label>
 				<s:HGroup width="100%" gap="0">
@@ -193,7 +223,7 @@
 				</s:HGroup>
 			</s:VGroup>
 		</s:HGroup>
-		<s:Image id="alertImage" right="{(this.height-(((75/(320/Capabilities.screenDPI))*data.divtype)))*1.2}" 
+		<s:Image id="alertImage" right="{setheightval*(160/75)*1.1}" 
 				  includeIn="nocatyesalert,yescatyesalert"
 				 verticalCenter="0"  contentLoader="{s_imageCache}" >
 			<s:source>

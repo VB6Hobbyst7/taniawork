@@ -282,8 +282,7 @@
 	<s:SplitViewNavigator id="svn" width="100%" height="{this.height}" top="0"    
 						  leading="0"  includeIn="notwelcome, welcome" 
 						  contentBackgroundAlpha="0"
-						  backgroundAlpha="1" backgroundColor="#cccccc"
-						  >
+						  backgroundAlpha="1" backgroundColor="#cccccc">
 		<s:ViewNavigator id="leftNav"  width="-1"
 						 includeIn="notwelcome, welcome" height="100%"  
 						 firstView="views.restrictionThinList"/>

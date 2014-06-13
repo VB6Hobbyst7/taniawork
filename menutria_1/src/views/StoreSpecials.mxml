@@ -32,7 +32,6 @@
 			public var emailGo:String = "";
 			[Bindable]
 			public var nameGo:String = "";
-			protected var sqlConnection:SQLConnection;
 			[Bindable]
 			public var togstatus:Boolean = false;
 			[Bindable]
