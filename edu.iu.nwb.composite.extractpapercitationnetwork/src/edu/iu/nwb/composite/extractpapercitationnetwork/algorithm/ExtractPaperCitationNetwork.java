@@ -79,23 +79,17 @@
 /*  76: 70 */       Graph outputGraph = 
 /*  77: 71 */         gc.buildGraph("Cited References", "Cite Me As", "|", false, this.logger);
 /*  78: 72 */       Data outputGraphData = createOutputGraphData(outputGraph);
-
-Boolean donewcode = true;
-/*  79:    */      
+					Boolean donewcode = true;  
 
 
-
+		
 
 if (donewcode){
-
-
 Table dataTable = inTable;					
 int i = 0;
 
-
 String authorColumnNeeded = "Authors";
 int authorColumnIndex = 0;
-
 
 String dataTableColumnNeded2 = "Title";
 int dataTableColumnIndex2 = 0;
@@ -106,11 +100,7 @@ int dataTableColumnIndex3 = 0;
 String term1 = "protein";
 String term2 = "contain";
 
-
-
 for (int p = 0; p < dataTable.getColumnCount(); p++){
-
-
 	if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
 		dataTableColumnIndex2 = p;
 		this.logger.log(1, "Analyzing Column2 : "+dataTable.getColumnName(p));
@@ -125,8 +115,6 @@ for (int p = 0; p < dataTable.getColumnCount(); p++){
 		dataTableColumnIndex3 = p;
 		this.logger.log(1, "Abstract Column found : "+dataTable.getColumnName(p));
 	}
-	
-	//this.logger.log(1, "Column : "+dataTable.getColumnName(p));
 }
 
 int erorcount = 0;
@@ -144,13 +132,11 @@ try{
 	for (i = 0; i < outputGraph.getNodeCount(); i++){
 		outputGraph.getNode(i).setInt("regular", 0);
 		outputGraph.getNode(i).setString("amount", "0");
+		outputGraph.getNode(i).setInt("linkweight", 0);
 		outputGraph.getNode(i).setString("termso", "none");
 	}
 }
-catch (ArrayIndexOutOfBoundsException e) {
-	
-}
-
+catch (ArrayIndexOutOfBoundsException e) {}
 
 this.logger.log(1, "Here 2");
 int counter = 0;
@@ -159,36 +145,27 @@ for (i = 0; i < initialsizeedge; i++){
 	String target1 = outputGraph.getEdge(i).get("target").toString();
 	if (lasttarget.compareTo(target1) != 0){
 		lasttarget = target1;
-	//	this.logger.log(1, "Here 3");
 		String termso = "";
 		String titlecheck =  outputGraph.getNode(Integer.parseInt(target1)).get("label").toString();
-		//for (int j = 0; j < dataTable.getRowCount()-1; j++){
-		//this.logger.log(1, "Here 3.5");
-			//String titlerow = dataTable.getString(counter, dataTableColumnIndex2);
-			//if (titlerow.toLowerCase().contains(titlecheck.toLowerCase())){
-				//author found in row. do stuff.
-				//this.logger.log(1, "Here 4");
-				String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
-				if ((nc.contains(term1))&&(nc.contains(term2))){
-					termso = "Both";
-				}
-				else	 if (nc.contains(term1)){
-					termso = term1;
-				}
-				else if (nc.contains(term2)){
-					termso = term2;
-				}
-				else {
-					termso = "neither";
-				}
-			//}	
-		//	j = dataTable.getRowCount();
-		//}
-		
-		//this.logger.log(1, "Here 5");
+		String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
+		if ((nc.contains(term1))&&(nc.contains(term2))){
+			termso = "Both";
+		}
+		else if (nc.contains(term1)){
+			termso = term1;
+		}
+		else if (nc.contains(term2)){
+			termso = term2;
+		}
+		else {
+			termso = "neither";
+		}
+
 		outputGraph.addNode();
 		outputGraph.getNode(outputGraph.getNodeCount()-1).setString("label", outputGraph.getNode(Integer.parseInt(target1)).get("label").toString());
-		outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("localCitationCount", Integer.parseInt(outputGraph.getNode(Integer.parseInt(target1)).get("localCitationCount").toString()));
+	//	outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("linkweight", Integer.parseInt(outputGraph.getNode(Integer.parseInt(target1)).get("linkweight").toString()));
+		outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("linkweight",0);
+
 		outputGraph.getNode(outputGraph.getNodeCount()-1).setString("oldid", target1);
 		outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("special", 10);
 		if (termso.length() > 0){
@@ -230,15 +207,15 @@ for (i = 0; i < initialsizeedge; i++){
 					if ((outputGraph.getEdge(kk).getString("source").compareTo(source3) == 0)&&
 							(outputGraph.getEdge(kk).getString("target").compareTo(target3) == 0)){
 						outputGraph.getEdge(kk).setInt("linkweight", outputGraph.getEdge(kk).getInt("linkweight")+1);
-						outputGraph.getNode(Integer.parseInt(source3)).setInt("localCitationCount", outputGraph.getNode(Integer.parseInt(source3)).getInt("localCitationCount")+1);
-						outputGraph.getNode(Integer.parseInt(target3)).setInt("localCitationCount", outputGraph.getNode(Integer.parseInt(target3)).getInt("localCitationCount")+1);
+						outputGraph.getNode(Integer.parseInt(source3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(source3)).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(target3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(target3)).getInt("linkweight")+1);
 						goodtogo = false;
 					}
 					else if ((outputGraph.getEdge(kk).getString("source").compareTo(target3) == 0)&&
 							(outputGraph.getEdge(kk).getString("target").compareTo(source3) == 0)){
 						outputGraph.getEdge(kk).setInt("linkweight", outputGraph.getEdge(kk).getInt("linkweight")+1);
-						outputGraph.getNode(Integer.parseInt(source3)).setInt("localCitationCount", outputGraph.getNode(Integer.parseInt(source3)).getInt("localCitationCount")+1);
-						outputGraph.getNode(Integer.parseInt(target3)).setInt("localCitationCount", outputGraph.getNode(Integer.parseInt(target3)).getInt("localCitationCount")+1);
+						outputGraph.getNode(Integer.parseInt(source3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(source3)).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(target3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(target3)).getInt("linkweight")+1);
 						goodtogo = false;
 					}
 				}
@@ -247,7 +224,7 @@ for (i = 0; i < initialsizeedge; i++){
 					outputGraph.addEdge(outputGraph.getNode(Integer.parseInt(target3)), outputGraph.getNode(Integer.parseInt(source3)));
 					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setInt("linkweight", 1);
 					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setString("oldid", "1");
-					//outputGraph.getEdge(outputGraph.getEdgeCount()-1).setString("termo", "none");
+				//	outputGraph.getEdge(outputGraph.getEdgeCount()-1).setString("termo", "none");
 					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setInt("special", 10);
 				}
 				
@@ -258,29 +235,170 @@ for (i = 0; i < initialsizeedge; i++){
 }
 this.logger.log(1, "Here 5");
 outputGraph.removeEdge(outputGraph.getEdgeCount()-1);
-
-
-
-
 this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
+}			
+					
+					
+					
+					
+					/*
+if (donewcode){
+Table dataTable = inTable;					
+int i = 0;
 
+String authorColumnNeeded = "Authors";
+int authorColumnIndex = 0;
 
+String dataTableColumnNeded2 = "Title";
+int dataTableColumnIndex2 = 0;
 
+String dataTableColumnNeded3 = "Abstract";
+int dataTableColumnIndex3 = 0;
+
+String term1 = "protein";
+String term2 = "contain";
+
+for (int p = 0; p < dataTable.getColumnCount(); p++){
+	if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+		dataTableColumnIndex2 = p;
+		this.logger.log(1, "Analyzing Column2 : "+dataTable.getColumnName(p));
+	}
+	
+	if (authorColumnNeeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+		authorColumnIndex = p;
+		this.logger.log(1, "Author Column found : "+dataTable.getColumnName(p));
+	}
+	
+	if (dataTableColumnNeded3.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+		dataTableColumnIndex3 = p;
+		this.logger.log(1, "Abstract Column found : "+dataTable.getColumnName(p));
+	}
 }
 
+int erorcount = 0;
+outputGraph.addColumn("oldid", String.class);
+outputGraph.addColumn("special", int.class);
+outputGraph.addColumn("termso", String.class);
+outputGraph.addColumn("linkweight", int.class);
+
+int initialsizeedge = outputGraph.getEdgeCount();
+int endcount = outputGraph.getNodeCount();
+String lasttarget = "";
+
+this.logger.log(1, "Here 1");
+try{
+	for (i = 0; i < outputGraph.getNodeCount(); i++){
+		outputGraph.getNode(i).setInt("regular", 0);
+		outputGraph.getNode(i).setString("amount", "0");
+		outputGraph.getNode(i).setInt("linkweight", 0);
+		outputGraph.getNode(i).setString("termso", "none");
+	}
+}
+catch (ArrayIndexOutOfBoundsException e) {}
+
+this.logger.log(1, "Here 2");
+int counter = 0;
+for (i = 0; i < initialsizeedge; i++){
+	String source1 = outputGraph.getEdge(i).get("source").toString();
+	String target1 = outputGraph.getEdge(i).get("target").toString();
+	if (lasttarget.compareTo(target1) != 0){
+		lasttarget = target1;
+		String termso = "";
+		String titlecheck =  outputGraph.getNode(Integer.parseInt(target1)).get("label").toString();
+		String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
+		if ((nc.contains(term1))&&(nc.contains(term2))){
+			termso = "Both";
+		}
+		else if (nc.contains(term1)){
+			termso = term1;
+		}
+		else if (nc.contains(term2)){
+			termso = term2;
+		}
+		else {
+			termso = "neither";
+		}
+
+		outputGraph.addNode();
+		outputGraph.getNode(outputGraph.getNodeCount()-1).setString("label", outputGraph.getNode(Integer.parseInt(target1)).get("label").toString());
+	//	outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("linkweight", Integer.parseInt(outputGraph.getNode(Integer.parseInt(target1)).get("linkweight").toString()));
+		outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("linkweight",0);
+
+		outputGraph.getNode(outputGraph.getNodeCount()-1).setString("oldid", target1);
+		outputGraph.getNode(outputGraph.getNodeCount()-1).setInt("special", 10);
+		if (termso.length() > 0){
+			outputGraph.getNode(outputGraph.getNodeCount()-1).setString("termso", termso); 
+		}
+		else {
+			outputGraph.getNode(outputGraph.getNodeCount()-1).setString("termso", "none"); 
+		}
+		counter++;
+	}		
+}
+this.logger.log(1, "Here 4");
+for (i = 0; i < initialsizeedge; i++){
+	String source1 = outputGraph.getEdge(i).get("source").toString();
+	String target1 = outputGraph.getEdge(i).get("target").toString();
+	//this.logger.log(1, "Here 7");
+	if (i != initialsizeedge-1){
+		for (int k = i+1; k < initialsizeedge; k++){
+			//this.logger.log(1, "Here 8");
+			String source2 = outputGraph.getEdge(k).get("source").toString();
+			String target2 = outputGraph.getEdge(k).get("target").toString();
+			if ((target2.compareTo(target1) != 0)&&(source2.compareTo(source1) == 0)){
+				String target3 = "";
+				String source3 = "";
+			
+				for (int j = endcount; j < outputGraph.getNodeCount(); j++){
+					if (target2.compareTo(outputGraph.getNode(j).get("oldid").toString()) == 0){
+						target3 = Integer.toString(j);
+					}
+					
+					if (target1.compareTo(outputGraph.getNode(j).get("oldid").toString()) == 0){
+						source3 = Integer.toString(j);
+					}
+					
+				}
+			//	this.logger.log(1, "Here 9");
+				Boolean goodtogo = true;
+				for (int kk = initialsizeedge; kk < outputGraph.getEdgeCount(); kk++){
+					if ((outputGraph.getEdge(kk).getString("source").compareTo(source3) == 0)&&
+							(outputGraph.getEdge(kk).getString("target").compareTo(target3) == 0)){
+						outputGraph.getEdge(kk).setInt("linkweight", outputGraph.getEdge(kk).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(source3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(source3)).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(target3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(target3)).getInt("linkweight")+1);
+						goodtogo = false;
+					}
+					else if ((outputGraph.getEdge(kk).getString("source").compareTo(target3) == 0)&&
+							(outputGraph.getEdge(kk).getString("target").compareTo(source3) == 0)){
+						outputGraph.getEdge(kk).setInt("linkweight", outputGraph.getEdge(kk).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(source3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(source3)).getInt("linkweight")+1);
+						outputGraph.getNode(Integer.parseInt(target3)).setInt("linkweight", outputGraph.getNode(Integer.parseInt(target3)).getInt("linkweight")+1);
+						goodtogo = false;
+					}
+				}
+			//	this.logger.log(1, "Here 10");
+				if (goodtogo){
+					outputGraph.addEdge(outputGraph.getNode(Integer.parseInt(target3)), outputGraph.getNode(Integer.parseInt(source3)));
+					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setInt("linkweight", 1);
+					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setString("oldid", "1");
+				//	outputGraph.getEdge(outputGraph.getEdgeCount()-1).setString("termo", "none");
+					outputGraph.getEdge(outputGraph.getEdgeCount()-1).setInt("special", 10);
+				}
+				
+			}
+		}
+	}
+	
+}
+this.logger.log(1, "Here 5");
+outputGraph.removeEdge(outputGraph.getEdgeCount()-1);
+this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
+}
+*/
 
 
-
-
-
-
-
-
-
-
-
-/*  82: 76 */      /*  80: 74 */       Table outputTable = 
-		/*  81: 75 */         ExtractNetworkFromTable.constructTable(outputGraph);
+   Table outputTable = ExtractNetworkFromTable.constructTable(outputGraph);
 		Data outputTableData = createOutputTableData(outputTable);
 /*  83:    */       
 /*  84: 78 */       return new Data[] { outputGraphData, outputTableData };
