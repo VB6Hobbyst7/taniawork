@@ -18,7 +18,7 @@ public class GoViralExample extends Sprite
 	/** CHANGE 'YOUR::APP_ID' TO YOUR FACEBOOK APP ID in quotes! */
 	//public static const FACEBOOK_APP_ID:String="12345678900";
 	//public static const FACEBOOK_APP_ID:String=YOUR::APP_ID;
-	public static const FACEBOOK_APP_ID:String="12345678900";
+	public static const FACEBOOK_APP_ID:String="1424621771149692";
 
 	//
 	// Instance Variables
@@ -56,6 +56,7 @@ public class GoViralExample extends Sprite
 			//return;
 		}
 		else {
+			log("Extension is supported");
 			GoViral.create();
 			
 			log("GoViral Extension Initialized: "+GoViral.VERSION);
@@ -83,10 +84,10 @@ public class GoViralExample extends Sprite
 			GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
 			
 			// facebook events for manually updating permissions
-			GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED, onFacebookEvent);
-			GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED, onFacebookEvent);
-			GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_FAILED, onFacebookEvent);
-			GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED, onFacebookEvent);
+			//GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED, onFacebookEvent);
+			//GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED, onFacebookEvent);
+			//GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_FAILED, onFacebookEvent);
+		//	GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED, onFacebookEvent);
 		}
 
 		

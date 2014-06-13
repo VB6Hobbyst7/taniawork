@@ -3,20 +3,26 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
-		title="Scout" 
+		title="Scout"  creationComplete="init(event)"
 		backgroundColor="#f2f3f4" 
 		contentBackgroundColor="#f2f3f4">
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
-			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var busy:Boolean = false;
+			import com.milkmangames.nativeextensions.*;
+			import com.milkmangames.nativeextensions.events.*;
+			public static const FACEBOOK_APP_ID:String="1424621771149692";
+
 			public function authorizeLogin(username:String,userpassword:String):void{	
 				busy = true;
 				userid = username;
@@ -90,11 +96,136 @@
 				navigator.pushView(Signup_step1);
 			}
 			
-			public function fofacebook(event:MouseEvent):void
+			
+			protected function init(event:FlexEvent):void
 			{
 				// TODO Auto-generated method stub
-				navigator.pushView(FacebookTest);
+				// check if GoViral is supported on the machine currently running it
+				if (!GoViral.isSupported())
+				{
+				//	popupholder1.visible = true;
+					////logWarningTextinfo.text = "Extension is not supported on this platform.";
+					return;
+				}
+				
+				GoViral.create();
+				
+				//log("GoViral Extension Initialized: "+GoViral.VERSION);
+				//popupholder1.visible = true;
+				//logWarningTextinfo.text = "GoViral Extension Initialized";
+				
+				// initialize facebook.		
+				// this is to make sure you remembered to put in your app ID !
+			
+					GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
+					//popupholder1.visible = true;
+				//	logWarningTextinfo.text = "Facebook Initialized! GoViral v"+GoViral.VERSION;
+					
+				
+				
+				// set up all the event listeners.
+				// you only need the ones for the services you want to use.
+				
+				// facebook events
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_OUT,onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_CANCELED,onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
+				
+				// facebook events for manually updating permissions
+			/*	GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED, onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED, onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_READ_PERMISSIONS_FAILED, onFacebookEvent);
+				GoViral.goViral.addEventListener(GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED, onFacebookEvent);*/
+				
+			//	showMainUI();
+				
+				if(!GoViral.goViral.isFacebookAuthenticated())
+				{
+					popupholder1.visible = true;
+					logWarningTextinfo.text = "not loged into facebook";
+				//	GoViral.goViral.authenticateWithFacebook("public_profile");
+				}
+				else {
+					popupholder1.visible = true;
+					logWarningTextinfo.text = "Logged into facebook";
+				}
+				
 			}
+			
+			
+			private function onFacebookEvent(e:GVFacebookEvent):void
+			{
+				
+				popupholder1.visible = true;
+			
+				switch(e.type)
+				{
+					case GVFacebookEvent.FB_LOGGED_IN:
+						logWarningTextinfo.text = "Logged in to facebook:"+GoViral.VERSION+
+						",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
+						"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");
+						break;
+					case GVFacebookEvent.FB_LOGGED_OUT:
+						logWarningTextinfo.text = "Logged out of facebook.";
+						break;
+					case GVFacebookEvent.FB_LOGIN_CANCELED:
+						logWarningTextinfo.text = "Canceled facebook login.";
+						break;
+					case GVFacebookEvent.FB_LOGIN_FAILED:
+						logWarningTextinfo.text = "Login failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId;
+						break;
+					case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED:
+					case GVFacebookEvent.FB_READ_PERMISSIONS_FAILED:
+						logWarningTextinfo.text =  "perms failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId+","+e.permissions;
+						break;
+					case GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED:
+					case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED:
+						logWarningTextinfo.text = "Perms updated:"+e.permissions;
+				}
+			}	
+			public function facebookLogin():void
+			{	
+					if(!GoViral.goViral.isFacebookAuthenticated())
+					{
+						popupholder1.visible = true;
+						logWarningTextinfo.text = "not loged into facebook";
+						GoViral.goViral.authenticateWithFacebook("public_profile");
+					}
+					else {
+						popupholder1.visible = true;
+						logWarningTextinfo.text = "Logged into facebook";
+					}
+				
+				
+			}
+			
+			public function onFacebookResponse(e:GVFacebookEvent):void
+			{
+				// the graphPath property is 'me' for a profile request.
+				
+				if(e.graphPath=="me")
+				{
+					var myProfile:GVFacebookFriend=e.friends[0];
+					//NativeNotifiction.notifi("my name is:"+myProfile.name);
+					trace("my name is:"+myProfile.name);
+					trace("my gender is:"+myProfile.gender);
+					trace("My bio is:"+myProfile.bio);
+					popupholder1.visible = true;
+					logWarningTextinfo.text = "my name is:"+myProfile.name;
+				}
+				else {
+					popupholder1.visible = true;
+					logWarningTextinfo.text = "Error";
+				}
+			}
+			public function onRequestFailed(e:GVFacebookEvent):void
+			{
+				popupholder1.visible = true;
+				logWarningTextinfo.text = "something wenet wrong with the request:"+e.errorMessage;
+			}
+			
+		
 			
 		]]>
 	</fx:Script>
@@ -118,7 +249,7 @@
 					  paddingTop="{20/(320/Capabilities.screenDPI)}"
 					  bottom="0" horizontalAlign="center" verticalAlign="top">
 				<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
-				<components:facebook click="fofacebook(event)"/>
+				<components:facebook click="facebookLogin();"/>
 				<components:or/>
 				<components:twitter/>
 				<components:or/>

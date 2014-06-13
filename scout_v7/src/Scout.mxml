@@ -34,7 +34,6 @@
 			import spark.managers.PersistenceManager;
 			import spark.transitions.CrossFadeViewTransition;
 			
-			import views.FacebookTest;
 			import views.Home;
 			import views.Loyalty;
 			import views.Signin;
