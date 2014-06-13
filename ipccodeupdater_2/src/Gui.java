@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -105,101 +106,95 @@ public class Gui{
 		       String password = "Bieber77Mark";
 		       connection = DriverManager.getConnection(url, username, password);
 		       statement = connection.createStatement();
-		       resultSet = statement.executeQuery("select id, `IPC - Current - DWPI` as ipccode from justsynth_v2");
+		       resultSet = statement.executeQuery("select id, `DWPI Manual Codes` as ipccode from justsynth_v2");
 		       writeResultSet2(resultSet);	
 		       connection.close();
 		       
 		       
 		       connection = DriverManager.getConnection(url, username, password);
 		       statement = connection.createStatement();
-		       resultSet = statement.executeQuery("delete from `justsynth_v2-ipccodesplit`");
+		       int jssjs = statement.executeUpdate("delete from `justsynth_v2-manualcodes`");
 		      
 		       connection.close();
 		       
 		   } 
-		   catch (ClassNotFoundException e) {} 
-		   catch (SQLException e) {}	
+		   catch (ClassNotFoundException e) {
+			   
+			   String adsfs  = "";
+		   } 
+		   catch (SQLException e) {
+			   String adsfs3 = "";  
+			   
+		   }	
 		  
 		   analize();
    }
-    public void analize(){
-    	for (int i = 0; i < dataArray2.length; i++){
-    		currentid = dataArray2[i][0];
-    	
-    		 ResultSet resultSet = null;
-  		   Connection connection = null;
-  		   try {
-  		       String driverName = "org.gjt.mm.mysql.Driver";
-  		       Class.forName(driverName);
-  		       String serverName = "enactforum.org";
-  		       String mydatabase = "synthbio";
-  		       String url = "jdbc:mysql://" + serverName +  "/" + mydatabase;
-  		       String username = "enact";
-  		       String password = "Bieber77Mark";
-  		       connection = DriverManager.getConnection(url, username, password);
-  		       statement = connection.createStatement();
-  		       
-  		       String codefull = dataArray2[i][1];
-  		       String[] codes = codefull.split("\\|");
-  		     String code = "";
-  			currentcodetext = "";
-  		       for (int j = 0; j < codes.length; j++){
-  		    	   
-  		    	  connection = DriverManager.getConnection(url, username, password);
-  	  		       statement = connection.createStatement();
-  	  		       
-  	  		       
-  	  		       
-  		    	   code = "";
-  		    	   code = codes[j];
-  		    	   if (code.length() > 0){
-  		    		 if (code.charAt(0) == ' '){
-    		    		   code = code.substring(1, code.length());
-    		    	   }
-  		    		 
-  		    		 
-    		    	   if ((code.charAt(code.length()-1) == ' ')){
-    		    		   code = code.substring(0, code.length()-1);
-    		    	   }  
-  		    	   }
-  		    	   else {
-  		    		   code = "";
-  		    	   }
-  		    	  
-  		    	
-  		    	
-  		    	 
-  		    	 
-  		    	  int l2 = statement.executeUpdate("insert into `justsynth_v2-ipccodesplit` values ("+currentid+",'"+code+"');");
-  	  		       
-  	  		       connection.close();
-  		       }
-  		       
-  		  /*   resultSet = null;
-    		   connection = null;
-    		   
-		       mydatabase = "synthbio";
-		       url = "jdbc:mysql://" + serverName +  "/" + mydatabase;
-		       username = "enact";
-		       password = "Bieber77Mark";
-		       connection = DriverManager.getConnection(url, username, password);
-		       statement = connection.createStatement();
-  		     int val1 = statement.executeUpdate("update companies set `dwpi codes translated` = '"+currentcodetext+"' where id = "+currentid);
-  	
-  		       connection.close();*/
-  		   System.out.println("Finished "+currentid);
-  		     String stop = ""; 
-  		   } 
-  		   catch (ClassNotFoundException e) {
-  			   
-  			   String stop = "";   
-  		   } 
-  		   catch (SQLException e) {
-  			   String stop = "";   
-  			   
-  		   }
-  		   
-  		   
+    public void analize() {
+    	  
+	       for (int i = 0; i < dataArray2.length; i++){
+	    	   currentid = dataArray2[i][0];
+			   String codefull = dataArray2[i][1];
+			   String[] codes = codefull.split("\\|");
+			   String code = "";
+			   for (int j = 0; j < codes.length; j++){
+				   ResultSet resultSet = null;
+				   Connection connection = null;
+		    	   String driverName = "org.gjt.mm.mysql.Driver";
+			       try {
+					Class.forName(driverName);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			       String serverName = "enactforum.org";
+			       String mydatabase = "synthbio";
+			       String url = "jdbc:mysql://" + serverName +  "/" + mydatabase;
+			       String username = "enact";
+			       String password = "Bieber77Mark";
+			       try {
+					connection = DriverManager.getConnection(url, username, password);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			       try {
+					statement = connection.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				  code = "";
+			  code = codes[j];
+			   if (code.length() > 0){
+				 if (code.charAt(0) == ' '){
+				   code = code.substring(1, code.length());
+			   }
+			
+			   if ((code.charAt(code.length()-1) == ' ')){
+					   code = code.substring(0, code.length()-1);
+				   }  
+			   }
+			   else {
+				   code = "";
+			   }
+
+			  if (code != ""){
+				 try {
+					int l2 = statement.executeUpdate("insert into `justsynth_v2-manualcodes` values ("+currentid+",'"+code+"');");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}       
+			  }
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+			 System.out.println("Finished "+currentid);
+			 String stop = ""; 
     	}
     }
    
@@ -262,8 +257,8 @@ public class Gui{
     public void writetocsvfile() {
     	
     	try {
-    		System.out.println("Writing file -- C:/Users/Ninja2/Desktop/IPCCODES.csv");
-			FileWriter writer = new FileWriter("C:/Users/Ninja2/Desktop/IPCCODES.csv");
+    		System.out.println("Writing file -- C:/Users/Ninja2/Desktop/manualcodes.csv");
+			FileWriter writer = new FileWriter("C:/Users/Ninja2/Desktop/manualcodes.csv");
 			writer.append("\"");
 			writer.append("code");
 			//Thread.sleep(10);
