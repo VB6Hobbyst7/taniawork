@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  mouseChildren="false"
+		 xmlns:s="library://ns.adobe.com/flex/spark" mouseOver="gOver2(event);"
+		 mouseOut="gOut2(event);" mouseUp="gOut2(event);" mouseDown="gDown2(event);" >
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var blx:Number = 0;
+			[Bindable]
+			public var brx:Number = 0;
+			[Bindable]
+			public var bly:Number = 0;
+			[Bindable]
+			public var bry:Number = 0;
+			[Bindable]
+			public var tlx:Number = 0;
+			[Bindable]
+			public var trx:Number = 0;
+			[Bindable]
+			public var tly:Number = 0;
+			[Bindable]
+			public var tryy:Number = 0;
+			[Bindable]
+			public var numberlabel:String = "";
+			[Bindable]
+			public var showrightline:Boolean = true;
+			
+			public function gOver2(ev:MouseEvent):void {
+				blueback.visible = true;
+			}
+			public function gDown2(ev:MouseEvent):void {
+				blueback.visible = true
+			}
+			public function gOut2(ev:MouseEvent):void {
+				blueback.visible = false
+			}
+		]]>
+	</fx:Script>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<s:Group width="100%" top="0"  bottom="0"  height="100%">
+		<s:Rect id="blueback" width="100%" height="100%"  visible="false"
+				bottomLeftRadiusX="{blx}" bottomLeftRadiusY="{bly}"
+				bottomRightRadiusX="{brx}" bottomRightRadiusY="{bry}"
+				topLeftRadiusX="{tlx}" topLeftRadiusY="{tly}"
+				topRightRadiusX="{trx}" topRightRadiusY="{tryy}">
+			<s:fill><s:SolidColor alpha="1" color="#3ea9e1"/></s:fill>
+		</s:Rect>
+		<s:Line top="0"  bottom="0" right="0"  rotation="90" visible="{showrightline}"  > 
+			<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+		</s:Line>
+		<s:Label styleName="textsize14" text="{numberlabel}" color="#626364"
+				  horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
+				   textAlign="center" fontWeight="bold"/>
+	</s:Group>
+</s:Group>

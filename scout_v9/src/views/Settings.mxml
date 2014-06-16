@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		backgroundColor="#f2f3f4"
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		  viewActivate="init(event)"
+		title="Settings" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var busy:Boolean = false;
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "delete from localuser";
+					stmt.execute();
+					emailGo = "";
+					nameGo = "";
+					this.parentApplication.logout();
+				}
+				catch(e:Error){
+					this.parentApplication.logout();
+				}
+			}
+			
+			public function changePasswordClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigator.pushView(Settings_ChangePwd);
+			}
+			
+			public function init(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				setLoginVars();		
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" paddingTop="30" gap="30"  horizontalAlign="center" height="100%" >
+			<s:Group width="100%" height="150"
+					 mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" 
+					 mouseUp="gOut(event);" 
+					 mouseDown="gDown(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Line  left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+				</s:Line>
+				<components:next right="20" verticalCenter="0"/>
+				<s:VGroup paddingLeft="30" paddingTop="30" gap="30" width="100%" height="100%" >
+					<s:Label text="{nameGo}"
+							 verticalCenter="0" verticalAlign="middle" 
+							 textAlign="center"  mouseEnabled="false"
+							 styleName="textsize1"  color="#474646"/>
+					<s:Label text="{emailGo}"
+							 verticalCenter="0" verticalAlign="middle" 
+							 textAlign="center"  mouseEnabled="false"
+							 styleName="textsize1"  color="#474646"/>
+					
+				</s:VGroup>
+			</s:Group>
+			<s:Group width="100%" height="100"
+					 mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" 
+					 mouseUp="gOut(event);" 
+					 mouseDown="gDown(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Line  left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+				</s:Line>
+				<components:next right="20" verticalCenter="0"/>
+				<s:Label text="Passcode Lock"  left="30"
+						 verticalCenter="0" verticalAlign="middle" 
+						 textAlign="center"  mouseEnabled="false"
+						 styleName="textsize1"  color="#474646"/>
+			</s:Group>
+			<s:Group width="100%" height="100"
+					  click="changePasswordClick(event)"
+					 mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" 
+					 mouseUp="gOut(event);" 
+					 mouseDown="gDown(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Line  left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+				</s:Line>
+				<components:next right="20" verticalCenter="0"/>
+				<s:Label text="Change Password" left="30"
+						 verticalCenter="0" verticalAlign="middle" 
+						 textAlign="center" mouseEnabled="false"
+						 styleName="textsize1"  color="#474646"/>
+			</s:Group>
+			<s:Group width="100%" height="100"
+					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
+					 mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" 
+					 mouseUp="gOut(event);" 
+					 mouseDown="gDown(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Line  left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+				</s:Line>
+				<components:next right="20" verticalCenter="0"/>
+				<s:Label text="Terms of Use" left="30"
+						 verticalCenter="0" verticalAlign="middle" 
+						 textAlign="center" mouseEnabled="false"
+						 styleName="textsize1"  color="#474646"/>
+			</s:Group>
+			<s:Label text="Version 2.0.0" width="100%"  textAlign="center"
+					 styleName="textsize1"  color="#bebebe"/>
+			<components:signout click="logout()"/>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

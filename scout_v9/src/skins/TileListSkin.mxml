@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://blog.flexexamples.com/2009/03/24/creating-a-tile-list-using-the-fxlist-control-in-flex-gumbo/ -->
+<s:SparkSkin name="CustomListSkin"
+			 xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 minWidth="112" minHeight="112"
+			 alpha.disabled="0.5"
+			 blendMode="normal">
+	<!-- states -->
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent("spark.components.List")]
+		]]>
+	</fx:Metadata> 
+	
+	<fx:Script>
+		/* Define the skin elements that should not be colorized. 
+		For list, the skin itself is colorized but the individual parts are not. */
+		static private const exclusions:Array = ["scroller", "background"];
+		
+		override public function get colorizeExclusions():Array {
+			return exclusions;
+		}
+		
+		/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
+		static private const contentFill:Array = ["bgFill"];
+		
+		override public function get contentItems():Array {return contentFill};
+	</fx:Script>
+	
+	<!-- border -->
+	<s:Rect left="0" right="0" top="0" bottom="0" alpha="0" visible="false">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000" weight="0"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<!-- fill -->
+	<!--- Defines the background appearance of the list-based component. -->
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1" alpha="0"  visible="false">
+		<s:fill>
+			<!--- Defines the color of the background. The default color is 0xFFFFFF. -->
+			<s:SolidColor id="bgFill" color="0x000000" />
+		</s:fill>
+	</s:Rect>
+	
+	<!--- The Scroller component to add scroll bars to the list. -->
+	<s:Scroller left="0" top="0" right="0" bottom="0" id="scroller" minViewportInset="1" focusEnabled="false">
+		<!--- The container for the data items. -->
+		<s:DataGroup id="dataGroup"	itemRenderer="components.storeResult" >
+			<s:layout>
+				<s:TileLayout requestedColumnCount="2"
+							  requestedRowCount="2"
+							  horizontalGap="0"
+							  verticalGap="0" />
+			</s:layout>
+		</s:DataGroup>
+	</s:Scroller>
+	
+</s:SparkSkin>
