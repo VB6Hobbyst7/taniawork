@@ -7,11 +7,11 @@
 <versionLabel>v1.0.8</versionLabel>
 <initialWindow>
 <content>Scout.swf</content>
-<autoOrients>true</autoOrients>
-  <aspectRatio>any</aspectRatio>
-  <renderMode>auto</renderMode>
-  <fullScreen>true</fullScreen>
-  <systemChrome>standard</systemChrome>
+<autoOrients>false</autoOrients>
+<aspectRatio>any</aspectRatio>
+<renderMode>auto</renderMode>
+<fullScreen>true</fullScreen>
+<systemChrome>standard</systemChrome>
 </initialWindow>
   <supportedLanguages>en</supportedLanguages>
 	<icon>
@@ -51,10 +51,8 @@
 		</dict>
 	</array>
 ]]>
-
 </InfoAdditions>
 </iPhone>
-
  <android>
         <manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto">
@@ -81,9 +79,7 @@
 			
 		]]></manifestAdditions>
     </android>
-
-  <extensions>
-    <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
-
-  </extensions>
+<extensions>
+<extensionID>com.milkmangames.extensions.GoViral</extensionID> 
+</extensions>
 </application>
