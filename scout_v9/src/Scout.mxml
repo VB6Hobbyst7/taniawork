@@ -135,37 +135,20 @@
 			
 			public function initz(event:FlexEvent):void
 			{
-				
-			
-				
-				
 				GoViral.create();
 				GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_OUT,onFacebookEvent);
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_CANCELED,onFacebookEvent);
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
-				
-				
-				if(GoViral.goViral.isFacebookAuthenticated())
-				{
-					this.navigator.pushView(Home,null,null,crosstrans);
-					
-				}
-				
-				
-				
-				
 				try{
 					NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
 					NativeApplication.nativeApplication.autoExit = false;
 					NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 					NativeApplication.nativeApplication.executeInBackground = true;
 				}
-				catch(e:Error){
-					
-				}
-				
+				catch(e:Error){	
+				}	
 			}
 			private function onFacebookEvent(e:GVFacebookEvent):void
 			{
@@ -173,7 +156,6 @@
 				switch(e.type)
 				{
 					case GVFacebookEvent.FB_LOGGED_IN:
-						this.navigator.pushView(Home,null,null,crosstrans);
 						s = "Logged in to facebook:"+GoViral.VERSION+
 						",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
 						"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");

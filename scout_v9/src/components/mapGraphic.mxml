@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<esri:Graphic xmlns:fx="http://ns.adobe.com/mxml/2009"  
+			  xmlns:s="library://ns.adobe.com/flex/spark"
+			  xmlns:esri="http://www.esri.com/2008/ags" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var xx:Number;
+			[Bindable]
+			public var yy:Number;
+			[Bindable]
+			public var title:String = "";
+			[Bindable]
+			public var ido:String = "";
+			[Bindable]
+			public var address:String = "";	
+			
+		]]>
+	</fx:Script>
+	<esri:geometry>
+		<esri:MapPoint x="{xx}" y="{yy}"/>
+	</esri:geometry>
+	<esri:attributes>
+		<fx:Object>
+			<fx:theName>{title}</fx:theName>
+			<fx:thePlaceName>{address}</fx:thePlaceName>
+			<fx:ido>{ido}</fx:ido>
+		</fx:Object>
+	</esri:attributes>
+</esri:Graphic>
