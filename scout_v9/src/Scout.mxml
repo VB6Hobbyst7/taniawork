@@ -27,6 +27,7 @@
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import spark.components.BusyIndicator;
 			import spark.components.ButtonBar;
@@ -178,16 +179,7 @@
 						s = "Perms updated:"+e.permissions;
 				}
 			}
-			public var stillnotin:Boolean = true;
-			public function facebookloging():void {
-				if(!GoViral.goViral.isFacebookAuthenticated())
-				{
-					GoViral.goViral.authenticateWithFacebook("public_profile");
-				}
-				else {
-					this.navigator.pushView(Home,null,null,crosstrans);
-				}
-			}
+		
 			public function refresh(email:String):void {
 				this.navigator.pushView(Home);
 			}
@@ -215,6 +207,165 @@
 				loadStuff(resData);
 			}
 			
+			
+			
+			public function facebookloging():void {
+				if(!GoViral.goViral.isFacebookAuthenticated())
+				{
+					GoViral.goViral.authenticateWithFacebook("email,public_profile,user_birthday,user_location");
+				}
+				else {
+					GoViral.goViral.requestMyFacebookProfile().addRequestListener(function(e:GVFacebookEvent):void {
+						if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
+						{
+							var myProfile:GVFacebookFriend=e.friends[0];
+							
+							fsid = myProfile.id.toString();
+	
+							try{
+								fsemail = myProfile.email();
+							}
+							catch(e:Error){}
+							
+							try{
+								fsname = myProfile.name.toString();
+							}
+							catch(e:Error){}
+							
+							try{
+								fscity = myProfile.locationName.toString().substr(
+									0,
+									myProfile.locationName.toString().indexOf(","));
+							}
+							catch(e:Error){
+								try{
+									fscity = myProfile.properties.user_location.toString().substr(
+										0,
+										myProfile.properties.user_location.toString().indexOf(","));
+								}
+								catch(e:Error){
+									
+									fscity = "";
+								}
+								
+							}
+							
+							try{
+								fslocality = myProfile.locationName.toString().substr(
+									myProfile.locationName.toString().indexOf(",")+2, 
+									myProfile.locationName.toString().length);
+							}
+							catch(e:Error){
+								try{
+									fslocality = myProfile.properties.user_location.toString().substr( 
+										myProfile.properties.user_location.toString().indexOf(",")+2,
+										myProfile.properties.user_location.toString().length);
+								}
+								catch(e:Error){
+									
+									fslocality = "";
+								}
+							
+							}
+							
+							
+							
+							try{
+								fsgender = myProfile.gender.toString().substr(0,1);
+							}
+							catch(e:Error){
+								fsgender = "";
+							}
+							
+							
+							var tempBirthString:String = "";
+							try{
+								tempBirthString = myProfile.properties["birthday"].toString();
+							}
+							catch(e:Error){}
+							
+							
+							
+							try{
+								fsbirthmonth = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+								tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+							}
+							catch(e:Error){
+								fsbirthmonth = "0";
+							}
+							
+							
+							try{
+								fsbirthday = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+								tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+							}
+							catch(e:Error){
+								fsbirthday = "0";
+							}
+						
+							
+							try{
+								fsbirthyear = tempBirthString;
+							}
+							catch(e:Error){
+								fsbirthyear = "0";
+							}
+							
+							
+							syncfacebook.send();			
+						}
+						
+					});
+					
+					
+					
+				}
+			}
+			public function aftersyncfacebook(ev:ResultEvent):void {
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM localuser;";
+				stmt.execute();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.parameters[":email"] = fsemail;
+				stmt.parameters[":name"] = fsname;
+				stmt.parameters[":country"] = "canada";
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				this.navigator.pushView(Home,null,null,crosstrans);
+			}
+			
 		]]>
 	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="fsid"/>
+		<fx:String id="fsemail"/>
+		<fx:String id="fsname"/>
+		<fx:String id="fscity"/>
+		<fx:String id="fslocality"/>
+		<fx:String id="fsgender"/>
+		<fx:String id="fsbirthday"/>
+		<fx:String id="fsbirthmonth"/>
+		<fx:String id="fsbirthyear"/>
+		<s:HTTPService id="syncfacebook" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/syncfacebook.php"
+					   result="aftersyncfacebook(event)" >
+			<s:request xmlns="">
+				<id>{fsid}</id>	
+				<email>{fsemail}</email>
+				<nameo>{fsname}</nameo>		
+				<city>{fscity}</city>		
+				<locality>{fslocality}</locality>		
+				<gender>{fsgender}</gender>		
+				<birthday>{fsbirthday}</birthday>		
+				<birthmonth>{fsbirthmonth}</birthmonth>		
+				<birthyear>{fsbirthyear}</birthyear>	
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
 </s:ViewNavigatorApplication>

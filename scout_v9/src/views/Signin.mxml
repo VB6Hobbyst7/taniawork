@@ -119,8 +119,6 @@
 				<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
 				<components:facebook click="facebookLogin();"/>
 				<components:or/>
-				<components:twitter/>
-				<components:or/>
 				<s:VGroup horizontalAlign="center" width="100%" 
 						  gap="{10/(320/Capabilities.screenDPI)}">
 					<s:Group width="100%" >
