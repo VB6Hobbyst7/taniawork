@@ -168,6 +168,10 @@
 			  level="13"
 			  wrapAround180="true">
 		<esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+		<esri:VETiledLayer id="veLayer"
+						   culture="{culture.selectedItem}"
+						   loadError="veLayer_loadErrorHandler(event)"
+						   mapStyle="{mapStyle.selectedItem}"/>
 		<esri:GraphicsLayer id="myGraphicsLayer" >
 		</esri:GraphicsLayer>
 	</esri:Map>

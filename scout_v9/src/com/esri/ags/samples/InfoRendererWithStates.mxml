@@ -55,7 +55,7 @@
 
 	
 	<s:HGroup width="100%" height="100%" paddingLeft="10" paddingTop="10" paddingBottom="10">
-		<s:Image click="pinclick(event)" >
+		<s:Image mouseDown="pinclick(event)" height="100%" width="100%"  scaleMode="stretch" >
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/160/pin_active.png')"
 										source240dpi="@Embed('/assets/240/pin_active.png')"

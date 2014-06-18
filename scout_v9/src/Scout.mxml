@@ -15,9 +15,7 @@
 	<fx:Style source="./main.css"/>
 	<fx:Script>
 		<![CDATA[
-			import com.milkmangames.nativeextensions.*;
-			import com.milkmangames.nativeextensions.events.*;
-			
+
 			import flash.events.Event;
 			import flash.events.GeolocationEvent;
 			import flash.events.UncaughtErrorEvent;
@@ -136,7 +134,7 @@
 			
 			public function initz(event:FlexEvent):void
 			{
-				GoViral.create();
+				/*GoViral.create();
 				GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
 				GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_OUT,onFacebookEvent);
@@ -149,9 +147,9 @@
 					NativeApplication.nativeApplication.executeInBackground = true;
 				}
 				catch(e:Error){	
-				}	
+				}	*/
 			}
-			private function onFacebookEvent(e:GVFacebookEvent):void
+			/*private function onFacebookEvent(e:GVFacebookEvent):void
 			{
 				var s:String = "";
 				switch(e.type)
@@ -178,7 +176,7 @@
 					case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED:
 						s = "Perms updated:"+e.permissions;
 				}
-			}
+			}*/
 		
 			public function refresh(email:String):void {
 				this.navigator.pushView(Home);
@@ -209,7 +207,7 @@
 			
 			
 			
-			public function facebookloging():void {
+			/*public function facebookloging():void {
 				if(!GoViral.goViral.isFacebookAuthenticated())
 				{
 					GoViral.goViral.authenticateWithFacebook("email,public_profile,user_birthday,user_location");
@@ -320,7 +318,7 @@
 					
 					
 				}
-			}
+			}*/
 			public function aftersyncfacebook(ev:ResultEvent):void {
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
