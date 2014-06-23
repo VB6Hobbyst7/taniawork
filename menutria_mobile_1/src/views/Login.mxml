@@ -27,8 +27,7 @@
 		<fx:String id="newCountry2" />
 		<fx:String id="oemail" />
 		<fx:String id="opassword" />
-		<fx:String id="oname1" />
-		<fx:String id="oname2" />
+		<fx:String id="oname" />
 		<fx:String id="ocity" />
 		<fx:String id="oprovince" />
 		<fx:String id="obirthday" />
@@ -38,7 +37,7 @@
 		<s:RadioButtonGroup id="gender"/>
 		<s:HTTPService id="checkLogin" method="POST" 
 					   resultFormat="array" 
-					   url="http://www.mymenuapp.ca/php/mobile/checkLogin.php"
+					   url="http://www.menutria.com/php/mobile/checkLogin.php"
 					   result="afterCheckLogin(event)" >
 			<s:request xmlns="">
 				<userid>{userid}</userid>		
@@ -47,13 +46,12 @@
 		</s:HTTPService>
 		<s:HTTPService id="createNewUser" method="POST" 
 					   resultFormat="array" 
-					   url="http://www.mymenuapp.ca/php/mobile/createNewUser.php"
+					   url="http://www.menutria.com/php/mobile/createNewUser.php"
 					   result="afterCreateNewUser(event)" >
 			<s:request xmlns="">
 				<oemail>{oemail}</oemail>		
 				<opassword>{opassword}</opassword>	
-				<oname1>{oname1}</oname1>		
-				<oname2>{oname2}</oname2>	
+				<oname>{oname}</oname>		
 				<ocity>{ocity}</ocity>
 				<oprovince>{oprovince}</oprovince>
 				<obirthday>{obirthday}</obirthday>
@@ -162,9 +160,7 @@
 							 prompt="Email"   fontFamily="Arial"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
 							 textAlign="left"/>
 				<s:TextInput id="nname" y="117" width="98%" autoCapitalize="word" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
-							 fontFamily="Arial" horizontalCenter="0" prompt="First Name"/>
-				<s:TextInput id="nname2" y="117" width="98%" autoCapitalize="word" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
-							 fontFamily="Arial" horizontalCenter="0" prompt="Last Name"/>
+							 fontFamily="Arial" horizontalCenter="0" prompt="Name"/>
 				<s:TextInput id="npassword" y="79" width="98%" color="#777777"  contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
 							 displayAsPassword="true" fontFamily="Arial" horizontalCenter="0"
 							 prompt="Password" textAlign="left"/>

@@ -21,7 +21,7 @@
 	<fx:Script source="../func/menucategoriesfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMenuCategories.php"
+					   url="http://www.menutria.com/php/mobile/getMenuCategories.php"
 					   result="afterGetMenu(event)" >
 			<s:request xmlns="">
 				<locationid>{locationid}</locationid>		

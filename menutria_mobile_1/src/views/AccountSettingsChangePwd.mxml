@@ -58,7 +58,7 @@
 	<fx:Declarations>
 		<s:HTTPService id="changePassword" method="POST" 
 					   resultFormat="array" 
-					   url="http://www.mymenuapp.ca/php/mobile/changePassword.php"
+					   url="http://www.menutria.com/php/mobile/changePassword.php"
 					   result="afterChangePassword(event)" >
 			<s:request xmlns="">
 				<oldpass>{oldpassword.text}</oldpass>

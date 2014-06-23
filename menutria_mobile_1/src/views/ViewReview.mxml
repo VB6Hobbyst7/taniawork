@@ -87,7 +87,7 @@
 	</fx:Script>
 	<fx:Declarations>	
 		<s:HTTPService id="checkReviewLinkage" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/checkReviewLinkage.php"
+					   url="http://www.menutria.com/php/mobile/checkReviewLinkage.php"
 					   result="afterCheckReviewLinkage(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
@@ -95,7 +95,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="likeReview" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/likeReview.php"
+					   url="http://www.menutria.com/php/mobile/likeReview.php"
 					   result="afterLikeReview(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
@@ -105,7 +105,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="reportReview" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/reportReview.php"
+					   url="http://www.menutria.com/php/mobile/reportReview.php"
 					   result="afterReportReview(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	

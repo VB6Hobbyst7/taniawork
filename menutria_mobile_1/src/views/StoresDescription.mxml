@@ -14,7 +14,7 @@
 	<fx:Script source="../func/storeDescriptionfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getTopRated" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getTopRatedDishes.php"
+					   url="http://www.menutria.com/php/mobile/getTopRatedDishes.php"
 					   result="afterGetTopRated(event)" >
 			<s:request xmlns="">
 				<locationid>{data.id}</locationid>
@@ -22,7 +22,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getTopReviews" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getTopMerchReviews.php"
+					   url="http://www.menutria.com/php/mobile/getTopMerchReviews.php"
 					   result="afterGetMerchReviews(event)" >
 			<s:request xmlns="">
 				<locationid>{data.id}</locationid>		

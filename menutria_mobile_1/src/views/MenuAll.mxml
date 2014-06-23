@@ -35,14 +35,14 @@
 	<fx:Script source="../func/dishfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getDishes" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getDishes.php"
+					   url="http://www.menutria.com/php/mobile/getDishes.php"
 					   result="afterGetDishes(event)" >
 			<s:request xmlns="">
 			<emailGo>{emailGo}</emailGo>
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getDishes2" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getDishesFilter.php"
+					   url="http://www.menutria.com/php/mobile/getDishesFilter.php"
 					   result="afterGetDishesFilter(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>
@@ -50,7 +50,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getDishesPostal" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getDishesPostal.php"
+					   url="http://www.menutria.com/php/mobile/getDishesPostal.php"
 					   result="afterGetDishesPostal(event)" >
 			<s:request xmlns="">
 				<postalString>{postalString}</postalString>

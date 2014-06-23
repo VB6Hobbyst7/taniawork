@@ -42,7 +42,7 @@
 			private var imageLoader:Loader; 
 			private var dataSource:IDataInput;
 			private var eventSource:IEventDispatcher;
-			private const serverURL:String = "http://scoutcard.ca/uploadify/profileimages/upload-multipart.php";
+			private const serverURL:String = "http://menutria.com/uploadify/profileimages/upload-multipart.php";
 			private var tempDir:File;
 			[Bindable]
 			public var ranfilename:String = "";
@@ -87,6 +87,7 @@
 				getRatings.send();
 				selectedThing = 1;
 				thing1.alpha = 0.5;
+				getUserInfo.send();
 			}
 			
 			protected function onUpdate(event:GeolocationEvent):void
@@ -344,26 +345,33 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMyRatings.php"
+					   url="http://www.menutria.com/php/mobile/getMyRatings.php"
 					   result="afterGetRatings(event)" >
 			<s:request xmlns="">
 				<useremail>{emailGo}</useremail>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getReviewsILiked" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMyLikedReviews.php"
+					   url="http://www.menutria.com/php/mobile/getMyLikedReviews.php"
 					   result="afterGetLiked(event)" >
 			<s:request xmlns="">
 				<useremail>{emailGo}</useremail>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getPlacesEaten" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMyPlacesEaten.php"
+					   url="http://www.menutria.com/php/mobile/getMyPlacesEaten.php"
 					   result="afterGetPlacesEaten(event)" >
 			<s:request xmlns="">
 				<useremail>{emailGo}</useremail>	
 			</s:request>
 		</s:HTTPService>
+		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getUserInfo.php"
+					   result="afterGetUserInfo(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>	
 	</fx:Declarations>
 	
 	

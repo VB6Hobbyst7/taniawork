@@ -63,7 +63,7 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocationRatings.php"
+					   url="http://www.menutria.com/php/mobile/getLocationRatings.php"
 					   result="afterGetRatings(event)" >
 			<s:request xmlns="">
 				<locationid>{data.id}</locationid>	

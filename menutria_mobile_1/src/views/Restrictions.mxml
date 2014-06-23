@@ -160,21 +160,21 @@
 								source480dpi="@Embed('assets/320/onoff2.png')"
 								source640dpi="@Embed('assets/320/onoff2.png')"/>
 		<s:HTTPService id="getRestrictions" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMyRestrictions.php"
+					   url="http://www.menutria.com/php/mobile/getMyRestrictions.php"
 					   result="afterGetRestrictions(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="removeallrestrictions" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/removeallrestrictions.php"
+					   url="http://www.menutria.com/php/mobile/removeallrestrictions.php"
 					   result="afterGetRestrictions(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="deleteRestrict" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/deleteRestrictions.php"
+					   url="http://www.menutria.com/php/mobile/deleteRestrictions.php"
 					   result="afterDelete(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
@@ -182,7 +182,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="addRestrict" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/addRestrictions.php"
+					   url="http://www.menutria.com/php/mobile/addRestrictions.php"
 					   result="afterAdd(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	

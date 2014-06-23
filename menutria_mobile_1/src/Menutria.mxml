@@ -77,7 +77,7 @@
 			<s:BorderContainer  width="{this.width/1.15}" click="goProfile(event)"  borderVisible="false" backgroundColor="#c4c4c4">
 				<s:VGroup width="100%" id="defaultimggroup" horizontalAlign="center" gap="0">
 					<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
-					<s:Image  horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
+					<s:Image  id="profimage" horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
 						<s:source>
 							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
 													source240dpi="@Embed('assets/320/profile-default.png')"
@@ -302,10 +302,12 @@
 				stmt.execute();
 				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 				if (resData.length != 0){
-					var namego:String = resData[0].name;
+					nameGo = resData[0].name;
+					emailGo = resData[0].email;
+					getUserInfo.send();
 					for (var i:uint = 0; i < homeitems.length; i++){
 						if (homeitems[i].name == "Profile"){
-							homeitems[i].name = namego.charAt(0).toUpperCase()+namego.substring(1,namego.length);
+							homeitems[i].name = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
 						}
 					}
 					if (mainNavigator.navigator.firstView == null){
@@ -896,7 +898,15 @@
 				stmt.execute();
 				mainNavigator.navigator.pushView(Home,{homefilterarray:[]});
 			}
-			
+			public function afterGetUserInfo(ev:ResultEvent):void {
+				try{
+					var newpicture:String = ev.result[0].ress.res.picture;
+					if (newpicture.length > 1){
+						profimage.source = newpicture;
+					}
+				}
+				catch(e:Error){}
+			}
 			
 		]]>
 	</fx:Script>
@@ -913,7 +923,7 @@
 		<fx:String id="fsbirthyear"/>
 		<s:HTTPService id="syncfacebook" method="GET" 
 					   resultFormat="array" 
-					   url="http://www.scoutcard.ca/php/mobile_v2/syncfacebook.php"
+					   url="http://www.menutria.com/php/mobile/syncfacebook.php"
 					   result="aftersyncfacebook(event)" >
 			<s:request xmlns="">
 				<id>{fsid}</id>	
@@ -926,6 +936,13 @@
 				<birthmonth>{fsbirthmonth}</birthmonth>		
 				<birthyear>{fsbirthyear}</birthyear>	
 				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getUserInfo.php"
+					   result="afterGetUserInfo(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="menu_account"

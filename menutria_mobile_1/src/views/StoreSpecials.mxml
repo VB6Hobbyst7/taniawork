@@ -155,7 +155,7 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getSpecials2" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getSpecialsForLocation.php"
+					   url="http://www.menutria.com/php/mobile/getSpecialsForLocation.php"
 					   result="afterGetSpecials(event)" >
 			<s:request xmlns="">
 				<locationid>{locationid}</locationid>		

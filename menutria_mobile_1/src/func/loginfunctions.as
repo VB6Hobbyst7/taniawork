@@ -160,7 +160,6 @@ public function checkAvailability(username:String,userpassword:String):void {
 	if ((nemail.text != "")
 		&&(nemail.text.indexOf("@") != -1)
 		&&(nname.text != "")
-		&&(nname2.text != "")
 		&&(npassword.text != "")
 		&&(npassword2.text != "")
 		&&(city.text != "")
@@ -168,8 +167,7 @@ public function checkAvailability(username:String,userpassword:String):void {
 		newlogWarning.visible = false;
 		oemail = nemail.text;
 		opassword = npassword.text;
-		oname1 = nname.text;
-		oname2 = nname2.text;
+		oname = nname.text;
 		ocity = city.text;
 		oprovince = province.selectedItem.name;
 		obirthday = String(dt.selectedDate.day);
@@ -189,7 +187,7 @@ public function afterCreateNewUser(ev:ResultEvent):void {
 	hideloading();
 	if (ev.result[0].res.message == "ok"){
 		AddNewLocalUser(oemail,
-			oname1,
+			oname,
 			'canada'
 		);
 	}

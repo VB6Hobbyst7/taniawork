@@ -38,14 +38,14 @@
 	<fx:Script source="../func/specialsAllfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getSpecials" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getSpecialsAll.php"
+					   url="http://www.menutria.com/php/mobile/getSpecialsAll.php"
 					   result="afterGetSpecials(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getSpecialsPostal" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getSpecialsAllPostal.php"
+					   url="http://www.menutria.com/php/mobile/getSpecialsAllPostal.php"
 					   result="afterGetSpecialsPostal(event)" >
 			<s:request xmlns="">
 				<postalString>{postalString}</postalString>

@@ -15,7 +15,7 @@
 	<fx:Script source="../func/loadingfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getMenuItemInformation" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getMenuItemInformation.php"
+					   url="http://www.menutria.com/php/mobile/getMenuItemInformation.php"
 					   result="afterGetMenuInformation(event)" >
 			<s:request xmlns="">
 				<menuid>{data.id}</menuid>		
@@ -23,7 +23,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="sendReview" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/sendReview.php"
+					   url="http://www.menutria.com/php/mobile/sendReview.php"
 					   result="afterGetMenuInformation(event)" >
 			<s:request xmlns="">
 				<menuid>{data.id}</menuid>	
@@ -34,7 +34,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="sendEatenThis" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/updateEatenThis.php"
+					   url="http://www.menutria.com/php/mobile/updateEatenThis.php"
 					   result="afterGetEatenThis(event)" >
 			<s:request xmlns="">
 				<menuid>{data.id}</menuid>	

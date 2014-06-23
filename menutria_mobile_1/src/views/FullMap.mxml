@@ -176,7 +176,7 @@
 	</fx:Script>
 	<fx:Declarations>
 		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocations.php"
+					   url="http://www.menutria.com/php/mobile/getLocations.php"
 					   result="afterGetLocations(event)" >
 			<s:request xmlns="">
 				<mylat>{data.mylat}</mylat>		

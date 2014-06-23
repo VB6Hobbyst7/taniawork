@@ -36,12 +36,12 @@
 	<fx:Script source="../func/loadingfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocations.php"
+					   url="http://www.menutria.com/php/mobile/getLocations.php"
 					   result="afterGetLocations(event)" >
 				
 		</s:HTTPService>
 		<s:HTTPService id="getLocations2" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocationsFilter.php"
+					   url="http://www.menutria.com/php/mobile/getLocationsFilter.php"
 					   result="afterGetLocationsFilter(event)" >
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>
@@ -49,7 +49,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getLocationsPostal" method="GET" resultFormat="array"
-					   url="http://www.mymenuapp.ca/php/mobile/getLocationsPostal.php"
+					   url="http://www.menutria.com/php/mobile/getLocationsPostal.php"
 					   result="afterGetLocationsPostal(event)" >
 			<s:request xmlns="">
 				<postalString>{postalString}</postalString>
