@@ -3,7 +3,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" mouseOver="gOver(event);"
 		 mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
 	<fx:Script source="../func/globalFunctions.as"/>
-	<s:Image  left="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"   verticalCenter="0" mouseEnabled="false">
+	<s:Image  left="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"  
+			  verticalCenter="0" mouseEnabled="false">
 		<s:source>
 			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/arrow.png')"
 									source240dpi="@Embed('assets/240/arrow.png')"
