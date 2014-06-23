@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				mouseChildren="false"
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<fx:Script source="../func/globalFunctions.as"/>
+	<s:Group width="100%" height="{data.type*(75/(320/Capabilities.screenDPI))}" visible="{data.type == 1}">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#5b5b5b"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label id="hll" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" 
+				 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
+				 color.normal="#FFFFFF"
+				 color.selected="#43c7ae"/>
+		<s:Group right="{20/(320/Capabilities.screenDPI)}"   verticalCenter="0">
+			<s:BitmapImage id="checkimage" contentLoader="{s_imageCache}"
+						   visible.selected="true" visible.normal="false" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkblue.png')"
+											source240dpi="@Embed('assets/320/checkblue.png')"
+											source320dpi="@Embed('assets/320/checkblue.png')"
+											source480dpi="@Embed('assets/320/checkblue.png')"
+											source640dpi="@Embed('assets/320/checkblue.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		</s:Group>
+		<s:Line left="0" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="1"/></s:stroke>
+		</s:Line>
+	</s:Group>
+	<s:Group width="100%" height="{30/(320/Capabilities.screenDPI)}" 
+			 visible="{data.type == 0}">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#494949"/>
+			</s:fill>
+		</s:Rect>
+		<s:Line left="0" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="1"/></s:stroke>
+		</s:Line>
+	</s:Group>
+</s:ItemRenderer>
