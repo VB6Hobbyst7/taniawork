@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"   
-			autoDrawBackground="false" contentBackgroundAlpha="0"
-			xmlns:s="library://ns.adobe.com/flex/spark">
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				mouseChildren="false"
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
 <s:states>
 	<s:State name="normal"/>
 	<s:State name="hovered"/>
@@ -14,7 +17,8 @@
 			 text="{data.name}" 
 			 left="0"  verticalCenter="3"
 			 color="#4d4d4d"/>
-<s:BorderContainer height="2" width="100%" bottom="1"  
-			   backgroundAlpha="1" borderVisible="false" backgroundColor="#b2b2b2"/>
+	<s:Line left="0" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+	</s:Line>
 </s:Group>		
 </s:ItemRenderer>

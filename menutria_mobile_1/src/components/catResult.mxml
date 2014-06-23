@@ -3,7 +3,9 @@
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				mouseChildren="false"
 				contentBackgroundAlpha="1"
-				contentBackgroundColor="#FFFFFF">
+				contentBackgroundColor="#FFFFFF"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="hovered"/>
@@ -54,7 +56,7 @@
 		<s:Label  left="{30/(320/Capabilities.screenDPI)}" color="#6e6e6e" fontFamily="HelveticaNeuecff" fontWeight="bold" styleName="textsize1"
 				 text="{data.name}" verticalCenter="5"/>
 		<s:Group right="{30/(320/Capabilities.screenDPI)}" verticalCenter="5">
-			<s:Image  contentLoader="{s_imageCache}">
+			<s:BitmapImage contentLoader="{s_imageCache}"  >
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/forwardbtn.png')"
 											source240dpi="@Embed('assets/320/forwardbtn.png')"
@@ -62,7 +64,7 @@
 											source480dpi="@Embed('assets/320/forwardbtn.png')"
 											source640dpi="@Embed('assets/320/forwardbtn.png')"/>
 				</s:source>
-			</s:Image>
+			</s:BitmapImage>
 		</s:Group>
 		<s:Line left="0" right="0"  bottom="0" > 
 			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
