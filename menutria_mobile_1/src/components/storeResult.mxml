@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 	
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				mouseChildren="false"
+				contentBackgroundAlpha="1"
+				contentBackgroundColor="#FFFFFF"  
 				dataChange="dchange(event)"
-				creationComplete="init(event)"
-				xmlns:s="library://ns.adobe.com/flex/spark">
+				creationComplete="init(event)">
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			[Bindable]
 			public var mainaddress:String = "";
+			public var setheightval:Number = 200/(320/Capabilities.screenDPI);
 			protected function init(event:FlexEvent):void
 			{
-				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
-					//bmpImg.visible = false;
-					//data.picture = "assets/320/res_place_square.png";
-					//bmpImg.source = "assets/320/res_place_square.png";
-					
+				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
 				}
 				else {
-					bmpImg.visible = true;
+					bmpImg.source = data.business_picture;
 				}
+				
+				bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.maxHeight = this.height;
 				
 				
 				var maxchars:uint = 35;
@@ -48,16 +52,16 @@
 			{
 				try{
 					
-					if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
-						//bmpImg.visible = false;
-						//data.picture = "assets/320/res_place_square.png";
-						//bmpImg.source = "assets/320/res_place_square.png";
-						
+					if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+						bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
 					}
 					else {
-						bmpImg.visible = true;
+						bmpImg.source = data.business_picture;
 					}
 					
+					bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+					bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+					bmpImg.maxHeight = this.height;
 					
 					var maxchars:uint = 35;
 					mainaddress = data.business_address1;//+', '+data.business_city;
@@ -91,11 +95,20 @@
 		<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" paddingTop="{10/(320/Capabilities.screenDPI)}"
 				  paddingBottom="{10/(320/Capabilities.screenDPI)}" paddingLeft="{10/(320/Capabilities.screenDPI)}" verticalAlign="middle" height="90%" verticalCenter="0">
 	<s:VGroup width="20%" horizontalAlign="center">
-		<s:BorderContainer cornerRadius="{5/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}" width="{50/(320/Capabilities.screenDPI)}" horizontalCenter="0" verticalCenter="0"
-						   borderVisible="false" backgroundColor="#b3b3b3" backgroundAlpha="1">
-			<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize1"
-					 text="{data.rating.toPrecision(2).toString()}" fontWeight="bold" verticalCenter="4"/>
-		</s:BorderContainer>
+		<s:Group  height="{65/(320/Capabilities.screenDPI)}" 
+				  width="{65/(320/Capabilities.screenDPI)}" 
+				  horizontalCenter="0" verticalCenter="0">
+			<s:Rect radiusX="{15/(320/Capabilities.screenDPI)}"
+					radiusY="{15/(320/Capabilities.screenDPI)}" 
+					width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#b3b3b3"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize9"
+					 fontWeight="bold" verticalCenter="3"/>
+		</s:Group>	
+		
 		<s:HGroup>
 			<s:Label color="#808080"  styleName="textsize0" 
 			 text="{data.distance} km"/>
@@ -115,11 +128,9 @@
 	</s:VGroup>
 	
 </s:HGroup>
-	<s:Image id="bmpImg" right="0"  width="{this.height*1.3}" 	
-			 height="{this.height}" source="{data.business_picture}" 
-				   contentLoader="{s_imageCache}"  scaleMode="letterbox" />
-	
-	<s:BorderContainer bottom="0" width="95%" backgroundAlpha="0" right="0" borderAlpha="0.5" 
-					   borderColor="#b2b2b2" height="1.5" />
+		<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}" scaleMode="zoom" />
+		<s:Line left="{10/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+		</s:Line>
 </s:Group>
 </s:ItemRenderer>

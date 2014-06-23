@@ -10,7 +10,7 @@
 <autoOrients>false</autoOrients>
 <aspectRatio>any</aspectRatio>
 <renderMode>auto</renderMode>
-<fullScreen>true</fullScreen>
+<fullScreen>false</fullScreen>
 <systemChrome>standard</systemChrome>
 	</initialWindow>
 	<supportedLanguages>en</supportedLanguages>

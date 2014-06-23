@@ -3,12 +3,10 @@
 				dataChange="dchange(event)"
 				creationComplete="init(event)"
 				xmlns:s="library://ns.adobe.com/flex/spark" >
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			
-			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			protected function init(event:FlexEvent):void
 			{
 				if (data.totallikecount == null){

@@ -36,6 +36,15 @@
 			public function onActivate(event:Event):void
 			{
 				setLoginVars();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS resvalues (" +
+					"id int(255)," +
+					"name longtext," +
+					"chosen  varchar(255))";							
+				stmt.execute();
 				scroller.visible = true;
 				getRestrictions.send();
 			}
@@ -48,6 +57,13 @@
 			}
 			public function afterGetRestrictions(event:ResultEvent):void
 			{
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT * FROM resvalues";
+				stmt.execute();
+				var resvaluesData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 				busy = false;
 				listData = new ArrayCollection();
 				try{			
@@ -61,71 +77,56 @@
 					catch(e:Error){
 					}
 				}	
+				
+				if (resvaluesData.length > 0){
+					for (var i:uint = 0; i<resvaluesData.length; i++){
+						for (var j:uint = 0; j < listData.length; j++){
+							if (resvaluesData[i].id == listData[j].id){
+								listData[j].chosen = resvaluesData[i].chosen;
+							}
+						}
+					}
+				}
+				listData.refresh();
+				resList.dataProvider = listData;
+				updateResDatabase();
 			} 
-			public function storeList_clickHandler():void
+			public function res_listClick():void
 			{
 				//if (busy == false){
-					try{
-						if(storeList.selectedItem.infostatus == true){
-							var stop:String = "";
-							storeList.selectedItem.infostatus = false;
-							navigator.pushView(RestrictionInfo,{description:storeList.selectedItem.user_description,name:storeList.selectedItem.name});	
-						}
-						else if (storeList.selectedItem.chosen == "yes"){
-							storeList.selectedItem.chosen = 'no';
-							idGo = storeList.selectedItem.id;
-							busy = true;
-							deleteRestrict.send();
-							
-						}
-						else if (storeList.selectedItem.chosen == "no"){
-							storeList.selectedItem.chosen = 'yes';
-							idGo = storeList.selectedItem.id;
-							busy = true;
-							addRestrict.send();
-						}	
+				try{
+					if(resList.selectedItem.infostatus == true){
+						var stop:String = "";
+						resList.selectedItem.infostatus = false;
+						navigator.pushView(RestrictionInfo,{description:resList.selectedItem.user_description,
+							name:resList.selectedItem.name});	
 					}
-					catch(e:Error){
+					else if (resList.selectedItem.chosen == "yes"){
+						resList.selectedItem.chosen = 'no';
+						listData[resList.selectedIndex].chosen = 'no';
+						idGo = resList.selectedItem.id;
+						busy = true;
+						//delete
+						updateResDatabase();
 						
 					}
+					else if (resList.selectedItem.chosen == "no"){
+						resList.selectedItem.chosen = 'yes';
+						listData[resList.selectedIndex].chosen = 'yes';
+						idGo = resList.selectedItem.id;
+						busy = true;
+						//add
+						updateResDatabase();
+					}	
+				}
+				catch(e:Error){
+					
+				}
 				//}
 				listData.refresh();
-				storeList.dataProvider = listData;
+				resList.dataProvider = listData;
 			}
-			public var dishesdeleted=false;
-			public function afterDelete(ev:ResultEvent):void {
-				busy = false;
-				if (dishesdeleted == false){
-					dishesdeleted = true;
-					var stmt:SQLStatement = new SQLStatement();
-					sqlConnection = new SQLConnection();
-					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-					stmt = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "DROP TABLE dishes";
-					try{
-						stmt.execute();	
-					}
-					catch(e:Error){}
-				}
-				
-			}
-			public function afterAdd(ev:ResultEvent):void {
-				busy = false;
-				if (dishesdeleted == false){
-					dishesdeleted = true;
-					var stmt:SQLStatement = new SQLStatement();
-					sqlConnection = new SQLConnection();
-					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-					stmt = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "DROP TABLE dishes";
-					try{
-						stmt.execute();	
-					}
-					catch(e:Error){}
-				}
-			}
+			
 			[Bindable]
 			public var onoffstatus:uint = 0;
 			public function onoffclick():void {
@@ -133,16 +134,42 @@
 				if (onoffstatus == 1){
 					eatenimage.source = onoff1;
 					onoffstatus = 0;
-					storeList.enabled = true;
-					//storeList.mouseEnabled = true;
+					resList.enabled = true;
+					//resList.mouseEnabled = true;
+					
 				}
 				else {
 					eatenimage.source = onoff2;
 					onoffstatus = 1;
-					storeList.enabled = false;
-					removeallrestrictions.send();
-					//storeList.mouseEnabled = false;
+					resList.enabled = false;
+					for (var i:uint = 0; i < listData.length; i++){
+						listData[i].chosen = 'no';
+					}
+					listData.refresh();
+					resList.dataProvider = listData;
+					updateResDatabase();
+					//resList.mouseEnabled = false;
 				}	
+			}
+			public function updateResDatabase():void{
+				
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt2:SQLStatement = new SQLStatement();
+				stmt2.sqlConnection = sqlConnection;
+				stmt2.text = "delete from resvalues";
+				stmt2.execute();
+				
+				for (var i:uint = 0; i < listData.length; i++){
+					
+					var stmt3:SQLStatement = new SQLStatement();
+					stmt3.sqlConnection = sqlConnection;
+					stmt3.text = "insert into resvalues values ("+listData[i].id+",'"+listData[i].name+"','"+listData[i].chosen+"')";
+					stmt3.execute();
+					
+				}
+				
+				
 			}
 		]]>
 	</fx:Script>
@@ -166,36 +193,14 @@
 				<emailGo>{emailGo}</emailGo>	
 			</s:request>
 		</s:HTTPService>
-		<s:HTTPService id="removeallrestrictions" method="GET" resultFormat="array"
-					   url="http://www.menutria.com/php/mobile/removeallrestrictions.php"
-					   result="afterGetRestrictions(event)" >
-			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-			</s:request>
-		</s:HTTPService>
-		<s:HTTPService id="deleteRestrict" method="GET" resultFormat="array"
-					   url="http://www.menutria.com/php/mobile/deleteRestrictions.php"
-					   result="afterDelete(event)" >
-			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-				<idGo>{idGo}</idGo>	
-			</s:request>
-		</s:HTTPService>
-		<s:HTTPService id="addRestrict" method="GET" resultFormat="array"
-					   url="http://www.menutria.com/php/mobile/addRestrictions.php"
-					   result="afterAdd(event)" >
-			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-				<idGo>{idGo}</idGo>	
-			</s:request>
-		</s:HTTPService>
 	</fx:Declarations>
-	<s:VGroup id="scroller" visible="false" height="100%" gap="0" horizontalCenter="0" verticalCenter="0" paddingTop="0"  width="100%"  >
-		<s:BorderContainer  backgroundColor="#FFFFFF"  backgroundAlpha="1" borderVisible="false" width="100%" height="{90/(320/Capabilities.screenDPI)}"  >
+	<s:VGroup id="scroller" visible="false"  gap="0" horizontalCenter="0"  height="100%"
+			  verticalCenter="0" paddingTop="0"  width="100%" paddingBottom="40"  >
+		<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"  >
 			<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
-					 text="Enable Restrictions" 
-					 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
-					 color="#4d4d4d"/>
+					  text="Enable Restrictions" 
+					  left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+					  color="#4d4d4d"/>
 			<s:Image  id="eatenimage"  click="onoffclick();" right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
 					  verticalCenter="0" mouseEnabled="false"  visible="true" >
 				<s:source>
@@ -206,12 +211,16 @@
 											source640dpi="@Embed('assets/320/onoff1.png')"/>
 				</s:source>
 			</s:Image>
-			<s:BorderContainer height="1.5" width="100%" bottom="-10" backgroundAlpha="1" borderVisible="false" backgroundColor="#b2b2b2"/>
-		</s:BorderContainer>		
+			<s:Line  left="0" right="0" bottom="0" > 
+				<s:stroke>
+					<s:SolidColorStroke color="0xcccccc" weight="1"/>
+				</s:stroke>
+			</s:Line>	
+		</s:Group>			
 		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="1" 
-				id="storeList" labelField="name"     contentBackgroundColor="#e8e8e8"
+				id="resList" labelField="name"     contentBackgroundColor="#e8e8e8"
 				dataProvider="{listData}" itemRenderer="components.restrictResult"
-				selectedIndex="1" click="storeList_clickHandler()"    >
+				selectedIndex="1" click="res_listClick()"    >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
 			</s:layout>

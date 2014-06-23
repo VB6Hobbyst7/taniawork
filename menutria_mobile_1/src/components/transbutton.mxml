@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="{458/(320/Capabilities.screenDPI)}" height="{68/(320/Capabilities.screenDPI)}">
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			[Bindable]
@@ -13,8 +14,7 @@
 									source240dpi="@Embed('assets/320/transback.png')"
 									source320dpi="@Embed('assets/320/transback.png')"
 									source480dpi="@Embed('assets/320/transback.png')"
-									source640dpi="@Embed('assets/320/transback.png')"
-									/>
+									source640dpi="@Embed('assets/320/transback.png')"/>
 		</s:source>
 	</s:Image>
 	<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0" styleName="textsize0"

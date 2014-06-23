@@ -7,12 +7,7 @@
 		<s:State name="hovered"/>
 		<s:State name="selected"/>
 	</s:states>   
-	<fx:Script>
-		<![CDATA[
-			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
-		]]>
-	</fx:Script>
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Declarations>
 		<s:GlowFilter id="selectionglow"
 			alpha="1" strength="200" knockout="true"

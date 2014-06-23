@@ -3,11 +3,10 @@
 				creationComplete="init(event)"
 				dataChange="dchange(event)"
 				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			private var _sectionField:String = "section";
 			protected function init(event:FlexEvent):void
 			{
@@ -30,28 +29,6 @@
 					bmpImg.visible = true;
 				}
 				//bmpImg.maxHeight = this.height-(50);
-			}
-			public function getDPIHeight():Number {
-				var _runtimeDPI:int;
-				if(Capabilities.screenDPI < 200){
-					_runtimeDPI = 160;
-				}
-				else if(Capabilities.screenDPI >=200 && Capabilities.screenDPI < 280){
-					_runtimeDPI = 240
-				}
-				else if (Capabilities.screenDPI >=320){
-					_runtimeDPI = 320;
-				}
-				else if (Capabilities.screenDPI >=480){
-					_runtimeDPI = 480;
-				}
-				else if (Capabilities.screenDPI >=640){
-					_runtimeDPI = 640;
-				}
-				else {
-					_runtimeDPI = 320;
-				}
-				return(_runtimeDPI)
 			}
 		]]>
 	</fx:Script>

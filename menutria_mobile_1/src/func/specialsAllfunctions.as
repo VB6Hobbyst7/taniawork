@@ -315,7 +315,13 @@ public function afterGetSpecials(event:ResultEvent):void
 					specialData[i].description  = specialData[i].description .replace(/'/g, "");
 					specialData[i].business_name  = specialData[i].business_name .replace(/'/g, "");
 					specialData[i].categoryname  = specialData[i].categoryname .replace(/'/g, "");
-					specialData[i].name  = specialData[i].name .replace(/'/g, "");
+					if (specialData[i].name  != null){
+						specialData[i].name  = specialData[i].name .replace(/'/g, "");
+					}
+					else {
+						specialData[i].name = "";
+					}
+					
 					stmt = new SQLStatement();
 					stmt.sqlConnection = sqlConnection;
 
