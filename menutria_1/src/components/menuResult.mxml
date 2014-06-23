@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 	
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				mouseChildren="false"
+				contentBackgroundAlpha="1"
+				contentBackgroundColor="#FFFFFF"
 				creationComplete="init2(event)"
-				mouseChildren="false" dataChange="datachange(event)"
-				 contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
-				xmlns:s="library://ns.adobe.com/flex/spark">
+				dataChange="datachange(event)">
 	<s:states>
 		<s:State name="nocatnoalert"/>
 		<s:State name="yescatnoalert"/>
