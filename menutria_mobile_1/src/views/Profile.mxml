@@ -29,12 +29,10 @@
 			import flash.media.CameraRoll;
 			import flash.media.MediaPromise;
 			import flash.sensors.Geolocation;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
-			
 			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
@@ -206,11 +204,7 @@
 				else {
 					ev.currentTarget.alpha = 1;
 				}
-			}
-			
-			
-			
-			
+			}			
 			public function ratingitemclick():void {
 				if (goingtonext == false){
 					goingtonext = true;
@@ -228,8 +222,6 @@
 					goingtonext = false;
 				}
 			}
-			
-			
 			public function storeListClick():void {	
 				if (goingtonext == false){
 					goingtonext = true;
@@ -246,11 +238,6 @@
 				}
 					
 			}
-			
-			
-			
-			
-			
 			public function homepicclick(event:MouseEvent):void
 			{
 				mediaSource.addEventListener( MediaEvent.SELECT, imageSelected );
@@ -338,9 +325,6 @@
 				fa.duration = 500;
 				fa.play();
 			}
-			
-			
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -373,19 +357,23 @@
 			</s:request>
 		</s:HTTPService>	
 	</fx:Declarations>
-	
-	
 	<s:Group width="100%" horizontalCenter="0" height="100%" >
 		<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
 					verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 			<s:VGroup gap="0" width="100%" height="100%">
-				<s:BorderContainer  width="100%"  borderVisible="false" backgroundColor="#c4c4c4">
+				<s:Group  width="100%" >
+					<s:Rect width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#c4c4c4"/>
+						</s:fill>
+					</s:Rect>
 					<s:Image id="mainprofimage" width="100%" mouseEnabled="false" visible="false"/>
 					<s:VGroup width="100%" id="defaultimggroup"  click="homepicclick(event)"
 							  visible="true" horizontalAlign="center" gap="0">
 						<s:Group height="{60/(320/Capabilities.screenDPI)}" width="100%">
 							<s:Image id="editimg" height="100%" smooth="true" width="{editimg.height}"
-									 scaleMode="stretch" right="{10/(320/Capabilities.screenDPI)}" top="{10/(320/Capabilities.screenDPI)}">
+									 scaleMode="stretch" right="{10/(320/Capabilities.screenDPI)}" 
+									 top="{10/(320/Capabilities.screenDPI)}">
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/editimage.png')"
 															source240dpi="@Embed('../assets/320/editimage.png')"
@@ -395,7 +383,8 @@
 								</s:source>
 							</s:Image>
 						</s:Group>
-						<s:Image id="profimage"  horizontalCenter="0" mouseEnabled="false" verticalCenter="0"  contentLoader="{s_imageCache}" >
+						<s:Image id="profimage"  horizontalCenter="0" mouseEnabled="false" verticalCenter="0"
+								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
 														source240dpi="@Embed('assets/320/profile-default.png')"
@@ -407,19 +396,30 @@
 						<s:Group height="{30/(320/Capabilities.screenDPI)}" width="100%">
 						</s:Group>
 					</s:VGroup>
-				</s:BorderContainer>
-				<s:BorderContainer borderVisible="false"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="{70/(320/Capabilities.screenDPI)}">
-					<s:Label  styleName="textsize0"  color="#808080" horizontalCenter="0" text="{'Edmonton, Alberta • '+rateArray.length+' Reviews'}"
+				</s:Group>
+				<s:Group width="100%" height="{70/(320/Capabilities.screenDPI)}">
+					<s:Rect width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#f2f2f2"/>
+						</s:fill>
+					</s:Rect>
+					<s:Label  styleName="textsize0"  color="#808080" horizontalCenter="0"
+							  text="{'Edmonton, Alberta • '+rateArray.length+' Reviews'}"
 							  verticalCenter="0"/>
-				</s:BorderContainer>
+				</s:Group>
 				<s:HGroup gap="0"  width="100%" height="{140/(320/Capabilities.screenDPI)}">
-					<s:BorderContainer id="thing1" height="100%" width="{this.width/3}" 
-									    click="showThings(1)"
-									    mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-										mouseOver="gOver(event)" mouseOut="gOut2(event)"
-									   borderVisible="false" backgroundColor="#8eddce">
+					<s:Group id="thing1" height="100%" width="{this.width/3}" 
+						    click="showThings(1)"
+						    mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
+							mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#8eddce"/>
+							</s:fill>
+						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-myreviews.png')"
@@ -433,14 +433,19 @@
 							</s:Image>
 							<s:Label mouseEnabled="false" text="My Reviews" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
-					</s:BorderContainer>
-					<s:BorderContainer id="thing2" height="100%" width="{this.width/3}"
-									   click="showThings(2)"
-									   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-									   mouseOver="gOver(event)" mouseOut="gOut2(event)"
-									   borderVisible="false" backgroundColor="#9ebade">
+					</s:Group>
+					<s:Group id="thing2" height="100%" width="{this.width/3}"
+						   click="showThings(2)"
+						   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
+						   mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#9ebade"/>
+							</s:fill>
+						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-reviewiliked.png')"
@@ -454,28 +459,31 @@
 							</s:Image>
 							<s:Label mouseEnabled="false" text="Reviews I've Liked" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
-					</s:BorderContainer>
-					<s:BorderContainer id="thing3" height="100%" width="{this.width/3}" 
+					</s:Group>
+					<s:Group id="thing3" height="100%" width="{this.width/3}" 
 									   click="showThings(3)"
 									   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-									   mouseOver="gOver(event)" mouseOut="gOut2(event)"
-									   borderVisible="false" backgroundColor="#c7c7c7">
+									   mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#c7c7c7"/>
+							</s:fill>
+						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
-							<s:Image mouseEnabled="false">
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:BitmapImage contentLoader="{s_imageCache}" >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-placesieat.png')"
 															source240dpi="@Embed('../assets/320/profile-placesieat.png')"
 															source320dpi="@Embed('../assets/320/profile-placesieat.png')"
 															source480dpi="@Embed('../assets/320/profile-placesieat.png')"
-															source640dpi="@Embed('../assets/320/profile-placesieat.png')"
-															/>
+															source640dpi="@Embed('../assets/320/profile-placesieat.png')"/>
 								</s:source>
-								
-							</s:Image>
+							</s:BitmapImage>
 							<s:Label mouseEnabled="false" text="Places I've Eaten" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
-					</s:BorderContainer>
+					</s:Group>
 				</s:HGroup>
 				<s:Group width="100%" height="100%">
 					<s:List  id="rateList" visible="true"
@@ -489,8 +497,7 @@
 							 click="ratingitemclick();"  >
 						<s:layout>
 							<s:VerticalLayout horizontalAlign="contentJustify" 
-											  variableRowHeight="true"
-											  gap="0"/>
+											  variableRowHeight="true" gap="0"/>
 						</s:layout>
 					</s:List>
 					<s:List  id="placesList" visible="false"
@@ -498,20 +505,17 @@
 							 horizontalCenter="0" 
 							 change="storeListClick();"
 							 click="storeListClick();"
-							 verticalScrollPolicy="off"  horizontalScrollPolicy="off"  	 contentBackgroundAlpha="0" 
-							 itemRenderer="components.storeResult"
-							   >
+							 verticalScrollPolicy="off"  
+							 horizontalScrollPolicy="off"
+							 contentBackgroundAlpha="0" 
+							 itemRenderer="components.storeResult">
 						<s:layout>
 							<s:VerticalLayout horizontalAlign="contentJustify" 
-											  variableRowHeight="true"
-											  gap="0"/>
+											  variableRowHeight="true" gap="0"/>
 						</s:layout>
 					</s:List>
 				</s:Group>
-				
-				
 				</s:VGroup>
 			</s:Scroller>
 		</s:Group>
-	
 </s:View>

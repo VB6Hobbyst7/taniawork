@@ -55,19 +55,12 @@ public function guestSignIn(event:MouseEvent):void {
 	authorizeLogin("guest@guest.com","guest");
 }
 public function createNewClick(event:MouseEvent):void {
-	this.currentState = 'create';
-	newlogWarning.visible = false;
+	navigator.pushView(Signup_step1);	
 }
 public function backToLoginOptions():void {
 	this.currentState = 'welcome';
 	try{
 		logWarning.visible = false;
-	}
-	catch(e:Error){
-		
-	}
-	try{
-		newlogWarning.visible = false;
 	}
 	catch(e:Error){
 		
@@ -113,12 +106,7 @@ protected function getLocalUsers():void
 					
 				}
 				
-				try{
-					newlogWarning.visible = false;
-				}
-				catch(e:Error){
-					
-				}
+			
 				try{
 					var saveManager:PersistenceManager = new PersistenceManager();
 					saveManager.setProperty("useremail", resData[i].email);
@@ -153,49 +141,6 @@ public function AddNewLocalUser(email:String,name:String,country:String):void
 	stmt.execute();
 	getLocalUsers();
 	
-}
-public function checkAvailability(username:String,userpassword:String):void {	
-	busy = true;
-	showloading();
-	if ((nemail.text != "")
-		&&(nemail.text.indexOf("@") != -1)
-		&&(nname.text != "")
-		&&(npassword.text != "")
-		&&(npassword2.text != "")
-		&&(city.text != "")
-		&&(npassword.text == npassword2.text)){
-		newlogWarning.visible = false;
-		oemail = nemail.text;
-		opassword = npassword.text;
-		oname = nname.text;
-		ocity = city.text;
-		oprovince = province.selectedItem.name;
-		obirthday = String(dt.selectedDate.day);
-		obirthmonth = String(dt.selectedDate.month);
-		obirthyear = String(dt.selectedDate.fullYear);
-		ogender = gender.selectedValue.toString();
-		createNewUser.send();
-	}
-	else {
-		newlogWarning.visible = true;
-		busy = false;
-		hideloading();
-	}	
-}
-public function afterCreateNewUser(ev:ResultEvent):void {
-	busy = false;
-	hideloading();
-	if (ev.result[0].res.message == "ok"){
-		AddNewLocalUser(oemail,
-			oname,
-			'canada'
-		);
-	}
-	else {
-		newlogWarning.visible = true;
-		busy = false;
-		newlogWarning.text = ev.result[0].res.message;
-	}
 }
 protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
 {

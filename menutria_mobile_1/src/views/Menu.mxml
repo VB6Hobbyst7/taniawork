@@ -30,57 +30,65 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
-		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
-			<s:BorderContainer borderVisible="false" id="filterarea"  click="ratingpriceoptionclick();"   visible="true" 
-							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="{75/(320/Capabilities.screenDPI)}">
-				<s:Image id="ratingpriceimage1" horizontalCenter="0"  mouseEnabled="false"  
-						 visible="true"   verticalCenter="0">
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption1.png')"
-												source240dpi="@Embed('assets/320/ratingpriceoption1.png')"
-												source320dpi="@Embed('assets/320/ratingpriceoption1.png')"
-												source480dpi="@Embed('assets/320/ratingpriceoption1.png')"
-												source640dpi="@Embed('assets/320/ratingpriceoption1.png')"/>
-					</s:source>
-				</s:Image>
-				<s:Image id="ratingpriceimage2" horizontalCenter="0"   mouseEnabled="false" 
-						 visible="false" verticalCenter="0">
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption2.png')"
-												source240dpi="@Embed('assets/320/ratingpriceoption2.png')"
-												source320dpi="@Embed('assets/320/ratingpriceoption2.png')"
-												source480dpi="@Embed('assets/320/ratingpriceoption2.png')"
-												source640dpi="@Embed('assets/320/ratingpriceoption2.png')"/>
-					</s:source>
-				</s:Image>
-			</s:BorderContainer>
-			<s:BorderContainer borderVisible="false"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" height="{75/(320/Capabilities.screenDPI)}">
-				<s:Group id="selectview1"  visible="true" height="100%" width="100%">
-					<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" styleName="textsize0" text="Showing"
-							 verticalAlign="middle" verticalCenter="0"/>
-					<s:Label left="{132/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
-							 text="Best Rated" verticalAlign="middle" verticalCenter="2"/>
-				</s:Group>
-				<s:Group id="selectview2"   visible="false" height="100%" width="100%">
-					<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" styleName="textsize0" text="Showing"
-							 verticalAlign="middle" verticalCenter="0"/>
-					<s:Label left="{132/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
-							 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
-				</s:Group>
-			</s:BorderContainer>
-			<s:List width="100%" horizontalCenter="0" height="100%"
-				 contentBackgroundAlpha="0"
-					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
-					dataProvider="{listData}" itemRenderer="components.menuResult"
-					selectedIndex="1" click="storeListClick();" >
-				<s:layout>
-					<s:VerticalLayout horizontalAlign="contentJustify" 
-									  variableRowHeight="true"
-									  gap="0"/>
-				</s:layout>
-			</s:List>
-		</s:VGroup>
+	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+		<s:Group id="filterarea" click="ratingpriceoptionclick();" width="100%" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#8eddce"/>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage id="ratingpriceimage1" horizontalCenter="0" verticalCenter="0"
+						   contentLoader="{s_imageCache}" visible="true">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption1.png')"
+											source240dpi="@Embed('assets/320/ratingpriceoption1.png')"
+											source320dpi="@Embed('assets/320/ratingpriceoption1.png')"
+											source480dpi="@Embed('assets/320/ratingpriceoption1.png')"
+											source640dpi="@Embed('assets/320/ratingpriceoption1.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Image id="ratingpriceimage2" horizontalCenter="0" verticalCenter="0"
+					 contentLoader="{s_imageCache}" visible="false">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption2.png')"
+											source240dpi="@Embed('assets/320/ratingpriceoption2.png')"
+											source320dpi="@Embed('assets/320/ratingpriceoption2.png')"
+											source480dpi="@Embed('assets/320/ratingpriceoption2.png')"
+											source640dpi="@Embed('assets/320/ratingpriceoption2.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:Group width="100%" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#f2f2f2"/>
+				</s:fill>
+			</s:Rect>
+			<s:Group id="selectview1"  visible="true" height="100%" width="100%">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" styleName="textsize0" text="Showing"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{132/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="Best Rated" verticalAlign="middle" verticalCenter="2"/>
+			</s:Group>
+			<s:Group id="selectview2"   visible="false" height="100%" width="100%">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" styleName="textsize0" text="Showing"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{132/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
+			</s:Group>
+		</s:Group>
+		<s:List width="100%" horizontalCenter="0" height="100%"
+			 contentBackgroundAlpha="0"
+				id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+				dataProvider="{listData}" itemRenderer="components.menuResult"
+				selectedIndex="1" click="storeListClick();" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  variableRowHeight="true"
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
-			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
-	
+		 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
 </s:View>

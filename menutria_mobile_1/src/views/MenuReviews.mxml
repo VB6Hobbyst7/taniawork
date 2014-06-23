@@ -22,7 +22,6 @@
 			import flash.geom.ColorTransform;
 			import flash.sensors.Geolocation;
 			import mx.collections.ArrayCollection;
-			
 			import mx.effects.effectClasses.FadeInstance;
 			import mx.events.DragEvent;
 			import mx.events.EffectEvent;
@@ -86,10 +85,8 @@
 				itemRenderer="components.ratingsResultProfile"
 				change="rateListChange(event);"  >
 			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" 
-								  gap="0"/>
+				<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
 			</s:layout>
 		</s:List>
 	</s:VGroup>
-	
 </s:View>

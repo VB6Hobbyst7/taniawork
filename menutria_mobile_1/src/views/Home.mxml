@@ -12,10 +12,8 @@
 	<s:titleContent>
 		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
 			<s:Rect width="100%"  height="100%"
-					 bottomLeftRadiusX="{30/(320/Capabilities.screenDPI)}" bottomLeftRadiusY="{30/(320/Capabilities.screenDPI)}"
-					 bottomRightRadiusX="{30/(320/Capabilities.screenDPI)}" bottomRightRadiusY="{30/(320/Capabilities.screenDPI)}"
-					 topLeftRadiusX="{30/(320/Capabilities.screenDPI)}" topLeftRadiusY="{30/(320/Capabilities.screenDPI)}" 
-					 topRightRadiusX="{30/(320/Capabilities.screenDPI)}" topRightRadiusY="{30/(320/Capabilities.screenDPI)}">
+					radiusX="{25/(320/Capabilities.screenDPI)}"
+					radiusY="{25/(320/Capabilities.screenDPI)}">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#39a994"/>
 				</s:fill>

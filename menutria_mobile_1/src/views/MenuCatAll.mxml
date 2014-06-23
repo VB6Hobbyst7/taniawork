@@ -31,48 +31,45 @@
 		</s:HTTPService>
 	</fx:Declarations>
 		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
-			<s:BorderContainer borderVisible="false" id="filterarea"     visible="true" 
-							   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="{75/(320/Capabilities.screenDPI)}">
-				<s:Image id="filterimage1" horizontalCenter="0"  
-						 mouseEnabled="false" alpha="1"
-						 verticalCenter="0">
+			<s:Group id="filterarea" width="100%" height="{75/(320/Capabilities.screenDPI)}">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#8eddce"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage id="filterimage1" horizontalCenter="0"  
+							contentLoader="{s_imageCache}" alpha="1"
+							verticalCenter="0">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption1.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption1.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption1.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption1.png')"
-												source640dpi="@Embed('assets/320/catratingpriceoption1.png')"
-												/>
+												source640dpi="@Embed('assets/320/catratingpriceoption1.png')"/>
 					</s:source>
-				</s:Image>
-				<s:Image id="filterimage2" horizontalCenter="0" 
-						 mouseEnabled="false" alpha="0"  
+				</s:BitmapImage>
+				<s:BitmapImage id="filterimage2" horizontalCenter="0" 
+							   contentLoader="{s_imageCache}" alpha="0"  
 						 verticalCenter="0">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption2.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption2.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption2.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption2.png')"
-												source640dpi="@Embed('assets/320/catratingpriceoption2.png')"
-												/>
-					</s:source>
-					
-				</s:Image>
-				<s:Image id="filterimage3" horizontalCenter="0"  
-						 mouseEnabled="false" alpha="0"  
+												source640dpi="@Embed('assets/320/catratingpriceoption2.png')"/>
+					</s:source>			
+				</s:BitmapImage>
+				<s:BitmapImage id="filterimage3" horizontalCenter="0"  
+							   contentLoader="{s_imageCache}" alpha="0"  
 						 verticalCenter="0">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption3.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption3.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption3.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption3.png')"
-												source640dpi="@Embed('assets/320/catratingpriceoption3.png')"
-												/>
+												source640dpi="@Embed('assets/320/catratingpriceoption3.png')"/>
 					</s:source>
-					
-				</s:Image>
-				
-				
+				</s:BitmapImage>		
 				<s:HGroup width="{filterimage1.width}" horizontalCenter="0" height="100%" >
 					<s:Group width="33%"  height="100%" id="toggleclick1" click="filterClick(1);" 
 							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
@@ -80,23 +77,24 @@
 							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
 					<s:Group width="33%"  height="100%" id="toggleclick3" click="filterClick(3);" 
 							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
-					
 				</s:HGroup>
-				
-			</s:BorderContainer>
-			<s:BorderContainer borderVisible="false"  backgroundColor="#f2f2f2" backgroundAlpha="1" 
-							   width="100%" maxWidth="{this.width}" height="{75/(320/Capabilities.screenDPI)}">
-				<s:Image right="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" 
+			</s:Group>
+			<s:Group width="100%" maxWidth="{this.width}" height="{75/(320/Capabilities.screenDPI)}">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#f2f2f2"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage right="{29/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
 						 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/close.png')"
 												source240dpi="@Embed('assets/320/close.png')"
 												source320dpi="@Embed('assets/320/close.png')"
 												source480dpi="@Embed('assets/320/close.png')"
-												source640dpi="@Embed('assets/320/close.png')"
-												/>
+												source640dpi="@Embed('assets/320/close.png')"/>
 					</s:source>
-				</s:Image>
+				</s:BitmapImage>
 				<s:HGroup id="selectview1" visible="true"  mouseDown="goFilterScreen(1);" maxWidth="{this.width}"    alpha="0" height="100%" width="100%"
 						  mouseEnabled="false" mouseEnabledWhereTransparent="false"
 						  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
@@ -126,29 +124,36 @@
 					<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv3label" width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
 							 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 				</s:HGroup>
-				
-			</s:BorderContainer>
+			</s:Group>
 			<s:List width="100%" horizontalCenter="0" height="100%"
-				 contentBackgroundAlpha="0"
-					id="menuList" labelField="name"  horizontalScrollPolicy="off" 
-					dataProvider="{listData}" itemRenderer="components.menuResult"
-					selectedIndex="1" click="menuListClick();" >
+				contentBackgroundAlpha="0"
+				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
+				dataProvider="{listData}" itemRenderer="components.menuResult"
+				selectedIndex="1" click="menuListClick();" >
 				<s:layout>
 					<s:VerticalLayout horizontalAlign="contentJustify" 
-									  variableRowHeight="true"
-									  gap="0"/>
+									  variableRowHeight="true" gap="0"/>
 				</s:layout>
 			</s:List>
 		</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
-	<s:BorderContainer id="nofind" visible="false" backgroundAlpha="#FFFFFF" borderVisible="false" width="100%" height="100%">
+	<s:Group id="nofind" visible="false" width="100%" height="100%">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
 		<s:Label horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
 				 text="No Results Found" color="#8c8c8c"/>
-	</s:BorderContainer>
+	</s:Group>
 	
-	<s:BorderContainer id="dropDownContainer" backgroundAlpha="0.8" visible="false" alpha="0"
-					   backgroundColor="#FFFFFF" width="100%" height="100%">
+	<s:Group id="dropDownContainer"  visible="false" alpha="0" width="100%" height="100%">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="0.8" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
 		<s:List width="100%" horizontalCenter="0" height="100%"
 				contentBackgroundAlpha="0" visible="true"
 				id="filterList1"  horizontalScrollPolicy="off" 
@@ -156,11 +161,9 @@
 				itemRenderer="components.dropdownitem"
 				click="filter1Click();" >
 			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" 
-								  gap="0"/>
+				<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
 			</s:layout>
 		</s:List>
-		
 		<s:List width="100%" horizontalCenter="0" height="100%"
 				contentBackgroundAlpha="0" visible="false"
 				id="filterList2"  horizontalScrollPolicy="off" 
@@ -168,11 +171,9 @@
 				itemRenderer="components.dropdownitem"
 				click="filter2Click();" >
 			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" 
-								  gap="0"/>
+				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
 			</s:layout>
 		</s:List>
-		
 		<s:List width="100%" horizontalCenter="0" height="100%"
 				contentBackgroundAlpha="0" visible="false"
 				id="filterList3"  horizontalScrollPolicy="off" 
@@ -180,11 +181,8 @@
 				itemRenderer="components.dropdownitem"
 				click="filter3Click();" >
 			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" 
-								  gap="0"/>
+				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
 			</s:layout>
 		</s:List>
-
-	</s:BorderContainer>
-	
+	</s:Group>
 </s:View>

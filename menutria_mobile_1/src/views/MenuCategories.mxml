@@ -38,13 +38,10 @@
 					click="storeListClick();"
 					change="storeListClick();">
 				<s:layout>
-					<s:VerticalLayout horizontalAlign="contentJustify" 
-									  gap="0"/>
+					<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
 				</s:layout>
 			</s:List>
-			
 		</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
-	
 </s:View>
