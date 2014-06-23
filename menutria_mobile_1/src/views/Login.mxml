@@ -238,5 +238,4 @@
 			</s:VGroup>
 		</s:VGroup>
 	</s:Scroller>
-	<s:BorderContainer backgroundAlpha="1" backgroundColor="#FFFFFF" width="100%" height="100%" id="facebookCONT" visible="false"/>
 </s:View>
