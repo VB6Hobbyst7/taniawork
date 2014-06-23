@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false" mouseChildren="false"
 				creationComplete="init(event)"
 				dataChange="dchange(event)">
 	<fx:Script source="../func/globalFunctions.as"/>
@@ -10,24 +11,20 @@
 			private var _sectionField:String = "section";
 			protected function init(event:FlexEvent):void
 			{
-				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
-					//bmpImg.visible = false;
-				//	data.picture = "assets/320/res_place_square.png";
+				if ((data.business_picture == "None")||(data.business_picture == "")||
+					(data.business_picture == null)||(data.business_picture == "null")){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
-					
 				}
 				else {
 					bmpImg.visible = true;
 				}
+				bmpImg.maxHeight = this.height-(50*data.divtype);
 			}
-			
 			public function dchange(event:FlexEvent):void
 			{
-				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
-					//bmpImg.visible = false;
-					//data.picture = "assets/320/res_place_square.png";
+				if ((data.business_picture == "None")||(data.business_picture == "")||
+					(data.business_picture == null)||(data.business_picture == "null")){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
-					
 				}
 				else {
 					bmpImg.visible = true;
@@ -37,14 +34,20 @@
 		]]>
 	</fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">
-		<s:BorderContainer width="100%" visible="{data.divtype == 1}" height="{(50/(320/Capabilities.screenDPI))*data.divtype}" backgroundAlpha="1" 
-						   borderVisible="false" backgroundColor="#8eddce">
+		<s:Group width="100%" visible="{data.divtype == 1}" 
+				height="{(50/(320/Capabilities.screenDPI))*data.divtype}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#8eddce"/>
+				</s:fill>
+			</s:Rect>
 			<s:Label width="100%" verticalCenter="0" left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
 					 fontWeight="bold" styleName="textsize0" text="{data.categoryname}"
 					 verticalAlign="middle"></s:Label>
-			<s:BorderContainer height="1.5" width="100%" bottom="0" backgroundAlpha="1" borderVisible="false" 
-							   backgroundColor="#b2b2b2"/>
-		</s:BorderContainer>
+			<s:Line left="0" right="0"  bottom="0" > 
+				<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+			</s:Line>
+		</s:Group>
 		<s:Group width="{this.width}"  mouseEnabled="false" maxHeight="{130/(320/Capabilities.screenDPI)}"   id="megacont"  >
 			<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" paddingTop="{20/(320/Capabilities.screenDPI)}"
 					  paddingBottom="{20/(320/Capabilities.screenDPI)}" paddingLeft="{10/(320/Capabilities.screenDPI)}" verticalAlign="middle" height="90%" verticalCenter="0">
@@ -68,6 +71,7 @@
 					 contentLoader="{s_imageCache}"  scaleMode="letterbox" />
 		</s:Group>
 	</s:VGroup>
-	<s:BorderContainer bottom="0" left="{20/(320/Capabilities.screenDPI)}" backgroundAlpha="0" right="0" borderAlpha="0.5" 
-					   borderColor="#b2b2b2" height="1.5" />
+	<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+	</s:Line>
 </s:ItemRenderer>

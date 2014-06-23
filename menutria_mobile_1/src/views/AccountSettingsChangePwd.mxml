@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
-		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:ns="http://www.flextras.com/mxml" 
+		xmlns:cs="cs.*" 
+		xmlns:components="components.*"		
+		title="Change Password" 	
+		contentBackgroundColor="#f3f3f3"
+		contentBackgroundAlpha="1"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()"
-		title="Change Password" 	contentBackgroundAlpha="1"
-		contentBackgroundColor="#f3f3f3"
-		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml" 
-		xmlns:components="components.*">	
+		viewActivate="onActivate(event)" >	
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%" mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script source="../func/loadingfunctions.as"/>
@@ -89,5 +92,4 @@
 			</s:VGroup>
 		</s:VGroup>
 	</s:Scroller>
-	
 </s:View>

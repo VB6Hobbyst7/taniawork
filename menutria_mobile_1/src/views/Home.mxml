@@ -10,11 +10,17 @@
 	 	xmlns:components="components.*" 
 	  	viewDeactivate="onViewDeactivate();">
 	<s:titleContent>
-		<s:BorderContainer horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%" backgroundAlpha="1"
-						   backgroundColor="#39a994" borderVisible="false" contentBackgroundAlpha="1"
-						   contentBackgroundColor="#39a994"
-						   dropShadowVisible="false" cornerRadius="{30/(320/Capabilities.screenDPI)}">
-			<s:Image left=" {20/(320/Capabilities.screenDPI)}" verticalCenter="0">
+		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
+			<s:Rect width="100%"  height="100%"
+					 bottomLeftRadiusX="{30/(320/Capabilities.screenDPI)}" bottomLeftRadiusY="{30/(320/Capabilities.screenDPI)}"
+					 bottomRightRadiusX="{30/(320/Capabilities.screenDPI)}" bottomRightRadiusY="{30/(320/Capabilities.screenDPI)}"
+					 topLeftRadiusX="{30/(320/Capabilities.screenDPI)}" topLeftRadiusY="{30/(320/Capabilities.screenDPI)}" 
+					 topRightRadiusX="{30/(320/Capabilities.screenDPI)}" topRightRadiusY="{30/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#39a994"/>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage left="{20/(320/Capabilities.screenDPI)}" verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/glass.png')"
 											source240dpi="@Embed('assets/320/glass.png')"
@@ -22,14 +28,14 @@
 											source480dpi="@Embed('assets/320/glass.png')"
 											source640dpi="@Embed('assets/320/glass.png')"/>
 				</s:source>
-			</s:Image>
+			</s:BitmapImage>
 			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
 						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}"
 						   id="key"  top="6"  height="98%" borderVisible="false" fontWeight="normal"  
 						   contentBackgroundAlpha="0"
 						   maxChars="20" prompt="Search Restaurants"
 						   returnKeyLabel="search"/>
-		</s:BorderContainer>
+		</s:Group>
 	</s:titleContent>
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script source="../func/homefunctions.as"/>
@@ -76,11 +82,16 @@
 		</s:ArrayList>
 	</fx:Declarations>
 	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
-		<s:BorderContainer borderVisible="false" id="filterarea"     visible="true" 
-						   backgroundColor="#8eddce" backgroundAlpha="1" width="100%" height="{75/(320/Capabilities.screenDPI)}">
+		<s:Group id="filterarea" visible="true"  width="100%"
+				 height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#8eddce"/>
+				</s:fill>
+			</s:Rect>
 			<s:Image id="filterimage1" horizontalCenter="0"  
 					 mouseEnabled="false" alpha="1"
-					 verticalCenter="0">
+					 verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs1.png')"
 											source240dpi="@Embed('assets/320/hometabs1.png')"
@@ -92,7 +103,7 @@
 			</s:Image>
 			<s:Image id="filterimage2" horizontalCenter="0" 
 					 mouseEnabled="false" alpha="0"  
-					 verticalCenter="0">
+					 verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs2.png')"
 											source240dpi="@Embed('assets/320/hometabs2.png')"
@@ -105,7 +116,7 @@
 			</s:Image>
 			<s:Image id="filterimage3" horizontalCenter="0"  
 					 mouseEnabled="false" alpha="0"  
-					 verticalCenter="0">
+					 verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs3.png')"
 											source240dpi="@Embed('assets/320/hometabs3.png')"
@@ -118,7 +129,7 @@
 			</s:Image>
 			<s:Image id="filterimage4" horizontalCenter="0"  
 					 mouseEnabled="false" alpha="0" 
-					 verticalCenter="0">
+					 verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs4.png')"
 											source240dpi="@Embed('assets/320/hometabs4.png')"
@@ -141,10 +152,16 @@
 						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
 			</s:HGroup>
 			
-		</s:BorderContainer>
-		<s:BorderContainer borderVisible="false"  backgroundColor="#f2f2f2" backgroundAlpha="1" width="100%" maxWidth="{this.width}" 
-						   height="{75/(320/Capabilities.screenDPI)}">
-			<s:Image right="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
+		</s:Group>
+		<s:Group width="100%" maxWidth="{this.width}" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#f2f2f2"/>
+				</s:fill>
+			</s:Rect>
+
+			<s:Image right="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" 
+						   visible="{dropDownContainer.alpha == 1}"  verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/close.png')"
 											source240dpi="@Embed('assets/320/close.png')"
@@ -205,7 +222,7 @@
 						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
 		
-		</s:BorderContainer>
+		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
 			<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
@@ -231,13 +248,23 @@
 				</s:VGroup>
 			</s:Scroller>
 			
-			<s:BorderContainer id="nofind"  visible="false" backgroundAlpha="#FFFFFF" borderVisible="false" width="100%" height="100%">
+			<s:Group id="nofind"  visible="false" width="100%" height="100%">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
+
 				<s:Label horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
 						 text="No Results Found" color="#8c8c8c"/>
-			</s:BorderContainer>
+			</s:Group>
 			
-			<s:BorderContainer id="dropDownContainer"  borderVisible="false" backgroundAlpha="0.8" visible="false" alpha="0"
-							   backgroundColor="#FFFFFF" width="100%" height="100%">
+			<s:Group id="dropDownContainer" visible="false" alpha="0" width="100%" height="100%">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="0.8" color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
 				<s:List width="100%" horizontalCenter="0" height="100%"
 						 contentBackgroundAlpha="0" visible="true"
 						id="filterList1"  horizontalScrollPolicy="off" 
@@ -285,7 +312,7 @@
 										  gap="0"/>
 					</s:layout>
 				</s:List>
-			</s:BorderContainer>
+			</s:Group>
 		</s:Group>
 	</s:VGroup>	
 </s:View>

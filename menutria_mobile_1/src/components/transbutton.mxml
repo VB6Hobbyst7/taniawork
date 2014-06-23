@@ -12,7 +12,7 @@
 			public var textLabel:String = "";
 	]]>
 	</fx:Script>
-	<s:BitmapImage contentLoader="{s_imageCache}"  >
+	<s:BitmapImage contentLoader="{s_imageCache}">
 		<s:source>
 			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/transback.png')"
 									source240dpi="@Embed('assets/320/transback.png')"
@@ -21,6 +21,7 @@
 									source640dpi="@Embed('assets/320/transback.png')"/>
 		</s:source>
 	</s:BitmapImage>
-	<s:Label color="#FFFFFF" fontWeight="bold" horizontalCenter="0" styleName="textsize0"
+	<s:Label color="#FFFFFF" fontWeight="bold" 
+			 horizontalCenter="0" styleName="textsize0"
 			 text="{textLabel}" textAlign="center" verticalCenter="0"/>
 </s:Group>
