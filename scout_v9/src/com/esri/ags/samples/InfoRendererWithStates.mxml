@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:mx="library://ns.adobe.com/flex/mx"
-          clipAndEnableScrolling="true" 
+          clipAndEnableScrolling="true"  contentBackgroundAlpha="0"
           implements="mx.core.IDataRenderer">
-    <!--
-         This is used by the InfoSymbolWithStates sample.
-    -->
 	<fx:Script source="../../../../func/globalFunctions.as"/>
     <fx:Script>
         <![CDATA[
@@ -47,21 +44,22 @@
 
     <s:transitions>
         <s:Transition fromState="*" toState="*">
-            <s:Resize duration="250"
-                     
+            <s:Resize duration="250"  
                       target="{this}"/>
         </s:Transition>
     </s:transitions>
 
-	
+	<s:Rect visible.normal="false" visible.detailState="true" width="100%" height="100%">
+		<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+	</s:Rect>
 	<s:HGroup width="100%" height="100%" paddingLeft="10" paddingTop="10" paddingBottom="10">
-		<s:Image mouseDown="pinclick(event)" height="100%" width="100%"  scaleMode="stretch" >
+		<s:Image mouseDown="pinclick(event)" height="100%" width="100%"  scaleMode="letterbox" >
 			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/160/pin_active.png')"
-										source240dpi="@Embed('/assets/240/pin_active.png')"
-										source320dpi="@Embed('/assets/320/pin_active.png')"
-										source480dpi="@Embed('/assets/480/pin_active.png')"
-										source640dpi="@Embed('/assets/640/pin_active.png')"
+				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/160/mappin.png')"
+										source240dpi="@Embed('/assets/240/mappin.png')"
+										source320dpi="@Embed('/assets/320/mappin.png')"
+										source480dpi="@Embed('/assets/480/mappin.png')"
+										source640dpi="@Embed('/assets/640/mappin.png')"
 										/>
 			</s:source>
 		</s:Image>
@@ -93,4 +91,4 @@
 			</s:Image>
 		</s:Group>
 	</s:HGroup>
-</s:VGroup>
+</s:Group>

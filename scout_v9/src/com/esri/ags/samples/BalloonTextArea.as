@@ -11,8 +11,10 @@ public class BalloonTextArea extends TextArea implements IGraphicRenderer
 {
     public function BalloonTextArea()
     {
-        width = 210;
-        height = 210;
+        //width = 210;
+      //  height = 210;
+		width = 10;
+		height = 10;
         editable = false;
         selectable = false;
         condenseWhite = true;

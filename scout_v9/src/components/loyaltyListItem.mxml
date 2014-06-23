@@ -3,7 +3,9 @@
 				contentBackgroundColor="#2a3038"  
 				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" color="#FFFFFF" 
 				autoDrawBackground="false" contentBackgroundAlpha="0" xmlns:components="components.*"
-				creationComplete="init(event)">
+				creationComplete="init(event)" mouseOver="gOver(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
@@ -20,16 +22,8 @@
 			[Bindable]
 			public var minwidthval:Number = 7;
 			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			[Bindable]
 			public var picture:String = "";
-			public function profDown(ev:MouseEvent):void {
-				var gl:spark.filters.GlowFilter = new GlowFilter(000000,1,5,5,5,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function profUp(ev:MouseEvent):void {
-				ev.currentTarget.filters = [];				
-			}
 			protected function init(event:FlexEvent):void
 			{
 				try{
@@ -52,9 +46,11 @@
 	<s:Group width="100%" height="100%"  >
 		<s:BitmapImage width="100%" id="bgimg" source="{data.business_picture}" 
 					   height="{bgimg.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
-		<s:BorderContainer  borderVisible="false" 
-						   backgroundColor="#FFFFFF" bottom="0" width="100%" 
+		<s:Group bottom="0" width="100%" 
 						   height="{this.height/5}">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor color="0xFFFFFF"/></s:fill>
+			</s:Rect>
 			<s:HGroup width="100%" paddingLeft="10" verticalAlign="middle" verticalCenter="0">
 				<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize1"
 						maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
@@ -63,7 +59,7 @@
 						 text="{data.amount} Points" textAlign="right" fontWeight="bold"
 						 verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
-		</s:BorderContainer>
+		</s:Group>
 		<s:BorderContainer  borderVisible="false" 
 							backgroundColor="#0aaae5" bottom="0" width="100%" 
 							height="5"/>

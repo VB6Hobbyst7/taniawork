@@ -3,17 +3,18 @@
 				autoDrawBackground="true" 
 				creationComplete="init(event)"
 				dataChange="datachango(event)"
-				xmlns:s="library://ns.adobe.com/flex/spark">
+				xmlns:s="library://ns.adobe.com/flex/spark" mouseOver="gOver(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 			import spark.core.ContentCache;
-			static public const s_imageCache:ContentCache = new ContentCache();
 			[Bindable]
-			public var neededwidth:Number = 330;
+			public var neededwidth:Number = 300;
 			protected function init(event:FlexEvent):void
 			{
-				neededwidth = this.parent.width/2-1;
+				neededwidth = this.parent.width/2-(20/2);
 				fixdistance();
 			}
 			
@@ -37,7 +38,7 @@
 			
 		]]>
 	</fx:Script>
-	<s:BorderContainer borderAlpha="1" borderWeight="1" borderColor="#000000" backgroundAlpha="0" width="{neededwidth}"  height="{neededwidth}"  >
+	<s:Group  width="{neededwidth}"  height="{neededwidth}"  >
 		
 		<s:Image  id="bmpImg"  width="{neededwidth}" 
 				  height="{neededwidth}"  contentLoader="{s_imageCache}"   scaleMode="zoom"
@@ -60,5 +61,5 @@
 		<s:Label color="#FFFFFF"  styleName="textsize1" paddingRight="2" bottom="0" right="0"
 				 visible="false" id="distotexto"
 				 ></s:Label>
-	</s:BorderContainer>
+	</s:Group>
 </s:ItemRenderer>

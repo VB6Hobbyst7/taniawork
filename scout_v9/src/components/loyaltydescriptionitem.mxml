@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark" 
-				creationComplete="init(event)" dataChange="onchange(event)">
+				creationComplete="init(event)" dataChange="onchange(event)" mouseOver="gOver(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
+	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
@@ -9,7 +11,7 @@
 			protected function init(event:FlexEvent):void
 			{
 				if (data.amount >= data.spend){
-					bcolor.color = 0x0278ae;
+					bcolor.color = 0x025074;
 					bcolor.alpha = data.alphao;
 					la1.setStyle("color","#FFFFFF");
 					la2.setStyle("color","#FFFFFF");

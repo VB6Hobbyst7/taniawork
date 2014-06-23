@@ -14,8 +14,28 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace esri "http://www.esri.com/2008/ags";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace components "components.*";
+		.mapstyle
+		{
+			borderThickness: 1;
+			infoPlacement: upperRight;
+			borderColor: #FFFFFF;
+			backgroundColor: #FF0000;
+			backgroundAlpha: 0;
+			borderAlpha: 0;
+			paddingLeft: 5;
+			paddingRight: 5;
+			paddingTop: 5;
+			paddingBottom: 5;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+			import com.esri.ags.events.LayerEvent;
 			import com.esri.ags.geometry.MapPoint;
 			
 			import components.mapGraphic;
@@ -151,6 +171,11 @@
 				return {y:Y,x:X};
 			}
 			
+			protected function veLayer_loadErrorHandler(event:LayerEvent):void
+			{
+				var s:String = "";
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -162,17 +187,19 @@
 				<mylong>{data.mylong}</mylong>		
 			</s:request>
 		</s:HTTPService>
-		<esri:InfoSymbol id="infoSymbolWithStates" infoRenderer="com.esri.ags.samples.InfoRendererWithStates"/>
+		<esri:InfoSymbol id="infoSymbolWithStates" containerStyleName="mapstyle" infoPlacement="center" 
+						 infoRenderer="com.esri.ags.samples.InfoRendererWithStates"/>
 	</fx:Declarations>
 	<esri:Map id="myMap"
 			  level="13"
 			  wrapAround180="true">
-		<esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+		<!--esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/-->
 		<esri:VETiledLayer id="veLayer"
-						   culture="{culture.selectedItem}"
+						    key="AsK4UOFDEdMDZKHamFBPlLrsZsUSHbXiq4jH1uHOAbyuFsDCNFmYNTQnM3tTBJ_6"
+						   culture="en-US"
 						   loadError="veLayer_loadErrorHandler(event)"
-						   mapStyle="{mapStyle.selectedItem}"/>
-		<esri:GraphicsLayer id="myGraphicsLayer" >
+						   mapStyle="road"/>
+		<esri:GraphicsLayer id="myGraphicsLayer"  >
 		</esri:GraphicsLayer>
 	</esri:Map>
 </s:View>

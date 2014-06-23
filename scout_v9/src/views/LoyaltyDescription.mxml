@@ -124,13 +124,18 @@
 			public function listClick(ev:IndexChangeEvent):void {	
 				if (loyaltyList.selectedIndex != -1){
 					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
-						spendout = ev.currentTarget.selectedItems[0].spend;
-						amountout = ev.currentTarget.selectedItems[0].amount;
-						selectedRewardID = ev.currentTarget.selectedItems[0].id;
-						rewardDescription = ev.currentTarget.selectedItems[0].name;
-						openRewardPopup();
-						loyaltyList.selectedIndex = -1;
-					}					
+						redeembtn.enabled = true;
+					}	
+					else {
+						redeembtn.enabled = false;
+					}
+					
+					spendout = ev.currentTarget.selectedItems[0].spend;
+					amountout = ev.currentTarget.selectedItems[0].amount;
+					selectedRewardID = ev.currentTarget.selectedItems[0].id;
+					rewardDescription = ev.currentTarget.selectedItems[0].name;
+					openRewardPopup();
+					loyaltyList.selectedIndex = -1;	
 				}
 			}
 			public function afterRedeem(ev:ResultEvent):void {
@@ -146,6 +151,10 @@
 				}
 				loyaltyArray.refresh();
 				loyaltyList.dataProvider = loyaltyArray;
+				
+				keystring = "";
+				fillcircles(keystring.length);
+				
 			}
 
 			protected function closeRewardPopup():void
@@ -186,6 +195,8 @@
 			}
 			protected function openStaffPinPopup():void
 			{
+				keystring = "";
+				fillcircles(keystring.length);
 				StaffPinPopupIn();
 			}
 			public function StaffPinPopupIn():void {
@@ -252,21 +263,15 @@
 			
 			public var keystring:String = "";
 			public function keypad(s:String):void {
+				var goodpin:Boolean = false;
 				if (s == "c"){
 					keystring = "";
 				}
 				else if (s == "d"){
 					keystring = keystring.substr(0,keystring.length-2);
 				}
-				else {
+				else if (keystring.length >= 3){
 					keystring = keystring+s;
-				}
-				
-				
-				
-				
-				var goodpin:Boolean = false;
-				if (keystring.length == 4){
 					for (var i:uint= 0; i < staffArray.length; i++){
 						if (staffArray[i].emp_num == keystring){
 							goodpin = true;
@@ -282,7 +287,13 @@
 						keystring = "";
 					}
 				}	
-				fillcircles(keystring.length);
+				else {
+					keystring = keystring+s;
+				}
+				
+				if (goodpin == false){
+					fillcircles(keystring.length);
+				}
 			}
 			public function fillcircles(u:Number):void {
 				if (u >= 4){
@@ -432,7 +443,7 @@
 				<s:Line height="100%"  horizontalCenter="0" rotation="90" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>
-				<s:Group width="50%" left="0" height="100%"
+				<s:Group width="50%" left="0" height="100%" 
 						  click="closeRewardPopup()"
 						 mouseOver="gOver(event);"
 						 mouseOut="gOut(event);" 
@@ -442,7 +453,7 @@
 							 verticalCenter="0" horizontalCenter="0"
 							 styleName="textsize3" color="#389dc8"/>
 				</s:Group>
-				<s:Group width="50%" right="0" height="100%"
+				<s:Group width="50%" right="0" height="100%" id="redeembtn"
 						 click="openStaffPinPopup()"
 						 mouseOver="gOver(event);"
 						 mouseOut="gOut(event);" 

@@ -36,7 +36,7 @@
 	<!-- border -->
 	<s:Rect left="0" right="0" top="0" bottom="0" alpha="0" visible="false">
 		<s:stroke>
-			<s:SolidColorStroke color="0x000000" weight="0"/>
+			<s:SolidColorStroke color="0x000000" weight="20"/>
 		</s:stroke>
 	</s:Rect>
 	
@@ -50,14 +50,14 @@
 	</s:Rect>
 	
 	<!--- The Scroller component to add scroll bars to the list. -->
-	<s:Scroller left="0" top="0" right="0" bottom="0" id="scroller" minViewportInset="1" focusEnabled="false">
+	<s:Scroller left="0" top="0" right="0" bottom="0" id="scroller" minViewportInset="0" focusEnabled="false">
 		<!--- The container for the data items. -->
 		<s:DataGroup id="dataGroup"	itemRenderer="components.storeResult" >
 			<s:layout>
 				<s:TileLayout requestedColumnCount="2"
 							  requestedRowCount="2"
-							  horizontalGap="0"
-							  verticalGap="0" />
+							  horizontalGap="20"
+							  verticalGap="20" />
 			</s:layout>
 		</s:DataGroup>
 	</s:Scroller>

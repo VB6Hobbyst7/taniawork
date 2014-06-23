@@ -52,7 +52,7 @@
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" paddingTop="30" gap="30"  horizontalAlign="center" height="100%" >
 			<s:Group width="100%" height="150"
-					 mouseOver="gOver(event);"
+					 mouseOver="gOver(event);"  enabled="false"  alpha="0.5"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);" 
 					 mouseDown="gDown(event);">
@@ -78,7 +78,7 @@
 			<s:Group width="100%" height="100"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
-					 mouseUp="gOut(event);" 
+					 mouseUp="gOut(event);"  enabled="false"  alpha="0.5"
 					 mouseDown="gDown(event);">
 				<s:Rect width="100%" height="100%">
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
