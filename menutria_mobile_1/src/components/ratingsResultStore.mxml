@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				autoDrawBackground="false" mouseChildren="false"
 				dataChange="dchange(event)"
 				creationComplete="init(event)"
-				xmlns:s="library://ns.adobe.com/flex/spark" >
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -88,7 +91,7 @@
 			<s:HGroup width="100%" verticalAlign="middle">
 				<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)}"
 						  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
-				<s:Image >
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
 												source240dpi="@Embed('../assets/320/trirating.png')"
@@ -96,7 +99,7 @@
 												source480dpi="@Embed('../assets/320/trirating.png')"
 												source640dpi="@Embed('../assets/320/trirating.png')"/>
 					</s:source>
-				</s:Image>
+				</s:BitmapImage>
 				<s:Label  text="{data.menuname}" width="100%" maxDisplayedLines="1"
 						  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 			</s:HGroup>
@@ -107,7 +110,7 @@
 					<s:Label width="100%" visible="{data.ratingdescription.length != 0}"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
 							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
 					<s:HGroup verticalAlign="middle" visible="{data.ratingdescription.length == 0}" >
-						<s:Image>
+						<s:BitmapImage contentLoader="{s_imageCache}"  >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
 														source240dpi="@Embed('../assets/320/triratinggreen.png')"
@@ -115,7 +118,7 @@
 														source480dpi="@Embed('../assets/320/triratinggreen.png')"
 														source640dpi="@Embed('../assets/320/triratinggreen.png')"/>
 							</s:source>
-						</s:Image>
+						</s:BitmapImage>
 						<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
 								   styleName="textsize0" verticalAlign="middle"/>
 					</s:HGroup>
@@ -123,7 +126,7 @@
 				
 			</s:HGroup>
 			<s:HGroup verticalAlign="middle" id="likecont">
-				<s:Image >
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
 												source240dpi="@Embed('../assets/320/triratinggreen.png')"
@@ -131,12 +134,13 @@
 												source480dpi="@Embed('../assets/320/triratinggreen.png')"
 												source640dpi="@Embed('../assets/320/triratinggreen.png')"/>
 					</s:source>
-				</s:Image>
+				</s:BitmapImage>
 				<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
 						   styleName="textsize0" verticalAlign="middle"/>
 			</s:HGroup>
 		</s:VGroup>		
-		<s:BorderContainer bottom="0" right="0" left="{20/(320/Capabilities.screenDPI)}" backgroundAlpha="0" borderAlpha="0.5" 
-						   borderColor="#b2b2b2" height="1.5" />
+		<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+		</s:Line>
 	</s:Group>
 </s:ItemRenderer>
