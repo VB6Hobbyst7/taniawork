@@ -23,9 +23,6 @@ package com.renaun.caltrain.components
 		} 
 		override mx_internal function getImageClass(aspectRatio:String, dpi:Number, resolution:Number):Class 
 		{ 
-			//var screenx:Number = Capabilities.screenResolutionX;
-			//var screeny:Number = Capabilities.screenResolutionY;
-			
 			if ((Capabilities.screenResolutionX >= 1135  && Capabilities.screenResolutionY >= 639  )||
 				(Capabilities.screenResolutionX >= 639   && Capabilities.screenResolutionY >= 1135 )){
 				return iphone5image;
