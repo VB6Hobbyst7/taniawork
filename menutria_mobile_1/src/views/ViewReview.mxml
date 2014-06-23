@@ -122,7 +122,8 @@
 				<s:HGroup gap="{20/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}" 
 						  paddingRight="{30/(320/Capabilities.screenDPI)}" width="100%" height="{200/(320/Capabilities.screenDPI)}"  verticalCenter="0">
 					<s:Group height="100%">
-						<s:Image left="0" top="0" width="{50/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}">
+						<s:BitmapImage left="0" top="0" width="{50/(320/Capabilities.screenDPI)}"
+								 height="{50/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}">
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/menu-account.png')"
 														source240dpi="@Embed('../assets/320/menu-account.png')"
@@ -130,13 +131,13 @@
 														source480dpi="@Embed('../assets/320/menu-account.png')"
 														source640dpi="@Embed('../assets/320/menu-account.png')"/>
 							</s:source>
-						</s:Image>
+						</s:BitmapImage>
 					</s:Group>
 					<s:VGroup width="100%"  height="100%">
 						<s:HGroup width="100%" verticalAlign="middle">
 							<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)}"  
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
-							<s:Image >
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
 															source240dpi="@Embed('../assets/320/trirating.png')"
@@ -144,7 +145,7 @@
 															source480dpi="@Embed('../assets/320/trirating.png')"
 															source640dpi="@Embed('../assets/320/trirating.png')"/>
 								</s:source>
-							</s:Image>
+							</s:BitmapImage>
 							<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1,20)+'...'}" 
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 						</s:HGroup>
@@ -154,7 +155,7 @@
 									 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
 						</s:HGroup>
 						<s:HGroup width="100%" verticalAlign="middle">
-							<s:Image >
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
 															source240dpi="@Embed('../assets/320/triratinggreen.png')"
@@ -162,20 +163,20 @@
 															source480dpi="@Embed('../assets/320/triratinggreen.png')"
 															source640dpi="@Embed('../assets/320/triratinggreen.png')"/>
 								</s:source>
-							</s:Image>
+							</s:BitmapImage>
 							<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 						</s:HGroup>
 						<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 						<s:Label  text="{data.ratingdate}"  color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
 					</s:VGroup>		
 				</s:HGroup>
-				<s:BorderContainer bottom="0" width="100%" backgroundAlpha="0" borderAlpha="0.5" 
-								   borderColor="#b2b2b2" height="1.5" />
+				<s:Line left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+				</s:Line>
 			</s:Group>
-			
 			<s:HGroup gap="20" horizontalAlign="center" horizontalCenter="0" verticalAlign="middle" verticalCenter="0">
 				<s:Image  id="likebtn" click="likeClick();" 
-						  alpha="0.3" mouseEnabled="false" >
+						  alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/like.png')"
 												source240dpi="@Embed('../assets/320/like.png')"
@@ -185,7 +186,7 @@
 					</s:source>
 				</s:Image>
 				<s:Image id="reportbtn" click="reportClick();" 
-						 alpha="0.3" mouseEnabled="false"  >
+						 alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/report.png')"
 												source240dpi="@Embed('../assets/320/report.png')"

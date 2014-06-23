@@ -173,8 +173,7 @@
 					selectedIndex="1">
 				<s:layout>
 					<s:VerticalLayout horizontalAlign="contentJustify" 
-									  variableRowHeight="true"
-									  gap="0"/>
+									  variableRowHeight="true" gap="0"/>
 				</s:layout>
 			</s:List>
 		</s:VGroup>
@@ -182,5 +181,4 @@
 	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
 			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
 			 verticalAlign="middle" verticalCenter="0"></s:Label>
-	
 </s:View>

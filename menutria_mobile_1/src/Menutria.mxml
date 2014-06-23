@@ -55,9 +55,13 @@
 	<s:Group  id="menu"  height="100%"  width="{this.width/1.15}" 
 						x="{0-(this.width/1.15)}">
 		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
-			<s:BorderContainer width="{this.width/1.15}" height="{actionbarheight+4}"
-							    backgroundAlpha="1" borderVisible="false" backgroundColor="#43c7ae"
-					 mouseDown="menuButtonClick();"    >
+			<s:Group width="{this.width/1.15}" 
+							   height="{actionbarheight+4}" mouseDown="menuButtonClick();"    >
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#43c7ae"/>
+					</s:fill>
+				</s:Rect>
 				<s:Label  left="15" text="menu" verticalCenter="0" mouseEnabled="false"
 						 textAlign="right" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
 				<s:Group  width="{this.width/8}"  right="0"
@@ -73,8 +77,13 @@
 						</s:source>
 					</s:Image>
 				</s:Group>
-			</s:BorderContainer>
-			<s:BorderContainer  width="{this.width/1.15}" click="goProfile(event)"  borderVisible="false" backgroundColor="#c4c4c4">
+			</s:Group>
+			<s:Group  width="{this.width/1.15}" click="goProfile(event)">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#c4c4c4"/>
+					</s:fill>
+				</s:Rect>
 				<s:VGroup width="100%" id="defaultimggroup" horizontalAlign="center" gap="0">
 					<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
 					<s:Image  id="profimage" horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
@@ -88,7 +97,7 @@
 					</s:Image>
 					<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
 				</s:VGroup>
-			</s:BorderContainer>
+			</s:Group>
 			
 			<s:List id="listmenu" height="100%" contentBackgroundColor="#5b5b5b" contentBackgroundAlpha="1" dataProvider="{homeitems}"
 					width="{this.width/1.15}"  borderVisible="false"  selectedIndex="1"  change="menuchange(event)"
@@ -105,9 +114,14 @@
 			  contentBackgroundColor="#43c7ae"  height="100%"  width="{this.width/1.15}"
 						x="{this.width+(this.width/1.15)}">
 		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
-			<s:BorderContainer width="{this.width/1.15}" height="{actionbarheight+4}"
-							   backgroundAlpha="1" backgroundColor="#43c7ae"
-							   mouseDown="filtersButtonClick();"  borderVisible="false"    >
+			<s:Group width="{this.width/1.15}"
+							   height="{actionbarheight+4}" 
+							   mouseDown="filtersButtonClick();" >
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#43c7ae"/>
+					</s:fill>
+				</s:Rect>
 				<s:Label  right="{15/(320/Capabilities.screenDPI)}" text="filters" verticalCenter="0" mouseEnabled="false"
 						  textAlign="left" styleName="textsize6"   color="#FFFFFF"  fontWeight="bold"/>
 				<s:Group  width="{this.width/8}"  left="0"
@@ -124,10 +138,14 @@
 						</s:source>
 					</s:Image>
 				</s:Group>
-			</s:BorderContainer>
+			</s:Group>
 			
-			<s:BorderContainer width="100%" height="{50/(320/Capabilities.screenDPI)}" backgroundColor="#494949"
-							   borderVisible="false"  backgroundAlpha="1">
+			<s:Group width="100%" height="{50/(320/Capabilities.screenDPI)}">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#494949"/>
+					</s:fill>
+				</s:Rect>
 				<s:Label fontFamily="HelveticaNeuecff" styleName="textsize0" fontWeight="normal"
 						 text="Only Show:" 
 						 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
@@ -139,7 +157,7 @@
 							 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
 							 color="#43c7ae"/>
 				</s:Group>
-			</s:BorderContainer>
+			</s:Group>
 			<s:List id="listfilters" height="100%" contentBackgroundColor="#5b5b5b" 
 					contentBackgroundAlpha="1" dataProvider="{filteritems}" allowMultipleSelection="true"
 					width="100%"  borderVisible="false"     change="filterchange(event)"

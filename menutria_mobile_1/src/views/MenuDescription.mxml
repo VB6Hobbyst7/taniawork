@@ -55,6 +55,18 @@
 								source320dpi="@Embed('assets/320/eatenthis2.png')"
 								source480dpi="@Embed('assets/320/eatenthis2.png')"
 								source640dpi="@Embed('assets/320/eatenthis2.png')"/>
+		<s:MultiDPIBitmapSource id="topratedrecent1"
+								source160dpi="@Embed('assets/160/topratedrecent1.png')"
+								source240dpi="@Embed('assets/320/topratedrecent1.png')"
+								source320dpi="@Embed('assets/320/topratedrecent1.png')"
+								source480dpi="@Embed('assets/320/topratedrecent1.png')"
+								source640dpi="@Embed('assets/320/topratedrecent1.png')"/>
+		<s:MultiDPIBitmapSource id="topratedrecent2"
+								source160dpi="@Embed('assets/160/topratedrecent2.png')"
+								source240dpi="@Embed('assets/320/topratedrecent2.png')"
+								source320dpi="@Embed('assets/320/topratedrecent2.png')"
+								source480dpi="@Embed('assets/320/topratedrecent2.png')"
+								source640dpi="@Embed('assets/320/topratedrecent2.png')"/>
 	</fx:Declarations>	
 	<s:Scroller id="scroller" visible="true" left="0" right="0" height="100%"
 				horizontalScrollPolicy="off" verticalCenter="0" verticalScrollPolicy="on">
@@ -143,7 +155,7 @@
 								radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}">
 							<s:fill>
-								<s:SolidColor alpha="1" color="#43c7ae"/>
+								<s:SolidColor alpha="1" color="#6594db"/>
 							</s:fill>
 						</s:Rect>
 						<s:Label verticalAlign="middle" textAlign="center"  mouseEnabled="false"  
@@ -204,15 +216,7 @@
 							  verticalCenter="0"/>
 					<s:Image id="topratedrecentimg" right="{20/(320/Capabilities.screenDPI)}"
 								   contentLoader="{s_imageCache}" click="topratedrecentclick(event)" 
-								   verticalCenter="0">
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/topratedrecent1.png')"
-													source240dpi="@Embed('assets/320/topratedrecent1.png')"
-													source320dpi="@Embed('assets/320/topratedrecent1.png')"
-													source480dpi="@Embed('assets/320/topratedrecent1.png')"
-													source640dpi="@Embed('assets/320/topratedrecent1.png')"/>
-						</s:source>
-					</s:Image>
+								   verticalCenter="0" source="{topratedrecent1}"/>
 				</s:Group>
 				<s:List  id="reviewList" 
 						 width="100%"
@@ -415,9 +419,9 @@
 					<s:BitmapImage id="bmpImg22" right="0"  width="120" 	
 								   height="120" source="{data.picture}" 
 								   contentLoader="{s_imageCache}"  scaleMode="zoom" />
-					<s:BorderContainer height="1.5" width="100%" bottom="0" 
-									   backgroundAlpha="1" borderVisible="false" 
-									   backgroundColor="#b2b2b2"/>
+					<s:Line left="0" right="0"  bottom="0" > 
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+					</s:Line>
 					<s:BitmapImage id="reviewseq1" visible="true" top="-75"
 								   horizontalCenter="0"  contentLoader="{s_imageCache}">
 						<s:source>

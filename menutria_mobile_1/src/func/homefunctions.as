@@ -85,6 +85,7 @@ public var postalString:String = "";
 public var screenwidth:Number = 200;
 public function onActivate(event:Event):void
 {
+	goingtonext = false;
 	screenwidth = this.width;
 	sqlConnection = new SQLConnection();
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
