@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:Image mouseEnabled="false">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/enter.png')"
+									source240dpi="@Embed('assets/320/enter.png')"
+									source320dpi="@Embed('assets/320/enter.png')"
+									source480dpi="@Embed('assets/320/enter.png')"
+									source640dpi="@Embed('assets/320/enter.png')"
+									/>
+		</s:source>
+	</s:Image>
+</s:Group>
