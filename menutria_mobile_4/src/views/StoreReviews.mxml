@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
 		backgroundColor="#f3f3f3"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()" 
-		title="Reviews" viewActivate="onActivate(event)" 
-		xmlns:components="components.*" >
+		title="Reviews" viewActivate="onActivate(event)" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
@@ -26,8 +26,6 @@
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var rateArray:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var busy:Boolean = true;
 			public function onActivate(event:Event):void
 			{
 				setLoginVars();

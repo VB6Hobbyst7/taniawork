@@ -30,7 +30,6 @@
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
-			import spark.transitions.CrossFadeViewTransition;
 			[Bindable]
 			public var alphatitle:String = "Home";
 			protected var g:Geolocation = new Geolocation();    
@@ -49,12 +48,6 @@
 			public var reverse:Boolean = false;
 			[Bindable]
 			public var locatoinidGo:Number = -1;
-			[Bindable]
-			public var busy:Boolean = true;
-			[Bindable]
-			public var mapUrl:String = "https://scoutcard.ca/php/dishes/mobilemap.php";
-			[Bindable]
-			public var totalurl:String = mapUrl+'?mylat='+mylat+'&mylong='+mylong+'&search='+"";//key.text;
 			public var maintimer:Timer = new Timer(5000,0);
 			[Bindable]
 			public var currentselectmode:Number = 1;
@@ -72,13 +65,6 @@
 			public var hfilterstring:String = "";
 			[Bindable]
 			public var filtermode:Boolean = false;
-			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
-			[Bindable]
-			public var homeitems:ArrayCollection = new ArrayCollection(
-				[{label:"Restaurants",img:"../assets/320/backgrounds/resback.jpg",colorid:"0x50bcb6"},
-					{label:"Specials",img:"../assets/320/backgrounds/mapback.jpg",colorid:"0xef4056"},
-					{label:"Restrictions",img:"../assets/320/backgrounds/restback.jpg",colorid:"0xfcb643"}
-				]);
 			[Bindable]
 			public var staticmapimageurl:String = "";
 			[Bindable]
@@ -108,8 +94,6 @@
 				filterData4.addItem({name:"Lowest"});	
 				nofind.visible = false;
 				
-				
-				
 				var doPreload:Boolean = true;
 				try{
 					if (data != null){
@@ -124,18 +108,11 @@
 				
 				try{
 					if (doPreload == true){
-						sqlConnection = new SQLConnection();
-						sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-						stmt = new SQLStatement();
-						stmt.sqlConnection = sqlConnection;
-						stmt.text = "SELECT * FROM dishes";
-						stmt.execute();
-						var merchData:ArrayCollection = 
-						if (merchData.length != 0){
-							dishData = merchData;
+						var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
+						if (dataArray.length != 0){
+							dishData = dataArray;
 							busy = false;
-							prefound = true;
-							
+							prefound = true;							
 							staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
 							var usedlocationarray:Array = new Array();
 							for (i=  0; i < dishData.length; i++){
@@ -196,7 +173,6 @@
 				}
 				
 				busy = true;
-				
 				maintimer = new Timer(5000,0);
 				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
 				maintimer.start();
@@ -254,16 +230,13 @@
 			}
 			public function afterGetDishes(event:ResultEvent):void
 			{
+				var j:uint = 0;
+				var i:uint = 0;
 				hideloading();
 				nofind.visible = false;
 				var diddistanceupdate:Boolean = false;
-				var stmt:SQLStatement = new SQLStatement();
 				if ((isFingerDown == false)){
-					
 					if (prefound == false){
-						
-						busy = false;
-						var i:uint = 0;
 						dishData = new ArrayCollection();
 						try{			
 							dishData = event.result[0].ress.res;		
@@ -279,7 +252,7 @@
 						var usedlocationarray:Array = new Array();
 						for (i=  0; i < dishData.length; i++){
 							var goodlocationid:Boolean = true;
-							for (var j:uint = 0; j < usedlocationarray.length; j++){
+							for (j = 0; j < usedlocationarray.length; j++){
 								if (usedlocationarray[j] == dishData[i].locationid){
 									goodlocationid = false;
 								}
@@ -305,23 +278,15 @@
 						dishData.refresh();
 						
 						if (dishData.length > 0){
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt2:SQLStatement = new SQLStatement();
-							stmt2.sqlConnection = sqlConnection;
-							stmt2.text = "delete from dishes";
-							stmt2.execute();
+							doQuery("delete from dishes");
 							prefound = false;
 							for (i = 0; i < dishData.length; i++){
 								dishData[i].description  = dishData[i].description .replace(/'/g, "");
 								dishData[i].business_name  = dishData[i].business_name .replace(/'/g, "");
 								dishData[i].categoryname  = dishData[i].categoryname .replace(/'/g, "");
 								dishData[i].name  = dishData[i].name .replace(/'/g, "");
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
 								
-								
-								stmt.text = "insert into dishes values(" +
+								doQuery("insert into dishes values(" +
 									dishData[i].id+"," +
 									dishData[i].locationid+",'" +
 									dishData[i].business_name+"','" +
@@ -337,8 +302,7 @@
 									dishData[i].rating+"," +
 									dishData[i].divtype+",'" +
 									dishData[i].distance+"','" +
-									dishData[i].goodforme+"')";		
-								stmt.execute();
+									dishData[i].goodforme+"')");
 							}
 							
 						}
@@ -365,22 +329,14 @@
 						
 						if (templistData.length > 0){
 							
-							stmt = new SQLStatement();
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt3:SQLStatement = new SQLStatement();
-							stmt3.sqlConnection = sqlConnection;
-							stmt3.text = "delete from dishes";
-							stmt3.execute();
-							for (var j:uint = 0; j < templistData.length; j++){
+							doQuery("delete from dishes");
+							for (j = 0; j < templistData.length; j++){
 								templistData[j].description  = templistData[j].description .replace(/'/g, "");
 								templistData[j].business_name  = templistData[j].business_name .replace(/'/g, "");
 								templistData[j].categoryname  = templistData[j].categoryname .replace(/'/g, "");
 								templistData[j].name  = templistData[j].name .replace(/'/g, "");
 								
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
-								stmt.text = "insert into dishes values(" +
+								doQuery("insert into dishes values(" +
 									templistData[j].id+"," +
 									templistData[j].locationid+",'" +
 									templistData[j].business_name+"','" +
@@ -396,10 +352,8 @@
 									templistData[j].rating+"," +
 									templistData[j].divtype+",'" +
 									templistData[j].distance+"','" +
-									templistData[j].goodforme+"')";		
-								stmt.execute();
+									templistData[j].goodforme+"')");
 							}
-							//dishData = new ArrayCollection();
 							dishData = templistData;
 							populatelist(0);
 							
@@ -510,12 +464,13 @@
 				}
 			}
 			public function populatelist(u:uint):void {
+				var i:uint = 0;
 				var srt:Sort = new Sort();
 				if (currentselectmode == 1){
 					srt.fields = [new SortField("distance")];
 					dishData.sort = srt;
 					dishData.refresh();
-					for (var i:uint = 0; i < dishData.length; i++){
+					for (i = 0; i < dishData.length; i++){
 						dishData[i].divtype = 0;
 					}
 				}
@@ -524,7 +479,7 @@
 					dishData.sort = srt;
 					dishData.refresh();
 					var lastcat:String = "";
-					for (var i:uint = 0; i < dishData.length; i++){
+					for (i = 0; i < dishData.length; i++){
 						if ((dishData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
 							dishData[i].divtype = 1;
 						}
@@ -541,7 +496,7 @@
 					srt.fields = [new SortField("rating",!reverse,true)];
 					dishData.sort = srt;
 					dishData.refresh();
-					for (var i:uint = 0; i < dishData.length; i++){
+					for (i = 0; i < dishData.length; i++){
 						dishData[i].divtype = 0;
 					}
 				}
@@ -550,7 +505,7 @@
 					srt.fields = [new SortField("cost",!reverse,true)];
 					dishData.sort = srt;
 					dishData.refresh();
-					for (var i:uint = 0; i < dishData.length; i++){
+					for (i = 0; i < dishData.length; i++){
 						dishData[i].divtype = 0;
 					}
 				}
@@ -577,13 +532,9 @@
 					showloading();
 				}
 				else {
-					var stmt:SQLStatement = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "SELECT * FROM dishes";
-					stmt.execute();
-					var merchData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
-					if (merchData.length != 0){
-						dishData = merchData;
+					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
+					if (dataArray.length != 0){
+						dishData = dataArray;
 						busy = false;
 						prefound = true;
 						
@@ -615,13 +566,9 @@
 					showloading();
 				}
 				else {
-					var stmt:SQLStatement = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "SELECT * FROM dishes";
-					stmt.execute();
-					var merchData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
-					if (merchData.length != 0){
-						dishData = merchData;
+					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
+					if (dataArray.length != 0){
+						dishData = dataArray;
 						busy = false;
 						prefound = true;
 						
@@ -696,7 +643,6 @@
 						}
 						catch(e:Error){}
 						navigator.pushView(MenuDescription, dishData[menuList.selectedIndex]);	
-						//navigator.pushView(StoresDescription, dishData[menuList.selectedIndex]);	
 					}
 					else {
 						goingtonext = false;
@@ -760,32 +706,6 @@
 				}
 				catch(e:Error){}
 				navigator.pushView(AccountSettings);
-			}
-			public function logout():void {
-				try{
-					sqlConnection = new SQLConnection();
-					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-					var stmt:SQLStatement = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
-					stmt.execute();
-					emailGo = "";
-					nameGo = "";
-					var saveManager:PersistenceManager = new PersistenceManager();
-					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
-					try{
-						data.homefilterarray = [];
-					}
-					catch(e:Error){}
-					navigator.pushView(Login);
-				}
-				catch(e:Error){
-					try{
-						data.homefilterarray = [];
-					}
-					catch(e:Error){}
-					navigator.pushView(Login);
-				}
 			}
 			public function filterClick(u:uint):void {
 				dishData.filterFunction = allFilter;
@@ -918,9 +838,7 @@
 					selectview4.mouseEnabledWhereTransparent = true;
 				}
 				
-				
-				
-				
+
 				
 				if (currentselectmode != u){
 					fadeout.play();

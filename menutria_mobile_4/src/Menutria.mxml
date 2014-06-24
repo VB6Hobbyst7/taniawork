@@ -430,12 +430,6 @@
 					
 				}		
 			}
-			public function logout():void {
-				var vn4:ViewNavigator = new ViewNavigator();
-				vn4.firstView = views.Login;
-				vn4.percentWidth = 100;
-				vn4.percentHeight = 100;
-			}	
 			public function menuchange(event:IndexChangeEvent):void
 			{
 				if (menuopen){

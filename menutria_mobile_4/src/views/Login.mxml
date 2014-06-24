@@ -11,8 +11,131 @@
 		xmlns:components="components.*" 
 		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
 	<fx:Script source="../func/globalFunctions.as" />
-	<fx:Script source="../func/loginfunctions.as" />
 	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			[Bindable]
+			public var currentBalance:String = "$0.00";	
+			public var profileShown:Boolean = false;
+			public var chosenMenuOption:uint = 1;
+			public var profWaiting:Boolean = false;
+			public var profDraging:Boolean = false;
+			public function create():void {	
+				showloading();
+				createIfNotExsist("localuser");
+				getLocalUsers();
+			}	
+			public function loginClick(event:MouseEvent):void
+			{	
+				this.currentState = 'login';
+				logWarning.visible = false;
+			}
+			public function guestSignIn(event:MouseEvent):void {
+				authorizeLogin("guest@guest.com","guest");
+			}
+			public function createNewClick(event:MouseEvent):void {
+				navigator.pushView(Signup_step1);	
+			}
+			public function backToLoginOptions():void {
+				this.currentState = 'welcome';
+				try{
+					logWarning.visible = false;
+				}
+				catch(e:Error){
+					
+				}
+			}
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].res.message == "ok"){
+					AddNewLocalUser(ev.result[0].res.email,
+						ev.result[0].res.name,
+						ev.result[0].res.country);
+				}
+				else {
+					//bad login
+					logWarning.text = ev.result[0].res.message;
+					logWarning.visible = true;
+				}
+			}
+			protected function getLocalUsers():void
+			{
+				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, country, active FROM localuser");
+				if (resData.length != 0){
+					//good login
+					var foundactive:Boolean = false;
+					for (var i:uint = 0; i < resData.length; i++){
+						if (resData[i].active == "yes"){
+							foundactive = true;
+							navigator.pushView(Home);	
+						}
+					}			
+				}
+				else {
+				}
+				busy = false;
+				hideloading();
+			}
+			
+			public function AddNewLocalUser(email:String,name:String,country:String):void
+			{
+				busy = true;
+				showloading();
+				doQuery("delete FROM localuser;");
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":country"] = country;
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				getLocalUsers();
+				
+			}
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				navigator.visible = true;
+				createIfNotExsist("localuser");
+				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, country, active FROM localuser where active = 'yes'");
+				var loadManager:PersistenceManager = new PersistenceManager();
+				
+				if (resData.length != 0){
+					navigator.pushView(Home);
+				}
+				else {
+					hideloading();	
+				}
+			}
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+			public function facebookLogin():void
+			{		
+				this.parentApplication.facebookloging();
+			}
+		]]>
+	</fx:Script>
 	<fx:Declarations>	
 		<fx:String id="userid" />
 		<fx:String id="passid" />

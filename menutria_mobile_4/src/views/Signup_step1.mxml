@@ -22,9 +22,6 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import mx.collections.ArrayCollection;
-			import mx.rpc.events.ResultEvent;
-			import spark.events.ViewNavigatorEvent;
-			import spark.filters.GlowFilter;
 			public function nextStep():void {
 				if (checkFields()){
 					navigator.pushView(Signup_step2,{email:nemail.text,nameo:nname.text,password:npassword.text});

@@ -3,9 +3,7 @@ import flash.data.SQLStatement;
 import flash.events.MouseEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
-
 import mx.collections.ArrayCollection;
-
 import spark.core.ContentCache;
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
@@ -14,8 +12,7 @@ public var emailGo:String = "";
 public var nameGo:String = "";
 [Bindable]
 public var idGo:String = "";
-[Bindable]
-protected var sqlConnection:SQLConnection;
+public var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
 		sqlConnection = new SQLConnection();
@@ -62,6 +59,50 @@ public function createIfNotExsist(s:String):void {
 			"distance varchar(255)," +
 			"goodforme varchar(255))";							
 	}
+	else if (s == "merchusers"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS merchusers (" +
+			"id int(255)," +
+			"business_name varchar(255)," +
+			"business_number varchar(255)," +
+			"business_description longtext," +
+			"business_picture varchar(255)," +
+			"business_address1 longtext," +
+			"business_city varchar(255)," +
+			"business_locality varchar(255)," +
+			"business_postalcode varchar(255)," +
+			"business_country varchar(255)," +
+			"lat varchar(255)," +
+			"longa varchar(255)," +
+			"facebook varchar(255)," +
+			"twitter varchar(255)," +
+			"website varchar(255)," +
+			"rating double," +
+			"ratingcount int," +
+			"categoryname varchar(255)," +
+			"price float," +
+			"distance varchar(255))";							
+	}
+	else if (s == "localuser"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+			"email varchar(255)," +
+			"name varchar(255)," +
+			"country varchar(255)," +
+			"active varchar(255))";
+	}
+	else if (s == "specials"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS specials (" +
+			"id int(255)," +
+			"locationid int(255)," +
+			"name longtext," +
+			"weekday longtext," +
+			"description longtext," +
+			"lat varchar(255)," +
+			"longa varchar(255)," +
+			"business_name longtext," +
+			"business_postalcode longtext," +
+			"business_picture longtext," +
+			"categoryname longtext, distance varchar(255))";
+	}
 	stmt.execute();
 }
 public function getDatabaseArray(query:String):ArrayCollection {
@@ -69,7 +110,17 @@ public function getDatabaseArray(query:String):ArrayCollection {
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	
+	stmt.text = query;
+	stmt.execute();
+	return new ArrayCollection(stmt.getResult().data);
+}
+public function doQuery(query:String):void {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = query;
+	stmt.execute();
 }
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");

@@ -21,8 +21,6 @@
 			import flash.filesystem.File;
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
-			import spark.events.ViewNavigatorEvent;
-			import spark.filters.GlowFilter;
 			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var busy:Boolean = false;
@@ -57,19 +55,12 @@
 			}
 			public function AddNewLocalUser(email:String,name:String,country:String):void
 			{
-				var stmt:SQLStatement = new SQLStatement();
+				createIfNotExsist("localuser");
+				doQuery("delete FROM localuser;");
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
-					"email varchar(255)," +
-					"name varchar(255)," +
-					"country varchar(255)," +
-					"active varchar(255))";
-				stmt.execute();
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "delete FROM localuser;";
 				stmt.execute();
 				stmt = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
@@ -79,9 +70,7 @@
 				stmt.parameters[":country"] = country;
 				stmt.parameters[":active"] = "yes";
 				stmt.execute();
-				var saveManager:PersistenceManager = new PersistenceManager();
-				saveManager.setProperty("useremail", email);
-				this.parentDocument.refresh(email);	
+				navigator.pushView(Home);
 			}
 		]]>
 	</fx:Script>

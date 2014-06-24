@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
-		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		  backgroundColor="#f3f3f3" 
-		  menuKeyPressed="navigator.pushView(Home)"
-		  backKeyPressed="navigator.popView()"
-		title="Restrictions"  xmlns:components="components.*" >
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"
+		xmlns:maps="com.google.maps.*" 	
+		backgroundColor="#f3f3f3" 
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		viewActivate="onActivate(event)"
+		title="Restrictions"   >
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/globalFunctions.as"/>
 	<fx:Script source="../func/loadingfunctions.as"/>
@@ -20,7 +23,6 @@
 			import mx.rpc.events.ResultEvent;
 			import spark.core.ContentCache;
 			import spark.events.ViewNavigatorEvent;
-			import spark.filters.GlowFilter;
 			[Bindable]
 			public var alphatitle:String = "Restrictions";
 			[Bindable]
@@ -28,11 +30,11 @@
 			[Bindable]
 			public var catArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
-			public var busy:Boolean = true;
-			[Bindable]
 			public var alerArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var onoffstatus:uint = 0;
 			public function onActivate(event:Event):void
 			{
 				setLoginVars();
@@ -48,13 +50,7 @@
 			}
 			public function afterGetRestrictions(event:ResultEvent):void
 			{
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "SELECT * FROM resvalues";
-				stmt.execute();
-				var resvaluesData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
 				busy = false;
 				listData = new ArrayCollection();
 				try{			
@@ -115,9 +111,6 @@
 				listData.refresh();
 				resList.dataProvider = listData;
 			}
-			
-			[Bindable]
-			public var onoffstatus:uint = 0;
 			public function onoffclick():void {
 				busy = true;
 				if (onoffstatus == 1){
@@ -137,22 +130,10 @@
 					updateResDatabase();
 				}	
 			}
-			public function updateResDatabase():void{
-				
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt2:SQLStatement = new SQLStatement();
-				stmt2.sqlConnection = sqlConnection;
-				stmt2.text = "delete from resvalues";
-				stmt2.execute();
-				
+			public function updateResDatabase():void{		
+				doQuery("delete from resvalues");
 				for (var i:uint = 0; i < listData.length; i++){
-					
-					var stmt3:SQLStatement = new SQLStatement();
-					stmt3.sqlConnection = sqlConnection;
-					stmt3.text = "insert into resvalues values ("+listData[i].id+",'"+listData[i].name+"','"+listData[i].chosen+"')";
-					stmt3.execute();
-					
+					doQuery("insert into resvalues values ("+listData[i].id+",'"+listData[i].name+"','"+listData[i].chosen+"')");
 				}
 			}
 		]]>

@@ -1,10 +1,7 @@
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import mx.events.EffectEvent;
-
 import spark.effects.Move;
-
 [Bindable]
 public var menumoving:Boolean = false;
 [Bindable]
@@ -19,7 +16,6 @@ public var filtersopen:Boolean = false;
 public var autofiltersmove:Boolean = false;
 [Bindable]
 public var openclosestatus:Number = 0;
-
 //general menu functions
 protected function overAllMouseUp(event:MouseEvent):void{
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
@@ -41,7 +37,6 @@ public function setNavigatorMovingStatus(b:Boolean):void {
 		mainNavigator.navigator.activeView.data.moving = b;	
 	}
 }
-
 //Menu Menu functions
 public function menuButtonClick():void {
 	if (menumoving == false){
@@ -130,12 +125,6 @@ public function updateMenuLocation(ev:MouseEvent):void {
 		menu.x = ev.stageX-menu.width;
 	}
 }
-
-
-
-
-
-
 //Filters menu functions
 public function filtersButtonClick():void {
 	if (filtersmoving == false){

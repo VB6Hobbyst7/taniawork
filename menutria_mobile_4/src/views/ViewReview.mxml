@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
-		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"  
+		xmlns:maps="com.google.maps.*" 	
 		backgroundColor="#f3f3f3"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()"
-		title="Review" xmlns:components="components.*"   >
+		viewActivate="onActivate(event)"
+		title="Review" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
 							   height="100%"   mouseDown="navigator.popView();"/>
@@ -27,8 +30,6 @@
 			public var listData:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var backuplistdata:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var busy:Boolean = false;
 			[Bindable]
 			public var currentfilterweekday:String = "monday";
 			[Bindable]

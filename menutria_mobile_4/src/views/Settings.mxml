@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"
 		backgroundColor="#f3f3f3"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()" 
-		title="Settings" viewActivate="onActivate(event)" 
-		xmlns:components="components.*" >
+		title="Settings" viewActivate="onActivate(event)" >
 	<s:actionContent>
 	</s:actionContent>
 	<fx:Script source="../func/globalFunctions.as"/>
@@ -22,8 +22,6 @@
 			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var catArray:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var busy:Boolean = true;
 			public function onActivate(event:Event):void
 			{
 				catArray =  new ArrayCollection();
@@ -70,15 +68,7 @@
 			}
 			public function logout():void {
 				try{
-					sqlConnection = new SQLConnection();
-					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-					var stmt:SQLStatement = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "update localuser set active = 'no' where email = '"+emailGo+"'";
-					stmt.execute();
-				
-					var saveManager:PersistenceManager = new PersistenceManager();
-					saveManager.setProperty("useremail", "ERRORBADERRORBAD");
+					doQuery("delete from localuser");
 					navigator.pushView(Login);
 				}
 				catch(e:Error){

@@ -11,7 +11,6 @@ import flash.geom.Rectangle;
 import flash.html.HTMLLoader;
 import flash.net.URLRequest;
 import flash.sensors.Geolocation;
-
 import mx.collections.ArrayCollection;
 import mx.collections.Sort;
 import mx.effects.effectClasses.FadeInstance;
@@ -19,7 +18,6 @@ import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
 import mx.events.ResizeEvent;
 import mx.rpc.events.ResultEvent;
-
 import spark.collections.SortField;
 import spark.components.supportClasses.StyleableTextField;
 import spark.core.ContentCache;
@@ -28,7 +26,6 @@ import spark.events.ListEvent;
 import spark.events.ViewNavigatorEvent;
 import spark.filters.GlowFilter;
 import spark.managers.PersistenceManager;
-
 import views.MenuDescription;
 
 [Bindable]
@@ -51,8 +48,6 @@ public var sortMode:Number = 0;
 public var reverse:Boolean = false;
 [Bindable]
 public var locatoinidGo:Number = -1;
-[Bindable]
-public var busy:Boolean = true;
 [Bindable]
 public var currentselectmode:Number = 0;
 [Bindable]
