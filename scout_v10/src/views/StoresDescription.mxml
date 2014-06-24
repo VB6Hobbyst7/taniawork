@@ -19,8 +19,11 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var googleTravelUrl:String = "";
@@ -79,6 +82,39 @@
 						emailGo:emailGo,business_name:data.business_name,amount:data.amount});
 				}
 			}	
+			
+			protected function closeRatingPopup():void
+			{
+				RatingPopupOut();
+			}
+			protected function openRatingPopup():void
+			{
+				RatingPopupIn();
+			}
+			public function RatingPopupIn():void {
+				ratingpopup.visible = true;
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = ratingpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function RatingPopupOut():void {
+				var fa:Fade = new Fade();
+				fa.addEventListener(EffectEvent.EFFECT_END, afterratingout);
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = ratingpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function afterratingout(ev:EffectEvent):void {
+				ratingpopup.visible = false;
+			}
+			public function sendRating():void {
+				RatingPopupOut();
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -99,11 +135,11 @@
 						  contentLoader="{s_imageCache}" 
 						  scaleMode="stretch"  	   >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/gradient.png')"
-												source240dpi="@Embed('../assets/320/gradient.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/gradient.png')"
+												source240dpi="@Embed('../assets/240/gradient.png')"
 												source320dpi="@Embed('../assets/320/gradient.png')"
-												source480dpi="@Embed('../assets/320/gradient.png')"
-												source640dpi="@Embed('../assets/320/gradient.png')"/>
+												source480dpi="@Embed('../assets/480/gradient.png')"
+												source640dpi="@Embed('../assets/640/gradient.png')"/>
 					</s:source>
 				</s:Image>
 				<s:Label id="selectedTitle"  bottom="10" paddingLeft="20" paddingRight="10" width="100%" color="#FFFFFF"
@@ -115,24 +151,25 @@
 					<s:Image  horizontalCenter="0" verticalCenter="0"  mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/web.png')"
-													source240dpi="@Embed('../assets/320/web.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/web.png')"
+													source240dpi="@Embed('../assets/240/web.png')"
 													source320dpi="@Embed('../assets/320/web.png')"
-													source480dpi="@Embed('../assets/320/web.png')"
-													source640dpi="@Embed('../assets/320/web.png')"/>
+													source480dpi="@Embed('../assets/480/web.png')"
+													source640dpi="@Embed('../assets/640/web.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>
 				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
-						 mouseOut="gOut(event);" mouseUp="gOut(event);" click="navigateToURL(new URLRequest('tel:'+data.business_number));">
+						 mouseOut="gOut(event);" mouseUp="gOut(event);" 
+						 click="navigateToURL(new URLRequest('tel:'+data.business_number));">
 					<s:Image  horizontalCenter="0" verticalCenter="0"
 							  contentLoader="{s_imageCache}" mouseEnabled="false">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/phone.png')"
-													source240dpi="@Embed('../assets/320/phone.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/phone.png')"
+													source240dpi="@Embed('../assets/240/phone.png')"
 													source320dpi="@Embed('../assets/320/phone.png')"
-													source480dpi="@Embed('../assets/320/phone.png')"
-													source640dpi="@Embed('../assets/320/phone.png')"/>
+													source480dpi="@Embed('../assets/480/phone.png')"
+													source640dpi="@Embed('../assets/640/phone.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>
@@ -141,11 +178,11 @@
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/fb.png')"
-													source240dpi="@Embed('../assets/320/fb.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/fb.png')"
+													source240dpi="@Embed('../assets/240/fb.png')"
 													source320dpi="@Embed('../assets/320/fb.png')"
-													source480dpi="@Embed('../assets/320/fb.png')"
-													source640dpi="@Embed('../assets/320/fb.png')"/>
+													source480dpi="@Embed('../assets/480/fb.png')"
+													source640dpi="@Embed('../assets/640/fb.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>
@@ -154,11 +191,11 @@
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/tw.png')"
-													source240dpi="@Embed('../assets/320/tw.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tw.png')"
+													source240dpi="@Embed('../assets/240/tw.png')"
 													source320dpi="@Embed('../assets/320/tw.png')"
-													source480dpi="@Embed('../assets/320/tw.png')"
-													source640dpi="@Embed('../assets/320/tw.png')"/>
+													source480dpi="@Embed('../assets/480/tw.png')"
+													source640dpi="@Embed('../assets/640/tw.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>
@@ -174,11 +211,11 @@
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/briefcase.png')"
-													source240dpi="@Embed('../assets/320/briefcase.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/briefcase.png')"
+													source240dpi="@Embed('../assets/240/briefcase.png')"
 													source320dpi="@Embed('../assets/320/briefcase.png')"
-													source480dpi="@Embed('../assets/320/briefcase.png')"
-													source640dpi="@Embed('../assets/320/briefcase.png')"/>
+													source480dpi="@Embed('../assets/480/briefcase.png')"
+													source640dpi="@Embed('../assets/640/briefcase.png')"/>
 						</s:source>
 					</s:Image>
 					<s:Label styleName="textsize1" color="#929191" text="About Us" textAlign="center"/>
@@ -194,11 +231,11 @@
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/heart.png')"
-													source240dpi="@Embed('../assets/320/heart.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/heart.png')"
+													source240dpi="@Embed('../assets/240/heart.png')"
 													source320dpi="@Embed('../assets/320/heart.png')"
-													source480dpi="@Embed('../assets/320/heart.png')"
-													source640dpi="@Embed('../assets/320/heart.png')"/>
+													source480dpi="@Embed('../assets/480/heart.png')"
+													source640dpi="@Embed('../assets/640/heart.png')"/>
 						</s:source>
 					</s:Image>
 					<s:Label styleName="textsize1" color="#929191" text="Rewards" textAlign="center"/>
@@ -208,63 +245,64 @@
 				<s:stroke><s:SolidColorStroke color="0xbababa" weight="1"/></s:stroke>
 			</s:Line>
 			
-			<s:HGroup width="100%" paddingBottom="15" paddingTop="15"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+			<s:HGroup width="100%" paddingBottom="15" paddingTop="15"  click="openRatingPopup();" 
+					  mouseDown="gDown(event);" mouseOver="gOver(event);" mouseEnabledWhereTransparent="true"
 					  mouseOut="gOut(event);" mouseUp="gOut(event);">
 				<s:Group width="50%" height="100%" mouseEnabled="false">
 					<s:Label verticalCenter="2"  left="20" styleName="textsize3" mouseEnabled="false"
 							 color="#929191" text="Leave Feedback" textAlign="center"/>
 				</s:Group>
 				<s:HGroup width="50%" height="100%" mouseEnabled="false">
-					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
 							  contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
-													source240dpi="@Embed('../assets/320/star.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
 													source320dpi="@Embed('../assets/320/star.png')"
-													source480dpi="@Embed('../assets/320/star.png')"
-													source640dpi="@Embed('../assets/320/star.png')"/>
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
 						</s:source>
-					</s:Image>
-					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
-							  contentLoader="{s_imageCache}">
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
-													source240dpi="@Embed('../assets/320/star.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
 													source320dpi="@Embed('../assets/320/star.png')"
-													source480dpi="@Embed('../assets/320/star.png')"
-													source640dpi="@Embed('../assets/320/star.png')"/>
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
 						</s:source>
-					</s:Image>
-					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
-							  contentLoader="{s_imageCache}">
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
-													source240dpi="@Embed('../assets/320/star.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
 													source320dpi="@Embed('../assets/320/star.png')"
-													source480dpi="@Embed('../assets/320/star.png')"
-													source640dpi="@Embed('../assets/320/star.png')"/>
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
 						</s:source>
-					</s:Image>
-					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
-							  contentLoader="{s_imageCache}">
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
-													source240dpi="@Embed('../assets/320/star.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
 													source320dpi="@Embed('../assets/320/star.png')"
-													source480dpi="@Embed('../assets/320/star.png')"
-													source640dpi="@Embed('../assets/320/star.png')"/>
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
 						</s:source>
-					</s:Image>
-					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
-							  contentLoader="{s_imageCache}">
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/star.png')"
-													source240dpi="@Embed('../assets/320/star.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
 													source320dpi="@Embed('../assets/320/star.png')"
-													source480dpi="@Embed('../assets/320/star.png')"
-													source640dpi="@Embed('../assets/320/star.png')"/>
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
 						</s:source>
-					</s:Image>
+					</s:BitmapImage>
 				</s:HGroup>
 			</s:HGroup>
 			<s:Group>
@@ -330,6 +368,106 @@
 				</s:Rect>
 				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
 						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	<s:Group id="ratingpopup" width="100%" height="100%" visible="false" alpha="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+			</s:Rect>
+			<s:Scroller left="0" right="0" top="0" bottom="{this.height*0.15}"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+				<s:VGroup width="100%" height="100%" top="0" gap="30" horizontalAlign="center" paddingTop="20">
+					<s:Label text="Rating"  mouseEnabled="false" width="100%" textAlign="center"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize5" color="#389ec8"/>
+					<s:HGroup height="100%" mouseEnabled="false">
+						<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+								  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/starlarge.png')"
+														source240dpi="@Embed('../assets/240/starlarge.png')"
+														source320dpi="@Embed('../assets/320/starlarge.png')"
+														source480dpi="@Embed('../assets/480/starlarge.png')"
+														source640dpi="@Embed('../assets/640/starlarge.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+								  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/starlarge.png')"
+														source240dpi="@Embed('../assets/240/starlarge.png')"
+														source320dpi="@Embed('../assets/320/starlarge.png')"
+														source480dpi="@Embed('../assets/480/starlarge.png')"
+														source640dpi="@Embed('../assets/640/starlarge.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+								  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/starlarge.png')"
+														source240dpi="@Embed('../assets/240/starlarge.png')"
+														source320dpi="@Embed('../assets/320/starlarge.png')"
+														source480dpi="@Embed('../assets/480/starlarge.png')"
+														source640dpi="@Embed('../assets/640/starlarge.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+								  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/starlarge.png')"
+														source240dpi="@Embed('../assets/240/starlarge.png')"
+														source320dpi="@Embed('../assets/320/starlarge.png')"
+														source480dpi="@Embed('../assets/480/starlarge.png')"
+														source640dpi="@Embed('../assets/640/starlarge.png')"/>
+							</s:source>
+						</s:Image>
+						<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+								  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/starlarge.png')"
+														source240dpi="@Embed('../assets/240/starlarge.png')"
+														source320dpi="@Embed('../assets/320/starlarge.png')"
+														source480dpi="@Embed('../assets/480/starlarge.png')"
+														source640dpi="@Embed('../assets/640/starlarge.png')"/>
+							</s:source>
+						</s:Image>
+					</s:HGroup>
+					<s:TextArea id="ratingtextinput" height="100%" prompt="How did we do?"
+								contentBackgroundAlpha="0" borderVisible="false"/>
+				</s:VGroup>
+			</s:Scroller>
+			<s:Group width="100%" height="15%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+				</s:Line>
+				<s:Line height="100%"  horizontalCenter="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" left="0" height="100%" 
+						 click="closeRatingPopup()"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Later"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize3" color="#389dc8"/>
+				</s:Group>
+				<s:Group width="50%" right="0" height="100%" id="redeembtn"
+						 click="sendRating()"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Send"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize3" color="#389dc8"/>
+				</s:Group>
 			</s:Group>
 		</s:Group>
 	</s:Group>

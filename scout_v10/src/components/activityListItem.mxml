@@ -77,11 +77,11 @@
 				  contentLoader="{s_imageCache}" 
 				  scaleMode="stretch"  	   >
 			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/320/gradient.png')"
-										source240dpi="@Embed('../assets/320/gradient.png')"
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/gradient.png')"
+										source240dpi="@Embed('../assets/240/gradient.png')"
 										source320dpi="@Embed('../assets/320/gradient.png')"
-										source480dpi="@Embed('../assets/320/gradient.png')"
-										source640dpi="@Embed('../assets/320/gradient.png')"/>
+										source480dpi="@Embed('../assets/480/gradient.png')"
+										source640dpi="@Embed('../assets/640/gradient.png')"/>
 			</s:source>
 		</s:Image>
 		<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="{this.height/4.2+10}" styleName="textsize1"
