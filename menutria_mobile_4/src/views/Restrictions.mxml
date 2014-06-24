@@ -36,15 +36,7 @@
 			public function onActivate(event:Event):void
 			{
 				setLoginVars();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS resvalues (" +
-					"id int(255)," +
-					"name longtext," +
-					"chosen  varchar(255))";							
-				stmt.execute();
+				createIfNotExsist("resvalues");
 				scroller.visible = true;
 				getRestrictions.send();
 			}		

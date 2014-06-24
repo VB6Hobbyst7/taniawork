@@ -3,7 +3,9 @@ import flash.data.SQLStatement;
 import flash.events.MouseEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
+
 import mx.collections.ArrayCollection;
+
 import spark.core.ContentCache;
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
@@ -12,6 +14,7 @@ public var emailGo:String = "";
 public var nameGo:String = "";
 [Bindable]
 public var idGo:String = "";
+[Bindable]
 protected var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
@@ -26,15 +29,47 @@ public function setLoginVars():void {
 			emailGo = resData[0].email;
 			nameGo = resData[0].name;
 		}
-		else {
-			emailGo = "none";
-			nameGo = "none";
-		}	
 	}
-	catch(e:Error) {
-		emailGo = "none";
-		nameGo = "none";
-	}	
+	catch(e:Error) {}	
+}
+public function createIfNotExsist(s:String):void {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	if (s == "resvalues"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS resvalues (" +
+			"id int(255)," +
+			"name longtext," +
+			"chosen  varchar(255))";							
+	}
+	else if (s == "dishes"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS dishes (" +
+			"id int(255)," +
+			"locationid int(255)," +
+			"business_name longtext," +
+			"business_postalcode longtext," +
+			"categoryid int," +
+			"categoryname longtext," +
+			"cost float," +
+			"description longtext," +
+			"lat varchar(255)," +
+			"longa varchar(255)," +
+			"name longtext," +
+			"picture longtext," +
+			"rating double," +
+			"divtype int," +
+			"distance varchar(255)," +
+			"goodforme varchar(255))";							
+	}
+	stmt.execute();
+}
+public function getDatabaseArray(query:String):ArrayCollection {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	
 }
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
