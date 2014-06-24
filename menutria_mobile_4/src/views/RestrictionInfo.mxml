@@ -14,8 +14,7 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -35,7 +34,7 @@
 			public var listData:ArrayCollection = new ArrayCollection();
 			public function onActivate(event:Event):void
 			{
-					busy = false;
+					
 					scroller.visible = true;
 			}
 			public function usermenuclick():void {

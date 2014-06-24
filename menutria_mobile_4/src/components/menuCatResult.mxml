@@ -4,7 +4,7 @@
 				autoDrawBackground="false" mouseChildren="false"
 				mouseOver="gOver(event);" mouseDown="gDown(event);"
 				mouseOut="gOut(event);" mouseUp="gOut(event);">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<s:Group id="megacont" width="{this.width}" 
 			 height="{120/(320/Capabilities.screenDPI)}" mouseEnabled="false"   >
 		<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">

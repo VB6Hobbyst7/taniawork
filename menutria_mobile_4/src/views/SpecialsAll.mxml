@@ -10,8 +10,7 @@
 		backgroundColor="#f3f3f3"  
 		viewActivate="onActivate(event)"
 		viewDeactivate="onViewDeactivate();">
-	<fx:Script source="../func/loadingfunctions.as"/>
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -75,7 +74,7 @@
 			public var screenwidth:Number = 200;
 			public function onActivate(event:Event):void
 			{
-				showloading();
+				this.parentApplication.showloading();
 				createIfNotExsist("specials");
 				setLoginVars();
 				screenwidth = this.width;
@@ -110,7 +109,6 @@
 						var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM specials");
 						if (dataArray.length != 0){
 							specialData = dataArray;
-							busy = false;
 							prefound = true;
 							
 							staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
@@ -129,7 +127,7 @@
 							specialData.sort = numericDataSort;
 							specialData.refresh();
 							menuList.dataProvider = specialData;
-							hideloading();
+							this.parentApplication.hideloading();
 						}
 					}
 					else {
@@ -159,7 +157,6 @@
 					mylat = 53.59221;
 					mylong = -113.54009;
 				}
-				busy = true;
 				
 				maintimer = new Timer(5000,0);
 				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
@@ -176,8 +173,7 @@
 			}
 			public function aftertimer(ev:TimerEvent):void {
 				if (specialData.length <= 0){
-					busy = true;
-					showloading();
+					this.parentApplication.showloading();
 					getSpecials.cancel();
 					//specialData = new ArrayCollection();
 					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
@@ -190,15 +186,12 @@
 			}
 			public function afterGetSpecials(event:ResultEvent):void
 			{
-				hideloading();
+				this.parentApplication.hideloading();
 				nofind.visible = false;
 				var diddistanceupdate:Boolean = false;
 				var stmt:SQLStatement = new SQLStatement();
 				if ((isFingerDown == false)){
-					
-					if (prefound == false){
-						
-						busy = false;
+					if (prefound == false){				
 						var i:uint = 0;
 						specialData = new ArrayCollection();
 						try{			
@@ -409,13 +402,12 @@
 				if (tempText.length == 6){
 					postalString = tempText;
 					getSpecialsPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM specials");
 					if (dataArray.length != 0){
 						specialData = dataArray;
-						busy = false;
 						prefound = true;
 						
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
@@ -443,13 +435,12 @@
 				if (tempText.length >= 6){
 					postalString = tempText;
 					getSpecialsPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM specials");
 					if (dataArray.length != 0){
 						specialData = dataArray;
-						busy = false;
 						prefound = true;
 						
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
@@ -472,7 +463,6 @@
 				}
 			}
 			public function afterGetSpecialsPostal(ev:ResultEvent):void {
-				busy = false;
 				var tempstring:String = ev.result[0].toString();
 				tempstring = tempstring.substring(tempstring.indexOf("lat")+3,tempstring.length);
 				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);

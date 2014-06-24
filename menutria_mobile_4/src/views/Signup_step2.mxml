@@ -14,7 +14,7 @@
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
@@ -26,7 +26,7 @@
 			public var busy:Boolean = false;
 			public function nextStep():void {
 				if (checkFields()){
-					busy = true;
+					
 					createNewUser.send();
 				}
 				else {
@@ -44,7 +44,7 @@
 				return true;
 			}
 			public function afterCreateNewUser(ev:ResultEvent):void {
-				busy = false;
+				
 				if (ev.result[0].ress.message == "ok"){
 					AddNewLocalUser(data.email,data.nameo,'canada');
 				}

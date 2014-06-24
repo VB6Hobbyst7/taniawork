@@ -4,7 +4,7 @@
 				autoDrawBackground="false" mouseChildren="false"
 				creationComplete="init(event)"
 				dataChange="dchange(event)">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;

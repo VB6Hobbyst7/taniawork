@@ -11,8 +11,7 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -43,7 +42,7 @@
 				
 			}
 			public function afterGetRatings(ev:ResultEvent):void {
-				busy = false;
+				
 				rateArray = new ArrayCollection();
 				try{			
 					rateArray = ev.result[0].results.result;		

@@ -11,8 +11,7 @@
 							   mouseEnabledWhereTransparent="true"
 							   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -35,7 +34,7 @@
 				catArray.addItem({name:"Connected Accounts", type:1, chosen:'no'});
 				storeList.dataProvider = catArray;
 				setLoginVars();
-				busy = false;
+				
 			}
 			public function catListChange(ev:IndexChangeEvent):void {
 				try{

@@ -9,8 +9,7 @@
 		backgroundColor="#f3f3f3" 
 		xmlns:components="components.*" 
 		viewDeactivate="onViewDeactivate();">
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -29,7 +28,6 @@
 			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var alphatitle:String = "Home";
 			protected var g:Geolocation = new Geolocation();    
@@ -75,7 +73,7 @@
 			public var screenwidth:Number = 200;
 			public function onActivate(event:Event):void
 			{
-				showloading();
+				this.parentApplication.showloading();
 				setLoginVars();
 				createIfNotExsist("resvalues");
 				createIfNotExsist("dishes");
@@ -111,7 +109,6 @@
 						var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
 						if (dataArray.length != 0){
 							dishData = dataArray;
-							busy = false;
 							prefound = true;							
 							staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
 							var usedlocationarray:Array = new Array();
@@ -140,7 +137,7 @@
 							dishData.sort = numericDataSort;
 							dishData.refresh();
 							menuList.dataProvider = dishData;
-							hideloading();
+							this.parentApplication.hideloading();
 						}
 						
 						//searchClick();
@@ -172,7 +169,6 @@
 					mylong = -113.54009;
 				}
 				
-				busy = true;
 				maintimer = new Timer(5000,0);
 				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
 				maintimer.start();
@@ -212,8 +208,7 @@
 			}
 			public function aftertimer(ev:TimerEvent):void {
 				if (dishData.length <= 0){
-					busy = true;
-					showloading();
+					this.parentApplication.showloading();
 					getDishes.cancel();
 					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
 					maintimer.stop();
@@ -232,7 +227,7 @@
 			{
 				var j:uint = 0;
 				var i:uint = 0;
-				hideloading();
+				this.parentApplication.hideloading();
 				nofind.visible = false;
 				var diddistanceupdate:Boolean = false;
 				if ((isFingerDown == false)){
@@ -374,9 +369,8 @@
 			
 			public function afterGetDishesFilter(event:ResultEvent):void
 			{
-				hideloading();
+				this.parentApplication.hideloading();
 				nofind.visible = false;
-				busy = false;
 				var i:uint = 0;
 				dishData = new ArrayCollection();
 				try{			
@@ -529,13 +523,12 @@
 				if (tempText.length == 6){
 					postalString = tempText;
 					getDishesPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
 					if (dataArray.length != 0){
 						dishData = dataArray;
-						busy = false;
 						prefound = true;
 						
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
@@ -563,13 +556,12 @@
 				if (tempText.length >= 6){
 					postalString = tempText;
 					getDishesPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM dishes");
 					if (dataArray.length != 0){
 						dishData = dataArray;
-						busy = false;
 						prefound = true;
 						
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
@@ -592,7 +584,6 @@
 				}
 			}
 			public function afterGetDishesPostal(ev:ResultEvent):void {
-				busy = false;
 				var tempstring:String = ev.result[0].toString();
 				tempstring = tempstring.substring(tempstring.indexOf("lat")+3,tempstring.length);
 				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);

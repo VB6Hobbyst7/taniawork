@@ -6,10 +6,8 @@
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()" 
 		title="Settings" viewActivate="onActivate(event)" >
-	<s:actionContent>
-	</s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -19,7 +17,6 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function onActivate(event:Event):void
@@ -32,7 +29,6 @@
 				catArray.addItem({name:"Log Out", type:2, chosen:'no'});
 				settingsList.dataProvider = catArray;
 				setLoginVars();
-				busy = false;
 			}
 			public function catListClick(ev:MouseEvent):void {
 				try{

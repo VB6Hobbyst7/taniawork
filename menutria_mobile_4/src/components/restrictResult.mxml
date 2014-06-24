@@ -4,7 +4,7 @@
 				autoDrawBackground="false" mouseChildren="false"
 				mouseOver="gOver(event);" mouseDown="gDown(event);"
 				mouseOut="gOut(event);" mouseUp="gOut(event);">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[		
 			protected function infoclick(event:MouseEvent):void

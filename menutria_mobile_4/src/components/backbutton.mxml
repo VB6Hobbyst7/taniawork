@@ -4,7 +4,7 @@
 	mouseChildren="false"
 	mouseOver="gOver(event);" mouseDown="gDown(event);"
 	mouseOut="gOut(event);" mouseUp="gOut(event);">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<s:Image verticalCenter="0"  contentLoader="{s_imageCache}" 
 			 horizontalCenter="0" mouseEnabled="false">
 		<s:source>

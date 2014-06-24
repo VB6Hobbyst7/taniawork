@@ -4,7 +4,7 @@
           xmlns:mx="library://ns.adobe.com/flex/mx"
           clipAndEnableScrolling="true"  contentBackgroundAlpha="0"
           implements="mx.core.IDataRenderer">
-	<fx:Script source="../../../../func/globalFunctions.as"/>
+	<fx:Script source="../../../../func/global.as"/>
     <fx:Script>
         <![CDATA[
 			import mx.events.FlexMouseEvent;

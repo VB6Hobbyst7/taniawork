@@ -14,8 +14,7 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
@@ -38,7 +37,7 @@
 			public var currentselectmode:Number = 1;
 			public function onActivate(event:Event):void
 			{
-				busy = true;
+				
 				setLoginVars();
 				if (data.totallikecount == "null"){
 					data.totallikecount = "0";
@@ -48,20 +47,20 @@
 			
 			}
 			public function likeClick():void {
-				busy = true;
+				
 				likebtn.alpha = 0.5;
 				likebtn.mouseEnabled = false;
 				likeReview.send();
 			}
 			public function reportClick():void {
-				busy = true;
+				
 				reportbtn.alpha = 0.5;
 				reportbtn.mouseEnabled = false;
 				reportReview.send();
 			}
 			public function afterCheckReviewLinkage(ev:ResultEvent):void {
 				var stop:String = "";
-				busy = false;
+				
 				
 				if ((ev.result[0].likes == 0)||(ev.result[0].likes == "0")){
 					likebtn.alpha = 1;
@@ -74,13 +73,13 @@
 				}
 			}		
 			public function afterLikeReview(ev:ResultEvent):void {
-				busy = false;
+				
 				likebtn.alpha = 0.5;
 				data.totallikecount = (Number(data.totallikecount) + 1).toString();
 				likebtn.mouseEnabled = false;
 			}
 			public function afterReportReview(ev:ResultEvent):void {
-				busy = false;
+				
 				reportbtn.alpha = 0.5;
 				reportbtn.mouseEnabled = false;
 			}

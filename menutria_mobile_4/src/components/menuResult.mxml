@@ -12,7 +12,7 @@
 		<s:State name="hiddenall"/>
 	</s:states>     
 	
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;

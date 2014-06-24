@@ -9,8 +9,7 @@
 		destructionPolicy="never"
 	 	xmlns:components="components.*" 
 	  	viewDeactivate="onViewDeactivate();">
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -83,7 +82,7 @@
 			public var screenwidth:Number = 200;
 			public function onActivate(event:Event):void
 			{
-				showloading();
+				this.parentApplication.showloading();
 				setLoginVars();
 				createIfNotExsist("merchusers");
 				goingtonext = false;
@@ -141,7 +140,7 @@
 							homeData.sort = numericDataSort;
 							homeData.refresh();
 							storeList.dataProvider = homeData;
-							hideloading();
+							this.parentApplication.hideloading();
 						}
 					}
 					else {
@@ -223,7 +222,7 @@
 			}
 			public function aftertimer(ev:TimerEvent):void {
 				if (homeData.length <= 0){
-					showloading();
+					this.parentApplication.showloading();
 					getLocations.cancel();
 					//homeData = new ArrayCollection();
 					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
@@ -241,14 +240,14 @@
 			}
 			public function afterGetLocations(event:ResultEvent):void
 			{
-				hideloading();
+				this.parentApplication.hideloading();
 				nofind.visible = false;
 				var diddistanceupdate:Boolean = false;
 				if ((isFingerDown == false)){
 					
 					if (prefound == false){
 						
-						hideloading();
+						this.parentApplication.hideloading();
 						var i:uint = 0;
 						homeData = new ArrayCollection();
 						try{			
@@ -380,9 +379,8 @@
 			
 			public function afterGetLocationsFilter(event:ResultEvent):void
 			{
-				hideloading();
+				this.parentApplication.hideloading();
 				nofind.visible = false;
-				hideloading();
 				var i:uint = 0;
 				homeData = new ArrayCollection();
 				try{			
@@ -501,13 +499,13 @@
 				if (tempText.length == 6){
 					postalString = tempText;
 					getLocationsPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
 					if (dataArray.length != 0){
 						homeData = dataArray;
-						hideloading();
+						this.parentApplication.hideloading();
 						prefound = true;
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
 						for (var i:uint =  0; i < homeData.length; i++){
@@ -534,13 +532,13 @@
 				if (tempText.length >= 6){
 					postalString = tempText;
 					getLocationsPostal.send();
-					showloading();
+					this.parentApplication.showloading();
 				}
 				else {
 					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
 					if (dataArray.length != 0){
 						homeData = dataArray;
-						hideloading();
+						this.parentApplication.hideloading();
 						prefound = true;
 						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
 						for (var i:uint =  0; i < homeData.length; i++){
@@ -562,7 +560,7 @@
 				}
 			}
 			public function afterGetLocationsPostal(ev:ResultEvent):void {
-				hideloading();
+				this.parentApplication.hideloading();
 				var tempstring:String = ev.result[0].toString();
 				tempstring = tempstring.substring(tempstring.indexOf("lat")+3,tempstring.length);
 				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);

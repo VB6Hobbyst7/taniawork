@@ -10,8 +10,7 @@
 		actionBarVisible="false" 
 		xmlns:components="components.*" 
 		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
-	<fx:Script source="../func/globalFunctions.as" />
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as" />
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -19,7 +18,6 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import mx.collections.ArrayCollection;
-			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
@@ -30,7 +28,7 @@
 			public var profWaiting:Boolean = false;
 			public var profDraging:Boolean = false;
 			public function create():void {	
-				showloading();
+				this.parentApplication.showloading();
 				createIfNotExsist("localuser");
 				getLocalUsers();
 			}	
@@ -55,13 +53,11 @@
 				}
 			}
 			public function authorizeLogin(username:String,userpassword:String):void{	
-				busy = true;
 				userid = username;
 				passid = userpassword;
 				checkLogin.send();
 			}
 			public function afterCheckLogin(ev:ResultEvent):void {
-				busy = false;
 				if (ev.result[0].res.message == "ok"){
 					AddNewLocalUser(ev.result[0].res.email,
 						ev.result[0].res.name,
@@ -88,14 +84,12 @@
 				}
 				else {
 				}
-				busy = false;
-				hideloading();
+				this.parentApplication.hideloading();
 			}
 			
 			public function AddNewLocalUser(email:String,name:String,country:String):void
 			{
-				busy = true;
-				showloading();
+				this.parentApplication.showloading();
 				doQuery("delete FROM localuser;");
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
@@ -121,7 +115,7 @@
 					navigator.pushView(Home);
 				}
 				else {
-					hideloading();	
+					this.parentApplication.hideloading();	
 				}
 			}
 			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
@@ -165,8 +159,7 @@
 									source640dpi="@Embed('assets/320/loginbackground.png')"/>
 		</s:source>
 	</s:BitmapImage>
-	<s:Scroller left="0"  id="v11" includeIn="welcome" 
-				visible="{busy == false}"   
+	<s:Scroller left="0"  id="v11" includeIn="welcome"
 				right="0" top="0" bottom="0" 
 				verticalScrollPolicy="on" 
 				horizontalScrollPolicy="off" >

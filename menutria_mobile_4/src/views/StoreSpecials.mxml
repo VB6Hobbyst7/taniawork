@@ -14,8 +14,7 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -42,8 +41,8 @@
 			public function onActivate(event:Event):void
 			{
 				warn.visible = false;
-				busy = true;
-				showloading();
+				
+				this.parentApplication.showloading();
 				setLoginVars();
 				scroller.visible = true;
 				locationid = data.locationid;
@@ -51,8 +50,8 @@
 			}
 			
 			public function afterGetSpecials(ev:ResultEvent):void {
-				hideloading();
-				busy = false;
+				this.parentApplication.hideloading();
+				
 				backupspecialsData = new ArrayCollection();
 				try{			
 					backupspecialsData = ev.result[0].ress.res;		

@@ -15,8 +15,7 @@
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
 							   height="100%" mouseDown="navigator.popView();"/>
 	</s:navigationContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -31,18 +30,18 @@
 			public function onActivate(event:Event):void
 			{		
 				setLoginVars();
-				busy = false;
+				
 			}	
 			public function changePass():void {
 				logWarning.visible = false;
 				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
 					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
-					busy = true;
+					
 					changePassword.send();					
 				}	
 			}
 			public function afterChangePassword(ev:ResultEvent):void {
-				busy = false;
+				
 				logWarning.text = ev.result[0].res.message;
 				logWarning.visible = true;
 			}

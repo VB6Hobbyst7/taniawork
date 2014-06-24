@@ -10,8 +10,7 @@
 		viewActivate="onActivate(event)"
 		title="Restrictions"   >
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -51,7 +50,6 @@
 			public function afterGetRestrictions(event:ResultEvent):void
 			{
 				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
-				busy = false;
 				listData = new ArrayCollection();
 				try{			
 					listData = event.result[0].ress.res;		
@@ -91,7 +89,6 @@
 						resList.selectedItem.chosen = 'no';
 						listData[resList.selectedIndex].chosen = 'no';
 						idGo = resList.selectedItem.id;
-						busy = true;
 						//delete
 						updateResDatabase();
 						
@@ -100,7 +97,6 @@
 						resList.selectedItem.chosen = 'yes';
 						listData[resList.selectedIndex].chosen = 'yes';
 						idGo = resList.selectedItem.id;
-						busy = true;
 						//add
 						updateResDatabase();
 					}	
@@ -112,7 +108,6 @@
 				resList.dataProvider = listData;
 			}
 			public function onoffclick():void {
-				busy = true;
 				if (onoffstatus == 1){
 					eatenimage.source = onoff1;
 					onoffstatus = 0;

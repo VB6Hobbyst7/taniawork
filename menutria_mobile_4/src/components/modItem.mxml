@@ -4,7 +4,7 @@
 				autoDrawBackground="false" mouseChildren="false"
 				mouseOver="gOver(event);" mouseDown="gDown(event);"
 				mouseOut="gOut(event);" mouseUp="gOut(event);">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 <s:Group width="{this.width}" height="100%" mouseEnabled="false"   id="megacont"  >
 	<s:Label width="100%" color="#4d4d4d"  x="{othertext.width+2}" y="0" id="text2area" 
 	 fontWeight="normal" styleName="textsize0" 

@@ -9,8 +9,7 @@
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()" 
 		actionBarVisible="false">
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -62,7 +61,7 @@
 			
 			public function view1_activateHandler(event:Event):void
 			{
-				showloading();
+				this.parentApplication.showloading();
 				setLoginVars();	
 				img1.source = data.business_picture;
 				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
@@ -118,8 +117,8 @@
 				}
 			}
 			public function afterGetTopRated(ev:ResultEvent):void {
-				hideloading();
-				busy = false;
+				this.parentApplication.hideloading();
+				
 				storetoprateddata = new ArrayCollection();
 				try{			
 					storetoprateddata = ev.result[0].results.result;		
@@ -136,8 +135,8 @@
 				
 			}
 			public function afterGetMerchReviews(ev:ResultEvent):void {
-				hideloading();
-				busy = false;
+				this.parentApplication.hideloading();
+				
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				try{			

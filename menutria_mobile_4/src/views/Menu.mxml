@@ -16,9 +16,165 @@
 							   height="100%"   mouseDown="navigator.popView(); "/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/menufunctions.as" />
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.KeyboardEvent;
+			import flash.events.MouseEvent;
+			import spark.collections.SortField;
+			import spark.collections.Sort
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;
+			import views.MenuDescription;
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var ratingpriceoptionval:uint = 0;
+			[Bindable]
+			public var resData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var modData:ArrayCollection = new ArrayCollection();
+			protected function view1_activateHandler(event:Event):void
+			{
+				this.parentApplication.showloading();
+				setLoginVars();
+				createIfNotExsist("resvalues");
+				warn.visible = false;
+				locationid = data.locationid;
+				getMenu.send();
+			}	
+			
+			public function afterGetMenu(ev:ResultEvent):void
+			{	
+				this.parentApplication.hideloading();
+				filterarea.visible = true;
+				listData = new ArrayCollection();
+				modData = new ArrayCollection();
+				resData = new ArrayCollection();
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){}}
+				
+				try{			
+					resData = ev.result[0].ress2.res2;		
+				}
+				catch(e:Error){
+					try{	
+						resData.addItem(ev.result[0].ress2.res2);
+					}
+					catch(e:Error){}}
+				
+				try{			
+					modData = ev.result[0].ress3.res3;		
+				}
+				catch(e:Error){
+					try{	
+						modData.addItem(ev.result[0].ress3.res3);
+					}
+					catch(e:Error){}}
+				afterGetMenuCont();
+			} 
+			public function afterGetMenuCont():void {
+				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
+				if (resvaluesData.length > 0){
+					for (var j:uint = 0; j < listData.length; j++){
+						var goodstatus:Number = 0;
+						var permabad:Boolean = false;
+						for (var k:uint = 0; k < resData.length; k++){
+							if (resData[k].menuid == listData[j].id){
+								for (var i:uint = 0; i<resvaluesData.length; i++){
+									if ((resvaluesData[i].id == resData[k].restrictid)&&(resvaluesData[i].chosen == 'yes')){
+										goodstatus = 1;
+										for (var l:uint = 0; l < modData.length; l++){
+											if ((resvaluesData[i].id == modData[l].restrictid)&&(modData[l].menuid == resData[k].menuid)){
+												//show it but add warning
+												goodstatus = 2;
+											}
+										}
+										
+										if (goodstatus == 1){
+											permabad = true;
+										}
+									}
+								}
+							}
+						}
+						
+						if (permabad){
+							//no mod for an item so its bad
+							listData[j].hideall = true;
+							listData[j].goodforme = false;
+						}
+						else if (goodstatus == 2){
+							// a mod exsists to a restriction so just add warning
+							listData[j].hideall = false;
+							listData[j].goodforme = false;
+						}
+						else {
+							//all good show away. 
+							listData[j].hideall = false;
+							listData[j].goodforme = true;
+						}
+					}
+					listData.refresh();
+					menuList.dataProvider = listData;
+				}
+							
+				if (listData.length <= 0){
+					warn.visible = true;
+				}
+				else {
+					populatelist();
+				}
+			} 
+			public function populatelist():void {
+				var srt:Sort = new Sort();
+				if (ratingpriceoptionval == 0){
+					srt.fields = [new SortField("rating",true)];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				else if (ratingpriceoptionval == 1){
+					srt.fields = [new SortField("cost")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				menuList.dataProvider = listData;
+			}
+			public function listClick():void {	
+				if (menuList.selectedIndex != -1){
+					navigator.pushView(MenuDescription, listData[menuList.selectedIndex]);	
+				}
+			}
+			public function ratingpriceoptionclick():void {
+				if (ratingpriceoptionval == 0){
+					ratingpriceoptionval = 1;
+					ratingpriceimage1.visible = false;
+					ratingpriceimage2.visible = true;
+					selectview1.visible = false
+					selectview2.visible = true;
+				}
+				else {
+					ratingpriceoptionval = 0;
+					ratingpriceimage1.visible = true;
+					ratingpriceimage2.visible = false;
+					selectview1.visible = true
+					selectview2.visible = false;
+				}
+				populatelist();
+			}
+		]]>
+	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
 					   url="http://www.menutria.com/php/mobile/getMenu.php"
@@ -81,7 +237,7 @@
 			 contentBackgroundAlpha="0"
 				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
 				dataProvider="{listData}" itemRenderer="components.menuResult"
-				selectedIndex="1" click="storeListClick();" >
+				selectedIndex="1" click="listClick();" >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify" 
 								  variableRowHeight="true"

@@ -11,8 +11,7 @@
 		backgroundColor="#f3f3f3"
 		backgroundAlpha="1"  title="Menu"
 		viewActivate="view1_activateHandler(event)">
-	<fx:Script source="../func/loadingfunctions.as"/>
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -57,16 +56,16 @@
 			protected function view1_activateHandler(event:Event):void
 			{
 				warn.visible = false;
-				busy = true;
-				showloading();
+				
+				this.parentApplication.showloading();
 				setLoginVars();
 				locationid = data.locationid;
 				getMenu.send();
 			}	
 			
 			public function afterGetMenu(ev:ResultEvent):void
-			{	busy = false;
-				hideloading();
+			{	
+				this.parentApplication.hideloading();
 				listData = new ArrayCollection();
 				try{			
 					listData = ev.result[0].ress.res;		

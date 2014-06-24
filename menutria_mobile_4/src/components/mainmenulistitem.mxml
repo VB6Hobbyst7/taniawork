@@ -10,7 +10,7 @@
 		<s:State name="hovered"/>
 		<s:State name="selected"/>
 	</s:states>   
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Declarations>
 		<s:GlowFilter id="selectionglow"
 			alpha="1" strength="200" knockout="true"

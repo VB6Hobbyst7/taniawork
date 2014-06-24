@@ -6,8 +6,7 @@
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()" actionBarVisible="false"
 		xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:components="components.*">
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -71,8 +70,8 @@
 			public function view1_activateHandler(event:Event):void
 			{
 				
-				showloading();
-				busy = true;
+				this.parentApplication.showloading();
+				
 				setLoginVars();			
 				scroller.visible = true;
 				getMenuItemInformation.send();
@@ -210,8 +209,8 @@
 			}
 			public function afterGetMenuInformation(ev:ResultEvent):void {
 				reviewText.text = "";
-				hideloading();
-				busy = false;
+				this.parentApplication.hideloading();
+				
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				modifications = new ArrayCollection();
@@ -344,7 +343,7 @@
 					forward.visible = true;
 					reviewPopupStage = 0;
 					//Commit review
-					busy = true;
+					
 					sendReview.send();
 					
 				}
@@ -415,7 +414,7 @@
 				
 			}
 			public function eatenClick():void {
-				busy = true;
+				
 				if (eatenstatus == 0){
 					eatenimage.source = eatenthis1;
 					eatenstatus = 1;
@@ -465,7 +464,7 @@
 				}
 			}
 			public function afterGetEatenThis(ev:ResultEvent):void {
-				busy = false;
+				
 				eatenimage.visible = true;
 			}
 			

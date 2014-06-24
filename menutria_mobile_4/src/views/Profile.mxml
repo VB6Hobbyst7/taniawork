@@ -8,8 +8,7 @@
 		xmlns:components="components.*" >
 	<s:actionContent>	
 	</s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -92,7 +91,6 @@
 			
 			
 			public function showThings(u:uint):void {
-				busy = true;
 				selectedThing = u;
 				if (u == 1){
 					rateList.dataProvider = new ArrayCollection();
@@ -123,7 +121,6 @@
 				}
 			}
 			public function afterGetRatings(ev:ResultEvent):void {
-				busy = false;
 				rateArray = new ArrayCollection();
 				try{			
 					rateArray = ev.result[0].results.result;		
@@ -136,9 +133,7 @@
 				}
 				rateList.dataProvider = rateArray;
 			}
-			public function afterGetLiked(ev:ResultEvent):void {
-				busy = false;
-				
+			public function afterGetLiked(ev:ResultEvent):void {				
 				likeArray = new ArrayCollection();
 				try{			
 					likeArray = ev.result[0].results.result;		
@@ -152,7 +147,6 @@
 				rateList.dataProvider = likeArray;
 			}
 			public function afterGetPlacesEaten(ev:ResultEvent):void {
-				busy = false;
 				var i:uint = 0;
 				placesArray = new ArrayCollection();
 				try{			
