@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:esri="http://www.esri.com/2008/ags"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"
+		menuKeyPressed="navigator.popView()"
+		backKeyPressed="navigator.popView()"
+		backgroundColor="#FFFFFF"
+		title="Map"
+		viewActivate="onViewActivate();">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace esri "http://www.esri.com/2008/ags";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace components "components.*";
+		.mapstyle
+		{
+			borderThickness: 1;
+			infoPlacement: upperRight;
+			borderColor: #FFFFFF;
+			backgroundColor: #FF0000;
+			backgroundAlpha: 0;
+			borderAlpha: 0;
+			paddingLeft: 5;
+			paddingRight: 5;
+			paddingTop: 5;
+			paddingBottom: 5;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.events.LayerEvent;
+			import com.esri.ags.geometry.MapPoint;
+			import components.mapGraphic;			
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			protected var g:Geolocation = new Geolocation();   
+			[Bindable]
+			public var mylat:Number = 53.493252;
+			[Bindable]
+			public var mylong:Number = -113.502231;
+			
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			private function onViewActivate():void {
+				try{
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);
+					}
+				}
+				catch(e:Error){
+					
+				}
+				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,
+					degrees_to_mercator_meters(mylong,mylat).y);
+				myMap.center = mp;
+				getLocations.send();
+			}
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);   
+				mylat = event.latitude;
+				mylong = event.longitude;
+				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,
+					degrees_to_mercator_meters(mylong,mylat).y);
+				myMap.center = mp;
+				
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				for (var i:uint = 0; i < listData.length; i++){
+					var mg:mapGraphic = new mapGraphic();
+					mg.addEventListener(MouseEvent.MOUSE_DOWN, checkifgogo);
+					mg.symbol = infoSymbolWithStates;
+					mg.xx = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).x;
+					mg.yy = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).y;
+					mg.name = i.toString()+"gr";
+					mg.title = listData[i].business_name;
+					mg.ido = i.toString();
+					mg.address =  listData[i].business_address1;
+					myGraphicsLayer.add(mg);
+				}
+				
+			}
+			
+			public function checkifgogo(ev:MouseEvent):void {
+				
+				
+				try{
+					if (ev.target.styleParent.imageDisplay.source.source160dpi.toString().indexOf("setting") != -1){
+						var idout:String = ev.currentTarget.ido;
+						navigator.pushView(StoresDescription,listData[Number(idout)]);
+					}
+					
+					var ch:DisplayObject = myGraphicsLayer.getChildByName((ev.currentTarget.name));
+					myGraphicsLayer.setChildIndex(ch,myGraphicsLayer.numChildren-1);
+				}
+				catch(e:Error){
+					var s2:String = "";
+				}
+				
+				
+				
+				
+			}
+			private  var DEG_TO_RAD:Number = 0.017453292519943296;
+			private  var RAD_TO_DEG:Number = 57.295779513082322;
+			private  var PI:Number = 3.14159267;
+			private  var MAGIC_NUM:Number = 6378120;
+			
+			private function mercator_meters_to_degrees(X:Number,Y:Number):Object {
+				var lat:Number;
+				var lon:Number
+				
+				lat = RAD_TO_DEG * ( (2 * Math.atan( Math.exp( Y / MAGIC_NUM ) ) ) - (PI/2) ); 
+				lon = RAD_TO_DEG * (X / MAGIC_NUM);
+				
+				//Limit decimal places
+				lat = Math.round(lat*(10000)) / (10000); 
+				lon = Math.round(lon*(10000)) / (10000); 
+				//Limit to World
+				if(lat <= -90) lat=-90;
+				if(lat >= 90)  lat=90;
+				if(lon <= -180)lon=-180;
+				if(lon >= 180) lon=180;
+				
+				return {y:lat,x:lon};
+			}
+			private function degrees_to_mercator_meters (lon:Number,lat:Number):Object {
+				var Y:Number;
+				var X:Number;
+				
+				//Limit to World
+				if(lat<=-90)lat=-90;
+				if(lat>=90)lat=90;
+				if(lon<=-180)lon=-180;
+				if(lon>=180)lon=180;
+				
+				Y = Math.round(MAGIC_NUM * Math.log( Math.tan( ((lat * DEG_TO_RAD) + (PI/2)) / 2 ) ));
+				X = Math.round(MAGIC_NUM * (lon * DEG_TO_RAD));
+				
+				return {y:Y,x:X};
+			}
+			
+			protected function veLayer_loadErrorHandler(event:LayerEvent):void
+			{
+				var s:String = "";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getLocations.php"
+					   result="afterGetLocations(event)" >
+			<s:request xmlns="">
+				<mylat>{data.mylat}</mylat>		
+				<mylong>{data.mylong}</mylong>		
+			</s:request>
+		</s:HTTPService>
+		<esri:InfoSymbol id="infoSymbolWithStates" containerStyleName="mapstyle" infoPlacement="center" 
+						 infoRenderer="com.esri.ags.samples.InfoRendererWithStates"/>
+	</fx:Declarations>
+	<esri:Map id="myMap"
+			  level="13"
+			  wrapAround180="true">
+		<!--esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/-->
+		<esri:VETiledLayer id="veLayer"
+						   key="AsK4UOFDEdMDZKHamFBPlLrsZsUSHbXiq4jH1uHOAbyuFsDCNFmYNTQnM3tTBJ_6"
+						   culture="en-US"
+						   loadError="veLayer_loadErrorHandler(event)"
+						   mapStyle="road"/>
+		<esri:GraphicsLayer id="myGraphicsLayer"  >
+		</esri:GraphicsLayer>
+	</esri:Map>
+</s:View>

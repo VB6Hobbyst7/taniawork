@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		title="Menutria" viewActivate="view1_viewActivateHandler(event)"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#f3f3f3"
+		backgroundAlpha="1"
+		backgroundColor="#f3f3f3" 
+		actionBarVisible="false" 
+		xmlns:components="components.*" 
+		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
+	<fx:Script source="../func/globalFunctions.as" />
+	<fx:Script source="../func/loginfunctions.as" />
+	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:RadioButtonGroup id="gender"/>
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.menutria.com/php/mobile/checkLogin.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="welcome"/>
+		<s:State name="login"/>
+	</s:states>
+	<s:BitmapImage width="100%" height="100%"
+			 scaleMode="zoom"  
+			 contentLoader="{s_imageCache}" >
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginbackground.png')"
+									source240dpi="@Embed('assets/320/loginbackground.png')"
+									source320dpi="@Embed('assets/320/loginbackground.png')"
+									source480dpi="@Embed('assets/320/loginbackground.png')"
+									source640dpi="@Embed('assets/320/loginbackground.png')"/>
+		</s:source>
+	</s:BitmapImage>
+	<s:Scroller left="0"  id="v11" includeIn="welcome" 
+				visible="{busy == false}"   
+				right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" 
+				horizontalScrollPolicy="off" >
+		<s:Group width="100%" height="100%">
+			<s:VGroup  gap="{25/(320/Capabilities.screenDPI)}" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginmenulogo.png')"
+												source240dpi="@Embed('assets/320/loginmenulogo.png')"
+												source320dpi="@Embed('assets/320/loginmenulogo.png')"
+												source480dpi="@Embed('assets/320/loginmenulogo.png')"
+												source640dpi="@Embed('assets/320/loginmenulogo.png')"
+												/>
+					</s:source>
+				</s:BitmapImage>
+				<components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/>
+				<components:transbutton textLabel="Sign Up" horizontalCenter="0" click="createNewClick(event)"/>
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" click="loginClick(event)"/>
+				<components:transbutton textLabel="Sign In With Facebook" horizontalCenter="0" click="facebookLogin()"/>
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginconditions.png')"
+												source240dpi="@Embed('assets/320/loginconditions.png')"
+												source320dpi="@Embed('assets/320/loginconditions.png')"
+												source480dpi="@Embed('assets/320/loginconditions.png')"
+												source640dpi="@Embed('assets/320/loginconditions.png')"/>
+					</s:source>
+				</s:BitmapImage>		
+			</s:VGroup>
+		</s:Group>
+	</s:Scroller>
+	<s:Scroller left="0" id="v2" includeIn="login" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup bottom="0" width="95%" height="100%" gap="{25/(320/Capabilities.screenDPI)}" horizontalAlign="center"
+					  horizontalCenter="0" paddingTop="{40/(320/Capabilities.screenDPI)}" verticalAlign="top" verticalCenter="0">
+				<s:Label width="95%" color="#FFFFFF" styleName="fontsize7" fontWeight="bold" text="Sign In"
+						 textAlign="center"/>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="userNameInput" 
+								 width="{550/(320/Capabilities.screenDPI)}" 
+								 height="{100/(320/Capabilities.screenDPI)}" 
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 color="#7777777"  contentBackgroundAlpha="0"
+								 fontFamily="Arial"  borderVisible="false"
+								 prompt="Email"/>
+				</s:Group>
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{100/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="userPasswordInput" 
+								 width="{550/(320/Capabilities.screenDPI)}" 
+								 height="{100/(320/Capabilities.screenDPI)}" 
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 displayAsPassword="true"
+								 keyDown="userPasswordInput_keyDownHandler(event)" 
+								 color="#7777777"  contentBackgroundAlpha="0"
+								 fontFamily="Arial"  borderVisible="false"
+								 prompt="Password"/>
+				</s:Group>
+				
+
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" 
+										click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />	
+				<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="backToLoginOptions();"/>	
+
+				<s:Label top="210" fontFamily="_sans" visible="false"  color="#FFFFFF" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>
