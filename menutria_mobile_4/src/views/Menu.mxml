@@ -4,12 +4,9 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
-		contentBackgroundAlpha="1" accentColor="#f3f3f3"
-		contentBackgroundColor="#f3f3f3"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()"
-		backgroundColor="#f3f3f3"
-		backgroundAlpha="1"  title="Menu"
+		title="Menu"
 		viewActivate="view1_activateHandler(event)">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -20,7 +17,6 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.Event;
-			import flash.events.KeyboardEvent;
 			import flash.events.MouseEvent;
 			import spark.collections.SortField;
 			import spark.collections.Sort
@@ -39,8 +35,10 @@
 			public var resData:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var modData:ArrayCollection = new ArrayCollection();
+			public var allreadylistclicked:Boolean = false;
 			protected function view1_activateHandler(event:Event):void
 			{
+				allreadylistclicked = false;
 				this.parentApplication.showloading();
 				setLoginVars();
 				createIfNotExsist("resvalues");
@@ -48,7 +46,6 @@
 				locationid = data.locationid;
 				getMenu.send();
 			}	
-			
 			public function afterGetMenu(ev:ResultEvent):void
 			{	
 				this.parentApplication.hideloading();
@@ -152,8 +149,11 @@
 				menuList.dataProvider = listData;
 			}
 			public function listClick():void {	
-				if (menuList.selectedIndex != -1){
-					navigator.pushView(MenuDescription, listData[menuList.selectedIndex]);	
+				if (allreadylistclicked == false){
+					if (menuList.selectedIndex != -1){
+						allreadylistclicked = true;
+						navigator.pushView(MenuDescription, listData[menuList.selectedIndex]);	
+					}
 				}
 			}
 			public function ratingpriceoptionclick():void {
@@ -237,7 +237,9 @@
 			 contentBackgroundAlpha="0"
 				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
 				dataProvider="{listData}" itemRenderer="components.menuResult"
-				selectedIndex="1" click="listClick();" >
+				selectedIndex="1"
+				click="listClick();"
+				change="listClick();" >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify" 
 								  variableRowHeight="true"

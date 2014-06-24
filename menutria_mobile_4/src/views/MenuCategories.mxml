@@ -4,65 +4,39 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
-		contentBackgroundAlpha="1" accentColor="#f3f3f3"
-		contentBackgroundColor="#f3f3f3"
 		menuKeyPressed="navigator.pushView(Home)"
 		backKeyPressed="navigator.popView()"
-		backgroundColor="#f3f3f3"
-		backgroundAlpha="1"  title="Menu"
+		title="Menu"
 		viewActivate="view1_activateHandler(event)">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;			
-			import flash.events.Event;			
-			import flash.events.KeyboardEvent;
+			import flash.events.Event;
 			import flash.events.MouseEvent;
-			import flash.filesystem.File;			
-			import flash.sensors.Geolocation;		
+			import spark.collections.SortField;
+			import spark.collections.Sort
 			import mx.collections.ArrayCollection;
-			import mx.collections.Sort;		
 			import mx.events.FlexEvent;
-			import mx.events.PropertyChangeEvent;		
-			import mx.rpc.events.ResultEvent;		
-			import spark.collections.SortField;		
-			import spark.core.ContentCache;
-			import spark.events.IndexChangeEvent;		
-			import spark.events.ViewNavigatorEvent;		
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;	
 			import views.MenuCatAll;
 			import views.Menu;
 			[Bindable]
-			public var googleTravelUrl:String = "";
-			protected var g:Geolocation = new Geolocation();    
-			[Bindable]
 			public var locationid:String = "";
-			[Bindable]
-			public var radiusOptions:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var sortMode:Number = 0;
-			[Bindable]
-			public var reverse:Boolean = false;;
-			[Bindable]
-			public var locatoinidGo:Number = -1;
-			[Bindable]
-			public var currentselectmode:Number = 1;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			[Bindable]
-			public var backuplistdata:ArrayCollection = new ArrayCollection();
-			[Bindable]
 			public var ratingpriceoptionval:uint = 0;
+			public var allreadylistclicked:Boolean = false;
 			protected function view1_activateHandler(event:Event):void
 			{
-				warn.visible = false;
-				
+				allreadylistclicked = false;
 				this.parentApplication.showloading();
 				setLoginVars();
+				warn.visible = false;
 				locationid = data.locationid;
 				getMenu.send();
 			}	
-			
 			public function afterGetMenu(ev:ResultEvent):void
 			{	
 				this.parentApplication.hideloading();
@@ -79,8 +53,6 @@
 					}
 				}
 				var sampleimage:String = "";
-				
-				
 				for (var i:uint = 0; i < listData.length; i++){
 					listData[i].business_name = data.business_name;
 					if ((sampleimage == "")&&(listData[i].picture != "None")&&
@@ -90,7 +62,9 @@
 						sampleimage = listData[i].picture;
 					}
 				}
-				
+				if (sampleimage.length < 3){
+					sampleimage = "../assets/"+getDPIHeight()+"/dish_place_square.png";
+				}
 				listData.addItemAt({name:"All",picture:sampleimage,frequency:ev.result[0].ress2.res2.total,categoryid:"-1",locationid:locationid},0);
 			} 
 			public function populatelist():void {
@@ -108,11 +82,10 @@
 				storeList.dataProvider = listData;
 				
 			}
-			public var allreadylistclicked:Boolean = false
-			public function storeListClick():void {	
+			public function listClick():void {	
 				if (allreadylistclicked == false){
-					allreadylistclicked = true;
 					if (storeList.selectedIndex != -1){
+						allreadylistclicked = true;
 						if (storeList.selectedIndex == 0){
 							navigator.pushView(MenuCatAll, listData[storeList.selectedIndex]);
 						}
@@ -120,30 +93,7 @@
 							navigator.pushView(Menu, listData[storeList.selectedIndex]);
 						}	
 					}
-					else {
-						allreadylistclicked = false;
-					}
 				}
-				
-			}
-			public function searchClick():void
-			{
-				listData.filterFunction = filterCompleted;
-				listData.refresh();
-				storeList.dataProvider = listData;
-				
-			}
-			private function filterCompleted(item:Object):Boolean{
-				return true;
-			}
-			private function returnall(item:Object):Boolean{
-				return true;
-			}
-			public function press(event:KeyboardEvent):void {
-				searchClick();
-			}
-			public function goback(ev:MouseEvent):void {
-				navigator.popView();
 			}
 		]]>
 	</fx:Script>
@@ -169,8 +119,8 @@
 					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
 					dataProvider="{listData}" itemRenderer="components.menuCatResult"
 					selectedIndex="1" 	alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
-					click="storeListClick();"
-					change="storeListClick();">
+					click="listClick();"
+					change="listClick();">
 				<s:layout>
 					<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
 				</s:layout>
