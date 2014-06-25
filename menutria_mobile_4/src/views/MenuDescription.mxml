@@ -18,14 +18,18 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import flash.media.StageWebView;
+			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.filters.GlowFilter;
 			import spark.primitives.Graphic;
+			
 			import components.modItem;
+			
 			import views.MenuReviews;
 			import views.StoresDescription;
 			import views.ViewReview;
@@ -71,17 +75,11 @@
 			{
 				
 				this.parentApplication.showloading();
-				
 				setLoginVars();			
 				scroller.visible = true;
-				getMenuItemInformation.send();
-				
-				var ratingstring:String = "";
-				var ratingnumber:Number = 0;
-				
-				ratingstring = data.rating.toString();
-				ratingnumber = Number(data.rating);
-				
+			
+				var ratingstring:String = data.rating.toString();
+				var ratingnumber:Number = Number(data.rating);
 				if (ratingnumber == 0){
 					ratinglabel.text = "-";
 				}
@@ -89,9 +87,8 @@
 					ratingnumber = 10;
 					ratinglabel.text = "10";
 				}
-				else if (ratingstring.length > 3){
-					ratingstring = ratingstring.substring(0,3);
-					ratinglabel.text = ratingstring;
+				else {
+					ratinglabel.text = ratingnumber.toPrecision(2).toString();
 				}
 				
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
@@ -154,10 +151,8 @@
 				renderChart(currentpercentage/100);
 				//	container.setStyle("mouseEnabledWhereTransparent",true);
 				gr.addEventListener(MouseEvent.MOUSE_MOVE, circleMove);
-				
-				
-				
-				
+
+				getMenuItemInformation.send();
 			}
 			
 			public function circleMove(ev:MouseEvent):void {
@@ -320,11 +315,7 @@
 				
 			}
 			public function forwardOnMenu():void {
-				if (reviewPopupStage == 0){
-					reviewseq1.visible = true;
-					reviewseq2.visible = false;
-				}
-				else if (reviewPopupStage == 1){
+				 if (reviewPopupStage == 1){
 					reviewseq1.visible = false;
 					reviewseq2.visible = true;
 					check.visible = true;
@@ -600,7 +591,7 @@
 							</s:fill>
 						</s:Rect>
 						<s:Label id="ratinglabel" color="#FFFFFF"
-								 horizontalCenter="0" styleName="textsize2"
+								 horizontalCenter="0" styleName="textsize7"
 								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
 					</s:Group>
 					<s:VGroup height="100%" width="10" >
@@ -825,58 +816,110 @@
 		</s:Group>
 	</s:Group>
 	
-	<s:Group width="100%" visible="{reviewPopupGroup.visible}"
-			height="100%" horizontalCenter="0" verticalCenter="0">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:Group id="reviewPopupGroup" visible="false"
+			 width="100%" height="100%" 
+			 horizontalCenter="0" verticalCenter="0">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="0.5" color="#FFFFFF"/>
 			</s:fill>
 		</s:Rect>
-		<s:Group id="reviewPopupGroup" visible="false"   height="100%" horizontalCenter="0" >
-			<s:BitmapImage top="0"  horizontalCenter="0" contentLoader="{s_imageCache}"  >
-				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewpopup.png')"
-											source240dpi="@Embed('assets/320/reviewpopup.png')"
-											source320dpi="@Embed('assets/320/reviewpopup.png')"
-											source480dpi="@Embed('assets/320/reviewpopup.png')"
-											source640dpi="@Embed('assets/320/reviewpopup.png')"/>
-				</s:source>
-			</s:BitmapImage>
-			<s:Group left="0" top="15"  mouseDown="backOnMenu();" width="100" height="50">
-				<s:BitmapImage width="40" height="40" horizontalCenter="0"
-							   contentLoader="{s_imageCache}" verticalCenter="0">
+		<s:Rect height="90%" width="{reviewseq1.width}"
+				horizontalCenter="0" verticalCenter="0">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup gap="0" height="98%" width="{reviewseq1.width}"
+				   horizontalCenter="0" verticalCenter="0">
+			<s:Group height="{reviewseq1.height}" width="100%">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#36ccba"/>
+					</s:fill>
+				</s:Rect>
+				
+				
+				<s:Group left="0" top="10"  mouseDown="backOnMenu();" width="100" height="50">
+					<s:BitmapImage width="40" height="40" horizontalCenter="0"
+								   contentLoader="{s_imageCache}" verticalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
+													source240dpi="@Embed('assets/320/backbtnnew.png')"
+													source320dpi="@Embed('assets/320/backbtnnew.png')"
+													source480dpi="@Embed('assets/320/backbtnnew.png')"
+													source640dpi="@Embed('assets/320/backbtnnew.png')"/>
+						</s:source>
+					</s:BitmapImage>
+				</s:Group>
+				
+				<s:Label color="#FFFFFF" fontWeight="bold" styleName="textsize5" 
+						 text="Review" horizontalCenter="0" verticalCenter="0" textAlign="center"/>
+				
+				<s:Group   mouseDown="forwardOnMenu();" mouseEnabledWhereTransparent="true"
+						 right="0" top="10"  width="100" height="50">
+					<s:BitmapImage id="check" width="40" visible="false" height="40" 
+								   horizontalCenter="0" contentLoader="{s_imageCache}"
+								   verticalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkwhite.png')"
+													source240dpi="@Embed('assets/320/checkwhite.png')"
+													source320dpi="@Embed('assets/320/checkwhite.png')"
+													source480dpi="@Embed('assets/320/checkwhite.png')"
+													source640dpi="@Embed('assets/320/checkwhite.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:BitmapImage width="40" id="forward" visible="true" height="40" 
+								   horizontalCenter="0" contentLoader="{s_imageCache}" verticalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/forwardBtnWhite.png')"
+													source240dpi="@Embed('assets/320/forwardBtnWhite.png')"
+													source320dpi="@Embed('assets/320/forwardBtnWhite.png')"
+													source480dpi="@Embed('assets/320/forwardBtnWhite.png')"
+													source640dpi="@Embed('assets/320/forwardBtnWhite.png')"/>
+						</s:source>
+					</s:BitmapImage>
+				</s:Group>
+				
+				
+			</s:Group>
+			<s:Group height="{reviewseq1.height}" width="100%">
+				<s:BitmapImage id="reviewseq1" visible="true"
+							   horizontalCenter="0"
+							   verticalCenter="0" 
+							   contentLoader="{s_imageCache}">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-												source240dpi="@Embed('assets/320/backbtnnew.png')"
-												source320dpi="@Embed('assets/320/backbtnnew.png')"
-												source480dpi="@Embed('assets/320/backbtnnew.png')"
-												source640dpi="@Embed('assets/320/backbtnnew.png')"/>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq1.png')"
+												source240dpi="@Embed('assets/320/reviewseq1.png')"
+												source320dpi="@Embed('assets/320/reviewseq1.png')"
+												source480dpi="@Embed('assets/320/reviewseq1.png')"
+												source640dpi="@Embed('assets/320/reviewseq1.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<s:BitmapImage id="reviewseq2" visible="false"
+							   horizontalCenter="0" 
+							   verticalCenter="0" 
+							   contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq2.png')"
+												source240dpi="@Embed('assets/320/reviewseq2.png')"
+												source320dpi="@Embed('assets/320/reviewseq2.png')"
+												source480dpi="@Embed('assets/320/reviewseq2.png')"
+												source640dpi="@Embed('assets/320/reviewseq2.png')"/>
 					</s:source>
 				</s:BitmapImage>
 			</s:Group>
-			<s:Group mouseEnabled="false"  mouseDown="forwardOnMenu();" right="0" top="15"  width="100" height="50">
-				<s:BitmapImage id="check" width="40" visible="false" height="40" 
-						 horizontalCenter="0" contentLoader="{s_imageCache}" verticalCenter="0">
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkwhite.png')"
-												source240dpi="@Embed('assets/320/checkwhite.png')"
-												source320dpi="@Embed('assets/320/checkwhite.png')"
-												source480dpi="@Embed('assets/320/checkwhite.png')"
-												source640dpi="@Embed('assets/320/checkwhite.png')"/>
-					</s:source>
-				</s:BitmapImage>
-				<s:BitmapImage width="40" id="forward" visible="true" height="40" 
-						 horizontalCenter="0" contentLoader="{s_imageCache}" verticalCenter="0">
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/forwardBtnWhite.png')"
-												source240dpi="@Embed('assets/320/forwardBtnWhite.png')"
-												source320dpi="@Embed('assets/320/forwardBtnWhite.png')"
-												source480dpi="@Embed('assets/320/forwardBtnWhite.png')"
-												source640dpi="@Embed('assets/320/forwardBtnWhite.png')"/>
-					</s:source>
-				</s:BitmapImage>
-			</s:Group>
-			<s:VGroup width="100%"  paddingTop="145" horizontalAlign="center" gap="0">
+			
+			<s:VGroup width="100%"  horizontalAlign="center" gap="0">
 				<s:Group width="90%" height="120" horizontalCenter="0" mouseEnabled="false"    >
 					<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">
 						<s:Group height="100%" >
@@ -908,28 +951,7 @@
 					<s:Line left="0" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
 					</s:Line>
-					<s:BitmapImage id="reviewseq1" visible="true" top="-75"
-								   horizontalCenter="0"  contentLoader="{s_imageCache}">
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq1.png')"
-													source240dpi="@Embed('assets/320/reviewseq1.png')"
-													source320dpi="@Embed('assets/320/reviewseq1.png')"
-													source480dpi="@Embed('assets/320/reviewseq1.png')"
-													source640dpi="@Embed('assets/320/reviewseq1.png')"
-													/>
-						</s:source>
-					</s:BitmapImage>
-					<s:BitmapImage id="reviewseq2" visible="false" top="-75" 
-								   horizontalCenter="0" contentLoader="{s_imageCache}">
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq2.png')"
-													source240dpi="@Embed('assets/320/reviewseq2.png')"
-													source320dpi="@Embed('assets/320/reviewseq2.png')"
-													source480dpi="@Embed('assets/320/reviewseq2.png')"
-													source640dpi="@Embed('assets/320/reviewseq2.png')"
-													/>
-						</s:source>
-					</s:BitmapImage>
+					
 				</s:Group>
 				<s:Group width="100%" height="100%" >
 					<s:Group id="grholder"  y="50" mouseEnabledWhereTransparent="true" visible="false"
@@ -953,10 +975,10 @@
 								 fontWeight="bold" horizontalCenter="-2" fontSize="110"
 								 text="10" textAlign="center" 
 								 verticalAlign="bottom" verticalCenter="6"/>
-						<s:Image id="confirmbtn"   click="forwardOnMenu();"  bottom="-60" 
+						<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  bottom="-60" 
 								 horizontalCenter="0" contentLoader="{s_imageCache}"
-								  mouseDown="gDown(event)" mouseOver="gOver(event)"
-								  mouseUp="gOut(event)" mouseOut="gOut(event)" >
+								  mouseOver="gOver(event)"
+								 mouseUp="gOut(event)" mouseOut="gOut(event)" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/confirmbtn.png')"
 														source240dpi="@Embed('assets/320/confirmbtn.png')"
@@ -985,6 +1007,9 @@
 					</s:Group>
 				</s:Group>
 			</s:VGroup>
-		</s:Group>
+			
+		</s:VGroup>
+	
+
 	</s:Group>
 </s:View>

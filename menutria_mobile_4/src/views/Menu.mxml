@@ -14,6 +14,7 @@
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuglobal.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.Event;
@@ -28,13 +29,7 @@
 			[Bindable]
 			public var locationid:String = "";
 			[Bindable]
-			public var listData:ArrayCollection = new ArrayCollection();
-			[Bindable]
 			public var ratingpriceoptionval:uint = 0;
-			[Bindable]
-			public var resData:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var modData:ArrayCollection = new ArrayCollection();
 			public var allreadylistclicked:Boolean = false;
 			protected function view1_activateHandler(event:Event):void
 			{
@@ -79,54 +74,7 @@
 						modData.addItem(ev.result[0].ress3.res3);
 					}
 					catch(e:Error){}}
-				afterGetMenuCont();
-			} 
-			public function afterGetMenuCont():void {
-				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
-				if (resvaluesData.length > 0){
-					for (var j:uint = 0; j < listData.length; j++){
-						var goodstatus:Number = 0;
-						var permabad:Boolean = false;
-						for (var k:uint = 0; k < resData.length; k++){
-							if (resData[k].menuid == listData[j].id){
-								for (var i:uint = 0; i<resvaluesData.length; i++){
-									if ((resvaluesData[i].id == resData[k].restrictid)&&(resvaluesData[i].chosen == 'yes')){
-										goodstatus = 1;
-										for (var l:uint = 0; l < modData.length; l++){
-											if ((resvaluesData[i].id == modData[l].restrictid)&&(modData[l].menuid == resData[k].menuid)){
-												//show it but add warning
-												goodstatus = 2;
-											}
-										}
-										
-										if (goodstatus == 1){
-											permabad = true;
-										}
-									}
-								}
-							}
-						}
-						
-						if (permabad){
-							//no mod for an item so its bad
-							listData[j].hideall = true;
-							listData[j].goodforme = false;
-						}
-						else if (goodstatus == 2){
-							// a mod exsists to a restriction so just add warning
-							listData[j].hideall = false;
-							listData[j].goodforme = false;
-						}
-						else {
-							//all good show away. 
-							listData[j].hideall = false;
-							listData[j].goodforme = true;
-						}
-					}
-					listData.refresh();
-					menuList.dataProvider = listData;
-				}
-							
+				syncmenurestrictions();
 				if (listData.length <= 0){
 					warn.visible = true;
 				}
@@ -134,6 +82,7 @@
 					populatelist();
 				}
 			} 
+			
 			public function populatelist():void {
 				var srt:Sort = new Sort();
 				if (ratingpriceoptionval == 0){
@@ -181,7 +130,6 @@
 					   result="afterGetMenu(event)" >
 			<s:request xmlns="">
 				<locationid>{locationid}</locationid>		
-				<emailGo>{emailGo}</emailGo>
 				<categoryid>{data.categoryid}</categoryid>	
 			</s:request>
 		</s:HTTPService>
@@ -234,10 +182,10 @@
 			</s:Group>
 		</s:Group>
 		<s:List width="100%" horizontalCenter="0" height="100%"
-			 contentBackgroundAlpha="0"
 				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
 				dataProvider="{listData}" itemRenderer="components.menuResult"
 				selectedIndex="1"
+				contentBackgroundColor="#FFFFFF"
 				click="listClick();"
 				change="listClick();" >
 			<s:layout>

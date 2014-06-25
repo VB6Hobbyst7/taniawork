@@ -148,7 +148,7 @@
 			  paddingTop="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
 			  paddingBottom="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}">
 		<s:HGroup width="100%" verticalAlign="middle">
-			<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)}"
+			<s:Label  text="{data.name}"
 					  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 			<s:BitmapImage contentLoader="{s_imageCache}"  >
 				<s:source>

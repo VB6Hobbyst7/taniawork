@@ -108,6 +108,9 @@ public function createIfNotExsist(s:String):void {
 			"business_picture longtext," +
 			"categoryname longtext, distance varchar(255))";
 	}
+	else if (s == "versionhistory"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";
+	}
 	stmt.execute();
 }
 public function getDatabaseArray(query:String):ArrayCollection {

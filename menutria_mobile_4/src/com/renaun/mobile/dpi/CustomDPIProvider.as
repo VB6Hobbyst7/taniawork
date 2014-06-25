@@ -1,6 +1,7 @@
 package com.renaun.mobile.dpi
 {
 	import flash.system.Capabilities;
+	
 	import mx.core.DPIClassification;
 	import mx.core.RuntimeDPIProvider;
 	public class CustomDPIProvider extends RuntimeDPIProvider
@@ -28,3 +29,4 @@ package com.renaun.mobile.dpi
 		}
 	}
 }
+

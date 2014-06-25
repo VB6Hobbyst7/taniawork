@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 	
-				creationComplete="init2(event)"
-				mouseChildren="false" dataChange="datachange(event)"
-				contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
-				xmlns:s="library://ns.adobe.com/flex/spark">
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				dataChange="datachange(event)" creationComplete="init2(event)"
+				mouseChildren="false"  autoDrawBackground="false">
 	<s:states>
 		<s:State name="nocatnoalert"/>
 		<s:State name="yescatnoalert"/>
@@ -19,7 +18,6 @@
 			public var setheightval:Number = 150/(320/Capabilities.screenDPI);
 			protected function init2(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
 				try{
 					if (data)
 					{
@@ -56,10 +54,12 @@
 								if (ratingnumber == 0){
 									ratinglabel.text = "-";
 								}
-								
-								if (ratingnumber >= 10){
+								else if (ratingnumber >= 10){
 									ratingnumber = 10;
 									ratinglabel.text = "10";
+								}
+								else {
+									ratinglabel.text = ratingnumber.toPrecision(2).toString();
 								}
 								
 								megacont.height = setheightval
@@ -93,11 +93,9 @@
 				catch(e:Error){
 					
 				}
-			}
-			
+			}	
 			protected function datachange(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
 				try{
 					if (data)
 					{
@@ -134,10 +132,12 @@
 								if (ratingnumber == 0){
 									ratinglabel.text = "-";
 								}
-								
-								if (ratingnumber >= 10){
+								else if (ratingnumber >= 10){
 									ratingnumber = 10;
 									ratinglabel.text = "10";
+								}
+								else {
+									ratinglabel.text = ratingnumber.toPrecision(2).toString();
 								}
 								
 								megacont.height = setheightval;
@@ -154,9 +154,6 @@
 									bmpImg.source = data.picture;
 								}
 								bmpImg.contentLoader = s_imageCache;
-								
-								
-								
 							}
 							
 							
@@ -215,7 +212,7 @@
 								<s:SolidColor alpha="1" color="#b3b3b3"/>
 							</s:fill>
 						</s:Rect>
-						<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize9"
+						<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize7"
 								 fontWeight="bold" verticalCenter="3"/>
 					</s:Group>	
 				</s:VGroup>
@@ -251,7 +248,7 @@
 			<s:Image id="bmpImg" right="0"  scaleMode="zoom" />
 		</s:Group>
 	</s:VGroup>
-	<s:Line  left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+	<s:Line  left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0"   includeIn="nocatnoalert,nocatyesalert,yescatyesalert,yescatnoalert" > 
 		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
 	</s:Line>
 </s:ItemRenderer>

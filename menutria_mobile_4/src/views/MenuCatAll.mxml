@@ -18,6 +18,7 @@
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuglobal.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.data.SQLConnection;
@@ -56,8 +57,6 @@
 			[Bindable]
 			public var currentselectmode:Number = 0;
 			[Bindable]
-			public var listData:ArrayCollection = new ArrayCollection();
-			[Bindable]
 			public var backuplistdata:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var ratingpriceoptionval:uint = 0;
@@ -71,6 +70,9 @@
 			public var filterData4:ArrayCollection = new ArrayCollection();
 			protected function view1_activateHandler():void
 			{
+				warn.visible = false;
+				this.parentApplication.showloading();
+				setLoginVars();
 				filterData1 = new ArrayCollection();
 				filterData2 = new ArrayCollection();
 				filterData3 = new ArrayCollection();
@@ -79,10 +81,6 @@
 				filterData2.addItem({name:"Lowest"});
 				filterData3.addItem({name:"Highest"});
 				filterData3.addItem({name:"Lowest"});	
-				this.parentApplication.showloading();
-				warn.visible = false;
-				
-				setLoginVars();
 				locationid = data.locationid;
 				getMenu.send();
 				filterarea.visible = true;
@@ -91,50 +89,58 @@
 			public function afterGetMenu(ev:ResultEvent):void
 			{	
 				this.parentApplication.hideloading();
+				filterarea.visible = true;
 				listData = new ArrayCollection();
+				modData = new ArrayCollection();
+				resData = new ArrayCollection();
 				try{			
 					listData = ev.result[0].ress.res;		
 				}
 				catch(e:Error){
 					try{
-						
 						listData.addItem(ev.result[0].ress.res);
 					}
-					catch(e:Error){
-					}
+					catch(e:Error){}}
+				
+				try{			
+					resData = ev.result[0].ress2.res2;		
 				}
+				catch(e:Error){
+					try{	
+						resData.addItem(ev.result[0].ress2.res2);
+					}
+					catch(e:Error){}}
 				
-				
+				try{			
+					modData = ev.result[0].ress3.res3;		
+				}
+				catch(e:Error){
+					try{	
+						modData.addItem(ev.result[0].ress3.res3);
+					}
+					catch(e:Error){}}
+
+				syncmenurestrictions();
 				
 				if (listData.length <= 0){
-					
 					warn.visible = true;
 				}
 				else {
-					/*for (var i:uint = 0; i < listData.length; i++){
-					listData[i].business_name = data.business_name;
-					}*/
 					filterList1.visible = true;
 					filterList2.visible = false;
 					filterList3.visible = false;
-					
 					selectview1.alpha = 1;
 					selectview2.alpha = 0;
 					selectview3.alpha = 0;
-					
-					
 					selectview1.mouseEnabled = true;
-					selectview1.mouseEnabledWhereTransparent = true;
-					
+					selectview1.mouseEnabledWhereTransparent = true;					
 					selectview2.mouseEnabled = false;
 					selectview2.mouseEnabledWhereTransparent = false;
-					
 					selectview3.mouseEnabled = false;
 					selectview3.mouseEnabledWhereTransparent = false;
 					generateCategoryFilterArray();
 					populatelist(0);
 				}
-				
 			} 
 			public function generateCategoryFilterArray():void {
 				var tempfilter2:ArrayCollection = new ArrayCollection();
@@ -176,14 +182,17 @@
 					listData.refresh();
 					var lastcat:String = "";
 					for (var i:uint = 0; i < listData.length; i++){
-						if ((listData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
-							listData[i].divtype = 1;
+						if ((listData[i].categoryname.toLowerCase() != lastcat)
+							||(lastcat == "")){
+							if (listData[i].hideall == false){
+								listData[i].divtype = 1;
+								lastcat = listData[i].categoryname.toLowerCase();
+							}
 						}
 						else {
 							listData[i].divtype = 0;
-							
+							lastcat = listData[i].categoryname.toLowerCase();
 						}
-						lastcat = listData[i].categoryname.toLowerCase();
 					}
 				}
 				else if (u == 2){
@@ -219,17 +228,10 @@
 						}
 						lastcat = listData[i].categoryname.toLowerCase();
 					}
-					/*
-					if (sv1label.text.toLowerCase() == 'all'){
-					
-					}
-					else {
-					for (var i:uint = 0; i < listData.length; i++){
-					listData[i].divtype = 0;
-					}
-					}*/
 				}
+				listData.refresh();
 				menuList.dataProvider = listData;
+				
 				
 				
 			}
@@ -485,7 +487,6 @@
 					   result="afterGetMenu(event)" >
 			<s:request xmlns="">
 				<locationid>{locationid}</locationid>		
-				<emailGo>{emailGo}</emailGo>
 				<categoryid>{data.categoryid}</categoryid>	
 			</s:request>
 		</s:HTTPService>
@@ -586,9 +587,9 @@
 				</s:HGroup>
 			</s:Group>
 			<s:List width="100%" horizontalCenter="0" height="100%"
-				contentBackgroundAlpha="0"
 				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
-				dataProvider="{listData}" itemRenderer="components.menuResult"
+				 contentBackgroundColor="#FFFFFF"
+				itemRenderer="components.menuResult"
 				selectedIndex="1" click="menuListClick();" >
 				<s:layout>
 					<s:VerticalLayout horizontalAlign="contentJustify" 

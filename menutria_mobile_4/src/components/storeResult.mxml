@@ -13,7 +13,7 @@
 			import mx.events.FlexEvent;
 			[Bindable]
 			public var mainaddress:String = "";
-			public var setheightval:Number = 200/(320/Capabilities.screenDPI);
+			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
 			protected function init(event:FlexEvent):void
 			{
 				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
@@ -23,7 +23,7 @@
 					bmpImg.source = data.business_picture;
 				}
 				
-				bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
 				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 				bmpImg.maxHeight = this.height;
 				
@@ -32,19 +32,17 @@
 				if (mainaddress.length > maxchars){
 					mainaddress = mainaddress.substring(0,maxchars)+"...";
 				}
-				var ratingstring:String = "";
-				var ratingnumber:Number = 0;
-				
-				ratingstring = data.rating.toString();
-				ratingnumber = Number(data.rating);
-				
+				var ratingstring:String = data.rating.toString();
+				var ratingnumber:Number = Number(data.rating);
 				if (ratingnumber == 0){
 					ratinglabel.text = "-";
 				}
-				
-				if (ratingnumber >= 10){
+				else if (ratingnumber >= 10){
 					ratingnumber = 10;
 					ratinglabel.text = "10";
+				}
+				else {
+					ratinglabel.text = ratingnumber.toPrecision(2).toString();
 				}
 			}
 			
@@ -59,7 +57,7 @@
 						bmpImg.source = data.business_picture;
 					}
 					
-					bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+					bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
 					bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 					bmpImg.maxHeight = this.height;
 					
@@ -68,19 +66,17 @@
 					if (mainaddress.length > maxchars){
 						mainaddress = mainaddress.substring(0,maxchars)+"...";
 					}
-					var ratingstring:String = "";
-					var ratingnumber:Number = 0;
-					
-					ratingstring = data.rating.toString();
-					ratingnumber = Number(data.rating);
-					
+					var ratingstring:String = data.rating.toString();
+					var ratingnumber:Number = Number(data.rating);
 					if (ratingnumber == 0){
 						ratinglabel.text = "-";
 					}
-					
-					if (ratingnumber >= 10){
+					else if (ratingnumber >= 10){
 						ratingnumber = 10;
 						ratinglabel.text = "10";
+					}
+					else {
+						ratinglabel.text = ratingnumber.toPrecision(2).toString();
 					}
 				}
 				catch(e:Error){}	
@@ -106,7 +102,7 @@
 						</s:fill>
 					</s:Rect>
 					<s:Label id="ratinglabel" color="#FFFFFF" 
-							 horizontalCenter="0" styleName="textsize9"
+							 horizontalCenter="0" styleName="textsize7"
 							 fontWeight="bold" verticalCenter="3"/>
 				</s:Group>	
 				<s:HGroup>
@@ -129,7 +125,7 @@
 				 verticalAlign="middle"></s:Label>
 			</s:VGroup>
 		</s:HGroup>
-		<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}" scaleMode="zoom" />
+		<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}" verticalCenter="0"  scaleMode="letterbox" />
 		<s:Line left="{10/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
 		</s:Line>

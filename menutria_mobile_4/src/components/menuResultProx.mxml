@@ -215,7 +215,7 @@
 								<s:SolidColor alpha="1" color="#b3b3b3"/>
 							</s:fill>
 						</s:Rect>
-						<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize9"
+						<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize7"
 								 fontWeight="bold" verticalCenter="3"/>
 					</s:Group>	
 				</s:VGroup>

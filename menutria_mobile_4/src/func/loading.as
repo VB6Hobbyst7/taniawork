@@ -29,8 +29,9 @@ public function afterLoadingTimer(ev:TimerEvent):void {
 	loadingimage.source = "assets/loading/"+getDPIHeight()+"/l"+loadingcounter.toString()+".png";
 }
 public function hideloading():void {	
+	isloading = false;
 	try{
-		isloading = false;
+		
 		ti.removeEventListener(TimerEvent.TIMER,afterLoadingTimer);
 		ti.stop();
 		this.removeElement(go);

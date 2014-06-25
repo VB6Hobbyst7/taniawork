@@ -301,6 +301,7 @@
 					var newpicture:String = ev.result[0].ress.res.picture;
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
+						profimage.scaleMode = "zoom";
 					}
 				}
 				catch(e:Error){}
@@ -355,21 +356,9 @@
 					</s:Rect>
 					<s:Image id="mainprofimage" width="100%" mouseEnabled="false" visible="false"/>
 					<s:VGroup width="100%" id="defaultimggroup"  click="homepicclick(event)"
-							  visible="true" horizontalAlign="center" gap="0">
-						<s:Group height="{60/(320/Capabilities.screenDPI)}" width="100%">
-							<s:Image id="editimg" height="100%" smooth="true" width="{editimg.height}"
-									 scaleMode="stretch" right="{10/(320/Capabilities.screenDPI)}" 
-									 top="{10/(320/Capabilities.screenDPI)}">
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/editimage.png')"
-															source240dpi="@Embed('../assets/320/editimage.png')"
-															source320dpi="@Embed('../assets/320/editimage.png')"
-															source480dpi="@Embed('../assets/320/editimage.png')"
-															source640dpi="@Embed('../assets/320/editimage.png')"/>
-								</s:source>
-							</s:Image>
-						</s:Group>
-						<s:Image id="profimage"  horizontalCenter="0" mouseEnabled="false" verticalCenter="0"
+							  visible="true" horizontalAlign="center" gap="0">					
+						<s:Image id="profimage"  horizontalCenter="0" width="100%"
+								 height="{this.width/(640/300)}" mouseEnabled="false" verticalCenter="0" 
 								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
@@ -379,8 +368,6 @@
 														source640dpi="@Embed('assets/320/profile-default.png')"/>
 							</s:source>
 						</s:Image>
-						<s:Group height="{30/(320/Capabilities.screenDPI)}" width="100%">
-						</s:Group>
 					</s:VGroup>
 				</s:Group>
 				<s:Group width="100%" height="{70/(320/Capabilities.screenDPI)}">

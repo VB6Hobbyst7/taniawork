@@ -1,88 +1,77 @@
 @namespace s "library://ns.adobe.com/flex/spark";
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-Bd.otf");
-	fontFamily: "HelveticaNeue";
-	fontWeight: bold;
-	embedAsCFF: false;
-}
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-Roman.otf");
-	fontFamily: "HelveticaNeue";
-	embedAsCFF: false;
-}
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-It.otf");
-	fontFamily: "HelveticaNeue";
-	fontStyle: "italic";
-	embedAsCFF: false;
-}
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
-	fontFamily: "HelveticaNeue";
-	fontWeight: bold;
-	fontStyle: "italic";
-	embedAsCFF: true;
-}
-
-
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-Roman.otf");
-	fontFamily: "HelveticaNeuecff";
-	embedAsCFF: true;
-}
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-Bd.otf");
-	fontFamily: "HelveticaNeuecff";
-	fontWeight: bold;
-	embedAsCFF: true;
-}
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
-	fontFamily: "HelveticaNeuecff";
-	fontWeight: bold;
-	fontStyle: "italic";
-	embedAsCFF: true;
-}
-
-@font-face {
-	src: url("font/HelveticaNeueLTW1G-It.otf");
-	fontFamily: "HelveticaNeuecff";
-	fontStyle: "italic";
-	embedAsCFF: true;
-}
-@namespace s "library://ns.adobe.com/flex/spark";
 @namespace esri "http://www.esri.com/2008/ags";
 @namespace components "components.*";
 @namespace mx "library://ns.adobe.com/flex/mx";
 @namespace local "*";
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeue";
+	embedAsCFF: false;
+}
 
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeue";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
 
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeuecff";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
 s|TextInput {
 	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
 	showPromptWhenFocused:false;
-	fontFamily: "HelveticaNeuecff";
+	fontFamily: "HelveticaNeue";
 	
 }
-
-
 s|Label
 {
 	fontFamily: "HelveticaNeuecff";
 	trackingRight: -0.7;
 }
-
-
 s|LabelItemRenderer
 {
 	fontFamily: "HelveticaNeue";
 }
-
 s|ActionBar
 {	
 
@@ -102,10 +91,9 @@ s|ActionBar
 }
 s|ActionBar #titleDisplay
 {
-	color: #FFFFFF; /* default color is white */
-	/*fontSize: 35;*/
+	color: #FFFFFF; 
 	titleAlign: center;
-	fontWeight: bold;
+	fontWeight: normal;
 	fontFamily: "HelveticaNeue";
 }
 s|ActionBar.beveled s|Group#navigationGroup s|Button
@@ -117,14 +105,10 @@ s|ActionBar.beveled s|Group#navigationGroup s|Button
 }
 s|ActionBar.beveled s|Group#actionGroup s|Button
 {
-	/* use the rounded button instead of the arrow button */
 	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
 	paddingLeft: 3;
 	paddingRight: 3;
 }
-
-
-
 
 @media (application-dpi: 160) {
 	s|Application {
@@ -234,7 +218,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 
 @media (application-dpi: 240)
 {
-	Application
+	s|Application
 	{
 		osStatusBarHeight: 30;
 	}
@@ -244,7 +228,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 		height:37.5;
 		color:#FFFFFF;
 	}
-
+	
 	s|Button {
 		fontSize: 15;
 	}
@@ -340,7 +324,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 
 @media (application-dpi: 320)
 {
-	Application
+	s|Application
 	{
 		osStatusBarHeight: 40;
 	}
@@ -351,7 +335,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 		measuredDefaultHeight:50;
 		color:#FFFFFF;
 	}
-
+	
 	s|Button {
 		fontSize: 20;
 	}
@@ -447,7 +431,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 
 @media (application-dpi: 480)
 {
-	Application
+	s|Application
 	{
 		osStatusBarHeight: 60;
 	}

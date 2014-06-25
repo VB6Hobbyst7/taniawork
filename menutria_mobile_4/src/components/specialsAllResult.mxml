@@ -19,6 +19,13 @@
 					bmpImg.visible = true;
 				}
 				bmpImg.maxHeight = this.height-(50*data.divtype);
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
 			}
 			public function dchange(event:FlexEvent):void
 			{
@@ -30,6 +37,13 @@
 					bmpImg.visible = true;
 				}
 				bmpImg.maxHeight = this.height-(50*data.divtype);
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
 			}
 		]]>
 	</fx:Script>
@@ -48,22 +62,28 @@
 				<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
 			</s:Line>
 		</s:Group>
-		<s:Group width="{this.width}"  mouseEnabled="false" maxHeight="{130/(320/Capabilities.screenDPI)}"   id="megacont"  >
-			<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" paddingTop="{20/(320/Capabilities.screenDPI)}"
-					  paddingBottom="{20/(320/Capabilities.screenDPI)}" paddingLeft="{10/(320/Capabilities.screenDPI)}" verticalAlign="middle" height="90%" verticalCenter="0">
-				<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" width="100%" paddingTop="{10/(320/Capabilities.screenDPI)}" paddingBottom="{10/(320/Capabilities.screenDPI)}" paddingRight="{10/(320/Capabilities.screenDPI)}">
+		<s:Group width="{this.width}"  mouseEnabled="false" 
+				 maxHeight="{130/(320/Capabilities.screenDPI)}"   id="megacont"  >
+			<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" 
+					  paddingTop="{20/(320/Capabilities.screenDPI)}"
+					  paddingBottom="{20/(320/Capabilities.screenDPI)}" 
+					  paddingLeft="{10/(320/Capabilities.screenDPI)}" 
+					  verticalAlign="middle" height="90%" verticalCenter="0">
+				<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" width="100%"
+							 paddingTop="{10/(320/Capabilities.screenDPI)}" 
+							 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+							 paddingRight="{10/(320/Capabilities.screenDPI)}">
 					<s:Label width="100%" color="#4d4d4d" maxDisplayedLines="1"
 							 fontWeight="bold" styleName="textsize1" 
-							 text="{data.name+' - '+data.weekday}"
+							 text="{data.description}"
 							 verticalAlign="middle"></s:Label>
-					<s:Label   width="100%"  color="#4d4d4d" fontWeight="bold" 
-							  styleName="textsize0" text="{data.description}" 
-							  maxDisplayedLines="1"
-							  verticalAlign="middle"></s:Label>
+					<s:Label id="dayval"   width="100%"  color="#4d4d4d" fontWeight="bold" 
+							 styleName="textsize0" 
+							 maxDisplayedLines="1"
+							 verticalAlign="middle"></s:Label>
 					<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
-							 styleName="textsize0" text=" {data.categoryname}"
-							 verticalAlign="middle"></s:Label>
-					
+							  styleName="textsize0" text=" {data.categoryname}"
+							  verticalAlign="middle"></s:Label>
 				</s:VGroup>
 			</s:HGroup>
 			<s:Image id="bmpImg" right="0" width="{(this.height-(50/(320/Capabilities.screenDPI)*data.divtype))*1.3}" 

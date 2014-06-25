@@ -79,18 +79,18 @@
 					listData.sort = srt;
 					listData.refresh();
 				}
-				storeList.dataProvider = listData;
+				dataList.dataProvider = listData;
 				
 			}
 			public function listClick():void {	
 				if (allreadylistclicked == false){
-					if (storeList.selectedIndex != -1){
+					if (dataList.selectedIndex != -1){
 						allreadylistclicked = true;
-						if (storeList.selectedIndex == 0){
-							navigator.pushView(MenuCatAll, listData[storeList.selectedIndex]);
+						if (dataList.selectedIndex == 0){
+							navigator.pushView(MenuCatAll, listData[dataList.selectedIndex]);
 						}
 						else {
-							navigator.pushView(Menu, listData[storeList.selectedIndex]);
+							navigator.pushView(Menu, listData[dataList.selectedIndex]);
 						}	
 					}
 				}
@@ -116,7 +116,7 @@
 		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
 			<s:List width="100%" horizontalCenter="0" height="100%"
 				 contentBackgroundAlpha="0"
-					id="storeList" labelField="name"  horizontalScrollPolicy="off" 
+					id="dataList" labelField="name"  horizontalScrollPolicy="off" 
 					dataProvider="{listData}" itemRenderer="components.menuCatResult"
 					selectedIndex="1" 	alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
 					click="listClick();"

@@ -18,6 +18,13 @@
 				else {
 					bmpImg.visible = true;
 				}
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
 			}
 			public function dchange(event:FlexEvent):void
 			{
@@ -27,6 +34,13 @@
 				}
 				else {
 					bmpImg.visible = true;
+				}
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
 				}
 			}
 		]]>
@@ -51,10 +65,10 @@
 						 paddingRight="{10/(320/Capabilities.screenDPI)}">
 				<s:Label width="100%" color="#4d4d4d" maxDisplayedLines="1"
 						 fontWeight="bold" styleName="textsize1" 
-						 text="{data.name+' - '+data.weekday}"
+						 text="{data.description}"
 						 verticalAlign="middle"></s:Label>
-				<s:Label   width="100%"  color="#4d4d4d" fontWeight="bold" 
-						   styleName="textsize0" text="{data.description}" 
+				<s:Label id="dayval"   width="100%"  color="#4d4d4d" fontWeight="bold" 
+						   styleName="textsize0" 
 						   maxDisplayedLines="1"
 						   verticalAlign="middle"></s:Label>
 				<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"

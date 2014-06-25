@@ -1,23 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  ADOBE SYSTEMS INCORPORATED
-//  Copyright 2010 Adobe Systems Incorporated
-//  All Rights Reserved.
-//
-//  NOTICE: Adobe permits you to use, modify, and distribute this file
-//  in accordance with the terms of the license agreement accompanying it.
-//
-////////////////////////////////////////////////////////////////////////////////
 package skins
 {
 	import flash.display.GradientType;
 	import flash.events.Event;
 	import flash.text.TextFormatAlign;
-	
 	import mx.core.DPIClassification;
 	import mx.core.mx_internal;
 	import mx.utils.ColorUtil;
-	
 	import spark.components.ActionBar;
 	import spark.components.Group;
 	import spark.components.supportClasses.StyleableTextField;
@@ -26,26 +14,7 @@ package skins
 	import spark.layouts.HorizontalLayout;
 	import spark.layouts.VerticalAlign;
 	import spark.skins.mobile.supportClasses.MobileSkin;
-	import spark.skins.mobile160.assets.ActionBarBackground;
-	import spark.skins.mobile240.assets.ActionBarBackground;
-	import spark.skins.mobile320.assets.ActionBarBackground;
-	
 	use namespace mx_internal;
-	
-	/**
-	 *  The default skin class for the Spark ActionBar component in mobile
-	 *  applications.
-	 *  
-	 *  @see spark.components.ActionBar
-	 *  @see spark.skins.mobile.TransparentNavigationButtonSkin
-	 *  @see spark.skins.mobile.BeveledBackButtonSkin
-	 *  @see spark.skins.mobile.TransparentActionButtonSkin
-	 *  @see spark.skins.mobile.BeveledActionButtonSkin
-	 *  
-	 *  @langversion 3.0
-	 *  @playerversion AIR 2.5
-	 *  @productversion Flex 4.5
-	 */
 	public class ActionBarNew extends MobileSkin
 	{
 		//--------------------------------------------------------------------------
@@ -84,9 +53,6 @@ package skins
 					layoutShadowHeight = 0;
 					layoutContentGroupHeight = 172;
 					layoutTitleGroupHorizontalPadding = 52;
-					
-					//borderClass = spark.skins.mobile320.assets.ActionBarBackground;
-					
 					break;
 				}
 				case DPIClassification.DPI_480:
@@ -95,9 +61,6 @@ package skins
 					layoutShadowHeight = 0;
 					layoutContentGroupHeight = 129;
 					layoutTitleGroupHorizontalPadding = 39;
-					
-					//borderClass = spark.skins.mobile320.assets.ActionBarBackground;
-					
 					break;
 				}
 				case DPIClassification.DPI_320:
@@ -106,9 +69,6 @@ package skins
 					layoutShadowHeight = 0;
 					layoutContentGroupHeight = 86;
 					layoutTitleGroupHorizontalPadding = 26;
-					
-					//borderClass = spark.skins.mobile320.assets.ActionBarBackground;
-					
 					break;
 				}
 				case DPIClassification.DPI_240:
@@ -117,21 +77,14 @@ package skins
 					layoutShadowHeight = 0;
 					layoutContentGroupHeight = 65;
 					layoutTitleGroupHorizontalPadding = 20;
-					
-					//borderClass = spark.skins.mobile240.assets.ActionBarBackground;
-					
 					break;
 				}
 				default:
 				{
-					// default DPI_160
 					borderSize = 0;
 					layoutShadowHeight = 0;
 					layoutContentGroupHeight = 43;
 					layoutTitleGroupHorizontalPadding = 13;
-					
-					//borderClass = spark.skins.mobile160.assets.ActionBarBackground;
-					
 					break;
 				}
 			}
@@ -573,12 +526,16 @@ package skins
 	}
 }
 import flash.events.Event;
+
 import mx.core.UIComponent;
 import mx.core.mx_internal;
 import mx.events.FlexEvent;
+
 import spark.components.supportClasses.StyleableTextField;
 import spark.core.IDisplayText;
+
 use namespace mx_internal;
+
 /**
  *  @private
  *  Component that holds StyleableTextFields to produce a drop shadow effect.

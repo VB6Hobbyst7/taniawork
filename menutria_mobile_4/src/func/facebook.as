@@ -182,6 +182,7 @@ public function afterGetUserInfo(ev:ResultEvent):void {
 		var newpicture:String = ev.result[0].ress.res.picture;
 		if (newpicture.length > 1){
 			profimage.source = newpicture;
+			profimage.scaleMode = "zoom";
 		}
 	}
 	catch(e:Error){}

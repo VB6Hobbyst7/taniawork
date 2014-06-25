@@ -13,12 +13,15 @@
 			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
 			   splashScreenScaleMode="none"  
 			   mouseUp="overAllMouseUp(event)" >
-	<s:ViewNavigatorApplication persistNavigatorState="true" id="mainNavigator" click="navigatorClick(event)"  
-								height="100%"  visible="true" x="0"  elementAdd="viewadd(event)" width="{this.width}"  backgroundColor="#5b5b5b">
+	<s:ViewNavigatorApplication persistNavigatorState="true" 
+								id="mainNavigator" click="navigatorClick(event)"  
+								height="100%" top="{0-40}"  bottom="0" visible="true" x="0" 
+								elementAdd="viewadd(event)" 
+								width="{this.width}"  backgroundColor="#5b5b5b">
 		<s:navigationContent>
 			<s:Group  id="menufeaturebutton"
 					  width="{this.width/8}" left="0" x="0"
-					  height="100%" 
+					  height="100%"  top="0"
 					  mouseDown="menuButtonClick();"
 					  mouseEnabledWhereTransparent="true"
 					  horizontalCenter="0" >
@@ -37,9 +40,10 @@
 		</s:navigationContent>
 		<s:actionContent>
 			<s:Group id="filterfeaturebutton"   mouseDown="filtersButtonClick();"
-					 mouseEnabledWhereTransparent="true"  height="100%" 
+					 mouseEnabledWhereTransparent="true"  height="100%"  top="0"
 					 right="0" horizontalCenter="0"    width="{this.width/8}" >
-				<s:Image mouseEnabled="false" right="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"   contentLoader="{s_imageCache}"  >
+				<s:Image mouseEnabled="false" right="{20/(320/Capabilities.screenDPI)}" 
+						 verticalCenter="0"   contentLoader="{s_imageCache}"  >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
 												source240dpi="@Embed('assets/320/homefilter.png')"
@@ -85,8 +89,10 @@
 					</s:fill>
 				</s:Rect>
 				<s:VGroup width="100%" id="defaultimggroup" horizontalAlign="center" gap="0">
-					<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
-					<s:Image  id="profimage" horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
+					<s:Image  id="profimage" 
+							  height="{(this.width/1.15)/(640/300)}" 
+							  width="{this.width/1.15}" 
+							  horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
 						<s:source>
 							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
 													source240dpi="@Embed('assets/320/profile-default.png')"
@@ -95,7 +101,6 @@
 													source640dpi="@Embed('assets/320/profile-default.png')"/>
 						</s:source>
 					</s:Image>
-					<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
 				</s:VGroup>
 			</s:Group>
 			

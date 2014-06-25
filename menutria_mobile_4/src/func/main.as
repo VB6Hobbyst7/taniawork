@@ -9,7 +9,6 @@ public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition();
 public var xFadeTrans:CrossFadeViewTransition = new CrossFadeViewTransition();
 [Bindable]
 public var actionbarheight:Number = 0;
-
 [Bindable]
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
@@ -55,6 +54,7 @@ protected function onApplicationComplete():void
 	
 	
 	
+	
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
 		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643"},
@@ -65,24 +65,8 @@ protected function onApplicationComplete():void
 	this.stage.autoOrients = false;				
 	NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 	verifyDataTablesViaVersion();
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
-		"email varchar(255)," +
-		"name varchar(255)," +
-		"country varchar(255)," +
-		"active varchar(255))";
-	stmt.execute();
-	
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	var stmt:SQLStatement = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
-	stmt.execute();
-	var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+	createIfNotExsist("localuser");
+	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name, country, active FROM localuser where active = 'yes'");
 	if (resData.length != 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
@@ -350,24 +334,15 @@ public function viewadd(event:ElementExistenceEvent):void
 		filterfeaturebutton.visible = false;
 	}
 	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('map') != -1){
-		mapmade = true;
-		//showMap();
+
 	}
 	else {
 		listmenu.selectedIndex = -1;
 	}
-	
-	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('map') == -1){
-		if (mapmade){
-			//	removeallpoints();
-			//	hideMap();
-		}
-	}
+
 }
-public var mapmade:Boolean = false;
 public function clearallclick(event:MouseEvent):void
 {
-	// TODO Auto-generated method stub
 	listfilters.selectedIndex = -1;
 }	
 
@@ -383,70 +358,23 @@ public function navigatorClick(event:MouseEvent):void
 	}
 }
 public function verifyDataTablesViaVersion():void {
-	var stmt:SQLStatement = new SQLStatement();
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";
-	stmt.execute();
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT version from versionhistory";
-	stmt.execute();
-	var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+	createIfNotExsist("versionhistory");
+	var resData:ArrayCollection = getDatabaseArray("SELECT version from versionhistory");
 	if (resData.length != 0){
 		var versiontocheck:String = resData[0].version;
 		if (versiontocheck != VERSIONID.toString()){
 			dropalldatatables();
+			doQuery("update versionhistory set version = ('"+VERSIONID.toString()+"')");
 		}
-		stmt = new SQLStatement();
-		stmt.sqlConnection = sqlConnection;
-		stmt.text = "update versionhistory set version = ('"+VERSIONID.toString()+"')";
-		stmt.execute();
 	}
 	else {
-		stmt = new SQLStatement();
-		stmt.sqlConnection = sqlConnection;
-		stmt.text = "insert into versionhistory values ('"+VERSIONID.toString()+"')";
-		stmt.execute();
+		doQuery("insert into versionhistory values ('"+VERSIONID.toString()+"')");
 		dropalldatatables();
 	}
 }
 public function dropalldatatables():void {
-	var stmt:SQLStatement = new SQLStatement();
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "DROP TABLE merchusers";
-	try{
-		stmt.execute();	
-	}
-	catch(e:Error){}
-	
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "DROP TABLE specials";
-	try{
-		stmt.execute();	
-	}
-	catch(e:Error){}
-	
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "DROP TABLE localuser";
-	try{
-		stmt.execute();	
-	}
-	catch(e:Error){}
-	
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "DROP TABLE dishes";
-	try{
-		stmt.execute();	
-	}
-	catch(e:Error){}
+	doQuery("DROP TABLE merchusers");
+	doQuery("DROP TABLE specials");
+	doQuery("DROP TABLE localuser");
+	doQuery("DROP TABLE dishes");
 }
