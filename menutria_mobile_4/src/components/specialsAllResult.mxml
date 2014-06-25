@@ -3,22 +3,33 @@
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				autoDrawBackground="false" mouseChildren="false"
 				creationComplete="init(event)"
-				dataChange="dchange(event)">
+				dataChange="dchange(event)"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 			private var _sectionField:String = "section";
+			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
 			protected function init(event:FlexEvent):void
 			{
-				if ((data.business_picture == "None")||(data.business_picture == "")||
-					(data.business_picture == null)||(data.business_picture == "null")){
-					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
 				}
 				else {
-					bmpImg.visible = true;
+					bmpImg.source = data.picture;
 				}
-				bmpImg.maxHeight = this.height-(50*data.divtype);
+				
+				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval;//thi	s.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.maxHeight = this.height;
+				
+				if (data.divtype == 1){
+					catgroup.height = (75/(320/Capabilities.screenDPI));
+					catLabel.text = data.categoryname;
+				}
 				
 				if (data.yearly == 'y'){
 					dayval.text = data.startdate + " - " + data.enddate;
@@ -29,14 +40,22 @@
 			}
 			public function dchange(event:FlexEvent):void
 			{
-				if ((data.business_picture == "None")||(data.business_picture == "")||
-					(data.business_picture == null)||(data.business_picture == "null")){
-					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_square.png";
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
 				}
 				else {
-					bmpImg.visible = true;
+					bmpImg.source = data.picture;
 				}
-				bmpImg.maxHeight = this.height-(50*data.divtype);
+				
+				if (data.divtype == 1){
+					catgroup.height = (75/(320/Capabilities.screenDPI));
+					catLabel.text = data.categoryname;
+				}
+				
+				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.maxHeight = this.height;
 				
 				if (data.yearly == 'y'){
 					dayval.text = data.startdate + " - " + data.enddate;
@@ -48,23 +67,20 @@
 		]]>
 	</fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">
-		<s:Group width="100%" visible="{data.divtype == 1}" 
-				height="{(50/(320/Capabilities.screenDPI))*data.divtype}">
-			<s:Rect width="100%"  height="100%">
+		<s:Group id="catgroup" height="-1" width="100%"  >
+			<s:Rect width="100%" top="-1" bottom="0">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#8eddce"/>
 				</s:fill>
 			</s:Rect>
-			<s:Label width="100%" verticalCenter="0" left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
-					 fontWeight="bold" styleName="textsize0" text="{data.categoryname}"
+			<s:Label width="100%" verticalCenter="2"  id="catLabel" 
+					 left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+					 fontWeight="bold" styleName="textsize1" 
 					 verticalAlign="middle"></s:Label>
-			<s:Line left="0" right="0"  bottom="0" > 
-				<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
-			</s:Line>
 		</s:Group>
 		<s:Group width="{this.width}"  mouseEnabled="false" 
 				 maxHeight="{130/(320/Capabilities.screenDPI)}"   id="megacont"  >
-			<s:HGroup width="{this.width-(this.height*1.3)-5}" gap="0" 
+			<s:HGroup  width="100%" gap="0" 
 					  paddingTop="{20/(320/Capabilities.screenDPI)}"
 					  paddingBottom="{20/(320/Capabilities.screenDPI)}" 
 					  paddingLeft="{10/(320/Capabilities.screenDPI)}" 
@@ -73,22 +89,22 @@
 							 paddingTop="{10/(320/Capabilities.screenDPI)}" 
 							 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
 							 paddingRight="{10/(320/Capabilities.screenDPI)}">
-					<s:Label width="100%" color="#4d4d4d" maxDisplayedLines="1"
-							 fontWeight="bold" styleName="textsize1" 
-							 text="{data.description}"
+					<s:Label  color="#4d4d4d" maxDisplayedLines="1"
+							 fontWeight="bold" styleName="textsize4" 
+							 text="{data.description}"   width="{640-bmpImg.width}"  maxWidth="{640-bmpImg.width}"
 							 verticalAlign="middle"></s:Label>
 					<s:Label id="dayval"   width="100%"  color="#4d4d4d" fontWeight="bold" 
-							 styleName="textsize0" 
+							 styleName="textsize1" 
 							 maxDisplayedLines="1"
 							 verticalAlign="middle"></s:Label>
 					<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
-							  styleName="textsize0" text=" {data.categoryname}"
+							  styleName="textsize1" text=" {data.categoryname}"
 							  verticalAlign="middle"></s:Label>
 				</s:VGroup>
+				<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}"
+						  verticalCenter="0"  scaleMode="letterbox" />
 			</s:HGroup>
-			<s:Image id="bmpImg" right="0" width="{(this.height-(50/(320/Capabilities.screenDPI)*data.divtype))*1.3}" 
-					 height="100%" source="{data.business_picture}"  maxHeight="{this.height-(50*data.divtype)}"
-					 contentLoader="{s_imageCache}"  scaleMode="letterbox" />
+			
 		</s:Group>
 	</s:VGroup>
 	<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 

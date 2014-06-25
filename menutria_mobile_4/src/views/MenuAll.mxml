@@ -398,7 +398,6 @@
 			}
 			private function filterCompleted(item:Object):Boolean{
 				if((item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
-					(item.description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
 					(item.categoryname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
 					return true;
 				return false;

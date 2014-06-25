@@ -3,7 +3,9 @@
 				creationComplete="init2(event)"
 				mouseChildren="false" dataChange="datachange(event)"
 				contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
-				xmlns:s="library://ns.adobe.com/flex/spark">
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
 	<s:states>
 		<s:State name="nocatnoalert"/>
 		<s:State name="yescatnoalert"/>
@@ -56,11 +58,14 @@
 								if (ratingnumber == 0){
 									ratinglabel.text = "-";
 								}
-								
-								if (ratingnumber >= 10){
+								else if (ratingnumber >= 10){
 									ratingnumber = 10;
 									ratinglabel.text = "10";
 								}
+								else {
+									ratinglabel.text = ratingnumber.toPrecision(2).toString();
+								}
+								
 								
 								megacont.height = setheightval
 								var n:Number = Number(data.rating);
@@ -134,11 +139,14 @@
 								if (ratingnumber == 0){
 									ratinglabel.text = "-";
 								}
-								
-								if (ratingnumber >= 10){
+								else if (ratingnumber >= 10){
 									ratingnumber = 10;
 									ratinglabel.text = "10";
 								}
+								else {
+									ratinglabel.text = ratingnumber.toPrecision(2).toString();
+								}
+								
 								
 								megacont.height = setheightval;
 								var n:Number = Number(data.rating);

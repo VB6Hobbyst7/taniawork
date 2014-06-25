@@ -10,21 +10,16 @@
 			import mx.events.FlexMouseEvent;
             private var _data:Object;
             [Bindable]
-            // implement IDataRenderer
             public function get data():Object
             {
                 return _data;
             }
-
             public function set data(value:Object):void
             {
                 _data = value;
             }
-
-			
 			public function pinclick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
 				if (currentState == "detailState")
 				{
 					currentState = "normal";
@@ -33,22 +28,18 @@
 					currentState = "detailState";
 				}
 			}
-			
 		]]>
     </fx:Script>
-
     <s:states>
         <s:State name="normal"/>
         <s:State name="detailState"/>
     </s:states>
-
     <s:transitions>
         <s:Transition fromState="*" toState="*">
             <s:Resize duration="250"  
                       target="{this}"/>
         </s:Transition>
     </s:transitions>
-
 	<s:Rect visible.normal="false" visible.detailState="true" width="100%" height="100%">
 		<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 	</s:Rect>
@@ -59,8 +50,7 @@
 										source240dpi="@Embed('/assets/240/mappin.png')"
 										source320dpi="@Embed('/assets/320/mappin.png')"
 										source480dpi="@Embed('/assets/480/mappin.png')"
-										source640dpi="@Embed('/assets/640/mappin.png')"
-										/>
+										source640dpi="@Embed('/assets/640/mappin.png')"/>
 			</s:source>
 		</s:Image>
 		<s:VGroup width="100%" height="100%">
@@ -72,21 +62,20 @@
 					 includeIn="detailState"
 					 text="{data.thePlaceName}"/>
 		</s:VGroup>
-		<s:Group id="isgogogroup" name="isgogogroup" height="100%" width.detailState="60"
-				 width.normal="0" mouseOver="gOver(event);" alpha="0.98"
-				 mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);">
+		<s:Group id="isgogogroup" name="isgogogroup" height="100%"
+				 width.detailState="60"
+				 width.normal="0">
 			<s:Image includeIn="detailState" height="100%" 
 					 verticalAlign="middle" 
 					 horizontalCenter="0" 
-					 verticalCenter="0"
-					 mouseEnabled="false">
+					 verticalCenter="0" 
+					 mouseEnabled="true">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/240/settingsarrow.png')"
 											source240dpi="@Embed('/assets/320/settingsarrow.png')"
 											source320dpi="@Embed('/assets/480/settingsarrow.png')"
 											source480dpi="@Embed('/assets/640/settingsarrow.png')"
-											source640dpi="@Embed('/assets/640/settingsarrow.png')"
-											/>
+											source640dpi="@Embed('/assets/640/settingsarrow.png')"/>
 				</s:source>
 			</s:Image>
 		</s:Group>

@@ -16,7 +16,7 @@ public function showloading():void {
 		loadingimage.verticalCenter = 0;
 		go.addElement(loadingimage);
 		this.addElement(go);
-		ti = new Timer(500,0);
+		ti = new Timer(100,0);
 		ti.addEventListener(TimerEvent.TIMER, afterLoadingTimer);
 		ti.start();
 	}

@@ -13,6 +13,9 @@
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
+	<s:actionContent>
+		
+	</s:actionContent>
 	<fx:Script source="../func/global.as"/>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -109,8 +112,6 @@
 			}
 			
 			public function checkifgogo(ev:MouseEvent):void {
-				
-				
 				try{
 					if (ev.target.styleParent.imageDisplay.source.source160dpi.toString().indexOf("setting") != -1){
 						var idout:String = ev.currentTarget.ido;
@@ -183,7 +184,8 @@
 				<mylong>{data.mylong}</mylong>		
 			</s:request>
 		</s:HTTPService>
-		<esri:InfoSymbol id="infoSymbolWithStates" containerStyleName="mapstyle" infoPlacement="center" 
+		<esri:InfoSymbol id="infoSymbolWithStates" containerStyleName="mapstyle"
+						 infoPlacement="center" 
 						 infoRenderer="com.esri.ags.samples.InfoRendererWithStates"/>
 	</fx:Declarations>
 	<esri:Map id="myMap"

@@ -2,7 +2,7 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		title="Menutria" viewActivate="view1_viewActivateHandler(event)"
+		title="login" viewActivate="view1_viewActivateHandler(event)"
 		contentBackgroundAlpha="1"
 		contentBackgroundColor="#f3f3f3"
 		backgroundAlpha="1"
@@ -106,7 +106,6 @@
 			}
 			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
 			{
-				navigator.visible = true;
 				createIfNotExsist("localuser");
 				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, country, active FROM localuser where active = 'yes'");
 				var loadManager:PersistenceManager = new PersistenceManager();
@@ -114,9 +113,7 @@
 				if (resData.length != 0){
 					navigator.pushView(Home);
 				}
-				else {
-					this.parentApplication.hideloading();	
-				}
+				this.parentApplication.hideloading();	
 			}
 			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
 			{

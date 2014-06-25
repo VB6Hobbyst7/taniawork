@@ -15,7 +15,7 @@
 			   mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  
-								height="100%" top="{0-40}"  bottom="0" visible="true" x="0" 
+								height="100%"  x="0" 
 								elementAdd="viewadd(event)" 
 								width="{this.width}"  backgroundColor="#5b5b5b">
 		<s:navigationContent>

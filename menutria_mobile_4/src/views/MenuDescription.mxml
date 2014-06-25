@@ -202,6 +202,16 @@
 				}
 				
 			}
+			protected function additionclick(event:MouseEvent):void
+			{
+				if (additiontext.maxDisplayedLines == 4){
+					additiontext.maxDisplayedLines = 30;
+				}
+				else {
+					additiontext.maxDisplayedLines = 4;
+				}
+				
+			}
 			public function afterGetMenuInformation(ev:ResultEvent):void {
 				reviewText.text = "";
 				this.parentApplication.hideloading();
@@ -209,6 +219,8 @@
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				modifications = new ArrayCollection();
+				descriptiontext.text = ev.result[0].results5.result5.description;
+				additiontext.text =  ev.result[0].results5.result5.additions;
 				if (ev.result[0].eatinthis == 0){
 					eatenimage.source = eatenthis2;
 					eatenstatus = 0;
@@ -339,19 +351,12 @@
 					
 				}
 			}
-			
-			
-			
 			public function renderChart(percentage:Number):void
-			{
-				
+			{	
 				circleMask2.graphics.clear();
 				circleMask2.graphics.beginFill(0);
-				
-				
 				circleMask.graphics.clear();
 				circleMask.graphics.beginFill(0);
-				
 				if (percentage <= 0.1){
 					percentage = 0.1;
 				}
@@ -365,7 +370,6 @@
 				circleMask2.graphics.endFill();
 				circleMask.graphics.endFill();
 			}
-			
 			// Function from flassari (a little simplified)
 			private function drawPieMask(graphics:Graphics, percentage:Number, radius:Number = 200, rotation:Number = 0, sides:int = 6):void {
 				radius /= Math.cos(1/sides * Math.PI);
@@ -378,7 +382,6 @@
 				if (percentage * sides != sidesToDraw)
 					lineToRadians(percentage * (Math.PI * 2) + rotation);
 			}
-			
 			public var didlistclick:Boolean = false;
 			public function ratingitemclick():void {
 				if (didlistclick == false){
@@ -390,10 +393,8 @@
 						else {
 							navigator.pushView(ViewReview, recentreviews[reviewList.selectedIndex]);	
 						}
-						
 					}
 				}
-				
 			}
 			public function startShare():void {
 				var gl:spark.filters.GlowFilter = new spark.filters.GlowFilter(0x43c7ae,1,20,20,5,1,true);
@@ -401,11 +402,9 @@
 				sharefacebook.filters = [gl];
 				sharetwitter.filters = [];
 				shareText.text = "";
-				sharePopup.visible = true;
-				
+				sharePopup.visible = true;	
 			}
 			public function eatenClick():void {
-				
 				if (eatenstatus == 0){
 					eatenimage.source = eatenthis1;
 					eatenstatus = 1;
@@ -414,8 +413,7 @@
 					eatenimage.source = eatenthis2;
 					eatenstatus = 0;
 				}
-				sendEatenThis.send();
-				
+				sendEatenThis.send();	
 			}
 			public function backOnShare():void {
 				sharePopup.visible = false;
@@ -455,25 +453,14 @@
 				}
 			}
 			public function afterGetEatenThis(ev:ResultEvent):void {
-				
 				eatenimage.visible = true;
 			}
-			
-			
-			
 			private function afterpost(result:Object, fail:Object):void{
 				var stop:String = "";
 			}
 			public function gotobusiness():void {
-				var stmt:SQLStatement = new SQLStatement();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
 				try{
-					stmt.text = "SELECT * FROM merchusers";
-					stmt.execute();
-					var dataArray:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
 					if (dataArray.length != 0){
 						for (var i:uint = 0; i < dataArray.length; i++){
 							if (dataArray[i].id == data.locationid){
@@ -482,12 +469,8 @@
 						}
 					}
 				}
-				catch(e:Error){
-					
-				}
+				catch(e:Error){}
 			}
-			
-
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -605,9 +588,19 @@
 								  verticalAlign="middle"/>
 					</s:VGroup>
 				</s:HGroup>
-				<s:Label width="99%" paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"  
-						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" click="descriptionclick(event)"
-						 text="{data.description}" maxDisplayedLines="4" textDecoration="none"
+				<s:Label width="99%" paddingLeft="{20/(320/Capabilities.screenDPI)}"
+						 paddingRight="{20/(320/Capabilities.screenDPI)}"  
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext"
+						 lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" 
+						 click="descriptionclick(event)"
+						 maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				<s:Label width="99%" paddingLeft="{20/(320/Capabilities.screenDPI)}" 
+						 paddingRight="{20/(320/Capabilities.screenDPI)}"  
+						 color="#4d4d4d" fontWeight="normal" id="additiontext" 
+						 lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" 
+						 click="additionclick(event)"
+						 maxDisplayedLines="4" textDecoration="none"
 						 verticalAlign="middle"/>
 				<s:Group width="100%"  horizontalCenter="0"  verticalCenter="0">
 					<s:Group click="startReview();" height="{60/(320/Capabilities.screenDPI)}" 
@@ -683,7 +676,7 @@
 					</s:List>
 				</s:VGroup>
 				<s:Group width="100%">
-					<s:Line left="0" right="0"  bottom="0" > 
+					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
 					</s:Line>
 				</s:Group>

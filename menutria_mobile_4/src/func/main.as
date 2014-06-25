@@ -1,5 +1,5 @@
 [Bindable]
-public var VERSIONID:Number = 4;
+public var VERSIONID:Number = 7;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;
@@ -20,6 +20,7 @@ public var filteritems:ArrayCollection = new ArrayCollection(
 		{name:"I Have Eaten",chosen:'no',type:1},
 		{name:"I Haven't Eaten",chosen:'no',type:1}
 	]);
+public var loadedview:Boolean = false;
 protected function onApplicationComplete():void
 {
 	
@@ -52,9 +53,6 @@ protected function onApplicationComplete():void
 		}
 	}
 	
-	
-	
-	
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
 		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643"},
@@ -67,6 +65,7 @@ protected function onApplicationComplete():void
 	verifyDataTablesViaVersion();
 	createIfNotExsist("localuser");
 	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name, country, active FROM localuser where active = 'yes'");
+	
 	if (resData.length != 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
@@ -78,27 +77,27 @@ protected function onApplicationComplete():void
 		}
 		if (mainNavigator.navigator.firstView == null){
 			if (mainNavigator.navigator.activeView == null){
+				loadedview = true;
 				mainNavigator.navigator.firstView = Home;
 				mainNavigator.navigator.pushView(Home);	
 			}
-			
 		}
 		
 	}
 	else {
 		if (mainNavigator.navigator.firstView == null){
 			if (mainNavigator.navigator.activeView == null){
+				loadedview = true;
 				mainNavigator.navigator.firstView = Login;
 				mainNavigator.navigator.pushView(Login);
 			}
-			
 		}
 	}	
 	
-	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
-	
-}
 
+	
+	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+}
 public function onSwipe(event:TransformGestureEvent):void
 {
 	var ev:MouseEvent;
@@ -377,4 +376,17 @@ public function dropalldatatables():void {
 	doQuery("DROP TABLE specials");
 	doQuery("DROP TABLE localuser");
 	doQuery("DROP TABLE dishes");
+	if (loadedview == false){
+		try{
+			if (mainNavigator.navigator.activeView.title != "login"){
+				mainNavigator.navigator.firstView = Login;
+				mainNavigator.navigator.pushView(Login);
+			}
+		}
+		catch(e:Error){
+			mainNavigator.navigator.firstView = Login;
+			mainNavigator.navigator.pushView(Login);
+		}
+		
+	}
 }

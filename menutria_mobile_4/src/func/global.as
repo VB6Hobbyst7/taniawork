@@ -1,14 +1,16 @@
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
+import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
-import mx.collections.ArrayCollection;
-import spark.core.ContentCache;
-import flash.events.Event;
-import flash.events.TimerEvent;
 import flash.utils.Timer;
+
+import mx.collections.ArrayCollection;
 import mx.events.EffectEvent;
+
+import spark.core.ContentCache;
 import spark.effects.Fade;
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
@@ -123,12 +125,18 @@ public function getDatabaseArray(query:String):ArrayCollection {
 	return new ArrayCollection(stmt.getResult().data);
 }
 public function doQuery(query:String):void {
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	var stmt:SQLStatement = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = query;
-	stmt.execute();
+	try{
+		sqlConnection = new SQLConnection();
+		sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+		var stmt:SQLStatement = new SQLStatement();
+		stmt.sqlConnection = sqlConnection;
+		stmt.text = query;
+		stmt.execute();
+	}
+	catch(e:Error){
+		
+	}
+	
 }
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
