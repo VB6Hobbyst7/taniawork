@@ -1,24 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  ADOBE SYSTEMS INCORPORATED
-//  Copyright 2010 Adobe Systems Incorporated
-//  All Rights Reserved.
-//
-//  NOTICE: Adobe permits you to use, modify, and distribute this file
-//  in accordance with the terms of the license agreement accompanying it.
-//
-////////////////////////////////////////////////////////////////////////////////
-
 package skins
 {
 	import flash.display.GradientType;
 	import flash.events.Event;
 	import flash.text.TextFormatAlign;
-	
 	import mx.core.DPIClassification;
 	import mx.core.mx_internal;
 	import mx.utils.ColorUtil;
-	
 	import spark.components.ActionBar;
 	import spark.components.Group;
 	import spark.components.supportClasses.StyleableTextField;
@@ -27,26 +14,7 @@ package skins
 	import spark.layouts.HorizontalLayout;
 	import spark.layouts.VerticalAlign;
 	import spark.skins.mobile.supportClasses.MobileSkin;
-	import spark.skins.mobile160.assets.ActionBarBackground;
-	import spark.skins.mobile240.assets.ActionBarBackground;
-	import spark.skins.mobile320.assets.ActionBarBackground;
-	
 	use namespace mx_internal;
-	
-	/**
-	 *  The default skin class for the Spark ActionBar component in mobile
-	 *  applications.
-	 *  
-	 *  @see spark.components.ActionBar
-	 *  @see spark.skins.mobile.TransparentNavigationButtonSkin
-	 *  @see spark.skins.mobile.BeveledBackButtonSkin
-	 *  @see spark.skins.mobile.TransparentActionButtonSkin
-	 *  @see spark.skins.mobile.BeveledActionButtonSkin
-	 *  
-	 *  @langversion 3.0
-	 *  @playerversion AIR 2.5
-	 *  @productversion Flex 4.5
-	 */
 	public class ActionBarNew extends MobileSkin
 	{
 		//--------------------------------------------------------------------------
