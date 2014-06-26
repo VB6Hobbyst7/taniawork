@@ -20,11 +20,8 @@
             {
                 _data = value;
             }
-
-			
 			public function pinclick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
 				if (currentState == "detailState")
 				{
 					currentState = "normal";
@@ -52,7 +49,7 @@
 	<s:Rect visible.normal="false" visible.detailState="true" width="100%" height="100%">
 		<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 	</s:Rect>
-	<s:HGroup width="100%" height="100%" paddingLeft="10" paddingTop="10" paddingBottom="10">
+	<s:HGroup width="100%" height="100%" paddingLeft="10" >
 		<s:Image mouseDown="pinclick(event)" height="100%" width="100%"  scaleMode="letterbox" >
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/160/mappin.png')"
@@ -63,7 +60,7 @@
 										/>
 			</s:source>
 		</s:Image>
-		<s:VGroup width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" paddingTop="10" paddingBottom="10">
 			<s:Label id="titleLabel"
 					 fontWeight="bold"
 					 includeIn="detailState"
