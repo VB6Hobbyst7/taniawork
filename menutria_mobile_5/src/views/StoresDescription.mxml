@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		backgroundColor="#FFFFFF"
+		contentBackgroundColor="#f3f3f3"
+		viewActivate="view1_activateHandler(event)" 
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" 
+		actionBarVisible="false">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import flash.filesystem.File;
+			import flash.display.Sprite;
+			import flash.data.SQLStatement;
+			import views.MenuDescription;
+			import flash.media.StageWebView;
+			import flash.events.MouseEvent;
+			import flash.display.Bitmap;
+			import flash.data.SQLConnection;
+			import views.ViewReview;
+			import views.StoreSpecials;
+			import flash.events.Event;
+			import views.StoreReviews;
+			[Bindable]
+			public var picture:String = "";
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			[Bindable]
+			public var dragBar:Sprite;
+			[Bindable]
+			public var dragBitmap:Bitmap;
+			[Bindable]
+			public var stageWeb:StageWebView;
+			[Bindable]
+			public var storetoprateddata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var recentreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topratedrecentval:uint = 1;
+			public var didlistclick:Boolean = false;
+			[Bindable]
+			private var _addrString:String;
+			[Bindable]
+			private var _distString:String;
+			private var mapIcon:Class;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			
+			public function view1_activateHandler(event:Event):void
+			{
+				this.parentApplication.showloading();
+				setLoginVars();	
+				img1.source = data.business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				scroller.visible = true;
+				var ratingstring:String = data.rating.toString();
+				var ratingnumber:Number = Number(data.rating);
+				if (ratingnumber == 0){
+					ratinglabel.text = "-";
+				}
+				else if (ratingnumber >= 10){
+					ratingnumber = 10;
+					ratinglabel.text = "10";
+				}
+				else {
+					ratinglabel.text = ratingnumber.toPrecision(2).toString();
+				}
+				getTopRated.send();
+				getTopReviews.send();
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function backOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backDown(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xecf9f7);
+			}
+			public function backOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("backgroundColor",0xFFFFFF);
+			}
+			public function menuClick():void {
+				navigator.pushView(MenuCategories,{locationid:data.id,business_name:data.business_name});
+			}
+			protected function viewspecials(event:MouseEvent):void
+			{
+				navigator.pushView(StoreSpecials, {id:data.id,
+					locationid:data.id,
+					business_picture:data.business_picture,
+					emailGo:emailGo,
+					business_name:data.business_name,
+					amount:data.amount});
+			}	
+			
+			protected function descriptionclick(event:MouseEvent):void
+			{
+				if (descriptiontext.maxDisplayedLines == 4){
+					descriptiontext.maxDisplayedLines = 30;
+				}
+				else {
+					descriptiontext.maxDisplayedLines = 4;
+				}
+			}
+			public function afterGetTopRated(ev:ResultEvent):void {
+				this.parentApplication.hideloading();
+				
+				storetoprateddata = new ArrayCollection();
+				try{			
+					storetoprateddata = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{
+						
+						storetoprateddata.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){
+					}
+				}
+				topratedlist.dataProvider = storetoprateddata;
+				
+			}
+			public function afterGetMerchReviews(ev:ResultEvent):void {
+				this.parentApplication.hideloading();
+				
+				topreviews = new ArrayCollection();
+				recentreviews = new ArrayCollection();
+				try{			
+					topreviews = ev.result[0].results.result;	
+					recentreviews = ev.result[0].results2.result2;	
+				}
+				catch(e:Error){
+					try{
+						
+						topreviews.addItem(ev.result[0].results.result);
+						recentreviews.addItem(ev.result[0].results2.result2);
+					}
+					catch(e:Error){
+					}
+				}
+				var i:uint = 0;
+				for (i = 0; i < topreviews.length; i++){
+					if (topreviews[i].totallikecount == null){
+						topreviews[i].totallikecount = '0';
+					}
+				}
+				
+				for (i = 0; i < recentreviews.length; i++){
+					if (recentreviews[i].totallikecount == null){
+						recentreviews[i].totallikecount = '0';
+					}
+				}
+				
+				
+				
+				reviewlist.dataProvider = topreviews;
+				reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
+				
+			}
+			
+			public function topratedrecentclick(event:MouseEvent):void
+			{
+				if (topratedrecentval == 1){
+					topratedrecentval = 2;
+					topratedrecentimg.source = topratedrecent2;
+					reviewlist.dataProvider = recentreviews;
+					reviewlabel.text = 'Reviews ('+recentreviews.length.toString()+')';
+				}
+				else {
+					topratedrecentval = 1;
+					topratedrecentimg.source = topratedrecent1;
+					reviewlist.dataProvider = topreviews;
+					reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
+				}
+				
+				
+			}
+			public function seemoreclick():void {
+				navigator.pushView(StoreReviews,{id:data.id});
+			}
+			public function menuitemclick():void {
+				if (didlistclick == false){
+					didlistclick = true;
+					if (topratedlist.selectedIndex != -1){
+						navigator.pushView(MenuDescription, storetoprateddata[topratedlist.selectedIndex]);	
+					}
+				}
+			}
+			public function ratingitemclick():void {
+				if (didlistclick == false){
+					didlistclick = true;
+					if (reviewlist.selectedIndex != -1){
+						if (topratedrecentval == 1){
+							navigator.pushView(ViewReview, topreviews[reviewlist.selectedIndex]);	
+						}
+						else {
+							navigator.pushView(ViewReview, recentreviews[reviewlist.selectedIndex]);	
+						}	
+					}
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getTopRated" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getTopRatedDishes.php"
+					   result="afterGetTopRated(event)" >
+			<s:request xmlns="">
+				<locationid>{data.id}</locationid>
+				<emailGo>{emailGo}</emailGo>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getTopReviews" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getTopMerchReviews.php"
+					   result="afterGetMerchReviews(event)" >
+			<s:request xmlns="">
+				<locationid>{data.id}</locationid>		
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="topratedrecent1"
+								source160dpi="@Embed('assets/160/topratedrecent1.png')"
+								source240dpi="@Embed('assets/320/topratedrecent1.png')"
+								source320dpi="@Embed('assets/320/topratedrecent1.png')"
+								source480dpi="@Embed('assets/320/topratedrecent1.png')"
+								source640dpi="@Embed('assets/320/topratedrecent1.png')"/>
+		<s:MultiDPIBitmapSource id="topratedrecent2"
+								source160dpi="@Embed('assets/160/topratedrecent2.png')"
+								source240dpi="@Embed('assets/320/topratedrecent2.png')"
+								source320dpi="@Embed('assets/320/topratedrecent2.png')"
+								source480dpi="@Embed('assets/320/topratedrecent2.png')"
+								source640dpi="@Embed('assets/320/topratedrecent2.png')"/>
+		
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" left="0" right="0" height="100%"
+				horizontalScrollPolicy="off" verticalCenter="0" verticalScrollPolicy="on">
+		<s:VGroup height="100%" paddingTop="0" gap="{30/(320/Capabilities.screenDPI)}" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+			<s:Group width="100%" height="{img1.height}"   id="megacont"  >
+				<s:Image id="img1"  width="{this.width}"  top="0"  height="{this.width/(640/300)}"
+							  source="{data.business_picture}" 
+							   contentLoader="{s_imageCache}"   />
+				<s:BitmapImage id="shaddow"  width="100%"  top="0"	contentLoader="{s_imageCache}"   >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pictureshadow.png')"
+												source240dpi="@Embed('assets/320/pictureshadow.png')"
+												source320dpi="@Embed('assets/320/pictureshadow.png')"/>
+					</s:source>
+				</s:BitmapImage>
+				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" mouseEnabledWhereTransparent="true" top="0" left="0"  mouseDown="navigator.popView();">
+					<s:Image  top="{30/(320/Capabilities.screenDPI)}" 
+							  left="{30/(320/Capabilities.screenDPI)}" 
+							  mouseEnabled="false" contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
+													source240dpi="@Embed('assets/320/backbtnnew.png')"
+													source320dpi="@Embed('assets/320/backbtnnew.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:Group>
+			
+			<s:VGroup width="100%" gap="{25/(320/Capabilities.screenDPI)}" paddingLeft="0" paddingRight="0">
+				<s:HGroup width="100%"  gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}" >
+					<s:Group height="{70/(320/Capabilities.screenDPI)}" 
+							 width="{70/(320/Capabilities.screenDPI)}"
+							 horizontalCenter="0" verticalCenter="0">
+						<s:Rect width="100%" height="100%"
+								radiusX="{10/(320/Capabilities.screenDPI)}"
+								radiusY="{10/(320/Capabilities.screenDPI)}">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#b3b3b3"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label id="ratinglabel" color="#FFFFFF"
+								 horizontalCenter="0" styleName="textsize7"
+								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
+					</s:Group>
+					<s:VGroup height="100%">
+						<s:Label id="selectedTitle" left="{14/(320/Capabilities.screenDPI)}" right="{2/(320/Capabilities.screenDPI)}" top="{13/(320/Capabilities.screenDPI)}" width="100%" color="#4d4d4d"
+								 styleName="textsize6" fontWeight="bold" text="{data.business_name}"/>
+						<s:Label  left="{14/(320/Capabilities.screenDPI)}" right="{2/(320/Capabilities.screenDPI)}" top="{13/(320/Capabilities.screenDPI)}" width="100%" color="#4d4d4d"
+								  styleName="textsize2" fontWeight="bold" text="{data.categoryname}"/>
+					</s:VGroup>
+				</s:HGroup>
+				<s:Label width="100%"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"
+						 color="#4d4d4d" fontWeight="normal" id="descriptiontext"  lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" click="descriptionclick(event)"
+						 text="{data.business_description}" maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				
+				<s:Group  width="100%" >
+					<s:Group click="menuClick();" height="{60/(320/Capabilities.screenDPI)}"
+									   mouseDown="gDown(event)" mouseOver="gOver(event)" 
+									   mouseUp="gOut(event)" mouseOut="gOut(event)"
+									   width="{this.width/2-30}" left="{20/(320/Capabilities.screenDPI)}" >
+						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
+								radiusY="{10/(320/Capabilities.screenDPI)}" 
+								width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#43c7ae"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label verticalAlign="middle" mouseEnabled="false" horizontalCenter="0"  verticalCenter="2" 
+								 text="Menu" color="#FFFFFF"  textAlign="center" styleName="textsize2"  fontWeight="bold"/>
+					</s:Group>
+					<s:Group click="viewspecials(event);"
+									   height="{60/(320/Capabilities.screenDPI)}"
+									   mouseDown="gDown(event)" mouseOver="gOver(event)" 
+									   mouseUp="gOut(event)" mouseOut="gOut(event)"
+									   width="{this.width/2-30}" right="{20/(320/Capabilities.screenDPI)}">
+						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
+								radiusY="{10/(320/Capabilities.screenDPI)}" 
+								width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#6594db"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label verticalAlign="middle" textAlign="center"  mouseEnabled="false"  
+								 text="Specials" color="#FFFFFF" styleName="textsize2"  fontWeight="bold" horizontalCenter="0"  verticalCenter="2" />
+					</s:Group>
+				</s:Group>
+				<s:VGroup width="100%" gap="0" >
+					<s:Group width="100%" height="{120/(320/Capabilities.screenDPI)}"
+									   click="navigateToURL(new URLRequest(googleTravelUrl))"
+									   mouseOver="gOver(event);" mouseDown="gDown(event);"
+									   mouseOut="gOut(event);" mouseUp="gOut(event);" >
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#FFFFFF"/>
+							</s:fill>
+						</s:Rect>
+						<s:HGroup width="100%"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}" 
+								  gap="15" mouseEnabled="false"  verticalCenter="0" verticalAlign="middle" >
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infomarker.png')"
+															source240dpi="@Embed('../assets/320/infomarker.png')"
+															source320dpi="@Embed('../assets/320/infomarker.png')"
+															source480dpi="@Embed('../assets/320/infomarker.png')"
+															source640dpi="@Embed('../assets/320/infomarker.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:VGroup height="100%"  mouseEnabled="false">
+								<s:Label  width="100%" color="#43c7ae"  mouseEnabled="false"
+										  styleName="textsize1"   text="{data.business_address1}"/>
+								<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
+										   styleName="textsize0"   text="{data.business_city+', '+data.business_locality}"/>
+							</s:VGroup>
+						</s:HGroup>
+						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Map"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
+						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+						</s:Line>
+					</s:Group>
+					
+					<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"
+							 mouseOver="gOver(event);" mouseDown="gDown(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#FFFFFF"/>
+							</s:fill>
+						</s:Rect>
+						<s:HGroup width="100%"  gap="15" 
+								  paddingLeft="{20/(320/Capabilities.screenDPI)}" 
+								  paddingRight="{20/(320/Capabilities.screenDPI)}"
+								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infoclock.png')"
+															source240dpi="@Embed('../assets/320/infoclock.png')"
+															source320dpi="@Embed('../assets/320/infoclock.png')"
+															source480dpi="@Embed('../assets/320/infoclock.png')"
+															source640dpi="@Embed('../assets/320/infoclock.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
+									   styleName="textsize0"     text="Open Now"/>
+						</s:HGroup>
+						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Hours" 
+								 styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
+						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+						</s:Line>
+					</s:Group>
+					
+					<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"
+									   click="navigateToURL(new URLRequest('tel:'+data.business_number));"
+									   mouseOver="gOver(event);" mouseDown="gDown(event);"
+									   mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#FFFFFF"/>
+							</s:fill>
+						</s:Rect>
+						<s:HGroup width="100%"  gap="15" 
+								  paddingLeft="{20/(320/Capabilities.screenDPI)}" 
+								  paddingRight="{20/(320/Capabilities.screenDPI)}"  
+								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infophone.png')"
+															source240dpi="@Embed('../assets/320/infophone.png')"
+															source320dpi="@Embed('../assets/320/infophone.png')"
+															source480dpi="@Embed('../assets/320/infophone.png')"
+															source640dpi="@Embed('../assets/320/infophone.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:Label  width="100%" color="#4d4d4d"  mouseEnabled="false"
+									  styleName="textsize0"   text="{data.business_number}"/>
+						</s:HGroup>
+						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Call"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
+						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+						</s:Line>
+					</s:Group>
+				</s:VGroup>
+				<s:Label color="#4D4D4D" styleName="textsize5"   paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"
+						 fontWeight="bold" text="{'Top Rated Dishes ('+storetoprateddata.length.toString()+')'}"/>
+				<s:Group width="100%">
+					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="0" > 
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+					</s:Line>
+					<s:List width="100%" verticalScrollPolicy="off"  
+							contentBackgroundAlpha="0"  
+							change="menuitemclick();"
+							click="menuitemclick();"
+							id="topratedlist"  horizontalScrollPolicy="off" 
+							itemRenderer="components.menuResult">
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify"  
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:Group>
+				<s:Group width="100%" >
+					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
+							 fontWeight="bold" styleName="textsize5"
+							id="reviewlabel"
+							 verticalCenter="0"/>
+					<s:Image id="topratedrecentimg" 
+							 right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
+							 click="topratedrecentclick(event)" 
+							 source="{topratedrecent1}"
+							 verticalCenter="0"/>
+				</s:Group>
+				<s:Group width="100%">
+					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="-1" > 
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+					</s:Line>
+					<s:List  id="reviewlist" 
+							 width="100%"  
+							 click="ratingitemclick();"
+							 change="ratingitemclick();"
+							 verticalScrollPolicy="off" 
+							 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+							 itemRenderer="components.ratingsResultStore" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify"  
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:Group>
+				<s:Group width="100%"  click="seemoreclick();" height="{80/(320/Capabilities.screenDPI)}" visible="{topreviews.length > 0}" >
+					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="0"
+							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
+				</s:Group>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

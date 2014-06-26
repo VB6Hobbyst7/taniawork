@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*" xmlns:cs="cs.*"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()"
+		title="Menu"
+		viewActivate="view1_activateHandler(event)">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import spark.collections.SortField;
+			import spark.collections.Sort
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;	
+			import views.MenuCatAll;
+			import views.Menu;
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var ratingpriceoptionval:uint = 0;
+			public var allreadylistclicked:Boolean = false;
+			protected function view1_activateHandler(event:Event):void
+			{
+				allreadylistclicked = false;
+				this.parentApplication.showloading();
+				setLoginVars();
+				warn.visible = false;
+				locationid = data.locationid;
+				getMenu.send();
+			}	
+			public function afterGetMenu(ev:ResultEvent):void
+			{	
+				this.parentApplication.hideloading();
+				listData = new ArrayCollection();
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				var sampleimage:String = "";
+				for (var i:uint = 0; i < listData.length; i++){
+					listData[i].business_name = data.business_name;
+					if ((sampleimage == "")&&(listData[i].picture != "None")&&
+						(listData[i].picture != "")&&
+						(listData[i].picture != null)&&
+						(listData[i].picture != "null")){
+						sampleimage = listData[i].picture;
+					}
+				}
+				if (sampleimage.length < 3){
+					sampleimage = "../assets/"+getDPIHeight()+"/dish_place_square.png";
+				}
+				listData.addItemAt({name:"All",picture:sampleimage,frequency:ev.result[0].ress2.res2.total,categoryid:"-1",locationid:locationid},0);
+			} 
+			public function populatelist():void {
+				var srt:Sort = new Sort();
+				if (ratingpriceoptionval == 0){
+					srt.fields = [new SortField("rating")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				else if (ratingpriceoptionval == 1){
+					srt.fields = [new SortField("cost")];
+					listData.sort = srt;
+					listData.refresh();
+				}
+				dataList.dataProvider = listData;
+				
+			}
+			public function listClick():void {	
+				if (allreadylistclicked == false){
+					if (dataList.selectedIndex != -1){
+						allreadylistclicked = true;
+						if (dataList.selectedIndex == 0){
+							navigator.pushView(MenuCatAll, listData[dataList.selectedIndex]);
+						}
+						else {
+							navigator.pushView(Menu, listData[dataList.selectedIndex]);
+						}	
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMenuCategories.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<locationid>{locationid}</locationid>		
+				<emailGo>{emailGo}</emailGo>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="dataList" labelField="name"  horizontalScrollPolicy="off" 
+					dataProvider="{listData}" itemRenderer="components.menuCatResult"
+					selectedIndex="1" 	alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
+					click="listClick();"
+					change="listClick();">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+</s:View>
