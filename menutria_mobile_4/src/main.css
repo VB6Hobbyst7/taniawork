@@ -93,7 +93,7 @@ s|ActionBar #titleDisplay
 {
 	color: #FFFFFF; 
 	titleAlign: center;
-	fontWeight: normal;
+	fontWeight: bold;
 	fontFamily: "HelveticaNeue";
 }
 s|ActionBar.beveled s|Group#navigationGroup s|Button

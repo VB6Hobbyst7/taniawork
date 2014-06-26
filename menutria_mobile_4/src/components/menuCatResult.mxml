@@ -8,7 +8,8 @@
 	<s:Group id="megacont" width="{this.width}" 
 			 height="{120/(320/Capabilities.screenDPI)}" mouseEnabled="false"   >
 		<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">
-			<s:VGroup    paddingLeft="{20/(320/Capabilities.screenDPI)}" width="100%" paddingTop="{10/(320/Capabilities.screenDPI)}" paddingBottom="{10/(320/Capabilities.screenDPI)}" paddingRight="{10/(320/Capabilities.screenDPI)}">
+			<s:VGroup    paddingLeft="{20/(320/Capabilities.screenDPI)}" width="100%" 
+						 paddingTop="{10/(320/Capabilities.screenDPI)}" paddingBottom="{10/(320/Capabilities.screenDPI)}" paddingRight="{10/(320/Capabilities.screenDPI)}">
 				<s:Label width="100%" color="#4d4d4d" 
 						 fontWeight="bold" styleName="textsize1" text="{data.name}"
 						 verticalAlign="middle"></s:Label>
