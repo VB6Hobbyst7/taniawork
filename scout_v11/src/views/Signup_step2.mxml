@@ -121,7 +121,7 @@
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
-							 horizontalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
 							 contentBackgroundAlpha="0"
 							 prompt="City"
 							 borderVisible="false"/>
@@ -175,11 +175,11 @@
 				</s:Rect>
 				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
 						   horizontalCenter="0" verticalCenter="0">
-					<s:TextInput id="nbirthday" width="33%" prompt="Day" softKeyboardType="number" 
+					<s:TextInput id="nbirthday" width="33%" prompt="Day" softKeyboardType="number"  fontFamily="Arial"
 								 borderVisible="false"/>
-					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" softKeyboardType="number"
+					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" softKeyboardType="number" fontFamily="Arial"
 								 borderVisible="false"/>
-					<s:TextInput id="nbirthyear" width="33%" prompt="Year" softKeyboardType="number"
+					<s:TextInput id="nbirthyear" width="33%" prompt="Year" softKeyboardType="number" fontFamily="Arial"
 								 borderVisible="false"/>
 				</s:HGroup>
 				

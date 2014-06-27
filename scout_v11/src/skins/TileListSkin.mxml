@@ -56,8 +56,8 @@
 			<s:layout>
 				<s:TileLayout requestedColumnCount="2"
 							  requestedRowCount="2"
-							  horizontalGap="20"
-							  verticalGap="20" />
+							  horizontalGap="10"
+							  verticalGap="10" />
 			</s:layout>
 		</s:DataGroup>
 	</s:Scroller>

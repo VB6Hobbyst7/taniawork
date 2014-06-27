@@ -109,18 +109,16 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 	paddingLeft: 3;
 	paddingRight: 3;
 }
+s|TextArea {
+	skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+	textAlign: left;
+}
 
 @media (application-dpi: 160) {
 	s|Application {
 		osStatusBarHeight: 0;
 	}
-	s|TextArea {
-		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
-		textAlign: left;
-		color:#FFFFFF;
-		
-		height:25;
-	}
+
 	s|Button {
 		fontSize: 10;
 	}
@@ -222,13 +220,6 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 	{
 		osStatusBarHeight: 30;
 	}
-	s|TextArea {
-		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
-		textAlign: left;
-		height:37.5;
-		color:#FFFFFF;
-	}
-	
 	s|Button {
 		fontSize: 15;
 	}
@@ -328,14 +319,6 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 	{
 		osStatusBarHeight: 40;
 	}
-	s|TextArea {
-		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
-		textAlign: left;
-		height:50;
-		measuredDefaultHeight:50;
-		color:#FFFFFF;
-	}
-	
 	s|Button {
 		fontSize: 20;
 	}
@@ -435,14 +418,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 	{
 		osStatusBarHeight: 60;
 	}
-	s|TextArea {
-		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
-		textAlign: left;
-		height:75;
-		measuredDefaultHeight:75;
-		color:#FFFFFF;
-	}
-	
+
 	s|Button {
 		fontSize: 30;
 	}

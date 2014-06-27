@@ -68,7 +68,7 @@
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
-							 horizontalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
 							 contentBackgroundAlpha="0"
 							 prompt="Email"
 							 borderVisible="false"/>
@@ -88,7 +88,7 @@
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
-							 horizontalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
 							 contentBackgroundAlpha="0"
 							 prompt="Name"
 							 borderVisible="false"/>
@@ -109,7 +109,7 @@
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
 							 horizontalCenter="0"
-							 prompt="Password"
+							 prompt="Password" fontFamily="Arial"
 							 contentBackgroundAlpha="0"
 							 displayAsPassword="true"
 							 borderVisible="false"/>
@@ -127,7 +127,7 @@
 				<s:TextInput id="npassword2"  
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
-							 verticalCenter="0"
+							 verticalCenter="0" fontFamily="Arial"
 							 horizontalCenter="0"
 							 prompt="Verify Password"
 							 contentBackgroundAlpha="0"

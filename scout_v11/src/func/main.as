@@ -22,7 +22,7 @@ import spark.events.IndexChangeEvent;
 import spark.transitions.CrossFadeViewTransition;
 public static const FACEBOOK_APP_ID:String="1424621771149692";
 [Bindable]
-public var VERSIONID:Number = 6;
+public var VERSIONID:Number = 8;
 public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 public var resData:ArrayCollection = new ArrayCollection();
 [Bindable]
@@ -63,7 +63,6 @@ protected function creationcomplete(event:FlexEvent):void
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_prof,colorid:"0x50bcb6"},
 		{name:"My Rewards",img:menu_cup,colorid:"0xef4056"},
 		{name:"Locations",img:menu_pin,colorid:"0xfcb643"},
-		//{name:"Treats",img:menu_bone,colorid:"0xfcb643"},
 		{name:"Stats",img:menu_stat,colorid:"0xfcb643"},
 		{name:"Settings",img:menu_settings,colorid:"0xfcb643"}
 	]);
@@ -83,7 +82,7 @@ protected function creationcomplete(event:FlexEvent):void
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+	stmt.text = "SELECT email, name FROM localuser";
 	stmt.execute();
 	resData = new ArrayCollection(stmt.getResult().data);				
 	loadStuff(resData);
@@ -199,6 +198,27 @@ public function goProfile(event:MouseEvent):void
 {
 	mainNavigator.navigator.pushView(Home);
 }
+public function setProfImage(s:String):void {
+	profimage.source = s;
+	profimage.scaleMode = "zoom";
+	profimage.visible = true;
+}
+public function reloadProfInfo():void {
+	
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = "SELECT email, name FROM localuser";
+	stmt.execute();
+	resData = new ArrayCollection(stmt.getResult().data);	
+	
+	if (resData.length > 0){
+		nameGo = resData[0].name;
+		emailGo = resData[0].email;
+		getUserInfo.send();
+	}
+}
 public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Number = -113.54009):void {
 	if (r.length != 0){
 		nameGo = r[0].name;
@@ -211,11 +231,7 @@ public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Numb
 		}
 	}
 	else {
-		if (mainNavigator.navigator.firstView == null){
-			if (mainNavigator.navigator.activeView == null){
-				mainNavigator.navigator.pushView(Signin,null,null,crosstrans);
-			}
-		}
+		mainNavigator.navigator.pushView(Signin,null,null,crosstrans);
 	}
 }
 public function logout():void {
@@ -331,14 +347,10 @@ private function onFacebookEvent(e:GVFacebookEvent):void
 			s = "Perms updated:"+e.permissions;
 	}
 }
-
 public function refresh(email:String):void {
+	reloadProfInfo();
 	mainNavigator.navigator.pushView(Home);
 }
-
-
-
-
 public function facebookloging():void {
 	if(!GoViral.goViral.isFacebookAuthenticated())
 	{
@@ -465,6 +477,7 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	stmt.parameters[":country"] = "canada";
 	stmt.parameters[":active"] = "yes";
 	stmt.execute();
+	reloadProfInfo();
 	mainNavigator.navigator.pushView(Home,null,null,crosstrans);
 }
 public function afterGetUserInfo(ev:ResultEvent):void {

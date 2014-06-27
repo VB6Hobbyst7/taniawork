@@ -12,6 +12,7 @@
 <renderMode>auto</renderMode>
 <fullScreen>true</fullScreen>
 <systemChrome>standard</systemChrome>
+<softKeyboardBehavior>pan</softKeyboardBehavior>
 </initialWindow>
   <supportedLanguages>en</supportedLanguages>
 	<icon>

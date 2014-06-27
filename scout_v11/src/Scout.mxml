@@ -12,14 +12,15 @@
   frameRate="120"
   mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
-								id="mainNavigator" 
+								id="mainNavigator"  
+								resizeForSoftKeyboard="true"
 								click="navigatorClick(event)"  
 								height="100%"  x="0" 
 								elementAdd="viewadd(event)" 
 								width="{this.width}"  
 								backgroundColor="#5b5b5b">
 		<s:navigationContent>
-			<s:Group  id="menufeaturebutton"
+			<!--s:Group  id="menufeaturebutton"
 					  width="{this.width/8}" left="0" x="0"
 					  height="100%"  top="0"
 					  mouseDown="menuButtonClick();"
@@ -36,7 +37,7 @@
 												source640dpi="@Embed('assets/320/settingsslider.png')"/>
 					</s:source>
 				</s:Image>
-			</s:Group>
+			</s:Group-->
 		</s:navigationContent>
 		<s:actionContent></s:actionContent>	
 	</s:ViewNavigatorApplication>
@@ -44,34 +45,11 @@
 	<s:Group  id="menu"  height="100%"  width="{this.width/1.15}" 
 			  x="{0-(this.width/1.15)}">
 		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
-			<s:Group width="{this.width/1.15}" 
-					 height="{actionbarheight+4}" mouseDown="menuButtonClick();"    >
-				<s:Rect width="100%"  height="100%">
-					<s:fill>
-						<s:SolidColor alpha="1" color="#FFFFFF"/>
-					</s:fill>
-				</s:Rect>
-				<s:Label  left="15" text="Scout" verticalCenter="0" mouseEnabled="false"
-						  textAlign="right" styleName="textsize6" 
-						  color="#02a9fc"  fontWeight="normal"/>
-				<s:Group  width="{this.width/8}"  right="0"
-						  verticalCenter="0" mouseEnabled="false">
-					<s:Image right="15"  verticalCenter="0" 
-							 mouseEnabled="false" contentLoader="{s_imageCache}" >
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/settingsslider.png')"
-													source240dpi="@Embed('assets/320/settingsslider.png')"
-													source320dpi="@Embed('assets/320/settingsslider.png')"
-													source480dpi="@Embed('assets/320/settingsslider.png')"
-													source640dpi="@Embed('assets/320/settingsslider.png')"/>
-						</s:source>
-					</s:Image>
-				</s:Group>
-			</s:Group>
+			
 			<s:Group  width="{this.width/1.15}">
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
-						<s:SolidColor alpha="0.9" color="#FFFFFF"/>
+						<s:SolidColor alpha="0.95" color="#FFFFFF"/>
 					</s:fill>
 				</s:Rect>
 				<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  
@@ -104,7 +82,7 @@
 				<s:stroke><s:SolidColorStroke color="0x060606" weight="1"/></s:stroke>
 			</s:Line>
 			<s:List id="listmenu" height="100%" contentBackgroundColor="#FFFFFF" 
-					contentBackgroundAlpha="0.9" dataProvider="{homeitems}"
+					contentBackgroundAlpha="0.95" dataProvider="{homeitems}"
 					width="{this.width/1.15}"  borderVisible="false" 
 					selectedIndex="-1"  change="menuchange(event)"
 					itemRenderer="components.mainmenulistitem"  >

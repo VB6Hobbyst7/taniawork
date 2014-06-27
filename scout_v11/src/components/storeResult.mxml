@@ -14,7 +14,7 @@
 			public var neededwidth:Number = 300;
 			protected function init(event:FlexEvent):void
 			{
-				neededwidth = this.parent.width/2-(20/2);
+				neededwidth = this.parent.width/2-(10/2);
 				fixdistance();
 			}
 			protected function datachango(event:FlexEvent):void
