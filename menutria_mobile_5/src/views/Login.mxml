@@ -78,6 +78,7 @@
 					for (var i:uint = 0; i < resData.length; i++){
 						if (resData[i].active == "yes"){
 							foundactive = true;
+							this.parentApplication.updateProfAuto();
 							navigator.pushView(Home);	
 						}
 					}			
@@ -111,6 +112,7 @@
 				var loadManager:PersistenceManager = new PersistenceManager();
 				
 				if (resData.length != 0){
+					this.parentApplication.updateProfAuto();
 					navigator.pushView(Home);
 				}
 				this.parentApplication.hideloading();	
@@ -165,15 +167,25 @@
 					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
 				<s:BitmapImage contentLoader="{s_imageCache}"  >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginmenulogo.png')"
-												source240dpi="@Embed('assets/320/loginmenulogo.png')"
-												source320dpi="@Embed('assets/320/loginmenulogo.png')"
-												source480dpi="@Embed('assets/320/loginmenulogo.png')"
-												source640dpi="@Embed('assets/320/loginmenulogo.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/sheild.png')"
+												source240dpi="@Embed('assets/320/sheild.png')"
+												source320dpi="@Embed('assets/320/sheild.png')"
+												source480dpi="@Embed('assets/320/sheild.png')"
+												source640dpi="@Embed('assets/320/sheild.png')"
 												/>
 					</s:source>
 				</s:BitmapImage>
-				<components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/>
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/menutria.png')"
+												source240dpi="@Embed('assets/320/menutria.png')"
+												source320dpi="@Embed('assets/320/menutria.png')"
+												source480dpi="@Embed('assets/320/menutria.png')"
+												source640dpi="@Embed('assets/320/menutria.png')"
+												/>
+					</s:source>
+				</s:BitmapImage>
+				<!--components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/-->
 				<components:transbutton textLabel="Sign Up" horizontalCenter="0" click="createNewClick(event)"/>
 				<components:transbutton textLabel="Sign In" horizontalCenter="0" click="loginClick(event)"/>
 				<components:transbutton textLabel="Sign In With Facebook" horizontalCenter="0" click="facebookLogin()"/>

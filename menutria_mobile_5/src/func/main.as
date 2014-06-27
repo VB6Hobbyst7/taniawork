@@ -21,7 +21,7 @@ public var filteritems:ArrayCollection = new ArrayCollection(
 		{name:"I Haven't Eaten",chosen:'no',type:1}
 	]);
 public var loadedview:Boolean = false;
-protected function onApplicationComplete():void
+protected function creationcomplete():void
 {
 	
 	switch (applicationDPI)
@@ -60,12 +60,9 @@ protected function onApplicationComplete():void
 		{name:"Specials",img:menu_ratings,colorid:"0xfcb643"},
 		{name:"Settings",img:menu_settings,colorid:"0xfcb643"}
 	]);
-	this.stage.autoOrients = false;				
-	NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 	verifyDataTablesViaVersion();
 	createIfNotExsist("localuser");
-	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name, country, active FROM localuser where active = 'yes'");
-	
+	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name FROM localuser");
 	if (resData.length != 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
@@ -78,24 +75,21 @@ protected function onApplicationComplete():void
 		if (mainNavigator.navigator.firstView == null){
 			if (mainNavigator.navigator.activeView == null){
 				loadedview = true;
-				mainNavigator.navigator.firstView = Home;
-				mainNavigator.navigator.pushView(Home);	
+				mainNavigator.navigator.pushView(Home,null,null,crosstrans);	
 			}
+			else {
+				loadedview = true;
+			}
+		}
+		else {
+			loadedview = true; 
 		}
 		
 	}
 	else {
-		if (mainNavigator.navigator.firstView == null){
-			if (mainNavigator.navigator.activeView == null){
-				loadedview = true;
-				mainNavigator.navigator.firstView = Login;
-				mainNavigator.navigator.pushView(Login);
-			}
-		}
+		loadedview = true; 
+		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
 	}	
-	
-
-	
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
 }
 public function onSwipe(event:TransformGestureEvent):void
@@ -195,6 +189,7 @@ public function menuchange(event:IndexChangeEvent):void
 }
 
 public function pushScreen(u:uint):void {
+	listmenu.selectedIndex = -1;
 	if (u == 0){
 		//your account
 		mainNavigator.navigator.pushView(Profile);
@@ -220,6 +215,20 @@ public function pushScreen(u:uint):void {
 		//settings
 		mainNavigator.navigator.pushView(Settings);
 	}	
+}
+public function updateProfAuto():void {
+	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name FROM localuser");
+	if (resData.length != 0){
+		nameGo = resData[0].name;
+		emailGo = resData[0].email;
+		getUserInfo.send();
+	}
+}
+public function updateProfileImage(s:String):void {
+	if (s.length > 1){
+		profimage.source = s;
+		profimage.scaleMode = "zoom";
+	}
 }
 public function goProfile(event:MouseEvent):void
 {
@@ -299,8 +308,8 @@ public function viewadd(event:ElementExistenceEvent):void
 	if (menuopen){
 		closeMenu();
 	}
-	
-	if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('home') == -1)&&
+	listmenu.selectedIndex = -1;
+	/*if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('home') == -1)&&
 		(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('menuall') == -1)){
 		listfilters.selectedItems = null;
 		for (var i:uint = 0; i < filteritems.length; i++){
@@ -337,7 +346,7 @@ public function viewadd(event:ElementExistenceEvent):void
 	}
 	else {
 		listmenu.selectedIndex = -1;
-	}
+	}*/
 
 }
 public function clearallclick(event:MouseEvent):void
@@ -372,21 +381,14 @@ public function verifyDataTablesViaVersion():void {
 	}
 }
 public function dropalldatatables():void {
-	doQuery("DROP TABLE merchusers");
-	doQuery("DROP TABLE specials");
-	doQuery("DROP TABLE localuser");
-	doQuery("DROP TABLE dishes");
+	try{
+		doQuery("DROP TABLE merchusers");
+		doQuery("DROP TABLE specials");
+		doQuery("DROP TABLE localuser");
+		doQuery("DROP TABLE dishes");
+	}
+	catch(e:Error){}
 	if (loadedview == false){
-		try{
-			if (mainNavigator.navigator.activeView.title != "login"){
-				mainNavigator.navigator.firstView = Login;
-				mainNavigator.navigator.pushView(Login);
-			}
-		}
-		catch(e:Error){
-			mainNavigator.navigator.firstView = Login;
-			mainNavigator.navigator.pushView(Login);
-		}
-		
+		mainNavigator.navigator.pushView(Login,null,null,crosstrans);	
 	}
 }

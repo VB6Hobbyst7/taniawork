@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/14.0">
-	<id>org.enactforum.originaljoes</id>
+	<id>com.menutria.menutria</id>
 	<filename>Menutria</filename>
 	<name>Menutria</name>
 <versionNumber>1.0.8</versionNumber>

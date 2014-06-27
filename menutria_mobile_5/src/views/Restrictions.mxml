@@ -38,7 +38,7 @@
 			{
 				setLoginVars();
 				createIfNotExsist("resvalues");
-				scroller.visible = true;
+			
 				getRestrictions.send();
 			}		
 			public function usermenuclick():void {
@@ -49,6 +49,7 @@
 			}
 			public function afterGetRestrictions(event:ResultEvent):void
 			{
+				scroller.visible = true;
 				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
 				listData = new ArrayCollection();
 				try{			
@@ -178,8 +179,8 @@
 			</s:Line>	
 		</s:Group>			
 		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="1" 
-				id="resList" labelField="name"     contentBackgroundColor="#e8e8e8"
-				dataProvider="{listData}" itemRenderer="components.restrictResult"
+				id="resList" contentBackgroundColor="#e8e8e8"
+				itemRenderer="components.restrictResult"
 				selectedIndex="1" click="res_listClick()"    >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>

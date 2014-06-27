@@ -34,8 +34,8 @@
 				</s:source>
 			</s:BitmapImage>
 		</s:Group>
-		<s:Line left="0" right="0"  bottom="0" > 
-			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="1"/></s:stroke>
+		<s:Line  left="0" bottom="0"  right="0"> 
+			<s:stroke><s:SolidColorStroke color="#8d8d8d" weight="1"/></s:stroke>
 		</s:Line>
 	</s:Group>
 	<s:Group width="100%" height="{30/(320/Capabilities.screenDPI)}" 
@@ -45,8 +45,8 @@
 				<s:SolidColor alpha="1" color="#494949"/>
 			</s:fill>
 		</s:Rect>
-		<s:Line left="0" right="0"  bottom="0" > 
-			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="1"/></s:stroke>
+		<s:Line  width="100%" bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="#8d8d8d" weight="1"/></s:stroke>
 		</s:Line>
 	</s:Group>
 </s:ItemRenderer>

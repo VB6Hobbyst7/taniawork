@@ -4,7 +4,7 @@ public var loadingcounter:Number = 0;
 public var go:Group;
 public var isloading:Boolean = false;
 public function showloading():void {
-	if (isloading == false){
+/*	if (isloading == false){
 		isloading = true;
 		loadingcounter = 0;
 		loadingimage = new Image();
@@ -19,17 +19,17 @@ public function showloading():void {
 		ti = new Timer(100,0);
 		ti.addEventListener(TimerEvent.TIMER, afterLoadingTimer);
 		ti.start();
-	}
+	}*/
 }
 public function afterLoadingTimer(ev:TimerEvent):void {
-	loadingcounter++;
+/*	loadingcounter++;
 	if (loadingcounter > 30){
 		loadingcounter = 0;
 	}
-	loadingimage.source = "assets/loading/"+getDPIHeight()+"/l"+loadingcounter.toString()+".png";
+	loadingimage.source = "assets/loading/"+getDPIHeight()+"/l"+loadingcounter.toString()+".png";*/
 }
 public function hideloading():void {	
-	isloading = false;
+/*	isloading = false;
 	try{
 		
 		ti.removeEventListener(TimerEvent.TIMER,afterLoadingTimer);
@@ -38,6 +38,6 @@ public function hideloading():void {
 	}
 	catch(e:Error){
 		
-	}
+	}*/
 	
 }

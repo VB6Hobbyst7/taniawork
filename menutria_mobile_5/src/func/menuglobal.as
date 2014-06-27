@@ -51,6 +51,11 @@ public function syncmenurestrictions():void {
 			}
 		}
 	}
+	else {
+		for (var i:uint = 0; i < listData.length; i++){
+			listData[i].hideall = false;
+		}
+	}
 	
 	
 } 

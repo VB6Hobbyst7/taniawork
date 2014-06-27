@@ -76,6 +76,7 @@
 			public var didupdate:Boolean = false;
 			public function onActivate(event:Event):void
 			{
+				
 				this.parentApplication.showloading();
 				setLoginVars();
 				screenwidth = this.width;			
@@ -123,9 +124,11 @@
 						mylat = 53.55921;
 						mylong = -113.54009;
 						if (filtermode){
+							loadingtext.visible = true;
 							getDishes2.send();
 						}
 						else {
+							loadingtext.visible = true;
 							getDishes.send();
 						}
 					}		
@@ -134,9 +137,11 @@
 					mylat = 53.59221;
 					mylong = -113.54009;
 					if (filtermode){
+						loadingtext.visible = true;
 						getDishes2.send();
 					}
 					else {
+						loadingtext.visible = true;
 						getDishes.send();
 					}
 				}
@@ -146,6 +151,7 @@
 			
 			public function afterGetDishes(ev:ResultEvent):void
 			{
+				loadingtext.visible = false;
 				var j:uint = 0;
 				var i:uint = 0;
 				this.parentApplication.hideloading();
@@ -1027,6 +1033,8 @@
 			</s:Group>
 		</s:Group>
 	</s:VGroup>
-	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
-			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
+	<s:Label color="#494949"  id="loadingtext" visible="true" horizontalCenter="0" 
+			 styleName="textsize8"  text="Loading Dishes Near You..." verticalCenter="0"/>
+	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize8"  text="No Items Available" verticalCenter="0"/>
 </s:View>

@@ -302,6 +302,7 @@
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
 						profimage.scaleMode = "zoom";
+						this.parentApplication.updateProfileImage(newpicture);
 					}
 				}
 				catch(e:Error){}
@@ -311,6 +312,7 @@
 				fa.target = profimage;
 				fa.duration = 500;
 				fa.play();
+				
 			}
 		]]>
 	</fx:Script>

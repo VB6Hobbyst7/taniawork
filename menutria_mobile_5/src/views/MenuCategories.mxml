@@ -13,14 +13,17 @@
 		<![CDATA[
 			import flash.events.Event;
 			import flash.events.MouseEvent;
-			import spark.collections.SortField;
-			import spark.collections.Sort
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.events.PropertyChangeEvent;
-			import mx.rpc.events.ResultEvent;	
-			import views.MenuCatAll;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			
 			import views.Menu;
+			import views.MenuCatAll;
 			[Bindable]
 			public var locationid:String = "";
 			[Bindable]
@@ -52,6 +55,19 @@
 					catch(e:Error){
 					}
 				}
+				
+				var picturedata:ArrayCollection = new ArrayCollection();
+				try{			
+					picturedata = ev.result[0].ress3.res3;		
+				}
+				catch(e:Error){
+					try{
+						
+						picturedata.addItem(ev.result[0].ress3.res3);
+					}
+					catch(e:Error){
+					}
+				}
 				var sampleimage:String = "";
 				for (var i:uint = 0; i < listData.length; i++){
 					listData[i].business_name = data.business_name;
@@ -60,6 +76,18 @@
 						(listData[i].picture != null)&&
 						(listData[i].picture != "null")){
 						sampleimage = listData[i].picture;
+					}
+					else {
+						var foundfix:Boolean = false
+						for (var j:uint = 0; j < picturedata.length; j++){
+							if ((picturedata[j].categoryid == listData[i].categoryid)&&(picturedata[j].picture != "None")&&
+								(picturedata[j].picture != "")&&
+								(picturedata[j].picture != null)&&
+								(picturedata[j].picture != "null")){
+								
+								listData[i].picture = picturedata[j].picture;
+							}
+						}
 					}
 				}
 				if (sampleimage.length < 3){

@@ -609,7 +609,7 @@
 				 text="No Results Found" color="#8c8c8c"/>
 	</s:Group>
 	
-	<s:Group id="dropDownContainer"  visible="false" alpha="0" width="100%" height="100%">
+	<s:Group id="dropDownContainer"  visible="false" alpha="0" width="100%" bottom="0" top="{filterarea.height*2}">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="0.8" color="#FFFFFF"/>

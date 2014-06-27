@@ -121,21 +121,9 @@
 			<s:Group width="100%" height="{250/(320/Capabilities.screenDPI)}">
 				<s:HGroup gap="{20/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}" 
 						  paddingRight="{30/(320/Capabilities.screenDPI)}" width="100%" height="{200/(320/Capabilities.screenDPI)}"  verticalCenter="0">
-					<s:Group height="100%">
-						<s:BitmapImage left="0" top="0" width="{50/(320/Capabilities.screenDPI)}"
-								 height="{50/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}">
-							<s:source>
-								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/menu-account.png')"
-														source240dpi="@Embed('../assets/320/menu-account.png')"
-														source320dpi="@Embed('../assets/320/menu-account.png')"
-														source480dpi="@Embed('../assets/320/menu-account.png')"
-														source640dpi="@Embed('../assets/320/menu-account.png')"/>
-							</s:source>
-						</s:BitmapImage>
-					</s:Group>
 					<s:VGroup width="100%"  height="100%">
-						<s:HGroup width="100%" verticalAlign="middle">
-							<s:Label  text="{data.firstname.charAt(0).toUpperCase()+data.firstname.substring(1,data.firstname.length)}"  
+						<s:HGroup width="100%" verticalAlign="middle" maxWidth="{this.width/1.1}">
+							<s:Label  text="{data.name.charAt(0).toUpperCase()+data.name.substring(1,data.name.length)}"  
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
@@ -146,10 +134,10 @@
 															source640dpi="@Embed('../assets/320/trirating.png')"/>
 								</s:source>
 							</s:BitmapImage>
-							<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1,20)+'...'}" 
+							<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1)}" width="100%" maxDisplayedLines="1"
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 						</s:HGroup>
-						<s:HGroup width="100%" verticalAlign="top">
+						<s:HGroup width="100%" verticalAlign="top"  maxWidth="{this.width/1.1}">
 							<s:Label  text="{data.rating}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 							<s:Label width="100%"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
 									 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>

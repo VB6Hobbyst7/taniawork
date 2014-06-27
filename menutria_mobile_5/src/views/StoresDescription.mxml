@@ -61,6 +61,7 @@
 			
 			public function view1_activateHandler(event:Event):void
 			{
+				didlistclick = false;
 				this.parentApplication.showloading();
 				setLoginVars();	
 				img1.source = data.business_picture;
@@ -286,7 +287,7 @@
 						</s:Rect>
 						<s:Label id="ratinglabel" color="#FFFFFF"
 								 horizontalCenter="0" styleName="textsize7"
-								 text="{data.rating}" fontWeight="bold" verticalCenter="0"/>
+								 fontWeight="bold" verticalCenter="0"/>
 					</s:Group>
 					<s:VGroup height="100%">
 						<s:Label id="selectedTitle" left="{14/(320/Capabilities.screenDPI)}" right="{2/(320/Capabilities.screenDPI)}" top="{13/(320/Capabilities.screenDPI)}" width="100%" color="#4d4d4d"

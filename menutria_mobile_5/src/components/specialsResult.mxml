@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				autoDrawBackground="false" mouseChildren="false"
+				autoDrawBackground="false"
 				creationComplete="init(event)"
 				dataChange="dchange(event)"
-				mouseOver="gOver(event);" mouseDown="gDown(event);"
-				mouseOut="gOut(event);" mouseUp="gOut(event);">
+			>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 			private var _sectionField:String = "section";
-			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
+			[Bindable]
+			public var setheightval:Number = 640/(320/Capabilities.screenDPI);
 			protected function init(event:FlexEvent):void
 			{
 				if ((data.picture == "None")||(data.picture == "")||
@@ -22,9 +22,8 @@
 					bmpImg.source = data.picture;
 				}
 				
-				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
-				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
-				bmpImg.maxHeight = this.height;
+				bmpImg.width = setheightval*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval*(300/640)*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 				
 				if (data.yearly == 'y'){
 					dayval.text = data.startdate + " - " + data.enddate;
@@ -32,6 +31,15 @@
 				else {
 					dayval.text = data.weekday;
 				}
+				
+				
+			
+				
+				
+				
+				
+				
+				
 			}
 			public function dchange(event:FlexEvent):void
 			{
@@ -43,9 +51,8 @@
 					bmpImg.source = data.picture;
 				}
 				
-				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
-				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
-				bmpImg.maxHeight = this.height;
+				bmpImg.width = setheightval*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval*(300/640)*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 				
 				if (data.yearly == 'y'){
 					dayval.text = data.startdate + " - " + data.enddate;
@@ -56,27 +63,26 @@
 			}
 		]]>
 	</fx:Script>
-	<s:VGroup width="100%" 
-			  height="{(140/(320/Capabilities.screenDPI))*data.type}" 
-			  gap="0" 
+	<s:VGroup width="100%"  top="-1"
+			  gap="0"  height="{setheightval*(300/640)*data.type-1}"
 			  visible="{data.type == 1}">
 	<s:Group width="{this.width}"  
-			 mouseEnabled="false"   id="megacont" 
-			 maxHeight="{140/(320/Capabilities.screenDPI)}">
-		<s:HGroup width="{this.width}" gap="0" 
-				  paddingTop="{20/(320/Capabilities.screenDPI)}"
-				  paddingBottom="{20/(320/Capabilities.screenDPI)}" 
-				  paddingLeft="{10/(320/Capabilities.screenDPI)}" 
-				  verticalAlign="middle" height="90%" verticalCenter="0">
+			 mouseEnabled="false"   id="megacont" >
+		<s:Image id="bmpImg"  top="0"  contentLoader="{s_imageCache}"
+				 verticalCenter="0"  scaleMode="zoom" />
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="0.2" color="#000000"/>
+			</s:fill>
+		</s:Rect>
 			<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" width="100%"
-						 paddingTop="{10/(320/Capabilities.screenDPI)}" 
-						 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+						 paddingBottom="{10/(320/Capabilities.screenDPI)}"  verticalAlign="bottom" bottom="0"
 						 paddingRight="{10/(320/Capabilities.screenDPI)}">
-				<s:Label  color="#4d4d4d" maxDisplayedLines="1"
+				<s:Label color="#FFFFFF" maxDisplayedLines="5"
 						 fontWeight="bold" styleName="textsize4" 
-						 text="{data.description}"    width="{640-bmpImg.width}"  maxWidth="{640-bmpImg.width}"
+						 text="{data.description}"    width="{setheightval*data.type}"  maxWidth="{setheightval*data.type}"
 						 verticalAlign="middle"></s:Label>
-				<s:Label id="dayval"   width="100%"  color="#4d4d4d" fontWeight="bold" 
+				<s:Label id="dayval"   width="100%"  color="#FFFFFF" fontWeight="bold" 
 						 styleName="textsize1" 
 						 maxDisplayedLines="1"
 						 verticalAlign="middle"></s:Label>
@@ -84,10 +90,6 @@
 						  styleName="textsize1" text=" {data.categoryname}"
 						  verticalAlign="middle"></s:Label>
 			</s:VGroup>
-			<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}"
-					 verticalCenter="0"  scaleMode="letterbox" />
-		</s:HGroup>
-		
 		<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
 		</s:Line>
@@ -105,4 +107,7 @@
 				 fontWeight="bold" styleName="textsize1" text="{data.name}"
 				 verticalAlign="middle"></s:Label>
 	</s:Group>
+	<s:Line  width="100%"  bottom="1"  > 
+		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+	</s:Line>
 </s:ItemRenderer>
