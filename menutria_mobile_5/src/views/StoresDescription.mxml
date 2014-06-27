@@ -81,6 +81,14 @@
 				}
 				getTopRated.send();
 				getTopReviews.send();
+				
+				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+					img1.source = "assets/320/res_place_wide.png";	
+				}
+				img1.visible = true;
+				
+				
+				
 			}
 			public function goback(ev:MouseEvent):void {
 				navigator.popView();

@@ -84,9 +84,13 @@
 								(picturedata[j].picture != "")&&
 								(picturedata[j].picture != null)&&
 								(picturedata[j].picture != "null")){
-								
+								foundfix = true;
 								listData[i].picture = picturedata[j].picture;
 							}
+						}
+						
+						if (foundfix == false){
+							listData[i].picture = "../assets/"+getDPIHeight()+"/dish_place_square.png";
 						}
 					}
 				}

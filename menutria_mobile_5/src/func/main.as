@@ -1,5 +1,5 @@
 [Bindable]
-public var VERSIONID:Number = 7;
+public var VERSIONID:Number = 9;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;

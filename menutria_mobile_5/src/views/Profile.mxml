@@ -282,6 +282,7 @@
 			{
 				dlog( "Upload successful." );
 				profimage.source = "http://www.menutria.com/uploadify/profileimages/"+ranfilename+".jpg";
+				this.parentApplication.updateProfileImage("http://www.menutria.com/uploadify/profileimages/"+ranfilename+".jpg");
 			}
 			
 			private function ioError( error:IOErrorEvent ):void
@@ -302,7 +303,7 @@
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
 						profimage.scaleMode = "zoom";
-						this.parentApplication.updateProfileImage(newpicture);
+					
 					}
 				}
 				catch(e:Error){}

@@ -6,11 +6,11 @@
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*" 
 		contentBackgroundColor="#f3f3f3" 
-		destructionPolicy="never"
+		
 		backgroundAlpha="1" title="Specials"
 		backgroundColor="#f3f3f3"
 	    viewActivate="onAct(event)"
-		creationComplete="onActivate(event)">
+		creationComplete="onActivate()">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/menuglobal.as"/>
 	<fx:Script>
@@ -22,9 +22,11 @@
 			import flash.filesystem.File;
 			import flash.sensors.Geolocation;
 			import flash.utils.Timer;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
@@ -74,7 +76,8 @@
 			[Bindable]
 			public var screenwidth:Number = 200;
 			public var didupdate:Boolean = false;
-			public function onActivate(event:Event):void
+
+			public function onActivate():void
 			{
 				
 				this.parentApplication.showloading();
@@ -118,17 +121,16 @@
 					{
 						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
 						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					
 					}
 					else
 					{	
 						mylat = 53.55921;
 						mylong = -113.54009;
 						if (filtermode){
-							loadingtext.visible = true;
 							getDishes2.send();
 						}
 						else {
-							loadingtext.visible = true;
 							getDishes.send();
 						}
 					}		
@@ -137,11 +139,9 @@
 					mylat = 53.59221;
 					mylong = -113.54009;
 					if (filtermode){
-						loadingtext.visible = true;
 						getDishes2.send();
 					}
 					else {
-						loadingtext.visible = true;
 						getDishes.send();
 					}
 				}
@@ -151,10 +151,12 @@
 			
 			public function afterGetDishes(ev:ResultEvent):void
 			{
+				
+				this.destructionPolicy = "never";
 				loadingtext.visible = false;
 				var j:uint = 0;
 				var i:uint = 0;
-				this.parentApplication.hideloading();
+				//this.parentApplication.hideloading();
 				filterarea.visible = true;
 				listData = new ArrayCollection();
 				modData = new ArrayCollection();
@@ -372,6 +374,7 @@
 				}
 			}
 			public function afterGetDishesPostal(ev:ResultEvent):void {
+				this.destructionPolicy = "never";
 				var tempstring:String = ev.result[0].toString();
 				tempstring = tempstring.substring(tempstring.indexOf("lat")+3,tempstring.length);
 				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);
@@ -431,18 +434,13 @@
 			{
 				if (didupdate == false){
 					didupdate = true;
-					mylat = event.latitude;
-					mylong = event.longitude;	
-					for (var i:uint=  0; i < listData.length; i++){
-						listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
+					if (filtermode){
+						getDishes2.send();
 					}
-					var dataSortField:SortField = new SortField();
-					dataSortField.name = "distance";
-					dataSortField.numeric = true;
-					var numericDataSort:Sort = new Sort();
-					numericDataSort.fields = [dataSortField];
-					listData.sort = numericDataSort;
-					listData.refresh();
+					else {
+						getDishes.send();
+					}
+					
 				}
 			}	
 			protected function onRemove(event:ViewNavigatorEvent):void
@@ -756,7 +754,10 @@
 			}
 			public function onAct(event:ViewNavigatorEvent):void
 			{
-				goingtonext = false;	
+				goingtonext = false;
+				if (listData.length <= 0){
+				//	onActivate();
+				}
 			}	
 		]]>
 	</fx:Script>
