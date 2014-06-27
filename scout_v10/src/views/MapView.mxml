@@ -37,11 +37,15 @@
 		<![CDATA[
 			import com.esri.ags.events.LayerEvent;
 			import com.esri.ags.geometry.MapPoint;
-			import components.mapGraphic;
+			
 			import flash.sensors.Geolocation;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
+			
+			import components.mapGraphic;
 			protected var g:Geolocation = new Geolocation();   
 			[Bindable]
 			public var mylat:Number = 53.493252;
@@ -109,7 +113,16 @@
 			}
 			
 			public function checkifgogo(ev:MouseEvent):void {
+				var doit:Boolean = false;
+				try{
+					if (ev.target.styleParent.imageDisplay.source.source160dpi.toString().indexOf("setting") != -1){
+					
+					
+					}
+				}
+				catch(e:Error){
 				
+				}
 				
 				try{
 					if (ev.target.styleParent.imageDisplay.source.source160dpi.toString().indexOf("setting") != -1){
