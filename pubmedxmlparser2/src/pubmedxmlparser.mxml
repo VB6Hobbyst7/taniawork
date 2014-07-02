@@ -41,205 +41,92 @@
 			[Bindable]
 			public var limit:uint = 84000;
 			public var goby:uint = 2000;
+			public var counter:Number = 9;
 			
 			public function afterLoad(event:FlexEvent):void
 			{
-				/*var file3:File = new File("C:\\Users\\mark\\Desktop\\test.xml");
-				var fs:FileStream = new FileStream();
-				fs.open(file3, FileMode.READ);
-				//text of the the m.txt is now in mtext
-				resultString = fs.readUTFBytes(fs.bytesAvailable).toLowerCase();
-				fs.close();
-				load2();*/
+				getData.url = "C:/Users/mark/Desktop/pubmed/p"+counter.toString()+".xml"
 				getData.send();
 			}
-			public function load():void
+			protected function getData_resultHandler(event:ResultEvent):void
 			{
-			
-				var resultCounter:uint = 2;
-				dataArray = new ArrayCollection();
-				if (resultString.indexOf("</pubmedarticleset>") == -1){
-					var stop:String = "";
-				}
-				var traceCounter:uint = 0;
-				do {
-					var pubArticle:String = resultString.substring(resultString.indexOf("<pubmedarticle>")+15,
-						resultString.indexOf("</pubmedarticle>"));
-					
-					
-					
-					
-					
-					
-					var title:String = "";
-					
-					
-					if ((pubArticle.indexOf("</articletitle>") == -1)&&(pubArticle.indexOf("</articletitle>") == -1)){
-						title = "no title";
+				var csvtext:String = "pmid,publicationtype,journaltitle\r\n"
+				var resultarray:ArrayCollection = new ArrayCollection();
+				dataArray = event.result[0].PubmedArticle;
+				var stop:String = "";
+				for (var i:uint = 0; i < dataArray.length; i++){
+					try{
+						var pmid:String = dataArray[i].MedlineCitation.PMID.value;	
 					}
-					else if (pubArticle.indexOf("</articletitle>") < pubArticle.indexOf("<articletitle>")){
-						title = pubArticle.substring(pubArticle.indexOf("<articletitle>")+14,pubArticle.indexOf("</meshheadinglist>"));
-						title = removeHtmlTags(title);
-						title = fixText(title);
-						
-					}
-					else {
-						title = pubArticle.substring(pubArticle.indexOf("<articletitle>")+14,pubArticle.indexOf("</articletitle>"));
+					catch(e:Error){
+						trace("HUGE ERROR FIND IT");
 					}
 					
 					
+					/*
 					
+					delete all research support
+					take first
 					
-					
-					
-					var dateFull:String = pubArticle.substring(pubArticle.indexOf("<pubdate>")+9,pubArticle.indexOf("</pubdate>"));
-					var date:String = dateFull.substring(dateFull.indexOf("<year>")+6,dateFull.indexOf("</year>"))+"," +
-						dateFull.substring(dateFull.indexOf("<month>")+7,dateFull.indexOf("</month>"));
-					var year:String = dateFull.substring(dateFull.indexOf("<year>")+6,dateFull.indexOf("</year>"));
-					var month:String = dateFull.substring(dateFull.indexOf("<month>")+7,dateFull.indexOf("</month>")).toLowerCase();
-					
-					
-					
-					
-					
-					
-					var text:String = "";
-					if (pubArticle.indexOf("</abstract>") == -1){
-						text = pubArticle.substring(pubArticle.indexOf("<abstracttext>")+14,pubArticle.indexOf("</"));
-						text = fixText(text);
-					}
-					else if (pubArticle.indexOf("</abstract>") < pubArticle.indexOf("<abstract>")){
-						var tempArticle:String = pubArticle;
-						tempArticle = tempArticle.substring(tempArticle.indexOf("</abstract>")+11,tempArticle.length);
-						text = tempArticle.substring(tempArticle.indexOf("<abstract>")+10,tempArticle.indexOf("</abstract>"));
-						text = removeHtmlTags(text);
-						text = fixText(text);
-
-					}
-					else {
-						text = pubArticle.substring(pubArticle.indexOf("<abstract>")+10,pubArticle.indexOf("</abstract>"));
-						text = removeHtmlTags(text);
-						text = fixText(text);
-
-					}
-					
-					
-					
-					var pmid:String = pubArticle.substring(pubArticle.indexOf("<pmid")+5,
-						pubArticle.indexOf("</pmid>"));
-					pmid = pmid.substring(pmid.indexOf(">")+1,pmid.length);
-					var affiliation:String = pubArticle.substring(pubArticle.indexOf("<affiliation>")+13,
-						pubArticle.indexOf("</affiliation>"));
-					
-					/*if ((affiliation.indexOf("<medli") != -1)||(affiliation.indexOf("<") != -1)){
-						affiliation = "none";
-					}*/
-					
-					
-					
-					if (pubArticle.indexOf("<abstract>") == -1){
-						text = "notext";
-					}
-					
-					if (foundBadCharacter(affiliation)){
-						affiliation = "NONE";
-					}
-					
-					
-					
-						
-						
-						if ((month == "      ")||(month == "")||(month == "\r\n    ")){
-							var stop3:String = "";
-							dateFull = pubArticle.substring(pubArticle.indexOf("<datecreated>")+13,pubArticle.length);
-							dateFull = dateFull.substring(0,dateFull.indexOf("</month>")+8);
-							date = dateFull.substring(dateFull.indexOf("<year>")+6,dateFull.indexOf("</year>"))+"," +
-								getMonth(dateFull.substring(dateFull.indexOf("<month>")+7,dateFull.indexOf("</month>")));
-							year = dateFull.substring(dateFull.indexOf("<year>")+6,dateFull.indexOf("</year>"));
-							month = getMonth(dateFull.substring(dateFull.indexOf("<month>")+7,dateFull.indexOf("</month>")).toLowerCase());
-							if ((month == "      ")||(month == "")||(month == "\r\n    ")){
-								var stop4:String = "";
-
+					*/
+					var publicationtypefirst:String = "";
+					try{
+						var temppubarray:ArrayCollection = new ArrayCollection();
+						temppubarray = dataArray[i].MedlineCitation.Article.PublicationTypeList.PublicationType;
+						for (var j:uint = 0; j < temppubarray.length; j++){
+							var tempstring:String = temppubarray[j];
+							if ((tempstring.toLowerCase().indexOf("research support") == -1)
+								//&&(publicationtypefirst.toLowerCase() == "")
+								//&&(publicationtypefirst.toLowerCase().indexOf("journal article") == -1)
+							){
+								if (publicationtypefirst == ""){
+									publicationtypefirst = tempstring;
+								}
+								else {
+									publicationtypefirst = publicationtypefirst + "|" + tempstring;
+								}
+								
 							}
 						}
 						
-						if (foundBadCharacter(affiliation)){
-							stop  = "";
-							affiliation = "none";
-						}
-						if (foundBadCharacter(date)){
-							stop  = "";	
-							date = "none";
-						}
-						if (foundBadCharacter(year)) {
-							stop  = "";
-							year = "none";
-						}
-						if (foundBadCharacter(month)) {
-							stop  = "";
-							month = "none";
-						}
-						if (foundBadCharacter(text)) {
-							stop  = "";
-							text = "none";
-						}
-						if (foundBadCharacter(pmid)) {
-							stop  = "";
-							pmid = "none";
-						}
-						if (foundBadCharacter(title)) {
-							stop  = "";
-							title = "none";
-						}
-						
-					
-						dataArray.addItem({title:title,date:date,year:year,month:month,text:text,pmid:pmid,affiliation:affiliation});
-						
-					
-					resultString = resultString.substring(resultString.indexOf("/pubmedarticle")+15,resultString.length);
-					if (resultString.indexOf("/pubmedarticle") == -1){
-							resultString = "";
 					}
-					traceCounter++;
-					trace(traceCounter.toString());
+					catch(e:Error){
+						try{
+							publicationtypefirst = dataArray[i].MedlineCitation.Article.PublicationTypeList.PublicationType;
+						}
+						catch(e:Error){
+							trace("HUGE ERROR FIND IT");
+						}
+					}
 					
-				} while((resultString.indexOf("pubmedarticle") != -1));
-				uploadData();
+					
+					try{
+						var journaltitle:String = dataArray[i].MedlineCitation.Article.Journal.Title;
+					}
+					catch(e:Error){
+						trace("HUGE ERROR FIND IT");
+					}
+					
+					csvtext = csvtext + pmid + "," + publicationtypefirst + "," + journaltitle + "\r\n";
+					resultarray.addItem({pmid:pmid,publicationtypefirst:publicationtypefirst,journaltitle:journaltitle});
+				}
 				
-			}
-			
-			
-			public function uploadData():void {
-					putCounter = 0;
-					s1 = fixText(dataArray[putCounter].title);
-					s2 = dataArray[putCounter].date;
-					s3 = fixText(dataArray[putCounter].text);
-					s4 = dataArray[putCounter].month;
-					s5 = dataArray[putCounter].year;
-					s6 = dataArray[putCounter].affiliation;
-					s7 = dataArray[putCounter].pmid;
-					
-					putData.send();
-					
-			}
-			
-			public function afterPutData(ev:ResultEvent):void {
-				trace(putCounter.toString());
-				if (putCounter < dataArray.length-1){
-					putCounter++;
-					s1 = fixText(dataArray[putCounter].title);
-					s2 = dataArray[putCounter].date;
-					s3 = fixText(dataArray[putCounter].text);
-					s4 = dataArray[putCounter].month;
-					s5 = dataArray[putCounter].year;
-					s6 = dataArray[putCounter].affiliation;
-					s7 = dataArray[putCounter].pmid;
-					putData.send();
+				var f:File = new File("C:/Users/mark/Desktop/pubmed/resultfile"+counter.toString()+".csv");
+				f.resolvePath("C:/Users/mark/Desktop/pubmed/resultfile"+counter.toString()+".csv");
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.WRITE);                                         
+				stream.writeUTFBytes(csvtext.toUpperCase());
+				stream.close();
+				
+				var stop:String = "";
+				if (counter != 21){
+					counter++;
+					getData.url = "C:/Users/mark/Desktop/pubmed/p"+counter.toString()+".xml"
+					getData.send();
 				}
-				else {
-					trace("done");
-					var stop:String = "";	
-				}
+			
+				
+				
 			}
 			public function foundBadCharacter(s:String):Boolean {
 				if (s.indexOf("<") != -1){
@@ -379,78 +266,11 @@
 				
 				return text;
 			}
-			
-			protected function getData_resultHandler(event:ResultEvent):void
-			{
-				var resultarray:ArrayCollection = new ArrayCollection();
-				dataArray = event.result[0].PubmedArticleSet.PubmedArticle;
-				var stop:String = "";
-				for (var i:uint = 0; i < dataArray.length; i++){
-					try{
-						var pmid:String = dataArray[i].MedlineCitation.PMID.value;	
-					}
-					catch(e:Error){
-						trace("HUGE ERROR FIND IT");
-					}
-					
-					
-					/*
-					
-					delete all research support
-					take first
-					
-					*/
-					var publicationtypefirst:String = "";
-					try{
-						publicationtypefirst = dataArray[i].MedlineCitation.Article.PublicationTypeList.PublicationType[0];
-					}
-					catch(e:Error){
-						try{
-							publicationtypefirst = dataArray[i].MedlineCitation.Article.PublicationTypeList.PublicationType;
-						}
-						catch(e:Error){
-							trace("HUGE ERROR FIND IT");
-						}
-					}
-					
-					
-					try{
-						var journaltitle:String = dataArray[i].MedlineCitation.Article.Journal.Title;
-					}
-					catch(e:Error){
-						trace("HUGE ERROR FIND IT");
-					}
-					resultarray.addItem({pmid:pmid,publicationtypefirst:publicationtypefirst,journaltitle:journaltitle});
-				}
-				var stop2:String = "";
-				
-				
-				
-				
-				
-				
-			}
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-		<s:HTTPService id="getData" url="C:\Users\mark\Desktop\test.xml"  
+		<s:HTTPService id="getData" 
 					    resultFormat="array" result="getData_resultHandler(event)" />
-		<s:HTTPService id = "putData"  result="afterPutData(event);"
-					   url="http://localhost/pubmedxmlparser/bin-debug/php/putData.php"
-					   method="POST" >
-			<s:request xmlns="">
-				<s1>{s1}</s1>
-				<s2>{s2}</s2>
-				<s3>{s3.toLowerCase()}</s3>
-				<s4>{s4}</s4>
-				<s5>{s5}</s5>
-				<s6>{s6}</s6>
-				<s7>{s7}</s7>
-			</s:request>
-		</s:HTTPService>
 	</fx:Declarations>
-	<s:Label x="340" y="242" width="99" height="17" text="limit&#xd;"/>
-	<s:Label x="460" y="240" width="99" height="17" text="{limit.toString()}"/>
 </s:WindowedApplication>
