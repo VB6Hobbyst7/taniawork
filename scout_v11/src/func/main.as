@@ -235,6 +235,12 @@ public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Numb
 	}
 }
 public function logout():void {
+	try{
+		GoViral.goViral.logoutFacebook();
+	}
+	catch(e:Error){
+		
+	}
 	mainNavigator.navigator.pushView(Signin);
 }
 public function verifyDataTablesViaVersion():void {
@@ -318,6 +324,126 @@ public function initz(event:FlexEvent):void
 	}
 	catch(e:Error){	
 	}	
+	
+	
+	checkfacebookin();
+	
+	
+}
+public function checkfacebookin():void {
+	
+	try{
+		if(GoViral.goViral.isFacebookAuthenticated())
+		{
+			GoViral.goViral.requestMyFacebookProfile().addRequestListener(function(e:GVFacebookEvent):void {
+				if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
+				{
+					var myProfile:GVFacebookFriend=e.friends[0];
+					
+					fsid = myProfile.id.toString();
+					
+					try{
+						fsemail = myProfile.email();
+					}
+					catch(e:Error){}
+					
+					try{
+						fsname = myProfile.name.toString();
+					}
+					catch(e:Error){}
+					
+					try{
+						fscity = myProfile.locationName.toString().substr(
+							0,
+							myProfile.locationName.toString().indexOf(","));
+					}
+					catch(e:Error){
+						try{
+							fscity = myProfile.properties.user_location.toString().substr(
+								0,
+								myProfile.properties.user_location.toString().indexOf(","));
+						}
+						catch(e:Error){
+							
+							fscity = "";
+						}
+						
+					}
+					
+					try{
+						fslocality = myProfile.locationName.toString().substr(
+							myProfile.locationName.toString().indexOf(",")+2, 
+							myProfile.locationName.toString().length);
+					}
+					catch(e:Error){
+						try{
+							fslocality = myProfile.properties.user_location.toString().substr( 
+								myProfile.properties.user_location.toString().indexOf(",")+2,
+								myProfile.properties.user_location.toString().length);
+						}
+						catch(e:Error){
+							
+							fslocality = "";
+						}
+						
+					}
+					
+					
+					
+					try{
+						fsgender = myProfile.gender.toString().substr(0,1);
+					}
+					catch(e:Error){
+						fsgender = "";
+					}
+					
+					
+					var tempBirthString:String = "";
+					try{
+						tempBirthString = myProfile.properties["birthday"].toString();
+					}
+					catch(e:Error){}
+					
+					
+					
+					try{
+						fsbirthmonth = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+						tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+					}
+					catch(e:Error){
+						fsbirthmonth = "0";
+					}
+					
+					
+					try{
+						fsbirthday = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+						tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+					}
+					catch(e:Error){
+						fsbirthday = "0";
+					}
+					
+					
+					try{
+						fsbirthyear = tempBirthString;
+					}
+					catch(e:Error){
+						fsbirthyear = "0";
+					}
+					
+					
+					syncfacebook.send();			
+				}
+				
+			});
+			
+			
+			
+		}
+	}
+	catch(e:Error){
+		
+	}
 }
 private function onFacebookEvent(e:GVFacebookEvent):void
 {

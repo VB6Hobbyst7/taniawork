@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
-		title="Scout"
+		title="Scout" viewActivate="viewact(event)"
 		backgroundColor="#f2f3f4" 
 		contentBackgroundColor="#f2f3f4">
 	<s:navigationContent >
@@ -13,8 +13,11 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var busy:Boolean = false;
@@ -94,6 +97,12 @@
 				this.parentApplication.facebookloging();
 			}
 		
+			public function viewact(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.parentApplication.checkfacebookin();
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>	
