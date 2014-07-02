@@ -108,32 +108,11 @@
 			
 			protected function closeQR():void
 			{
-				qrholderout();
+				qrholder.visible = false;
 			}
 			protected function openQR():void
 			{
-				qrholderin();
-			}
-			public function qrholderin():void {
 				qrholder.visible = true;
-				var fa:Fade = new Fade();
-				fa.alphaFrom = 0;
-				fa.alphaTo = 1;
-				fa.target = qrholder;
-				fa.duration = 500;
-				fa.play();
-			}
-			public function qrholderout():void {
-				var fa:Fade = new Fade();
-				fa.addEventListener(EffectEvent.EFFECT_END, afterqrout);
-				fa.alphaFrom = 1;
-				fa.alphaTo = 0;
-				fa.target = qrholder;
-				fa.duration = 500;
-				fa.play();
-			}
-			public function afterqrout(ev:EffectEvent):void {
-				qrholder.visible = false;
 			}
 			public function homepicclick(event:MouseEvent):void
 			{
@@ -379,8 +358,7 @@
 		</s:Group>
 
 	</s:VGroup>
-	<s:Group id="qrholder" width="100%" height="100%" 
-					   alpha="0" visible="false">
+	<s:Group id="qrholder" width="100%" height="100%"  visible="false">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="0.5" color="#000000"/>
