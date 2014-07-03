@@ -92,7 +92,7 @@
 				</s:layout>
 			</s:List>
 		</s:VGroup>
-		<s:Image  right="5" verticalCenter="0"
+		<s:Image  right="5" verticalCenter="{(this.height*0.25)/2}"
 				  mouseEnabled="false" contentLoader="{s_imageCache}" >
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/doubleline.png')"

@@ -35,6 +35,8 @@
 			public var ranfilename:String = "";
 			public function init(event:Event):void
 			{
+				
+				this.parentApplication.openMenu();
 				setLoginVars();	
 				try{
 					var code:String = emailGo;

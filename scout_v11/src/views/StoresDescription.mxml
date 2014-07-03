@@ -488,7 +488,7 @@
 						 mouseDown="gDown(event);">
 					<s:Label text="Later"  mouseEnabled="false"
 							 verticalCenter="0" horizontalCenter="0"
-							 styleName="textsize3" color="#389dc8"/>
+							 styleName="textsize4" color="#389dc8"/>
 				</s:Group>
 				<s:Group width="50%" right="0" height="100%" id="redeembtn"
 						 click="sendRating()"
@@ -498,7 +498,7 @@
 						 mouseDown="gDown(event);">
 					<s:Label text="Send"  mouseEnabled="false"
 							 verticalCenter="0" horizontalCenter="0"
-							 styleName="textsize3" color="#389dc8"/>
+							 styleName="textsize4" color="#389dc8"/>
 				</s:Group>
 			</s:Group>
 		</s:Group>
