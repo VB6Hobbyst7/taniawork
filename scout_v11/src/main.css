@@ -77,14 +77,14 @@ s|ActionBar
 {	
 	borderAlpha: 1;
 	borderSize : 1;
-	borderColor: #eeeeee;
+	borderColor: #ffffff;
 	backgroundAlpha: 1;
-	backgroundColor: #eeeeee;
+	backgroundColor: #ffffff;
 	fontFamily: "HelveticaNeue";
 	paddingLeft: 10;
 	paddingRight: 10;
 	paddingTop: 2;
-	chromeColor: #eeeeee;
+	chromeColor: #ffffff;
 	skinClass: ClassReference("skins.SolidActionBarSkin");
 	titleAlign: center;
 	fontWeight: normal;

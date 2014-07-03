@@ -175,11 +175,14 @@
 				</s:Rect>
 				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
 						   horizontalCenter="0" verticalCenter="0">
-					<s:TextInput id="nbirthday" width="33%" prompt="Day" softKeyboardType="number"  fontFamily="Arial"
+					<s:TextInput id="nbirthday" width="33%" prompt="Day"  maxChars="2"
+								 softKeyboardType="number"  fontFamily="Arial"
 								 borderVisible="false" focusAlpha="0"/>
-					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" softKeyboardType="number" fontFamily="Arial"
+					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" maxChars="2"
+								 softKeyboardType="number" fontFamily="Arial"
 								 borderVisible="false" focusAlpha="0"/>
-					<s:TextInput id="nbirthyear" width="33%" prompt="Year" softKeyboardType="number" fontFamily="Arial"
+					<s:TextInput id="nbirthyear" width="33%" prompt="Year"  maxChars="4"
+								 softKeyboardType="number" fontFamily="Arial"
 								 borderVisible="false" focusAlpha="0"/>
 				</s:HGroup>
 				

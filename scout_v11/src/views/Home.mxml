@@ -15,14 +15,18 @@
 			import flash.display.Sprite;
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			import flash.net.navigateToURL;
+			
 			import mx.collections.ArrayCollection;
 			import mx.core.UIComponent;
 			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
-			import org.qrcode.QRCode;
+			
 			import spark.effects.Fade;
 			import spark.events.ViewNavigatorEvent;
+			
+			import org.qrcode.QRCode;
 			[Bindable]
 			public var togstatus:Boolean = false;
 			private var mediaSource:CameraRoll = new CameraRoll();
@@ -36,7 +40,7 @@
 			public function init(event:Event):void
 			{
 				
-				this.parentApplication.openMenu();
+				//this.parentApplication.openMenu();
 				setLoginVars();	
 				try{
 					var code:String = emailGo;
@@ -345,6 +349,9 @@
 				</s:HGroup>
 
 			</s:VGroup>
+			<s:Label text="© Mack Male"  click="navigateToURL(new URLRequest('https://www.flickr.com/photos/mastermaq/209751537'));"
+					 textAlign="left" paddingLeft="5" bottom="{this.height/6+10}" 
+					 left="0" color="#FFFFFF" styleName="textsize0" />
 			
 			<s:Group height="{this.height/6}" width="100%" bottom="0"  
 							   mouseDown="gDown(event);" mouseOver="gOver(event);"
