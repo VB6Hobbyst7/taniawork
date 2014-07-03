@@ -151,7 +151,7 @@
 			 scaleMode="zoom"  
 			 contentLoader="{s_imageCache}" >
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginbackground.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/loginbackground.png')"
 									source240dpi="@Embed('assets/320/loginbackground.png')"
 									source320dpi="@Embed('assets/320/loginbackground.png')"
 									source480dpi="@Embed('assets/320/loginbackground.png')"
@@ -189,15 +189,7 @@
 				<components:transbutton textLabel="Sign Up" horizontalCenter="0" click="createNewClick(event)"/>
 				<components:transbutton textLabel="Sign In" horizontalCenter="0" click="loginClick(event)"/>
 				<components:transbutton textLabel="Sign In With Facebook" horizontalCenter="0" click="facebookLogin()"/>
-				<s:BitmapImage contentLoader="{s_imageCache}"  >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginconditions.png')"
-												source240dpi="@Embed('assets/320/loginconditions.png')"
-												source320dpi="@Embed('assets/320/loginconditions.png')"
-												source480dpi="@Embed('assets/320/loginconditions.png')"
-												source640dpi="@Embed('assets/320/loginconditions.png')"/>
-					</s:source>
-				</s:BitmapImage>		
+						
 			</s:VGroup>
 		</s:Group>
 	</s:Scroller>

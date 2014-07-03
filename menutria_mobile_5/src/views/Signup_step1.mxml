@@ -53,7 +53,7 @@
 				   scaleMode="zoom"  
 				   contentLoader="{s_imageCache}" >
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/loginbackground.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/loginbackground.png')"
 									source240dpi="@Embed('assets/320/loginbackground.png')"
 									source320dpi="@Embed('assets/320/loginbackground.png')"
 									source480dpi="@Embed('assets/320/loginbackground.png')"

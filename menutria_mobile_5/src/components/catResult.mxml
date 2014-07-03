@@ -31,7 +31,7 @@
 		<s:Group right="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
 			<s:Image id="checkimage" visible="{data.chosen == 'yes'}"  contentLoader="{s_imageCache}">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkblue.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/checkblue.png')"
 											source240dpi="@Embed('assets/320/checkblue.png')"
 											source320dpi="@Embed('assets/320/checkblue.png')"
 											source480dpi="@Embed('assets/320/checkblue.png')"
@@ -58,11 +58,11 @@
 		<s:Group right="{30/(320/Capabilities.screenDPI)}" verticalCenter="5">
 			<s:BitmapImage contentLoader="{s_imageCache}"  >
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/forwardbtn.png')"
-											source240dpi="@Embed('assets/320/forwardbtn.png')"
-											source320dpi="@Embed('assets/320/forwardbtn.png')"
-											source480dpi="@Embed('assets/320/forwardbtn.png')"
-											source640dpi="@Embed('assets/320/forwardbtn.png')"/>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/forward.png')"
+											source240dpi="@Embed('assets/320/forward.png')"
+											source320dpi="@Embed('assets/320/forward.png')"
+											source480dpi="@Embed('assets/320/forward.png')"
+											source640dpi="@Embed('assets/320/forward.png')"/>
 				</s:source>
 			</s:BitmapImage>
 		</s:Group>

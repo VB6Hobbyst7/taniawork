@@ -136,13 +136,13 @@
 	</fx:Script>
 	<fx:Declarations>	
 		<s:MultiDPIBitmapSource id="onoff1"
-								source160dpi="@Embed('assets/160/onoff1.png')"
+								source160dpi="@Embed('assets/320/onoff1.png')"
 								source240dpi="@Embed('assets/320/onoff1.png')"
 								source320dpi="@Embed('assets/320/onoff1.png')"
 								source480dpi="@Embed('assets/320/onoff1.png')"
 								source640dpi="@Embed('assets/320/onoff1.png')"/>
 		<s:MultiDPIBitmapSource id="onoff2"
-								source160dpi="@Embed('assets/160/onoff2.png')"
+								source160dpi="@Embed('assets/320/onoff2.png')"
 								source240dpi="@Embed('assets/320/onoff2.png')"
 								source320dpi="@Embed('assets/320/onoff2.png')"
 								source480dpi="@Embed('assets/320/onoff2.png')"
@@ -165,7 +165,7 @@
 			<s:Image  id="eatenimage"  click="onoffclick();" right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
 					  verticalCenter="0" mouseEnabled="false"  visible="true" >
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/onoff1.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/onoff1.png')"
 											source240dpi="@Embed('assets/320/onoff1.png')"
 											source320dpi="@Embed('assets/320/onoff1.png')"
 											source480dpi="@Embed('assets/320/onoff1.png')"

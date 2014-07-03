@@ -8,7 +8,7 @@
 	<s:BitmapImage verticalCenter="0" contentLoader="{s_imageCache}" 
 				   right="{20/(320/Capabilities.screenDPI)}" mouseEnabled="false">
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/menu-home.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/menu-home.png')"
 									source240dpi="@Embed('assets/320/menu-home.png')"
 									source320dpi="@Embed('assets/320/menu-home.png')"
 									source480dpi="@Embed('assets/320/menu-home.png')"

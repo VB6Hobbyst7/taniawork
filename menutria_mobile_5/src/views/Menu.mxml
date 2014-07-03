@@ -144,7 +144,7 @@
 			<s:BitmapImage id="ratingpriceimage1" horizontalCenter="0" verticalCenter="0"
 						   contentLoader="{s_imageCache}" visible="true">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption1.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/ratingpriceoption1.png')"
 											source240dpi="@Embed('assets/320/ratingpriceoption1.png')"
 											source320dpi="@Embed('assets/320/ratingpriceoption1.png')"
 											source480dpi="@Embed('assets/320/ratingpriceoption1.png')"
@@ -154,7 +154,7 @@
 			<s:Image id="ratingpriceimage2" horizontalCenter="0" verticalCenter="0"
 					 contentLoader="{s_imageCache}" visible="false">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/ratingpriceoption2.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/ratingpriceoption2.png')"
 											source240dpi="@Embed('assets/320/ratingpriceoption2.png')"
 											source320dpi="@Embed('assets/320/ratingpriceoption2.png')"
 											source480dpi="@Embed('assets/320/ratingpriceoption2.png')"

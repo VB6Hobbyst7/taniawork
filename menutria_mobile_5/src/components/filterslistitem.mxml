@@ -26,7 +26,7 @@
 			<s:BitmapImage id="checkimage" contentLoader="{s_imageCache}"
 						   visible.selected="true" visible.normal="false" >
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkblue.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/checkblue.png')"
 											source240dpi="@Embed('assets/320/checkblue.png')"
 											source320dpi="@Embed('assets/320/checkblue.png')"
 											source480dpi="@Embed('assets/320/checkblue.png')"

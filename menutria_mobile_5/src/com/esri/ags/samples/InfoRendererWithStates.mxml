@@ -55,11 +55,11 @@
 	<s:HGroup width="100%" height="100%" paddingLeft="10" paddingTop="10" paddingBottom="10">
 		<s:Image mouseDown="pinclick(event)" height="100%" width="100%"  scaleMode="letterbox" >
 			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/160/mappin.png')"
-										source240dpi="@Embed('/assets/240/mappin.png')"
+				<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/320/mappin.png')"
+										source240dpi="@Embed('/assets/320/mappin.png')"
 										source320dpi="@Embed('/assets/320/mappin.png')"
-										source480dpi="@Embed('/assets/480/mappin.png')"
-										source640dpi="@Embed('/assets/640/mappin.png')"/>
+										source480dpi="@Embed('/assets/320/mappin.png')"
+										source640dpi="@Embed('/assets/320/mappin.png')"/>
 			</s:source>
 		</s:Image>
 		<s:VGroup width="100%" height="100%"  click="goToLocation(event)">
@@ -80,11 +80,11 @@
 					 verticalCenter="0" 
 					 mouseEnabled="true">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/240/settingsarrow.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('/assets/320/settingsarrow.png')"
 											source240dpi="@Embed('/assets/320/settingsarrow.png')"
-											source320dpi="@Embed('/assets/480/settingsarrow.png')"
-											source480dpi="@Embed('/assets/640/settingsarrow.png')"
-											source640dpi="@Embed('/assets/640/settingsarrow.png')"/>
+											source320dpi="@Embed('/assets/320/settingsarrow.png')"
+											source480dpi="@Embed('/assets/320/settingsarrow.png')"
+											source640dpi="@Embed('/assets/320/settingsarrow.png')"/>
 				</s:source>
 			</s:Image>
 		</s:Group>

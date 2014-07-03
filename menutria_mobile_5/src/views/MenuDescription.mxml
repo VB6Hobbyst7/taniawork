@@ -507,25 +507,25 @@
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="eatenthis1"
-								source160dpi="@Embed('assets/160/eatenthis1.png')"
+								source160dpi="@Embed('assets/320/eatenthis1.png')"
 								source240dpi="@Embed('assets/320/eatenthis1.png')"
 								source320dpi="@Embed('assets/320/eatenthis1.png')"
 								source480dpi="@Embed('assets/320/eatenthis1.png')"
 								source640dpi="@Embed('assets/320/eatenthis1.png')"/>
 		<s:MultiDPIBitmapSource id="eatenthis2"
-								source160dpi="@Embed('assets/160/eatenthis2.png')"
+								source160dpi="@Embed('assets/320/eatenthis2.png')"
 								source240dpi="@Embed('assets/320/eatenthis2.png')"
 								source320dpi="@Embed('assets/320/eatenthis2.png')"
 								source480dpi="@Embed('assets/320/eatenthis2.png')"
 								source640dpi="@Embed('assets/320/eatenthis2.png')"/>
 		<s:MultiDPIBitmapSource id="topratedrecent1"
-								source160dpi="@Embed('assets/160/topratedrecent1.png')"
+								source160dpi="@Embed('assets/320/topratedrecent1.png')"
 								source240dpi="@Embed('assets/320/topratedrecent1.png')"
 								source320dpi="@Embed('assets/320/topratedrecent1.png')"
 								source480dpi="@Embed('assets/320/topratedrecent1.png')"
 								source640dpi="@Embed('assets/320/topratedrecent1.png')"/>
 		<s:MultiDPIBitmapSource id="topratedrecent2"
-								source160dpi="@Embed('assets/160/topratedrecent2.png')"
+								source160dpi="@Embed('assets/320/topratedrecent2.png')"
 								source240dpi="@Embed('assets/320/topratedrecent2.png')"
 								source320dpi="@Embed('assets/320/topratedrecent2.png')"
 								source480dpi="@Embed('assets/320/topratedrecent2.png')"
@@ -542,7 +542,7 @@
 				<s:Image width="100%" height="100%"  smooth="true" 
 						 contentLoader="{s_imageCache}" scaleMode="stretch"  >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pictureshadow.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/pictureshadow.png')"
 												source240dpi="@Embed('assets/320/pictureshadow.png')"
 												source320dpi="@Embed('assets/320/pictureshadow.png')"/>
 					</s:source>
@@ -554,9 +554,9 @@
 							  left="{30/(320/Capabilities.screenDPI)}"
 							  contentLoader="{s_imageCache}" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-													source240dpi="@Embed('assets/320/backbtnnew.png')"
-													source320dpi="@Embed('assets/320/backbtnnew.png')"/>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/back.png')"
+													source240dpi="@Embed('assets/320/back.png')"
+													source320dpi="@Embed('assets/320/back.png')"/>
 						</s:source>
 					</s:BitmapImage>
 				</s:Group>
@@ -647,7 +647,7 @@
 					<s:BitmapImage id="eatenimage" left="{20/(320/Capabilities.screenDPI)}" 
 								   contentLoader="{s_imageCache}" visible="false" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/eatenthis2.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/eatenthis2.png')"
 													source240dpi="@Embed('assets/320/eatenthis2.png')"
 													source320dpi="@Embed('assets/320/eatenthis2.png')"
 													source480dpi="@Embed('assets/320/eatenthis2.png')"
@@ -728,11 +728,11 @@
 			<s:BitmapImage width="40" height="40" contentLoader="{s_imageCache}"
 						   horizontalCenter="0" verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-											source240dpi="@Embed('assets/320/backbtnnew.png')"
-											source320dpi="@Embed('assets/320/backbtnnew.png')"
-											source480dpi="@Embed('assets/320/backbtnnew.png')"
-											source640dpi="@Embed('assets/320/backbtnnew.png')"/>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/back.png')"
+											source240dpi="@Embed('assets/320/back.png')"
+											source320dpi="@Embed('assets/320/back.png')"
+											source480dpi="@Embed('assets/320/back.png')"
+											source640dpi="@Embed('assets/320/back.png')"/>
 				</s:source>
 			</s:BitmapImage>
 		</s:Group>
@@ -745,7 +745,7 @@
 			<s:BitmapImage id="checkshare" width="40" visible="true" height="40" contentLoader="{s_imageCache}"
 					 horizontalCenter="0" verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkwhite.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/checkwhite.png')"
 											source240dpi="@Embed('assets/320/checkwhite.png')"
 											source320dpi="@Embed('assets/320/checkwhite.png')"
 											source480dpi="@Embed('assets/320/checkwhite.png')"
@@ -782,7 +782,7 @@
 					  verticalAlign="middle">
 				<s:BitmapImage contentLoader="{s_imageCache}" >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/rate-share.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/rate-share.png')"
 												source240dpi="@Embed('assets/320/rate-share.png')"
 												source320dpi="@Embed('assets/320/rate-share.png')"
 												source480dpi="@Embed('assets/320/rate-share.png')"
@@ -792,7 +792,7 @@
 				<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(0)">
 					<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharefacebook">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/rate-facebook.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/rate-facebook.png')"
 													source240dpi="@Embed('assets/320/rate-facebook.png')"
 													source320dpi="@Embed('assets/320/rate-facebook.png')"
 													source480dpi="@Embed('assets/320/rate-facebook.png')"
@@ -803,7 +803,7 @@
 				<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(1)">
 					<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharetwitter">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/rate-twitter.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/rate-twitter.png')"
 													source240dpi="@Embed('assets/320/rate-twitter.png')"
 													source320dpi="@Embed('assets/320/rate-twitter.png')"
 													source480dpi="@Embed('assets/320/rate-twitter.png')"
@@ -852,11 +852,11 @@
 					<s:BitmapImage width="40" height="40" horizontalCenter="0"
 								   contentLoader="{s_imageCache}" verticalCenter="0">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-													source240dpi="@Embed('assets/320/backbtnnew.png')"
-													source320dpi="@Embed('assets/320/backbtnnew.png')"
-													source480dpi="@Embed('assets/320/backbtnnew.png')"
-													source640dpi="@Embed('assets/320/backbtnnew.png')"/>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/back.png')"
+													source240dpi="@Embed('assets/320/back.png')"
+													source320dpi="@Embed('assets/320/back.png')"
+													source480dpi="@Embed('assets/320/back.png')"
+													source640dpi="@Embed('assets/320/back.png')"/>
 						</s:source>
 					</s:BitmapImage>
 				</s:Group>
@@ -870,7 +870,7 @@
 								   horizontalCenter="0" contentLoader="{s_imageCache}"
 								   verticalCenter="0">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkwhite.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/checkwhite.png')"
 													source240dpi="@Embed('assets/320/checkwhite.png')"
 													source320dpi="@Embed('assets/320/checkwhite.png')"
 													source480dpi="@Embed('assets/320/checkwhite.png')"
@@ -880,11 +880,11 @@
 					<s:BitmapImage width="40" id="forward" visible="true" height="40" 
 								   horizontalCenter="0" contentLoader="{s_imageCache}" verticalCenter="0">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/forwardBtnWhite.png')"
-													source240dpi="@Embed('assets/320/forwardBtnWhite.png')"
-													source320dpi="@Embed('assets/320/forwardBtnWhite.png')"
-													source480dpi="@Embed('assets/320/forwardBtnWhite.png')"
-													source640dpi="@Embed('assets/320/forwardBtnWhite.png')"/>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/forwardwhite.png')"
+													source240dpi="@Embed('assets/320/forwardwhite.png')"
+													source320dpi="@Embed('assets/320/forwardwhite.png')"
+													source480dpi="@Embed('assets/320/forwardwhite.png')"
+													source640dpi="@Embed('assets/320/forwardwhite.png')"/>
 						</s:source>
 					</s:BitmapImage>
 				</s:Group>
@@ -897,7 +897,7 @@
 							   verticalCenter="0" 
 							   contentLoader="{s_imageCache}">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq1.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/reviewseq1.png')"
 												source240dpi="@Embed('assets/320/reviewseq1.png')"
 												source320dpi="@Embed('assets/320/reviewseq1.png')"
 												source480dpi="@Embed('assets/320/reviewseq1.png')"
@@ -909,7 +909,7 @@
 							   verticalCenter="0" 
 							   contentLoader="{s_imageCache}">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/reviewseq2.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/reviewseq2.png')"
 												source240dpi="@Embed('assets/320/reviewseq2.png')"
 												source320dpi="@Embed('assets/320/reviewseq2.png')"
 												source480dpi="@Embed('assets/320/reviewseq2.png')"
@@ -925,7 +925,7 @@
 							<s:BitmapImage left="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
 										   width="60" height="60" contentLoader="{s_imageCache}" >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/menu-account.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/menu-account.png')"
 															source240dpi="@Embed('assets/320/menu-account.png')"
 															source320dpi="@Embed('assets/320/menu-account.png')"
 															source480dpi="@Embed('assets/320/menu-account.png')"
@@ -979,7 +979,7 @@
 								  mouseOver="gOver(event)"
 								 mouseUp="gOut(event)" mouseOut="gOut(event)" >
 							<s:source>
-								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/confirmbtn.png')"
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/confirmbtn.png')"
 														source240dpi="@Embed('assets/320/confirmbtn.png')"
 														source320dpi="@Embed('assets/320/confirmbtn.png')"
 														source480dpi="@Embed('assets/320/confirmbtn.png')"

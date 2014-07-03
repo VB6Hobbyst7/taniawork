@@ -772,7 +772,7 @@
 			</s:Rect>
 			<s:BitmapImage left="{20/(320/Capabilities.screenDPI)}" verticalCenter="0" contentLoader="{s_imageCache}">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/glass.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/glass.png')"
 											source240dpi="@Embed('assets/320/glass.png')"
 											source320dpi="@Embed('assets/320/glass.png')"
 											source480dpi="@Embed('assets/320/glass.png')"
@@ -806,7 +806,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="close"
-								source160dpi="@Embed('assets/160/close.png')"
+								source160dpi="@Embed('assets/320/close.png')"
 								source240dpi="@Embed('assets/320/close.png')"
 								source320dpi="@Embed('assets/320/close.png')"
 								source480dpi="@Embed('assets/320/close.png')"
@@ -824,7 +824,7 @@
 					 contentLoader="{s_imageCache}" alpha="1"
 					 verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs1.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/hometabs1.png')"
 											source240dpi="@Embed('assets/320/hometabs1.png')"
 											source320dpi="@Embed('assets/320/hometabs1.png')"
 											source480dpi="@Embed('assets/320/hometabs1.png')"
@@ -835,7 +835,7 @@
 					 contentLoader="{s_imageCache}" alpha="0"  
 					 verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs2.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/hometabs2.png')"
 											source240dpi="@Embed('assets/320/hometabs2.png')"
 											source320dpi="@Embed('assets/320/hometabs2.png')"
 											source480dpi="@Embed('assets/320/hometabs2.png')"
@@ -846,7 +846,7 @@
 					 contentLoader="{s_imageCache}" alpha="0"  
 					 verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs3.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/hometabs3.png')"
 											source240dpi="@Embed('assets/320/hometabs3.png')"
 											source320dpi="@Embed('assets/320/hometabs3.png')"
 											source480dpi="@Embed('assets/320/hometabs3.png')"
@@ -857,7 +857,7 @@
 					 contentLoader="{s_imageCache}" alpha="0" 
 					 verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/hometabs4.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/hometabs4.png')"
 											source240dpi="@Embed('assets/320/hometabs4.png')"
 											source320dpi="@Embed('assets/320/hometabs4.png')"
 											source480dpi="@Embed('assets/320/hometabs4.png')"
@@ -885,7 +885,7 @@
 			<s:BitmapImage right="{29/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
 					 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/close.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/close.png')"
 											source240dpi="@Embed('assets/320/close.png')"
 											source320dpi="@Embed('assets/320/close.png')"
 											source480dpi="@Embed('assets/320/close.png')"

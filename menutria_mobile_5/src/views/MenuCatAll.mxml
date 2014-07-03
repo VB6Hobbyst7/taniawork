@@ -502,7 +502,7 @@
 							contentLoader="{s_imageCache}" alpha="1"
 							verticalCenter="0">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption1.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/catratingpriceoption1.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption1.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption1.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption1.png')"
@@ -513,7 +513,7 @@
 							   contentLoader="{s_imageCache}" alpha="0"  
 						 verticalCenter="0">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption2.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/catratingpriceoption2.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption2.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption2.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption2.png')"
@@ -524,7 +524,7 @@
 							   contentLoader="{s_imageCache}" alpha="0"  
 						 verticalCenter="0">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/catratingpriceoption3.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/catratingpriceoption3.png')"
 												source240dpi="@Embed('assets/320/catratingpriceoption3.png')"
 												source320dpi="@Embed('assets/320/catratingpriceoption3.png')"
 												source480dpi="@Embed('assets/320/catratingpriceoption3.png')"
@@ -549,7 +549,7 @@
 				<s:BitmapImage right="{29/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
 						 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/close.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/close.png')"
 												source240dpi="@Embed('assets/320/close.png')"
 												source320dpi="@Embed('assets/320/close.png')"
 												source480dpi="@Embed('assets/320/close.png')"

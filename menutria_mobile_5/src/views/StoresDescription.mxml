@@ -241,13 +241,13 @@
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="topratedrecent1"
-								source160dpi="@Embed('assets/160/topratedrecent1.png')"
+								source160dpi="@Embed('assets/320/topratedrecent1.png')"
 								source240dpi="@Embed('assets/320/topratedrecent1.png')"
 								source320dpi="@Embed('assets/320/topratedrecent1.png')"
 								source480dpi="@Embed('assets/320/topratedrecent1.png')"
 								source640dpi="@Embed('assets/320/topratedrecent1.png')"/>
 		<s:MultiDPIBitmapSource id="topratedrecent2"
-								source160dpi="@Embed('assets/160/topratedrecent2.png')"
+								source160dpi="@Embed('assets/320/topratedrecent2.png')"
 								source240dpi="@Embed('assets/320/topratedrecent2.png')"
 								source320dpi="@Embed('assets/320/topratedrecent2.png')"
 								source480dpi="@Embed('assets/320/topratedrecent2.png')"
@@ -263,7 +263,7 @@
 							   contentLoader="{s_imageCache}"   />
 				<s:BitmapImage id="shaddow"  width="100%"  top="0"	contentLoader="{s_imageCache}"   >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pictureshadow.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/pictureshadow.png')"
 												source240dpi="@Embed('assets/320/pictureshadow.png')"
 												source320dpi="@Embed('assets/320/pictureshadow.png')"/>
 					</s:source>
@@ -273,9 +273,9 @@
 							  left="{30/(320/Capabilities.screenDPI)}" 
 							  mouseEnabled="false" contentLoader="{s_imageCache}" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-													source240dpi="@Embed('assets/320/backbtnnew.png')"
-													source320dpi="@Embed('assets/320/backbtnnew.png')"/>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/back.png')"
+													source240dpi="@Embed('assets/320/back.png')"
+													source320dpi="@Embed('assets/320/back.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>
@@ -354,7 +354,7 @@
 								  gap="15" mouseEnabled="false"  verticalCenter="0" verticalAlign="middle" >
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infomarker.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/infomarker.png')"
 															source240dpi="@Embed('../assets/320/infomarker.png')"
 															source320dpi="@Embed('../assets/320/infomarker.png')"
 															source480dpi="@Embed('../assets/320/infomarker.png')"
@@ -388,7 +388,7 @@
 								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infoclock.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/infoclock.png')"
 															source240dpi="@Embed('../assets/320/infoclock.png')"
 															source320dpi="@Embed('../assets/320/infoclock.png')"
 															source480dpi="@Embed('../assets/320/infoclock.png')"
@@ -420,7 +420,7 @@
 								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infophone.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/infophone.png')"
 															source240dpi="@Embed('../assets/320/infophone.png')"
 															source320dpi="@Embed('../assets/320/infophone.png')"
 															source480dpi="@Embed('../assets/320/infophone.png')"

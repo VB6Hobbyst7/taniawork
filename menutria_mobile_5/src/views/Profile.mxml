@@ -364,7 +364,7 @@
 								 height="{this.width/(640/300)}" mouseEnabled="false" verticalCenter="0" 
 								 contentLoader="{s_imageCache}" >
 							<s:source>
-								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/profile-default.png')"
 														source240dpi="@Embed('assets/320/profile-default.png')"
 														source320dpi="@Embed('assets/320/profile-default.png')"
 														source480dpi="@Embed('assets/320/profile-default.png')"
@@ -398,7 +398,7 @@
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-myreviews.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/profile-myreviews.png')"
 															source240dpi="@Embed('../assets/320/profile-myreviews.png')"
 															source320dpi="@Embed('../assets/320/profile-myreviews.png')"
 															source480dpi="@Embed('../assets/320/profile-myreviews.png')"
@@ -424,7 +424,7 @@
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-reviewiliked.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/profile-reviewiliked.png')"
 															source240dpi="@Embed('../assets/320/profile-reviewiliked.png')"
 															source320dpi="@Embed('../assets/320/profile-reviewiliked.png')"
 															source480dpi="@Embed('../assets/320/profile-reviewiliked.png')"
@@ -450,7 +450,7 @@
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:BitmapImage contentLoader="{s_imageCache}" >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-placesieat.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/profile-placesieat.png')"
 															source240dpi="@Embed('../assets/320/profile-placesieat.png')"
 															source320dpi="@Embed('../assets/320/profile-placesieat.png')"
 															source480dpi="@Embed('../assets/320/profile-placesieat.png')"

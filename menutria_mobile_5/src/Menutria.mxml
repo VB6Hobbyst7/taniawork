@@ -29,7 +29,7 @@
 						 mouseEnabled="false" 
 						 contentLoader="{s_imageCache}" >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homemenu.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/homemenu.png')"
 												source240dpi="@Embed('assets/320/homemenu.png')"
 												source320dpi="@Embed('assets/320/homemenu.png')"
 												source480dpi="@Embed('assets/320/homemenu.png')"
@@ -45,7 +45,7 @@
 				<s:Image mouseEnabled="false" right="{20/(320/Capabilities.screenDPI)}" 
 						 verticalCenter="0"   contentLoader="{s_imageCache}"  >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/homefilter.png')"
 												source240dpi="@Embed('assets/320/homefilter.png')"
 												source320dpi="@Embed('assets/320/homefilter.png')"
 												source480dpi="@Embed('assets/320/homefilter.png')"
@@ -75,7 +75,7 @@
 					<s:Image right="15"  verticalCenter="0" 
 							 mouseEnabled="false" contentLoader="{s_imageCache}" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homemenu.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/homemenu.png')"
 													source240dpi="@Embed('assets/320/homemenu.png')"
 													source320dpi="@Embed('assets/320/homemenu.png')"
 													source480dpi="@Embed('assets/320/homemenu.png')"
@@ -96,7 +96,7 @@
 							  width="{this.width/1.15}" 
 							  horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/profile-default.png')"
 													source240dpi="@Embed('assets/320/profile-default.png')"
 													source320dpi="@Embed('assets/320/profile-default.png')"
 													source480dpi="@Embed('assets/320/profile-default.png')"
@@ -141,7 +141,7 @@
 					<s:Image right="{15/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
 							 mouseEnabled="false" contentLoader="{s_imageCache}" >
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/homefilter.png')"
 													source240dpi="@Embed('assets/320/homefilter.png')"
 													source320dpi="@Embed('assets/320/homefilter.png')"
 													source480dpi="@Embed('assets/320/homefilter.png')"
@@ -272,43 +272,43 @@
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="menu_account"
-								source160dpi="@Embed('assets/160/menu-account.png')"
+								source160dpi="@Embed('assets/320/menu-account.png')"
 								source240dpi="@Embed('assets/320/menu-account.png')"
 								source320dpi="@Embed('assets/320/menu-account.png')"
 								source480dpi="@Embed('assets/320/menu-account.png')"
 								source640dpi="@Embed('assets/320/menu-account.png')"/>
 		<s:MultiDPIBitmapSource id="menu_home"
-								source160dpi="@Embed('assets/160/menu-home.png')"
+								source160dpi="@Embed('assets/320/menu-home.png')"
 								source240dpi="@Embed('assets/320/menu-home.png')"
 								source320dpi="@Embed('assets/320/menu-home.png')"
 								source480dpi="@Embed('assets/320/menu-home.png')"
 								source640dpi="@Embed('assets/320/menu-home.png')"/>
 		<s:MultiDPIBitmapSource id="menu_restrictions"
-								source160dpi="@Embed('assets/160/menu-restrictions.png')"
+								source160dpi="@Embed('assets/320/menu-restrictions.png')"
 								source240dpi="@Embed('assets/320/menu-restrictions.png')"
 								source320dpi="@Embed('assets/320/menu-restrictions.png')"
 								source480dpi="@Embed('assets/320/menu-restrictions.png')"
 								source640dpi="@Embed('assets/320/menu-restrictions.png')"/>
 		<s:MultiDPIBitmapSource id="menu_ratings"
-								source160dpi="@Embed('assets/160/menu-ratings.png')"
+								source160dpi="@Embed('assets/320/menu-ratings.png')"
 								source240dpi="@Embed('assets/320/menu-ratings.png')"
 								source320dpi="@Embed('assets/320/menu-ratings.png')"
 								source480dpi="@Embed('assets/320/menu-ratings.png')"
 								source640dpi="@Embed('assets/320/menu-ratings.png')"/>
 		<s:MultiDPIBitmapSource id="menu_dish"
-								source160dpi="@Embed('assets/160/menu-dish.png')"
+								source160dpi="@Embed('assets/320/menu-dish.png')"
 								source240dpi="@Embed('assets/320/menu-dish.png')"
 								source320dpi="@Embed('assets/320/menu-dish.png')"
 								source480dpi="@Embed('assets/320/menu-dish.png')"
 								source640dpi="@Embed('assets/320/menu-dish.png')"/>
 		<s:MultiDPIBitmapSource id="menu_review"
-								source160dpi="@Embed('assets/160/menu-review.png')"
+								source160dpi="@Embed('assets/320/menu-review.png')"
 								source240dpi="@Embed('assets/320/menu-review.png')"
 								source320dpi="@Embed('assets/320/menu-review.png')"
 								source480dpi="@Embed('assets/320/menu-review.png')"
 								source640dpi="@Embed('assets/320/menu-review.png')"/>
 		<s:MultiDPIBitmapSource id="menu_settings"
-								source160dpi="@Embed('assets/160/menu-settings.png')"
+								source160dpi="@Embed('assets/320/menu-settings.png')"
 								source240dpi="@Embed('assets/320/menu-settings.png')"
 								source320dpi="@Embed('assets/320/menu-settings.png')"
 								source480dpi="@Embed('assets/320/menu-settings.png')"

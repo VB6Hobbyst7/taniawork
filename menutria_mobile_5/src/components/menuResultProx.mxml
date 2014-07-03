@@ -251,7 +251,7 @@
 					 includeIn="nocatyesalert,yescatyesalert"
 					 verticalCenter="0"  contentLoader="{s_imageCache}" >
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/alert.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/alert.png')"
 											source240dpi="@Embed('assets/320/alert.png')"
 											source320dpi="@Embed('assets/320/alert.png')"
 											source480dpi="@Embed('assets/320/alert.png')"

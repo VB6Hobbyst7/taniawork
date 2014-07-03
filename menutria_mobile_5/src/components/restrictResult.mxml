@@ -27,7 +27,7 @@
 		<s:Group left="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
 			<s:BitmapImage id="checkimage" visible="{data.chosen == 'yes'}" contentLoader="{s_imageCache}" >
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/checkblue.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/checkblue.png')"
 											source240dpi="@Embed('assets/320/checkblue.png')"
 											source320dpi="@Embed('assets/320/checkblue.png')"
 											source480dpi="@Embed('assets/320/checkblue.png')"
@@ -48,7 +48,7 @@
 				 mouseEnabledWhereTransparent="true"   verticalCenter="0">
 			<s:BitmapImage id="infoimage" contentLoader="{s_imageCache}" horizontalCenter="0" verticalCenter="0">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/info.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/info.png')"
 											source240dpi="@Embed('assets/320/info.png')"
 											source320dpi="@Embed('assets/320/info.png')"
 											source480dpi="@Embed('assets/320/info.png')"

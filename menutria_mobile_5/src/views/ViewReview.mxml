@@ -127,7 +127,7 @@
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/trirating.png')"
 															source240dpi="@Embed('../assets/320/trirating.png')"
 															source320dpi="@Embed('../assets/320/trirating.png')"
 															source480dpi="@Embed('../assets/320/trirating.png')"
@@ -145,7 +145,7 @@
 						<s:HGroup width="100%" verticalAlign="middle">
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/triratinggreen.png')"
 															source240dpi="@Embed('../assets/320/triratinggreen.png')"
 															source320dpi="@Embed('../assets/320/triratinggreen.png')"
 															source480dpi="@Embed('../assets/320/triratinggreen.png')"
@@ -166,7 +166,7 @@
 				<s:Image  id="likebtn" click="likeClick();" 
 						  alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/like.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/like.png')"
 												source240dpi="@Embed('../assets/320/like.png')"
 												source320dpi="@Embed('../assets/320/like.png')"
 												source480dpi="@Embed('../assets/320/like.png')"
@@ -176,7 +176,7 @@
 				<s:Image id="reportbtn" click="reportClick();" 
 						 alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/report.png')"
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/report.png')"
 												source240dpi="@Embed('../assets/320/report.png')"
 												source320dpi="@Embed('../assets/320/report.png')"
 												source480dpi="@Embed('../assets/320/report.png')"
