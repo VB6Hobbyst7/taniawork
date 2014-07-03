@@ -299,11 +299,11 @@
 		<s:Group width="25%" height="100%" mouseDown="gotowelcome()">
 			<s:Image verticalCenter="0" id="smalllogo" left="20" mouseEnabled="false">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/smalllogo.png')"
-											source240dpi="@Embed('assets/320/smalllogo.png')"
-											source320dpi="@Embed('assets/320/smalllogo.png')"
-											source480dpi="@Embed('assets/320/smalllogo.png')"
-											source640dpi="@Embed('assets/320/smalllogo.png')"
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/smalllogo.png')"
+											source240dpi="@Embed('assets/240/smalllogo.png')"
+											source320dpi="@Embed('assets/240/smalllogo.png')"
+											source480dpi="@Embed('assets/240/smalllogo.png')"
+											source640dpi="@Embed('assets/240/smalllogo.png')"
 											/>
 				</s:source>
 			</s:Image>

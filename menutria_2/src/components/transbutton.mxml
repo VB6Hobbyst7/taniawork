@@ -3,11 +3,11 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark">
 	<s:Image mouseEnabled="false">
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/enter.png')"
-									source240dpi="@Embed('assets/320/enter.png')"
-									source320dpi="@Embed('assets/320/enter.png')"
-									source480dpi="@Embed('assets/320/enter.png')"
-									source640dpi="@Embed('assets/320/enter.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/enter.png')"
+									source240dpi="@Embed('assets/240/enter.png')"
+									source320dpi="@Embed('assets/240/enter.png')"
+									source480dpi="@Embed('assets/240/enter.png')"
+									source640dpi="@Embed('assets/240/enter.png')"
 									/>
 		</s:source>
 	</s:Image>

@@ -43,7 +43,7 @@
         <s:State name="disabled" />
     </s:states>
     
-	<s:Image source="@Embed('assets/320/camera_close.png')" includeIn="up"/>
-	<s:Image source="@Embed('assets/320/camera_open.png')" includeIn="down"/>
+	<s:Image source="@Embed('assets/240/camera_close.png')" includeIn="up"/>
+	<s:Image source="@Embed('assets/240/camera_open.png')" includeIn="down"/>
 	
 </s:SparkButtonSkin>

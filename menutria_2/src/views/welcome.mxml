@@ -12,12 +12,14 @@
 	<fx:Script  source="../func/globalFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
-			import events.ActionEvent;		
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.components.SplitViewNavigator;
 			import spark.components.ViewNavigator;
+			
+			import events.ActionEvent;
 			[Bindable]
 			public var locationid:String = '5';
 			[Bindable]
@@ -30,10 +32,16 @@
 				
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt2:SQLStatement = new SQLStatement();
-				stmt2.sqlConnection = sqlConnection;
-				stmt2.text = "delete from resvalues";
-				stmt2.execute();
+				try{
+					var stmt2:SQLStatement = new SQLStatement();
+					stmt2.sqlConnection = sqlConnection;
+					stmt2.text = "delete from resvalues";
+					stmt2.execute();
+				}
+				catch(e:Error){
+					
+				}
+			
 
 				
 				
@@ -144,9 +152,9 @@
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/default_back.jpg')"
 											source240dpi="@Embed('assets/240/default_back.jpg')"
-											source320dpi="@Embed('assets/320/default_back.jpg')"
-											source480dpi="@Embed('assets/320/default_back.jpg')"
-											source640dpi="@Embed('assets/320/default_back.jpg')"
+											source320dpi="@Embed('assets/240/default_back.jpg')"
+											source480dpi="@Embed('assets/240/default_back.jpg')"
+											source640dpi="@Embed('assets/240/default_back.jpg')"
 											/>
 				</s:source>
 			</s:Image>
@@ -155,9 +163,9 @@
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/blur.png')"
 											source240dpi="@Embed('assets/240/blur.png')"
-											source320dpi="@Embed('assets/320/blur.png')"
-											source480dpi="@Embed('assets/320/blur.png')"
-											source640dpi="@Embed('assets/320/blur.png')"
+											source320dpi="@Embed('assets/240/blur.png')"
+											source480dpi="@Embed('assets/240/blur.png')"
+											source640dpi="@Embed('assets/240/blur.png')"
 											/>
 				</s:source>
 			</s:Image>
@@ -167,11 +175,11 @@
 	<s:VGroup gap="25" horizontalCenter="0" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
 		<s:Image >
 			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/320/menutira.png')"
-										source240dpi="@Embed('assets/320/menutira.png')"
-										source320dpi="@Embed('assets/320/menutira.png')"
-										source480dpi="@Embed('assets/320/menutira.png')"
-										source640dpi="@Embed('assets/320/menutira.png')"
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/menutira.png')"
+										source240dpi="@Embed('assets/240/menutira.png')"
+										source320dpi="@Embed('assets/240/menutira.png')"
+										source480dpi="@Embed('assets/240/menutira.png')"
+										source640dpi="@Embed('assets/240/menutira.png')"
 										/>
 			</s:source>
 		</s:Image>

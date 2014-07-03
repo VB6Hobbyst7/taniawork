@@ -33,16 +33,16 @@
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pictureshadow.png')"
 												source240dpi="@Embed('assets/240/pictureshadow.png')"
-												source320dpi="@Embed('assets/320/pictureshadow.png')"/>
+												source320dpi="@Embed('assets/240/pictureshadow.png')"/>
 					</s:source>
 				</s:Image>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" mouseEnabledWhereTransparent="true" 
 						 top="0" left="0"  mouseDown="dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,goback:true}));">
 					<s:Image  top="{30/(320/Capabilities.screenDPI)}" left="{30/(320/Capabilities.screenDPI)}" mouseEnabled="false">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/backbtnnew.png')"
-													source240dpi="@Embed('assets/240/backbtnnew.png')"
-													source320dpi="@Embed('assets/320/backbtnnew.png')"/>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/back.png')"
+													source240dpi="@Embed('assets/240/back.png')"
+													source320dpi="@Embed('assets/240/back.png')"/>
 						</s:source>
 					</s:Image>
 				</s:Group>

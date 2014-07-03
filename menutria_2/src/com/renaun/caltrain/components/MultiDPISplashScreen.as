@@ -7,13 +7,13 @@ package com.renaun.caltrain.components
 	use namespace mx_internal
 	public class MultiDPISplashScreen extends SplashScreen 
 	{ 
-		[Embed(source="/assets/320/splashlogo_Low.png")] 
+		[Embed(source="/assets/splash/splashlogo_Low.png")] 
 		private var SplashImage160:Class; 
-		[Embed(source="/assets/320/splashlogo_Med.png")] 
+		[Embed(source="/assets/splash/splashlogo_Med.png")] 
 		private var SplashImage240:Class; 
-		[Embed(source="/assets/320/splashlogo_High.png")] 
+		[Embed(source="/assets/splash/splashlogo_High.png")] 
 		private var SplashImage320:Class; 
-		[Embed(source="/assets/320/Default-568h@2x.png")] 
+		[Embed(source="/assets/Default-568h@2x.png")] 
 		private var iphone5image:Class; 
 		public function MultiDPISplashScreen() 
 		{ 

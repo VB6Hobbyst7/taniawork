@@ -231,9 +231,9 @@
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/alert.png')"
 										source240dpi="@Embed('assets/240/alert.png')"
-										source320dpi="@Embed('assets/320/alert.png')"
-										source480dpi="@Embed('assets/320/alert.png')"
-										source640dpi="@Embed('assets/320/alert.png')"/>
+										source320dpi="@Embed('assets/240/alert.png')"
+										source480dpi="@Embed('assets/240/alert.png')"
+										source640dpi="@Embed('assets/240/alert.png')"/>
 			</s:source>
 		</s:Image>
 		<s:Image id="bmpImg" right="0"  scaleMode="zoom" />

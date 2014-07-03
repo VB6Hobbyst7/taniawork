@@ -224,7 +224,6 @@ public function afterGetMenuCont():void {
 			listData[i].business_name = data.business_name;
 		}*/
 		filterList1.visible = true;
-		filterList2.visible = false;
 		filterList3.visible = false;
 		
 		selectview1.alpha = 1;
@@ -368,109 +367,49 @@ public function filterClick(u:uint):void {
 	listData.refresh();
 	menuList.dataProvider = listData;
 	
-	var fadein:Fade = new Fade();
-	fadein.alphaFrom = 0;
-	fadein.alphaTo = 1;
-	fadein.duration = 500;
-	
-	var fadeout:Fade = new Fade();
-	fadeout.alphaFrom = 1;
-	fadeout.alphaTo = 0;
-	fadeout.duration = 500;
-	
-	if ((currentselectmode == 1)&&(currentselectmode != u)){
-		fadeout.targets = [filterimage1];
-	}
-	else if ((currentselectmode == 2)&&(currentselectmode != u)){
-		fadeout.targets = [filterimage2];
-	}
-	else if ((currentselectmode == 3)&&(currentselectmode != u)){
-		fadeout.targets = [filterimage3];
-	}
 
 	if ((u == 1)&&(currentselectmode != u)){
 		sv1label.text = "All";
 		sv2label.text = "Highest";
 		sv3label.text = "Highest";
 		filterList1.visible = true;
-		filterList2.visible = false;
 		filterList3.visible = false;
 		
 		selectview1.alpha = 1;
-		selectview2.alpha = 0;
 		selectview3.alpha = 0;
-		
-		fadein.targets = [filterimage1];
 		
 		selectview1.mouseEnabled = true;
 		selectview1.mouseEnabledWhereTransparent = true;
 		
-		selectview2.mouseEnabled = false;
-		selectview2.mouseEnabledWhereTransparent = false;
+		
 		
 		selectview3.mouseEnabled = false;
 		selectview3.mouseEnabledWhereTransparent = false;
-		
-
-		
-	}
-	else if ((u == 2)&&(currentselectmode != u)){
-		sv1label.text = "All";
-		sv2label.text = "Highest";
-		sv3label.text = "Highest";
-		filterList1.visible = false;
-		filterList2.visible = true;
-		filterList3.visible = false;
-		
-		selectview1.alpha = 0;
-		selectview2.alpha = 1;
-		selectview3.alpha = 0;
-		
-		fadein.targets = [filterimage2];
-		
-		selectview1.mouseEnabled = false;
-		selectview1.mouseEnabledWhereTransparent = false;
-		
-		selectview2.mouseEnabled = true;
-		selectview2.mouseEnabledWhereTransparent = true;
-		
-		selectview3.mouseEnabled = false;
-		selectview3.mouseEnabledWhereTransparent = false;
-		
-		
+	
 	}
 	else if ((u == 3)&&(currentselectmode != u)){
 		sv1label.text = "All";
 		sv2label.text = "Highest";
 		sv3label.text = "Highest";
 		filterList1.visible = false;
-		filterList2.visible = false;
 		filterList3.visible = true;
 		
 		selectview1.alpha = 0;
-		selectview2.alpha = 0;
 		selectview3.alpha = 1;
 		
-		fadein.targets = [filterimage3];
 		
 		selectview1.mouseEnabled = false;
 		selectview1.mouseEnabledWhereTransparent = false;
 		
-		selectview2.mouseEnabled = false;
-		selectview2.mouseEnabledWhereTransparent = false;
 		
 		selectview3.mouseEnabled = true;
-		selectview3.mouseEnabledWhereTransparent = true;
-		
-		
+		selectview3.mouseEnabledWhereTransparent = true;	
 	}
 
 	
 	
 	if (currentselectmode != u){
 		reverse = false;
-		fadeout.play();
-		fadein.play();
 		currentselectmode = u;
 		populatelist(currentselectmode);
 		
@@ -547,22 +486,6 @@ private function catFilter(item:Object):Boolean{
 		}	
 	}
 	return false;
-}
-public function filter2Click():void {
-	if (filterList2.selectedItem.name == "Highest"){
-		
-		currentselectmode = 2;
-		reverse = false;
-	}
-	else if (filterList2.selectedItem.name == "Lowest"){
-		
-		currentselectmode = 2;
-		reverse = true;
-	}
-	populatelist(2);
-	sv2label.text = filterList2.selectedItem.name;
-	goFilterScreen(2);
-	
 }
 public function filter3Click():void {
 	
