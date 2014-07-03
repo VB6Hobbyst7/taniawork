@@ -41,18 +41,18 @@
 			[Bindable]
 			public var limit:uint = 84000;
 			public var goby:uint = 2000;
-			public var counter:Number = 9;
+			public var counter:Number = 1;
 			
 			public function afterLoad(event:FlexEvent):void
 			{
-				getData.url = "C:/Users/mark/Desktop/pubmed/p"+counter.toString()+".xml"
+				getData.url = "C:/Users/mark/Desktop/pubmed/pubmed_result("+counter.toString()+").xml"
 				getData.send();
 			}
 			protected function getData_resultHandler(event:ResultEvent):void
 			{
 				var csvtext:String = "pmid,publicationtype,journaltitle\r\n"
 				var resultarray:ArrayCollection = new ArrayCollection();
-				dataArray = event.result[0].PubmedArticle;
+				dataArray = event.result[0].PubmedArticleSet.PubmedArticle;
 				var stop:String = "";
 				for (var i:uint = 0; i < dataArray.length; i++){
 					try{
@@ -107,7 +107,7 @@
 						trace("HUGE ERROR FIND IT");
 					}
 					
-					csvtext = csvtext + pmid + "," + publicationtypefirst + "," + journaltitle + "\r\n";
+					csvtext = csvtext + "\"" +pmid + "\"" + ","+ "\"" + publicationtypefirst+ "\"" + ","+ "\"" + journaltitle+ "\"" + "\r\n";
 					resultarray.addItem({pmid:pmid,publicationtypefirst:publicationtypefirst,journaltitle:journaltitle});
 				}
 				
@@ -119,9 +119,9 @@
 				stream.close();
 				
 				var stop:String = "";
-				if (counter != 21){
+				if (counter != 22){
 					counter++;
-					getData.url = "C:/Users/mark/Desktop/pubmed/p"+counter.toString()+".xml"
+					getData.url = "C:/Users/mark/Desktop/pubmed/pubmed_result("+counter.toString()+").xml"
 					getData.send();
 				}
 			
