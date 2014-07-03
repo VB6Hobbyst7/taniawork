@@ -3,9 +3,7 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="components.*"
-		backgroundColor="#c5c5c5" 
-		contentBackgroundAlpha="1"
-		contentBackgroundColor="#c5c5c5" 
+		backgroundColor="#FFFFFF" 
 		mouseDown="listFingerDown();" 
 		mouseUp="listFingerUp();"
 		mouseOut="listFingerUp();"
@@ -14,11 +12,37 @@
 		backgroundAlpha="1"  title="Locations"
 		viewActivate="view1_activateHandler(event)">
 	<s:navigationContent >
-		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
+	<s:titleContent>
+		<s:Group  width="100%" height="65%">
+			<s:Rect width="100%"  height="100%" radiusX="30" radiusY="30">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#FFFFFF"/>
+				</s:fill>
+				<s:stroke>
+					<s:SolidColorStroke color="#abaaaa" weight="1.5"/>
+				</s:stroke>
+			</s:Rect>
+			<s:TextInput id="key" width="95%" height="90%" paddingLeft="45"
+						 horizontalCenter="0" verticalCenter="0"  focusAlpha="0" styleName="textsize1"
+						 borderVisible="false" contentBackgroundAlpha="0" color="#949393" 
+						 prompt="Search for businesses..."  maxChars="20"  fontFamily="Arial" fontWeight="normal"
+						 keyUp="press(event);" returnKeyLabel="search"/>
+			<s:BitmapImage contentLoader="{s_imageCache}"  verticalCenter="0" left="20">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/glass.png')"
+											source240dpi="@Embed('assets/240/glass.png')"
+											source320dpi="@Embed('assets/320/glass.png')"
+											source480dpi="@Embed('assets/480/glass.png')"
+											source640dpi="@Embed('assets/640/glass.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		</s:Group>
+	</s:titleContent>
 	<s:actionContent>
-		<components:mapbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+		<components:mapbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
 							   height="100%"  mouseDown="goToMap()"  />
 	</s:actionContent>
 	<fx:Script source="../func/global.as"/>
@@ -379,36 +403,24 @@
 			</s:request>
 		</s:HTTPService>	
 	</fx:Declarations>
-	<s:VGroup width="100%" gap="-15" height="100%" horizontalAlign="center">
-	<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
-		<s:Group x="0" y="0" height="10%"  right="15" left="15">
-			<s:Rect width="100%"  height="100%">
-				<s:fill>
-					<s:SolidColor alpha="1" color="#FFFFFF"/>
-				</s:fill>
-			</s:Rect>
-				<s:TextInput   fontFamily="Arial" contentBackgroundAlpha="0" borderVisible="false"
-							   id="key" left="5" right="5" verticalCenter="0" width="100%" height="80%"
-							   keyUp="press(event);" maxChars="20" prompt="Search Stores" color="#b7b7b7b7"
-							   returnKeyLabel="search"/>		
-		</s:Group>
-		<s:Group width="100%" height="100%" visible="true" id="listCont" >
-				<s:List width="100%" 
-						horizontalCenter="0" 
-						height="100%"
-					    useVirtualLayout="false" 
-						skinClass="skins.TileListSkin"
-						id="storeList" 
-						contentBackgroundAlpha="1" 
-						contentBackgroundColor="#000000"
-						horizontalScrollPolicy="off" 
-						dataProvider="{listData}"
-						click="storeListClick();" >
-					
-				</s:List>
-		</s:Group>
-	</s:VGroup>
-	</s:VGroup>
+	<s:Group width="100%" height="100%" visible="true" id="listCont" >
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#737171"/>
+			</s:fill>
+		</s:Rect>
+			<s:List width="100%"
+					horizontalCenter="0" 
+				 	bottom="0" top="2"
+				    useVirtualLayout="false" 
+					skinClass="skins.TileListSkin"
+					id="storeList" 
+					horizontalScrollPolicy="off" 
+					dataProvider="{listData}"
+					click="storeListClick();" >
+				
+			</s:List>
+	</s:Group>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 	<components:updateContainer id="updatecont" visible="false"/>
 	<s:Line left="0" right="0"  top="0" > 

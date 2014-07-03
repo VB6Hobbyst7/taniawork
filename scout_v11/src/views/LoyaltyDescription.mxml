@@ -49,11 +49,12 @@
 				setLoginVars();				
 				var tempamount:String = data.amount;
 				if (data.business_name != null){
-					img1.source = data.business_picture;
-					if ((data.amount == null)||(data.amount == 'null')||(data.amount == '')){
-						data.amount = '0';
-					}		
+					img1.source = data.business_picture;	
 				}
+				if ((data.amount == null)||(data.amount == 'null')||(data.amount == 'None')||(data.amount == '')){
+					data.amount = '0';
+				}	
+				pointsamount.text = data.amount + " Points";
 				getLoyaltyDescription.send();
 			}
 			public function afterGetLoyaltyDescription(ev:ResultEvent):void  {
@@ -73,7 +74,12 @@
 					try{
 						if (loyaltyArray.length > 0){
 							data.amount = loyaltyArray[0].amount;
-							pointsamount.text  = loyaltyArray[0].amount+" Points";
+							
+							if ((data.amount == null)||(data.amount == 'null')||(data.amount == 'None')||(data.amount == '')){
+								data.amount = '0';
+							}	
+							pointsamount.text = data.amount + " Points";
+							
 						}
 					}
 					catch(e:Error){}	
@@ -366,7 +372,7 @@
 								 maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 								 verticalCenter="0"/>
 						<s:Label   height="100%" id="pointsamount" color="#0aaae5"  paddingRight="30"  styleName="textsize1"
-								 text="{data.amount} Points" textAlign="right" fontWeight="bold"
+								 textAlign="right" fontWeight="bold"
 								 verticalAlign="middle" verticalCenter="0"/>
 					</s:HGroup>
 				</s:Group>

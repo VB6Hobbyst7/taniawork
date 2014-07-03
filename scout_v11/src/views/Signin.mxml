@@ -2,7 +2,7 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:components="components.*" 
+		xmlns:components="components.*"  name="signin"
 		title="Scout" viewActivate="viewact(event)"
 		backgroundColor="#f2f3f4" 
 		contentBackgroundColor="#f2f3f4">
@@ -13,10 +13,8 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
-			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
 			[Bindable]
@@ -139,7 +137,7 @@
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
 							</s:fill>
 						</s:Rect>
-						<s:TextInput id="userNameInput"  
+						<s:TextInput id="userNameInput"   focusAlpha="0"
 									 width="{textback1.width}"
 									 height="{textback1.height}"
 									 verticalCenter="0" fontFamily="Arial"
@@ -158,7 +156,7 @@
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
 							</s:fill>
 						</s:Rect>
-						<s:TextInput id="userPasswordInput"  
+						<s:TextInput id="userPasswordInput"   focusAlpha="0"
 									 width="{textback2.width}"
 									 height="{textback2.height}"
 									 verticalCenter="0"

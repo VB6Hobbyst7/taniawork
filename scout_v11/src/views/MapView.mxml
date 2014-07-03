@@ -7,7 +7,7 @@
 		menuKeyPressed="navigator.popView()"
 		backKeyPressed="navigator.popView()"
 		backgroundColor="#FFFFFF"
-		title="Map"
+		title="Map" name="map"
 		viewActivate="onViewActivate();">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"

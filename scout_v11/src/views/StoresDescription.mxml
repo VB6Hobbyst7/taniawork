@@ -469,7 +469,7 @@
 					
 				
 				</s:HGroup>
-				<s:TextArea id="ratingtextinput" width="95%" returnKeyLabel="done"
+				<s:TextArea id="ratingtextinput" width="95%" returnKeyLabel="done" focusAlpha="0"
 							  color="#444444" prompt="How did we do?"  height="50%"
 							contentBackgroundAlpha="0" borderVisible="false"/>
 			</s:VGroup>

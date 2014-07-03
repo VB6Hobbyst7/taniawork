@@ -98,7 +98,8 @@ public function onSwipe(event:TransformGestureEvent):void
 			{
 				// swiped right also back swipe
 				//opening menu or closing filters
-				if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') == -1)){ 
+				if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') == -1)&&
+					(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('map') == -1)){ 
 					if (menumoving == false){
 						setNavigatorMovingStatus(true);
 						automenumove = false;

@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
-		title="Scout" 
+		title="Scout"  name="signup2"
 		menuKeyPressed="navigator.popView();" 
 		backKeyPressed="navigator.popView();"
 		backgroundColor="#f2f3f4" 
@@ -117,7 +117,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:TextInput id="ncity"  
+				<s:TextInput id="ncity"   focusAlpha="0"
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
@@ -176,11 +176,11 @@
 				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
 						   horizontalCenter="0" verticalCenter="0">
 					<s:TextInput id="nbirthday" width="33%" prompt="Day" softKeyboardType="number"  fontFamily="Arial"
-								 borderVisible="false"/>
+								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" softKeyboardType="number" fontFamily="Arial"
-								 borderVisible="false"/>
+								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthyear" width="33%" prompt="Year" softKeyboardType="number" fontFamily="Arial"
-								 borderVisible="false"/>
+								 borderVisible="false" focusAlpha="0"/>
 				</s:HGroup>
 				
 			</s:Group>

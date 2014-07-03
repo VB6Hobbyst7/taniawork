@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
-		title="Scout" 
+		title="Scout"  name="signup"
 		menuKeyPressed="navigator.popView();" 
 		backKeyPressed="navigator.popView();"
 		backgroundColor="#f2f3f4" 
@@ -64,7 +64,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:TextInput id="nemail"  
+				<s:TextInput id="nemail"   focusAlpha="0"
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
@@ -84,7 +84,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:TextInput id="nname"  
+				<s:TextInput id="nname"   focusAlpha="0"
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
@@ -104,7 +104,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:TextInput id="npassword"  
+				<s:TextInput id="npassword"   focusAlpha="0"
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
@@ -124,7 +124,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:TextInput id="npassword2"  
+				<s:TextInput id="npassword2"   focusAlpha="0"
 							 width="{550/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0" fontFamily="Arial"

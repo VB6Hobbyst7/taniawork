@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  horizontalCenter="0" 
-				contentBackgroundColor="#2a3038"  
-				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" color="#FFFFFF" 
-				autoDrawBackground="false" contentBackgroundAlpha="0" xmlns:components="components.*"
-				creationComplete="init(event)" mouseOver="gOver(event);"
-				mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:components="components.*"
+				autoDrawBackground="false"
+				width="100%"
+				height="100%"
+				creationComplete="init(event)" 
+				dataChange="dchange(event)"
+				mouseOver="gOver(event);"
+				mouseOut="gOut(event);" 
+				mouseUp="gOut(event);" 
+				mouseDown="gDown(event);" >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			[Bindable]
-			public var scaleval:Number = 0;
-			private var roundedMask:Sprite;
-			[Bindable]
-			public var mmax:uint = 0;
-			[Bindable]
-			public var mmin:uint = 0;
-			[Bindable]
-			public var superamount:String = "";
-			[Bindable]
-			public var minwidthval:Number = 7;
-			import spark.core.ContentCache;
-			[Bindable]
-			public var picture:String = "";
-			protected function init(event:FlexEvent):void
+			public function init(event:FlexEvent):void
 			{
+				setup();	
+			}	
+			
+			public function dchange(event:FlexEvent):void
+			{
+				setup();		
+			}
+			public function setup():void {
 				try{
-					if (data != null){
-						if (data.business_name != null){
-							if ((data.amount == null)||(data.amount == 'null')){
-								data.amount = '0';
-							}	
-							
-							if (Number(data.amount) <= 0){
-								data.amount = '0';
-							}
-						}
+					if ((data.amount == null)||(data.amount == 'null')||(data.amount == 'None')||(data.amount == '')){
+						data.amount = '0';
 					}	
 				}
-				catch(e:Error){	}	
-			}	
+				catch(e:Error){	}
+				parea.text = data.amount + " Points";
+			}
+			
 		]]>
 	</fx:Script>
 	<s:Group width="100%" height="100%"  >
@@ -54,8 +48,8 @@
 				<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize1"
 						maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 						 verticalCenter="0"/>
-				<s:Label right="0"  height="100%" color="#0aaae5"  paddingRight="10"  styleName="textsize1"
-						 text="{data.amount} Points" textAlign="right" fontWeight="bold"
+				<s:Label right="0"  height="100%" id="parea" color="#0aaae5"  paddingRight="10"  styleName="textsize1"
+						 textAlign="right" fontWeight="bold"
 						 verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
 		</s:Group>

@@ -77,7 +77,7 @@
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
-					<s:TextInput id="oldpassword"  
+					<s:TextInput id="oldpassword"   focusAlpha="0" fontFamily="Arial"
 								 width="{550/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
@@ -97,7 +97,7 @@
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
-					<s:TextInput id="newpassword1"  
+					<s:TextInput id="newpassword1"   focusAlpha="0" fontFamily="Arial"
 								 width="{550/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
@@ -117,7 +117,7 @@
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
-					<s:TextInput id="newpassword2"  
+					<s:TextInput id="newpassword2"   focusAlpha="0" fontFamily="Arial"
 								 width="{550/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
