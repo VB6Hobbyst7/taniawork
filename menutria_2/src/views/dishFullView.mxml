@@ -9,9 +9,10 @@
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
 	</fx:Style>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/menuDescriptionfunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/loading.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuDescription.as"/>
+	
 	<fx:Declarations>		
 		<s:HTTPService id="getMenuItemInformation" method="GET" resultFormat="array"
 					   url="http://www.mymenuapp.ca/php/mobile/getMenuItemInformation.php"

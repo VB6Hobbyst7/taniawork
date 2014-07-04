@@ -9,7 +9,8 @@
 		contentBackgroundColor="#f3f3f3"
 		backgroundColor="#43c7ae" actionBarVisible="false"
 		backgroundAlpha="1"  >
-	<fx:Script  source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/loading.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -135,12 +136,9 @@
 				storeselection.visible = true;
 				storeselection.height = 200;
 				logouttool.visible = false;
-			}
-			
+			}	
 		]]>
 	</fx:Script>
-	<fx:Script source="../func/loadingfunctions.as"/>
-	
 	<fx:Declarations>		
 		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
 					   url="http://www.mymenuapp.ca/php/mobile/getLocationsForTablet.php"

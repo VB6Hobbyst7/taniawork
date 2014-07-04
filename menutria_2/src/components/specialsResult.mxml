@@ -4,7 +4,7 @@
 				dataChange="dchange(event)"
 				autoDrawBackground="false"
 				xmlns:s="library://ns.adobe.com/flex/spark">
-	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;

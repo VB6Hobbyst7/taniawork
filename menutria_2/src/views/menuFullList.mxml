@@ -7,21 +7,15 @@
 		backgroundColor="#f3f3f3"
 		destructionPolicy="never"
 		dataChange="dchange(event)"
-		backgroundAlpha="1"  
-		title="Menu" viewActivate="init()">
-	<s:navigationContent >
-		<s:Group width="100" height="100%" 
-				 mouseOver="gOver(event)"
-				 mouseUp="gOut(event)" mouseOut="gOut(event)"
-				 mouseDown="dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gotospecials:true}));">
-			<s:Label text="Specials" verticalCenter="0" left="0" color="#FFFFFF" />
-		</s:Group>
-	</s:navigationContent>
+		backgroundAlpha="1"   actionBarVisible="false"
+		title="" viewActivate="init()">
+	<fx:Script source="../func/loading.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuList.as"/>
 	<fx:Script>
 		<![CDATA[
 			protected function dchange(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
 				var stop:String = "";
 				if (data != null){
 					try{
@@ -33,16 +27,11 @@
 							afterGetMenuCont();
 						}
 					}
-					catch(e:Error){
-						
-					}				
+					catch(e:Error){}				
 				}
 			}
 		]]>
 	</fx:Script>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/menufunctionscatall.as" />
-	<fx:Script source="../func/loadingfunctions.as"/>
 	<fx:Declarations>		
 		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
 					   url="http://www.mymenuapp.ca/php/mobile/getMenu.php"
@@ -55,6 +44,14 @@
 		</s:HTTPService>
 	</fx:Declarations>
 	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
+		<s:List width="100%" height="{getActionBarHeight()}"
+				horizontalCenter="0" selectedIndex="0"
+				useVirtualLayout="false" 
+				skinClass="skins.TileListSkin"
+				change="mainmenuChange()"
+				horizontalScrollPolicy="off" 
+				dataProvider="{mainoptions}" >
+		</s:List>
 		<s:Group  id="promoarea" visible="true" width="100%"  height="{270/(320/Capabilities.screenDPI)}">		
 		<s:Image  source="{pictureVAR}"  visible="false" id="widepic"
 				  height="100%"
@@ -77,38 +74,16 @@
 			</s:VGroup>
 			
 		</s:Group>
-		
-		
-		<s:HGroup id="filterarea" width="100%"  height="{90/(320/Capabilities.screenDPI)}" gap="0" >
-			<s:Group width="50%"  height="100%" id="toggleclick1" click="filterClick(1);" 
-					 mouseEnabledWhereTransparent="true" mouseEnabled="true">
-				<s:Rect id="filter1back" width="100%" height="100%" >
-					<s:fill>
-						<s:SolidColor color="#36ccba"/>
-					</s:fill>
-				</s:Rect>
-				<s:Label id="filtertext1" color="#FFFFFF"  styleName="textsize5" 
-						 verticalCenter="0" horizontalCenter="0" 
-						 left="{30/(320/Capabilities.screenDPI)}" 
-						 text="Category"/>
-			</s:Group>
-			<s:Group width="50%"  height="100%" id="toggleclick3" click="filterClick(3);" 
-					 mouseEnabledWhereTransparent="true" mouseEnabled="true">
-				<s:Rect id="filter2back" width="100%" height="100%" >
-					<s:fill>
-						<s:SolidColor color="#2dad9e"/>
-					</s:fill>
-				</s:Rect>
-				<s:Label id="filtertext2" color="#8eddce"  styleName="textsize5" 
-						 verticalCenter="0" horizontalCenter="0" 
-						 left="{30/(320/Capabilities.screenDPI)}" 
-						 text="Price"/>
-			</s:Group>
-		</s:HGroup>
-		
-		
-		
-
+		<s:List width="100%" height="{getActionBarHeight()}"
+				horizontalCenter="0" 
+				bottom="0" top="2" selectedIndex="0"
+				useVirtualLayout="false" 
+				skinClass="skins.TileListSkin"
+				id="sortList"
+				 change="sortChange()"
+				horizontalScrollPolicy="off" 
+				dataProvider="{sortoptions}" >
+		</s:List>
 		<s:Group  width="100%"  id="dropgreay">
 			<s:Rect width="100%"  height="{75/(320/Capabilities.screenDPI)}">
 				<s:fill>
@@ -139,16 +114,6 @@
 				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv1label" mouseEnabled="false"  
 						 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
 						 text="All" verticalAlign="middle" verticalCenter="0"/>
-			</s:HGroup>
-			<s:HGroup id="selectview2"  mouseDown="goFilterScreen(2);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
-					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
-					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
-					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
-						 verticalAlign="middle" verticalCenter="0"/>
-				<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv2label" width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
-						 mouseEnabled="false" styleName="textsize1" text="Highest"
-						 verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
 			<s:HGroup id="selectview3"  mouseDown="goFilterScreen(3);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
 					  mouseEnabled="false" mouseEnabledWhereTransparent="false"

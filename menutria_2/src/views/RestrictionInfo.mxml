@@ -12,8 +12,8 @@
 							   mouseDown="dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gobackFromResInfo:true}));"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/loading.as"/>
 	<fx:Script>
 		<![CDATA[
 			import events.ActionEvent;

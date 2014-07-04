@@ -1,17 +1,14 @@
-import events.ActionEvent;
-
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
 import flash.filesystem.File;
-
+import flash.system.Capabilities;
 import mx.collections.ArrayCollection;
 import mx.events.FlexEvent;
 import mx.rpc.events.ResultEvent;
-
 import spark.components.SplitViewNavigator;
 import spark.components.ViewNavigator;
 import spark.core.ContentCache;
-
+import events.ActionEvent;
 static public const s_imageCache:ContentCache = new ContentCache();
 protected var sqlConnection:SQLConnection;
 [Bindable]
@@ -28,6 +25,14 @@ public var localityVAR:String = '';
 public var postalcodeVAR:String = '';
 [Bindable]
 public var pictureVAR:String = '';
+[Bindable]
+public var state:Number = 1;
+[Bindable]
+private var mainoptions:ArrayCollection = 
+	new ArrayCollection( [
+		{name:"Menu"},
+		{name:"Specials"}
+	]); 
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
 }
@@ -67,6 +72,37 @@ public function getDPIHeight():Number {
 		_runtimeDPI = 640;
 	}
 	return(_runtimeDPI)
+}
+public function getActionBarHeight():Number{
+	switch (getDPIHeight())
+	{
+		case 640:
+		{
+			return(172);
+			break;
+		}
+		case 480:
+		{
+			return(129);
+			break;
+		}
+		case 320:
+		{
+			return(86);
+			break;
+		}
+		case 240:
+		{
+			return(65);
+			break;
+		}
+		default:
+		{
+			return(43);
+			break;
+		}
+	}
+	return(43);
 }
 public function setLoginVars():void {
 	var stmt:SQLStatement = new SQLStatement();
@@ -120,9 +156,13 @@ public function setLoginVars():void {
 		postalcodeVAR = "";
 		pictureVAR = "";
 	}	
-	
-	
-	
-	
+}
+public function mainmenuChange():void {
+	if (state == 1){
+		dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gotospecials:true}));
+	}
+	else {
+		dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gotomenu:true}));
+	}
 	
 }

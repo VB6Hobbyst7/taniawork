@@ -11,7 +11,7 @@
 			   applicationComplete="completeHandler()" 
 			   xmlns:dao="dao.*" 
 			   xmlns:components="components.*" >
-	<fx:Script source="./func/globalFunctions.as"/>
+	<fx:Script source="./func/global.as"/>
 	<fx:Style source="main.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -25,7 +25,6 @@
 			import spark.effects.Move;
 			import spark.effects.Resize;
 			import spark.transitions.CrossFadeViewTransition;
-			import views.ReportView;
 			import views.RestrictionInfo;
 			import views.StoreSpecials;
 			import views.calList;

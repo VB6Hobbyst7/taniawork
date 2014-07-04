@@ -11,13 +11,7 @@ import flash.geom.Rectangle;
 import flash.html.HTMLLoader;
 import flash.net.URLRequest;
 import flash.sensors.Geolocation;
-import events.ActionEvent;
-import spark.components.SplitViewNavigator;
-import spark.components.ViewNavigator;
-import spark.containers.Navigator;
-import views.restrictionThinList;
-import views.menuThinList;
-import views.menuFullList;
+
 import mx.collections.ArrayCollection;
 import mx.collections.Sort;
 import mx.effects.effectClasses.FadeInstance;
@@ -25,8 +19,12 @@ import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
 import mx.events.ResizeEvent;
 import mx.rpc.events.ResultEvent;
+
 import spark.collections.SortField;
+import spark.components.SplitViewNavigator;
+import spark.components.ViewNavigator;
 import spark.components.supportClasses.StyleableTextField;
+import spark.containers.Navigator;
 import spark.core.ContentCache;
 import spark.effects.Fade;
 import spark.events.IndexChangeEvent;
@@ -34,6 +32,14 @@ import spark.events.ListEvent;
 import spark.events.ViewNavigatorEvent;
 import spark.filters.GlowFilter;
 import spark.managers.PersistenceManager;
+
+import events.ActionEvent;
+
+import skins.TileListSkin;
+
+import views.menuFullList;
+import views.menuThinList;
+import views.restrictionThinList;
 [Bindable]
 public var actions:ArrayCollection;
 [Bindable]
@@ -76,9 +82,16 @@ public var filterData3:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var filterData4:ArrayCollection = new ArrayCollection();
 
+[Bindable]
+private var sortoptions:ArrayCollection = 
+	new ArrayCollection( [
+		{name:"Category"},
+		{name:"Price"}
+	]); 
+
 protected function init():void
 {
-	
+	state = 1;
 	setLoginVars();
 	
 	filterData1 = new ArrayCollection();
@@ -106,7 +119,6 @@ protected function init():void
 	busy = true;
 	emailGo = "guest";
 	getMenu.send();
-	filterarea.visible = true;
 	widepic.visible = true;
 }	
 
@@ -227,15 +239,10 @@ public function afterGetMenuCont():void {
 		filterList3.visible = false;
 		
 		selectview1.alpha = 1;
-		selectview2.alpha = 0;
 		selectview3.alpha = 0;
-		
-		
+
 		selectview1.mouseEnabled = true;
 		selectview1.mouseEnabledWhereTransparent = true;
-		
-		selectview2.mouseEnabled = false;
-		selectview2.mouseEnabledWhereTransparent = false;
 		
 		selectview3.mouseEnabled = false;
 		selectview3.mouseEnabledWhereTransparent = false;
@@ -278,7 +285,7 @@ public function generateCategoryFilterArray():void {
 }
 public function populatelist(u:uint):void {
 	var srt:Sort = new Sort();
-	if ((u == 1)||(u==0)){
+	if (u==0){
 		srt.fields = [new SortField("categoryname")];
 		listData.sort = srt;
 		listData.refresh();
@@ -294,38 +301,12 @@ public function populatelist(u:uint):void {
 			lastcat = listData[i].categoryname.toLowerCase();
 		}
 	}
-	else if (u == 2){
-		srt.fields = [new SortField("rating",!reverse,true)];
-		listData.sort = srt;
-		listData.refresh();
-		for (var i:uint = 0; i < listData.length; i++){
-			listData[i].divtype = 0;
-		}
-	}
-	else if (u == 3){
+	else if (u == 1){
 		srt.fields = [new SortField("cost",!reverse,true)];
 		listData.sort = srt;
 		listData.refresh();
 		for (var i:uint = 0; i < listData.length; i++){
 			listData[i].divtype = 0;
-		}
-	}
-	else if (u == 33){
-		srt.fields = [new SortField("categoryname")];
-		listData.sort = srt;
-		listData.refresh();
-		var lastcat:String = "";
-		
-		
-		for (var i:uint = 0; i < listData.length; i++){
-			if ((listData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
-				listData[i].divtype = 1;
-			}
-			else {
-				listData[i].divtype = 0;
-				
-			}
-			lastcat = listData[i].categoryname.toLowerCase();
 		}
 	}
 	menuList.dataProvider = listData;	
@@ -362,51 +343,38 @@ private function returnall(item:Object):Boolean{
 public function goback(ev:MouseEvent):void {
 	navigator.popView();
 }
+
+public function sortChange():void {
+	filterClick(sortList.selectedIndex);
+}
 public function filterClick(u:uint):void {
 	listData.filterFunction = allFilter;
 	listData.refresh();
 	menuList.dataProvider = listData;
-	
-
-	if ((u == 1)&&(currentselectmode != u)){
+	if (u == 0){
 		sv1label.text = "All";
-		sv2label.text = "Highest";
 		sv3label.text = "Highest";
-		filterList1.visible = true;
-		filterList3.visible = false;
-		
 		selectview1.alpha = 1;
 		selectview3.alpha = 0;
-		
 		selectview1.mouseEnabled = true;
 		selectview1.mouseEnabledWhereTransparent = true;
-		
-		
-		
 		selectview3.mouseEnabled = false;
 		selectview3.mouseEnabledWhereTransparent = false;
-	
+		filterList1.visible = true;
+		filterList3.visible = false;
 	}
-	else if ((u == 3)&&(currentselectmode != u)){
+	else if (u == 1){
 		sv1label.text = "All";
-		sv2label.text = "Highest";
 		sv3label.text = "Highest";
-		filterList1.visible = false;
-		filterList3.visible = true;
-		
 		selectview1.alpha = 0;
 		selectview3.alpha = 1;
-		
-		
 		selectview1.mouseEnabled = false;
 		selectview1.mouseEnabledWhereTransparent = false;
-		
-		
 		selectview3.mouseEnabled = true;
 		selectview3.mouseEnabledWhereTransparent = true;	
+		filterList1.visible = false;
+		filterList3.visible = true;
 	}
-
-	
 	
 	if (currentselectmode != u){
 		reverse = false;
@@ -414,9 +382,8 @@ public function filterClick(u:uint):void {
 		populatelist(currentselectmode);
 		
 	}
-	
-	
 }
+
 public function goFilterScreen(u:uint,f:uint = 0):void {
 	if (clickingsvi == false){
 		if (dropDownContainer.visible){
@@ -455,7 +422,7 @@ public function filter1Click():void {
 		goFilterScreen(1);
 		if (sv1label.text == "All"){
 			currentselectmode = -1;
-			filterClick(1);
+			//filterClick(1);
 			afterGetMenuCont();
 		}
 		else {
@@ -465,27 +432,13 @@ public function filter1Click():void {
 			menuList.dataProvider = listData;
 			//add filter here
 			currentselectmode = 1
-			populatelist(33);
+			populatelist(0);
 		}
 		
 	}
 	catch(e:Error){
 		
 	}	
-}
-private function allFilter(item:Object):Boolean{
-	return true;
-}
-private function catFilter(item:Object):Boolean{
-	if (sv1label.text.toLowerCase() == "all"){
-		return true;
-	}
-	else {
-		if((item.categoryname.toString().toLowerCase().indexOf(	sv1label.text.toLowerCase()) != -1)){
-			return true;
-		}	
-	}
-	return false;
 }
 public function filter3Click():void {
 	
@@ -499,10 +452,24 @@ public function filter3Click():void {
 		currentselectmode = 3;
 		reverse = true;
 	}
-	populatelist(3);
+	populatelist(1);
 	sv3label.text = filterList3.selectedItem.name;
 	goFilterScreen(3);
 	
+}
+private function allFilter(item:Object):Boolean{
+	return true;
+}
+private function catFilter(item:Object):Boolean{
+	if (sv1label.text.toLowerCase() == "all"){
+		return true;
+	}
+	else {
+		if(item.categoryname.toString().toLowerCase() == sv1label.text.toLowerCase()){
+			return true;
+		}	
+	}
+	return false;
 }
 public var clickingsvi:Boolean = false;
 public function svilabelclick():void {

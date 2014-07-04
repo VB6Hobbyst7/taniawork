@@ -2,19 +2,10 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
 		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		backgroundColor="#f3f3f3"
+		backgroundColor="#f3f3f3" actionBarVisible="false"
 		title="Specials" xmlns:components="components.*"   >
-	<s:navigationContent >
-		<s:Group width="100" height="100%" 
-				 mouseOver="gOver(event)"
-				 mouseUp="gOut(event)" mouseOut="gOut(event)"
-				 mouseDown="dispatchEvent(new ActionEvent(ActionEvent.DO_ACTION, {finished:true,gotomenu:true}));">
-			<s:Label text="Menu" verticalCenter="0" left="0" color="#FFFFFF" />
-		</s:Group>
-	</s:navigationContent>
-	<s:actionContent></s:actionContent>
-	<fx:Script source="../func/globalFunctions.as"/>
-	<fx:Script source="../func/loadingfunctions.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/loading.as"/>
 	<fx:Script>
 		<![CDATA[
 			import events.ActionEvent;
@@ -48,6 +39,7 @@
 			public var currentselectmode:Number = 1;
 			public function onActivate(event:Event):void
 			{
+				state = 2;
 				locationid = '5';
 				warn.visible = false;
 				busy = true;
@@ -166,27 +158,35 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
-	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
-				horizontalScrollPolicy="off" verticalScrollPolicy="on">
-		<s:VGroup   height="100%" gap="0" width="100%"
-					horizontalAlign="center" verticalAlign="bottom">	 
-			<s:List id="specialsList" width="100%" height="100%"  
-					horizontalScrollPolicy="off" 
-					contentBackgroundAlpha="0"  mouseEnabled="false"
-				    preventSelection="true"
-					dataProvider="{specialsData}" horizontalCenter="0"
-					itemRenderer="components.specialsResult" 
-					>
-				<s:layout>
-					<s:VerticalLayout horizontalAlign="contentJustify" 
-									  variableRowHeight="true"
-									  gap="0"/>
-				</s:layout>
-			</s:List>
-		</s:VGroup>
-	</s:Scroller>
+	<s:VGroup width="100%" height="100%" >
+		<s:List width="100%" height="{getActionBarHeight()}"
+				horizontalCenter="0" selectedIndex="1"
+				useVirtualLayout="false" 
+				skinClass="skins.TileListSkin"
+				change="mainmenuChange()"
+				horizontalScrollPolicy="off" 
+				dataProvider="{mainoptions}" >
+		</s:List>
+		<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+					horizontalScrollPolicy="off" verticalScrollPolicy="on">
+			<s:VGroup   height="100%" gap="0" width="100%"
+						horizontalAlign="center" verticalAlign="bottom">	 
+				<s:List id="specialsList" width="100%" height="100%"  
+						horizontalScrollPolicy="off" 
+						contentBackgroundAlpha="0"  mouseEnabled="false"
+						preventSelection="true"
+						dataProvider="{specialsData}" horizontalCenter="0"
+						itemRenderer="components.specialsResult" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" 
+										  variableRowHeight="true"
+										  gap="0"/>
+					</s:layout>
+				</s:List>
+			</s:VGroup>
+		</s:Scroller>
+	</s:VGroup>
 	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
 			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
-			 verticalAlign="middle" verticalCenter="0"></s:Label>
-	
+			 verticalAlign="middle" verticalCenter="0"/>
 </s:View>

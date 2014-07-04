@@ -12,9 +12,8 @@
 		<s:State name="nocatyesalert"/>
 		<s:State name="yescatyesalert"/>
 		<s:State name="hiddenall"/>
-	</s:states>     
-
-	<fx:Script source="../func/globalFunctions.as"/>
+	</s:states>    
+	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
