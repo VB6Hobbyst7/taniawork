@@ -10,7 +10,7 @@
 		menuKeyPressed="gobacktohome();"
 		backKeyPressed="gobacktohome();"
 		backgroundAlpha="1"  title="Locations"
-		viewActivate="view1_activateHandler(event)">
+		 creationComplete="init()">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome();"/>
@@ -74,7 +74,7 @@
 			public var updatedone:Boolean = false;
 			[Bindable]
 			public var isFingerDown:Boolean = false;
-			protected function view1_activateHandler(event:Event):void
+			protected function init():void
 			{
 				navigator.activeView.mouseChildren = true;
 				busy = true;
@@ -116,7 +116,8 @@
 						listData = merchData;
 						busy = false;
 						prefound = true;
-						searchClick();
+						sortListByDistance();
+						refreshList();
 					}
 					else {
 						listData = new ArrayCollection();	
@@ -328,14 +329,32 @@
 				}
 			}
 			public function searchClick():void
-			{
-				listData.filterFunction = filterCompleted;
+			{	
+				if (key.text.length > 0){
+					listData.filterFunction = filterCompleted;
+				//	sortListByDistance();
+					refreshList();
+				}
+				else {
+					listData.filterFunction = returnall;
+					//sortListByDistance();
+					refreshList();
+				}			
+			}
+			public function sortListByDistance():void {
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				listData.sort = numericDataSort;
+			}
+			public function refreshList():void {
 				listData.refresh();
 				storeList.dataProvider = listData;
 			}
 			private function filterCompleted(item:Object):Boolean{
 				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
-					(item.business_description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
 					(item.categoryname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
 					return true;
 				return false;
@@ -417,15 +436,12 @@
 			</s:fill>
 		</s:Rect>
 			<s:List width="100%"
-					horizontalCenter="0" 
 				 	bottom="0" top="2"
 				    useVirtualLayout="false" 
 					skinClass="skins.TileListSkin"
 					id="storeList" 
 					horizontalScrollPolicy="off" 
-					dataProvider="{listData}"
 					click="storeListClick();" >
-				
 			</s:List>
 	</s:Group>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>

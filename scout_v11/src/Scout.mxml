@@ -9,7 +9,7 @@
   splashScreenScaleMode="zoom"
   contentBackgroundColor="#0aaae5"
   backgroundColor="#ffffff"
-  frameRate="120"
+  frameRate="30"
   mouseUp="overAllMouseUp(event)" xmlns:ns="http://www.google.com/analytics/2009" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator"  
