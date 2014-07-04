@@ -6,12 +6,12 @@ import flash.events.TimerEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
 import flash.utils.Timer;
-
 import mx.collections.ArrayCollection;
 import mx.events.EffectEvent;
-
 import spark.core.ContentCache;
 import spark.effects.Fade;
+import mx.core.DPIClassification;
+
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
 public var emailGo:String = "";
@@ -177,4 +177,35 @@ public function getDPIHeight():Number {
 		_runtimeDPI = 640;
 	}
 	return(_runtimeDPI)
+}
+public function getActionBarHeight():Number{
+	switch (getDPIHeight())
+	{
+		case 640:
+		{
+			return(172);
+			break;
+		}
+		case 480:
+		{
+			return(129);
+			break;
+		}
+		case 320:
+		{
+			return(86);
+			break;
+		}
+		case 240:
+		{
+			return(65);
+			break;
+		}
+		default:
+		{
+			return(43);
+			break;
+		}
+	}
+	return(43);
 }

@@ -24,34 +24,7 @@ public var loadedview:Boolean = false;
 protected function creationcomplete():void
 {
 	
-	switch (applicationDPI)
-	{
-		case DPIClassification.DPI_640:
-		{
-			actionbarheight = 172;
-			break;
-		}
-		case DPIClassification.DPI_480:
-		{
-			actionbarheight = 129;
-			break;
-		}
-		case DPIClassification.DPI_320:
-		{
-			actionbarheight = 86;
-			break;
-		}
-		case DPIClassification.DPI_240:
-		{
-			actionbarheight = 65;
-			break;
-		}
-		default:
-		{
-			actionbarheight = 43;
-			break;
-		}
-	}
+	actionbarheight = getDPIHeight();
 	
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
