@@ -45,6 +45,7 @@
 			public var staffID:String = "";
 			public function onActivate(event:Event):void
 			{
+				navigator.activeView.mouseChildren = true;
 				warn.visible = false;
 				setLoginVars();				
 				var tempamount:String = data.amount;

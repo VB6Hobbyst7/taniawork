@@ -7,13 +7,13 @@
 		mouseDown="listFingerDown();" 
 		mouseUp="listFingerUp();"
 		mouseOut="listFingerUp();"
-		menuKeyPressed="navigator.popView()"
-		backKeyPressed="navigator.popView()"
+		menuKeyPressed="gobacktohome();"
+		backKeyPressed="gobacktohome();"
 		backgroundAlpha="1"  title="Locations"
 		viewActivate="view1_activateHandler(event)">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%"   mouseDown="gobacktohome();"/>
 	</s:navigationContent>
 	<s:titleContent>
 		<s:Group  width="100%" height="65%">
@@ -76,6 +76,7 @@
 			public var isFingerDown:Boolean = false;
 			protected function view1_activateHandler(event:Event):void
 			{
+				navigator.activeView.mouseChildren = true;
 				busy = true;
 				prefound = false;
 				var stmt:SQLStatement = new SQLStatement();
@@ -391,6 +392,12 @@
 			}
 			public function listFingerUp():void {
 				isFingerDown = false;
+			}
+			public function gobacktohome():void {
+				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.direction = ViewTransitionDirection.RIGHT;
+				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+				navigator.pushView(Home, null,null,slideTrans);
 			}
 		]]>
 	</fx:Script>

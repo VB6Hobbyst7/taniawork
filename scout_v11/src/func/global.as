@@ -3,8 +3,16 @@ import flash.data.SQLStatement;
 import flash.events.MouseEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
+
 import mx.collections.ArrayCollection;
+
 import spark.core.ContentCache;
+import spark.transitions.SlideViewTransition;
+import spark.transitions.SlideViewTransitionMode;
+import spark.transitions.ViewTransitionDirection;
+
+import views.Home;
+
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
 public var emailGo:String = "";
@@ -34,6 +42,7 @@ public function setLoginVars():void {
 		nameGo = "none";
 	}	
 }
+
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
 }

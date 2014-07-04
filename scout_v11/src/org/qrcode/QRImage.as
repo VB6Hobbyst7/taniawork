@@ -18,7 +18,7 @@ package org.qrcode
 			var imgW:int = w + 2 * outerFrame;
 			var imgH:int = h + 2 * outerFrame;
 			
-			var image:BitmapData = new BitmapData(imgW , imgH , false,0xffffff);
+			var image:BitmapData = new BitmapData(imgW , imgH , false,0xe9e7e7);
 			
 			for(var y:int=0; y<h; y++) {
 				for(var x:int=0; x<w; x++) {
@@ -32,7 +32,7 @@ package org.qrcode
 			var matrix:Matrix = new Matrix();
 			matrix.scale(pixelPerPoint,pixelPerPoint);
 			
-			var bitData:BitmapData = new BitmapData(imgW*pixelPerPoint,imgH*pixelPerPoint,false,0xffffff);
+			var bitData:BitmapData = new BitmapData(imgW*pixelPerPoint,imgH*pixelPerPoint,false,0xe9e7e7);
 			bitData.draw(image,matrix);
 			image.dispose();
 			//image = null;

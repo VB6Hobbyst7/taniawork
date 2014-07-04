@@ -23,8 +23,7 @@ package com.renaun.caltrain.components
 		} 
 		override mx_internal function getImageClass(aspectRatio:String, dpi:Number, resolution:Number):Class 
 		{ 
-			if ((Capabilities.screenResolutionX >= 1135  && Capabilities.screenResolutionY >= 639  )||
-				(Capabilities.screenResolutionX >= 639   && Capabilities.screenResolutionY >= 1135 )){
+			if (resolution > 1000){
 				return iphone5image;
 			}
 			else if (dpi == DPIClassification.DPI_160)
@@ -39,7 +38,7 @@ package com.renaun.caltrain.components
 				return SplashImage240; 
 			else if (dpi == DPIClassification.DPI_320) 
 				return SplashImage320; 
-			return null; 
+			return SplashImage320; 
 		} 
 	} 
 }

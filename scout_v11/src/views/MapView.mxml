@@ -51,6 +51,7 @@
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			private function onViewActivate():void {
+				navigator.activeView.mouseChildren = true;
 				try{
 					if (Geolocation.isSupported)
 					{

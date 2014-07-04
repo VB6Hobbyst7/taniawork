@@ -3,8 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"  
 		xmlns:components="components.*" 
 		backgroundColor="#c5c5c5"
-		menuKeyPressed="navigator.popView();" 
-		backKeyPressed="navigator.popView();"
+		menuKeyPressed="gobacktohome();" 
+		backKeyPressed="gobacktohome();"
 		viewActivate="onActivate(event)" 
 		mouseDown="listFingerDown();" 
 		mouseUp="listFingerUp();"
@@ -12,7 +12,7 @@
 		title="Loyalty">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%"   mouseDown="gobacktohome();"/>
 	</s:navigationContent>
 	<s:titleContent>
 		<s:Group  width="100%" height="65%">
@@ -83,7 +83,7 @@
 			{	
 				busy = true;
 				prefound = false;
-
+				navigator.activeView.mouseChildren = true;
 				var stmt:SQLStatement = new SQLStatement();
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
@@ -375,6 +375,12 @@
 			}
 			public function goToMap():void {
 				navigator.pushView(MapView,{mylat:this.mylat,mylong:this.mylong});
+			}
+			public function gobacktohome():void {
+				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.direction = ViewTransitionDirection.RIGHT;
+				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+				navigator.pushView(Home, null,null,slideTrans);
 			}
 		]]>
 	</fx:Script>

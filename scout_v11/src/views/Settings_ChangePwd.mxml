@@ -30,6 +30,7 @@
 			public var busy:Boolean = false;
 			public function onActivate(event:Event):void
 			{			
+				navigator.activeView.mouseChildren = true;
 				setLoginVars();		
 			}	
 			public function changePass():void {

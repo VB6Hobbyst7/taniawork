@@ -4,13 +4,13 @@
   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
   creationComplete="creationcomplete(event)"
   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
-  initialize="initz(event)" 
+  initialize="initz(event)"  applicationComplete="afterappcomplete(event)"
   contentBackgroundAlpha="1"
-  splashScreenScaleMode="none"
+  splashScreenScaleMode="zoom"
   contentBackgroundColor="#0aaae5"
   backgroundColor="#ffffff"
   frameRate="120"
-  mouseUp="overAllMouseUp(event)" >
+  mouseUp="overAllMouseUp(event)" xmlns:ns="http://www.google.com/analytics/2009" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator"  
 								resizeForSoftKeyboard="true"
@@ -153,6 +153,13 @@
 			import views.Settings;
 			import views.Signin;
 			import views.Stores;
+			
+			protected function afterappcomplete(event:FlexEvent):void
+			{
+				var tracker:GATracker = new GATracker( this, "UA-44766703-2", "AS3", false );
+				tracker.trackPageview( "Application Load" );
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Style source="./main.css"/>
@@ -230,4 +237,5 @@
 								source480dpi="@Embed('assets/320/settingsslider.png')"
 								source640dpi="@Embed('assets/320/settingsslider.png')"/>
 	</fx:Declarations>
+	
 </s:Application>

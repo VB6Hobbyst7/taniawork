@@ -1,3 +1,4 @@
+import com.google.analytics.GATracker;
 import com.milkmangames.nativeextensions.GVFacebookFriend;
 import com.milkmangames.nativeextensions.GoViral;
 import com.milkmangames.nativeextensions.events.GVFacebookEvent;
@@ -29,9 +30,10 @@ public var resData:ArrayCollection = new ArrayCollection();
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var actionbarheight:Number = 0;
-
+//public var tracker:GATracker = new GATracker( this, "UA-111-222", "AS3", false );
 protected function creationcomplete(event:FlexEvent):void
 {
+	
 	switch (applicationDPI)
 	{
 		case DPIClassification.DPI_640:
@@ -97,7 +99,7 @@ public function onSwipe(event:TransformGestureEvent):void
 			case 1:
 			{
 				// swiped right also back swipe
-				//opening menu or closing filters
+				//opening menu 
 				if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') == -1)&&
 					(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('map') == -1)){ 
 					if (menumoving == false){
@@ -117,7 +119,7 @@ public function onSwipe(event:TransformGestureEvent):void
 			case -1:
 			{
 				// swiped left
-				//opening filters or closing menu
+				// closing menu
 				if ((menumoving == false)&&(menuopen)){
 					setNavigatorMovingStatus(true);
 					openclosestatus = 2;

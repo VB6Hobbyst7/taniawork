@@ -3,8 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"  
 		xmlns:components="components.*" 
 		backgroundColor="#c5c5c5"
-		menuKeyPressed="navigator.popView();" 
-		backKeyPressed="navigator.popView();"
+		menuKeyPressed="gobacktohome();" 
+		backKeyPressed="gobacktohome();"
 		viewActivate="onActivate(event)" 
 		mouseDown="listFingerDown();" 
 		mouseUp="listFingerUp();"
@@ -12,7 +12,7 @@
 		title="Activity">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%"   mouseDown="gobacktohome();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
@@ -40,6 +40,7 @@
 			public var prefound:Boolean = false;
 			public function onActivate(event:Event):void
 			{	
+				navigator.activeView.mouseChildren = true;
 				busy = true;
 				setLoginVars();
 				getactivity.send();
@@ -94,6 +95,12 @@
 			}
 			public function listFingerUp():void {
 				isFingerDown = false;
+			}
+			public function gobacktohome():void {
+				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.direction = ViewTransitionDirection.RIGHT;
+				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+				navigator.pushView(Home, null,null,slideTrans);
 			}
 		]]>
 	</fx:Script>
