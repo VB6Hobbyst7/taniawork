@@ -177,12 +177,15 @@
 						   horizontalCenter="0" verticalCenter="0">
 					<s:TextInput id="nbirthday" width="33%" prompt="Day"  maxChars="2"
 								 softKeyboardType="number"  fontFamily="Arial"
+								 restrict="0-9"
 								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" maxChars="2"
 								 softKeyboardType="number" fontFamily="Arial"
+								 restrict="0-9"
 								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthyear" width="33%" prompt="Year"  maxChars="4"
 								 softKeyboardType="number" fontFamily="Arial"
+								 restrict="0-9"
 								 borderVisible="false" focusAlpha="0"/>
 				</s:HGroup>
 				

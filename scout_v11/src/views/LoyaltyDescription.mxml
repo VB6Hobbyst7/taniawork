@@ -45,6 +45,8 @@
 			public var staffID:String = "";
 			public function onActivate(event:Event):void
 			{
+				keystring = "";
+				fillcircles(keystring.length);
 				navigator.activeView.mouseChildren = true;
 				warn.visible = false;
 				setLoginVars();				
@@ -462,7 +464,7 @@
 						 mouseDown="gDown(event);">
 					<s:Label text="Maybe Later"  mouseEnabled="false"
 							 verticalCenter="0" horizontalCenter="0"
-							 styleName="textsize4" color="#389dc8"/>
+							 styleName="textsize5" color="#389dc8"/>
 				</s:Group>
 				<s:Group width="50%" right="0" height="100%" id="redeembtn"
 						 click="openStaffPinPopup()"
@@ -472,7 +474,7 @@
 						 mouseDown="gDown(event);">
 					<s:Label text="Redeem"  mouseEnabled="false"
 							 verticalCenter="0" horizontalCenter="0"
-							 styleName="textsize4" color="#389dc8"/>
+							 styleName="textsize5" color="#389dc8"/>
 				</s:Group>
 			</s:Group>
 		</s:Group>

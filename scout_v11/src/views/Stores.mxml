@@ -3,7 +3,7 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="components.*"
-		backgroundColor="#FFFFFF" 
+		backgroundColor="#FFFFFF"   destructionPolicy="auto"
 		mouseDown="listFingerDown();" 
 		mouseUp="listFingerUp();"
 		mouseOut="listFingerUp();"

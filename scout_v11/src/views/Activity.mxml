@@ -125,7 +125,7 @@
 							selectedIndex="1" 
 							horizontalScrollPolicy="off"  >
 						<s:layout>
-							<s:VerticalLayout gap="15">
+							<s:VerticalLayout gap="15" paddingTop="15">
 							</s:VerticalLayout>
 						</s:layout>
 					</s:List>

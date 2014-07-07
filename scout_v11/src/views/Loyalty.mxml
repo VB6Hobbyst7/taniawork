@@ -397,7 +397,8 @@
 	</fx:Declarations>
 	<s:Group width="100%" height="100%" visible="true" id="listCont">
 		<s:Group   top="0" bottom="0" width="100%"  >
-			<s:List width="100%" height="100%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+			<s:List width="100%" height="100%" horizontalCenter="0" 
+					top="0" bottom="0" contentBackgroundAlpha="1" 
 					id="loyaltylist" labelField="name"  contentBackgroundColor="#c5c5c5"  
 					dataProvider="{loyaltyArray}" itemRenderer="components.loyaltyListItem"
 					selectedIndex="1" change="loyaltyListChange(event);"

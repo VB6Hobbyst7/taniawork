@@ -372,6 +372,9 @@
 			</s:Group>
 		</s:VGroup>
 	</s:Scroller>
+	
+	
+	
 	<s:Group id="popupholder1"  width="100%" height="100%" visible="false">
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
@@ -379,8 +382,9 @@
 		<s:Group id="popupholder2" width="85%"  height="85%"
 				 horizontalCenter="0" verticalCenter="0"
 				 mouseDownOutside="{popupholder1.visible = false}">
-			<s:Rect width="100%" height="100%">
-				<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
 			</s:Rect>
 			
 			
@@ -416,15 +420,18 @@
 				
 			</s:VGroup>
 			</s:Scroller>
-			<s:Group height="15%" width="100%" bottom="0" 
-					 click="{popupholder1.visible = false}"
-					 mouseDown="gDown(event);" mouseOver="gOver(event);"
-					 mouseOut="gOut(event);" mouseUp="gOut(event);">
-				<s:Rect width="100%" height="100%">
-					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
-				</s:Rect>
-				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
-						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			<s:Group width="100%" height="15%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" horizontalCenter="0" height="100%" 
+						 click="{popupholder1.visible = false}"
+						 mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Label text="Close"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
 			</s:Group>
 		</s:Group>
 	</s:Group>
