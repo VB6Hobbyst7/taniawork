@@ -59,7 +59,11 @@
 				</s:VGroup>
 				<s:Label width="99%" paddingLeft="{40/(320/Capabilities.screenDPI)}" paddingRight="{40/(320/Capabilities.screenDPI)}"  
 						 color="#4d4d4d" fontWeight="normal" id="descriptiontext" lineHeight="{55/(320/Capabilities.screenDPI)}" styleName="textsize3" click="descriptionclick(event)"
-						 text="{data.selectedData.description}" maxDisplayedLines="4" textDecoration="none"
+						  maxDisplayedLines="4" textDecoration="none"
+						 verticalAlign="middle"/>
+				<s:Label width="99%" paddingLeft="{40/(320/Capabilities.screenDPI)}" paddingRight="{40/(320/Capabilities.screenDPI)}"  
+						 color="#4d4d4d" fontWeight="normal" id="additiontext" lineHeight="{55/(320/Capabilities.screenDPI)}" styleName="textsize3" click="descriptionclick(event)"
+						  maxDisplayedLines="4" textDecoration="none"
 						 verticalAlign="middle"/>
 				<s:Group width="100%">
 					<s:Line  left="{40/(320/Capabilities.screenDPI)}" right="0" bottom="0" > 

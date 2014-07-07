@@ -110,7 +110,8 @@ public function afterGetMenuInformation(ev:ResultEvent):void {
 	recentreviews = new ArrayCollection();
 	modifications = new ArrayCollection();
 	var tempModifications:ArrayCollection = new ArrayCollection();
-	
+	descriptiontext.text = ev.result[0].results5.result5.description;
+	additiontext.text =  ev.result[0].results5.result5.additions;
 	
 	sqlConnection = new SQLConnection();
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
@@ -121,29 +122,7 @@ public function afterGetMenuInformation(ev:ResultEvent):void {
 	var resvaluesData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 	
 	
-	try{			
-		topreviews = ev.result[0].results.result;	
-	}
-	catch(e:Error){
-		try{
-			
-			topreviews.addItem(ev.result[0].results.result);
-		}
-		catch(e:Error){
-		}
-	}
 	
-	try{			
-		recentreviews = ev.result[0].results2.result2;	
-	}
-	catch(e:Error){
-		try{
-			
-			recentreviews.addItem(ev.result[0].results2.result2);
-		}
-		catch(e:Error){
-		}
-	}
 	
 	try{			
 		tempModifications = ev.result[0].results4.result4;	
