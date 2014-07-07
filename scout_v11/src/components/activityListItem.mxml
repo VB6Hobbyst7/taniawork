@@ -84,7 +84,8 @@
 										source640dpi="@Embed('../assets/640/gradient.png')"/>
 			</s:source>
 		</s:Image>
-		<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="{this.height/4.2+10}" styleName="textsize1"
+		<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="{this.height/4.2+10}" 
+				 styleName="textsize2"
 				 maxDisplayedLines="1" text="{data.business_name}"/>
 		<s:Group  bottom="0" width="100%"   height="{this.height/4.2}">
 			<s:Rect width="100%" height="100%">
@@ -92,19 +93,19 @@
 			</s:Rect>
 			<s:HGroup paddingTop="10" paddingBottom="10" height="100%" width="100%" paddingLeft="10" verticalAlign="middle" verticalCenter="0">
 				<s:VGroup width="33%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label color="#0aaae5"  styleName="textsize1"
+					<s:Label color="#0aaae5"  styleName="textsize2"
 							 text="{data.amount}" fontWeight="bold"/>
 					<s:Label color="#5e5c5c" styleName="textsize1"
 							 text="Points" fontWeight="bold"/>
 				</s:VGroup>
 				<s:VGroup width="33%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label color="#0aaae5"  styleName="textsize1"
+					<s:Label color="#0aaae5"  styleName="textsize2"
 							 text="{data.visitcount}" fontWeight="bold"/>
 					<s:Label color="#5e5c5c" styleName="textsize1"
 							 text="Visits" fontWeight="bold"/>
 				</s:VGroup>
 				<s:VGroup width="33%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label color="#0aaae5"  styleName="textsize1"
+					<s:Label color="#0aaae5"  styleName="textsize2"
 							 text="{data.redeemcount}" fontWeight="bold"/>
 					<s:Label color="#5e5c5c" styleName="textsize1"
 							 text="Rewards" fontWeight="bold"/>

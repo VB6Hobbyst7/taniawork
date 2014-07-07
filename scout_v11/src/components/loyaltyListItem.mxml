@@ -45,10 +45,11 @@
 				<s:fill><s:SolidColor color="0xFFFFFF"/></s:fill>
 			</s:Rect>
 			<s:HGroup width="100%" paddingLeft="10" verticalAlign="middle" verticalCenter="0">
-				<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize1"
+				<s:Label left="10" width="100%"  color="#5e5c5c"   styleName="textsize2"
 						maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 						 verticalCenter="0"/>
-				<s:Label right="0"  height="100%" id="parea" color="#0aaae5"  paddingRight="10"  styleName="textsize1"
+				<s:Label right="0"  height="100%" id="parea" color="#0aaae5" 
+						 paddingRight="10"  styleName="textsize2"
 						 textAlign="right" fontWeight="bold"
 						 verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>

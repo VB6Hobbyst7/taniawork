@@ -130,7 +130,8 @@
 						</s:layout>
 					</s:List>
 				</s:Group>
-				<s:Label text="You haven't visited any Scout locations yet!" visible="false" id="noactivity" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
+				<s:Label text="You haven't visited any Scout locations yet!" 
+						 visible="false" id="noactivity" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
 			</s:Group>	
 			</s:VGroup>
 		</s:VGroup>

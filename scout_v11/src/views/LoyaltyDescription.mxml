@@ -358,6 +358,13 @@
 				<spend>{spendout}</spend>
 			</s:request>
 		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="pingsrc" 
+								source160dpi="@Embed('assets/160/pin.png')"
+								source240dpi="@Embed('assets/240/pin.png')"
+								source320dpi="@Embed('assets/240/pin.png')"
+								source480dpi="@Embed('assets/240/pin.png')"
+								source640dpi="@Embed('assets/240/pin.png')"
+								/>
 	</fx:Declarations>
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" paddingTop="0" gap="0"  horizontalAlign="center" height="100%" >
@@ -376,10 +383,12 @@
 					</s:Line>
 				
 					<s:HGroup width="100%" paddingLeft="0" height="100%" verticalAlign="middle" verticalCenter="0">
-						<s:Label paddingLeft="30" width="100%"  color="#5e5c5c"   styleName="textsize1"
+						<s:Label paddingLeft="30" width="100%"  color="#5e5c5c"   
+								 styleName="textsize2"
 								 maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 								 verticalCenter="0"/>
-						<s:Label   height="100%" id="pointsamount" color="#0aaae5"  paddingRight="30"  styleName="textsize1"
+						<s:Label   height="100%" id="pointsamount" color="#0aaae5"  
+								   paddingRight="30"  styleName="textsize2"
 								 textAlign="right" fontWeight="bold"
 								 verticalAlign="middle" verticalCenter="0"/>
 					</s:HGroup>
@@ -436,7 +445,7 @@
 				</s:VGroup>
 				<s:Group height="15%" width="100%">
 					<s:HGroup width="100%" horizontalAlign="center" verticalCenter="0">
-						<s:Label text="{spendout.toString()}"  mouseEnabled="false"
+						<s:Label text="{spendout.toString()}"  fontWeight="bold" mouseEnabled="false"
 								 verticalCenter="0" horizontalCenter="0"
 								 styleName="textsize3" color="#389dc8"/>
 						<s:Label text="points"  mouseEnabled="false"
@@ -449,7 +458,7 @@
 						 styleName="textsize10" color="#222222"/>
 			</s:VGroup>
 				</s:Scroller>
-			<s:Group width="100%" height="15%" bottom="0">
+			<s:Group width="100%" height="20%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>
@@ -507,46 +516,10 @@
 							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="30" verticalAlign="middle" horizontalAlign="center">
-							<s:BitmapImage  id="pin1" contentLoader="{s_imageCache}">
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
-															source240dpi="@Embed('assets/240/pin.png')"
-															source320dpi="@Embed('assets/320/pin.png')"
-															source480dpi="@Embed('assets/480/pin.png')"
-															source640dpi="@Embed('assets/640/pin.png')"/>
-								</s:source>
-							</s:BitmapImage>
-							
-							<s:BitmapImage id="pin2"  contentLoader="{s_imageCache}">
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
-															source240dpi="@Embed('assets/240/pin.png')"
-															source320dpi="@Embed('assets/320/pin.png')"
-															source480dpi="@Embed('assets/480/pin.png')"
-															source640dpi="@Embed('assets/640/pin.png')"/>
-								</s:source>
-							</s:BitmapImage>
-							
-							
-							<s:BitmapImage id="pin3"  contentLoader="{s_imageCache}">
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
-															source240dpi="@Embed('assets/240/pin.png')"
-															source320dpi="@Embed('assets/320/pin.png')"
-															source480dpi="@Embed('assets/480/pin.png')"
-															source640dpi="@Embed('assets/640/pin.png')"/>
-								</s:source>
-							</s:BitmapImage>
-							
-							<s:BitmapImage id="pin4"  contentLoader="{s_imageCache}">
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/pin.png')"
-															source240dpi="@Embed('assets/240/pin.png')"
-															source320dpi="@Embed('assets/320/pin.png')"
-															source480dpi="@Embed('assets/480/pin.png')"
-															source640dpi="@Embed('assets/640/pin.png')"/>
-								</s:source>
-							</s:BitmapImage>
+							<s:Image id="pin1"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
+							<s:Image id="pin2"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
+							<s:Image id="pin3"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
+							<s:Image id="pin4"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
 						</s:HGroup>
 					</s:Group>
 					
