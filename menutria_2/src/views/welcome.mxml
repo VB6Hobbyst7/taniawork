@@ -7,7 +7,7 @@
 		 creationComplete="init(event)" 
 		contentBackgroundAlpha="1" accentColor="#f3f3f3"
 		contentBackgroundColor="#f3f3f3"
-		backgroundColor="#43c7ae" actionBarVisible="false"
+		backgroundColor="#36ccba" actionBarVisible="false"
 		backgroundAlpha="1"  >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/loading.as"/>

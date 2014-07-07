@@ -104,7 +104,7 @@
 						  color="#4d4d4d"  fontWeight="bold" styleName="textsize3" verticalAlign="middle"/>
 			</s:HGroup>
 			<s:HGroup width="100%" verticalAlign="top">
-				<s:Label id="ratinglabel"  text="{data.rating}"  color="#43c7ae"  fontWeight="bold"
+				<s:Label id="ratinglabel"  text="{data.rating}"  color="#36ccba"  fontWeight="bold"
 						 styleName="textsize2" verticalAlign="middle"/>
 				<s:Group width="100%" >
 					<s:Label width="100%" visible="{data.ratingdescription.length != 0}"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
@@ -119,7 +119,7 @@
 														source640dpi="@Embed('../assets/320/triratinggreen.png')"/>
 							</s:source>
 						</s:Image>
-						<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
+						<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold"
 								   styleName="textsize2" verticalAlign="middle"/>
 					</s:HGroup>
 				</s:Group>
@@ -135,7 +135,7 @@
 												source640dpi="@Embed('../assets/320/triratinggreen.png')"/>
 					</s:source>
 				</s:Image>
-				<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold"
+				<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold"
 						   styleName="textsize2" verticalAlign="middle"/>
 			</s:HGroup>
 		</s:VGroup>		

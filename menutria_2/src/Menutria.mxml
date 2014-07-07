@@ -4,7 +4,7 @@
 			   fontFamily="segoewp" 
 			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
 			   xmlns:utils="utils.*"  
-			   backgroundColor="#43c7ae" 
+			   backgroundColor="#36ccba" 
 			   backgroundAlpha="1"  frameRate="120"
 			   splashScreenScaleMode="none" 
 			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 

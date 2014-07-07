@@ -6,6 +6,7 @@
 		xmlns:components="components.*" xmlns:cs="cs.*"
 		backgroundColor="#f3f3f3"
 		destructionPolicy="never"
+		name="menu"
 		dataChange="dchange(event)"
 		backgroundAlpha="1"   actionBarVisible="false"
 		title="" viewActivate="init()">

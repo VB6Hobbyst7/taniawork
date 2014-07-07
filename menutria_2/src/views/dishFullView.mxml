@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
-		backgroundColor="#FFFFFF"
-	 actionBarVisible="false"
-		viewActivate="view1_activateHandler(event)"
-		xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:components="components.*">
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		backgroundColor="#FFFFFF" actionBarVisible="false"
+		viewActivate="view1_activateHandler(event)">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -53,7 +53,7 @@
 						  paddingRight="{40/(320/Capabilities.screenDPI)}">
 					<s:Label id="selectedTitle"  width="{this.width-100}" color="#4d4d4d" paddingRight="{40/(320/Capabilities.screenDPI)}"
 							 styleName="textsize9" fontWeight="bold" text="{data.selectedData.name}"/>
-					<s:Label  color="#43c7ae" fontWeight="bold" 
+					<s:Label  color="#36ccba" fontWeight="bold" 
 							  styleName="textsize7" text="{'$' + data.selectedData.cost }"
 							  verticalAlign="middle"></s:Label>
 				</s:VGroup>

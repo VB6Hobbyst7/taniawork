@@ -158,7 +158,7 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
-	<s:VGroup width="100%" height="100%" >
+	<s:VGroup width="100%" height="100%" gap="0" >
 		<s:List width="100%" height="{getActionBarHeight()}"
 				horizontalCenter="0" selectedIndex="1"
 				useVirtualLayout="false" 

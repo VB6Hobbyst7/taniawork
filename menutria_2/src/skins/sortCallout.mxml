@@ -40,6 +40,6 @@ For this example, I explicitly use the beveled ActionBar button skin.
     </fx:Declarations>
 	<s:BorderContainer x="0" y="0"  borderVisible="false" height="40" backgroundAlpha="1" borderAlpha="0"
 					   dropShadowVisible="false" backgroundColor="#ebebeb"   width="65">
-		<s:Label verticalCenter="0" horizontalCenter="0" color="#43c7ae"  text="Sort"/>
+		<s:Label verticalCenter="0" horizontalCenter="0" color="#36ccba"  text="Sort"/>
 	</s:BorderContainer>
 </s:Group>

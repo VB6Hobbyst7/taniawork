@@ -317,7 +317,7 @@ public function menuListClick():void {
 			var detailNavigator:ViewNavigator = splitNavigator.getViewNavigatorAt(1) as ViewNavigator;
 			var sidebarnav:ViewNavigator = splitNavigator.getViewNavigatorAt(0) as ViewNavigator;
 			detailNavigator.pushView(dishFullView, {selectedData:listData[menuList.selectedIndex]});
-			if (detailNavigator.activeView.title == "Menu"){
+			if (detailNavigator.activeView.name == "menu"){
 				sidebarnav.pushView(menuThinList);
 			}
 }
