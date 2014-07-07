@@ -10,7 +10,7 @@
 		menuKeyPressed="gobacktohome();"
 		backKeyPressed="gobacktohome();"
 		backgroundAlpha="1"  title="Locations"
-		 creationComplete="init()">
+		  viewActivate="init()">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome();"/>
@@ -133,15 +133,18 @@
 						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
 						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);
 					}
+					else {
+						calllocationupdate();
+					}
 				}
 				catch(e:Error){
-					
+					calllocationupdate();
 				}
 				setLoginVars();
 				maintimer = new Timer(timerval,0);
 				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
 				maintimer.start();
-				calllocationupdate();
+				
 				
 			}	
 			public function aftertimer(ev:TimerEvent):void {
@@ -365,9 +368,8 @@
 			protected function onUpdate(event:GeolocationEvent):void
 			{
 				if (updatedone == false){
-					updatedone  = true;
 					if (isFingerDown == false){
-						
+						updatedone  = true;
 						mylat = event.latitude;
 						mylong = event.longitude;	
 						for (var i:uint=  0; i < listData.length; i++){

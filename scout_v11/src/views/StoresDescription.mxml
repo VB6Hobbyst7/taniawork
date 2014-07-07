@@ -192,11 +192,11 @@
 						  contentLoader="{s_imageCache}" 
 						  scaleMode="stretch"  	   >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/gradient.png')"
-												source240dpi="@Embed('../assets/240/gradient.png')"
-												source320dpi="@Embed('../assets/320/gradient.png')"
-												source480dpi="@Embed('../assets/480/gradient.png')"
-												source640dpi="@Embed('../assets/640/gradient.png')"/>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/largeshadow.png')"
+												source240dpi="@Embed('../assets/240/largeshadow.png')"
+												source320dpi="@Embed('../assets/320/largeshadow.png')"
+												source480dpi="@Embed('../assets/480/largeshadow.png')"
+												source640dpi="@Embed('../assets/640/largeshadow.png')"/>
 					</s:source>
 				</s:Image>
 				<s:Label id="selectedTitle"  bottom="10" paddingLeft="20" paddingRight="10" width="100%" color="#FFFFFF"
@@ -420,7 +420,7 @@
 				
 			</s:VGroup>
 			</s:Scroller>
-			<s:Group width="100%" height="15%" bottom="0">
+			<s:Group width="100%" height="20%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>
@@ -486,7 +486,7 @@
 							  color="#444444" prompt="How did we do?"  height="50%"
 							contentBackgroundAlpha="0" borderVisible="false"/>
 			</s:VGroup>
-			<s:Group width="100%" height="15%" bottom="0">
+			<s:Group width="100%" height="20%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>

@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*"  name="signin"
-		title="Scout" viewActivate="viewact(event)"
+		title="Scout" viewActivate="viewact()"
 		backgroundColor="#f2f3f4" 
 		contentBackgroundColor="#f2f3f4">
 	<s:navigationContent >
@@ -12,9 +12,13 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
+			import com.esri.ags.layers.supportClasses.TimeReference;
+			
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
 			[Bindable]
@@ -94,12 +98,25 @@
 			{		
 				this.parentApplication.facebookloging();
 			}
-		
-			public function viewact(event:ViewNavigatorEvent):void
+		public var ti:Timer = new Timer(200,0);
+			public function viewact():void
 			{
-				// TODO Auto-generated method stub
-				navigator.activeView.mouseChildren = true;
+				ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);
+				ti.start();
+				try{
+					navigator.activeView.mouseChildren = true;
+				}
+				catch(e:Error){
+					
+				}
+				
+				
+			}
+			public function afterti(ev:TimerEvent):void {
+				ti.stop();
+				ti.removeEventListener(TimerEvent.TIMER_COMPLETE,afterti);
 				this.parentApplication.checkfacebookin();
+					
 			}
 			
 		]]>

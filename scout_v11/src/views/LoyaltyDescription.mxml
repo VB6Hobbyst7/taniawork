@@ -443,11 +443,11 @@
 							 verticalCenter="0" horizontalCenter="0"
 							 styleName="textsize2" color="#525f64"/>
 				</s:VGroup>
-				<s:Group height="15%" width="100%">
+				<s:Group height="20%" width="100%">
 					<s:HGroup width="100%" horizontalAlign="center" verticalCenter="0">
 						<s:Label text="{spendout.toString()}"  fontWeight="bold" mouseEnabled="false"
 								 verticalCenter="0" horizontalCenter="0"
-								 styleName="textsize3" color="#389dc8"/>
+								 styleName="textsize4" color="#389dc8"/>
 						<s:Label text="points"  mouseEnabled="false"
 								 verticalCenter="0" horizontalCenter="0"
 								 styleName="textsize3" color="#191919"/>

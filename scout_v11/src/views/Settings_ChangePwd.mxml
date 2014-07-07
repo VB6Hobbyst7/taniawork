@@ -173,7 +173,7 @@
 					 text="Sorry Incorrect Information"/>
 			<!-- END OF PUT POPUP CONTENTS HERE  -->
 			
-			<s:Group height="15%" width="100%" bottom="0" 
+			<s:Group height="20%" width="100%" bottom="0" 
 					 click="{popupholder1.visible = false}"
 					 mouseDown="gDown(event);" mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);">

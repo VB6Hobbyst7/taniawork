@@ -16,7 +16,7 @@
 				 verticalCenter="0" styleName="textsize12"
 				 verticalAlign="middle" 
 				 text="New Update Available"/>
-		<s:Group height="15%" width="100%" bottom="0" 
+		<s:Group height="20%" width="100%" bottom="0" 
 				 click="navigateToURL(new URLRequest('https://itunes.apple.com/ca/app/scout/id730533771?mt=8'))"
 				 mouseDown="gDown(event);" mouseOver="gOver(event);"
 				 mouseOut="gOut(event);" mouseUp="gOut(event);">

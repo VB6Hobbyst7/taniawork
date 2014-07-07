@@ -85,7 +85,7 @@
 			</s:source>
 		</s:Image>
 		<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="{this.height/4.2+10}" 
-				 styleName="textsize2"
+				 styleName="textsize3" fontWeight="bold"
 				 maxDisplayedLines="1" text="{data.business_name}"/>
 		<s:Group  bottom="0" width="100%"   height="{this.height/4.2}">
 			<s:Rect width="100%" height="100%">
