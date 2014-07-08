@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://blog.flexexamples.com/2009/03/24/creating-a-tile-list-using-the-fxlist-control-in-flex-gumbo/ -->
+<s:SparkSkin name="CustomListSkin"
+			 xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 minWidth="112" minHeight="112"
+			 alpha.disabled="0.5"
+			 blendMode="normal">
+	<!-- states -->
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent("spark.components.List")]
+		]]>
+	</fx:Metadata> 
+	
+		<fx:Script>
+		/* Define the skin elements that should not be colorized. 
+		For list, the skin itself is colorized but the individual parts are not. */
+		static private const exclusions:Array = ["scroller", "background"];
+		
+		override public function get colorizeExclusions():Array {
+			return exclusions;
+		}
+		
+		/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
+		static private const contentFill:Array = ["bgFill"];
+		
+		override public function get contentItems():Array {return contentFill};
+	</fx:Script>
+	
+
+	<!-- fill -->
+	<!--- Defines the background appearance of the list-based component. -->
+	<s:Rect id="background"  visible="false">
+		<s:fill>
+			<s:SolidColor id="bgFill"  alpha="0" />
+		</s:fill>
+	</s:Rect>
+	
+	<!--- The Scroller component to add scroll bars to the list. -->
+	<s:Scroller left="0" top="0" right="0" bottom="0"  width="100%"
+				id="scroller" minViewportInset="0" focusEnabled="false">
+		<!--- The container for the data items. -->
+		<s:DataGroup id="dataGroup"	itemRenderer="components.calItem" width="100%" >
+			<s:layout>
+				<s:TileLayout requestedColumnCount="7" columnWidth="{this.width/7}"
+							  requestedRowCount="7"  rowHeight="{this.width/7}"
+							  horizontalGap="0"
+							  verticalGap="10" />
+			</s:layout>
+		</s:DataGroup>
+	</s:Scroller>
+	
+</s:SparkSkin>

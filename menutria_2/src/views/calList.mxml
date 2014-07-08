@@ -9,16 +9,19 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import events.ActionEvent;
 			import flash.data.SQLConnection;
 			import flash.data.SQLStatement;
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
 			import spark.filters.GlowFilter;
+			
+			import events.ActionEvent;
 			[Bindable]
 			public var alphatitle:String = "Restrictions";
 			[Bindable]
@@ -30,10 +33,86 @@
 	
 			[Bindable]
 			public var busy:Boolean = true;
-		
+			[Bindable]
+			private var specialsoptions:ArrayCollection = 
+				new ArrayCollection( [
+					{name:"Food"},
+					{name:"Drink"},
+					{name:"Desserts"}
+				]); 
+			[Bindable]
+			private var dateoptions:ArrayCollection = new ArrayCollection();
 			public function onActivate(event:Event):void
 			{
-
+				dateoptions.addItem({name:"S"});
+				dateoptions.addItem({name:"M"});
+				dateoptions.addItem({name:"T"});
+				dateoptions.addItem({name:"W"});
+				dateoptions.addItem({name:"T"});
+				dateoptions.addItem({name:"F"});
+				dateoptions.addItem({name:"S"});
+				
+				var dt:Date= new Date();
+				var numofdays:Number  =  getDayCount(dt.getFullYear(),dt.getMonth())+1;
+				
+				monthtext1.text = getMonthString(dt.getMonth())+" " + dt.getFullYear();
+				
+				var tempdt:Date = new Date(dt.getFullYear(),dt.getMonth(),1);
+				var dofweek:Number = tempdt.getDay();
+				
+				for (var j:uint = 0; j < dofweek; j++){
+					dateoptions.addItem({name:""});
+				}
+				
+				
+				for (var i:uint = 1; i <= numofdays; i++){
+					dateoptions.addItem({name:i.toString()});
+					var stop:String = "";
+				}
+			}
+			public function getMonthString(u:uint):String {
+				if (u == 0){
+					return "January";
+				}
+				else if (u == 1){
+					return "February";
+				}
+				else if (u == 2){
+					return "March";
+				}
+				else if (u == 3){
+					return "April";
+				}
+				else if (u == 4){
+					return "May";
+				}
+				else if (u == 5){
+					return "June";
+				}
+				else if (u == 6){
+					return "July";
+				}
+				else if (u == 7){
+					return "August";
+				}
+				else if (u == 8){
+					return "September";
+				}
+				else if (u == 9){
+					return "October";
+				}
+				else if (u == 10){
+					return "November";
+				}
+				else if (u == 11){
+					return "December";
+				}
+				return "";
+			}
+			
+			public function getDayCount(year:int, month:int):int{
+				 var d:Date=new Date(year, month, 0);
+				  return d.getDate();
 			}
 			
 			
@@ -41,10 +120,40 @@
 	</fx:Script>
 	<fx:Declarations>	
 	</fx:Declarations>
-	<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
+	<s:Scroller left="0" horizontalCenter="0" verticalCenter="0"
+				 right="0" height="100%" 
 				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup gap="0" width="100%" height="100%">
-			<s:Image source="../assets/calsave.png" left="0" right="0" scaleMode="zoom" width="100%"/>
+			<s:List width="100%" height="{getActionBarHeight()}"
+					horizontalCenter="0" selectedIndex="0"
+					useVirtualLayout="false" 
+					skinClass="skins.TileListSkin3"
+					horizontalScrollPolicy="off" 
+					dataProvider="{specialsoptions}" >
+			</s:List>
+			<!--s:Line   left="0" right="0" width="100%"  bottom="0" > 
+				<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+			</s:Line-->
+			<s:Group  width="100%" >
+				<s:Rect width="100%"  height="{getActionBarHeight()}">
+					<s:fill>
+						<s:SolidColor color="#36ccba"/>
+						
+					</s:fill>
+				</s:Rect>
+				<s:Label  mouseEnabled="false"  color="#FFFFFF"  id="monthtext1"
+						 styleName="textsize3" text="" horizontalCenter="0"
+						 verticalAlign="middle" verticalCenter="0"/>
+			</s:Group>
+			<s:List width="100%" height="100%"
+					horizontalCenter="0" selectedIndex="-1"
+					useVirtualLayout="false"  
+					contentBackgroundAlpha="1"
+					contentBackgroundColor="#FFFFFF"
+					skinClass="skins.TileListSkin7"
+					horizontalScrollPolicy="off" 
+					dataProvider="{dateoptions}" >
+			</s:List>
 		</s:VGroup>
 	</s:Scroller>
 </s:View>

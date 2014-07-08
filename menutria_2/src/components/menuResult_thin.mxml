@@ -158,7 +158,7 @@
 		<s:Group id="catgroup" width="100%" includeIn="yescatnoalert,yescatyesalert" >
 			<s:Rect width="100%" top="-1" bottom="0">
 				<s:fill>
-					<s:SolidColor alpha="1" color="#8eddce"/>
+					<s:SolidColor alpha="1" color="#36ccba"/>
 				</s:fill>
 			</s:Rect>
 			<s:Label width="100%" verticalCenter="2"  id="catLabel" includeIn="yescatnoalert,yescatyesalert"

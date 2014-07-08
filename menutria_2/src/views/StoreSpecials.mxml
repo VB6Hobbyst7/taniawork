@@ -162,7 +162,7 @@
 		<s:List width="100%" height="{getActionBarHeight()}"
 				horizontalCenter="0" selectedIndex="1"
 				useVirtualLayout="false" 
-				skinClass="skins.TileListSkin"
+				skinClass="skins.TileListSkin2"
 				change="mainmenuChange()"
 				horizontalScrollPolicy="off" 
 				dataProvider="{mainoptions}" >

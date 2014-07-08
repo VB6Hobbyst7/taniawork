@@ -35,7 +35,7 @@ import spark.managers.PersistenceManager;
 
 import events.ActionEvent;
 
-import skins.TileListSkin;
+import skins.TileListSkin2;
 
 import views.menuFullList;
 import views.menuThinList;

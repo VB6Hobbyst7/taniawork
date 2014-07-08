@@ -48,7 +48,7 @@
 		<s:List width="100%" height="{getActionBarHeight()}"
 				horizontalCenter="0" selectedIndex="0"
 				useVirtualLayout="false" 
-				skinClass="skins.TileListSkin"
+				skinClass="skins.TileListSkin2"
 				change="mainmenuChange()"
 				horizontalScrollPolicy="off" 
 				dataProvider="{mainoptions}" >
@@ -79,14 +79,14 @@
 				horizontalCenter="0" 
 				bottom="0" top="2" selectedIndex="0"
 				useVirtualLayout="false" 
-				skinClass="skins.TileListSkin"
+				skinClass="skins.TileListSkin2"
 				id="sortList"
 				 change="sortChange()"
 				horizontalScrollPolicy="off" 
 				dataProvider="{sortoptions}" >
 		</s:List>
 		<s:Group  width="100%"  id="dropgreay">
-			<s:Rect width="100%"  height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="{getActionBarHeight()}">
 				<s:fill>
 					<s:SolidColor color="#f2f2f2"/>
 					
@@ -111,19 +111,22 @@
 					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
 				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
-						 styleName="textsize1" text="Sort" verticalAlign="middle" verticalCenter="0"/>
+						 styleName="textsize3" text="Sort" verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv1label" mouseEnabled="false"  
-						 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 color="#4d4d4d" fontWeight="bold" styleName="textsize3"
 						 text="All" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
 			<s:HGroup id="selectview3"  mouseDown="goFilterScreen(3);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
 					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" 
+						 mouseEnabled="false" styleName="textsize3"
 						 text="Price" verticalAlign="middle" verticalCenter="0"/>
-				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv3label" width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
-						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv3label" 
+						 width="{220/(320/Capabilities.screenDPI)}" color="#4d4d4d" 
+						 fontWeight="bold" mouseEnabled="false"
+						 styleName="textsize3" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
 			
 		</s:Group>
