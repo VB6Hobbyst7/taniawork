@@ -9,12 +9,12 @@
 			protected function afterstate(event:FlexEvent):void
 			{
 				// TODO Auto-generated method stub
-				if ((data.name == 's')||
-					(data.name == 'm')||
-					(data.name == 't')||
-					(data.name == 'w')||
+				if ((data.name == 'S')||
+					(data.name == 'M')||
+					(data.name == 'T')||
+					(data.name == 'W')||
 					(data.name == '')||
-					(data.name == 'f')){
+					(data.name == 'F')){
 					this.currentState = "normal";
 				}
 			}

@@ -61,6 +61,16 @@
 				var gotospecials:Boolean = false;
 				var gotomenu:Boolean = false;
 				var gowelcomemode:Boolean = false;
+				var reloadspecials:Boolean = false;
+				var specialsdateload:Number = -1
+				
+				try{
+					if (data.datechange == true){
+						reloadspecials = true;
+						specialsdateload = data.dateo;
+					}
+				}
+				catch(e:Error){}
 				
 				try{
 					if (data.goback == true){
@@ -155,6 +165,11 @@
 								activeView.data = data;
 							
 							//rightNav.pushView(menuFullList, null,null,crosstrans);
+						}
+						else if (reloadspecials){
+							var activeView:View = rightNav.activeView;
+							//if (activeView is viewClass)
+								activeView.data = data;
 						}
 						else if (gotospecials){
 							iscalvisible = true;

@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
 		xmlns:mx="library://ns.adobe.com/flex/mx" viewActivate="onActivate(event)"
-		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:s="library://ns.adobe.com/flex/spark"  dataChange="dchange(event)"
 		backgroundColor="#f3f3f3" actionBarVisible="false"
 		title="Specials" xmlns:components="components.*"   >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/loading.as"/>
 	<fx:Script>
 		<![CDATA[
-			import events.ActionEvent;
 			import flash.data.SQLConnection;
 			import flash.data.SQLStatement;
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
 			import spark.filters.GlowFilter;
+			
+			import events.ActionEvent;
 			public var locatoinidGo:Number = -1;
 			[Bindable]
 			public var emailGo:String = "";
@@ -147,6 +150,20 @@
 					return true;
 				return false;
 			}
+			
+			public function dchange(event:FlexEvent):void
+			{
+				try{
+					if (data.dateo != ""){
+						var datetosearch:Number = data.dateo;
+						var stop:String = "";
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
