@@ -40,6 +40,26 @@
 			public var locationid:String = "";
 			[Bindable]
 			public var currentselectmode:Number = 1;
+			[Bindable]
+			public var filterchoice:Number = 0;
+			[Bindable]
+			public var selectedDate:Number = -1;
+			public function dchange(event:FlexEvent):void
+			{
+				try{
+					if ((data.dateo != "")||(data.filtero != "")){
+						var datetosearch:Number = data.dateo;
+						var stop:String = "";
+						selectedDate = data.dateo;
+						filterchoice = data.filtero;
+						
+						refreshList();
+					}
+				}
+				catch(e:Error){
+					
+				}
+			}
 			public function onActivate(event:Event):void
 			{
 				state = 2;
@@ -67,9 +87,17 @@
 					}
 				}
 				
-				populatelist();
+				
+				
+				if (selectedDate == -1){
+					populatelistAllDates();
+				}
+				else {
+					populatelistSpecificDates();
+				}
+			
 			} 
-			public function populatelist():void {
+			public function populatelistAllDates():void {
 				specialsData = new ArrayCollection();
 				var datevar:Date = new Date();
 				for (var j:uint = 0; j < 7; j++){
@@ -77,6 +105,7 @@
 						datevar.setDate(datevar.getDate() + 1);
 					}
 					var weekdaynum:Number = datevar.day;
+					var yearnum:Number = datevar.fullYear;
 					var monthstring:String = datevar.toDateString().split(' ')[1];
 					var daystring:String = datevar.toDateString().split(' ')[2];	
 					var currentfilterweekday:String = gettextweekday(weekdaynum);
@@ -91,31 +120,86 @@
 					}
 					
 					for (var i:uint = 0; i < backupspecialsData.length; i++){
-						if (currentselectmode == 1){
-							if (backupspecialsData[i].weekday == currentfilterweekday){
-								backupspecialsData[i].type = 1;
-								specialsData.addItem(backupspecialsData[i]);
-							}	
-						}
-						else if (currentselectmode == 2){
-							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
+						if (backupspecialsData[i].occurtype == 1){
+							if ((backupspecialsData[i].weekday == currentfilterweekday)&&
+								(backupspecialsData[i].categoryid == (filterchoice+1))){
 								backupspecialsData[i].type = 1;
 								specialsData.addItem(backupspecialsData[i]);
 							}
 						}
-						else if (currentselectmode == 3){
-							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
+						else if (backupspecialsData[i].occurtype == 2){
+							var tempMonth:String = (datevar.month+1).toString();
+							if (tempMonth.length < 2){
+								tempMonth = "0" + tempMonth;
+							}
+							
+							var tempDay:String = datevar.date.toString();
+							if (tempDay.length < 2){
+								tempDay = "0" + tempDay;
+							}
+							
+							
+							
+							var datetocheck:String = yearnum.toString()+"-"+ tempMonth+"-"+tempDay;
+							if ((backupspecialsData[i].startdate == datetocheck)&&
+								(backupspecialsData[i].categoryid == (filterchoice+1))){
 								backupspecialsData[i].type = 1;
 								specialsData.addItem(backupspecialsData[i]);
 							}
-						}
-						else if (currentselectmode == 4){
-							if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "desserts")){
-								backupspecialsData[i].type = 1;
-								specialsData.addItem(backupspecialsData[i]);
-							}
+						}	
+					}
+				}
+			}
+			public function populatelistSpecificDates():void {
+				specialsData = new ArrayCollection();
+				var todayo:Date = new Date();
+				var datevar:Date = new Date(todayo.fullYear,todayo.month,selectedDate);
+				var weekdaynum:Number = datevar.day;
+				var yearnum:Number = datevar.fullYear;
+				var monthstring:String = datevar.toDateString().split(' ')[1];
+				var daystring:String = datevar.toDateString().split(' ')[2];	
+				var currentfilterweekday:String = gettextweekday(weekdaynum);
+				var tempweekstring:String = currentfilterweekday.charAt(0).toUpperCase()+currentfilterweekday.substring(1,currentfilterweekday.length);
+				specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+					categoryname:"",type:0,weekday:"",business_picture:""});
+				
+				for (var i:uint = 0; i < backupspecialsData.length; i++){
+					if (backupspecialsData[i].occurtype == 1){
+						if ((backupspecialsData[i].weekday == currentfilterweekday)&&
+							(backupspecialsData[i].categoryid == (filterchoice+1))){
+							backupspecialsData[i].type = 1;
+							specialsData.addItem(backupspecialsData[i]);
 						}
 					}
+					else if (backupspecialsData[i].occurtype == 2){
+						var tempMonth:String = (datevar.month+1).toString();
+						if (tempMonth.length < 2){
+							tempMonth = "0" + tempMonth;
+						}
+						
+						var tempDay:String = datevar.date.toString();
+						if (tempDay.length < 2){
+							tempDay = "0" + tempDay;
+						}
+						
+						
+						
+						var datetocheck:String = yearnum.toString()+"-"+ tempMonth+"-"+tempDay;
+						if ((backupspecialsData[i].startdate == datetocheck)&&
+							(backupspecialsData[i].categoryid == (filterchoice+1))){
+							backupspecialsData[i].type = 1;
+							specialsData.addItem(backupspecialsData[i]);
+						}
+					}	
+				}
+				
+			}
+			public function refreshList():void {
+				if (selectedDate == -1){
+					populatelistAllDates();
+				}
+				else {
+					populatelistSpecificDates();
 				}
 			}
 			
@@ -151,18 +235,7 @@
 				return false;
 			}
 			
-			public function dchange(event:FlexEvent):void
-			{
-				try{
-					if (data.dateo != ""){
-						var datetosearch:Number = data.dateo;
-						var stop:String = "";
-					}
-				}
-				catch(e:Error){
-					
-				}
-			}
+			
 			
 		]]>
 	</fx:Script>

@@ -15,16 +15,20 @@
 	<fx:Style source="main.css"/>
 	<fx:Script>
 		<![CDATA[
-			import events.ActionEvent;
-			import model.Expense;
-			import model.Report;
 			import mx.events.EffectEvent;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
+			
 			import spark.components.View;
 			import spark.effects.Move;
 			import spark.effects.Resize;
 			import spark.transitions.CrossFadeViewTransition;
+			
+			import events.ActionEvent;
+			
+			import model.Expense;
+			import model.Report;
+			
 			import views.RestrictionInfo;
 			import views.StoreSpecials;
 			import views.calList;
@@ -62,12 +66,14 @@
 				var gotomenu:Boolean = false;
 				var gowelcomemode:Boolean = false;
 				var reloadspecials:Boolean = false;
-				var specialsdateload:Number = -1
+				var specialsdateload:Number = -1;
+				var specialsfilter:Number = 0;
 				
 				try{
-					if (data.datechange == true){
+					if (data.specialschange == true){
 						reloadspecials = true;
 						specialsdateload = data.dateo;
+						specialsfilter = data.filtero;
 					}
 				}
 				catch(e:Error){}
@@ -186,7 +192,6 @@
 						}	
 						else if (gobackFromResInfo){
 							leftnavview = "restriction";
-							//leftNav.pushView(restrictionThinList, null,null,crosstrans);
 							leftNav.popView();
 						}
 						else if (resinfo){
@@ -195,11 +200,7 @@
 						}
 						else if (goback == true){
 							leftnavview = "restriction";
-							//leftNav.pushView(restrictionThinList);
 							leftNav.popToFirstView();
-							//leftNav.popView();
-							//rightNav.popView();
-							//rightNav.popToFirstView();
 							rightNav.pushView(menuFullList, null,null,crosstrans);
 						}
 						else {
