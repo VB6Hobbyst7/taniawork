@@ -18,17 +18,13 @@
 			import mx.events.EffectEvent;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
-			
 			import spark.components.View;
 			import spark.effects.Move;
 			import spark.effects.Resize;
 			import spark.transitions.CrossFadeViewTransition;
-			
 			import events.ActionEvent;
-			
 			import model.Expense;
 			import model.Report;
-			
 			import views.RestrictionInfo;
 			import views.StoreSpecials;
 			import views.calList;
