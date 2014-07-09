@@ -22,13 +22,6 @@
 /* 22:   */   
 /* 23:   */   public Component validHost()
 /* 24:   */   {
-/* 25:17 */     String emailAddress = getParameter("email");
-/* 26:19 */      return new BreastPanel(this, "bieber@ualberta.ca");
+/* 26:19 */      return new BreastPanel(this);
 /* 36:   */   }
 /* 37:   */ }
-
-
-/* Location:           C:\Users\mark\Dropbox\breastcancerapplet\BreastAppletV81.jar
- * Qualified Name:     BreastApplet
- * JD-Core Version:    0.7.0.1
- */

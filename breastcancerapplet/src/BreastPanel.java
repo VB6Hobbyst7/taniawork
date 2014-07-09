@@ -31,7 +31,6 @@
 /*  31:    */ {
 /*  32:    */   private static final long serialVersionUID = 1L;
 /*  33:    */   Applet owner;
-/*  34:    */   String email;
 /*  35: 10 */   boolean man1 = false;
 /*  36: 11 */   boolean man2 = false;
 /*  37: 12 */   boolean man3 = false;
@@ -65,11 +64,10 @@
 /*  65: 40 */   BreastGraph graph = new BreastGraph(false);
 /*  66: 41 */   boolean shown35Warning = false;
 /*  67:    */   
-/*  68:    */   public BreastPanel(Applet newOwner, String emailParameter)
+/*  68:    */   public BreastPanel(Applet newOwner)
 /*  69:    */   {
 /*  70: 44 */     super(new GridBagLayout());
 /*  71: 45 */     this.owner = newOwner;
-/*  72: 46 */     this.email = emailParameter;
 /*  73: 47 */     setBackground(Color.white);
 /*  74: 48 */     initializeFonts();
 /*  75: 49 */     initializeChoices();
@@ -973,9 +971,6 @@
 /* 973:822 */       tmpString.append("nn=" + myResults[3][1] + "&");
 /* 974:823 */       tmpString.append("oo=" + myResults[3][2] + "&");
 /* 975:824 */       tmpString.append("pp=" + myResults[3][3] + "&");
-/* 976:825 */       if (this.email != null) {
-/* 977:826 */         tmpString.append("email=" + this.email + "&");
-/* 978:    */       }
 /* 979:827 */       tmpString.append("v=7-17-03");
 /* 980:828 */       System.out.println(tmpString.toString());
 /* 981:829 */       ((Applet)getParent()).getAppletContext().showDocument(new URL(tmpString.toString()), "_blank");

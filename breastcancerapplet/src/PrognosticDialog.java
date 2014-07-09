@@ -279,6 +279,7 @@ public class PrognosticDialog
         this.lowrisk = ((int)Math.round(tempLow));
       }
     }
+    
     catch (Exception e)
     {
       new MessageDialog(this.parentFrame, "Invalid Relative Risk", true, new Label("Unable to accurately calculate risk factors for the specified input values."));
