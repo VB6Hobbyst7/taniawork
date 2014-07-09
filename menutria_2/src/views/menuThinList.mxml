@@ -97,31 +97,32 @@
 											/>
 				</s:source>
 			</s:Image>
+			<s:Image right="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" 
+					 visible="{dropDownContainer.alpha != 1}"  verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/droptri.png')"
+											source240dpi="@Embed('assets/240/droptri.png')"
+											source320dpi="@Embed('assets/240/droptri.png')"
+											source480dpi="@Embed('assets/240/droptri.png')"
+											source640dpi="@Embed('assets/240/droptri.png')"
+											/>
+				</s:source>
+			</s:Image>
 			<s:HGroup id="selectview1" visible="true"  mouseDown="goFilterScreen(1);" maxWidth="{this.width}"    alpha="0" height="100%" width="100%"
 					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#2dad9e" 
 						 styleName="textsize3" text="Sort" verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv1label" mouseEnabled="false"  
 						 color="#4d4d4d" fontWeight="bold" styleName="textsize3"
 						 text="All" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
-			<s:HGroup id="selectview2"  mouseDown="goFilterScreen(2);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
-					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
-					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
-					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" styleName="textsize3" text="Rating"
-						 verticalAlign="middle" verticalCenter="0"/>
-				<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv2label" width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
-						 mouseEnabled="false" styleName="textsize3" text="Highest"
-						 verticalAlign="middle" verticalCenter="0"/>
-			</s:HGroup>
 			<s:HGroup id="selectview3"  mouseDown="goFilterScreen(3);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
 					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#2dad9e" mouseEnabled="false" styleName="textsize1"
 						 text="Price" verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv3label" width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
 						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
