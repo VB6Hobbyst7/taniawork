@@ -114,6 +114,7 @@ s|TextArea {
 	textAlign: left;
 }
 
+
 @media (application-dpi: 160) {
 	s|Application {
 		osStatusBarHeight: 0;

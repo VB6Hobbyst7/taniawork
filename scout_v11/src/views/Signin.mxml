@@ -98,7 +98,7 @@
 			{		
 				this.parentApplication.facebookloging();
 			}
-		public var ti:Timer = new Timer(200,0);
+			public var ti:Timer = new Timer(1000,0);
 			public function viewact():void
 			{
 				ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);

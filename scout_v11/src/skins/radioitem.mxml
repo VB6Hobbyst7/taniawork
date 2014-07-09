@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        alpha.disabled="0.5">
+    <fx:Metadata>
+        [HostComponent("spark.components.RadioButton")]
+    </fx:Metadata>
+    <s:states>
+        <s:State name="disabled"/>
+        <s:State name="down"/>
+        <s:State name="over"/>
+        <s:State name="up"/>
+		<s:State name="disabledAndSelected"/>
+		<s:State name="downAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="upAndSelected"/>
+    </s:states>
+	<s:BitmapImage visible.up="true" visible.down="false" visible.over="false" visible.disabled="false"
+				   visible.upAndSelected="false" visible.downAndSelected="true" visible.overAndSelected="true" visible.disabledAndSelected="false">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="assets/160/genderinactive.png"
+									source240dpi="assets/240/genderinactive.png"
+									source320dpi="assets/320/genderinactive.png"
+									source480dpi="assets/480/genderinactive.png"
+									source640dpi="assets/640/genderinactive.png"/>
+		</s:source>
+	</s:BitmapImage>
+	
+	<s:BitmapImage visible.up="false" visible.down="true" visible.over="true" visible.disabled="false"
+				   visible.upAndSelected="true" visible.downAndSelected="false" visible.overAndSelected="false" visible.disabledAndSelected="false">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="assets/160/genderactive.png"
+									source240dpi="assets/240/genderactive.png"
+									source320dpi="assets/320/genderactive.png"
+									source480dpi="assets/480/genderactive.png"
+									source640dpi="assets/640/genderactive.png"/>
+		</s:source>
+	</s:BitmapImage>
+</s:Skin>

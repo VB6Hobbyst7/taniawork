@@ -49,15 +49,12 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.Event;
-			import flash.events.GeolocationEvent;
-			import flash.sensors.Geolocation;
 			import mx.collections.ArrayCollection;
 			import mx.collections.Sort;
 			import mx.collections.SortField;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
-			protected var g:Geolocation = new Geolocation();    
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			[Bindable]
@@ -76,46 +73,27 @@
 			public var isFingerDown:Boolean = false;
 			protected function init():void
 			{
+				setLoginVars();
+				createIfNotExsist("gps");
+				var gpstemparray:ArrayCollection = new ArrayCollection();
+				gpstemparray = getDatabaseArray("select * from gps");
+				if (gpstemparray.length > 0){
+					mylat = gpstemparray[0].lat;
+					mylong = gpstemparray[0].longa;	
+				}
 				navigator.activeView.mouseChildren = true;
 				busy = true;
 				prefound = false;
-				var stmt:SQLStatement = new SQLStatement();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS merchusers (" +
-					"id int(255)," +
-					"merchid int(255)," +
-					"business_name varchar(255)," +
-					"business_number varchar(255)," +
-					"business_description longtext," +
-					"business_picture varchar(255)," +
-					"business_address1 varchar(255)," +
-					"business_city varchar(255)," +
-					"business_locality varchar(255)," +
-					"business_postalcode varchar(255)," +
-					"business_country varchar(255)," +
-					"lat varchar(255)," +
-					"longa varchar(255)," +
-					"facebook varchar(255)," +
-					"twitter varchar(255)," +
-					"website varchar(255)," +
-					"categoryname varchar(255)," +
-					"email varchar(255)," +
-					"distance varchar(255))";	
-				stmt.execute();
-				
+				createIfNotExsist("merchusers");
 				try{
-					stmt = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "SELECT * FROM merchusers";
-					stmt.execute();
-					var merchData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					var merchData:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
 					if (merchData.length != 0){
 						listData = merchData;
 						busy = false;
 						prefound = true;
+						for (var i:uint =  0; i < listData.length; i++){
+							listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
+						}
 						sortListByDistance();
 						refreshList();
 					}
@@ -126,45 +104,8 @@
 				catch(e:Error) {
 					listData = new ArrayCollection();
 				}	
-				
-				try{
-					if (Geolocation.isSupported)
-					{
-						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);
-					}
-					else {
-						calllocationupdate();
-					}
-				}
-				catch(e:Error){
-					calllocationupdate();
-				}
-				setLoginVars();
-				maintimer = new Timer(timerval,0);
-				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-				maintimer.start();
-				
-				
+				calllocationupdate();
 			}	
-			public function aftertimer(ev:TimerEvent):void {
-				if (listData.length <= 0){
-					busy = true;
-					getLocations.cancel();
-					listData = new ArrayCollection();
-					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.stop();
-					timerval = timerval + 1000;
-					maintimer = new Timer(timerval,0);
-					maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.start();
-					calllocationupdate();
-				}
-				else {
-					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.stop();
-				}
-			}
 			public function afterGetLocations(event:ResultEvent):void
 			{
 				busy = false;
@@ -182,8 +123,6 @@
 					updatecont.visible = true;
 				}
 				else if (isFingerDown == false){
-					
-					
 					if (prefound == false){
 						listData = new ArrayCollection();
 						try{			
@@ -209,7 +148,6 @@
 							stmt2.execute();
 							for (i = 0; i < listData.length; i++){
 								prefound = false;
-								
 								stmt = new SQLStatement();
 								stmt.sqlConnection = sqlConnection;
 								stmt.text = "insert into merchusers values(" +
@@ -289,12 +227,9 @@
 								stmt.execute();
 							
 							}
-							listData = new ArrayCollection();
-							listData = templistData;
+							//listData = new ArrayCollection();
+							//listData = templistData;
 						}	
-					}
-					for (i=  0; i < listData.length; i++){
-						listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
 					}
 					
 					var dataSortField:SortField = new SortField();
@@ -365,31 +300,6 @@
 			private function returnall(item:Object):Boolean{
 				return true;
 			}
-			protected function onUpdate(event:GeolocationEvent):void
-			{
-				if (updatedone == false){
-					if (isFingerDown == false){
-						updatedone  = true;
-						mylat = event.latitude;
-						mylong = event.longitude;	
-						for (var i:uint=  0; i < listData.length; i++){
-							listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
-						}
-						
-						var dataSortField:SortField = new SortField();
-						dataSortField.name = "distance";
-						dataSortField.numeric = true;
-						var numericDataSort:Sort = new Sort();
-						numericDataSort.fields = [dataSortField];
-						listData.sort = numericDataSort;
-						listData.refresh();	
-					}	
-				}
-			}	
-			protected function onRemove(event:ViewNavigatorEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
-			}
 			public function press(event:KeyboardEvent):void {
 				searchClick();
 			}
@@ -437,6 +347,8 @@
 				<s:SolidColor alpha="1" color="#737171"/>
 			</s:fill>
 		</s:Rect>
+		<s:Label color="#FFFFFF" text="Finding Businesses Nearby..." visible="{busy}"  styleName="textsize6"
+				  horizontalCenter="0" verticalAlign="middle" verticalCenter="0"/>
 			<s:List width="100%"
 				 	bottom="0" top="2"
 				    useVirtualLayout="false" 
@@ -446,7 +358,6 @@
 					click="storeListClick();" >
 			</s:List>
 	</s:Group>
-	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 	<components:updateContainer id="updatecont" visible="false"/>
 	<s:Line left="0" right="0"  top="0" > 
 		<s:stroke><s:SolidColorStroke color="0xbababa" weight="1"/></s:stroke>

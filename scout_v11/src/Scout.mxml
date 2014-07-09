@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-  xmlns:s="library://ns.adobe.com/flex/spark"						
+  xmlns:s="library://ns.adobe.com/flex/spark"					
+  xmlns:ns="http://www.google.com/analytics/2009"
   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
-  creationComplete="creationcomplete(event)"
   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
-  initialize="initz(event)"  applicationComplete="afterappcomplete(event)"
+  initialize="initz(event)" 
+  creationComplete="creationcomplete(event)"
+  activate="onactivate(event)"
+  applicationComplete="afterappcomplete(event)"
   contentBackgroundAlpha="1"
   splashScreenScaleMode="zoom"
   contentBackgroundColor="#0aaae5"
   backgroundColor="#ffffff"
   frameRate="30"
-  mouseUp="overAllMouseUp(event)" xmlns:ns="http://www.google.com/analytics/2009" >
+  mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator"  
 								resizeForSoftKeyboard="true"
@@ -159,11 +162,11 @@
 				var tracker:GATracker = new GATracker( this, "UA-44766703-2", "AS3", false );
 				tracker.trackPageview( "Application Load" );
 			}
-			
 		]]>
 	</fx:Script>
 	<fx:Style source="./main.css"/>
 	<fx:Script source="func/global.as"/>
+	<fx:Script source="func/gps.as"/>
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/main.as"/>
 	<fx:Declarations>	

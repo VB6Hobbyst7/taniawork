@@ -43,6 +43,73 @@ public function setLoginVars():void {
 	}	
 }
 
+public function createIfNotExsist(s:String):void {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	 if (s == "merchusers"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS merchusers (" +
+			"id int(255)," +
+			"merchid int(255)," +
+			"business_name varchar(255)," +
+			"business_number varchar(255)," +
+			"business_description longtext," +
+			"business_picture varchar(255)," +
+			"business_address1 varchar(255)," +
+			"business_city varchar(255)," +
+			"business_locality varchar(255)," +
+			"business_postalcode varchar(255)," +
+			"business_country varchar(255)," +
+			"lat varchar(255)," +
+			"longa varchar(255)," +
+			"facebook varchar(255)," +
+			"twitter varchar(255)," +
+			"website varchar(255)," +
+			"categoryname varchar(255)," +
+			"email varchar(255)," +
+			"distance varchar(255))";							
+	}
+	 else if (s == "gps"){
+		 stmt.text = "CREATE TABLE IF NOT EXISTS gps (" +
+			 "lat varchar(255)," +
+			 "longa varchar(255))";
+	 }
+	else if (s == "localuser"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+			"email varchar(255)," +
+			"name varchar(255)," +
+			"country varchar(255)," +
+			"active varchar(255))";
+	}
+	else if (s == "versionhistory"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";
+	}
+	stmt.execute();
+}
+public function getDatabaseArray(query:String):ArrayCollection {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = query;
+	stmt.execute();
+	return new ArrayCollection(stmt.getResult().data);
+}
+public function doQuery(query:String):void {
+	try{
+		sqlConnection = new SQLConnection();
+		sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+		var stmt:SQLStatement = new SQLStatement();
+		stmt.sqlConnection = sqlConnection;
+		stmt.text = query;
+		stmt.execute();
+	}
+	catch(e:Error){
+		
+	}
+	
+}
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
 }

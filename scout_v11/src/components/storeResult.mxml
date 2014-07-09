@@ -2,7 +2,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				creationComplete="init(event)" 
-				autoDrawBackground="false"
+				autoDrawBackground="false" visible="false"
 				dataChange="datachango(event)"
 				mouseOver="gOver();"
 				mouseOut="gOut();" 
@@ -11,6 +11,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
+			
 			import spark.core.ContentCache;
 			[Bindable]
 			public var neededwidth:Number = 300;
@@ -25,17 +26,24 @@
 				fixdistance();
 			}
 			public function fixdistance():void {
-				if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
-					var dist:Number = data.distance;
-					if (dist >= 1){
-						distotexto.text = dist.toFixed(1)+ " km";
+				try{
+					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
+						var dist:Number = data.distance;
+						if (dist >= 1){
+							distotexto.text = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							distotexto.text = dist.toFixed(0)+ " m";
+						}
+						distotexto.visible = true;
 					}
-					else {
-						dist = dist * 1000;
-						distotexto.text = dist.toFixed(0)+ " m";
-					}
-					distotexto.visible = true;
+					this.visible = true;
 				}
+				catch(e:Error) {
+					this.visible = false;
+				}
+				
 			}
 			public function gOver():void {
 				this.alpha = 0.5;

@@ -137,7 +137,7 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:Label text="Province" color="#cccccc" x="{reco.x + (10/(320/Capabilities.screenDPI))}" 
+				<s:Label text="Province" color="#bbbbbb" styleName="textsize3" x="{reco.x + (10/(320/Capabilities.screenDPI))}" 
 						 verticalCenter="0"></s:Label>
 				<s:SpinnerListContainer  horizontalCenter="0"  width="20%">
 					<s:SpinnerList id="nlocality" right="0" height="80"
@@ -204,9 +204,11 @@
 				</s:Rect>
 				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
 						  horizontalCenter="0" verticalCenter="0" >
-					<s:RadioButton label="Male" id="maleor" color="#cccccc" 
+					<s:Label styleName="textsize3" text="Male" color="#bbbbbb" verticalAlign="middle"/>
+					<s:RadioButton label="Male" id="maleor" color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
-					<s:RadioButton label="Female" id="femaleor" color="#cccccc"
+					<s:Label styleName="textsize3" text="Female" color="#bbbbbb" verticalAlign="middle"/>
+					<s:RadioButton label="Female" id="femaleor" color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"/>
 				</s:HGroup>
 				
