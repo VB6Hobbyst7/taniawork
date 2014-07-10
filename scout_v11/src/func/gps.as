@@ -7,21 +7,25 @@ import flash.sensors.Geolocation;
 public var g:Geolocation = new Geolocation();    
 public function onactivate(event:Event):void
 {
+	
+	try{
+	stage.frameRate=30; 
+	}
+	catch(e:Error){}
+	
+	try{
 	initGPS();
+	}
+	catch(e:Error){}
 }
 public function initGPS():void {
 	try{
 		if (Geolocation.isSupported){
+			g = new Geolocation();    
 			g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-			this.addEventListener(ViewNavigatorEvent.REMOVING,onRemove);
-		}
-		else {
-			updateGPS(53.493252,-113.502231);
 		}
 	}
-	catch(e:Error){
-		updateGPS(53.493252,-113.502231);
-	}
+	catch(e:Error){}
 }
 protected function onUpdate(event:GeolocationEvent):void
 {
@@ -38,7 +42,14 @@ public function updateGPS(lat:Number,long:Number):void {
 		doQuery("update gps set lat = '"+lat.toString()+"', longa = '"+long.toString()+"'");
 	}
 }
-protected function onRemove(event:ViewNavigatorEvent):void
+protected function ondeactivate():void
 {
-	g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+	try{
+	stage.frameRate=2;
+	}
+	catch(e:Error){}
+	try{
+	g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);  
+	}
+	catch(e:Error){}
 }

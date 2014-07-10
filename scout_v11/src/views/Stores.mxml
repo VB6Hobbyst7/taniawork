@@ -9,8 +9,7 @@
 		mouseOut="listFingerUp();"
 		menuKeyPressed="gobacktohome();"
 		backKeyPressed="gobacktohome();"
-		backgroundAlpha="1"  title="Locations"
-		  viewActivate="init()">
+		backgroundAlpha="1"  title="Locations" viewActivate="init()">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome();"/>
@@ -57,10 +56,8 @@
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var mylat:Number = 53.493252;
-			[Bindable]
-			public var mylong:Number = -113.502231;
+			public var mylat:Number = 60.493252;
+			public var mylong:Number = -50.502231;
 			[Bindable]
 			public var busy:Boolean = true;
 			public var maintimer:Timer = new Timer(5000,0);
@@ -80,31 +77,36 @@
 				if (gpstemparray.length > 0){
 					mylat = gpstemparray[0].lat;
 					mylong = gpstemparray[0].longa;	
+					
+					busy = true;
+					prefound = false;
+					createIfNotExsist("merchusers");
+					try{
+						var merchData:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
+						if (merchData.length != 0){
+							listData = merchData;
+							busy = false;
+							prefound = true;
+							for (var i:uint =  0; i < listData.length; i++){
+								listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
+							}
+							sortListByDistance();
+							refreshList();
+						}
+						else {
+							listData = new ArrayCollection();	
+						}	
+					}
+					catch(e:Error) {
+						listData = new ArrayCollection();
+					}	
+					calllocationupdate();
+				}
+				else {
+					warno.text = "No GPS Cord";
 				}
 				navigator.activeView.mouseChildren = true;
-				busy = true;
-				prefound = false;
-				createIfNotExsist("merchusers");
-				try{
-					var merchData:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
-					if (merchData.length != 0){
-						listData = merchData;
-						busy = false;
-						prefound = true;
-						for (var i:uint =  0; i < listData.length; i++){
-							listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
-						}
-						sortListByDistance();
-						refreshList();
-					}
-					else {
-						listData = new ArrayCollection();	
-					}	
-				}
-				catch(e:Error) {
-					listData = new ArrayCollection();
-				}	
-				calllocationupdate();
+				
 			}	
 			public function afterGetLocations(event:ResultEvent):void
 			{
@@ -347,8 +349,10 @@
 				<s:SolidColor alpha="1" color="#737171"/>
 			</s:fill>
 		</s:Rect>
-		<s:Label color="#FFFFFF" text="Finding Businesses Nearby..." visible="{busy}"  styleName="textsize6"
-				  horizontalCenter="0" verticalAlign="middle" verticalCenter="0"/>
+		<s:Label  id="warno" color="#FFFFFF" text="Finding Businesses Nearby..."
+				 visible="{busy}"  styleName="textsize6"
+				  horizontalCenter="0" verticalAlign="middle"
+				  verticalCenter="0"/>
 			<s:List width="100%"
 				 	bottom="0" top="2"
 				    useVirtualLayout="false" 

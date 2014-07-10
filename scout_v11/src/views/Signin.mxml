@@ -17,6 +17,7 @@
 			import flash.events.MouseEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			import spark.events.ViewNavigatorEvent;
@@ -101,7 +102,7 @@
 			public var ti:Timer = new Timer(1000,0);
 			public function viewact():void
 			{
-				ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);
+			/*	ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);
 				ti.start();
 				try{
 					navigator.activeView.mouseChildren = true;
@@ -109,15 +110,18 @@
 				catch(e:Error){
 					
 				}
-				
+			//	this.parentApplication.facebookloging();*/
+				//this.parentApplication.facebookloging();
 				
 			}
 			public function afterti(ev:TimerEvent):void {
-				ti.stop();
-				ti.removeEventListener(TimerEvent.TIMER_COMPLETE,afterti);
-				this.parentApplication.checkfacebookin();
+				//ti.stop();
+				//ti.removeEventListener(TimerEvent.TIMER_COMPLETE,afterti);
+				//this.parentApplication.checkfacebookin();
+				//this.parentApplication.facebookloging();
 					
 			}
+
 			
 		]]>
 	</fx:Script>

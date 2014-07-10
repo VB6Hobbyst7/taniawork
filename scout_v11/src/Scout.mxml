@@ -7,6 +7,7 @@
   initialize="initz(event)" 
   creationComplete="creationcomplete(event)"
   activate="onactivate(event)"
+  deactivate="ondeactivate()"
   applicationComplete="afterappcomplete(event)"
   contentBackgroundAlpha="1"
   splashScreenScaleMode="zoom"

@@ -2,6 +2,7 @@ import com.google.analytics.GATracker;
 import com.milkmangames.nativeextensions.GVFacebookFriend;
 import com.milkmangames.nativeextensions.GoViral;
 import com.milkmangames.nativeextensions.events.GVFacebookEvent;
+
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
 import flash.desktop.NativeApplication;
@@ -13,10 +14,12 @@ import flash.events.TransformGestureEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.filesystem.File;
 import flash.sensors.Geolocation;
+
 import mx.collections.ArrayCollection;
 import mx.core.DPIClassification;
 import mx.events.FlexEvent;
 import mx.rpc.events.ResultEvent;
+
 import spark.events.ElementExistenceEvent;
 import spark.events.IndexChangeEvent;
 import spark.events.ViewNavigatorEvent;
@@ -33,7 +36,7 @@ public var actionbarheight:Number = 0;
 protected function creationcomplete(event:FlexEvent):void
 {
 	
-
+	initGPS();
 	switch (applicationDPI)
 	{
 		case DPIClassification.DPI_640:
@@ -297,22 +300,9 @@ public function dropalldatatables():void {
 	}
 	catch(e:Error){}
 }
-protected function onActivate(event:Event):void
-{
-	stage.frameRate=120; 
-}
-protected function onDeactivate(event:Event):void 
-{
-	stage.frameRate=2;
-	
-}
-protected function onError(e:UncaughtErrorEvent):void
-{
-	//e.preventDefault();
-}
-
 public function initz(event:FlexEvent):void
 {
+	try{
 	GoViral.create();
 	GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
 	GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGGED_IN,onFacebookEvent);
@@ -320,7 +310,6 @@ public function initz(event:FlexEvent):void
 	GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_CANCELED,onFacebookEvent);
 	GoViral.goViral.addEventListener(GVFacebookEvent.FB_LOGIN_FAILED,onFacebookEvent);
 	try{
-		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
 		NativeApplication.nativeApplication.autoExit = false;
 		NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 		NativeApplication.nativeApplication.executeInBackground = true;
@@ -330,7 +319,8 @@ public function initz(event:FlexEvent):void
 	
 	
 	checkfacebookin();
-	
+}
+catch(e:Error){}
 	
 }
 public function checkfacebookin():void {
@@ -338,31 +328,39 @@ public function checkfacebookin():void {
 }
 private function onFacebookEvent(e:GVFacebookEvent):void
 {
-	var s:String = "";
-	switch(e.type)
-	{
-		case GVFacebookEvent.FB_LOGGED_IN:
-			s = "Logged in to facebook:"+GoViral.VERSION+
-			",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
-			"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");
-			break;
-		case GVFacebookEvent.FB_LOGGED_OUT:
-			s = "Logged out of facebook.";
-			break;
-		case GVFacebookEvent.FB_LOGIN_CANCELED:
-			s = "Canceled facebook login.";
-			break;
-		case GVFacebookEvent.FB_LOGIN_FAILED:
-			s = "Login failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId;
-			break;
-		case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED:
-		case GVFacebookEvent.FB_READ_PERMISSIONS_FAILED:
-			s =  "perms failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId+","+e.permissions;
-			break;
-		case GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED:
-		case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED:
-			s = "Perms updated:"+e.permissions;
+	try{
+		var s:String = "";
+		switch(e.type)
+		{
+			case GVFacebookEvent.FB_LOGGED_IN:
+				if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
+					checkfacebookin();
+				}
+				s = "Logged in to facebook:"+GoViral.VERSION+
+				",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
+				"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");
+				break;
+			case GVFacebookEvent.FB_LOGGED_OUT:
+				s = "Logged out of facebook.";
+				break;
+			case GVFacebookEvent.FB_LOGIN_CANCELED:
+				s = "Canceled facebook login.";
+				break;
+			case GVFacebookEvent.FB_LOGIN_FAILED:
+				s = "Login failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId;
+				break;
+			case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED:
+			case GVFacebookEvent.FB_READ_PERMISSIONS_FAILED:
+				s =  "perms failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId+","+e.permissions;
+				break;
+			case GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED:
+			case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED:
+				s = "Perms updated:"+e.permissions;
+		}
 	}
+	catch(e:Error){}
+	
+	
 }
 public function refresh(email:String):void {
 	reloadProfInfo();
@@ -378,107 +376,113 @@ public function facebookloging():void {
 	}
 }
 public function doFacebookStuff():void {
-	GoViral.goViral.requestMyFacebookProfile().addRequestListener(function(e:GVFacebookEvent):void {
-		if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
-		{
-			var myProfile:GVFacebookFriend=e.friends[0];
-			
-			fsid = myProfile.id.toString();
-			
-			try{
-				fsemail = myProfile.email();
-			}
-			catch(e:Error){}
-			
-			try{
-				fsname = myProfile.name.toString();
-			}
-			catch(e:Error){}
-			
-			try{
-				fscity = myProfile.locationName.toString().substr(
-					0,
-					myProfile.locationName.toString().indexOf(","));
-			}
-			catch(e:Error){
+	try{
+		GoViral.goViral.requestMyFacebookProfile().addRequestListener(function(e:GVFacebookEvent):void {
+			if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
+			{
+				var myProfile:GVFacebookFriend=e.friends[0];
+				
+				fsid = myProfile.id.toString();
+				
 				try{
-					fscity = myProfile.properties.user_location.toString().substr(
+					fsemail = myProfile.email();
+				}
+				catch(e:Error){}
+				
+				try{
+					fsname = myProfile.name.toString();
+				}
+				catch(e:Error){}
+				
+				try{
+					fscity = myProfile.locationName.toString().substr(
 						0,
-						myProfile.properties.user_location.toString().indexOf(","));
+						myProfile.locationName.toString().indexOf(","));
 				}
 				catch(e:Error){
+					try{
+						fscity = myProfile.properties.user_location.toString().substr(
+							0,
+							myProfile.properties.user_location.toString().indexOf(","));
+					}
+					catch(e:Error){
+						
+						fscity = "";
+					}
 					
-					fscity = "";
 				}
 				
-			}
-			
-			try{
-				fslocality = myProfile.locationName.toString().substr(
-					myProfile.locationName.toString().indexOf(",")+2, 
-					myProfile.locationName.toString().length);
-			}
-			catch(e:Error){
 				try{
-					fslocality = myProfile.properties.user_location.toString().substr( 
-						myProfile.properties.user_location.toString().indexOf(",")+2,
-						myProfile.properties.user_location.toString().length);
+					fslocality = myProfile.locationName.toString().substr(
+						myProfile.locationName.toString().indexOf(",")+2, 
+						myProfile.locationName.toString().length);
 				}
 				catch(e:Error){
+					try{
+						fslocality = myProfile.properties.user_location.toString().substr( 
+							myProfile.properties.user_location.toString().indexOf(",")+2,
+							myProfile.properties.user_location.toString().length);
+					}
+					catch(e:Error){
+						
+						fslocality = "";
+					}
 					
-					fslocality = "";
 				}
 				
+				
+				
+				try{
+					fsgender = myProfile.gender.toString().substr(0,1);
+				}
+				catch(e:Error){
+					fsgender = "";
+				}
+				
+				
+				var tempBirthString:String = "";
+				try{
+					tempBirthString = myProfile.properties["birthday"].toString();
+				}
+				catch(e:Error){}
+				
+				
+				
+				try{
+					fsbirthmonth = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+					tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+				}
+				catch(e:Error){
+					fsbirthmonth = "0";
+				}
+				
+				
+				try{
+					fsbirthday = tempBirthString.substr(0,tempBirthString.indexOf("/"));
+					tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
+				}
+				catch(e:Error){
+					fsbirthday = "0";
+				}
+				
+				
+				try{
+					fsbirthyear = tempBirthString;
+				}
+				catch(e:Error){
+					fsbirthyear = "0";
+				}
+				
+				
+				syncfacebook.send();			
 			}
 			
-			
-			
-			try{
-				fsgender = myProfile.gender.toString().substr(0,1);
-			}
-			catch(e:Error){
-				fsgender = "";
-			}
-			
-			
-			var tempBirthString:String = "";
-			try{
-				tempBirthString = myProfile.properties["birthday"].toString();
-			}
-			catch(e:Error){}
-			
-			
-			
-			try{
-				fsbirthmonth = tempBirthString.substr(0,tempBirthString.indexOf("/"));
-				tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
-			}
-			catch(e:Error){
-				fsbirthmonth = "0";
-			}
-			
-			
-			try{
-				fsbirthday = tempBirthString.substr(0,tempBirthString.indexOf("/"));
-				tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
-			}
-			catch(e:Error){
-				fsbirthday = "0";
-			}
-			
-			
-			try{
-				fsbirthyear = tempBirthString;
-			}
-			catch(e:Error){
-				fsbirthyear = "0";
-			}
-			
-			
-			syncfacebook.send();			
-		}
-		
-	});
+		});
+	}
+	catch(e:Error){
+	
+	}
+	
 }
 public function aftersyncfacebook(ev:ResultEvent):void {
 	sqlConnection = new SQLConnection();

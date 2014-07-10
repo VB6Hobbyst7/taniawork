@@ -18,9 +18,12 @@
 		<![CDATA[
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.managers.PersistenceManager;
+			
 			[Bindable]
 			public var busy:Boolean = false;
 			public function nextStep():void {
@@ -37,6 +40,7 @@
 					||(nbirthday.text == "")
 					||(nbirthmonth.text == "")
 					||(nbirthyear.text == "")
+					||(provlist.selectedIndex == -1)
 				){	
 				return false;	
 				}
@@ -80,6 +84,15 @@
 				saveManager.setProperty("useremail", email);
 				this.parentDocument.refresh(email);	
 			}
+			public function provChange():void {
+				
+			}
+			public function closeProv():void {
+				if (provlist.selectedIndex != -1){
+					provpopup.visible = false;
+					provlabel.text = provlist.selectedItem.label;
+				}
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>	
@@ -93,7 +106,7 @@
 				<nameo>{data.nameo}</nameo>		
 				<password>{data.password}</password>		
 				<city>{ncity.text}</city>		
-				<locality>{nlocality.selectedItem.name}</locality>		
+				<locality>{provlist.selectedItem.name}</locality>		
 				<gender>{gendergroup.selectedValue}</gender>		
 				<birthday>{nbirthday.text}</birthday>		
 				<birthmonth>{nbirthmonth.text}</birthmonth>		
@@ -129,7 +142,8 @@
 			
 			
 			
-			<s:Group width="100%">
+			<s:Group width="100%" mouseOver="gOver(event);" mouseDown="gDown(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);" click="{provpopup.visible = true}">
 				<s:Rect id="reco" width="{550/(320/Capabilities.screenDPI)}" 
 						height="{100/(320/Capabilities.screenDPI)}" 
 						horizontalCenter="0" verticalCenter="0"
@@ -137,29 +151,9 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:Label text="Province" color="#bbbbbb" styleName="textsize3" x="{reco.x + (10/(320/Capabilities.screenDPI))}" 
+				<s:Label   id="provlabel" text="Province" color="#bbbbbb" mouseEnabled="false"
+						 styleName="textsize3" x="{reco.x + (15/(320/Capabilities.screenDPI))}" 
 						 verticalCenter="0"></s:Label>
-				<s:SpinnerListContainer  horizontalCenter="0"  width="20%">
-					<s:SpinnerList id="nlocality" right="0" height="80"
-								   labelField="name"  width="100%" 
-								   verticalCenter="0">
-						<s:ArrayList>
-							<fx:Object name="AB" />
-							<fx:Object name="BC" />
-							<fx:Object name="MB" />
-							<fx:Object name="NB" />
-							<fx:Object name="NS" />
-							<fx:Object name="ON" />
-							<fx:Object name="QC" />
-							<fx:Object name="SK" />
-							<fx:Object name="NT" />
-							<fx:Object name="YT" />
-							<fx:Object name="PE" />
-							<fx:Object name="NL" />
-							<fx:Object name="NU" />
-						</s:ArrayList>                        
-					</s:SpinnerList>
-				</s:SpinnerListContainer>
 			</s:Group>
 			
 			
@@ -202,12 +196,14 @@
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
+				<s:HGroup  width="{reco.width-30}" gap="25" horizontalAlign="center"
 						  horizontalCenter="0" verticalCenter="0" >
-					<s:Label styleName="textsize3" text="Male" color="#bbbbbb" verticalAlign="middle"/>
+					<s:Label styleName="textsize3" height="100%" text="Male" horizontalCenter="0"
+							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
 					<s:RadioButton label="Male" id="maleor" color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
-					<s:Label styleName="textsize3" text="Female" color="#bbbbbb" verticalAlign="middle"/>
+					<s:Label styleName="textsize3"  height="100%" text="Female"  horizontalCenter="0"
+							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
 					<s:RadioButton label="Female" id="femaleor" color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"/>
 				</s:HGroup>
@@ -230,6 +226,80 @@
 					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/pol'));"/>
 		</s:VGroup>
 	</s:Scroller>
+	
+	
+	<s:Group id="provpopup" visible="false"   width="100%" height="100%" >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group  width="65%" height="60%" id="somecont"
+				  horizontalCenter="0" verticalCenter="0"
+				  mouseDownOutside="{this.visible = false}">
+			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+			</s:Rect>
+			<s:VGroup width="100%" height="100%" paddingTop="30" gap="20">
+				
+		
+			<s:Label text="Province" width="100%" textAlign="center" verticalAlign="middle" mouseEnabled="false" top="20"
+					 horizontalCenter="0"
+					 styleName="textsize4" color="#389dc8"/>
+			<s:List width="100%"  horizontalCenter="0" 
+					 top="50" height="75%"
+					id="provlist" labelField="name"  contentBackgroundAlpha="0"
+					 itemRenderer="components.provitem" selectedIndex="-1"  change="provChange();"
+					horizontalScrollPolicy="off"  >
+				<s:dataProvider>
+					<s:ArrayList>
+						<fx:Object name="AB" label="Alberta" />
+						<fx:Object name="BC" label="British Columbia" />
+						<fx:Object name="MB" label="Manitoba" />
+						<fx:Object name="NB" label="New Brunswick" />
+						<fx:Object name="NS" label="Nova Scotia" />
+						<fx:Object name="ON" label="Ontario" />
+						<fx:Object name="QC" label="Quebec" />
+						<fx:Object name="SK" label="Saskatchewan" />
+						<fx:Object name="NT" label="Northwest Territories" />
+						<fx:Object name="YT" label="Yukon" />
+						<fx:Object name="PE" label="P.E.I" />
+						<fx:Object name="NU" label="Nunavut" />
+					</s:ArrayList> 
+				</s:dataProvider>
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="15">
+					</s:VerticalLayout>
+				</s:layout>
+			</s:List>
+				<s:Group width="100%" height="{somecont.height*0.15}" bottom="0">
+					<s:Line width="99%"  left="0"   top="0" > 
+						<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+					</s:Line>
+					<s:Group width="50%" horizontalCenter="0" height="100%" 
+							 click="closeProv();"
+							 mouseDown="gDown(event);" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Label text="Close"  mouseEnabled="false"
+								 verticalCenter="0" horizontalCenter="0"
+								 styleName="textsize4" color="#389dc8"/>
+					</s:Group>
+				</s:Group>
+			</s:VGroup>
+			<!--s:SpinnerListContainer  horizontalCenter="0" visible="false"  width="20%">
+				<s:SpinnerList id="nlocality" right="0" height="80"
+							   labelField="name"  width="100%" 
+							   verticalCenter="0">
+					                  
+				</s:SpinnerList>
+			</s:SpinnerListContainer-->
+			
+			
+			
+			
+			
+		</s:Group>
+	</s:Group>
+	
 	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>
