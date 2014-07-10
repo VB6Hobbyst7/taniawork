@@ -18,12 +18,9 @@
 		<![CDATA[
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
-			
 			import mx.collections.ArrayCollection;
-			import mx.rpc.events.ResultEvent;
-			
+			import mx.rpc.events.ResultEvent;			
 			import spark.managers.PersistenceManager;
-			
 			[Bindable]
 			public var busy:Boolean = false;
 			public function nextStep():void {
@@ -200,11 +197,17 @@
 						  horizontalCenter="0" verticalCenter="0" >
 					<s:Label styleName="textsize3" height="100%" text="Male" horizontalCenter="0"
 							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
-					<s:RadioButton label="Male" id="maleor" color="#cccccc" skinClass="skins.radioitem"
+					<s:RadioButton label="Male" id="maleor"
+								   width="{100/(320/Capabilities.screenDPI)}" 
+								   height="{100/(320/Capabilities.screenDPI)}" 
+								   color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
 					<s:Label styleName="textsize3"  height="100%" text="Female"  horizontalCenter="0"
 							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
-					<s:RadioButton label="Female" id="femaleor" color="#cccccc" skinClass="skins.radioitem"
+					<s:RadioButton label="Female" id="femaleor"  mouseEnabled="true"
+								   width="{100/(320/Capabilities.screenDPI)}" 
+								   height="{100/(320/Capabilities.screenDPI)}" 
+								   color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"/>
 				</s:HGroup>
 				
@@ -212,17 +215,17 @@
 			
 			<components:continue_btn click="nextStep();"/>
 
-			<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+			<s:Label top="290" width="95%"  horizontalCenter="0"  color="#8c8d8d"
 					 text="By Creating an account you agree to Scout's Terms of Service and Privacy Policy. "
 					 textAlign="center"/>
 			
 			<s:Label top="290" width="95%"
 					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
-					 color="#174FDE" fontWeight="bold" horizontalCenter="0"
+					 color="#8c8d8d"  horizontalCenter="0"
 					 text="Terms of Service" textAlign="center" textDecoration="underline"/>
-			<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+			<s:Label top="290" width="95%"  horizontalCenter="0"
 					 text="Privacy Policy" textDecoration="underline"
-					 textAlign="center"   color="#174FDE"
+					 textAlign="center"   color="#8c8d8d"
 					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/pol'));"/>
 		</s:VGroup>
 	</s:Scroller>
@@ -232,7 +235,7 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:Group  width="65%" height="60%" id="somecont"
+		<s:Group  width="80%" height="85%" id="somecont"
 				  horizontalCenter="0" verticalCenter="0"
 				  mouseDownOutside="{this.visible = false}">
 			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
@@ -240,8 +243,6 @@
 				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
 			</s:Rect>
 			<s:VGroup width="100%" height="100%" paddingTop="30" gap="20">
-				
-		
 			<s:Label text="Province" width="100%" textAlign="center" verticalAlign="middle" mouseEnabled="false" top="20"
 					 horizontalCenter="0"
 					 styleName="textsize4" color="#389dc8"/>
@@ -285,21 +286,8 @@
 					</s:Group>
 				</s:Group>
 			</s:VGroup>
-			<!--s:SpinnerListContainer  horizontalCenter="0" visible="false"  width="20%">
-				<s:SpinnerList id="nlocality" right="0" height="80"
-							   labelField="name"  width="100%" 
-							   verticalCenter="0">
-					                  
-				</s:SpinnerList>
-			</s:SpinnerListContainer-->
-			
-			
-			
-			
-			
 		</s:Group>
 	</s:Group>
-	
 	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>

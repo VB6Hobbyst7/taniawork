@@ -2,8 +2,8 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:components="components.*"  name="signin"
-		title="Scout" viewActivate="viewact()"
+		xmlns:components="components.*" 
+		title="Scout" name="signin"
 		backgroundColor="#f2f3f4" 
 		contentBackgroundColor="#f2f3f4">
 	<s:navigationContent >
@@ -98,31 +98,7 @@
 			public function facebookLogin():void
 			{		
 				this.parentApplication.facebookloging();
-			}
-			public var ti:Timer = new Timer(1000,0);
-			public function viewact():void
-			{
-			/*	ti.addEventListener(TimerEvent.TIMER_COMPLETE, afterti);
-				ti.start();
-				try{
-					navigator.activeView.mouseChildren = true;
-				}
-				catch(e:Error){
-					
-				}
-			//	this.parentApplication.facebookloging();*/
-				//this.parentApplication.facebookloging();
-				
-			}
-			public function afterti(ev:TimerEvent):void {
-				//ti.stop();
-				//ti.removeEventListener(TimerEvent.TIMER_COMPLETE,afterti);
-				//this.parentApplication.checkfacebookin();
-				//this.parentApplication.facebookloging();
-					
-			}
-
-			
+			}		
 		]]>
 	</fx:Script>
 	<fx:Declarations>	

@@ -2,7 +2,6 @@ import com.google.analytics.GATracker;
 import com.milkmangames.nativeextensions.GVFacebookFriend;
 import com.milkmangames.nativeextensions.GoViral;
 import com.milkmangames.nativeextensions.events.GVFacebookEvent;
-
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
 import flash.desktop.NativeApplication;
@@ -14,12 +13,10 @@ import flash.events.TransformGestureEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.filesystem.File;
 import flash.sensors.Geolocation;
-
 import mx.collections.ArrayCollection;
 import mx.core.DPIClassification;
 import mx.events.FlexEvent;
 import mx.rpc.events.ResultEvent;
-
 import spark.events.ElementExistenceEvent;
 import spark.events.IndexChangeEvent;
 import spark.events.ViewNavigatorEvent;
@@ -33,6 +30,11 @@ public var resData:ArrayCollection = new ArrayCollection();
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var actionbarheight:Number = 0;
+protected function afterappcomplete(event:FlexEvent):void
+{
+	var tracker:GATracker = new GATracker( this, "UA-44766703-2", "AS3", false );
+	tracker.trackPageview( "Application Load" );
+}
 protected function creationcomplete(event:FlexEvent):void
 {
 	
@@ -333,9 +335,8 @@ private function onFacebookEvent(e:GVFacebookEvent):void
 		switch(e.type)
 		{
 			case GVFacebookEvent.FB_LOGGED_IN:
-				if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
-					checkfacebookin();
-				}
+				
+				checkfacebookin();
 				s = "Logged in to facebook:"+GoViral.VERSION+
 				",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
 				"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");
@@ -499,7 +500,9 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	stmt.parameters[":active"] = "yes";
 	stmt.execute();
 	reloadProfInfo();
-	mainNavigator.navigator.pushView(Home,null,null,crosstrans);
+	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
+		mainNavigator.navigator.pushView(Home,null,null,crosstrans);
+	}
 }
 public function afterGetUserInfo(ev:ResultEvent):void {
 	try{

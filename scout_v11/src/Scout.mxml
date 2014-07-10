@@ -23,26 +23,7 @@
 								elementAdd="viewadd(event)" 
 								width="{this.width}"  
 								backgroundColor="#5b5b5b">
-		<s:navigationContent>
-			<!--s:Group  id="menufeaturebutton"
-					  width="{this.width/8}" left="0" x="0"
-					  height="100%"  top="0"
-					  mouseDown="menuButtonClick();"
-					  mouseEnabledWhereTransparent="true"
-					  horizontalCenter="0" >
-				<s:Image left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
-						 mouseEnabled="false" 
-						 contentLoader="{s_imageCache}" >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/settingsslider.png')"
-												source240dpi="@Embed('assets/320/settingsslider.png')"
-												source320dpi="@Embed('assets/320/settingsslider.png')"
-												source480dpi="@Embed('assets/320/settingsslider.png')"
-												source640dpi="@Embed('assets/320/settingsslider.png')"/>
-					</s:source>
-				</s:Image>
-			</s:Group-->
-		</s:navigationContent>
+		<s:navigationContent></s:navigationContent>
 		<s:actionContent></s:actionContent>	
 	</s:ViewNavigatorApplication>
 	
@@ -107,8 +88,6 @@
 			</s:source>
 		</s:Image>
 	</s:Group>
-	
-	
 	<fx:Style source="./main.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -118,38 +97,20 @@
 			import flash.desktop.SystemIdleMode;
 			import flash.events.Event;
 			import flash.events.GeolocationEvent;
-			import flash.events.InvokeEvent;
 			import flash.events.MouseEvent;
-			import flash.events.NativeWindowDisplayStateEvent;
 			import flash.events.TransformGestureEvent;
-			import flash.events.UncaughtErrorEvent;
 			import flash.filesystem.File;
 			import flash.sensors.Geolocation;
-			
 			import mx.collections.ArrayCollection;
 			import mx.core.DPIClassification;
-			import mx.core.IUIComponent;
-			import mx.core.UIComponent;
-			import mx.events.DragEvent;
 			import mx.events.EffectEvent;
 			import mx.events.FlexEvent;
-			import mx.events.ResizeEvent;
-			import mx.events.TouchInteractionEvent;
-			import mx.graphics.codec.JPEGEncoder;
 			import mx.rpc.events.ResultEvent;
-			
-			import spark.components.ActionBar;
-			import spark.components.ButtonBar;
 			import spark.components.Group;
-			import spark.components.View;
-			import spark.components.ViewNavigator;
 			import spark.core.ContentCache;
-			import spark.effects.Resize;
 			import spark.events.ElementExistenceEvent;
 			import spark.events.IndexChangeEvent;
-			import spark.managers.PersistenceManager;
 			import spark.transitions.CrossFadeViewTransition;
-			import spark.transitions.ViewTransitionBase;
 			import components.mainmenulistitem;
 			import views.Activity;
 			import views.Home;
@@ -157,12 +118,6 @@
 			import views.Settings;
 			import views.Signin;
 			import views.Stores;
-			
-			protected function afterappcomplete(event:FlexEvent):void
-			{
-				var tracker:GATracker = new GATracker( this, "UA-44766703-2", "AS3", false );
-				tracker.trackPageview( "Application Load" );
-			}
 		]]>
 	</fx:Script>
 	<fx:Style source="./main.css"/>
@@ -241,5 +196,4 @@
 								source480dpi="@Embed('assets/320/settingsslider.png')"
 								source640dpi="@Embed('assets/320/settingsslider.png')"/>
 	</fx:Declarations>
-	
 </s:Application>
