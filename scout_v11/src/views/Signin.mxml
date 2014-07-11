@@ -124,7 +124,7 @@
 				<components:facebook click="facebookLogin();"/>
 				<components:or/>
 				<s:VGroup horizontalAlign="center" width="100%" 
-						  gap="{10/(320/Capabilities.screenDPI)}">
+						  gap="{10/(320/Capabilities.screenDPI)}">	
 					<s:Group width="100%" >
 						<s:Rect id="textback1" width="{550/(320/Capabilities.screenDPI)}" 
 								height="{100/(320/Capabilities.screenDPI)}" 
