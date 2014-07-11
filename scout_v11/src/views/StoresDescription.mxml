@@ -34,6 +34,37 @@
 	
 			public function init(event:Event):void
 			{
+				
+				if (data.facebook.length > 10){
+					
+				}
+				else {
+					fbbutton.alpha = 0.5;
+					fbbutton.mouseEnabled = false;
+					fbbutton.enabled = false;
+					fbbutton.mouseChildren = false;
+
+				}
+				
+				if (data.website.length > 10){
+					
+				}
+				else {
+					webbutton.alpha = 0.5;
+					webbutton.mouseEnabled = false;
+					webbutton.enabled = false;
+					webbutton.mouseChildren = false;
+				}
+				
+				if (data.twitter.length > 10){
+					
+				}
+				else {
+					twbutton.alpha = 0.5;
+					twbutton.mouseEnabled = false;
+					twbutton.enabled = false;
+					twbutton.mouseChildren = false;
+				}
 				navigator.activeView.mouseChildren = true;
 				starclick(0);
 				busy = true;
@@ -203,7 +234,7 @@
 						 styleName="textsize3" text="{data.business_name}"/>
 			</s:Group>
 			<s:HGroup width="100%" paddingTop="20" paddingBottom="20">
-				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);" id="webbutton"
 						 mouseOut="gOut(event);" mouseUp="gOut(event);" click="navigateToURL(new URLRequest(data.website));">
 					<s:Image  horizontalCenter="0" verticalCenter="0"  mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
@@ -230,7 +261,8 @@
 						</s:source>
 					</s:Image>
 				</s:Group>
-				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);" click="navigateToURL(new URLRequest(data.facebook));"
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 click="navigateToURL(new URLRequest(data.facebook));" id="fbbutton"
 						 mouseOut="gOut(event);" mouseUp="gOut(event);">
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
@@ -243,7 +275,8 @@
 						</s:source>
 					</s:Image>
 				</s:Group>
-				<s:Group width="25%" mouseDown="gDown(event);" mouseOver="gOver(event);" click="navigateToURL(new URLRequest(data.twitter));"
+				<s:Group width="25%" mouseDown="gDown(event);" mouseOver="gOver(event);" id="twbutton"
+						 click="navigateToURL(new URLRequest(data.twitter));"
 						 mouseOut="gOut(event);" mouseUp="gOut(event);">
 					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
 							  contentLoader="{s_imageCache}">
@@ -420,7 +453,7 @@
 				
 			</s:VGroup>
 			</s:Scroller>
-			<s:Group width="100%" height="20%" bottom="0">
+			<s:Group width="100%" height="15%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
 				</s:Line>

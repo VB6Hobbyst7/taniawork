@@ -18,6 +18,8 @@ static public const s_imageCache:ContentCache = new ContentCache();
 public var emailGo:String = "";
 [Bindable]
 public var nameGo:String = "";
+[Bindable]
+public var cityGo:String = "";
 protected var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
@@ -25,21 +27,24 @@ public function setLoginVars():void {
 		sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 		var stmt:SQLStatement = new SQLStatement();
 		stmt.sqlConnection = sqlConnection;
-		stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
+		stmt.text = "SELECT email, name, city, active FROM localuser where active = 'yes'";
 		stmt.execute();
 		var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 		if (resData.length != 0){
 			emailGo = resData[0].email;
 			nameGo = resData[0].name;
+			cityGo = resData[0].city;
 		}
 		else {
 			emailGo = "none";
 			nameGo = "none";
+			cityGo = "none";
 		}	
 	}
 	catch(e:Error) {
 		emailGo = "none";
 		nameGo = "none";
+		cityGo = "none";
 	}	
 }
 
@@ -79,8 +84,16 @@ public function createIfNotExsist(s:String):void {
 		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 			"email varchar(255)," +
 			"name varchar(255)," +
-			"country varchar(255)," +
+			"city varchar(255)," +
 			"active varchar(255))";
+	}
+	else if (s == "userloyalty"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS userloyalty (" +
+			"id int(255)," +
+			"business_name varchar(255)," +
+			"business_picture varchar(255)," +
+			"amount varchar(255)," +
+			"userloyalty varchar(255))";	
 	}
 	else if (s == "versionhistory"){
 		stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";

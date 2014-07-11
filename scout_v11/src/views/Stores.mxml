@@ -104,6 +104,7 @@
 				}
 				else {
 					warno.text = "No GPS Cord";
+					calllocationupdate();
 				}
 				navigator.activeView.mouseChildren = true;
 				
@@ -142,17 +143,11 @@
 						}
 						
 						if (listData.length > 0){
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt2:SQLStatement = new SQLStatement();
-							stmt2.sqlConnection = sqlConnection;
-							stmt2.text = "delete from merchusers";
-							stmt2.execute();
+							createIfNotExsist("merchusers");
+							doQuery("delete from merchusers");
+							prefound = false;
 							for (i = 0; i < listData.length; i++){
-								prefound = false;
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
-								stmt.text = "insert into merchusers values(" +
+								doQuery("insert into merchusers values(" +
 									""+listData[i].id+""+","+
 									""+listData[i].merchid+""+","+
 									"'"+listData[i].business_name+"'"+","+
@@ -171,8 +166,7 @@
 									"'"+listData[i].website+"'"+","+
 									"'"+listData[i].categoryname+"'"+","+
 									"'"+listData[i].email+"'"+","+
-									"'"+listData[i].distance+"')";			
-								stmt.execute();
+									"'"+listData[i].distance+"')");
 							}
 							
 						}	
@@ -195,18 +189,10 @@
 						}
 						
 						if (templistData.length > 0){
-							stmt = new SQLStatement();
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt3:SQLStatement = new SQLStatement();
-							stmt3.sqlConnection = sqlConnection;
-							stmt3.text = "delete from merchusers";
-							stmt3.execute();
+							createIfNotExsist("merchusers");
+							doQuery("delete from merchusers");
 							for (var j:uint = 0; j < templistData.length; j++){
-								
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
-								stmt.text = "insert into merchusers values(" +
+								doQuery("insert into merchusers values(" +
 									""+templistData[j].id+""+","+
 									""+templistData[j].merchid+""+","+
 									"'"+templistData[j].business_name+"'"+","+
@@ -225,12 +211,8 @@
 									"'"+templistData[j].website+"'"+","+
 									"'"+templistData[j].categoryname+"'"+","+
 									"'"+templistData[j].email+"'"+","+
-									"'"+templistData[j].distance+"')";			
-								stmt.execute();
-							
+									"'"+templistData[j].distance+"')");									
 							}
-							//listData = new ArrayCollection();
-							//listData = templistData;
 						}	
 					}
 					

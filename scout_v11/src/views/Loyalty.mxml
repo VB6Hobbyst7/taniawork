@@ -84,26 +84,9 @@
 				busy = true;
 				prefound = false;
 				navigator.activeView.mouseChildren = true;
-				var stmt:SQLStatement = new SQLStatement();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS userloyalty (" +
-					"id int(255)," +
-					"business_name varchar(255)," +
-					"business_picture varchar(255)," +
-					"amount varchar(255)," +
-					"userloyalty varchar(255))";				
-				stmt.execute();
-				
-				
+				createIfNotExsist("userloyalty");
 				try{
-					stmt = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "SELECT * FROM userloyalty";
-					stmt.execute();
-					var userData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					var userData:ArrayCollection = getDatabaseArray("SELECT * FROM userloyalty");
 					if (userData.length != 0){
 						loyaltyArray = userData;
 						busy = false;
@@ -212,12 +195,8 @@
 						
 						
 						if (loyaltyArray.length > 0){
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt2:SQLStatement = new SQLStatement();
-							stmt2.sqlConnection = sqlConnection;
-							stmt2.text = "delete from userloyalty";
-							stmt2.execute();
+							createIfNotExsist("userloyalty");
+							doQuery("delete from userloyalty");
 							var dataSortField:mx.collections.SortField = new mx.collections.SortField();
 							var stringDataSort:Sort = new Sort();
 							dataSortField.name = "business_name";
@@ -225,18 +204,14 @@
 							stringDataSort.fields = [dataSortField];
 							loyaltyArray.sort = stringDataSort;
 							loyaltyArray.refresh();
+							prefound = false;
 							for (var i:uint = 0; i < loyaltyArray.length; i++){
-								prefound = false;
-								
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
-								stmt.text = "insert into userloyalty values(" +
+								doQuery("insert into userloyalty values(" +
 									loyaltyArray[i].id+",'" +
 									loyaltyArray[i].business_name+"','" +
 									loyaltyArray[i].business_picture+"','" +
 									loyaltyArray[i].amount+"','" +
-									loyaltyArray[i].userloyalty+"')";			
-								stmt.execute();
+									loyaltyArray[i].userloyalty+"')");
 							}
 							
 							
@@ -260,13 +235,8 @@
 						
 						
 						if (templistData.length > 0){
-							stmt = new SQLStatement();
-							sqlConnection = new SQLConnection();
-							sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-							var stmt3:SQLStatement = new SQLStatement();
-							stmt3.sqlConnection = sqlConnection;
-							stmt3.text = "delete from userloyalty";
-							stmt3.execute();
+							createIfNotExsist("userloyalty");
+							doQuery("delete from userloyalty");
 							var dataSortField2:mx.collections.SortField = new mx.collections.SortField();
 							var stringDataSort2:Sort = new Sort();
 							dataSortField2.name = "business_name";
@@ -275,20 +245,16 @@
 							templistData.sort = stringDataSort2;
 							templistData.refresh();
 							for (var j:uint = 0; j < templistData.length; j++){
-								
-								stmt = new SQLStatement();
-								stmt.sqlConnection = sqlConnection;
-								stmt.text = "insert into userloyalty values(" +
+								doQuery("insert into userloyalty values(" +
 									templistData[j].id+",'" +
 									templistData[j].business_name+"','" +
 									templistData[j].business_picture+"','" +
 									templistData[j].amount+"','" +
-									templistData[j].userloyalty+"')";			
-								stmt.execute();
-								loyaltyArray = new ArrayCollection();
-								loyaltyArray = templistData;
+									templistData[j].userloyalty+"')");
+								
 							}
-							
+							loyaltyArray = new ArrayCollection();
+							loyaltyArray = templistData;
 						}
 						
 						

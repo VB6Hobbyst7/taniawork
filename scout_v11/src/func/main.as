@@ -23,7 +23,7 @@ import spark.events.ViewNavigatorEvent;
 import spark.transitions.CrossFadeViewTransition;
 public static const FACEBOOK_APP_ID:String="1424621771149692";
 [Bindable]
-public var VERSIONID:Number = 8;
+public var VERSIONID:Number = 9;
 public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 public var resData:ArrayCollection = new ArrayCollection();
 [Bindable]
@@ -81,7 +81,7 @@ protected function creationcomplete(event:FlexEvent):void
 	stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 		"email varchar(255)," +
 		"name varchar(255)," +
-		"country varchar(255)," +
+		"city varchar(255)," +
 		"active varchar(255))";
 	stmt.execute();
 	
@@ -493,10 +493,10 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	stmt.text = "delete FROM localuser;";
 	stmt.execute();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+	stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 	stmt.parameters[":email"] = fsemail;
 	stmt.parameters[":name"] = fsname;
-	stmt.parameters[":country"] = "canada";
+	stmt.parameters[":city"] = fscity;
 	stmt.parameters[":active"] = "yes";
 	stmt.execute();
 	reloadProfInfo();

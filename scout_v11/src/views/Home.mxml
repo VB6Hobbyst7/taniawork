@@ -43,6 +43,15 @@
 				//this.parentApplication.openMenu();
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();	
+				if (cityGo == "edmonton"){
+					cityback.source = "assets/"+getDPIHeight()+"/edmonton.jpg";
+				}
+				else if (cityGo == "calgary"){
+					cityback.source = "assets/"+getDPIHeight()+"/calgary.png";
+				}
+				else {
+					cityback.source = "assets/"+getDPIHeight()+"/edmonton.jpg";
+				}
 				try{
 					var code:String = emailGo;
 					var sp:Sprite = new Sprite();
@@ -253,15 +262,7 @@
 				<s:fill><s:SolidColor alpha="1" color="#c5c5c5"/></s:fill>
 			</s:Rect>
 			<s:Image id="cityback" horizontalCenter="0" verticalCenter="0" 
-					 height="100%" scaleMode="zoom"  contentLoader="{s_imageCache}" alpha="0" >
-				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/edmonton.jpg')"
-											source240dpi="@Embed('assets/240/edmonton.jpg')"
-											source320dpi="@Embed('assets/320/edmonton.jpg')"
-											source480dpi="@Embed('assets/480/edmonton.jpg')"
-											source640dpi="@Embed('assets/640/edmonton.jpg')"/>
-				</s:source>
-			</s:Image>
+					 height="100%" scaleMode="zoom"  contentLoader="{s_imageCache}" alpha="0"/>
 			<s:VGroup gap="0" width="100%"  top="0"  
 					  height="{this.height*(7/12)}" 
 					  verticalAlign="middle"  

@@ -36,7 +36,7 @@
 				if (ev.result[0].ress.message == "ok"){
 					AddNewLocalUser(ev.result[0].ress.email,
 						ev.result[0].ress.name,
-						ev.result[0].ress.country);
+						ev.result[0].ress.city);
 				}
 				else {
 					//bad login
@@ -44,7 +44,7 @@
 					popupholder1.visible = true;
 				}
 			}
-			public function AddNewLocalUser(email:String,name:String,country:String):void
+			public function AddNewLocalUser(email:String,name:String,city:String):void
 			{
 				busy = true;
 				sqlConnection = new SQLConnection();
@@ -54,10 +54,10 @@
 				stmt.text = "delete FROM localuser;";
 				stmt.execute();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 				stmt.parameters[":email"] = email;
 				stmt.parameters[":name"] = name;
-				stmt.parameters[":country"] = country;
+				stmt.parameters[":city"] = city;
 				stmt.parameters[":active"] = "yes";
 				stmt.execute();
 				getLocalUsers();
@@ -66,7 +66,7 @@
 			{
 				var stmt:SQLStatement = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "SELECT email, name, country, active FROM localuser";
+				stmt.text = "SELECT email, name, city, active FROM localuser";
 				stmt.execute();
 				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 				if (resData.length != 0){

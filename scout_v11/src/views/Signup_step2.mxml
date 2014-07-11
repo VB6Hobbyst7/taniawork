@@ -46,14 +46,14 @@
 			public function afterCreateNewUser(ev:ResultEvent):void {
 				busy = false;
 				if (ev.result[0].ress.message == "ok"){
-					AddNewLocalUser(data.email,data.nameo,'canada');
+					AddNewLocalUser(data.email,data.nameo,ncity.text.toLocaleUpperCase());
 				}
 				else {
 					popupholder1.visible = true;
 					popupholder1.textl = ev.result[0].ress.message;
 				}
 			}
-			public function AddNewLocalUser(email:String,name:String,country:String):void
+			public function AddNewLocalUser(email:String,name:String,city:String):void
 			{
 				var stmt:SQLStatement = new SQLStatement();
 				sqlConnection = new SQLConnection();
@@ -62,7 +62,7 @@
 				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 					"email varchar(255)," +
 					"name varchar(255)," +
-					"country varchar(255)," +
+					"city varchar(255)," +
 					"active varchar(255))";
 				stmt.execute();
 				stmt = new SQLStatement();
@@ -71,10 +71,10 @@
 				stmt.execute();
 				stmt = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 				stmt.parameters[":email"] = email;
 				stmt.parameters[":name"] = name;
-				stmt.parameters[":country"] = country;
+				stmt.parameters[":city"] = city;
 				stmt.parameters[":active"] = "yes";
 				stmt.execute();
 				var saveManager:PersistenceManager = new PersistenceManager();

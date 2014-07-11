@@ -69,25 +69,29 @@
 			}	
 		]]>
 	</fx:Script>
-	<s:Group width="100%" height="100%"  >
-		<s:BitmapImage width="100%" id="bgimg" source="{data.business_picture}" 
-					   height="{bgimg.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
-		<s:Image  width="{bgimg.width}"  bottom="0"
-				  height="{bgimg.height}" 
-				  contentLoader="{s_imageCache}" 
-				  scaleMode="stretch"  	   >
-			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/largeshadow.png')"
-										source240dpi="@Embed('../assets/240/largeshadow.png')"
-										source320dpi="@Embed('../assets/320/largeshadow.png')"
-										source480dpi="@Embed('../assets/480/largeshadow.png')"
-										source640dpi="@Embed('../assets/640/largeshadow.png')"/>
-			</s:source>
-		</s:Image>
-		<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="{this.height/4.2+10}" 
-				 styleName="textsize3"
-				 maxDisplayedLines="1" text="{data.business_name}"/>
-		<s:Group  bottom="0" width="100%"   height="{this.height/4.2}">
+	<s:VGroup gap="0" width="100%" height="100%"  >
+		<s:Group>
+			<s:BitmapImage width="100%" id="bgimg" source="{data.business_picture}" 
+						   height="{bgimg.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
+			<s:Image  width="{bgimg.width}"  bottom="0"
+					  height="{bgimg.height}" 
+					  contentLoader="{s_imageCache}" 
+					  scaleMode="stretch"  	   >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/largeshadow.png')"
+											source240dpi="@Embed('../assets/240/largeshadow.png')"
+											source320dpi="@Embed('../assets/320/largeshadow.png')"
+											source480dpi="@Embed('../assets/480/largeshadow.png')"
+											source640dpi="@Embed('../assets/640/largeshadow.png')"/>
+				</s:source>
+			</s:Image>
+			
+			<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="10" 
+					 styleName="textsize3"
+					 maxDisplayedLines="1" text="{data.business_name}"/>
+		</s:Group>
+	
+		<s:Group  bottom="0" width="100%"   height="{this.height/5.4}">
 			<s:Rect width="100%" height="100%">
 				<s:fill><s:SolidColor color="0xFFFFFF"/></s:fill>
 			</s:Rect>
@@ -115,5 +119,5 @@
 		<s:Rect width="100%" height="5" bottom="0">
 			<s:fill><s:SolidColor color="0x0aaae5"/></s:fill>
 		</s:Rect>
-	</s:Group>
+	</s:VGroup>
 </s:ItemRenderer>
