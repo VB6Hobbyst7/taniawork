@@ -3,8 +3,8 @@
 <id>ca.scoutcard.scout</id>
 <filename>Scout</filename>
 <name>Scout</name>
-<versionNumber>1.0.8</versionNumber>
-<versionLabel>v1.0.8</versionLabel>
+<versionNumber>2.0.0</versionNumber>
+<versionLabel>v2.0.0</versionLabel>
 <initialWindow>
 <content>Scout.swf</content>
 <autoOrients>false</autoOrients>

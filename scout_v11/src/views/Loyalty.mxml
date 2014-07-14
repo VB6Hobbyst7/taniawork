@@ -343,6 +343,7 @@
 				navigator.pushView(MapView,{mylat:this.mylat,mylong:this.mylong});
 			}
 			public function gobacktohome():void {
+				stage.focus = null;
 				var slideTrans:SlideViewTransition = new SlideViewTransition();
 				slideTrans.direction = ViewTransitionDirection.RIGHT;
 				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes

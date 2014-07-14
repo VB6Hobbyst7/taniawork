@@ -41,6 +41,11 @@
 			{
 				
 				//this.parentApplication.openMenu();
+				try{
+					
+				
+				
+
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();	
 				if (cityGo == "edmonton"){
@@ -75,7 +80,10 @@
 				}
 				fincityback();
 				getUserInfo.send();
-				
+				}
+				catch(e:Error){
+					
+				}
 			}
 			public function usermenuclick():void {
 				navigator.pushView(Settings);
