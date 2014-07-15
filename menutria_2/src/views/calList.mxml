@@ -162,7 +162,7 @@
 					dataProvider="{specialsoptions}" >
 			</s:List>
 			<!--s:Line   left="0" right="0" width="100%"  bottom="0" > 
-				<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Line-->
 			<s:Group  width="100%" >
 				<s:Rect width="100%"  height="{getActionBarHeight()}">

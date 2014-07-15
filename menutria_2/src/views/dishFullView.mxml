@@ -72,7 +72,7 @@
 				</s:VGroup>
 				<s:Group width="100%">
 					<s:Line  left="{40/(320/Capabilities.screenDPI)}" right="0" bottom="0" > 
-						<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+						<s:stroke><s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 				</s:Group>
 				<s:VGroup  paddingLeft="{40/(320/Capabilities.screenDPI)}" 

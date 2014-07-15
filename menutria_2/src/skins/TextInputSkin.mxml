@@ -40,7 +40,7 @@
     
 	<s:Line left="0" right="0" bottom="0">
 		<s:stroke>
-			<s:SolidColorStroke weight="1" color="#DCDCDC"/>
+			<s:SolidColorStroke weight="{1/(320/Capabilities.screenDPI)}" color="#DCDCDC"/>
 		</s:stroke>
 	</s:Line>
 	    

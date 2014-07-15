@@ -40,7 +40,7 @@
 	
 	<s:Line id="focusGroup" bottom="-1" left="0" right="0">
 		<s:stroke>
-			<s:SolidColorStroke id="stroke" color="#0085DE"  weight="1" alpha=".5"/>
+			<s:SolidColorStroke id="stroke" color="#0085DE"  weight="{1/(320/Capabilities.screenDPI)}" alpha=".5"/>
 		</s:stroke>
 	</s:Line>
 	
