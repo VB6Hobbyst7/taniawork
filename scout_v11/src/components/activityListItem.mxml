@@ -71,7 +71,7 @@
 	</fx:Script>
 	<s:VGroup gap="0" width="100%" height="100%"  >
 		<s:Group>
-			<s:BitmapImage width="100%" id="bgimg" source="{data.business_picture}" 
+			<s:BitmapImage width="{this.width}" id="bgimg" source="{data.business_picture}" 
 						   height="{bgimg.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
 			<s:Image  width="{bgimg.width}"  bottom="0"
 					  height="{bgimg.height}" 
@@ -86,7 +86,7 @@
 				</s:source>
 			</s:Image>
 			
-			<s:Label left="10" width="100%"  color="#FFFFFF"   bottom="10" 
+			<s:Label left="{10/(320/Capabilities.screenDPI)}" width="100%"  color="#FFFFFF"   bottom="{10/(320/Capabilities.screenDPI)}" 
 					 styleName="textsize3"
 					 maxDisplayedLines="1" text="{data.business_name}"/>
 		</s:Group>
@@ -95,7 +95,8 @@
 			<s:Rect width="100%" height="100%">
 				<s:fill><s:SolidColor color="0xFFFFFF"/></s:fill>
 			</s:Rect>
-			<s:HGroup paddingTop="10" paddingBottom="10" height="100%" width="100%" paddingLeft="10" verticalAlign="middle" verticalCenter="0">
+			<s:HGroup paddingTop="{10/(320/Capabilities.screenDPI)}" paddingBottom="{10/(320/Capabilities.screenDPI)}"
+					  height="100%" width="100%" paddingLeft="{10/(320/Capabilities.screenDPI)}" verticalAlign="middle" verticalCenter="0">
 				<s:VGroup width="33%" height="100%" horizontalAlign="center" verticalAlign="middle">
 					<s:Label color="#0aaae5"  styleName="textsize2"
 							 text="{data.amount}" fontWeight="bold"/>
@@ -116,7 +117,7 @@
 				</s:VGroup>
 			</s:HGroup>
 		</s:Group>
-		<s:Rect width="100%" height="5" bottom="0">
+		<s:Rect width="100%" height="{5/(320/Capabilities.screenDPI)}" bottom="0">
 			<s:fill><s:SolidColor color="0x0aaae5"/></s:fill>
 		</s:Rect>
 	</s:VGroup>

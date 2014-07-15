@@ -371,9 +371,8 @@
 			
 			<s:Group width="100%"  height="{img1.width/(16/9)}"  >
 				<s:BitmapImage width="100%" id="img1" 
-							   height="{img1.width/(16/9)}" contentLoader="{s_imageCache}" scaleMode="zoom" />
-				
-				
+							   height="{img1.width/(16/9)}" 
+							   contentLoader="{s_imageCache}" scaleMode="zoom" />
 			</s:Group>
 			<s:Group  bottom="0" width="100%" 
 					  height="{img1.height/5}">
@@ -381,22 +380,22 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:Line  width="100%" top="0"> 
-					<s:stroke><s:SolidColorStroke color="#737171" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="#737171" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
 				
 				<s:HGroup width="100%" paddingLeft="0" height="100%" verticalAlign="middle" verticalCenter="0">
-					<s:Label paddingLeft="30" width="100%"  color="#5e5c5c"   
+					<s:Label paddingLeft="{30/(320/Capabilities.screenDPI)}" width="100%"  color="#5e5c5c"   
 							 styleName="textsize2"
 							 maxDisplayedLines="1" text="{data.business_name}" verticalAlign="middle"
 							 verticalCenter="0"/>
 					<s:Label   height="100%" id="pointsamount" color="#0aaae5"  
-							   paddingRight="30"  styleName="textsize2"
+							   paddingRight="{30/(320/Capabilities.screenDPI)}"  styleName="textsize2"
 							   textAlign="right" fontWeight="bold"
 							   verticalAlign="middle" verticalCenter="0"/>
 				</s:HGroup>
 			</s:Group>
 			<s:Line  width="100%" bottom="0"> 
-				<s:stroke><s:SolidColorStroke color="#737171" weight="1"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="#737171" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Line>
 			<s:List id="loyaltyList" width="100%"  verticalScrollPolicy="off"
 					change="listClick(event);" horizontalScrollPolicy="off"
@@ -411,7 +410,7 @@
 	</s:Scroller>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 	<s:Label horizontalCenter="0" id="warn" visible="false"  color="#5e5c5c"   
-			 styleName="textsize8" text="No Rewards Available" verticalCenter="150"/>
+			 styleName="textsize8" text="No Rewards Available" verticalCenter="{150/(320/Capabilities.screenDPI)}"/>
 	
 	
 	
@@ -421,12 +420,16 @@
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
 		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
-			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}"
+					radiusY="{20/(320/Capabilities.screenDPI)}">
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
-				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Rect>
-			<s:Scroller left="0" right="0" top="0" bottom="{this.height*0.15}"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-			<s:VGroup width="100%" height="100%" top="0" gap="30" horizontalAlign="center" paddingTop="20">
+			<s:Scroller left="0" right="0" top="0" bottom="{this.height*0.15}"
+						verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+			<s:VGroup width="100%" height="100%" top="0"
+					  gap="{30/(320/Capabilities.screenDPI)}" 
+					  horizontalAlign="center" paddingTop="{20/(320/Capabilities.screenDPI)}">
 				<s:BitmapImage  contentLoader="{s_imageCache}">
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/gift.png')"
@@ -436,7 +439,7 @@
 												source640dpi="@Embed('assets/640/gift.png')"/>
 					</s:source>
 				</s:BitmapImage>
-				<s:VGroup width="100%"  horizontalAlign="center" gap="10">
+				<s:VGroup width="100%"  horizontalAlign="center" gap="{10/(320/Capabilities.screenDPI)}">
 					<s:Label text="Enjoy the Reward!"  mouseEnabled="false"
 							 verticalCenter="0" horizontalCenter="0"
 							 styleName="textsize4" color="#191919"/>
@@ -454,17 +457,18 @@
 								 styleName="textsize3" color="#191919"/>
 					</s:HGroup>
 				</s:Group>
-				<s:Label text="{rewardDescription}" width="80%" textAlign="center"  mouseEnabled="false"
+				<s:Label text="{rewardDescription}" width="80%"
+						 textAlign="center"  mouseEnabled="false"
 						 verticalCenter="0" horizontalCenter="0"
 						 styleName="textsize10" color="#222222"/>
 			</s:VGroup>
 				</s:Scroller>
 			<s:Group width="100%" height="20%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
-					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
 				<s:Line height="100%"  horizontalCenter="0" rotation="90" > 
-					<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
 				<s:Group width="50%" left="0" height="100%" 
 						  click="closeRewardPopup()"
@@ -498,25 +502,35 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:VGroup width="100%" height="100%" gap="25" horizontalAlign="center" verticalAlign="middle">
+		<s:VGroup width="100%" height="100%" gap="{25/(320/Capabilities.screenDPI)}" 
+				  horizontalAlign="center" verticalAlign="middle">
 			<s:Label text="Hand to Staff Member"  mouseEnabled="false"
 					  width="100%" verticalAlign="middle" textAlign="center"
 					 styleName="textsize10" color="#FFFFFF"/>
-			<s:Group width="95%" height="590" horizontalCenter="0" verticalCenter="0" visible="true">
-				<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+			<s:Group width="95%" height="{590/(320/Capabilities.screenDPI)}"
+					 horizontalCenter="0" verticalCenter="0" visible="true">
+				<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}"
+						radiusY="{20/(320/Capabilities.screenDPI)}">
 					<s:fill><s:SolidColor alpha="1" color="#f0f0f0"/></s:fill>
-					<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="#389ec9" 
+												  weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Rect>
-				<s:VGroup width="100%" height="100%" top="0" gap="0" horizontalAlign="center" verticalAlign="middle"
-						   paddingTop="4" paddingBottom="6" paddingRight="2"  paddingLeft="2">
+				<s:VGroup width="100%" height="100%" top="0" gap="0"
+						  horizontalAlign="center" verticalAlign="middle"
+						   paddingTop="{4/(320/Capabilities.screenDPI)}" 
+						   paddingBottom="{6/(320/Capabilities.screenDPI)}" 
+						   paddingRight="{2/(320/Capabilities.screenDPI)}"  
+						   paddingLeft="{2/(320/Capabilities.screenDPI)}">
 					
 					
 					
 					<s:Group  width="100%" height="20%" horizontalCenter="0">
-						<s:Line  right="5" left="0"  bottom="0"  > 
-							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" 
+														  weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
-						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="30" verticalAlign="middle" horizontalAlign="center">
+						<s:HGroup width="100%" top="0"  bottom="0" height="100%" 
+								  gap="{30/(320/Capabilities.screenDPI)}" verticalAlign="middle" horizontalAlign="center">
 							<s:Image id="pin1"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
 							<s:Image id="pin2"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
 							<s:Image id="pin3"  contentLoader="{s_imageCache}" source="{pingsrc}"/>
@@ -527,8 +541,8 @@
 					
 					
 					<s:Group  width="100%" height="20%" horizontalCenter="0">
-						<s:Line  right="5" left="0"  bottom="0"  > 
-							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
 							<components:keypad click="keypad('1');"  numberlabel="1" width="33%" top="0"  bottom="0"  height="100%"/>
@@ -538,20 +552,24 @@
 					</s:Group>
 					
 					<s:Group  width="100%" height="20%" horizontalCenter="0">
-						<s:Line  right="5" left="0"  bottom="0"  > 
-							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						<s:Line  right="{5/(320/Capabilities.screenDPI)}" 
+								 left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
-							<components:keypad  click="keypad('4');"  numberlabel="4" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad click="keypad('5');"  numberlabel="5" width="33%" top="0"  bottom="0"  height="100%"/>
-							<components:keypad  click="keypad('6');"  showrightline="false"   numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
+							<components:keypad  click="keypad('4');"  numberlabel="4" width="33%"
+												top="0"  bottom="0"  height="100%"/>
+							<components:keypad click="keypad('5');"  numberlabel="5" width="33%"
+											   top="0"  bottom="0"  height="100%"/>
+							<components:keypad  click="keypad('6');"  showrightline="false"  
+												numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
 						</s:HGroup>
 					</s:Group>
 					
 					
 					<s:Group  width="100%" height="20%" horizontalCenter="0">
-						<s:Line  right="5" left="0"  bottom="0"  > 
-							<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+						<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
+							<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 						<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
 							<components:keypad click="keypad('7');"   numberlabel="7" width="33%" top="0"  bottom="0"  height="100%"/>
@@ -592,29 +610,28 @@
 	</s:Group>
 	
 	
-	
-	
-	
-	
 	<s:Group id="infopopup" width="100%" height="100%" visible="false" alpha="0">
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
 		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
-			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20" >
+			<s:Rect width="100%" height="100%" 
+					radiusX="{20/(320/Capabilities.screenDPI)}"
+					radiusY="{20/(320/Capabilities.screenDPI)}" >
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
-				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Rect>
 			<s:Label text="Reward Successfully Redeemed" textAlign="center" width="80%"  mouseEnabled="false"
-					 top="100" horizontalCenter="0"
+					 top="{100/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 					 styleName="textsize20" color="#727272"/>
 			
-			<s:Group height="15%" left="0" right="3" bottom="0" 
+			<s:Group height="15%" left="0" right="{3/(320/Capabilities.screenDPI)}" bottom="0" 
 					 click="closeInfoPopup();"
 					 mouseDown="gDown(event);" mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);">
-				<s:Rect width="100%" height="100%" bottomLeftRadiusX="20" bottomLeftRadiusY="20"
-						 bottomRightRadiusX="20" bottomRightRadiusY="20">
+				<s:Rect width="100%" height="100%"
+						 radiusX="{20/(320/Capabilities.screenDPI)}"
+						  radiusY="{20/(320/Capabilities.screenDPI)}">
 					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
 				</s:Rect>
 				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
@@ -622,6 +639,4 @@
 			</s:Group>
 		</s:Group>
 	</s:Group>
-
-	
 </s:View>

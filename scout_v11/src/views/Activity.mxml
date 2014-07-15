@@ -11,7 +11,8 @@
 		mouseOut="listFingerUp();"
 		title="Activity">
 	<s:navigationContent >
-		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+		<components:backbutton width="{this.width*0.15}" 
+							   mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
@@ -119,19 +120,22 @@
 		<s:VGroup width="100%" height="100%" gap="0" horizontalAlign="center">
 			<s:Group width="100%" height="100%" visible="true" id="listCont">
 				<s:Group   top="0" bottom="0" width="100%"  >
-					<s:List width="100%" height="100%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
+					<s:List width="100%" height="100%" horizontalCenter="0"
+							top="0" bottom="0" contentBackgroundAlpha="1" 
 							id="activitylist" labelField="name"  contentBackgroundColor="#c5c5c5"  
 							dataProvider="{activityArray}" itemRenderer="components.activityListItem"
 							selectedIndex="1" 
 							horizontalScrollPolicy="off"  >
 						<s:layout>
-							<s:VerticalLayout gap="15" paddingTop="15">
+							<s:VerticalLayout gap="{15/(320/Capabilities.screenDPI)}"
+											  paddingTop="{15/(320/Capabilities.screenDPI)}">
 							</s:VerticalLayout>
 						</s:layout>
 					</s:List>
 				</s:Group>
 				<s:Label text="You haven't visited any Scout locations yet!" 
-						 visible="false" id="noactivity" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
+						 visible="false" id="noactivity" width="75%" textAlign="center" 
+						 horizontalCenter="0"  verticalCenter="0" />
 			</s:Group>	
 			</s:VGroup>
 		</s:VGroup>

@@ -66,12 +66,12 @@
 				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
 			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
-					   paddingTop="20" bottom="0" horizontalAlign="center" verticalAlign="middle">
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
 				
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+					<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 							height="{100/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
@@ -79,7 +79,7 @@
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="oldpassword"   focusAlpha="0" fontFamily="Arial"
-								 width="{550/(320/Capabilities.screenDPI)}"
+								 width="{575/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
@@ -91,7 +91,7 @@
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+					<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 							height="{100/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
@@ -99,7 +99,7 @@
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="newpassword1"   focusAlpha="0" fontFamily="Arial"
-								 width="{550/(320/Capabilities.screenDPI)}"
+								 width="{575/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
@@ -111,7 +111,7 @@
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+					<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 							height="{100/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
@@ -119,7 +119,7 @@
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="newpassword2"   focusAlpha="0" fontFamily="Arial"
-								 width="{550/(320/Capabilities.screenDPI)}"
+								 width="{575/(320/Capabilities.screenDPI)}"
 								 height="{100/(320/Capabilities.screenDPI)}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
@@ -136,7 +136,7 @@
 						 mouseOut="gOut(event);" 
 						 mouseUp="gOut(event);" 
 						 mouseDown="gDown(event);" >
-					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+					<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 							height="{100/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"

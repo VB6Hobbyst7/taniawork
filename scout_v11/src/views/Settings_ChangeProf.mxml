@@ -113,14 +113,15 @@
 		</s:HTTPService>
 	</fx:Declarations>
 
-	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" 
+				horizontalScrollPolicy="off" >
 		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
 				  horizontalCenter="0" verticalCenter="0"  
 				  paddingTop="{20/(320/Capabilities.screenDPI)}"
 				  bottom="0" horizontalAlign="center" verticalAlign="top">
 			
 			<s:Group width="100%" >
-				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 						height="{100/(320/Capabilities.screenDPI)}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
@@ -128,7 +129,7 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="ncity"   focusAlpha="0"
-							 width="{550/(320/Capabilities.screenDPI)}"
+							 width="{575/(320/Capabilities.screenDPI)}"
 							 height="{100/(320/Capabilities.screenDPI)}"
 							 verticalCenter="0"
 							 horizontalCenter="0" fontFamily="Arial"
@@ -141,15 +142,17 @@
 			
 			<s:Group width="100%" mouseOver="gOver(event);" mouseDown="gDown(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);" click="{provpopup.visible = true}">
-				<s:Rect id="reco" width="{550/(320/Capabilities.screenDPI)}" 
+				<s:Rect id="reco" width="{575/(320/Capabilities.screenDPI)}" 
 						height="{100/(320/Capabilities.screenDPI)}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:Label   id="provlabel" text="Province" color="#bbbbbb" mouseEnabled="false"
-						 styleName="textsize3" x="{reco.x + (15/(320/Capabilities.screenDPI))}" 
+				<s:Label   id="provlabel" text="Province" 
+						   color="#bbbbbb" mouseEnabled="false"
+						 styleName="textsize3"
+						 x="{reco.x + (15/(320/Capabilities.screenDPI))}" 
 						 verticalCenter="0"></s:Label>
 			</s:Group>
 			
@@ -157,14 +160,14 @@
 			
 			
 			<s:Group width="100%" >
-				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 						height="{100/(320/Capabilities.screenDPI)}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
+				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI)}" horizontalAlign="center"
 						   horizontalCenter="0" verticalCenter="0">
 					<s:TextInput id="nbirthday" width="33%" prompt="Day"  maxChars="2"
 								 softKeyboardType="number"  fontFamily="Arial"
@@ -186,17 +189,21 @@
 			
 			
 			<s:Group width="100%" >
-				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
 						height="{100/(320/Capabilities.screenDPI)}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
-				<s:HGroup  width="{reco.width-30}" gap="25" horizontalAlign="center"
+				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI)}"
+						   gap="{25/(320/Capabilities.screenDPI)}" 
+						   horizontalAlign="center"
 						  horizontalCenter="0" verticalCenter="0" >
-					<s:Label styleName="textsize3" height="100%" text="Male" horizontalCenter="0"
-							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
+					<s:Label styleName="textsize3" height="100%" 
+							 text="Male" horizontalCenter="0"
+							 color="#bbbbbb" verticalAlign="middle"
+							 textAlign="center"/>
 					<s:RadioButton label="Male" id="maleor"
 								   width="{100/(320/Capabilities.screenDPI)}" 
 								   height="{100/(320/Capabilities.screenDPI)}" 
@@ -214,20 +221,6 @@
 			</s:Group>
 			
 			<components:continue_btn click="nextStep();"/>
-
-			<s:Label top="290" width="95%"  horizontalCenter="0"  color="#8c8d8d"
-					 text="By Creating an account you agree to Scout's Terms of Service and Privacy Policy. "
-					 textAlign="center"/>
-			
-			<s:Label top="290" width="95%"
-					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
-					 color="#8c8d8d"  horizontalCenter="0"
-					 text="Terms of Service" textAlign="center" textDecoration="underline"/>
-			<s:Label top="290" width="95%"  horizontalCenter="0"
-					 text="Privacy Policy" textDecoration="underline"
-					 textAlign="center"   color="#8c8d8d"
-					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/pol'));"/>
-		</s:VGroup>
 	</s:Scroller>
 	
 	
@@ -238,18 +231,24 @@
 		<s:Group  width="80%" height="85%" id="somecont"
 				  horizontalCenter="0" verticalCenter="0"
 				  mouseDownOutside="{this.visible = false}">
-			<s:Rect width="100%" height="100%" radiusX="20" radiusY="20">
+			<s:Rect width="100%" height="100%"
+					radiusX="{20/(320/Capabilities.screenDPI)}"
+					radiusY="{20/(320/Capabilities.screenDPI)}">
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
-				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="#389ec9" 
+											  weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Rect>
-			<s:VGroup width="100%" height="100%" paddingTop="30" gap="20">
+			<s:VGroup width="100%" height="100%" 
+					  paddingTop="{30/(320/Capabilities.screenDPI)}"
+					  gap="{20/(320/Capabilities.screenDPI)}">
 			<s:Label text="Province" width="100%" textAlign="center" verticalAlign="middle" mouseEnabled="false" top="20"
 					 horizontalCenter="0"
 					 styleName="textsize4" color="#389dc8"/>
 			<s:List width="100%"  horizontalCenter="0" 
-					 top="50" height="75%"
+					 top="{50/(320/Capabilities.screenDPI)}" height="75%"
 					id="provlist" labelField="name"  contentBackgroundAlpha="0"
-					 itemRenderer="components.provitem" selectedIndex="-1"  change="provChange();"
+					 itemRenderer="components.provitem" selectedIndex="-1" 
+					 change="provChange();"
 					horizontalScrollPolicy="off"  >
 				<s:dataProvider>
 					<s:ArrayList>
@@ -268,13 +267,14 @@
 					</s:ArrayList> 
 				</s:dataProvider>
 				<s:layout>
-					<s:VerticalLayout gap="0" paddingTop="15">
+					<s:VerticalLayout gap="0" 
+									  paddingTop="{15/(320/Capabilities.screenDPI)}">
 					</s:VerticalLayout>
 				</s:layout>
 			</s:List>
 				<s:Group width="100%" height="{somecont.height*0.15}" bottom="0">
 					<s:Line width="99%"  left="0"   top="0" > 
-						<s:stroke><s:SolidColorStroke color="0x525f64" weight="1"/></s:stroke>
+						<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 					<s:Group width="50%" horizontalCenter="0" height="100%" 
 							 click="closeProv();"
@@ -288,6 +288,8 @@
 			</s:VGroup>
 		</s:Group>
 	</s:Group>
-	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+	<components:genericpopup id="popupholder1"
+							 textl="Sorry Incorrect Information" 
+							 width="100%" height="100%"/>
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>

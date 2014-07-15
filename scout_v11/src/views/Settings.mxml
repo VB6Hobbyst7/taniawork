@@ -56,8 +56,9 @@
 		]]>
 	</fx:Script>
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-		<s:VGroup width="100%" paddingTop="30" gap="30"  horizontalAlign="center" height="100%" >
-			<s:Group width="100%" height="150"
+		<s:VGroup width="100%" paddingTop="{30/(320/Capabilities.screenDPI)}"
+				  gap="{30/(320/Capabilities.screenDPI)}"  horizontalAlign="center" height="100%" >
+			<s:Group width="100%" height="{150/(320/Capabilities.screenDPI)}"
 					 mouseOver="gOver(event);"  enabled="false"  alpha="0.5"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);" 
@@ -66,10 +67,14 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:Line  left="0" right="0"  bottom="0" > 
-					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
-				<components:next right="20" verticalCenter="0"/>
-				<s:VGroup paddingLeft="30" paddingTop="30" gap="30" width="100%" height="100%" >
+				<components:next right="{20/(320/Capabilities.screenDPI)}" 
+								 verticalCenter="0"/>
+				<s:VGroup paddingLeft="{30/(320/Capabilities.screenDPI)}"
+						  paddingTop="{30/(320/Capabilities.screenDPI)}"
+						  gap="{30/(320/Capabilities.screenDPI)}" width="100%" height="100%" >
 					<s:Label text="{nameGo}"
 							 verticalCenter="0" verticalAlign="middle" 
 							 textAlign="center"  mouseEnabled="false"
@@ -81,7 +86,7 @@
 					
 				</s:VGroup>
 			</s:Group>
-			<s:Group width="100%" height="100"
+			<s:Group width="100%" height="{100/(320/Capabilities.screenDPI)}"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
 					 mouseUp="gOut(event);"  enabled="false"  alpha="0.5"
@@ -90,15 +95,15 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:Line  left="0" right="0"  bottom="0" > 
-					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
-				<components:next right="20" verticalCenter="0"/>
-				<s:Label text="Passcode Lock"  left="30"
+				<components:next right="{20/(320/Capabilities.screenDPI)}" verticalCenter="0"/>
+				<s:Label text="Passcode Lock"  left="{30/(320/Capabilities.screenDPI)}"
 						 verticalCenter="0" verticalAlign="middle" 
 						 textAlign="center"  mouseEnabled="false"
 						 styleName="textsize1"  color="#474646"/>
 			</s:Group>
-			<s:Group width="100%" height="100"
+			<s:Group width="100%" height="{100/(320/Capabilities.screenDPI)}"
 					  click="changePasswordClick(event)"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
@@ -108,15 +113,15 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:Line  left="0" right="0"  bottom="0" > 
-					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
-				<components:next right="20" verticalCenter="0"/>
-				<s:Label text="Change Password" left="30"
+				<components:next right="{20/(320/Capabilities.screenDPI)}" verticalCenter="0"/>
+				<s:Label text="Change Password" left="{30/(320/Capabilities.screenDPI)}"
 						 verticalCenter="0" verticalAlign="middle" 
 						 textAlign="center" mouseEnabled="false"
 						 styleName="textsize1"  color="#474646"/>
 			</s:Group>
-			<s:Group width="100%" height="100"
+			<s:Group width="100%" height="{100/(320/Capabilities.screenDPI)}"
 					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
 					 mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" 
@@ -126,10 +131,10 @@
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:Line  left="0" right="0"  bottom="0" > 
-					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="1"/></s:stroke>
+					<s:stroke><s:SolidColorStroke color="0xcfd3d7" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
-				<components:next right="20" verticalCenter="0"/>
-				<s:Label text="Terms of Use" left="30"
+				<components:next right="{20/(320/Capabilities.screenDPI)}" verticalCenter="0"/>
+				<s:Label text="Terms of Use" left="{30/(320/Capabilities.screenDPI)}"
 						 verticalCenter="0" verticalAlign="middle" 
 						 textAlign="center" mouseEnabled="false"
 						 styleName="textsize1"  color="#474646"/>

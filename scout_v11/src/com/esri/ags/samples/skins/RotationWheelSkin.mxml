@@ -122,7 +122,7 @@
     </s:Ellipse>
 
     <!-- layer 3: label -->
-    <!--<s:Label left="5" right="5" top="2" bottom="2"
+    <!--<s:Label left="5" right="{5/(320/Capabilities.screenDPI)}" top="2" bottom="2"
              color="0x0064A2"
              fontWeight="bold"
              horizontalCenter="0"

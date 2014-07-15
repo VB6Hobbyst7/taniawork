@@ -13,13 +13,10 @@
 	<fx:Script>
 		<![CDATA[
 			import com.esri.ags.layers.supportClasses.TimeReference;
-			
 			import flash.events.MouseEvent;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
 			[Bindable]
@@ -126,7 +123,7 @@
 				<s:VGroup horizontalAlign="center" width="100%" 
 						  gap="{10/(320/Capabilities.screenDPI)}">	
 					<s:Group width="100%" >
-						<s:Rect id="textback1" width="{550/(320/Capabilities.screenDPI)}" 
+						<s:Rect id="textback1" width="{575/(320/Capabilities.screenDPI)}" 
 								height="{100/(320/Capabilities.screenDPI)}" 
 								horizontalCenter="0" verticalCenter="0"
 								radiusX="{10/(320/Capabilities.screenDPI)}" 
@@ -145,7 +142,7 @@
 									 prompt="Email"/>
 					</s:Group>
 					<s:Group width="100%">
-						<s:Rect id="textback2" width="{550/(320/Capabilities.screenDPI)}" 
+						<s:Rect id="textback2" width="{575/(320/Capabilities.screenDPI)}" 
 								height="{100/(320/Capabilities.screenDPI)}" 
 								horizontalCenter="0" verticalCenter="0"
 								radiusX="{10/(320/Capabilities.screenDPI)}"
@@ -167,14 +164,15 @@
 					</s:Group>
 					<components:continue_btn click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
 					<s:Group width="{textback2.width}" >
-						<s:Label paddingTop="{10/(320/Capabilities.screenDPI)}" verticalCenter="0" text="Forgot password?" styleName="textsize3"  color="#5cb2ed"/>
+						<s:Label paddingTop="{10/(320/Capabilities.screenDPI)}" visible="false" 
+								 verticalCenter="0" text="Forgot password?" styleName="textsize3"  color="#5cb2ed"/>
 					</s:Group>
 				</s:VGroup>
 				
 
-				<s:Group verticalCenter="0" width="{textback2.width}" >
+				<s:Group verticalCenter="0" width="{575/(320/Capabilities.screenDPI)}" >
 					<s:Label left="0" text="Need an Account?" verticalCenter="0" color="#737171"
-							 styleName="textsize5"/>
+							 styleName="textsize4"/>
 					<components:signup right="0" verticalCenter="0" click="signupclick(event)"  />
 				</s:Group>
 		</s:VGroup>

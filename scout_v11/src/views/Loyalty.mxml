@@ -16,20 +16,23 @@
 	</s:navigationContent>
 	<s:titleContent>
 		<s:Group  width="100%" height="65%">
-			<s:Rect width="100%"  height="100%" radiusX="30" radiusY="30">
+			<s:Rect width="100%"  height="100%"
+					radiusX="{30/(320/Capabilities.screenDPI)}"
+					radiusY="{30/(320/Capabilities.screenDPI)}">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#f6f5f5"/>
 				</s:fill>
 				<s:stroke>
-					<s:SolidColorStroke color="#abaaaa" weight="1.5"/>
+					<s:SolidColorStroke color="#abaaaa" weight="{1.5/(320/Capabilities.screenDPI)}"/>
 				</s:stroke>
 			</s:Rect>
-			<s:TextInput id="key" width="95%" height="90%" paddingLeft="45" styleName="textsize1"
+			<s:TextInput id="key" width="95%" height="90%" 
+						 paddingLeft="{45/(320/Capabilities.screenDPI)}" styleName="textsize1"
 						 horizontalCenter="0" verticalCenter="0"  focusAlpha="0"
 						 borderVisible="false" contentBackgroundAlpha="0" color="#949393" 
 						 prompt="Search for businesses..."  maxChars="20"  fontFamily="Arial" fontWeight="normal"
 						 keyUp="press(event);" returnKeyLabel="search"/>
-			<s:BitmapImage contentLoader="{s_imageCache}"  verticalCenter="0" left="20">
+			<s:BitmapImage contentLoader="{s_imageCache}"  verticalCenter="0" left="{20/(320/Capabilities.screenDPI)}">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/glass.png')"
 											source240dpi="@Embed('assets/240/glass.png')"
@@ -371,17 +374,19 @@
 					selectedIndex="1" change="loyaltyListChange(event);"
 					horizontalScrollPolicy="off"  >
 				<s:layout>
-					<s:VerticalLayout gap="15" paddingTop="15">
+					<s:VerticalLayout gap="{15/(320/Capabilities.screenDPI)}"
+									  paddingTop="{15/(320/Capabilities.screenDPI)}">
 					</s:VerticalLayout>
 				</s:layout>
 			</s:List>
 		</s:Group>
-		<s:Label text="You haven't visited any Scout locations yet!" visible="false" id="noloyalty" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
+		<s:Label text="You haven't visited any Scout locations yet!" visible="false" 
+				 id="noloyalty" width="75%" textAlign="center" horizontalCenter="0"  verticalCenter="0" />
 	</s:Group>	
 	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 	<components:updateContainer id="updatecont" visible="false"/>
 	<s:Line left="0" right="0"  top="0" > 
-		<s:stroke><s:SolidColorStroke color="0xbababa" weight="1"/></s:stroke>
+		<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 	</s:Line>
 
 </s:View>

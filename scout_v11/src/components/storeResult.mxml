@@ -72,11 +72,14 @@
 											source640dpi="@Embed('../assets/640/gradient.png')"/>
 				</s:source>
 			</s:BitmapImage>
-		<s:VGroup width="100%" paddingBottom="10" verticalAlign="bottom" height="100%"  horizontalAlign="left">
-			<s:Label paddingLeft="10" paddingRight="10" maxDisplayedLines="1" fontWeight="bold"
+		<s:VGroup width="100%" paddingBottom="{10/(320/Capabilities.screenDPI)}" verticalAlign="bottom" height="100%"  horizontalAlign="left">
+			<s:Label paddingLeft="10" paddingRight="{10/(320/Capabilities.screenDPI)}" maxDisplayedLines="1" fontWeight="bold"
 					 maxWidth="{neededwidth}"  color="#FFFFFF" styleName="textsize2" 
 					  text="{data.business_name}" verticalAlign="middle"/>
-			<s:Label id="distotexto" visible="false" paddingLeft="10" paddingRight="10" maxDisplayedLines="1"
+			<s:Label id="distotexto" visible="false"
+					 paddingLeft="{10/(320/Capabilities.screenDPI)}"
+					 paddingRight="{10/(320/Capabilities.screenDPI)}"
+					 maxDisplayedLines="1"
 					 color="#DDDDDD"  styleName="textsize2"/>
 		</s:VGroup>
 	</s:Group>

@@ -371,7 +371,7 @@
 	</s:transitions>
 	<fx:Declarations>
 		<s:Fade id="lstTimesFade" target="{lstTimes}" duration="400" />
-		<s:SolidColorStroke id="stroke1" color="0xffffff" alpha="0.6" weight="1" />
+		<s:SolidColorStroke id="stroke1" color="0xffffff" alpha="0.6" weight="{1/(320/Capabilities.screenDPI)}" />
 		<s:SolidColorStroke id="stroke2" color="0x000000" alpha="0.4" weight="2" />
 		<s:DropShadowFilter id="headerDropShadow" blurX="2" blurY="2" distance="2" alpha="0.5" angle="132" />
 		<s:MultiDPIBitmapSource id="southbound" source160dpi="@Embed(source='/assets/dpi160/compassSouth.png')"

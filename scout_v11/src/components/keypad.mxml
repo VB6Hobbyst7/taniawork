@@ -46,7 +46,7 @@
 			<s:fill><s:SolidColor alpha="1" color="#3ea9e1"/></s:fill>
 		</s:Rect>
 		<s:Line top="0"  bottom="0" right="0"  rotation="90" visible="{showrightline}"  > 
-			<s:stroke><s:SolidColorStroke color="0xdadada" weight="1"/></s:stroke>
+			<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
 		<s:Label styleName="textsize14" text="{numberlabel}" color="#626364"
 				  horizontalCenter="0" verticalCenter="0" verticalAlign="middle"

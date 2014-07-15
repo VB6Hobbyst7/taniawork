@@ -64,7 +64,7 @@
 				</s:HGroup>
 			</s:Group>
 			<s:Line width="100%"> 
-				<s:stroke><s:SolidColorStroke color="0x060606" weight="1"/></s:stroke>
+				<s:stroke><s:SolidColorStroke color="0x060606" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Line>
 			<s:List id="listmenu" height="100%" contentBackgroundColor="#FFFFFF" 
 					contentBackgroundAlpha="0.95" dataProvider="{homeitems}"
@@ -77,7 +77,7 @@
 				</s:layout>
 			</s:List>
 		</s:VGroup>
-		<s:Image  right="5" verticalCenter="{(this.height*0.25)/2}"
+		<s:Image  right="{5/(320/Capabilities.screenDPI)}" verticalCenter="{(this.height*0.25)/2}"
 				  mouseEnabled="false" contentLoader="{s_imageCache}" >
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/doubleline.png')"
