@@ -45,7 +45,7 @@
     <s:HGroup width="540"
               paddingBottom="5"
               paddingLeft="5"
-              paddingRight="5"
+              paddingright="{5/(320/Capabilities.screenDPI)}"
               paddingTop="5"
               verticalAlign="top">
         <s:Image width="160" height="100"

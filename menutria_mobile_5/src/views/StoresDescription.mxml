@@ -370,7 +370,7 @@
 						</s:HGroup>
 						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Map"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
 						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
-							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
 					
@@ -401,7 +401,7 @@
 						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Hours" 
 								 styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
 						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
-							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
 					
@@ -432,7 +432,7 @@
 						</s:HGroup>
 						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Call"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
 						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
-							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
 				</s:VGroup>
@@ -440,7 +440,7 @@
 						 fontWeight="bold" text="{'Top Rated Dishes ('+storetoprateddata.length.toString()+')'}"/>
 				<s:Group width="100%">
 					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="0" > 
-						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 					<s:List width="100%" verticalScrollPolicy="off"  
 							contentBackgroundAlpha="0"  
@@ -467,7 +467,7 @@
 				</s:Group>
 				<s:Group width="100%">
 					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="-1" > 
-						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 					<s:List  id="reviewlist" 
 							 width="100%"  

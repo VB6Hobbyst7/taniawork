@@ -114,5 +114,5 @@
 
     <s:Group id="contentGroup"
              width="30" height="30"
-             left="5" right="5" top="5" bottom="5"/>
+             left="5" right="{5/(320/Capabilities.screenDPI)}" top="5" bottom="5"/>
 </s:ItemRenderer>

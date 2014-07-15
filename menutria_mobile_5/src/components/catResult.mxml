@@ -40,7 +40,7 @@
 			</s:Image>
 		</s:Group>
 		<s:Line left="0" right="0"  bottom="0" > 
-			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
 	</s:Group>	
 	
@@ -67,7 +67,7 @@
 			</s:BitmapImage>
 		</s:Group>
 		<s:Line left="0" right="0"  bottom="0" > 
-			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
 	</s:Group>	
 	
@@ -81,7 +81,7 @@
 		<s:Label  left="{30/(320/Capabilities.screenDPI)}" color="#ff5959" fontFamily="HelveticaNeuecff" fontWeight="bold" styleName="textsize1"
 				 text="{data.name}" verticalCenter="5"/>
 		<s:Line left="0" right="0"  bottom="0" > 
-			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
 	</s:Group>	
 </s:ItemRenderer>

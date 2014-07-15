@@ -18,7 +18,7 @@
 			 left="0"  verticalCenter="3"
 			 color="#4d4d4d"/>
 	<s:Line left="0" right="0"  bottom="0" > 
-		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="1"/></s:stroke>
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 	</s:Line>
 </s:Group>		
 </s:ItemRenderer>

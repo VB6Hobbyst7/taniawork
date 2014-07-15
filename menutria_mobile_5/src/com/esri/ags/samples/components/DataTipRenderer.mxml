@@ -12,7 +12,7 @@
          lineBreak="explicit"
          paddingBottom="5"
          paddingLeft="5"
-         paddingRight="5"
+         paddingright="{5/(320/Capabilities.screenDPI)}"
          paddingTop="5"
          verticalAlign="middle">
     <fx:Script>

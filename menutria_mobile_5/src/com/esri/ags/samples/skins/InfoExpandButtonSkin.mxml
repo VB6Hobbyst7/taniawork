@@ -180,7 +180,7 @@
             excludeFrom="down"
             radiusX="2">
         <s:stroke>
-            <s:LinearGradientStroke rotation="90" weight="1">
+            <s:LinearGradientStroke rotation="90" weight="{1/(320/Capabilities.screenDPI)}">
                 <s:GradientEntry alpha.over="0.22" color="0xFFFFFF"/>
                 <s:GradientEntry alpha.over="0.22" color="0xD8D8D8"/>
             </s:LinearGradientStroke>
@@ -194,7 +194,7 @@
             includeIn="down"
             radiusX="2">
         <s:stroke>
-            <s:LinearGradientStroke rotation="90" weight="1">
+            <s:LinearGradientStroke rotation="90" weight="{1/(320/Capabilities.screenDPI)}">
                 <s:GradientEntry alpha="0.25"
                                  color="0x000000"
                                  ratio="0.0"/>
@@ -219,7 +219,7 @@
             includeIn="down"
             radiusX="2">
         <s:stroke>
-            <s:LinearGradientStroke rotation="90" weight="1">
+            <s:LinearGradientStroke rotation="90" weight="{1/(320/Capabilities.screenDPI)}">
                 <s:GradientEntry alpha="0.09"
                                  color="0x000000"
                                  ratio="0.0"/>
@@ -237,7 +237,7 @@
             left="0" right="0" top="0" bottom="0"
             radiusX="2">
         <s:stroke>
-            <s:LinearGradientStroke rotation="90" weight="1">
+            <s:LinearGradientStroke rotation="90" weight="{1/(320/Capabilities.screenDPI)}">
                 <s:GradientEntry alpha="0.5625"
                                  alpha.down="0.6375"
                                  color="0x000000"/>

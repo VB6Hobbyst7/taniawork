@@ -252,6 +252,6 @@
 		</s:Group>
 	</s:VGroup>
 	<s:Line  left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0"   includeIn="nocatnoalert,nocatyesalert,yescatyesalert,yescatnoalert" > 
-		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 	</s:Line>
 </s:ItemRenderer>
