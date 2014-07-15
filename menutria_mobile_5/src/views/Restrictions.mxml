@@ -38,7 +38,6 @@
 			{
 				setLoginVars();
 				createIfNotExsist("resvalues");
-			
 				getRestrictions.send();
 			}		
 			public function usermenuclick():void {
@@ -57,11 +56,9 @@
 				}
 				catch(e:Error){
 					try{
-						
 						listData.addItem(event.result[0].ress.res);
 					}
-					catch(e:Error){
-					}
+					catch(e:Error){}
 				}	
 				
 				if (resvaluesData.length > 0){
@@ -149,11 +146,7 @@
 								source640dpi="@Embed('assets/320/onoff2.png')"/>
 		<s:HTTPService id="getRestrictions" method="GET" resultFormat="array"
 					   url="http://www.menutria.com/php/mobile/getMyRestrictions.php"
-					   result="afterGetRestrictions(event)" >
-			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-			</s:request>
-		</s:HTTPService>
+					   result="afterGetRestrictions(event)"/>
 	</fx:Declarations>
 	<s:VGroup id="scroller" visible="false"  gap="0" horizontalCenter="0"  height="100%"
 			  verticalCenter="0" paddingTop="0"  width="100%" paddingBottom="40"  >

@@ -24,7 +24,7 @@ public var loadedview:Boolean = false;
 protected function creationcomplete():void
 {
 	
-	actionbarheight = getDPIHeight();
+	actionbarheight = getActionBarHeight();
 	
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
