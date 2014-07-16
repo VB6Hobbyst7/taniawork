@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+  xmlns:s="library://ns.adobe.com/flex/spark"					
+  xmlns:ns="http://www.google.com/analytics/2009"
+  runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+  preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+  initialize="initz(event)" 
+  creationComplete="creationcomplete(event)"
+  activate="onactivate(event)"
+  deactivate="ondeactivate()"
+  applicationComplete="afterappcomplete(event)"
+  contentBackgroundAlpha="1"
+  splashScreenScaleMode="zoom"
+  contentBackgroundColor="#0aaae5"
+  backgroundColor="#ffffff"
+  frameRate="60"
+  mouseUp="overAllMouseUp(event)" >
+	<s:ViewNavigatorApplication persistNavigatorState="true" 
+								id="mainNavigator"   
+								resizeForSoftKeyboard="true"
+								click="navigatorClick(event)"  
+								height="100%"  x="0" 
+								elementAdd="viewadd(event)" 
+								width="{this.width}"  
+								backgroundColor="#5b5b5b">
+		<s:navigationContent></s:navigationContent>
+		<s:actionContent></s:actionContent>	
+	</s:ViewNavigatorApplication>
+	
+	<s:Group  id="menu"  height="100%"  width="{this.width/1.15}" 
+			  x="{0-(this.width/1.15)}">
+		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
+			
+			<s:Group  width="{this.width/1.15}">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="0.95" color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
+				<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  
+						  verticalAlign="middle" >
+					<s:Group width="{this.width*0.4}">
+						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0" 
+									   width="200" height="200" scaleMode="zoom"
+									   verticalCenter="0"  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
+														source240dpi="@Embed('assets/240/homepic.png')"
+														source320dpi="@Embed('assets/320/homepic.png')"
+														source480dpi="@Embed('assets/480/homepic.png')"
+														source640dpi="@Embed('assets/640/homepic.png')"/>
+							</s:source>
+							<s:mask>
+								<s:BorderContainer id="bmpMask"
+												   cornerRadius="180"
+												   width="200" height="200" />
+							</s:mask>
+						</s:BitmapImage>
+					</s:Group>
+					<s:VGroup gap="10" width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
+						<s:Label color="#737171" text="{nameGo}" styleName="textsize8" verticalAlign="middle"/>
+						<s:Label color="#737171" text="Edmonton" styleName="textsize1" verticalAlign="middle"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:Group>
+			<s:Line width="100%"> 
+				<s:stroke><s:SolidColorStroke color="0x060606" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Line>
+			<s:List id="listmenu" height="100%" contentBackgroundColor="#FFFFFF" 
+					contentBackgroundAlpha="0.95" dataProvider="{homeitems}"
+					width="{this.width/1.15}"  borderVisible="false" 
+					selectedIndex="-1"  change="menuchange(event)"
+					itemRenderer="components.mainmenulistitem"  >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+		<s:Image  right="{5/(320/Capabilities.screenDPI)}" verticalCenter="{(this.height*0.25)/2}"
+				  mouseEnabled="false" contentLoader="{s_imageCache}" >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/doubleline.png')"
+										source240dpi="@Embed('assets/320/doubleline.png')"
+										source320dpi="@Embed('assets/320/doubleline.png')"
+										source480dpi="@Embed('assets/320/doubleline.png')"
+										source640dpi="@Embed('assets/320/doubleline.png')"/>
+			</s:source>
+		</s:Image>
+	</s:Group>
+	<fx:Style source="./main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.desktop.NativeApplication;
+			import flash.desktop.SystemIdleMode;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.MouseEvent;
+			import flash.events.TransformGestureEvent;
+			import flash.filesystem.File;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.Group;
+			import spark.core.ContentCache;
+			import spark.events.ElementExistenceEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.transitions.CrossFadeViewTransition;
+			import components.mainmenulistitem;
+			import views.Activity;
+			import views.Home;
+			import views.Loyalty;
+			import views.Settings;
+			import views.Signin;
+			import views.Stores;
+		]]>
+	</fx:Script>
+	<fx:Style source="./main.css"/>
+	<fx:Script source="func/global.as"/>
+	<fx:Script source="func/gps.as"/>
+	<fx:Script source="func/slidermenu.as"/>
+	<fx:Script source="func/main.as"/>
+	<fx:Declarations>	
+		<fx:String id="fsid"/>
+		<fx:String id="fsemail"/>
+		<fx:String id="fsname"/>
+		<fx:String id="fscity"/>
+		<fx:String id="fslocality"/>
+		<fx:String id="fsgender"/>
+		<fx:String id="fsbirthday"/>
+		<fx:String id="fsbirthmonth"/>
+		<fx:String id="fsbirthyear"/>
+		<s:HTTPService id="syncfacebook" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/syncfacebook.php"
+					   result="aftersyncfacebook(event)" >
+			<s:request xmlns="">
+				<id>{fsid}</id>	
+				<email>{fsemail}</email>
+				<nameo>{fsname}</nameo>		
+				<city>{fscity}</city>		
+				<locality>{fslocality}</locality>		
+				<gender>{fsgender}</gender>		
+				<birthday>{fsbirthday}</birthday>		
+				<birthmonth>{fsbirthmonth}</birthmonth>		
+				<birthyear>{fsbirthyear}</birthyear>	
+				<versionnumber>2</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/mobile_v2/getUserInfo.php"
+					   result="afterGetUserInfo(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="menu_prof"
+								source160dpi="@Embed('assets/160/profileslider.png')"
+								source240dpi="@Embed('assets/320/profileslider.png')"
+								source320dpi="@Embed('assets/320/profileslider.png')"
+								source480dpi="@Embed('assets/320/profileslider.png')"
+								source640dpi="@Embed('assets/320/profileslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_cup"
+								source160dpi="@Embed('assets/160/cupslider.png')"
+								source240dpi="@Embed('assets/320/cupslider.png')"
+								source320dpi="@Embed('assets/320/cupslider.png')"
+								source480dpi="@Embed('assets/320/cupslider.png')"
+								source640dpi="@Embed('assets/320/cupslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_pin"
+								source160dpi="@Embed('assets/160/pinslider.png')"
+								source240dpi="@Embed('assets/320/pinslider.png')"
+								source320dpi="@Embed('assets/320/pinslider.png')"
+								source480dpi="@Embed('assets/320/pinslider.png')"
+								source640dpi="@Embed('assets/320/pinslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_bone"
+								source160dpi="@Embed('assets/160/boneslider.png')"
+								source240dpi="@Embed('assets/320/boneslider.png')"
+								source320dpi="@Embed('assets/320/boneslider.png')"
+								source480dpi="@Embed('assets/320/boneslider.png')"
+								source640dpi="@Embed('assets/320/boneslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_stat"
+								source160dpi="@Embed('assets/160/statsslider.png')"
+								source240dpi="@Embed('assets/320/statsslider.png')"
+								source320dpi="@Embed('assets/320/statsslider.png')"
+								source480dpi="@Embed('assets/320/statsslider.png')"
+								source640dpi="@Embed('assets/320/statsslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_settings"
+								source160dpi="@Embed('assets/160/settingsslider.png')"
+								source240dpi="@Embed('assets/320/settingsslider.png')"
+								source320dpi="@Embed('assets/320/settingsslider.png')"
+								source480dpi="@Embed('assets/320/settingsslider.png')"
+								source640dpi="@Embed('assets/320/settingsslider.png')"/>
+	</fx:Declarations>
+</s:Application>

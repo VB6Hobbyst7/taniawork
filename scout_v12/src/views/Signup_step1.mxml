@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Scout"  name="signup"
+	 creationComplete="activ(event)"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			public function nextStep():void {
+				if (checkFields()){
+					navigator.pushView(Signup_step2,{email:nemail.text,nameo:nname.text,password:npassword.text});
+				}
+				else {
+					popupholder1.visible = true;	
+				}
+			}
+
+
+			
+			public function checkFields():Boolean {
+				if ((nemail.text == "")
+					||(nemail.text.indexOf("@") == -1)
+					||(nname.text == "")
+					||(npassword.text == "")
+					||(npassword2.text == "")
+					||(npassword.text != npassword2.text)
+				){	
+				return false;	
+				}
+				return true;
+			}
+			
+
+			public function activ(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				enableHardwareKeyListeners();
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}"
+				  horizontalCenter="0" top="0"
+				  paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  horizontalAlign="center" verticalAlign="top">
+			<s:Group width="100%" >
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="nemail"   focusAlpha="0"
+							 width="{575/(320/Capabilities.screenDPI)}"
+							 height="{100/(320/Capabilities.screenDPI)}"
+							 verticalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 prompt="Email"
+							 borderVisible="false"/>
+			</s:Group>
+			<s:Group width="100%" >
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="nname"   focusAlpha="0"
+							 width="{575/(320/Capabilities.screenDPI)}"
+							 height="{100/(320/Capabilities.screenDPI)}"
+							 verticalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 prompt="Name"
+							 borderVisible="false"/>
+			</s:Group>
+			<s:Group width="100%" >
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="npassword"   focusAlpha="0"
+							 width="{575/(320/Capabilities.screenDPI)}"
+							 height="{100/(320/Capabilities.screenDPI)}"
+							 verticalCenter="0"
+							 horizontalCenter="0"
+							 prompt="Password" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 displayAsPassword="true"
+							 borderVisible="false"/>
+			</s:Group>
+			
+			
+			<s:Group width="100%">
+				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="npassword2"   focusAlpha="0"
+							 width="{575/(320/Capabilities.screenDPI)}"
+							 height="{100/(320/Capabilities.screenDPI)}"
+							 verticalCenter="0" fontFamily="Arial"
+							 horizontalCenter="0"
+							 prompt="Verify Password"
+							 contentBackgroundAlpha="0"
+							 displayAsPassword="true"
+							 borderVisible="false"/>
+			</s:Group>
+			<components:continue_btn click="nextStep();"/>
+		</s:VGroup>
+	</s:Scroller>
+	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+</s:View>

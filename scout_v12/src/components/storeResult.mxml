@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="init(event)" 
+				autoDrawBackground="false" visible="false"
+				dataChange="datachango(event)"
+				mouseOver="gOver();"
+				mouseOut="gOut();" 
+				mouseUp="gOut();" 
+				mouseDown="gDown();" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.core.ContentCache;
+			[Bindable]
+			public var neededwidth:Number = 300;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			protected function init(event:FlexEvent):void
+			{
+				neededwidth = this.parent.width/2-(2/2);
+				fixdistance();
+			}
+			protected function datachango(event:FlexEvent):void
+			{
+				fixdistance();
+			}
+			public function fixdistance():void {
+				try{
+					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
+						var dist:Number = data.distance;
+						if (dist >= 1){
+							distotexto.text = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							distotexto.text = dist.toFixed(0)+ " m";
+						}
+						distotexto.visible = true;
+					}
+					this.visible = true;
+				}
+				catch(e:Error) {
+					this.visible = false;
+				}
+				
+			}
+			public function gOver():void {
+				this.alpha = 0.5;
+			}
+			public function gDown():void {
+				this.alpha = 0.5;
+			}
+			public function gOut():void {
+				this.alpha = 1;
+			}
+		]]>
+	</fx:Script>
+	<s:Group  width="{neededwidth}"  height="{neededwidth}"  >	
+		<s:BitmapImage  id="bmpImg"  width="{neededwidth}" 
+				  height="{neededwidth}"  contentLoader="{s_imageCache}"   scaleMode="zoom"
+				  source="{data.business_picture}" />
+			<s:BitmapImage  width="{neededwidth}"  bottom="0"
+						   height="{neededwidth}" 
+						   contentLoader="{s_imageCache}" 
+						   scaleMode="stretch"  	   >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/gradient.png')"
+											source240dpi="@Embed('../assets/240/gradient.png')"
+											source320dpi="@Embed('../assets/320/gradient.png')"
+											source480dpi="@Embed('../assets/480/gradient.png')"
+											source640dpi="@Embed('../assets/640/gradient.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		<s:VGroup width="100%" paddingBottom="{10/(320/Capabilities.screenDPI)}" verticalAlign="bottom" height="100%"  horizontalAlign="left">
+			<s:Label paddingLeft="10" paddingRight="{10/(320/Capabilities.screenDPI)}" maxDisplayedLines="1" fontWeight="bold"
+					 maxWidth="{neededwidth}"  color="#FFFFFF" styleName="textsize2" 
+					  text="{data.business_name}" verticalAlign="middle"/>
+			<s:Label id="distotexto" visible="false"
+					 paddingLeft="{10/(320/Capabilities.screenDPI)}"
+					 paddingRight="{10/(320/Capabilities.screenDPI)}"
+					 maxDisplayedLines="1"
+					 color="#DDDDDD"  styleName="textsize2"/>
+		</s:VGroup>
+	</s:Group>
+</s:ItemRenderer>
