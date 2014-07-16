@@ -105,7 +105,10 @@ protected function creationcomplete(event:FlexEvent):void
 }
 public function nativeKeyDown(event:KeyboardEvent):void
 {
-	event.preventDefault();
+	var key:uint = event.keyCode;
+	if (key == Keyboard.BACK){
+		event.preventDefault();
+	}
 }
 public function onSwipe(event:TransformGestureEvent):void
 {
