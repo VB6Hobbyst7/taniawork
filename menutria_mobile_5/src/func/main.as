@@ -1,3 +1,5 @@
+import mx.events.FlexEvent;
+
 [Bindable]
 public var VERSIONID:Number = 9;
 [Bindable]
@@ -21,7 +23,7 @@ public var filteritems:ArrayCollection = new ArrayCollection(
 		{name:"I Haven't Eaten",chosen:'no',type:1}
 	]);
 public var loadedview:Boolean = false;
-protected function creationcomplete():void
+protected function creationcomplete(event:FlexEvent):void
 {
 	
 	actionbarheight = getActionBarHeight();

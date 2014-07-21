@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark"  
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"					
+			   xmlns:ns="http://www.google.com/analytics/2009"
 			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
 			   initialize="initz(event)" 
-			   creationComplete="creationcomplete()" 			
-			   contentBackgroundAlpha="1" 
-			   contentBackgroundColor="#43c7ae"
-			   backgroundAlpha="1" 
-			   xmlns:maps="com.adobe.nativeExtensions.maps.*" 
-			   frameRate="120"  
-			   backgroundColor="#43c7ae" 
-			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen" 
-			   splashScreenScaleMode="none"  
+			   creationComplete="creationcomplete(event)"
+			   activate="onactivate(event)"
+			   deactivate="ondeactivate()"
+			   contentBackgroundAlpha="1"
+			   splashScreenScaleMode="zoom"
+			   contentBackgroundColor="#0aaae5"
+			   backgroundColor="#ffffff"
+			   frameRate="60"
 			   mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  
@@ -233,6 +234,7 @@
 		]]>
 	</fx:Script>
 	<fx:Script source="func/global.as" />
+	<fx:Script source="func/gps.as" />
 	<fx:Script source="func/main.as" />
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/facebook.as" />

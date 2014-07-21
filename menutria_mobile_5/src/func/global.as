@@ -115,6 +115,17 @@ public function createIfNotExsist(s:String):void {
 	}
 	stmt.execute();
 }
+public function updateGPS(lat:Number,long:Number):void {
+	createIfNotExsist("gps");
+	var gpstemparray:ArrayCollection = new ArrayCollection();
+	gpstemparray = getDatabaseArray("select * from gps");
+	if (gpstemparray.length == 0){
+		doQuery("insert into gps values ('"+lat.toString()+"','"+long.toString()+"')");
+	}
+	else {
+		doQuery("update gps set lat = '"+lat.toString()+"', longa = '"+long.toString()+"'");
+	}
+}
 public function getDatabaseArray(query:String):ArrayCollection {
 	sqlConnection = new SQLConnection();
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
