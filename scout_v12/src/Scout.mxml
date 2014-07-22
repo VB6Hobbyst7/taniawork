@@ -9,8 +9,8 @@
   activate="onactivate(event)"
   deactivate="ondeactivate()"
   applicationComplete="afterappcomplete(event)"
-  contentBackgroundAlpha="1"
-  splashScreenScaleMode="zoom"
+  contentBackgroundAlpha="1" osStatusBarHeight="{obarheight}"
+  splashScreenScaleMode="zoom" 
   contentBackgroundColor="#0aaae5"
   backgroundColor="#ffffff"
   frameRate="60"
@@ -41,7 +41,8 @@
 						  verticalAlign="middle" >
 					<s:Group width="{this.width*0.4}">
 						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0" 
-									   width="200" height="200" scaleMode="zoom"
+									   width="{200/(320/Capabilities.screenDPI)}"
+									   height="{200/(320/Capabilities.screenDPI)}" scaleMode="zoom"
 									   verticalCenter="0"  contentLoader="{s_imageCache}">
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
@@ -53,12 +54,13 @@
 							<s:mask>
 								<s:BorderContainer id="bmpMask"
 												   cornerRadius="180"
-												   width="200" height="200" />
+												   width="{200/(320/Capabilities.screenDPI)}" height="{200/(320/Capabilities.screenDPI)}" />
 							</s:mask>
 						</s:BitmapImage>
 					</s:Group>
-					<s:VGroup gap="10" width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
-						<s:Label color="#737171" text="{nameGo}" styleName="textsize8" verticalAlign="middle"/>
+					<s:VGroup gap="{10/(320/Capabilities.screenDPI)}" width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
+						<s:Label color="#737171" text="{nameGo}"  maxWidth="{(this.width/1.15)*0.50}"
+								 maxDisplayedLines="1"  styleName="textsize8" verticalAlign="middle"/>
 						<s:Label color="#737171" text="Edmonton" styleName="textsize1" verticalAlign="middle"/>
 					</s:VGroup>
 				</s:HGroup>
@@ -81,10 +83,10 @@
 				  mouseEnabled="false" contentLoader="{s_imageCache}" >
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/doubleline.png')"
-										source240dpi="@Embed('assets/320/doubleline.png')"
+										source240dpi="@Embed('assets/240/doubleline.png')"
 										source320dpi="@Embed('assets/320/doubleline.png')"
-										source480dpi="@Embed('assets/320/doubleline.png')"
-										source640dpi="@Embed('assets/320/doubleline.png')"/>
+										source480dpi="@Embed('assets/480/doubleline.png')"
+										source640dpi="@Embed('assets/640/doubleline.png')"/>
 			</s:source>
 		</s:Image>
 	</s:Group>
@@ -118,6 +120,8 @@
 			import views.Settings;
 			import views.Signin;
 			import views.Stores;
+			[Bindable]
+			public var obarheight:Number = 0;
 		]]>
 	</fx:Script>
 	<fx:Style source="./main.css"/>
@@ -126,6 +130,43 @@
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/main.as"/>
 	<fx:Declarations>	
+		<s:MultiDPIBitmapSource id="menu_settings"
+								source160dpi="@Embed('assets/160/settingsslider.png')"
+								source240dpi="@Embed('assets/240/settingsslider.png')"
+								source320dpi="@Embed('assets/320/settingsslider.png')"
+								source480dpi="@Embed('assets/480/settingsslider.png')"
+								source640dpi="@Embed('assets/640/settingsslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_prof"
+								source160dpi="@Embed('assets/160/profileslider.png')"
+								source240dpi="@Embed('assets/240/profileslider.png')"
+								source320dpi="@Embed('assets/320/profileslider.png')"
+								source480dpi="@Embed('assets/480/profileslider.png')"
+								source640dpi="@Embed('assets/640/profileslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_cup"
+								source160dpi="@Embed('assets/160/cupslider.png')"
+								source240dpi="@Embed('assets/240/cupslider.png')"
+								source320dpi="@Embed('assets/320/cupslider.png')"
+								source480dpi="@Embed('assets/480/cupslider.png')"
+								source640dpi="@Embed('assets/640/cupslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_pin"
+								source160dpi="@Embed('assets/160/pinslider.png')"
+								source240dpi="@Embed('assets/240/pinslider.png')"
+								source320dpi="@Embed('assets/320/pinslider.png')"
+								source480dpi="@Embed('assets/480/pinslider.png')"
+								source640dpi="@Embed('assets/640/pinslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_bone"
+								source160dpi="@Embed('assets/160/boneslider.png')"
+								source240dpi="@Embed('assets/240/boneslider.png')"
+								source320dpi="@Embed('assets/320/boneslider.png')"
+								source480dpi="@Embed('assets/480/boneslider.png')"
+								source640dpi="@Embed('assets/640/boneslider.png')"/>
+		<s:MultiDPIBitmapSource id="menu_stat"
+								source160dpi="@Embed('assets/160/statsslider.png')"
+								source240dpi="@Embed('assets/240/statsslider.png')"
+								source320dpi="@Embed('assets/320/statsslider.png')"
+								source480dpi="@Embed('assets/480/statsslider.png')"
+								source640dpi="@Embed('assets/640/statsslider.png')"/>
+	
 		<fx:String id="fsid"/>
 		<fx:String id="fsemail"/>
 		<fx:String id="fsname"/>
@@ -159,41 +200,6 @@
 				<emailGo>{emailGo}</emailGo>		
 			</s:request>
 		</s:HTTPService>
-		<s:MultiDPIBitmapSource id="menu_prof"
-								source160dpi="@Embed('assets/160/profileslider.png')"
-								source240dpi="@Embed('assets/320/profileslider.png')"
-								source320dpi="@Embed('assets/320/profileslider.png')"
-								source480dpi="@Embed('assets/320/profileslider.png')"
-								source640dpi="@Embed('assets/320/profileslider.png')"/>
-		<s:MultiDPIBitmapSource id="menu_cup"
-								source160dpi="@Embed('assets/160/cupslider.png')"
-								source240dpi="@Embed('assets/320/cupslider.png')"
-								source320dpi="@Embed('assets/320/cupslider.png')"
-								source480dpi="@Embed('assets/320/cupslider.png')"
-								source640dpi="@Embed('assets/320/cupslider.png')"/>
-		<s:MultiDPIBitmapSource id="menu_pin"
-								source160dpi="@Embed('assets/160/pinslider.png')"
-								source240dpi="@Embed('assets/320/pinslider.png')"
-								source320dpi="@Embed('assets/320/pinslider.png')"
-								source480dpi="@Embed('assets/320/pinslider.png')"
-								source640dpi="@Embed('assets/320/pinslider.png')"/>
-		<s:MultiDPIBitmapSource id="menu_bone"
-								source160dpi="@Embed('assets/160/boneslider.png')"
-								source240dpi="@Embed('assets/320/boneslider.png')"
-								source320dpi="@Embed('assets/320/boneslider.png')"
-								source480dpi="@Embed('assets/320/boneslider.png')"
-								source640dpi="@Embed('assets/320/boneslider.png')"/>
-		<s:MultiDPIBitmapSource id="menu_stat"
-								source160dpi="@Embed('assets/160/statsslider.png')"
-								source240dpi="@Embed('assets/320/statsslider.png')"
-								source320dpi="@Embed('assets/320/statsslider.png')"
-								source480dpi="@Embed('assets/320/statsslider.png')"
-								source640dpi="@Embed('assets/320/statsslider.png')"/>
-		<s:MultiDPIBitmapSource id="menu_settings"
-								source160dpi="@Embed('assets/160/settingsslider.png')"
-								source240dpi="@Embed('assets/320/settingsslider.png')"
-								source320dpi="@Embed('assets/320/settingsslider.png')"
-								source480dpi="@Embed('assets/320/settingsslider.png')"
-								source640dpi="@Embed('assets/320/settingsslider.png')"/>
+	
 	</fx:Declarations>
 </s:Application>

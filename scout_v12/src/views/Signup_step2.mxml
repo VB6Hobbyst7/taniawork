@@ -129,16 +129,16 @@
 				  bottom="0" horizontalAlign="center" verticalAlign="top">
 			
 			<s:Group width="100%" >
-				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
-						height="{100/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
 					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="ncity"   focusAlpha="0"
-							 width="{575/(320/Capabilities.screenDPI)}"
-							 height="{100/(320/Capabilities.screenDPI)}"
+							 width="{continue_btn.width}"
+							 height="{continue_btn.height}"
 							 verticalCenter="0"
 							 horizontalCenter="0" fontFamily="Arial"
 							 contentBackgroundAlpha="0"
@@ -150,8 +150,8 @@
 			
 			<s:Group width="100%" mouseOver="gOver(event);" mouseDown="gDown(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);" click="{provpopup.visible = true}">
-				<s:Rect id="reco" width="{575/(320/Capabilities.screenDPI)}" 
-						height="{100/(320/Capabilities.screenDPI)}" 
+				<s:Rect id="reco" width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
@@ -166,8 +166,8 @@
 			
 			
 			<s:Group width="100%" >
-				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
-						height="{100/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
@@ -195,8 +195,8 @@
 			
 			
 			<s:Group width="100%" >
-				<s:Rect width="{575/(320/Capabilities.screenDPI)}" 
-						height="{100/(320/Capabilities.screenDPI)}" 
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
@@ -208,22 +208,22 @@
 					<s:Label styleName="textsize3" height="100%" text="Male" horizontalCenter="0"
 							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
 					<s:RadioButton label="Male" id="maleor"
-								   width="{100/(320/Capabilities.screenDPI)}" 
-								   height="{100/(320/Capabilities.screenDPI)}" 
+								   width="{continue_btn.height}" 
+								   height="{continue_btn.height}" 
 								   color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
 					<s:Label styleName="textsize3"  height="100%" text="Female"  horizontalCenter="0"
 							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
 					<s:RadioButton label="Female" id="femaleor"  mouseEnabled="true"
-								   width="{100/(320/Capabilities.screenDPI)}" 
-								   height="{100/(320/Capabilities.screenDPI)}" 
+								   width="{continue_btn.height}" 
+								   height="{continue_btn.height}" 
 								   color="#cccccc" skinClass="skins.radioitem"
 								   fontWeight="normal" groupName="gendergroup"/>
 				</s:HGroup>
 				
 			</s:Group>
 			
-			<components:continue_btn click="nextStep();"/>
+			<components:continue_btn id="continue_btn" click="nextStep();"/>
 
 			<s:Label top="{290/(320/Capabilities.screenDPI)}" width="95%"  horizontalCenter="0"  color="#8c8d8d"
 					 text="By Creating an account you agree to Scout's Terms of Service and Privacy Policy. "

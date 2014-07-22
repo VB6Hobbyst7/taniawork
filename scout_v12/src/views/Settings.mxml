@@ -29,9 +29,13 @@
 					stmt.execute();
 					emailGo = "";
 					nameGo = "";
+					cityGo = "";
 					this.parentApplication.logout();
 				}
 				catch(e:Error){
+					emailGo = "";
+					nameGo = "";
+					cityGo = "";
 					this.parentApplication.logout();
 				}
 			}
@@ -54,6 +58,7 @@
 			}
 			public function gobacktohome2():void {
 				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.duration = slideduration;
 				slideTrans.direction = ViewTransitionDirection.RIGHT;
 				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
 				navigator.pushView(Home, null,null,slideTrans);

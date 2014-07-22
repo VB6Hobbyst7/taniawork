@@ -57,8 +57,8 @@
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			public var mylat:Number = 60.493252;
-			public var mylong:Number = -50.502231;
+			public var mylat:Number = 53.536979;
+			public var mylong:Number = -113.296852;
 			[Bindable]
 			public var busy:Boolean = true;
 			public var maintimer:Timer = new Timer(5000,0);
@@ -314,6 +314,7 @@
 			}
 			public function gobacktohome2():void {
 				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.duration = slideduration;
 				slideTrans.direction = ViewTransitionDirection.RIGHT;
 				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
 				navigator.pushView(Home, null,null,slideTrans);

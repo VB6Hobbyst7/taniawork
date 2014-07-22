@@ -82,25 +82,25 @@
 				var tempArray:ArrayCollection = ev.result[0].ress.res;				
 				for (var i:uint = 0; i < tempArray.length; i++){
 					if (tempArray[i].weekday == 1){
-						weekday1.text = weekday1.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday1.text = "Monday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 2){
-						weekday2.text = weekday2.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday2.text = "Tuesday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 3){
-						weekday3.text = weekday3.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday3.text = "Wednesday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 4){
-						weekday4.text = weekday4.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday4.text = "Thursday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 5){
-						weekday5.text = weekday5.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday5.text = "Friday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 6){
-						weekday6.text = weekday6.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday6.text = "Saturday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 					else if (tempArray[i].weekday == 7){
-						weekday7.text = weekday7.text + " " + tempArray[i].opentime + " - " + tempArray[i].closetime;
+						weekday7.text = "Sunday : " + tempArray[i].opentime + " - " + tempArray[i].closetime;
 					}
 				}
 			}
@@ -220,7 +220,7 @@
 					paddingTop="{5/(320/Capabilities.screenDPI)}"
 					bottom="0" gap="{5/(320/Capabilities.screenDPI)}" horizontalAlign="center">
 			<s:Group>
-				<s:Image x="0" id="img1" width="100%" height="{this.width/(16/9)}" scaleMode="zoom"/>
+				<s:Image x="0" id="img1" width="{this.width}" height="{this.width/(16/9)}" scaleMode="zoom"/>
 				<s:Image  width="{this.width}"  bottom="0"
 						  contentLoader="{s_imageCache}" 
 						  scaleMode="stretch">
@@ -418,7 +418,7 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:Group id="popupholder2" width="85%"  height="85%"
+		<s:Group id="popupholder2" width="90%"  height="90%"
 				 horizontalCenter="0" verticalCenter="0"
 				 mouseDownOutside="{popupholder1.visible = false}">
 			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}" radiusY="{20/(320/Capabilities.screenDPI)}">
@@ -433,29 +433,29 @@
 							horizontalCenter="0" verticalAlign="top">
 
 				<s:Label text="{data.business_name}" width="100%"  textAlign="center" color="#58aeea" fontWeight="bold" styleName="textsize9" />
-				<s:Label text="{data.business_description}" width="100%" color="#3c4042"  styleName="textsize6" fontWeight="bold"/>
+				<s:Label text="{data.business_description}" width="100%" color="#3c4042"  styleName="textsize6" fontWeight="normal"/>
 				<s:Label text="Hours of Operation" color="#58aeea" fontWeight="bold"  styleName="textsize6" />
 			
 						<s:Label id="weekday1" text="Monday :" horizontalCenter="0" verticalCenter="0" 
-								 color="#3c4042"  styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 			
 						<s:Label id="weekday2" text="Tuesday :" horizontalCenter="0" verticalCenter="0"  
-								 color="#3c4042" styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 			
 						<s:Label id="weekday3" text="Wednesday :" horizontalCenter="0" verticalCenter="0" 
-								 color="#3c4042"  styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 					
 						<s:Label id="weekday4" text="Thursday :" horizontalCenter="0" verticalCenter="0"  
-								 color="#3c4042" styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 			
 						<s:Label id="weekday5" text="Friday :" horizontalCenter="0" verticalCenter="0" 
-								 color="#3c4042"  styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 					
 						<s:Label id="weekday6" text="Saturday :" horizontalCenter="0" verticalCenter="0"  
-								 color="#3c4042" styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 				
 						<s:Label id="weekday7" text="Sunday :" horizontalCenter="0" verticalCenter="0" 
-								 color="#3c4042"  styleName="textsize3" fontWeight="bold" />
+								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 				
 			</s:VGroup>
 			</s:Scroller>

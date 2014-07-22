@@ -48,12 +48,12 @@
 				try{
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();	
-				if (cityGo == "edmonton"){
+				if (cityGo.toLowerCase() == "edmonton"){
 					copyright.text = "© Mack Male";
 					copyrighturl = "https://www.flickr.com/photos/mastermaq/209751537";
 					cityback.source = "assets/"+getDPIHeight()+"/edmonton.jpg";
 				}
-				else if (cityGo == "calgary"){
+				else if (cityGo.toLowerCase() == "calgary"){
 					copyright.text = "© davebloggs007";
 					copyrighturl = "https://www.flickr.com/photos/davebloggs007/8995477799";
 					cityback.source = "assets/"+getDPIHeight()+"/calgary.png";
@@ -274,7 +274,9 @@
 			</s:Group>
 			<s:VGroup gap="{10/(320/Capabilities.screenDPI)}"
 					  width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
-				<s:Label color="#737171" text="{nameGo}" styleName="textsize8" verticalAlign="middle"/>
+				<s:Label color="#737171" text="{nameGo}" maxWidth="{this.width*0.50}"
+						 maxDisplayedLines="1" styleName="textsize8" 
+						 verticalAlign="middle"/>
 				<s:Label color="#737171" text="{cityGo}" styleName="textsize1" verticalAlign="middle"/>
 			</s:VGroup>
 		</s:HGroup>

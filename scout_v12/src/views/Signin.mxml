@@ -19,7 +19,7 @@
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.managers.PersistenceManager;
-			[Bindawble]
+			[Bindable]
 			public var busy:Boolean = false;
 			public static const FACEBOOK_APP_ID:String="1424621771149692";
 			public function authorizeLogin(username:String,userpassword:String):void{	
@@ -130,8 +130,8 @@
 				<s:VGroup horizontalAlign="center" width="100%" 
 						  gap="{10/(320/Capabilities.screenDPI)}">	
 					<s:Group width="100%" >
-						<s:Rect id="textback1" width="{575/(320/Capabilities.screenDPI)}" 
-								height="{100/(320/Capabilities.screenDPI)}" 
+						<s:Rect id="textback1" width="{continue_btn.width}" 
+								height="{continue_btn.height}" 
 								horizontalCenter="0" verticalCenter="0"
 								radiusX="{10/(320/Capabilities.screenDPI)}" 
 								radiusY="{10/(320/Capabilities.screenDPI)}" >
@@ -149,8 +149,8 @@
 									 prompt="Email"/>
 					</s:Group>
 					<s:Group width="100%">
-						<s:Rect id="textback2" width="{575/(320/Capabilities.screenDPI)}" 
-								height="{100/(320/Capabilities.screenDPI)}" 
+						<s:Rect id="textback2" width="{continue_btn.width}" 
+								height="{continue_btn.height}" 
 								horizontalCenter="0" verticalCenter="0"
 								radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" >
@@ -169,15 +169,11 @@
 									 borderVisible="false"
 									 keyDown="userPasswordInput_keyDownHandler(event)"/>
 					</s:Group>
-					<components:continue_btn click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
-					<s:Group width="{textback2.width}" >
-						<s:Label paddingTop="{10/(320/Capabilities.screenDPI)}" visible="false" 
-								 verticalCenter="0" text="Forgot password?" styleName="textsize3"  color="#5cb2ed"/>
-					</s:Group>
+					<components:continue_btn id="continue_btn" click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
 				</s:VGroup>
 				
 
-				<s:Group verticalCenter="0" width="{575/(320/Capabilities.screenDPI)}" >
+				<s:Group verticalCenter="0" width="{continue_btn.width}" >
 					<s:Label left="0" text="Need an Account?" verticalCenter="0" color="#737171"
 							 styleName="textsize4"/>
 					<components:signup right="0" verticalCenter="0" click="signupclick(event)"  />

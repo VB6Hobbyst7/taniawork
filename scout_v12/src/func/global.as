@@ -24,6 +24,8 @@ public var emailGo:String = "";
 public var nameGo:String = "";
 [Bindable]
 public var cityGo:String = "";
+[Bindable]
+public var slideduration:Number = 250;
 protected var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{

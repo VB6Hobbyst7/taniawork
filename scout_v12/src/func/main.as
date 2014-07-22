@@ -26,6 +26,8 @@ import spark.events.ElementExistenceEvent;
 import spark.events.IndexChangeEvent;
 import spark.events.ViewNavigatorEvent;
 import spark.transitions.CrossFadeViewTransition;
+import spark.transitions.SlideViewTransition;
+import spark.transitions.SlideViewTransitionMode;
 
 import views.MapView;
 public static const FACEBOOK_APP_ID:String="1424621771149692";
@@ -37,16 +39,28 @@ public var resData:ArrayCollection = new ArrayCollection();
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var actionbarheight:Number = 0;
+public var svt:SlideViewTransition = new SlideViewTransition();
+public var svt2:SlideViewTransition = new SlideViewTransition();
 protected function afterappcomplete(event:FlexEvent):void
 {
 	var tracker:GATracker = new GATracker( this, "UA-44766703-2", "AS3", false );
 	tracker.trackPageview( "Application Load" );
 }
-
-protected function creationcomplete(event:FlexEvent):void
+public function creationcomplete(event:FlexEvent):void
 {
+	svt.duration = slideduration;
+	svt.direction =  ViewTransitionDirection.LEFT;
+	svt2.duration = slideduration;
+	svt2.direction =  ViewTransitionDirection.RIGHT;
+	svt2.mode = SlideViewTransitionMode.UNCOVER;
+	mainNavigator.navigator.defaultPushTransition = svt;
+	mainNavigator.navigator.defaultPopTransition = svt2;
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
+	//40
+	if (Capabilities.version.indexOf('IOS') > -1){
+		obarheight = 20;
+	}
 	switch (applicationDPI)
 	{
 		case DPIClassification.DPI_640:
@@ -79,7 +93,7 @@ protected function creationcomplete(event:FlexEvent):void
 		{name:"My Rewards",img:menu_cup,colorid:"0xef4056"},
 		{name:"Locations",img:menu_pin,colorid:"0xfcb643"},
 		{name:"Activity",img:menu_stat,colorid:"0xfcb643"},
-		{name:"Settings",ibmg:menu_settings,colorid:"0xfcb643"}
+		{name:"Settings",img:menu_settings,colorid:"0xfcb643"}
 	]);
 	verifyDataTablesViaVersion();
 	sqlConnection = new SQLConnection();
