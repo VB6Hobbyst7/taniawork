@@ -69,7 +69,7 @@
 					var qr:QRCode = new QRCode();
 					qr.encode(code+"formalendofstatement");
 					var img:Bitmap = new Bitmap(qr.bitmapData);
-					var qrsize:Number = qrholder2.width/1.5;
+					var qrsize:Number = qrholder2.height/1.5;
 					img.width = qrsize;
 					img.height = qrsize;						
 					sp.addChild(img);

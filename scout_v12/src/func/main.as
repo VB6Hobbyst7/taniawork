@@ -59,7 +59,7 @@ public function creationcomplete(event:FlexEvent):void
 	initGPS();
 	//40
 	if (Capabilities.version.indexOf('IOS') > -1){
-		obarheight = 20;
+		obarheight = 40;
 	}
 	switch (applicationDPI)
 	{
