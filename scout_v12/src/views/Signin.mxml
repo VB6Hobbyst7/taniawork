@@ -10,6 +10,7 @@
 	<s:navigationContent >
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -115,7 +116,7 @@
 			<s:request xmlns="">
 				<userid>{userid}</userid>		
 				<passid>{passid}</passid>
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

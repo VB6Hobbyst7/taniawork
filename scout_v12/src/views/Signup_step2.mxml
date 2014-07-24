@@ -12,6 +12,7 @@
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -112,12 +113,12 @@
 				<nameo>{data.nameo}</nameo>		
 				<password>{data.password}</password>		
 				<city>{ncity.text}</city>		
-				<locality>{provlist.selectedItem.name}</locality>		
+				<locality>{provlist.selectedItem.label}</locality>		
 				<gender>{gendergroup.selectedValue}</gender>		
 				<birthday>{nbirthday.text}</birthday>		
 				<birthmonth>{nbirthmonth.text}</birthmonth>		
 				<birthyear>{nbirthyear.text}</birthyear>		
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

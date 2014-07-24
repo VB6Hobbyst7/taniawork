@@ -16,6 +16,7 @@
 							   height="100%"   mouseDown="gobacktohome2();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -119,7 +120,7 @@
 					   result="afterGetActivity(event)" >	
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

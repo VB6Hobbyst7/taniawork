@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  mouseChildren="false"
 		 xmlns:s="library://ns.adobe.com/flex/spark">
-	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/smallglobal.as"/>
 	<s:BitmapImage  contentLoader="{s_imageCache}">
 		<s:source>
 			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/settingsarrow.png')"

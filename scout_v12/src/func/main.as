@@ -59,7 +59,13 @@ public function creationcomplete(event:FlexEvent):void
 	initGPS();
 	//40
 	if (Capabilities.version.indexOf('IOS') > -1){
-		obarheight = 40;
+		if (getDPIHeight() == 320){
+			obarheight = 40;
+		}
+		else if (getDPIHeight() == 160){
+			obarheight = 10;
+		}
+		
 	}
 	switch (applicationDPI)
 	{
@@ -278,6 +284,7 @@ public function logout():void {
 	catch(e:Error){
 		
 	}
+	dropalldatatables();
 	mainNavigator.navigator.pushView(Signin);
 }
 public function verifyDataTablesViaVersion():void {
@@ -515,12 +522,9 @@ public function doFacebookStuff():void {
 	
 }
 public function aftersyncfacebook(ev:ResultEvent):void {
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	createIfNotExsist("localuser");
+	doQuery("delete FROM localuser;");
 	var stmt:SQLStatement = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "delete FROM localuser;";
-	stmt.execute();
 	stmt.sqlConnection = sqlConnection;
 	stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 	stmt.parameters[":email"] = fsemail;

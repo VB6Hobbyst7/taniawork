@@ -125,6 +125,7 @@
 		]]>
 	</fx:Script>
 	<fx:Style source="./main.css"/>
+	<fx:Script source="func/smallglobal.as"/>
 	<fx:Script source="func/global.as"/>
 	<fx:Script source="func/gps.as"/>
 	<fx:Script source="func/slidermenu.as"/>
@@ -190,7 +191,7 @@
 				<birthday>{fsbirthday}</birthday>		
 				<birthmonth>{fsbirthmonth}</birthmonth>		
 				<birthyear>{fsbirthyear}</birthyear>	
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"

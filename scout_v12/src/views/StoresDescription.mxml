@@ -14,6 +14,7 @@
 	<s:actionContent>
 			<s:Label color="#FFFFFF" click="viewrewards(event)" horizontalCenter="0" text="Rewards" verticalCenter="0"/>
 	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -199,7 +200,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v2/getLocationInfo.php"
 					   result="afterGetLocationInfo(event)" >	
 			<s:request xmlns="">
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 				<locationid>{data.id}</locationid>		
 			</s:request>
 		</s:HTTPService>	
@@ -207,7 +208,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v2/submitrating.php"
 					   result="afterSubmitRating(event)" >	
 			<s:request xmlns="">
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 				<locationid>{data.id}</locationid>	
 				<emailGo>{emailGo}</emailGo>	
 				<reviewValue>{ratingvalue}</reviewValue>	

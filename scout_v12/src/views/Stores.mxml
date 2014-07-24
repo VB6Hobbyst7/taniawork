@@ -11,12 +11,15 @@
 		mouseOut="listFingerUp();"
 		backgroundAlpha="1"  title="Locations" viewActivate="init()">
 	<s:navigationContent >
-		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
+		<components:backbutton width="{this.width*0.1}"
+							   mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome2();"/>
 	</s:navigationContent>
 	<s:titleContent>
 		<s:Group  width="100%" height="65%">
-			<s:Rect width="100%"  height="100%" radiusX="{30/(320/Capabilities.screenDPI)}" radiusY="{30/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%"
+					radiusX="{30/(320/Capabilities.screenDPI)}"
+					radiusY="{30/(320/Capabilities.screenDPI)}">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#f6f5f5"/>
 				</s:fill>
@@ -24,8 +27,9 @@
 					<s:SolidColorStroke color="#abaaaa" weight="{1.5/(320/Capabilities.screenDPI)}"/>
 				</s:stroke>
 			</s:Rect>
-			<s:TextInput id="key" width="{this.width*0.7}" height="90%" paddingLeft="{45/(320/Capabilities.screenDPI)}"
-						 horizontalCenter="0" verticalCenter="0"  focusAlpha="0" styleName="textsize1"
+			<s:TextInput id="key" width="95%" height="90%" 
+						 paddingLeft="{45/(320/Capabilities.screenDPI)}" styleName="textsize1"
+						 horizontalCenter="0" verticalCenter="0"  focusAlpha="0"
 						 borderVisible="false" contentBackgroundAlpha="0" color="#949393" 
 						 prompt="Search for businesses..."  maxChars="20"  fontFamily="Arial" fontWeight="normal"
 						 keyUp="press(event);" returnKeyLabel="search"/>
@@ -41,9 +45,11 @@
 		</s:Group>
 	</s:titleContent>
 	<s:actionContent>
-		<components:mapbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
+		<components:mapbutton width="{this.width*0.1}" 
+							  mouseEnabledWhereTransparent="true"
 							   height="100%"  mouseDown="goToMap()"  />
 	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -326,7 +332,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v2/getLocations.php"
 					   result="afterGetLocations(event)" >	
 			<s:request xmlns="">
-				<versionnumber>2</versionnumber>		
+				<versionnumber>3</versionnumber>		
 			</s:request>
 		</s:HTTPService>	
 	</fx:Declarations>

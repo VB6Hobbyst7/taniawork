@@ -12,6 +12,7 @@
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";

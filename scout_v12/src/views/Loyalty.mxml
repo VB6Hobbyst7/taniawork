@@ -8,7 +8,8 @@
 		viewActivate="onActivate(event)" 
 		title="Loyalty">
 	<s:navigationContent >
-		<components:backbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
+		<components:backbutton width="{this.width*0.1}" 
+							   mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="gobacktohome2();"/>
 	</s:navigationContent>
 	<s:titleContent>
@@ -41,9 +42,11 @@
 		</s:Group>
 	</s:titleContent>
 	<s:actionContent>
-		<components:mapbutton width="{this.width*0.1}" mouseEnabledWhereTransparent="true"
+		<components:mapbutton width="{this.width*0.1}" 
+							  mouseEnabledWhereTransparent="true"
 							  height="100%"  mouseDown="goToMap()"  />
 	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -163,7 +166,7 @@
 					   result="afterGetloyalty(event)" >	
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

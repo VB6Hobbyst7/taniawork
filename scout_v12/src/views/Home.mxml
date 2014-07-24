@@ -10,6 +10,7 @@
 		viewActivate="init(event)"
 		backgroundColor="#FFFFFF" 
 		actionBarVisible="false">
+	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -56,7 +57,7 @@
 				else if (cityGo.toLowerCase() == "calgary"){
 					copyright.text = "© davebloggs007";
 					copyrighturl = "https://www.flickr.com/photos/davebloggs007/8995477799";
-					cityback.source = "assets/"+getDPIHeight()+"/calgary.png";
+					cityback.source = "assets/"+getDPIHeight()+"/calgary.jpg";
 				}
 				else {
 					copyright.text = "© Mack Male";

@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" mouseChildren="false"
 		 xmlns:s="library://ns.adobe.com/flex/spark" mouseOver="gOver(event);"
 		 mouseOut="gOut(event);" mouseUp="gOut(event);" mouseDown="gDown(event);" >
-	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/smallglobal.as"/>
 	<s:Image  left="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"  
 			  verticalCenter="0" mouseEnabled="false">
 		<s:source>
