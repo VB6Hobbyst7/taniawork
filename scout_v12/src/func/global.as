@@ -61,6 +61,7 @@ public function createIfNotExsist(s:String):void {
 			"business_number varchar(255)," +
 			"business_description longtext," +
 			"business_picture varchar(255)," +
+			"business_picture2 varchar(255)," +
 			"business_address1 varchar(255)," +
 			"business_city varchar(255)," +
 			"business_locality varchar(255)," +

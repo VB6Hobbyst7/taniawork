@@ -59,7 +59,7 @@
 	<s:Group  width="{neededwidth}"  height="{neededwidth}"  >	
 		<s:BitmapImage  id="bmpImg"  width="{neededwidth}" 
 				  height="{neededwidth}"  contentLoader="{s_imageCache}"   scaleMode="zoom"
-				  source="{data.business_picture}" />
+				  source="{data.business_picture2}" />
 			<s:BitmapImage  width="{neededwidth}"  bottom="0"
 						   height="{neededwidth}" 
 						   contentLoader="{s_imageCache}" 

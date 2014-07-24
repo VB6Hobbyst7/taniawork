@@ -32,7 +32,7 @@ import spark.transitions.SlideViewTransitionMode;
 import views.MapView;
 public static const FACEBOOK_APP_ID:String="1424621771149692";
 [Bindable]
-public var VERSIONID:Number = 9;
+public var VERSIONID:Number = 10;
 public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 public var resData:ArrayCollection = new ArrayCollection();
 [Bindable]

@@ -160,6 +160,7 @@
 									"'"+listData[i].business_number+"'"+","+
 									"'"+listData[i].business_description+"'"+","+
 									"'"+listData[i].business_picture+"'"+","+
+									"'"+listData[i].business_picture2+"'"+","+
 									"'"+listData[i].business_address1+"'"+","+
 									"'"+listData[i].business_city+"'"+","+
 									"'"+listData[i].business_locality+"'"+","+
@@ -205,6 +206,7 @@
 									"'"+templistData[j].business_number+"'"+","+
 									"'"+templistData[j].business_description+"'"+","+
 									"'"+templistData[j].business_picture+"'"+","+
+									"'"+templistData[j].business_picture2+"'"+","+
 									"'"+templistData[j].business_address1+"'"+","+
 									"'"+templistData[j].business_city+"'"+","+
 									"'"+templistData[j].business_locality+"'"+","+
@@ -342,7 +344,6 @@
 				<s:SolidColor alpha="1" color="#737171"/>
 			</s:fill>
 		</s:Rect>
-	
 			<s:List width="100%"
 				 	bottom="0" top="{2/(320/Capabilities.screenDPI)}"
 				    useVirtualLayout="false" 
