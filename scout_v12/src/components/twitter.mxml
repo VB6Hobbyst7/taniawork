@@ -5,11 +5,11 @@
 	<fx:Script source="../func/smallglobal.as"/>
 	<s:BitmapImage  contentLoader="{s_imageCache}">
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/twitter.png')"
-									source240dpi="@Embed('assets/240/twitter.png')"
-									source320dpi="@Embed('assets/320/twitter.png')"
-									source480dpi="@Embed('assets/480/twitter.png')"
-									source640dpi="@Embed('assets/640/twitter.png')"/>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/twitter.png')"
+									source240dpi="@Embed('../assets/240/twitter.png')"
+									source320dpi="@Embed('../assets/320/twitter.png')"
+									source480dpi="@Embed('../assets/480/twitter.png')"
+									source640dpi="@Embed('../assets/640/twitter.png')"/>
 		</s:source>
 	</s:BitmapImage>
 </s:Group>

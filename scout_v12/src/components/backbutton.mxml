@@ -6,11 +6,11 @@
 	<s:Image  left="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"  
 			  verticalCenter="0" mouseEnabled="false">
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/arrow.png')"
-									source240dpi="@Embed('assets/240/arrow.png')"
-									source320dpi="@Embed('assets/320/arrow.png')"
-									source480dpi="@Embed('assets/480/arrow.png')"
-									source640dpi="@Embed('assets/640/arrow.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/arrow.png')"
+									source240dpi="@Embed('../assets/240/arrow.png')"
+									source320dpi="@Embed('../assets/320/arrow.png')"
+									source480dpi="@Embed('../assets/480/arrow.png')"
+									source640dpi="@Embed('../assets/640/arrow.png')"
 									/>
 		</s:source>
 	</s:Image>

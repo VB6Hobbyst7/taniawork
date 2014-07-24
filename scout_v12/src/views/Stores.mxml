@@ -35,11 +35,11 @@
 						 keyUp="press(event);" returnKeyLabel="search"/>
 			<s:BitmapImage contentLoader="{s_imageCache}"  verticalCenter="0" left="{20/(320/Capabilities.screenDPI)}">
 				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/glass.png')"
-											source240dpi="@Embed('assets/240/glass.png')"
-											source320dpi="@Embed('assets/320/glass.png')"
-											source480dpi="@Embed('assets/480/glass.png')"
-											source640dpi="@Embed('assets/640/glass.png')"/>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/glass.png')"
+											source240dpi="@Embed('../assets/240/glass.png')"
+											source320dpi="@Embed('../assets/320/glass.png')"
+											source480dpi="@Embed('../assets/480/glass.png')"
+											source640dpi="@Embed('../assets/640/glass.png')"/>
 				</s:source>
 			</s:BitmapImage>
 		</s:Group>

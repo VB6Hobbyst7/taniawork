@@ -5,11 +5,11 @@
 	<fx:Script source="../func/smallglobal.as"/>
 	<s:Image verticalCenter="0"  contentLoader="{s_imageCache}"  right="{20/(320/Capabilities.screenDPI)}"  mouseEnabled="false">
 		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/map.png')"
-									source240dpi="@Embed('assets/240/map.png')"
-									source320dpi="@Embed('assets/320/map.png')"
-									source480dpi="@Embed('assets/480/map.png')"
-									source640dpi="@Embed('assets/640/map.png')"
+			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/map.png')"
+									source240dpi="@Embed('../assets/240/map.png')"
+									source320dpi="@Embed('../assets/320/map.png')"
+									source480dpi="@Embed('../assets/480/map.png')"
+									source640dpi="@Embed('../assets/640/map.png')"
 									/>
 		</s:source>
 	</s:Image>

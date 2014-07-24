@@ -46,23 +46,24 @@
 			public function init(event:Event):void
 			{			
 				enableHardwareKeyListeners();
+				setLoginVars();	
 				try{
 				navigator.activeView.mouseChildren = true;
-				setLoginVars();	
+				
 				if (cityGo.toLowerCase() == "edmonton"){
 					copyright.text = "© Mack Male";
 					copyrighturl = "https://www.flickr.com/photos/mastermaq/209751537";
-					cityback.source = "assets/"+getDPIHeight()+"/edmonton.jpg";
+					cityback.source = edmonton;
 				}
 				else if (cityGo.toLowerCase() == "calgary"){
 					copyright.text = "© davebloggs007";
 					copyrighturl = "https://www.flickr.com/photos/davebloggs007/8995477799";
-					cityback.source = "assets/"+getDPIHeight()+"/calgary.jpg";
+					cityback.source = calgary;
 				}
 				else {
 					copyright.text = "© Mack Male";
 					copyrighturl = "https://www.flickr.com/photos/mastermaq/209751537";
-					cityback.source = "assets/"+getDPIHeight()+"/edmonton.jpg";
+					cityback.source = edmonton;
 				}
 				try{
 					var code:String = emailGo;
@@ -248,6 +249,18 @@
 				<emailGo>{emailGo}</emailGo>		
 			</s:request>
 		</s:HTTPService>	
+		<s:MultiDPIBitmapSource id="edmonton"
+								source160dpi="@Embed('../assets/160/edmonton.jpg')"
+								source240dpi="@Embed('../assets/240/edmonton.jpg')"
+								source320dpi="@Embed('../assets/320/edmonton.jpg')"
+								source480dpi="@Embed('../assets/480/edmonton.jpg')"
+								source640dpi="@Embed('../assets/640/edmonton.jpg')"/>
+		<s:MultiDPIBitmapSource id="calgary"
+								source160dpi="@Embed('../assets/160/calgary.jpg')"
+								source240dpi="@Embed('../assets/240/calgary.jpg')"
+								source320dpi="@Embed('../assets/320/calgary.jpg')"
+								source480dpi="@Embed('../assets/480/calgary.jpg')"
+								source640dpi="@Embed('../assets/640/calgary.jpg')"/>
 	</fx:Declarations>
 	<s:VGroup gap="0" width="{this.width}" height="100%" verticalAlign="middle"  horizontalAlign="center"  >
 		<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  verticalAlign="middle" >

@@ -24,7 +24,7 @@ public function gOut(ev:MouseEvent):void {
 	ev.currentTarget.alpha = 1;
 }
 public function getDPIHeight():Number {
-	var _runtimeDPI:int;
+	var _runtimeDPI:int = 320;
 	if(Capabilities.screenDPI < 200){
 		_runtimeDPI = 160;
 	}

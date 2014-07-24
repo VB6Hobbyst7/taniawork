@@ -117,7 +117,7 @@ public function creationcomplete(event:FlexEvent):void
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name FROM localuser";
+	stmt.text = "SELECT email, name, city FROM localuser";
 	stmt.execute();
 	resData = new ArrayCollection(stmt.getResult().data);				
 	loadStuff(resData);
@@ -252,13 +252,14 @@ public function reloadProfInfo():void {
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name FROM localuser";
+	stmt.text = "SELECT email, name, city FROM localuser";
 	stmt.execute();
 	resData = new ArrayCollection(stmt.getResult().data);	
 	
 	if (resData.length > 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
+		cityGo = resData[0].city;
 		getUserInfo.send();
 	}
 }
@@ -266,6 +267,7 @@ public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Numb
 	if (r.length != 0){
 		nameGo = r[0].name;
 		emailGo = r[0].email;
+		cityGo = r[0].city;
 		getUserInfo.send();
 		if (mainNavigator.navigator.firstView == null){
 			if (mainNavigator.navigator.activeView == null){

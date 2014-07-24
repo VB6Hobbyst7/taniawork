@@ -156,38 +156,38 @@
 			public function starclick(u:uint):void {
 				ratingvalue = u;
 				if (u >= 5){
-					s5.source = "assets/"+getDPIHeight().toString()+"/starlargeactive.png";
+					s5.source = staractive;
 				}
 				else {
-					s5.source = "assets/"+getDPIHeight().toString()+"/starlarge.png";
+					s5.source = star;
 				}
 				
 				if (u >= 4){
-					s4.source = "assets/"+getDPIHeight().toString()+"/starlargeactive.png";
+					s4.source = staractive
 				}
 				else {
-					s4.source = "assets/"+getDPIHeight().toString()+"/starlarge.png";
+					s4.source = star;
 				}
 				
 				if (u >= 3){
-					s3.source = "assets/"+getDPIHeight().toString()+"/starlargeactive.png";
+					s3.source = staractive
 				}
 				else {
-					s3.source = "assets/"+getDPIHeight().toString()+"/starlarge.png";
+					s3.source = star;
 				}
 				
 				if (u >= 2){
-					s2.source = "assets/"+getDPIHeight().toString()+"/starlargeactive.png";
+					s2.source = staractive
 				}
 				else {
-					s2.source = "assets/"+getDPIHeight().toString()+"/starlarge.png";
+					s2.source = star;
 				}
 				
 				if (u >= 1){
-					s1.source = "assets/"+getDPIHeight().toString()+"/starlargeactive.png";
+					s1.source = staractive
 				}
 				else {
-					s1.source = "assets/"+getDPIHeight().toString()+"/starlarge.png";
+					s1.source = star;
 				}
 			}
 			public function afterSubmitRating(ev:ResultEvent):void {
@@ -215,6 +215,18 @@
 				<reviewText>{ratingtextinput.text}</reviewText>	
 			</s:request>
 		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="star"
+								source160dpi="@Embed('../assets/160/starlarge.png')"
+								source240dpi="@Embed('../assets/240/starlarge.png')"
+								source320dpi="@Embed('../assets/320/starlarge.png')"
+								source480dpi="@Embed('../assets/480/starlarge.png')"
+								source640dpi="@Embed('../assets/640/starlarge.png')"/>
+		<s:MultiDPIBitmapSource id="staractive"
+								source160dpi="@Embed('../assets/160/starlargeactive.png')"
+								source240dpi="@Embed('../assets/240/starlargeactive.png')"
+								source320dpi="@Embed('../assets/320/starlargeactive.png')"
+								source480dpi="@Embed('../assets/480/starlargeactive.png')"
+								source640dpi="@Embed('../assets/640/starlargeactive.png')"/>
 	</fx:Declarations>
 	<s:Scroller  left="0" right="0" top="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
 		<s:VGroup   id="vg1"  width="100%" top="0"

@@ -101,19 +101,19 @@
 				}
 				busy = false;	
 			}
-			public function listClick(ev:IndexChangeEvent):void {	
+			public function listClick():void {	
 				if (loyaltyList.selectedIndex != -1){
-					if (Number(ev.currentTarget.selectedItems[0].amount) >= Number(ev.currentTarget.selectedItems[0].spend)){
+					if (Number(loyaltyList.selectedItem.amount) >= Number(loyaltyList.selectedItem.spend)){
 						redeembtn.enabled = true;
 					}	
 					else {
 						redeembtn.enabled = false;
 					}
 					
-					spendout = ev.currentTarget.selectedItems[0].spend;
-					amountout = ev.currentTarget.selectedItems[0].amount;
-					selectedRewardID = ev.currentTarget.selectedItems[0].id;
-					rewardDescription = ev.currentTarget.selectedItems[0].name;
+					spendout = loyaltyList.selectedItem.spend;
+					amountout = loyaltyList.selectedItem.amount;
+					selectedRewardID = loyaltyList.selectedItem.id;
+					rewardDescription = loyaltyList.selectedItem.name;
 					openRewardPopup();
 					loyaltyList.selectedIndex = -1;	
 				}
@@ -286,7 +286,7 @@
 				<s:stroke><s:SolidColorStroke color="#737171" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Line>
 			<s:List id="loyaltyList" width="100%"  verticalScrollPolicy="off"
-					change="listClick(event);" horizontalScrollPolicy="off"
+				 click="listClick();" horizontalScrollPolicy="off"
 					horizontalCenter="0" contentBackgroundAlpha="0"
 					itemRenderer="components.loyaltydescriptionitem">
 				<s:layout>
@@ -307,7 +307,7 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:Group id="rectec" width="95%" height="85%" horizontalCenter="0" verticalCenter="0" visible="true">
+		<s:Group id="rectec" width="95%" height="65%" horizontalCenter="0" verticalCenter="0" visible="true">
 			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}"
 					radiusY="{20/(320/Capabilities.screenDPI)}">
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
@@ -320,11 +320,11 @@
 					  horizontalAlign="center" paddingTop="{20/(320/Capabilities.screenDPI)}">
 				<s:BitmapImage  contentLoader="{s_imageCache}">
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/gift.png')"
-												source240dpi="@Embed('assets/240/gift.png')"
-												source320dpi="@Embed('assets/320/gift.png')"
-												source480dpi="@Embed('assets/480/gift.png')"
-												source640dpi="@Embed('assets/640/gift.png')"/>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/gift.png')"
+												source240dpi="@Embed('../assets/240/gift.png')"
+												source320dpi="@Embed('../assets/320/gift.png')"
+												source480dpi="@Embed('../assets/480/gift.png')"
+												source640dpi="@Embed('../assets/640/gift.png')"/>
 					</s:source>
 				</s:BitmapImage>
 				<s:VGroup width="100%"  horizontalAlign="center" gap="{10/(320/Capabilities.screenDPI)}">
@@ -393,7 +393,7 @@
 		<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
 			
 	
-			<s:Group width="95%" height="75%" horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Group width="95%" height="65%" horizontalCenter="0" verticalCenter="0" visible="true">
 				<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}"
 						radiusY="{20/(320/Capabilities.screenDPI)}">
 					<s:fill><s:SolidColor alpha="1" color="#f0f0f0"/></s:fill>
@@ -411,29 +411,32 @@
 							 mouseOut="gOut(event);" mouseUp="gOut(event);">
 						<s:BitmapImage  contentLoader="{s_imageCache}">
 							<s:source>
-								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/redeem.png')"
-														source240dpi="@Embed('assets/240/redeem.png')"
-														source320dpi="@Embed('assets/320/redeem.png')"
-														source480dpi="@Embed('assets/480/redeem.png')"
-														source640dpi="@Embed('assets/640/redeem.png')"/>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/redeem.png')"
+														source240dpi="@Embed('../assets/240/redeem.png')"
+														source320dpi="@Embed('../assets/320/redeem.png')"
+														source480dpi="@Embed('../assets/480/redeem.png')"
+														source640dpi="@Embed('../assets/640/redeem.png')"/>
 							</s:source>
 						</s:BitmapImage>
 					</s:Group>
 				</s:VGroup>
+				<s:Group click="closeverifyredeempopup();" id="cc" 
+						  horizontalCenter="0" 
+						 bottom="{0-cc.height-(10/(320/Capabilities.screenDPI))}"
+						 mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:BitmapImage  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/x.png')"
+													source240dpi="@Embed('../assets/240/x.png')"
+													source320dpi="@Embed('../assets/320/x.png')"
+													source480dpi="@Embed('../assets/480/x.png')"
+													source640dpi="@Embed('../assets/640/x.png')"/>
+						</s:source>
+					</s:BitmapImage>
+				</s:Group>
 			</s:Group>
-			<s:Group click="closeverifyredeempopup();"
-					 mouseDown="gDown(event);" mouseOver="gOver(event);"
-					 mouseOut="gOut(event);" mouseUp="gOut(event);">
-				<s:BitmapImage  contentLoader="{s_imageCache}">
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/x.png')"
-												source240dpi="@Embed('assets/240/x.png')"
-												source320dpi="@Embed('assets/320/x.png')"
-												source480dpi="@Embed('assets/480/x.png')"
-												source640dpi="@Embed('assets/640/x.png')"/>
-					</s:source>
-				</s:BitmapImage>
-			</s:Group>
+			
 			
 		</s:VGroup>
 	</s:Group>
@@ -443,7 +446,7 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:Group width="95%" height="85%" horizontalCenter="0" verticalCenter="0" visible="true">
+		<s:Group width="95%" height="65%" horizontalCenter="0" verticalCenter="0" visible="true">
 			<s:Rect width="100%" height="100%" 
 					radiusX="{20/(320/Capabilities.screenDPI)}"
 					radiusY="{20/(320/Capabilities.screenDPI)}" >
