@@ -201,6 +201,5 @@
 				<emailGo>{emailGo}</emailGo>		
 			</s:request>
 		</s:HTTPService>
-	
 	</fx:Declarations>
 </s:Application>
