@@ -61,7 +61,7 @@
 					<s:VGroup gap="{10/(320/Capabilities.screenDPI)}" width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
 						<s:Label color="#737171" text="{nameGo}"  maxWidth="{(this.width/1.15)*0.50}"
 								 maxDisplayedLines="1"  styleName="textsize8" verticalAlign="middle"/>
-						<s:Label color="#737171" text="Edmonton" styleName="textsize1" verticalAlign="middle"/>
+						<s:Label color="#737171" text="{cityGo}" styleName="textsize1" verticalAlign="middle"/>
 					</s:VGroup>
 				</s:HGroup>
 			</s:Group>
