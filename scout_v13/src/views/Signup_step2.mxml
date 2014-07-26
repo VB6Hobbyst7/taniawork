@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Scout"  name="signup2"
+		 viewActivate="activ(event)"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
+			[Bindable]
+			public var busy:Boolean = false;
+			public function nextStep():void {
+				if (checkFields()){
+					busy = true;
+					createNewUser.send();
+				}
+				else {
+					popupholder1.visible = true;	
+				}
+			}
+			public function checkFields():Boolean {
+				if ((ncity.text == "")
+					||(nbirthday.text == "")
+					||(nbirthmonth.text == "")
+					||(nbirthyear.text == "")
+					||(provlist.selectedIndex == -1)
+				){	
+				return false;	
+				}
+				return true;
+			}
+			public function afterCreateNewUser(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(data.email,data.nameo,ncity.text.toLocaleUpperCase());
+				}
+				else {
+					popupholder1.visible = true;
+					popupholder1.textl = ev.result[0].ress.message;
+				}
+			}
+			public function AddNewLocalUser(email:String,name:String,city:String):void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
+					"email varchar(255)," +
+					"name varchar(255)," +
+					"city varchar(255)," +
+					"active varchar(255))";
+				stmt.execute();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM localuser;";
+				stmt.execute();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":city"] = city;
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				var saveManager:PersistenceManager = new PersistenceManager();
+				saveManager.setProperty("useremail", email);
+				this.parentDocument.refresh(email);	
+			}
+			public function provChange():void {
+				
+			}
+			public function closeProv():void {
+				if (provlist.selectedIndex != -1){
+					provpopup.visible = false;
+					provlabel.text = provlist.selectedItem.label;
+				}
+			}
+			
+			public function activ(event:ViewNavigatorEvent):void
+			{
+				// TODO Auto-generated method stub
+				enableHardwareKeyListeners();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="gendergroup"/>
+		<s:HTTPService id="createNewUser" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/createUser.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<email>{data.email}</email>		
+				<nameo>{data.nameo}</nameo>		
+				<password>{data.password}</password>		
+				<city>{ncity.text}</city>		
+				<locality>{provlist.selectedItem.label}</locality>		
+				<gender>{gendergroup.selectedValue}</gender>		
+				<birthday>{nbirthday.text}</birthday>		
+				<birthmonth>{nbirthmonth.text}</birthmonth>		
+				<birthyear>{nbirthyear.text}</birthyear>		
+				<versionnumber>3</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
+				  horizontalCenter="0" verticalCenter="0"  
+				  paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  bottom="0" horizontalAlign="center" verticalAlign="top">
+			
+			<s:Group width="100%" >
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="ncity"   focusAlpha="0"
+							 width="{continue_btn.width}"
+							 height="{continue_btn.height}"
+							 verticalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 prompt="City"
+							 borderVisible="false"/>
+			</s:Group>
+			
+			
+			
+			<s:Group width="100%" mouseOver="gOver(event);" mouseDown="gDown(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);" click="{provpopup.visible = true}">
+				<s:Rect id="reco" width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Label   id="provlabel" text="Province" color="#bbbbbb" mouseEnabled="false"
+						 styleName="textsize3" x="{reco.x + (15/(320/Capabilities.screenDPI))}" 
+						 verticalCenter="0"></s:Label>
+			</s:Group>
+			
+			
+			
+			
+			<s:Group width="100%" >
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI))}" horizontalAlign="center"
+						   horizontalCenter="0" verticalCenter="0">
+					<s:TextInput id="nbirthday" width="33%" prompt="Day"  maxChars="2"
+								 softKeyboardType="number"  fontFamily="Arial"
+								 restrict="0-9"
+								 borderVisible="false" focusAlpha="0"/>
+					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" maxChars="2"
+								 softKeyboardType="number" fontFamily="Arial"
+								 restrict="0-9"
+								 borderVisible="false" focusAlpha="0"/>
+					<s:TextInput id="nbirthyear" width="33%" prompt="Year"  maxChars="4"
+								 softKeyboardType="number" fontFamily="Arial"
+								 restrict="0-9"
+								 borderVisible="false" focusAlpha="0"/>
+				</s:HGroup>
+				
+			</s:Group>
+			
+			
+			
+			
+			<s:Group width="100%" >
+				<s:Rect width="{continue_btn.width}" 
+						height="{continue_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI))}" 
+						   gap="{25/(320/Capabilities.screenDPI)}" horizontalAlign="center"
+						  horizontalCenter="0" verticalCenter="0" >
+					<s:Label styleName="textsize3" height="100%" text="Male" horizontalCenter="0"
+							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
+					<s:RadioButton label="Male" id="maleor"
+								   width="{continue_btn.height}" 
+								   height="{continue_btn.height}" 
+								   color="#cccccc" skinClass="skins.radioitem"
+								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
+					<s:Label styleName="textsize3"  height="100%" text="Female"  horizontalCenter="0"
+							 color="#bbbbbb" verticalAlign="middle" textAlign="center"/>
+					<s:RadioButton label="Female" id="femaleor"  mouseEnabled="true"
+								   width="{continue_btn.height}" 
+								   height="{continue_btn.height}" 
+								   color="#cccccc" skinClass="skins.radioitem"
+								   fontWeight="normal" groupName="gendergroup"/>
+				</s:HGroup>
+				
+			</s:Group>
+			
+			<components:continue_btn id="continue_btn" click="nextStep();"/>
+
+			<s:Label top="{290/(320/Capabilities.screenDPI)}" width="95%"  horizontalCenter="0"  color="#8c8d8d"
+					 text="By Creating an account you agree to Scout's Terms of Service and Privacy Policy. "
+					 textAlign="center"/>
+			
+			<s:Label top="{290/(320/Capabilities.screenDPI)}" width="95%"
+					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/utos'));"
+					 color="#8c8d8d"  horizontalCenter="0"
+					 text="Terms of Service" textAlign="center" textDecoration="underline"/>
+			<s:Label top="{290/(320/Capabilities.screenDPI)}" width="95%"  horizontalCenter="0"
+					 text="Privacy Policy" textDecoration="underline"
+					 textAlign="center"   color="#8c8d8d"
+					 click="navigateToURL(new URLRequest('https://www.scoutcard.ca/pol'));"/>
+		</s:VGroup>
+	</s:Scroller>
+	
+	
+	<s:Group id="provpopup" visible="false"   width="100%" height="100%" >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group  width="80%" height="85%" id="somecont"
+				  horizontalCenter="0" verticalCenter="0"
+				  mouseDownOutside="{this.visible = false}">
+			<s:Rect width="100%" height="100%" 
+					radiusX="{20/(320/Capabilities.screenDPI)}"
+					radiusY="{20/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Rect>
+			<s:VGroup width="100%" height="100%"
+					  paddingTop="{30/(320/Capabilities.screenDPI)}" 
+					  gap="{20/(320/Capabilities.screenDPI)}">
+			<s:Label text="Province" width="100%" textAlign="center" verticalAlign="middle" 
+					 mouseEnabled="false" top="{20/(320/Capabilities.screenDPI)}"
+					 horizontalCenter="0"
+					 styleName="textsize4" color="#389dc8"/>
+			<s:List width="100%"  horizontalCenter="0" 
+					 top="{50/(320/Capabilities.screenDPI)}" height="75%"
+					id="provlist" labelField="name"  contentBackgroundAlpha="0"
+					 itemRenderer="components.provitem" selectedIndex="-1"  change="provChange();"
+					horizontalScrollPolicy="off"  >
+				<s:dataProvider>
+					<s:ArrayList>
+						<fx:Object name="AB" label="Alberta" />
+						<fx:Object name="BC" label="British Columbia" />
+						<fx:Object name="MB" label="Manitoba" />
+						<fx:Object name="NB" label="New Brunswick" />
+						<fx:Object name="NS" label="Nova Scotia" />
+						<fx:Object name="ON" label="Ontario" />
+						<fx:Object name="QC" label="Quebec" />
+						<fx:Object name="SK" label="Saskatchewan" />
+						<fx:Object name="NT" label="Northwest Territories" />
+						<fx:Object name="YT" label="Yukon" />
+						<fx:Object name="PE" label="P.E.I" />
+						<fx:Object name="NU" label="Nunavut" />
+					</s:ArrayList> 
+				</s:dataProvider>
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="15">
+					</s:VerticalLayout>
+				</s:layout>
+			</s:List>
+				<s:Group width="100%" height="{somecont.height*0.15}" bottom="0">
+					<s:Line width="99%"  left="0"   top="0" > 
+						<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
+					<s:Group width="50%" horizontalCenter="0" height="100%" 
+							 click="closeProv();"
+							 mouseDown="gDown(event);" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Label text="Close"  mouseEnabled="false"
+								 verticalCenter="0" horizontalCenter="0"
+								 styleName="textsize4" color="#389dc8"/>
+					</s:Group>
+				</s:Group>
+			</s:VGroup>
+		</s:Group>
+	</s:Group>
+	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>
