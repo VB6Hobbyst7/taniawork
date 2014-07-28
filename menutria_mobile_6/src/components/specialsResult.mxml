@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				creationComplete="init(event)"
+				dataChange="dchange(event)"
+			>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			private var _sectionField:String = "section";
+			[Bindable]
+			public var setheightval:Number = 640/(320/Capabilities.screenDPI);
+			protected function init(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
+				}
+				else {
+					bmpImg.source = data.picture;
+				}
+				
+				bmpImg.width = setheightval*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval*(300/640)*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
+				
+				
+			
+				
+				
+				
+				
+				
+				
+			}
+			public function dchange(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
+				}
+				else {
+					bmpImg.source = data.picture;
+				}
+				
+				bmpImg.width = setheightval*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval*(300/640)*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%"  top="-1"
+			  gap="0"  height="{setheightval*(300/640)*data.type-1}"
+			  visible="{data.type == 1}">
+	<s:Group width="{this.width}"  
+			 mouseEnabled="false"   id="megacont" >
+		<s:Image id="bmpImg"  top="0"  contentLoader="{s_imageCache}"
+				 verticalCenter="0"  scaleMode="zoom" />
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="0.2" color="#000000"/>
+			</s:fill>
+		</s:Rect>
+			<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" width="100%"
+						 paddingBottom="{10/(320/Capabilities.screenDPI)}"  verticalAlign="bottom" bottom="0"
+						 paddingRight="{10/(320/Capabilities.screenDPI)}">
+				<s:Label color="#FFFFFF" maxDisplayedLines="5"
+						 fontWeight="bold" styleName="textsize4" 
+						 text="{data.description}"    width="{setheightval*data.type}"  maxWidth="{setheightval*data.type}"
+						 verticalAlign="middle"></s:Label>
+				<s:Label id="dayval"   width="100%"  color="#FFFFFF" fontWeight="bold" 
+						 styleName="textsize1" 
+						 maxDisplayedLines="1"
+						 verticalAlign="middle"></s:Label>
+				<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
+						  styleName="textsize1" text=" {data.categoryname}"
+						  verticalAlign="middle"></s:Label>
+			</s:VGroup>
+		<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Line>
+	</s:Group>
+		</s:VGroup>
+	<s:Group width="{this.width}" visible="{data.type == 0}" top="-1" 
+			height="{75/(320/Capabilities.screenDPI)}">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#8eddce"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label width="100%" verticalCenter="0"
+				 left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+				 fontWeight="bold" styleName="textsize1" text="{data.name}"
+				 verticalAlign="middle"></s:Label>
+	</s:Group>
+	<s:Line  width="100%"  bottom="1"  > 
+		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:ItemRenderer>

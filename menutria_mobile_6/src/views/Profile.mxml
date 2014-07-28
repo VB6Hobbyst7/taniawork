@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f3f3f3"
+		menuKeyPressed="navigator.pushView(Home)"
+		backKeyPressed="navigator.popView()" 
+		title="" viewActivate="onActivate(event)" 
+		xmlns:components="components.*" >
+	<s:actionContent>	
+	</s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.display.Loader;
+			import flash.events.ErrorEvent;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.MediaEvent;
+			import flash.events.MouseEvent;
+			import flash.media.CameraRoll;
+			import flash.media.MediaPromise;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.UIDUtil;
+			import spark.core.ContentCache;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			private var mediaSource:CameraRoll = new CameraRoll();
+			private var imageLoader:Loader; 
+			private var dataSource:IDataInput;
+			private var eventSource:IEventDispatcher;
+			private const serverURL:String = "http://menutria.com/uploadify/profileimages/upload-multipart.php";
+			private var tempDir:File;
+			[Bindable]
+			public var ranfilename:String = "";
+			[Bindable]
+			public var rateArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var likeArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var placesArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var selectedThing:Number = -1;
+			[Bindable]
+			public var mylat:Number = 53.59221;
+			[Bindable]
+			public var mylong:Number = -113.54009;
+			protected var g:Geolocation = new Geolocation();    
+			public var goingtonext:Boolean = false;
+			public function onActivate(event:Event):void
+			{
+				setLoginVars();
+				try{
+					if (Geolocation.isSupported)
+					{
+						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
+						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
+					}
+					else
+					{	
+						mylat = 53.55921;
+						mylong = -113.54009;
+					}		
+				}
+				catch(e:Error){
+					mylat = 53.59221;
+					mylong = -113.54009;
+				}
+				
+				
+				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
+				getRatings.send();
+				selectedThing = 1;
+				thing1.alpha = 0.5;
+				getUserInfo.send();
+			}
+			
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				mylat = event.latitude;
+				mylong = event.longitude;
+			}	
+			protected function onRemove(event:ViewNavigatorEvent):void
+			{
+				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
+			}
+			
+			
+			public function showThings(u:uint):void {
+				selectedThing = u;
+				if (u == 1){
+					rateList.dataProvider = new ArrayCollection();
+					rateList.visible = true;
+					placesList.visible = false;
+					thing1.alpha = 0.5;
+					thing2.alpha = 1;
+					thing3.alpha = 1;
+					getRatings.send();
+				}
+				else if (u == 2){
+					rateList.dataProvider = new ArrayCollection();
+					rateList.visible = true;
+					placesList.visible = false;
+					thing1.alpha = 1;
+					thing2.alpha = 0.5;
+					thing3.alpha = 1;
+					getReviewsILiked.send();
+				}
+				else if (u == 3){
+					placesList.dataProvider = new ArrayCollection();
+					rateList.visible = false;
+					placesList.visible = true;
+					thing1.alpha = 1;
+					thing2.alpha = 1;
+					thing3.alpha = 0.5;
+					getPlacesEaten.send();
+				}
+			}
+			public function afterGetRatings(ev:ResultEvent):void {
+				rateArray = new ArrayCollection();
+				try{			
+					rateArray = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{	
+						rateArray.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){}
+				}
+				rateList.dataProvider = rateArray;
+			}
+			public function afterGetLiked(ev:ResultEvent):void {				
+				likeArray = new ArrayCollection();
+				try{			
+					likeArray = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{	
+						likeArray.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){}
+				}
+				rateList.dataProvider = likeArray;
+			}
+			public function afterGetPlacesEaten(ev:ResultEvent):void {
+				var i:uint = 0;
+				placesArray = new ArrayCollection();
+				try{			
+					placesArray = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{	
+						placesArray.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){}
+				}
+				for (i=  0; i < placesArray.length; i++){
+					placesArray[i].distance = Number(getDistance(mylat,mylong,placesArray[i].lat,placesArray[i].longa));
+				}
+				placesList.dataProvider = placesArray;
+			}
+			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+				var R1:Number = 6371; // km
+				var dLat:Number = degreesToRadians(lat2-lat1);
+				var dLon:Number = degreesToRadians(lon2-lon1);
+				var lat1:Number = degreesToRadians(lat1);
+				var lat2:Number = degreesToRadians(lat2);
+				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+				var d:Number = R1 * c;
+				return d.toFixed(2);
+			}
+			public function degreesToRadians(degrees:Number):Number {
+				return degrees * Math.PI / 180;
+			}
+			public function radiansToDegrees(radians:Number):Number{
+				return radians * 180 / Math.PI;	
+			}
+			public function gOut2(ev:MouseEvent):void {
+				if (((ev.currentTarget.id == 'thing1')&&(selectedThing == 1))||
+					((ev.currentTarget.id == 'thing2')&&(selectedThing == 2))||
+					((ev.currentTarget.id == 'thing3')&&(selectedThing == 3))){
+					ev.currentTarget.alpha = 0.5;
+				}
+				else {
+					ev.currentTarget.alpha = 1;
+				}
+			}			
+			public function ratingitemclick():void {
+				if (goingtonext == false){
+					goingtonext = true;
+					if (rateList.selectedIndex != -1){
+						if (selectedThing == 1){
+							navigator.pushView(ViewReview, rateArray[rateList.selectedIndex]);	
+						}
+						else {
+							navigator.pushView(ViewReview, likeArray[rateList.selectedIndex]);	
+						}
+						
+					}
+				}
+				else {
+					goingtonext = false;
+				}
+			}
+			public function storeListClick():void {	
+				if (goingtonext == false){
+					goingtonext = true;
+					if (placesList.selectedIndex != -1){
+						try{
+							data.homefilterarray = [];
+						}
+						catch(e:Error){}
+						navigator.pushView(StoresDescription, placesArray[placesList.selectedIndex]);	
+					}
+					else {
+						goingtonext = false;
+					}
+				}
+					
+			}
+			public function homepicclick(event:MouseEvent):void
+			{
+				mediaSource.addEventListener( MediaEvent.SELECT, imageSelected );
+				mediaSource.browseForImage();
+			}
+			private function imageSelected( event:MediaEvent ):void
+			{
+				dlog( "Media selected..." );
+				
+				var imagePromise:MediaPromise = event.data;
+				dataSource = imagePromise.open();
+				
+				if( imagePromise.isAsync )
+				{
+					dlog( "Asynchronous media promise." );
+					eventSource = dataSource as IEventDispatcher;
+					//	dlog( eventSource );
+					
+					eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
+				}
+				else
+				{
+					dlog( "Synchronous media promise." );
+					readMediaData();
+				}
+			}
+			private function onDataComplete( event:Event ):void
+			{
+				dlog("Data load complete");
+				readMediaData();
+			}			
+			private function readMediaData():void
+			{
+				var imageBytes:ByteArray = new ByteArray();
+				dataSource.readBytes( imageBytes );
+				imageBytes.position = 0;
+				var string:String = imageBytes.readUTFBytes( 300 );
+				upload(imageBytes,serverURL);
+			}
+			public function upload( data:ByteArray, destination:String):void
+			{	
+				dlog( "Uploading..." );
+				var loader:URLLoader = new URLLoader();
+				loader.dataFormat= URLLoaderDataFormat.BINARY;
+				ranfilename = UIDUtil.createUID().substr(0,9);
+				var urlString:String = destination + "?email=" + emailGo+"&filename="+ranfilename;
+				var request:URLRequest = new URLRequest( urlString );
+				request.data = data;
+				request.method = URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";
+				loader.addEventListener( Event.COMPLETE, uploadComplete );
+				loader.addEventListener(IOErrorEvent.IO_ERROR, ioError );
+				loader.load(request);           
+			} 
+			private function uploadComplete( event:Event ):void
+			{
+				dlog( "Upload successful." );
+				profimage.source = "http://www.menutria.com/uploadify/profileimages/"+ranfilename+".jpg";
+				this.parentApplication.updateProfileImage("http://www.menutria.com/uploadify/profileimages/"+ranfilename+".jpg");
+			}
+			
+			private function ioError( error:IOErrorEvent ):void
+			{
+				dlog( "Upload failed: " + error.text );
+			}
+			
+			private function mediaError( error:ErrorEvent ):void
+			{
+				dlog( "Error:" + error.text );
+			}
+			public function dlog(s:String):void {
+				//debuginput.text = debuginput.text + " ---- " + s;
+			}
+			public function afterGetUserInfo(ev:ResultEvent):void {
+				try{
+					var newpicture:String = ev.result[0].ress.res.picture;
+					if (newpicture.length > 1){
+						profimage.source = newpicture;
+						profimage.scaleMode = "zoom";
+					
+					}
+				}
+				catch(e:Error){}
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = profimage;
+				fa.duration = 500;
+				fa.play();
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMyRatings.php"
+					   result="afterGetRatings(event)" >
+			<s:request xmlns="">
+				<useremail>{emailGo}</useremail>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getReviewsILiked" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMyLikedReviews.php"
+					   result="afterGetLiked(event)" >
+			<s:request xmlns="">
+				<useremail>{emailGo}</useremail>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getPlacesEaten" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMyPlacesEaten.php"
+					   result="afterGetPlacesEaten(event)" >
+			<s:request xmlns="">
+				<useremail>{emailGo}</useremail>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getUserInfo.php"
+					   result="afterGetUserInfo(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>	
+	</fx:Declarations>
+	<s:Group width="100%" horizontalCenter="0" height="100%" >
+		<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
+					verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+			<s:VGroup gap="0" width="100%" height="100%">
+				<s:Group  width="100%" >
+					<s:Rect width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#c4c4c4"/>
+						</s:fill>
+					</s:Rect>
+					<s:Image id="mainprofimage" width="100%" mouseEnabled="false" visible="false"/>
+					<s:VGroup width="100%" id="defaultimggroup"  click="homepicclick(event)"
+							  visible="true" horizontalAlign="center" gap="0">					
+						<s:Image id="profimage"  horizontalCenter="0" width="100%"
+								 height="{this.width/(640/300)}" mouseEnabled="false" verticalCenter="0" 
+								 contentLoader="{s_imageCache}" >
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-default.png')"
+														source240dpi="@Embed('../assets/240/profile-default.png')"
+														source320dpi="@Embed('../assets/320/profile-default.png')"
+														source480dpi="@Embed('../assets/480/profile-default.png')"
+														source640dpi="@Embed('../assets/640/profile-default.png')"/>
+							</s:source>
+						</s:Image>
+					</s:VGroup>
+				</s:Group>
+				<s:Group width="100%" height="{70/(320/Capabilities.screenDPI)}">
+					<s:Rect width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#f2f2f2"/>
+						</s:fill>
+					</s:Rect>
+					<s:Label  styleName="textsize0"  color="#808080" horizontalCenter="0"
+							  text="{'Edmonton, Alberta • '+rateArray.length+' Reviews'}"
+							  verticalCenter="0"/>
+				</s:Group>
+				<s:HGroup gap="0"  width="100%" height="{140/(320/Capabilities.screenDPI)}">
+					<s:Group id="thing1" height="100%" width="{this.width/3}" 
+						    click="showThings(1)"
+						    mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
+							mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#8eddce"/>
+							</s:fill>
+						</s:Rect>
+						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Image mouseEnabled="false" >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-myreviews.png')"
+															source240dpi="@Embed('../assets/240/profile-myreviews.png')"
+															source320dpi="@Embed('../assets/320/profile-myreviews.png')"
+															source480dpi="@Embed('../assets/480/profile-myreviews.png')"
+															source640dpi="@Embed('../assets/640/profile-myreviews.png')"
+															/>
+								</s:source>
+								
+							</s:Image>
+							<s:Label mouseEnabled="false" text="My Reviews" styleName="textsize0"  color="#FFFFFF"/>
+						</s:VGroup>
+					</s:Group>
+					<s:Group id="thing2" height="100%" width="{this.width/3}"
+						   click="showThings(2)"
+						   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
+						   mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#9ebade"/>
+							</s:fill>
+						</s:Rect>
+						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Image mouseEnabled="false" >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-reviewiliked.png')"
+															source240dpi="@Embed('../assets/240/profile-reviewiliked.png')"
+															source320dpi="@Embed('../assets/320/profile-reviewiliked.png')"
+															source480dpi="@Embed('../assets/480/profile-reviewiliked.png')"
+															source640dpi="@Embed('../assets/640/profile-reviewiliked.png')"
+															/>
+								</s:source>
+								
+							</s:Image>
+							<s:Label mouseEnabled="false" text="Reviews I've Liked" styleName="textsize0"  color="#FFFFFF"/>
+						</s:VGroup>
+					</s:Group>
+					<s:Group id="thing3" height="100%" width="{this.width/3}" 
+									   click="showThings(3)"
+									   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
+									   mouseOver="gOver(event)" mouseOut="gOut2(event)">
+						<s:Rect width="100%"  height="100%">
+							<s:fill>
+								<s:SolidColor alpha="1" color="#c7c7c7"/>
+							</s:fill>
+						</s:Rect>
+						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
+								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:BitmapImage contentLoader="{s_imageCache}" >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-placesieat.png')"
+															source240dpi="@Embed('../assets/240/profile-placesieat.png')"
+															source320dpi="@Embed('../assets/320/profile-placesieat.png')"
+															source480dpi="@Embed('../assets/480/profile-placesieat.png')"
+															source640dpi="@Embed('../assets/640/profile-placesieat.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:Label mouseEnabled="false" text="Places I've Eaten" styleName="textsize0"  color="#FFFFFF"/>
+						</s:VGroup>
+					</s:Group>
+				</s:HGroup>
+				<s:Group width="100%" height="100%">
+					<s:List  id="rateList" visible="true"
+							 width="100%" 
+							 horizontalCenter="0" 
+							 verticalScrollPolicy="off"  
+							 horizontalScrollPolicy="off"  	 
+							 contentBackgroundAlpha="0" 
+							 itemRenderer="components.ratingsResultProfile"
+							 change="ratingitemclick();"
+							 click="ratingitemclick();"  >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+					<s:List  id="placesList" visible="false"
+							 width="{this.width}" 
+							 horizontalCenter="0" 
+							 change="storeListClick();"
+							 click="storeListClick();"
+							 verticalScrollPolicy="off"  
+							 horizontalScrollPolicy="off"
+							 contentBackgroundAlpha="0" 
+							 itemRenderer="components.storeResult">
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:Group>
+				</s:VGroup>
+			</s:Scroller>
+		</s:Group>
+</s:View>
