@@ -102,24 +102,8 @@ public function creationcomplete(event:FlexEvent):void
 		{name:"Settings",img:menu_settings,colorid:"0xfcb643"}
 	]);
 	verifyDataTablesViaVersion();
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	stmt = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
-		"email varchar(255)," +
-		"name varchar(255)," +
-		"city varchar(255)," +
-		"active varchar(255))";
-	stmt.execute();
-	
-	sqlConnection = new SQLConnection();
-	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-	var stmt:SQLStatement = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name, city FROM localuser";
-	stmt.execute();
-	resData = new ArrayCollection(stmt.getResult().data);				
+	createIfNotExsist("localuser");
+	resData = getDatabaseArray( "SELECT email, name, city  FROM localuser");				
 	loadStuff(resData);
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
 }
@@ -229,13 +213,9 @@ public function pushScreen(u:uint):void {
 
 public function viewadd(event:ElementExistenceEvent):void
 {
-	
 	if (menuopen){
 		closeMenu();
-	}
-
-
-	
+	}	
 }
 public function goProfile(event:MouseEvent):void
 {

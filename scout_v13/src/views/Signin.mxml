@@ -69,15 +69,9 @@
 				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 				if (resData.length != 0){
 					//good login
-					var foundactive:Boolean = false;
 					for (var i:uint = 0; i < resData.length; i++){
-						if (resData[i].active == "yes"){
-							foundactive = true;
 							popupholder1.visible = false;
-							var saveManager:PersistenceManager = new PersistenceManager();
-							saveManager.setProperty("useremail", resData[i].email);
 							this.parentDocument.refresh(resData[i].email);	
-						}
 					}			
 				}
 				else {}
