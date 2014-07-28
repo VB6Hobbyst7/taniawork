@@ -5,9 +5,8 @@
 		xmlns:components="components.*"  
 		xmlns:maps="com.google.maps.*" 	
 		backgroundColor="#f3f3f3"
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()"
-		viewActivate="onActivate(event)"
+		menuKeyPressed="menupress(event)"
+		viewActivate="init()"
 		title="Review" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
@@ -21,7 +20,6 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			import spark.core.ContentCache;
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var togstatus:Boolean = false;
@@ -35,16 +33,15 @@
 			public var locationid:String = "";
 			[Bindable]
 			public var currentselectmode:Number = 1;
-			public function onActivate(event:Event):void
+			public function init():void
 			{
-				
+				enableHardwareKeyListeners();
 				setLoginVars();
 				if (data.totallikecount == "null"){
 					data.totallikecount = "0";
 				}
 				scroller.visible = true;				
 				checkReviewLinkage.send();
-			
 			}
 			public function likeClick():void {
 				
@@ -138,7 +135,7 @@
 									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 						</s:HGroup>
 						<s:HGroup width="100%" verticalAlign="top"  maxWidth="{this.width/1.1}">
-							<s:Label  text="{data.rating}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+							<s:Label  text="{data.rating}"  color="#36ccba"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 							<s:Label width="100%"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
 									 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
 						</s:HGroup>
@@ -152,7 +149,7 @@
 															source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
 								</s:source>
 							</s:BitmapImage>
-							<s:Label   text="{data.totallikecount}"  color="#43c7ae"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+							<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 						</s:HGroup>
 						<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
 						<s:Label  text="{data.ratingdate}"  color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>

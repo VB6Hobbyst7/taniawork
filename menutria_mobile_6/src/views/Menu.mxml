@@ -4,10 +4,9 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()"
-		title="Menu"
-		viewActivate="view1_activateHandler(event)">
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)"
+		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView(); "/>
@@ -31,8 +30,9 @@
 			[Bindable]
 			public var ratingpriceoptionval:uint = 0;
 			public var allreadylistclicked:Boolean = false;
-			protected function view1_activateHandler(event:Event):void
+			protected function init():void
 			{
+				enableHardwareKeyListeners();
 				allreadylistclicked = false;
 				this.parentApplication.showloading();
 				setLoginVars();

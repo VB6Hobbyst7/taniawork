@@ -231,7 +231,7 @@
 						<s:Label id="catLabel2"  color="#4d4d4d" fontWeight="bold"
 								 styleName="textsize1" 
 								 verticalAlign="middle"></s:Label>
-						<s:Label id="costLabel" color="#43c7ae"  fontWeight="bold"
+						<s:Label id="costLabel" color="#36ccba"  fontWeight="bold"
 								 styleName="textsize1"
 								 verticalAlign="middle"></s:Label>
 					</s:HGroup>

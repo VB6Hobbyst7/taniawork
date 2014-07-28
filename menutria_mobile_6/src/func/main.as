@@ -1,7 +1,26 @@
+import com.milkmangames.nativeextensions.GoViral;
+
+import flash.data.SQLConnection;
+import flash.data.SQLStatement;
+import flash.desktop.NativeApplication;
+import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
+import flash.filesystem.File;
+import flash.system.Capabilities;
+import flash.ui.Keyboard;
+
+import mx.collections.ArrayCollection;
+import mx.core.DPIClassification;
 import mx.events.FlexEvent;
 
+import spark.transitions.SlideViewTransition;
+import spark.transitions.SlideViewTransitionMode;
+import spark.transitions.ViewTransitionDirection;
+
+import views.Home;
+import views.Login;
 [Bindable]
-public var VERSIONID:Number = 9;
+public var VERSIONID:Number = 11;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;
@@ -23,10 +42,57 @@ public var filteritems:ArrayCollection = new ArrayCollection(
 		{name:"I Haven't Eaten",chosen:'no',type:1}
 	]);
 public var loadedview:Boolean = false;
+public var svt:SlideViewTransition = new SlideViewTransition();
+public var svt2:SlideViewTransition = new SlideViewTransition();
 protected function creationcomplete(event:FlexEvent):void
 {
+	svt.duration = slideduration;
+	svt.direction =  ViewTransitionDirection.LEFT;
+	svt2.duration = slideduration;
+	svt2.direction =  ViewTransitionDirection.RIGHT;
+	svt2.mode = SlideViewTransitionMode.UNCOVER;
+	mainNavigator.navigator.defaultPushTransition = svt;
+	mainNavigator.navigator.defaultPopTransition = svt2;
+	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
+	initGPS();
 	
-	actionbarheight = getActionBarHeight();
+	if (Capabilities.version.indexOf('IOS') > -1){
+		if (getDPIHeight() == 320){
+			obarheight = 40;
+		}
+		else if (getDPIHeight() == 160){
+			obarheight = 10;
+		}
+		
+	}
+	switch (applicationDPI)
+	{
+		case DPIClassification.DPI_640:
+		{
+			actionbarheight = 172;
+			break;
+		}
+		case DPIClassification.DPI_480:
+		{
+			actionbarheight = 129;					
+			break;
+		}
+		case DPIClassification.DPI_320:
+		{
+			actionbarheight = 86;
+			break;
+		}
+		case DPIClassification.DPI_240:
+		{
+			actionbarheight = 65;
+			break;
+		}
+		default:
+		{
+			actionbarheight = 43;
+			break;
+		}
+	}
 	
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
@@ -41,6 +107,7 @@ protected function creationcomplete(event:FlexEvent):void
 	if (resData.length != 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
+		cityGo = resData[0].city;
 		getUserInfo.send();
 		for (var i:uint = 0; i < homeitems.length; i++){
 			if (homeitems[i].name == "Profile"){
@@ -66,6 +133,13 @@ protected function creationcomplete(event:FlexEvent):void
 		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
 	}	
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+}
+public function nativeKeyDown(event:KeyboardEvent):void
+{
+	var key:uint = event.keyCode;
+	if (key == Keyboard.BACK){
+		event.preventDefault();
+	}
 }
 public function onSwipe(event:TransformGestureEvent):void
 {
@@ -191,19 +265,63 @@ public function pushScreen(u:uint):void {
 		mainNavigator.navigator.pushView(Settings);
 	}	
 }
-public function updateProfAuto():void {
-	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name FROM localuser");
-	if (resData.length != 0){
+public function viewadd(event:ElementExistenceEvent):void
+{
+	if (menuopen){
+		closeMenu();
+	}
+	listmenu.selectedIndex = -1;
+}
+public function setProfImage(s:String):void {
+	profimage.source = s;
+	profimage.scaleMode = "zoom";
+	profimage.visible = true;
+}
+public function refresh(email:String):void {
+	reloadProfInfo();
+	mainNavigator.navigator.pushView(Home);
+}
+public function reloadProfInfo():void {
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	var stmt:SQLStatement = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = "SELECT email, name, city FROM localuser";
+	stmt.execute();
+	var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);	
+	
+	if (resData.length > 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
+		cityGo = resData[0].city;
 		getUserInfo.send();
 	}
 }
-public function updateProfileImage(s:String):void {
-	if (s.length > 1){
-		profimage.source = s;
-		profimage.scaleMode = "zoom";
+public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Number = -113.54009):void {
+	if (r.length != 0){
+		nameGo = r[0].name;
+		emailGo = r[0].email;
+		cityGo = r[0].city;
+		getUserInfo.send();
+		if (mainNavigator.navigator.firstView == null){
+			if (mainNavigator.navigator.activeView == null){
+				mainNavigator.navigator.pushView(Home,null,null,crosstrans);
+			}
+		}
 	}
+	else {
+		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
+	}
+}
+public function logout():void {
+	try{
+		GoViral.goViral.logoutFacebook();
+	}
+	catch(e:Error){
+		
+	}
+	dropalldatatables();
+	mainNavigator.navigator.pushView(Login);
 }
 public function goProfile(event:MouseEvent):void
 {
@@ -232,7 +350,6 @@ public function filterchange(event:IndexChangeEvent):void
 					else {
 						eatinval = 3;
 					}
-					//homefilterarray.push(event.currentTarget.selectedItems[i].name);
 				}
 				else if (event.currentTarget.selectedItems[i].name == "I Haven't Eaten"){
 					if (eatinval == 0){
@@ -241,7 +358,6 @@ public function filterchange(event:IndexChangeEvent):void
 					else {
 						eatinval = 3;
 					}
-					//homefilterarray.push(event.currentTarget.selectedItems[i].name);
 				}
 			}
 		}	
@@ -277,53 +393,7 @@ public function filterchange(event:IndexChangeEvent):void
 	closeFilters();
 	
 }
-public function viewadd(event:ElementExistenceEvent):void
-{
-	
-	if (menuopen){
-		closeMenu();
-	}
-	listmenu.selectedIndex = -1;
-	/*if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('home') == -1)&&
-		(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('menuall') == -1)){
-		listfilters.selectedItems = null;
-		for (var i:uint = 0; i < filteritems.length; i++){
-			filteritems[i].chosen = 'n'
-		}
-	}
-	
-	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('profile') != -1){
-		listmenu.selectedIndex = 0;
-		filterfeaturebutton.visible = false;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1){
-		listmenu.selectedIndex = 1;
-		filterfeaturebutton.visible = true;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('restrictions') != -1){
-		listmenu.selectedIndex = 2;
-		filterfeaturebutton.visible = false;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1){
-		listmenu.selectedIndex = 3;
-		filterfeaturebutton.visible = true;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('specials') != -1){
-		listmenu.selectedIndex = 4;
-		filterfeaturebutton.visible = false;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('settings') != -1){
-		listmenu.selectedIndex = 5;
-		filterfeaturebutton.visible = false;
-	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('map') != -1){
 
-	}
-	else {
-		listmenu.selectedIndex = -1;
-	}*/
-
-}
 public function clearallclick(event:MouseEvent):void
 {
 	listfilters.selectedIndex = -1;

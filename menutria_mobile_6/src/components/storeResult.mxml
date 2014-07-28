@@ -121,7 +121,7 @@
 				<s:Label width="100%" color="#4d4d4d" 
 				  styleName="textsize0" text="{data.categoryname}"
 				 verticalAlign="middle"></s:Label>
-				<s:Label enabled="false" width="100%" color="#43c7ae" 
+				<s:Label enabled="false" width="100%" color="#36ccba" 
 				 styleName="textsize0" text="{mainaddress}"
 				 verticalAlign="middle"></s:Label>
 			</s:VGroup>

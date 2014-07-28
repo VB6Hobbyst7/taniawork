@@ -21,12 +21,12 @@
 		<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
 				 text="{data.name}" visible="{data.chosen == 'yes'}"
 				 left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0"
-				 color="#43c7ae"/>
+				 color="#36ccba"/>
 		<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
 				 text="{data.name}" visible="{data.chosen == 'no'}"
 				 left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0"
 				 color.normal="#6e6e6e"
-				 color.selected="#43c7ae"/>
+				 color.selected="#36ccba"/>
 		
 		<s:Group right="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
 			<s:Image id="checkimage" visible="{data.chosen == 'yes'}"  contentLoader="{s_imageCache}">

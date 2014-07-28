@@ -1,40 +1,55 @@
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
+import flash.desktop.NativeApplication;
 import flash.events.Event;
+import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.filesystem.File;
 import flash.system.Capabilities;
+import flash.ui.Keyboard;
 import flash.utils.Timer;
 import mx.collections.ArrayCollection;
+import mx.core.DPIClassification;
 import mx.events.EffectEvent;
+import mx.events.FlexEvent;
 import spark.core.ContentCache;
 import spark.effects.Fade;
-import mx.core.DPIClassification;
-
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
 public var emailGo:String = "";
 [Bindable]
 public var nameGo:String = "";
 [Bindable]
+public var cityGo:String = "";
+[Bindable]
 public var idGo:String = "";
+public var mylat:Number = 53.536979;
+public var mylong:Number = -113.296852;
+[Bindable]
+public var slideduration:Number = 250;
 public var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
-		sqlConnection = new SQLConnection();
-		sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-		var stmt:SQLStatement = new SQLStatement();
-		stmt.sqlConnection = sqlConnection;
-		stmt.text = "SELECT email, name, country, active FROM localuser where active = 'yes'";
-		stmt.execute();
-		var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+		var resData:ArrayCollection = getDatabaseArray("SELECT email, name, city FROM localuser");
 		if (resData.length != 0){
 			emailGo = resData[0].email;
 			nameGo = resData[0].name;
+			cityGo = resData[0].city;
 		}
 	}
-	catch(e:Error) {}	
+	catch(e:Error) {}
+	
+	try{
+		createIfNotExsist("gps");
+		var gpstemparray:ArrayCollection = new ArrayCollection();
+		gpstemparray = getDatabaseArray("select * from gps");
+		if (gpstemparray.length > 0){
+			mylat = gpstemparray[0].lat;
+			mylong = gpstemparray[0].longa;	
+		}
+	}
+	catch(e:Error) {}
 }
 public function createIfNotExsist(s:String):void {
 	sqlConnection = new SQLConnection();
@@ -93,8 +108,7 @@ public function createIfNotExsist(s:String):void {
 		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 			"email varchar(255)," +
 			"name varchar(255)," +
-			"country varchar(255)," +
-			"active varchar(255))";
+			"city varchar(255))";
 	}
 	else if (s == "specials"){
 		stmt.text = "CREATE TABLE IF NOT EXISTS specials (" +
@@ -114,17 +128,6 @@ public function createIfNotExsist(s:String):void {
 		stmt.text = "CREATE TABLE IF NOT EXISTS versionhistory (version varchar(255))";
 	}
 	stmt.execute();
-}
-public function updateGPS(lat:Number,long:Number):void {
-	createIfNotExsist("gps");
-	var gpstemparray:ArrayCollection = new ArrayCollection();
-	gpstemparray = getDatabaseArray("select * from gps");
-	if (gpstemparray.length == 0){
-		doQuery("insert into gps values ('"+lat.toString()+"','"+long.toString()+"')");
-	}
-	else {
-		doQuery("update gps set lat = '"+lat.toString()+"', longa = '"+long.toString()+"'");
-	}
 }
 public function getDatabaseArray(query:String):ArrayCollection {
 	sqlConnection = new SQLConnection();
@@ -147,8 +150,62 @@ public function doQuery(query:String):void {
 	catch(e:Error){
 		
 	}
-	
 }
+public function updateGPS(lat:Number,long:Number):void {
+	createIfNotExsist("gps");
+	var gpstemparray:ArrayCollection = new ArrayCollection();
+	gpstemparray = getDatabaseArray("select * from gps");
+	if (gpstemparray.length == 0){
+		doQuery("insert into gps values ('"+lat.toString()+"','"+long.toString()+"')");
+	}
+	else {
+		doQuery("update gps set lat = '"+lat.toString()+"', longa = '"+long.toString()+"'");
+	}
+}
+public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+	var R1:Number = 6371; // km
+	var dLat:Number = degreesToRadians(lat2-lat1);
+	var dLon:Number = degreesToRadians(lon2-lon1);
+	var lat1:Number = degreesToRadians(lat1);
+	var lat2:Number = degreesToRadians(lat2);
+	var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+	var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d:Number = R1 * c;
+	return d.toFixed(2);
+}
+public function degreesToRadians(degrees:Number):Number {
+	return degrees * Math.PI / 180;
+}
+public function radiansToDegrees(radians:Number):Number{
+	return radians * 180 / Math.PI;	
+}
+protected function donothing(event:FlexEvent):void
+{
+	event.preventDefault();
+}
+private function enableHardwareKeyListeners():void
+{
+	systemManager.stage.addEventListener(KeyboardEvent.KEY_DOWN, stageKeyDownHandler, false, 500, true);
+	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+}
+private function keyDown(event:KeyboardEvent):void
+{
+	var key:uint = event.keyCode;
+	if (key == Keyboard.BACK && !systemManager.numModalWindows==0)
+		event.preventDefault();
+}
+
+public function stageKeyDownHandler(event:KeyboardEvent):void {
+	var key:uint = event.keyCode;
+	if (key == Keyboard.BACK && !systemManager.numModalWindows==0)
+		event.preventDefault();
+}
+public function menupress(event:FlexEvent):void
+{
+	this.parentApplication.menuButtonClick();
+}
+
 public function tOver(ev:MouseEvent):void {
 	ev.currentTarget.setStyle("textDecoration","underline");
 }

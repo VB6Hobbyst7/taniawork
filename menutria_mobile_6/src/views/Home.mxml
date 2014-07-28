@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:maps="com.google.maps.*" 	
-		xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="onActivate()"
-		xmlns:s="library://ns.adobe.com/flex/spark"  viewActivate="viewact(event)"
+<s:View xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:maps="com.google.maps.*" 	
+		xmlns:components="components.*"
+		destructionPolicy="never"
+		viewActivate="init()"
+		backKeyPressed="donothing(event)"
+		menuKeyPressed="menupress(event)"
 		contentBackgroundAlpha="1"
 		contentBackgroundColor="#f3f3f3" 
-		backgroundAlpha="1" title="Specials"
-		backgroundColor="#f3f3f3" 
-		destructionPolicy="never"
-	 	xmlns:components="components.*">
+		backgroundAlpha="1" 
+		backgroundColor="#f3f3f3" >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
-			import flash.events.GeolocationEvent;
 			import flash.events.MouseEvent;
-			import flash.filesystem.File;
-			import flash.sensors.Geolocation;
-			import flash.utils.Timer;
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
-			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
 			import spark.transitions.CrossFadeViewTransition;
 			[Bindable]
 			public var alphatitle:String = "Home";
-			protected var g:Geolocation = new Geolocation();    
 			public var homeData:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var mylat:Number = 53.59221;
-			[Bindable]
-			public var mylong:Number = -113.54009;
-			[Bindable]
-			public var radiusOptions:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var mysearch:String = "";
 			[Bindable]
@@ -46,7 +35,6 @@
 			public var reverse:Boolean = false;
 			[Bindable]
 			public var locatoinidGo:Number = -1;
-			public var maintimer:Timer = new Timer(5000,0);
 			[Bindable]
 			public var currentselectmode:Number = 1;
 			[Bindable]
@@ -79,11 +67,13 @@
 			public var postalString:String = "";
 			[Bindable]
 			public var screenwidth:Number = 200;
-			public function onActivate():void
+			public var didupdate:Boolean = false;
+			public function init():void
 			{
+				enableHardwareKeyListeners();
+				setLoginVars();
 				goingtonext  = false;
 				this.parentApplication.showloading();
-				setLoginVars();
 				createIfNotExsist("merchusers");
 				goingtonext = false;
 				screenwidth = this.width;
@@ -150,31 +140,7 @@
 				catch(e:Error) {
 					homeData = new ArrayCollection();
 				}	
-				
-				
-				this.setStyle("contentBackgroundColor",0xFFFFFF);
-				try{
-					if (Geolocation.isSupported)
-					{
-						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
-					}
-					else
-					{	
-						mylat = 53.55921;
-						mylong = -113.54009;
-					}		
-				}
-				catch(e:Error){
-					mylat = 53.59221;
-					mylong = -113.54009;
-				}
-				
-				maintimer = new Timer(5000,0);
-				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-				maintimer.start();
-				
-				
+
 				try{
 					if (data.homefilterarray != null){
 						if (data.homefilterarray != []){
@@ -214,28 +180,6 @@
 				}
 				
 				filterarea.visible = true;	
-			}
-			private function onFacebookInit(result:Object, fail:Object):void
-			{
-				var stop:String = "";
-			}
-			public function aftertimer(ev:TimerEvent):void {
-				if (homeData.length <= 0){
-					this.parentApplication.showloading();
-					getLocations.cancel();
-					//homeData = new ArrayCollection();
-					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.stop();
-					maintimer = new Timer(5000,0);
-					maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.start();
-					if (filtermode){
-						getLocations2.send();
-					}
-					else {
-						getLocations.send();
-					}
-				}
 			}
 			public function afterGetLocations(event:ResultEvent):void
 			{
@@ -618,53 +562,9 @@
 			private function returnall(item:Object):Boolean{
 				return true;
 			}
-			public var didupdate:Boolean = false;
-			protected function onUpdate(event:GeolocationEvent):void
-			{
-				if (didupdate == false){
-					didupdate = true;
-					if (isFingerDown == false){
-						mylat = event.latitude;
-						mylong = event.longitude;	
-						for (var i:uint=  0; i < homeData.length; i++){
-							homeData[i].distance = Number(getDistance(mylat,mylong,homeData[i].lat,homeData[i].longa));
-						}
-						
-						var dataSortField:SortField = new SortField();
-						dataSortField.name = "distance";
-						dataSortField.numeric = true;
-						var numericDataSort:Sort = new Sort();
-						numericDataSort.fields = [dataSortField];
-						homeData.sort = numericDataSort;
-						homeData.refresh();
-					}
-				}
-			}	
-			protected function onRemove(event:ViewNavigatorEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
-			}
+
 			public function goback(ev:MouseEvent):void {
 				navigator.popView();
-			}
-			public function degreesToRadians(degrees:Number):Number {
-				return degrees * Math.PI / 180;
-			}
-			
-			public function radiansToDegrees(radians:Number):Number{
-				return radians * 180 / Math.PI;	
-			}
-			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
-				var R1:Number = 6371; // km
-				var dLat:Number = degreesToRadians(lat2-lat1);
-				var dLon:Number = degreesToRadians(lon2-lon1);
-				var lat1:Number = degreesToRadians(lat1);
-				var lat2:Number = degreesToRadians(lat2);
-				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
-					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-				var d:Number = R1 * c;
-				return d.toFixed(2);
 			}
 			public function usermenuclick():void {
 				try{
@@ -961,13 +861,6 @@
 			public function listFingerUp():void {
 				isFingerDown = false;
 			}
-			
-			public function viewact(event:ViewNavigatorEvent):void
-			{
-				// TODO Auto-generated method stub
-				goingtonext  = false;
-			}
-			
 		]]>
 	</fx:Script>
 	<s:titleContent>

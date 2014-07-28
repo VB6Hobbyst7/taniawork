@@ -97,7 +97,7 @@
 							 styleName="textsize1" 
 							 maxDisplayedLines="1"
 							 verticalAlign="middle"></s:Label>
-					<s:Label  width="100%" color="#43c7ae"  fontWeight="bold" maxDisplayedLines="1"
+					<s:Label  width="100%" color="#36ccba"  fontWeight="bold" maxDisplayedLines="1"
 							  styleName="textsize1" text=" {data.categoryname}"
 							  verticalAlign="middle"></s:Label>
 				</s:VGroup>

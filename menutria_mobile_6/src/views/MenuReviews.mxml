@@ -2,9 +2,9 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		backgroundColor="#f3f3f3"
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()" 
-		title="Reviews" viewActivate="onActivate(event)" 
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)"
+		title="Reviews" 
 		xmlns:components="components.*" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -14,8 +14,6 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
 			import flash.events.Event;
 			import flash.events.MouseEvent;
 			import mx.collections.ArrayCollection;
@@ -26,8 +24,9 @@
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var rateArray:ArrayCollection = new ArrayCollection();
-			public function onActivate(event:Event):void
+			public function init():void
 			{
+				enableHardwareKeyListeners();
 				setLoginVars();
 				getRatings.send();
 			}

@@ -4,11 +4,10 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="components.*"
-		menuKeyPressed="navigator.popView()"
-		backKeyPressed="navigator.popView()"
+		menuKeyPressed="menupress(event)"
 		backgroundColor="#FFFFFF"
 		title="Map"
-		viewActivate="onViewActivate();">
+		viewActivate="init();">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
@@ -39,54 +38,21 @@
 	<fx:Script>
 		<![CDATA[
 			import com.esri.ags.events.LayerEvent;
-			import com.esri.ags.geometry.MapPoint;
-			
-			import flash.sensors.Geolocation;
-			
+			import com.esri.ags.geometry.MapPoint;			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.events.ViewNavigatorEvent;
-			
 			import components.mapGraphic;
-			protected var g:Geolocation = new Geolocation();   
-			[Bindable]
-			public var mylat:Number = 53.493252;
-			[Bindable]
-			public var mylong:Number = -113.502231;
-			
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			private function onViewActivate():void {
-				try{
-					if (Geolocation.isSupported)
-					{
-						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);
-					}
-				}
-				catch(e:Error){
-					
-				}
+			private function init():void {
+				enableHardwareKeyListeners();
+				setLoginVars();
 				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,
 					degrees_to_mercator_meters(mylong,mylat).y);
 				myMap.center = mp;
 				getLocations.send();
-			}
-			protected function onUpdate(event:GeolocationEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);   
-				mylat = event.latitude;
-				mylong = event.longitude;
-				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,
-					degrees_to_mercator_meters(mylong,mylat).y);
-				myMap.center = mp;
-				
-			}	
-			protected function onRemove(event:ViewNavigatorEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
 			}
 			public function afterGetLocations(event:ResultEvent):void
 			{

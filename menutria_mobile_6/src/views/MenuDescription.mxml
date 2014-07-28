@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:View xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:components="components.*"
 		backgroundColor="#FFFFFF"
-		viewActivate="view1_activateHandler(event)"
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()" actionBarVisible="false"
-		xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:components="components.*">
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)"
+		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
 			import flash.display.Bitmap;
 			import flash.display.Graphics;
 			import flash.display.Sprite;
@@ -23,7 +22,6 @@
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.filters.GlowFilter;
 			import spark.primitives.Graphic;
@@ -37,10 +35,6 @@
 			public var googleTravelUrl:String = "";
 			[Bindable]
 			public var picture:String = "";
-			[Bindable]
-			public var mylat:Number = 53.59221;
-			[Bindable]
-			public var mylong:Number = -113.54009;
 			[Bindable]
 			public var dragBar:Sprite;
 			[Bindable]
@@ -71,8 +65,9 @@
 			public var shareType:uint = 0;
 			[Bindable]
 			public var eatenstatus:uint = 0;
-			public function view1_activateHandler(event:Event):void
+			public function init():void
 			{
+				enableHardwareKeyListeners();
 				didlistclick = false;
 				this.parentApplication.showloading();
 				setLoginVars();			
@@ -101,7 +96,7 @@
 				var container:UIComponent = new UIComponent();
 				gr.addElementAt(container, 0);
 				// Draw the full circle with colors
-				circleToMask.graphics.beginFill(0x43c7ae,1);
+				circleToMask.graphics.beginFill(0x36ccba,1);
 				circleToMask.graphics.drawCircle(0, 0, globalradious);
 				circleToMask.graphics.endFill();
 				
@@ -400,7 +395,7 @@
 				}
 			}
 			public function startShare():void {
-				var gl:spark.filters.GlowFilter = new spark.filters.GlowFilter(0x43c7ae,1,20,20,5,1,true);
+				var gl:GlowFilter = new GlowFilter(0x36ccba,1,20,20,5,1,true);
 				shareType = 0;
 				sharefacebook.filters = [gl];
 				sharetwitter.filters = [];
@@ -424,28 +419,16 @@
 			public function forwardOnShare():void {
 				sharePopup.visible = false;
 				if (shareType == 0){
-					/*var params:Object =
-					{
-					message:shareText.text,
-					picture:data.picture,
-					link:'http://www.mymenuapp.ca',
-					name:data.name,
-					caption:'',
-					description:data.description,
-					source:''
-					};
-					
-					FacebookMobile.api('/me/feed', afterpost, params, "POST");  */
+				//share facebook
 				}
 				else {
 					//share twitter
-					
-					//navigateToURL(new URLRequest("https://twitter.com/home?status="+data.name+" - "+shareText.text))
+				
 				}
 			}
 			public function switchShare(u:uint):void{
 				shareType = u;
-				var gl:spark.filters.GlowFilter = new spark.filters.GlowFilter(0x43c7ae,1,20,20,15,1,true);
+				var gl:GlowFilter = new GlowFilter(0x36ccba,1,20,20,15,1,true);
 				if (u == 0){
 					sharefacebook.filters = [gl];
 					sharetwitter.filters = [];
@@ -584,7 +567,7 @@
 						<s:Label id="selectedTitle"  width="{this.width-100}" 
 								 color="#4d4d4d" paddingRight="{20/(320/Capabilities.screenDPI)}"
 								 styleName="textsize6" fontWeight="bold" text="{data.name}"/>
-						<s:Label  color="#43c7ae" fontWeight="bold" click="gotobusiness();"
+						<s:Label  color="#36ccba" fontWeight="bold" click="gotobusiness();"
 								  mouseDown="gDown(event)" mouseOver="gOver(event)" 
 								  mouseUp="gOut(event)" mouseOut="gOut(event)"
 								  styleName="textsize3" text="{data.business_name+ ' $' + data.cost }"
@@ -614,7 +597,7 @@
 								radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}">
 							<s:fill>
-								<s:SolidColor alpha="1" color="#43c7ae"/>
+								<s:SolidColor alpha="1" color="#36ccba"/>
 							</s:fill>
 						</s:Rect>
 						<s:Label verticalAlign="middle" mouseEnabled="false" horizontalCenter="0"  verticalCenter="2" 
@@ -720,7 +703,7 @@
 				radiusX="{10/(320/Capabilities.screenDPI)}"
 				radiusY="{10/(320/Capabilities.screenDPI)}">
 			<s:fill>
-				<s:SolidColor alpha="1" color="#43c7ae"/>
+				<s:SolidColor alpha="1" color="#36ccba"/>
 			</s:fill>
 		</s:Rect>
 		<s:Group left="0" top="{10/(320/Capabilities.screenDPI)}" mouseDown="backOnShare();"  

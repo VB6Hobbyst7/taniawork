@@ -5,9 +5,8 @@
 		xmlns:components="components.*"
 		backgroundColor="#FFFFFF"
 		contentBackgroundColor="#f3f3f3"
-		viewActivate="view1_activateHandler(event)" 
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()" 
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)"
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
@@ -15,27 +14,20 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			import flash.filesystem.File;
 			import flash.display.Sprite;
-			import flash.data.SQLStatement;
 			import views.MenuDescription;
 			import flash.media.StageWebView;
 			import flash.events.MouseEvent;
 			import flash.display.Bitmap;
-			import flash.data.SQLConnection;
 			import views.ViewReview;
 			import views.StoreSpecials;
 			import flash.events.Event;
 			import views.StoreReviews;
 			[Bindable]
 			public var picture:String = "";
-			[Bindable]
-			public var mylat:Number = 53.59221;
-			[Bindable]
-			public var mylong:Number = -113.54009;
 			[Bindable]
 			public var dragBar:Sprite;
 			[Bindable]
@@ -51,16 +43,13 @@
 			[Bindable]
 			public var topratedrecentval:uint = 1;
 			public var didlistclick:Boolean = false;
-			[Bindable]
-			private var _addrString:String;
-			[Bindable]
-			private var _distString:String;
 			private var mapIcon:Class;
 			[Bindable]
 			public var googleTravelUrl:String = "";
 			
-			public function view1_activateHandler(event:Event):void
+			public function init():void
 			{
+				enableHardwareKeyListeners();
 				didlistclick = false;
 				this.parentApplication.showloading();
 				setLoginVars();	
@@ -318,7 +307,7 @@
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
 							<s:fill>
-								<s:SolidColor alpha="1" color="#43c7ae"/>
+								<s:SolidColor alpha="1" color="#36ccba"/>
 							</s:fill>
 						</s:Rect>
 						<s:Label verticalAlign="middle" mouseEnabled="false" horizontalCenter="0"  verticalCenter="2" 
@@ -362,7 +351,7 @@
 								</s:source>
 							</s:BitmapImage>
 							<s:VGroup height="100%"  mouseEnabled="false">
-								<s:Label  width="100%" color="#43c7ae"  mouseEnabled="false"
+								<s:Label  width="100%" color="#36ccba"  mouseEnabled="false"
 										  styleName="textsize1"   text="{data.business_address1}"/>
 								<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
 										   styleName="textsize0"   text="{data.business_city+', '+data.business_locality}"/>

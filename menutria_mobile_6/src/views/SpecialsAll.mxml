@@ -8,37 +8,26 @@
 		contentBackgroundColor="#f3f3f3"
 		backgroundAlpha="1" title="Specials"
 		backgroundColor="#f3f3f3"  
-		viewActivate="onActivate(event)"
-		viewDeactivate="onViewDeactivate();">
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
-			import flash.events.GeolocationEvent;
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
-			import flash.sensors.Geolocation;
-			import flash.utils.Timer;
 			import mx.collections.ArrayCollection;
 			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
-			import spark.core.ContentCache;
 			import spark.effects.Fade;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
-			public var alphatitle:String = "Home";
-			protected var g:Geolocation = new Geolocation();    
+			public var alphatitle:String = "Home";  
 			[Bindable]
 			public var specialData:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var mylat:Number = 53.59221;
-			[Bindable]
-			public var mylong:Number = -113.54009;
 			[Bindable]
 			public var mysearch:String = "";
 			[Bindable]
@@ -47,7 +36,6 @@
 			public var reverse:Boolean = false;
 			[Bindable]
 			public var locatoinidGo:Number = -1;
-			public var maintimer:Timer = new Timer(5000,0);
 			[Bindable]
 			public var currentselectmode:Number = 1;
 			[Bindable]
@@ -72,8 +60,10 @@
 			public var postalString:String = "";
 			[Bindable]
 			public var screenwidth:Number = 200;
-			public function onActivate(event:Event):void
+			public var didupdate:Boolean = false;
+			public function init():void
 			{
+				enableHardwareKeyListeners();
 				goingtonext = false;
 				this.parentApplication.showloading();
 				createIfNotExsist("specials");
@@ -138,52 +128,10 @@
 				catch(e:Error) {
 					specialData = new ArrayCollection();
 				}	
-				
-				
-				this.setStyle("contentBackgroundColor",0xFFFFFF);
-				try{
-					if (Geolocation.isSupported)
-					{
-						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
-					}
-					else
-					{	
-						mylat = 53.55921;
-						mylong = -113.54009;
-					}		
-				}
-				catch(e:Error){
-					mylat = 53.59221;
-					mylong = -113.54009;
-				}
-				
-				maintimer = new Timer(5000,0);
-				maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-				maintimer.start();
-				
 				getSpecials.send();
-				
-				filterarea.visible = true;
-				
+				filterarea.visible = true;				
 			}
-			private function onFacebookInit(result:Object, fail:Object):void
-			{
-				var stop:String = "";
-			}
-			public function aftertimer(ev:TimerEvent):void {
-				if (specialData.length <= 0){
-					this.parentApplication.showloading();
-					getSpecials.cancel();
-					//specialData = new ArrayCollection();
-					maintimer.removeEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.stop();
-					maintimer = new Timer(5000,0);
-					maintimer.addEventListener(TimerEvent.TIMER,aftertimer);
-					maintimer.start();
-					getSpecials.send();
-				}
-			}
+			
 			public function afterGetSpecials(event:ResultEvent):void
 			{
 				this.parentApplication.hideloading();
@@ -533,56 +481,9 @@
 			private function returnall(item:Object):Boolean{
 				return true;
 			}
-			public var didupdate:Boolean = false;
-			protected function onUpdate(event:GeolocationEvent):void
-			{
-				if (didupdate == false){
-					didupdate = true;
-					if (isFingerDown == false){
-						mylat = event.latitude;
-						mylong = event.longitude;	
-						for (var i:uint=  0; i < specialData.length; i++){
-							specialData[i].distance = Number(getDistance(mylat,mylong,specialData[i].lat,specialData[i].longa));
-						}
-						
-						var dataSortField:SortField = new SortField();
-						dataSortField.name = "distance";
-						dataSortField.numeric = true;
-						var numericDataSort:Sort = new Sort();
-						numericDataSort.fields = [dataSortField];
-						specialData.sort = numericDataSort;
-						specialData.refresh();
-						
-					}
-				}
-			}	
-			protected function onRemove(event:ViewNavigatorEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
-			}
 			public function goback(ev:MouseEvent):void {
 				navigator.popView();
 			}
-			public function degreesToRadians(degrees:Number):Number {
-				return degrees * Math.PI / 180;
-			}
-			
-			public function radiansToDegrees(radians:Number):Number{
-				return radians * 180 / Math.PI;	
-			}
-			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
-				var R1:Number = 6371; // km
-				var dLat:Number = degreesToRadians(lat2-lat1);
-				var dLon:Number = degreesToRadians(lon2-lon1);
-				var lat1:Number = degreesToRadians(lat1);
-				var lat2:Number = degreesToRadians(lat2);
-				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
-					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-				var d:Number = R1 * c;
-				return d.toFixed(2);
-			}
-			
 			public function filterClick(u:uint):void {
 				specialData.filterFunction = allFilter;
 				specialData.refresh();

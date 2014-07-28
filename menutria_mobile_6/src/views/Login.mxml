@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		title="login" viewActivate="view1_viewActivateHandler(event)"
-		contentBackgroundAlpha="1"
+		xmlns:components="components.*" 
+		title="login" 
+		backKeyPressed="donothing(event)"
+		contentBackgroundAlpha="1" name="sign0"
 		contentBackgroundColor="#f3f3f3"
 		backgroundAlpha="1"
 		backgroundColor="#f3f3f3" 
 		actionBarVisible="false" 
-		xmlns:components="components.*" 
-		xmlns:cs="cs.*" xmlns:ns="http://www.flextras.com/mxml">
+		 viewActivate="init()"
+		xmlns:cs="cs.*" >
 	<fx:Script source="../func/global.as" />
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
 			import flash.events.MouseEvent;
-			import flash.filesystem.File;
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
-			[Bindable]
-			public var currentBalance:String = "$0.00";	
-			public var profileShown:Boolean = false;
-			public var chosenMenuOption:uint = 1;
-			public var profWaiting:Boolean = false;
-			public var profDraging:Boolean = false;
-			public function create():void {	
-				this.parentApplication.showloading();
+			public function init():void {	
 				createIfNotExsist("localuser");
-				getLocalUsers();
+				enableHardwareKeyListeners();
 			}	
 			public function loginClick(event:MouseEvent):void
 			{	
 				this.currentState = 'login';
 				logWarning.visible = false;
-			}
-			public function guestSignIn(event:MouseEvent):void {
-				authorizeLogin("guest@guest.com","guest");
 			}
 			public function createNewClick(event:MouseEvent):void {
 				navigator.pushView(Signup_step1);	
@@ -48,9 +36,7 @@
 				try{
 					logWarning.visible = false;
 				}
-				catch(e:Error){
-					
-				}
+				catch(e:Error){}
 			}
 			public function authorizeLogin(username:String,userpassword:String):void{	
 				userid = username;
@@ -61,7 +47,7 @@
 				if (ev.result[0].res.message == "ok"){
 					AddNewLocalUser(ev.result[0].res.email,
 						ev.result[0].res.name,
-						ev.result[0].res.country);
+						ev.result[0].res.city);
 				}
 				else {
 					//bad login
@@ -69,26 +55,8 @@
 					logWarning.visible = true;
 				}
 			}
-			protected function getLocalUsers():void
-			{
-				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, country, active FROM localuser");
-				if (resData.length != 0){
-					//good login
-					var foundactive:Boolean = false;
-					for (var i:uint = 0; i < resData.length; i++){
-						if (resData[i].active == "yes"){
-							foundactive = true;
-							this.parentApplication.updateProfAuto();
-							navigator.pushView(Home);	
-						}
-					}			
-				}
-				else {
-				}
-				this.parentApplication.hideloading();
-			}
 			
-			public function AddNewLocalUser(email:String,name:String,country:String):void
+			public function AddNewLocalUser(email:String,name:String,city:String):void
 			{
 				this.parentApplication.showloading();
 				doQuery("delete FROM localuser;");
@@ -96,26 +64,25 @@
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 				var stmt:SQLStatement = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:country,:active)";
+				stmt.text = "INSERT into localuser values(:email,:name,:city)";
 				stmt.parameters[":email"] = email;
 				stmt.parameters[":name"] = name;
-				stmt.parameters[":country"] = country;
-				stmt.parameters[":active"] = "yes";
+				stmt.parameters[":city"] = city;
 				stmt.execute();
 				getLocalUsers();
-				
 			}
-			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			protected function getLocalUsers():void
 			{
-				createIfNotExsist("localuser");
-				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, country, active FROM localuser where active = 'yes'");
-				var loadManager:PersistenceManager = new PersistenceManager();
-				
+				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, city FROM localuser");
 				if (resData.length != 0){
-					this.parentApplication.updateProfAuto();
-					navigator.pushView(Home);
+					//good login
+					for (var i:uint = 0; i < resData.length; i++){
+						this.parentDocument.refresh(resData[i].email);		
+					}			
 				}
-				this.parentApplication.hideloading();	
+				else {
+				}
+				this.parentApplication.hideloading();
 			}
 			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
 			{

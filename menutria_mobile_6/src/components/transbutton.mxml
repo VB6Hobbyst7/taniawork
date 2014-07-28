@@ -16,7 +16,7 @@
 			radiusX="{15/(320/Capabilities.screenDPI)}"
 			radiusY="{15/(320/Capabilities.screenDPI)}" >
 		<s:fill>
-			<s:SolidColor alpha="0.6" color="#43c7ae"/>
+			<s:SolidColor alpha="0.6" color="#36ccba"/>
 		</s:fill>
 	</s:Rect>
 	<s:Label color="#FFFFFF" fontWeight="bold" 

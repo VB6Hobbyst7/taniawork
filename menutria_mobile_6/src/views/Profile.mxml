@@ -2,31 +2,25 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		backgroundColor="#f3f3f3"
-		menuKeyPressed="navigator.pushView(Home)"
-		backKeyPressed="navigator.popView()" 
-		title="" viewActivate="onActivate(event)" 
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)"
 		xmlns:components="components.*" >
 	<s:actionContent>	
 	</s:actionContent>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
 			import flash.display.Loader;
 			import flash.events.ErrorEvent;
 			import flash.events.Event;
-			import flash.events.GeolocationEvent;
 			import flash.events.MediaEvent;
 			import flash.events.MouseEvent;
 			import flash.media.CameraRoll;
 			import flash.media.MediaPromise;
-			import flash.sensors.Geolocation;
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
-			import spark.core.ContentCache;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			private var mediaSource:CameraRoll = new CameraRoll();
@@ -45,50 +39,17 @@
 			public var placesArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var selectedThing:Number = -1;
-			[Bindable]
-			public var mylat:Number = 53.59221;
-			[Bindable]
-			public var mylong:Number = -113.54009;
-			protected var g:Geolocation = new Geolocation();    
 			public var goingtonext:Boolean = false;
-			public function onActivate(event:Event):void
+			public function init():void
 			{
+				enableHardwareKeyListeners();
 				setLoginVars();
-				try{
-					if (Geolocation.isSupported)
-					{
-						g.addEventListener(GeolocationEvent.UPDATE, onUpdate);
-						addEventListener(ViewNavigatorEvent.REMOVING,onRemove);	
-					}
-					else
-					{	
-						mylat = 53.55921;
-						mylong = -113.54009;
-					}		
-				}
-				catch(e:Error){
-					mylat = 53.59221;
-					mylong = -113.54009;
-				}
-				
-				
 				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
 				getRatings.send();
 				selectedThing = 1;
 				thing1.alpha = 0.5;
 				getUserInfo.send();
 			}
-			
-			protected function onUpdate(event:GeolocationEvent):void
-			{
-				mylat = event.latitude;
-				mylong = event.longitude;
-			}	
-			protected function onRemove(event:ViewNavigatorEvent):void
-			{
-				g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);                
-			}
-			
 			
 			public function showThings(u:uint):void {
 				selectedThing = u;
@@ -163,24 +124,7 @@
 				}
 				placesList.dataProvider = placesArray;
 			}
-			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
-				var R1:Number = 6371; // km
-				var dLat:Number = degreesToRadians(lat2-lat1);
-				var dLon:Number = degreesToRadians(lon2-lon1);
-				var lat1:Number = degreesToRadians(lat1);
-				var lat2:Number = degreesToRadians(lat2);
-				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
-					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-				var d:Number = R1 * c;
-				return d.toFixed(2);
-			}
-			public function degreesToRadians(degrees:Number):Number {
-				return degrees * Math.PI / 180;
-			}
-			public function radiansToDegrees(radians:Number):Number{
-				return radians * 180 / Math.PI;	
-			}
+		
 			public function gOut2(ev:MouseEvent):void {
 				if (((ev.currentTarget.id == 'thing1')&&(selectedThing == 1))||
 					((ev.currentTarget.id == 'thing2')&&(selectedThing == 2))||
@@ -303,6 +247,7 @@
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
 						profimage.scaleMode = "zoom";
+						this.parentDocument.setProfImage(newpicture);
 					
 					}
 				}

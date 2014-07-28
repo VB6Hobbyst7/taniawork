@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark"					
-			   xmlns:ns="http://www.google.com/analytics/2009"
-			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
-			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
-			   initialize="initz(event)" 
-			   creationComplete="creationcomplete(event)"
-			   activate="onactivate(event)"
-			   deactivate="ondeactivate()"
-			   contentBackgroundAlpha="1"
-			   splashScreenScaleMode="zoom"
-			   contentBackgroundColor="#0aaae5"
-			   backgroundColor="#ffffff"
-			   frameRate="60"
-			   mouseUp="overAllMouseUp(event)" >
+   xmlns:s="library://ns.adobe.com/flex/spark"					
+   xmlns:ns="http://www.google.com/analytics/2009"
+   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+   initialize="initz(event)" 
+   creationComplete="creationcomplete(event)"
+   activate="onactivate(event)"
+   deactivate="ondeactivate()"
+   contentBackgroundAlpha="1"  osStatusBarHeight="{obarheight}"
+   splashScreenScaleMode="zoom"
+   contentBackgroundColor="#36ccba"
+   backgroundColor="#36ccba"
+   frameRate="60"
+   mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  
-								height="100%"  x="0"  contentBackgroundColor="#43c7ae"
+								height="100%"  x="0"  contentBackgroundColor="#36ccba"
 								elementAdd="viewadd(event)" firstView="views.Blank"
 								width="{this.width}"  backgroundColor="#5b5b5b">
 		<s:navigationContent>
@@ -123,7 +123,7 @@
 	</s:Group>
 	
 	<s:Group  id="filtersmenu" contentBackgroundAlpha="1" 
-			  contentBackgroundColor="#43c7ae"  height="100%"  width="{this.width/1.15}"
+			  contentBackgroundColor="#36ccba"  height="100%"  width="{this.width/1.15}"
 						x="{this.width+(this.width/1.15)}">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
@@ -167,7 +167,7 @@
 					<s:Label fontFamily="HelveticaNeuecff" mouseEnabled="false" styleName="textsize0" fontWeight="normal"
 							 text="Clear All" 
 							 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
-							 color="#43c7ae"/>
+							 color="#36ccba"/>
 				</s:Group>
 			</s:Group>
 			<s:Line  width="100%" > 
@@ -193,36 +193,20 @@
 			import flash.desktop.SystemIdleMode;
 			import flash.events.Event;
 			import flash.events.GeolocationEvent;
-			import flash.events.InvokeEvent;
 			import flash.events.MouseEvent;
-			import flash.events.NativeWindowDisplayStateEvent;
 			import flash.events.TransformGestureEvent;
-			import flash.events.UncaughtErrorEvent;
 			import flash.filesystem.File;
 			import flash.sensors.Geolocation;
 			import mx.collections.ArrayCollection;
 			import mx.core.DPIClassification;
-			import mx.core.IUIComponent;
-			import mx.core.UIComponent;
-			import mx.events.DragEvent;
 			import mx.events.EffectEvent;
 			import mx.events.FlexEvent;
-			import mx.events.ResizeEvent;
-			import mx.events.TouchInteractionEvent;
-			import mx.graphics.codec.JPEGEncoder;
 			import mx.rpc.events.ResultEvent;
-			import spark.components.ActionBar;
-			import spark.components.ButtonBar;
 			import spark.components.Group;
-			import spark.components.View;
-			import spark.components.ViewNavigator;
 			import spark.core.ContentCache;
-			import spark.effects.Resize;
 			import spark.events.ElementExistenceEvent;
 			import spark.events.IndexChangeEvent;
-			import spark.managers.PersistenceManager;
 			import spark.transitions.CrossFadeViewTransition;
-			import spark.transitions.ViewTransitionBase;
 			import views.AccountSettings;
 			import views.Home;
 			import views.Login;
@@ -231,6 +215,8 @@
 			import views.Restrictions;
 			import views.Settings;
 			import views.SpecialsAll;
+			[Bindable]
+			public var obarheight:Number = 0;
 		]]>
 	</fx:Script>
 	<fx:Script source="func/global.as" />
@@ -263,7 +249,7 @@
 				<birthday>{fsbirthday}</birthday>		
 				<birthmonth>{fsbirthmonth}</birthmonth>		
 				<birthyear>{fsbirthyear}</birthyear>	
-				<versionnumber>2</versionnumber>	
+				<versionnumber>3</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
