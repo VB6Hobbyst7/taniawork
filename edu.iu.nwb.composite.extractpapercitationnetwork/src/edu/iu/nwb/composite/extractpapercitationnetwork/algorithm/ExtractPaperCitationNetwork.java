@@ -94,11 +94,14 @@ int authorColumnIndex = 0;
 String dataTableColumnNeded2 = "Title";
 int dataTableColumnIndex2 = 0;
 
-String dataTableColumnNeded3 = "Abstract";
+String dataTableColumnNeded3 = "Allo";
 int dataTableColumnIndex3 = 0;
 
-String term1 = "protein";
-String term2 = "contain";
+String dataTableColumnNeded4 = "Auto";
+int dataTableColumnIndex4 = 0;
+
+String term1 = "CLINICAL TRIAL";
+String term2 = "CASE REPORTS";
 
 for (int p = 0; p < dataTable.getColumnCount(); p++){
 	if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
@@ -113,7 +116,12 @@ for (int p = 0; p < dataTable.getColumnCount(); p++){
 	
 	if (dataTableColumnNeded3.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
 		dataTableColumnIndex3 = p;
-		this.logger.log(1, "Abstract Column found : "+dataTable.getColumnName(p));
+		this.logger.log(1, "Allo Column found : "+dataTable.getColumnName(p));
+	}
+	
+	if (dataTableColumnNeded4.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+		dataTableColumnIndex4 = p;
+		this.logger.log(1, "Auto Column found : "+dataTable.getColumnName(p));
 	}
 }
 
@@ -147,6 +155,9 @@ for (i = 0; i < initialsizeedge; i++){
 		lasttarget = target1;
 		String termso = "";
 		String titlecheck =  outputGraph.getNode(Integer.parseInt(target1)).get("label").toString();
+		
+		
+		/*
 		String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
 		if ((nc.contains(term1))&&(nc.contains(term2))){
 			termso = "Both";
@@ -156,6 +167,25 @@ for (i = 0; i < initialsizeedge; i++){
 		}
 		else if (nc.contains(term2)){
 			termso = term2;
+		}
+		else {
+			termso = "neither";
+		}*/
+		
+		int count1 = Integer.parseInt(dataTable.getString(counter, dataTableColumnNeded3));
+		int count2 = Integer.parseInt(dataTable.getString(counter, dataTableColumnNeded4));
+		
+		if ((count1 == 0)&&(count2 == 0)){
+			termso = "neither";
+		}
+		else if (count1 == count2){
+			termso = "both";
+		}
+		else if (count1 > count2){
+			termso = "Allo";
+		}
+		else if (count1 < count2){
+			termso = "Auto";
 		}
 		else {
 			termso = "neither";
