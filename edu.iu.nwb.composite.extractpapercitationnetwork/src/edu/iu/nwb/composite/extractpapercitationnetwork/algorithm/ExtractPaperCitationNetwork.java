@@ -211,7 +211,7 @@ this.logger.log(1, "Here 4");
 for (i = 0; i < initialsizeedge; i++){
 	String source1 = outputGraph.getEdge(i).get("source").toString();
 	String target1 = outputGraph.getEdge(i).get("target").toString();
-	//this.logger.log(1, "Here 7");
+	this.logger.log(1, "done "+Integer.toString(i)+"/"+Integer.toString(initialsizeedge));
 	if (i != initialsizeedge-1){
 		for (int k = i+1; k < initialsizeedge; k++){
 			//this.logger.log(1, "Here 8");
