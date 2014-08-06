@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="init(event)" 
+				 contentBackgroundAlpha="1"
+				  contentBackgroundColor="#FFFFFF" visible="false"
+				dataChange="datachango(event)"
+				mouseOver="gOver();"
+				mouseOut="gOut();" 
+				mouseUp="gOut();" 
+				mouseDown="gDown();" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			[Bindable]
+			public var mainaddress:String = "";
+			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
+			[Bindable]
+			public var neededwidth:Number = 300;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			public function gOver():void {
+				this.alpha = 0.5;
+			}
+			public function gDown():void {
+				this.alpha = 0.5;
+			}
+			public function gOut():void {
+				this.alpha = 1;
+			}
+			protected function datachango(event:FlexEvent):void
+			{
+				fixdistance();
+			////	dostuff();
+			}
+			public function fixdistance():void {
+				try{
+					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
+						var dist:Number = data.distance;
+						if (dist >= 1){
+							distotexto.text = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							distotexto.text = dist.toFixed(0)+ " m";
+						}
+						distotexto.visible = true;
+					}
+					this.visible = true;
+				}
+				catch(e:Error) {
+					this.visible = false;
+				}
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				neededwidth = this.parent.width/2-(2/2);
+				dostuff();
+			}
+			public function dostuff():void {
+				try{
+					
+					if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+						bmpImg.source = "assets/640/dish_place_wide.png";
+					}
+					else {
+						bmpImg.source = data.business_picture;
+					}
+					
+					
+					if (data.price == 1){
+						pricelabel.text  = "$";
+					}
+					else if (data.price == 2){
+						pricelabel.text  = "$$";
+					}
+					else if (data.price == 3){
+						pricelabel.text  = "$$$";
+					}
+					else if (data.price == 4){
+						pricelabel.text  = "$$$$";
+					}
+					else if (data.price == 5){
+						pricelabel.text  = "$$$$$";
+					}
+					//bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+					//bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+					//bmpImg.maxHeight = this.height;
+					
+					var maxchars:uint = 35;
+					mainaddress = data.business_address1;//+', '+data.business_city;
+					if (mainaddress.length > maxchars){
+						mainaddress = mainaddress.substring(0,maxchars)+"...";
+					}
+					var ratingstring:String = data.rating.toString();
+					var ratingnumber:Number = Number(data.rating);
+					if (ratingnumber == 0){
+						ratinglabel.text = "-";
+					}
+					else if (ratingnumber >= 10){
+						ratingnumber = 10;
+						ratinglabel.text = "10";
+					}
+					else {
+						ratinglabel.text = ratingnumber.toPrecision(2).toString();
+					}
+				}
+				catch(e:Error){}	
+				fixdistance();
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup id="megacont" width="{neededwidth}"  gap="0"
+			   height="100%" mouseEnabled="false">
+		<s:Image id="bmpImg"
+				 contentLoader="{s_imageCache}"  
+				 width="{neededwidth}" height="{neededwidth*(300/640)}"  />
+		<s:HGroup horizontalAlign="center" paddingTop="0" width="100%" gap="0" verticalAlign="middle" >
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Label id="ratinglabel" color="#36ccba"  textAlign="center"
+						 horizontalCenter="0"
+						 verticalCenter="0"
+						 styleName="textsize1"
+						 fontWeight="bold" />
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line   top="0" bottom="0" right="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Label id="pricelabel" color="#999999" text=""   textAlign="center"
+						 horizontalCenter="0" styleName="textsize0"  verticalCenter="0" />
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line   top="0" bottom="0" right="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Label color="#999999"  styleName="textsize0"  textAlign="center"
+						 id="distotexto" visible="false"  verticalCenter="0" horizontalCenter="0"/>
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+			
+			</s:Group>
+		
+			
+			
+		</s:HGroup>
+		<s:VGroup width="100%" gap="8" paddingTop="18"  paddingBottom="10" >
+			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
+					 fontWeight="bold" styleName="textsize4"
+					 text="{data.business_name}" maxDisplayedLines="1"
+					 verticalAlign="middle"></s:Label>
+			<s:Label width="100%" color="#4d4d4d" 
+					 styleName="textsize1" paddingLeft="{20}"
+					 text="{data.categoryname}"
+					 verticalAlign="middle"></s:Label>
+		</s:VGroup>	
+	</s:VGroup>
+</s:ItemRenderer>

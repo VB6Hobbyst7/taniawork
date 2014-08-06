@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 	
+		xmlns:maps="com.google.maps.*" 	
+		xmlns:components="components.*" 
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#f3f3f3"
+		backgroundAlpha="1" title="Specials"
+		backgroundColor="#f3f3f3"  
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import spark.components.Image;
+			import spark.effects.Fade;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var alphatitle:String = "Home";  
+			[Bindable]
+			public var specialData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var mysearch:String = "";
+			[Bindable]
+			public var sortMode:Number = 0;
+			[Bindable]
+			public var reverse:Boolean = false;
+			[Bindable]
+			public var locatoinidGo:Number = -1;
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			[Bindable]
+			public var hfilterarray:Array = new Array();
+			[Bindable]
+			public var filterData1:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData2:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData3:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var filterData4:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var hfilterstring:String = "";
+			[Bindable]
+			public var filtermode:Boolean = false;
+			[Bindable]
+			public var staticmapimageurl:String = "";
+			[Bindable]
+			public var prefound:Boolean = false;
+			[Bindable]
+			public var postalString:String = "";
+			[Bindable]
+			public var screenwidth:Number = 200;
+			public var didupdate:Boolean = false;
+			public var goingtonext:Boolean = false;
+			public function init():void
+			{
+				enableHardwareKeyListeners();
+				goingtonext = false;
+				this.parentApplication.showloading();
+				createIfNotExsist("specials");
+				setLoginVars();
+				screenwidth = this.width;
+				filterData1 = new ArrayCollection();
+				filterData2 = new ArrayCollection();
+				filterData3 = new ArrayCollection();
+				filterData4 = new ArrayCollection();
+				filterData1.addItem({name:"Nearby"});
+				filterData1.addItem({name:"Postal Code"});
+				filterData1.addItem({name:"Address"});
+				filterData2.addItem({name:"All"});
+				filterData3.addItem({name:"Highest"});
+				filterData3.addItem({name:"Lowest"});
+				filterData4.addItem({name:"Highest"});
+				filterData4.addItem({name:"Lowest"});
+				getSpecials.send();
+				filterarea.visible = true;				
+			}
+			
+			public function afterGetSpecials(event:ResultEvent):void
+			{
+				this.parentApplication.hideloading();
+				specialData = new ArrayCollection();
+				try{			
+					specialData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						specialData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){}
+				}
+				makemap();
+				generateCategoryFilterArray();
+				sortSpecialsByDistance();					
+			} 
+			public function makemap():void {
+				staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+				var usedlocationarray:Array = new Array();
+				for (var i:uint =  0; i < specialData.length; i++){
+					var goodlocationid:Boolean = true;
+					for (var j:uint = 0; j < usedlocationarray.length; j++){
+						if (usedlocationarray[j] == specialData[i].locationid){
+							goodlocationid = false;
+						}
+					}
+					if (goodlocationid){
+						specialData[i].distance = Number(getDistance(mylat,mylong,specialData[i].lat,specialData[i].longa));
+						staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+specialData[i].lat.toString()+","+specialData[i].longa.toString();
+						usedlocationarray.push(specialData[i].locationid);
+					}	
+				}
+				staticmapimageurl = staticmapimageurl + "&sensor=false";
+				mapimage.source = staticmapimageurl;
+				mapimage.visible = true;
+			}
+			public function sortSpecialsByDistance():void {
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				specialData.sort = numericDataSort;
+				specialData.refresh();
+				dataList.dataProvider = specialData;
+			}
+			public function generateCategoryFilterArray():void {
+				var tempfilter2:ArrayCollection = new ArrayCollection();
+				if (specialData.length > 0){
+					for (var i:uint =  0; i < specialData.length; i++){
+						var tempfail:Boolean = false;
+						for (var j:uint = 0; j < tempfilter2.length; j++){
+							if (tempfilter2[j].name == specialData[i].categoryname){
+								tempfail = true;
+							}
+						}
+						if (tempfail == false){
+							tempfilter2.addItem({name:specialData[i].categoryname});
+						}	
+					}
+				}
+				var filtercatsf:SortField = new SortField();
+				filtercatsf.name = "name";
+				filtercatsf.numeric = false;
+				var fcst:Sort = new Sort();
+				fcst.fields = [filtercatsf];
+				tempfilter2.sort = fcst;
+				tempfilter2.refresh();
+				filterData2 = new ArrayCollection();
+				filterData2.addItem({name:"All"});
+				for (var k:uint = 0; k < tempfilter2.length; k++){
+					filterData2.addItem({name:tempfilter2[k].name});
+				}
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			public function populatelist(u:uint):void {
+				var srt:Sort = new Sort();
+				if (currentselectmode == 1){
+					srt.fields = [new SortField("distance")];
+					specialData.sort = srt;
+					specialData.refresh();
+					for (var i:uint = 0; i < specialData.length; i++){
+						specialData[i].divtype = 0;
+					}
+				}
+				else if (currentselectmode == 2){
+					u = 11;
+					srt.fields = [new SortField("categoryname")];
+					specialData.sort = srt;
+					specialData.refresh();
+					var lastcat:String = "";
+					for (var i:uint = 0; i < specialData.length; i++){
+						if ((specialData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
+							specialData[i].divtype = 1;
+						}
+						else {
+							specialData[i].divtype = 0;
+							
+						}
+						lastcat = specialData[i].categoryname.toLowerCase();
+					}
+				}
+				dataList.dataProvider = specialData;
+				if (u == 0){
+					generateCategoryFilterArray();
+				}
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			public function postalpress(event:KeyboardEvent):void {
+				var tempText:String = svi2.text;
+				var rex:RegExp = /[\s\r\n]*/gim;
+				var dashes:RegExp = /-/gi; // match "dashes" in a string
+				tempText = tempText.replace(rex,'');
+				tempText = tempText.replace(dashes,'');
+				if (tempText.length == 6){
+					postalString = tempText;
+					getSpecialsPostal.send();
+					this.parentApplication.showloading();
+				}
+				else {
+					makemap();
+					sortSpecialsByDistance;
+				}
+			}
+			
+			public function addressPress(event:KeyboardEvent):void {
+				var tempText:String = svi3.text;
+				if (tempText.length >= 6){
+					postalString = tempText;
+					getSpecialsPostal.send();
+					this.parentApplication.showloading();
+				}
+				else {
+					makemap();					
+					sortSpecialsByDistance				
+				}
+			}
+			public function afterGetSpecialsPostal(ev:ResultEvent):void {
+				var tempstring:String = ev.result[0].toString();
+				tempstring = tempstring.substring(tempstring.indexOf("lat")+3,tempstring.length);
+				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);
+				var newlat:String = tempstring.substring(0,tempstring.indexOf("\n"));
+				
+				tempstring = tempstring.substring(tempstring.indexOf("long")+3,tempstring.length);
+				tempstring = tempstring.substring(tempstring.indexOf(">")+2,tempstring.length);
+				var newlong:String = tempstring.substring(0,tempstring.indexOf("\n"));
+				var i:uint = 0;
+				//maybe do twice
+				for (i =  0; i < specialData.length; i++){
+					
+					specialData[i].distance = Number(getDistance(Number(newlat),Number(newlong),specialData[i].lat,specialData[i].longa));
+				}
+				specialData.refresh();
+				populatelist(0);
+			}
+			public function searchClick():void
+			{
+				specialData.filterFunction = filterCompleted;
+				specialData.refresh();
+				dataList.dataProvider = specialData;
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.categoryname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			
+			
+			
+			public function dataListClick():void {	
+				if (goingtonext == false){
+					goingtonext = true;
+					if (dataList.selectedIndex != -1){
+						try{
+							data.homefilterarray = [];
+						}
+						catch(e:Error){}
+						
+							try{
+								var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
+								if (dataArray.length != 0){
+									for (var i:uint = 0; i < dataArray.length; i++){
+										if (dataArray[i].id == specialData[dataList.selectedIndex].locationid){
+											navigator.pushView(StoresDescription, dataArray[i]);	
+										}
+									}
+								}
+							}
+							catch(e:Error){}
+					
+					}
+					else {
+						goingtonext = false;
+					}
+				}
+			}
+			
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function filterClick(u:uint):void {
+				specialData.filterFunction = allFilter;
+				specialData.refresh();
+				dataList.dataProvider = specialData;
+				var fadein:Fade = new Fade();
+				fadein.alphaFrom = 0;
+				fadein.alphaTo = 1;
+				fadein.duration = 500;	
+				var fadeout:Fade = new Fade();
+				fadeout.alphaFrom = 1;
+				fadeout.alphaTo = 0;
+				fadeout.duration = 500;		
+				if ((currentselectmode == 1)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage1];
+				}
+				else if ((currentselectmode == 2)&&(currentselectmode != u)){
+					fadeout.targets = [filterimage2];
+				}
+				
+				
+				if ((u == 1)&&(currentselectmode != u)){
+					filterList1.visible = true;
+					filterList2.visible = false;
+					selectview1.alpha = 1;
+					selectview2.alpha = 0;
+					fadein.targets = [filterimage1];
+					selectview1.mouseEnabled = true;
+					selectview1.mouseEnabledWhereTransparent = true;				
+					selectview2.mouseEnabled = false;
+					selectview2.mouseEnabledWhereTransparent = false;	
+				}
+				else if ((u == 2)&&(currentselectmode != u)){
+					filterList1.visible = false;
+					filterList2.visible = true;				
+					selectview1.alpha = 0;
+					selectview2.alpha = 1;
+					fadein.targets = [filterimage2];
+					selectview1.mouseEnabled = false;
+					selectview1.mouseEnabledWhereTransparent = false;
+					selectview2.mouseEnabled = true;
+					selectview2.mouseEnabledWhereTransparent = true;
+				}
+				
+				if (currentselectmode != u){
+					fadeout.play();
+					fadein.play();
+					currentselectmode = u;
+					populatelist(0);
+				}
+			}
+			public function goFilterScreen(u:uint):void {
+				if (clickingsvi == false){
+					if (dropDownContainer.visible){
+						//close dropdown menu
+						var fadeout:Fade = new Fade();
+						fadeout.alphaFrom = 1;
+						fadeout.alphaTo = 0;
+						fadeout.duration = 500;
+						fadeout.target = dropDownContainer;
+						fadeout.play();
+						fadeout.addEventListener(EffectEvent.EFFECT_END, afterdrophide);
+					}
+					else{
+						//show dropdown menu
+						var fadein:Fade = new Fade();
+						fadein.alphaFrom = 0;
+						fadein.alphaTo = 1;
+						fadein.duration = 500;
+						dropDownContainer.visible = true;
+						fadein.target = dropDownContainer;
+						fadein.play();
+					}	
+				}
+				else {
+					clickingsvi = false;
+				}
+				
+			}
+			
+			
+			public function filter1Click():void {
+				if (filterList1.selectedItem.name == "Nearby"){
+					svi1.visible = true;
+					svi2.visible = false;
+					svi3.visible = false;
+					for (var i:uint =  0; i < specialData.length; i++){
+						specialData[i].distance = Number(getDistance(mylat,mylong,specialData[i].lat,specialData[i].longa));
+					}
+					populatelist(0);
+				}
+				else if (filterList1.selectedItem.name == "Postal Code"){
+					svi1.visible = false;
+					svi2.visible = true;
+					svi3.visible = false;
+				}
+				else if (filterList1.selectedItem.name == "Address"){
+					svi1.visible = false;
+					svi2.visible = false;
+					svi3.visible = true;
+				}
+				goFilterScreen(0);
+				
+			}
+			public function filter2Click():void {
+				sv2label.text = filterList2.selectedItem.name;
+				goFilterScreen(1);
+				specialData.filterFunction = catFilter;
+				specialData.refresh();
+				dataList.dataProvider = specialData;
+				//add filter here
+				populatelist(1);
+			}
+			
+			private function catFilter(item:Object):Boolean{
+				if (sv2label.text.toLowerCase() == "all"){
+					return true;
+				}
+				else {
+					if((item.categoryname.toString().toLowerCase().indexOf(	sv2label.text.toLowerCase()) != -1)){
+						return true;
+					}	
+				}
+				return false;
+			}
+			private function allFilter(item:Object):Boolean{
+				return true;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			
+			public var clickingsvi:Boolean = false;
+			public function closeDrop1():void {
+				clickingsvi = true;
+				if (dropDownContainer.visible){
+					//close dropdown menu
+					var fadeout:Fade = new Fade();
+					fadeout.alphaFrom = 1;
+					fadeout.alphaTo = 0;
+					fadeout.duration = 500;
+					fadeout.target = dropDownContainer;
+					fadeout.play();
+					fadeout.addEventListener(EffectEvent.EFFECT_END, afterdrophide);
+				}
+			}
+			public function afterdrophide(ev:EffectEvent):void {
+				dropDownContainer.visible = false;
+			}
+			public function mapimageclick():void {
+				var doMove:Boolean = true;
+				
+				try{
+					if (data.moving == true){
+						doMove = false;
+					}
+				}
+				catch(e:Error){
+					
+				}
+				if ((specialData.length > 0)&&(doMove)){
+					try{
+						data.homefilterarray = [];
+					}
+					catch(e:Error){}
+					navigator.pushView(FullMap,{specialData:specialData});
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:titleContent>
+		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
+			<s:Rect width="100%"  height="100%"
+					radiusX="{25/(320/Capabilities.screenDPI)}"
+					radiusY="{25/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#39a994"/>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage left="{20/(320/Capabilities.screenDPI)}" verticalCenter="0" contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/glass.png')"
+											source240dpi="@Embed('../assets/240/glass.png')"
+											source320dpi="@Embed('../assets/320/glass.png')"
+											source480dpi="@Embed('../assets/480/glass.png')"
+											source640dpi="@Embed('../assets/640/glass.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:TextInput   fontFamily="Arial"  keyUp="searchClick();" verticalCenter="0"  styleName="textsize0"    
+						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}"
+						   id="key"  top="6"  height="98%" borderVisible="false" fontWeight="normal"  
+						   contentBackgroundAlpha="0"
+						   maxChars="20" prompt="Search Specials"
+						   returnKeyLabel="search"/>
+		</s:Group>
+	</s:titleContent>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getSpecialsAll.php"
+					   result="afterGetSpecials(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="getSpecialsPostal" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getSpecialsAllPostal.php"
+					   result="afterGetSpecialsPostal(event)" >
+			<s:request xmlns="">
+				<postalString>{postalString}</postalString>
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="close"
+								source160dpi="@Embed('../assets/160/close.png')"
+								source240dpi="@Embed('../assets/240/close.png')"
+								source320dpi="@Embed('../assets/320/close.png')"
+								source480dpi="@Embed('../assets/480/close.png')"
+								source640dpi="@Embed('../assets/640/close.png')"/>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
+		<s:Group id="filterarea" visible="true" 
+						   width="100%" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#8eddce"/>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage id="filterimage1" horizontalCenter="0"  
+					 contentLoader="{s_imageCache}" alpha="1"
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/specials-tabs1.png')"
+											source240dpi="@Embed('../assets/240/specials-tabs1.png')"
+											source320dpi="@Embed('../assets/320/specials-tabs1.png')"
+											source480dpi="@Embed('../assets/480/specials-tabs1.png')"
+											source640dpi="@Embed('../assets/640/specials-tabs1.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:BitmapImage id="filterimage2" horizontalCenter="0" 
+					 contentLoader="{s_imageCache}" alpha="0"  
+					 verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/specials-tabs2.png')"
+											source240dpi="@Embed('../assets/240/specials-tabs2.png')"
+											source320dpi="@Embed('../assets/320/specials-tabs2.png')"
+											source480dpi="@Embed('../assets/480/specials-tabs2.png')"
+											source640dpi="@Embed('../assets/640/specials-tabs2.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:HGroup width="100%" height="100%" >
+				<s:Group width="50%"  height="100%" id="toggleclick1" click="filterClick(1);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+				<s:Group width="50%"  height="100%" id="toggleclick2" click="filterClick(2);" 
+						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
+			</s:HGroup>		
+		</s:Group>
+		<s:Group width="100%" maxWidth="{this.width}" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Rect width="100%"  height="100%">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#f2f2f2"/>
+				</s:fill>
+			</s:Rect>
+
+			<s:BitmapImage right="{29/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
+					 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/close.png')"
+											source240dpi="@Embed('../assets/240/close.png')"
+											source320dpi="@Embed('../assets/320/close.png')"
+											source480dpi="@Embed('../assets/480/close.png')"
+											source640dpi="@Embed('../assets/640/close.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:HGroup id="selectview1" right="0" left="0" maxWidth="{this.width}"  height="100%" alpha="1"
+					  mouseDown="goFilterScreen(0);" 
+					  mouseEnabled="true" mouseEnabledWhereTransparent="true" mouseOut="gOut(event)"
+					  mouseOver="gOver(event)" mouseUp="gOut(event)" 
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="15" verticalAlign="middle" >
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" color="#4d4d4d" styleName="textsize1" text="Near" 
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Group left="{90/(320/Capabilities.screenDPI)}" right="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0">
+					<s:Label id="svi1" visible="true" left="0"  mouseEnabled="false"
+							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 text="Current Location" verticalCenter="0"/>
+					<s:TextInput id="svi2" height="90%" right="{10/(320/Capabilities.screenDPI)}" width="80%" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
+								 visible="false" click="closeDrop1();" keyUp="postalpress(event);" left="0" prompt="Enter Postal Code"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+					<s:TextInput id="svi3" height="90%" click="closeDrop1();" width="80%" keyUp="addressPress(event)" right="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								 visible="false" left="0" prompt="Enter Address" color="#b2b2b2" styleName="textsize1"
+								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+				</s:Group>
+			</s:HGroup>
+			<s:HGroup id="selectview2"  mouseDown="goFilterScreen(1);" maxWidth="{this.width}"  
+					  alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
+						 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv2label" 
+						 mouseEnabled="false"  color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+						 text="All" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview3"  mouseDown="goFilterScreen(2);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv3label"
+						 width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
+						 mouseEnabled="false" styleName="textsize1" text="Highest"
+						 verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+			<s:HGroup id="selectview4"  mouseDown="goFilterScreen(3);" maxWidth="{this.width}"   alpha="0" height="100%" width="100%"
+					  mouseEnabled="false" mouseEnabledWhereTransparent="false"
+					  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
+					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
+						 text="Price" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv4label"
+						 width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
+						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
+			</s:HGroup>
+		</s:Group>
+		
+		<s:Group width="100%" horizontalCenter="0" height="100%" >
+			<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
+						verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+				<s:VGroup gap="0" width="100%"  >
+					<s:Image id="mapimage" visible="false" click="mapimageclick();"  left="0"  
+							 width="{screenwidth}" height="{this.height/3.3}" x="0" y="0"/>
+					<s:List width="100%" horizontalCenter="0" contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
+							alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
+							id="dataList" labelField="name" 
+							verticalScrollPolicy="off"  horizontalScrollPolicy="off"  	
+							itemRenderer="components.specialsAllResult"
+							selectedIndex="1" 
+							change="dataListClick();"
+							click="dataListClick();" >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify"  
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+				</s:VGroup>
+			</s:Scroller>
+			<s:Group id="nofind" visible="false" width="100%" height="100%">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
+						 text="No Results Found" color="#8c8c8c"/>
+			</s:Group>
+			
+			<s:Group id="dropDownContainer" visible="false" alpha="0"  width="100%" height="100%">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="0.8" color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="true"
+						id="filterList1"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData1}"
+						itemRenderer="components.dropdownitem"
+						click="filter1Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
+					</s:layout>
+				</s:List>
+				
+				<s:List width="100%" horizontalCenter="0" height="100%"
+						contentBackgroundAlpha="0" visible="false"
+						id="filterList2"  horizontalScrollPolicy="off" 
+						dataProvider="{filterData2}"
+						itemRenderer="components.dropdownitem"
+						click="filter2Click();" >
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
+					</s:layout>
+				</s:List>
+			</s:Group>
+		</s:Group>
+	</s:VGroup>	
+</s:View>

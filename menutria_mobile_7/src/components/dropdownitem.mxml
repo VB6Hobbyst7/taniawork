@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				mouseChildren="false"
+				autoDrawBackground="false" contentBackgroundAlpha="0"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+<s:states>
+	<s:State name="normal"/>
+	<s:State name="hovered"/>
+	<s:State name="selected"/>
+</s:states>   
+<fx:Script source="../func/global.as"/>
+<s:Group  width="95%" right="0" height="{100/(320/Capabilities.screenDPI)}"  >
+	<s:Label fontFamily="HelveticaNeuecff" styleName="textsize1" 
+			 fontWeight="bold"
+			 text="{data.name}" 
+			 left="0"  verticalCenter="3"
+			 color="#4d4d4d"/>
+	<s:Line left="0" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:Group>		
+</s:ItemRenderer>
