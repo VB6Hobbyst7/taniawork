@@ -20,7 +20,7 @@ import spark.transitions.ViewTransitionDirection;
 import views.Home;
 import views.Login;
 [Bindable]
-public var VERSIONID:Number = 11;
+public var VERSIONID:Number = 12;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;
