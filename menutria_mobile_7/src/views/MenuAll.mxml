@@ -9,7 +9,7 @@
 		backgroundAlpha="1"   destructionPolicy="never"
 		backgroundColor="#f3f3f3"
 		menuKeyPressed="menupress(event)"
-	    viewActivate="init()">
+		viewActivate="init()" creationComplete="init2()">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/menuglobal.as"/>
 	<fx:Script>
@@ -17,7 +17,9 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			
+			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
 			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
 			
@@ -26,6 +28,8 @@
 			import spark.components.Image;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
+			
+			import flashx.textLayout.events.ScrollEvent;
 			
 			import skins.HomeTileListSkin;
 			[Bindable]
@@ -63,9 +67,14 @@
 			[Bindable]
 			public var screenwidth:Number = 200;
 			public var didupdate:Boolean = false;
-
+			
 			public function init():void
 			{				
+				enableHardwareKeyListeners();
+				goingtonext = false;
+				setLoginVars();
+			}
+			public function init2():void {
 				enableHardwareKeyListeners();
 				goingtonext = false;
 				this.parentApplication.showloading();
@@ -111,10 +120,9 @@
 				else {
 					getDishes.send();
 				}
-
+				
 				filterarea.visible = true;
 			}
-			
 			public function afterGetDishes(ev:ResultEvent):void
 			{
 				
@@ -155,27 +163,27 @@
 					catch(e:Error){}}
 				
 				syncmenurestrictions();
-							
-				staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
-				var usedlocationarray:Array = new Array();
+				
+				//staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+				//var usedlocationarray:Array = new Array();
 				for (i=  0; i < listData.length; i++){
 					var goodlocationid:Boolean = true;
 					listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
-					for (j = 0; j < usedlocationarray.length; j++){
-						if (usedlocationarray[j] == listData[i].locationid){
-							goodlocationid = false;
-						}
+					/*for (j = 0; j < usedlocationarray.length; j++){
+					if (usedlocationarray[j] == listData[i].locationid){
+					goodlocationid = false;
+					}
 					}
 					if (goodlocationid){
-						staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+listData[i].lat.toString()+","+listData[i].longa.toString();
-						usedlocationarray.push(listData[i].locationid);
-					}
+					staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+listData[i].lat.toString()+","+listData[i].longa.toString();
+					usedlocationarray.push(listData[i].locationid);
+					}*/
 					
 				}
 				
-				staticmapimageurl = staticmapimageurl + "&sensor=false";
-				mapimage.source = staticmapimageurl;
-				mapimage.visible = true;
+				//staticmapimageurl = staticmapimageurl + "&sensor=false";
+				//	mapimage.source = staticmapimageurl;
+				//mapimage.visible = true;
 				
 				var dataSortField:SortField = new SortField();
 				dataSortField.name = "distance";
@@ -207,7 +215,7 @@
 					populatelist(0);
 				}
 			} 
-		
+			
 			
 			public function generateCategoryFilterArray():void {
 				var tempfilter2:ArrayCollection = new ArrayCollection();
@@ -288,7 +296,7 @@
 					}
 				}
 				startapplyingdata();
-			//	menuList.dataProvider = listData;
+				//	menuList.dataProvider = listData;
 				if (u == 0){
 					generateCategoryFilterArray();
 				}
@@ -311,15 +319,15 @@
 					this.parentApplication.showloading();
 				}
 				else {
-						var dataSortField:SortField = new SortField();
-						dataSortField.name = "distance";
-						dataSortField.numeric = true;
-						var numericDataSort:Sort = new Sort();
-						numericDataSort.fields = [dataSortField];
-						listData.sort = numericDataSort;
-						listData.refresh();
-						startapplyingdata();
-						//menuList.dataProvider = listData;
+					var dataSortField:SortField = new SortField();
+					dataSortField.name = "distance";
+					dataSortField.numeric = true;
+					var numericDataSort:Sort = new Sort();
+					numericDataSort.fields = [dataSortField];
+					listData.sort = numericDataSort;
+					listData.refresh();
+					startapplyingdata();
+					//menuList.dataProvider = listData;
 				}
 			}
 			
@@ -689,45 +697,85 @@
 				}
 			}
 			[Bindable]
-			public var timerdelay:Number = 750;
-			public var addvalue:Number = 8;
+			public var timerdelay:Number = 500;
+			public var addvalue:Number = 4;
+			public var originaladd:Number = 4;
 			public var ti:Timer = new Timer(500,0);
 			[Bindable]
 			public var tempData:ArrayCollection = new ArrayCollection();			
 			public var lastindex:Number = 0;
+			public var moving:Boolean = false;
 			public function startapplyingdata():void {
 				//menuList.dataProvider = listData;
+				//	menuList.height = (listData.length/2*300)
+				
+				ti.stop();
+				ti.removeEventListener(TimerEvent.TIMER,afterti);
 				lastindex 0;
 				tempData = new ArrayCollection();
-				ti = new Timer(timerdelay,0);
+				menuList.dataProvider = tempData;
+				ti = new Timer(0,0);
 				ti.addEventListener(TimerEvent.TIMER,afterti);
 				ti.start();
+				trace("doing it now");
+				//	previousscrollcount = scrollingCount;
 				
 				
 			}
+			
+			private var previousscrollcount:Number = 1;
+			public var previousscrollindex:Number = 0;
+			
 			public function afterti(ev:TimerEvent):void {
+				previousscrollindex = menuList.dataGroup.verticalScrollPosition;
+				trace( "QUICK:"+menuList.dataGroup.verticalScrollPosition.toString());
 				ti.stop();
 				ti.removeEventListener(TimerEvent.TIMER,afterti);
-				var startindex:Number = lastindex;
-				var endindex:Number = lastindex+addvalue;
-				if (lastindex > listData.length){
-					lastindex = listData.length;
+				if (previousscrollcount == scrollingCount){
+					var startindex:Number = lastindex;
+					var endindex:Number = lastindex+addvalue;
+					if (lastindex == 0){
+						endindex = endindex + addvalue;
+					}
+					
+					if (endindex > listData.length){
+						endindex = listData.length-1;
+						lastindex = endindex;
+					}
+					else {
+						lastindex = endindex;
+					}
+					for (var i:uint = startindex; i < endindex; i++){
+						tempData.addItem(listData[i]);
+					}
+					//	menuList.height = (tempData.length/2*300)
+					
+					tempData.refresh();
+					
+					
+					menuList.dataGroup.verticalScrollPosition = previousscrollindex;
+					trace( "SET:"+previousscrollindex.toString());
+					
+					//
 				}
-				else {
-					lastindex = endindex;
-				}
-				for (var i:uint = startindex; i < endindex; i++){
-					tempData.addItem(listData[i]);
-				}
-				menuList.dataProvider = tempData;
-				if (lastindex != listData.length){
+				
+				if (lastindex <= listData.length-1){
 					ti = new Timer(timerdelay,0);
 					ti.addEventListener(TimerEvent.TIMER,afterti);
-					ti.start();
+					ti.start(); 
 				}
+				scrollingCount = 0;
+				previousscrollcount = 0;
 			}
 		]]>
 	</fx:Script>
+	<fx:Declarations>
+		<fx:int id="scrollingCount" />
+	</fx:Declarations>
+	
+	<s:initialize>
+		BindingUtils.bindSetter(function(x:*):void { scrollingCount++; }, menuList.scroller.viewport, "verticalScrollPosition");
+	</s:initialize>
 	<s:titleContent>
 		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
 			<s:Rect width="100%"  height="100%"
@@ -781,15 +829,15 @@
 	</fx:Declarations>
 	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
 		<s:Group id="filterarea" visible="true" width="100%" 
-				height="{75/(320/Capabilities.screenDPI)}">
+				 height="{75/(320/Capabilities.screenDPI)}">
 			<s:Rect width="100%"  height="100%">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#8eddce"/>
 				</s:fill>
 			</s:Rect>
 			<s:BitmapImage id="filterimage1" horizontalCenter="0"  
-					 contentLoader="{s_imageCache}" alpha="1"
-					 verticalCenter="0">
+						   contentLoader="{s_imageCache}" alpha="1"
+						   verticalCenter="0">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/hometabs1.png')"
 											source240dpi="@Embed('../assets/240/hometabs1.png')"
@@ -799,8 +847,8 @@
 				</s:source>
 			</s:BitmapImage>
 			<s:BitmapImage id="filterimage2" horizontalCenter="0" 
-					 contentLoader="{s_imageCache}" alpha="0"  
-					 verticalCenter="0">
+						   contentLoader="{s_imageCache}" alpha="0"  
+						   verticalCenter="0">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/hometabs2.png')"
 											source240dpi="@Embed('../assets/240/hometabs2.png')"
@@ -810,8 +858,8 @@
 				</s:source>
 			</s:BitmapImage>
 			<s:BitmapImage id="filterimage3" horizontalCenter="0"  
-					 contentLoader="{s_imageCache}" alpha="0"  
-					 verticalCenter="0">
+						   contentLoader="{s_imageCache}" alpha="0"  
+						   verticalCenter="0">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/hometabs3.png')"
 											source240dpi="@Embed('../assets/240/hometabs3.png')"
@@ -821,8 +869,8 @@
 				</s:source>			
 			</s:BitmapImage>
 			<s:BitmapImage id="filterimage4" horizontalCenter="0"  
-					 contentLoader="{s_imageCache}" alpha="0" 
-					 verticalCenter="0">
+						   contentLoader="{s_imageCache}" alpha="0" 
+						   verticalCenter="0">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/hometabs4.png')"
 											source240dpi="@Embed('../assets/240/hometabs4.png')"
@@ -843,14 +891,14 @@
 			</s:HGroup>
 		</s:Group>
 		<s:Group width="100%" maxWidth="{this.width}" 
-						   height="{75/(320/Capabilities.screenDPI)}">
+				 height="{75/(320/Capabilities.screenDPI)}">
 			<s:Rect width="100%"  height="100%">
 				<s:fill>
 					<s:SolidColor alpha="1" color="#f2f2f2"/>
 				</s:fill>
 			</s:Rect>
 			<s:BitmapImage right="{29/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
-					 visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
+						   visible="{dropDownContainer.alpha == 1}"  verticalCenter="0">
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/close.png')"
 											source240dpi="@Embed('../assets/240/close.png')"
@@ -911,22 +959,15 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
-						verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-				<s:VGroup gap="0" width="100%"  >
-					<s:Image id="mapimage" visible="false" click="mapimageclick();"  left="0"  
-							 width="{screenwidth}" height="{this.height/3.3}" x="0" y="0"/>
-					<s:List width="100%" horizontalCenter="0" height="{(tempData.length/2)*300}"
-							id="menuList" useVirtualLayout="false" 
-							verticalScrollPolicy="off"  
-							horizontalScrollPolicy="off"  
-							contentBackgroundColor="#FFFFFF"
-							skinClass="skins.MenuProxTileListSkin"
-							selectedIndex="1" 
-							change="menuListClick();"
-							click="menuListClick();"/>
-				</s:VGroup>
-			</s:Scroller>
+			<s:List width="100%" horizontalCenter="0"  height="100%"
+					id="menuList" useVirtualLayout="true" 
+					verticalScrollPolicy="on"  
+					horizontalScrollPolicy="off"  
+					contentBackgroundColor="#FFFFFF"
+					skinClass="skins.MenuProxTileListSkin"
+					selectedIndex="1" 
+					change="menuListClick();"
+					click="menuListClick();"/>
 			
 			<s:Group id="nofind" visible="false" width="100%" height="100%">
 				<s:Rect width="100%"  height="100%">

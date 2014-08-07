@@ -75,31 +75,11 @@
 							bmpImg.source = data.picture;
 						}
 						bmpImg.contentLoader = s_imageCache;	
-						fixdistance();
 					}
 				}
 				catch(e:Error){}
 			}
-			public function fixdistance():void {
-				try{
-					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
-						var dist:Number = data.distance;
-						if (dist >= 1){
-							distotexto.text = dist.toFixed(1)+ " km";
-						}
-						else {
-							dist = dist * 1000;
-							distotexto.text = dist.toFixed(0)+ " m";
-						}
-						distotexto.visible = true;
-					}
-					this.visible = true;
-				}
-				catch(e:Error) {
-					this.visible = false;
-				}
-				
-			}
+			
 		]]>
 	</fx:Script>
 	
@@ -141,8 +121,16 @@
 				</s:Line>
 			</s:Group>
 			<s:Group width="{neededwidth/3}" height="50">
-				<s:Label color="#999999"  styleName="textsize0"  textAlign="center"
-						 id="distotexto" visible="false"  verticalCenter="0" horizontalCenter="0"/>
+				<s:Image id="alertImage" horizontalAlign="center" horizontalCenter="0" visible="{data.goodforme == false}"
+						 verticalCenter="0"  contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/alert.png')"
+												source240dpi="@Embed('../assets/240/alert.png')"
+												source320dpi="@Embed('../assets/320/alert.png')"
+												source480dpi="@Embed('../assets/480/alert.png')"
+												source640dpi="@Embed('../assets/640/alert.png')"/>
+					</s:source>
+				</s:Image>
 				<s:Line  right="0" left="0" bottom="0" > 
 					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
 												  weight="{1/(320/Capabilities.screenDPI)}"/>
@@ -156,23 +144,10 @@
 					 fontWeight="bold" styleName="textsize4" id="nameLabel"
 					 text="{data.name}" maxDisplayedLines="1"
 					 verticalAlign="middle"></s:Label>
-			<s:Group width="{neededwidth-20}">
-				<s:Label width="100%" color="#4d4d4d"  id="catLabel2"
-						 styleName="textsize1" paddingLeft="{20}" left="0"
-						 text="{data.categoryname}"
-						 verticalAlign="middle"></s:Label>
-				<s:Image id="alertImage" right="20" visible="{data.goodforme == false}"
-						 verticalCenter="0"  contentLoader="{s_imageCache}" >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/alert.png')"
-												source240dpi="@Embed('../assets/240/alert.png')"
-												source320dpi="@Embed('../assets/320/alert.png')"
-												source480dpi="@Embed('../assets/480/alert.png')"
-												source640dpi="@Embed('../assets/640/alert.png')"/>
-					</s:source>
-				</s:Image>
-			</s:Group>
-			
+			<s:Label width="100%" color="#4d4d4d"  id="catLabel2"
+					 styleName="textsize1" paddingLeft="{20}" left="0"
+					 text="{data.categoryname}"
+					 verticalAlign="middle"></s:Label>
 		</s:VGroup>	
 	</s:VGroup>
 </s:ItemRenderer>

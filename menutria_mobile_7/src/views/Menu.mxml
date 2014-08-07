@@ -181,19 +181,15 @@
 						 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
 			</s:Group>
 		</s:Group>
-		<s:List width="100%" horizontalCenter="0" height="100%"
-				id="menuList" labelField="name"  horizontalScrollPolicy="off" 
-				dataProvider="{listData}" itemRenderer="components.menuResult"
-				selectedIndex="1"
+		<s:List width="100%" horizontalCenter="0"  height="100%"
+				id="menuList" useVirtualLayout="true" 
+				verticalScrollPolicy="on"  
+				horizontalScrollPolicy="off"  
 				contentBackgroundColor="#FFFFFF"
+				skinClass="skins.MenuTileListSkin"
+				selectedIndex="1" 
 				click="listClick();"
-				change="listClick();" >
-			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" 
-								  variableRowHeight="true"
-								  gap="0"/>
-			</s:layout>
-		</s:List>
+				change="listClick();"/>
 	</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 		 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
