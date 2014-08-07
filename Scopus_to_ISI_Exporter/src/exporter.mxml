@@ -7,6 +7,8 @@
 	<fx:Script>
 		<![CDATA[
 			import com.shortybmc.data.parser.CSV;
+			
+			import spark.supportClasses.INavigator;
 			public var file:File;
 			public var author_index:Number = -1;
 			public var title_index:Number = -1;
@@ -79,26 +81,37 @@
 				}
 				
 				totalCallCount = lineArray.length;
+				csv = new CSV();
+				System.gc();
 				DoNextFunction();
 			}
 			
 			
 			public var totalCallCount:int = 0;
 			private var _timesCalled:int = 0;
-			
+			public var memcounter:int = 0;
+			public var filecounter:uint = 0;
 			
 			private function DoNextFunction():void
 			{
 				if( _timesCalled >= totalCallCount )
 				{
-					var docsDir:File = File.documentsDirectory;
-					docsDir.browseForSave("Save As");
-					docsDir.addEventListener(Event.SELECT, saveData);
+					//var docsDir:File = File.documentsDirectory;
+					//docsDir.browseForSave("Save As");
+					//docsDir.addEventListener(Event.SELECT, saveData);
+					dumpdata();
 				}
 				else
 				{
+					if (memcounter >= 2000){
+						dumpdata();
+						memcounter = 0;
+					}
+					
 					processLine(lineArray[_timesCalled],_timesCalled,lineArray.length);
+					lineArray[_timesCalled] = new Array();
 					_timesCalled++;
+					memcounter++;
 					callLater( DoNextFunction );
 				}
 			}
@@ -106,7 +119,15 @@
 			
 			
 			
-			
+			public function dumpdata():void {
+				var f:File = new File("C:/wosexport/wos_"+filecounter.toString()+".txt");			
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.WRITE);                                         
+				stream.writeUTFBytes(outputText);
+				stream.close();
+				outputText = "";
+				filecounter++;
+			}
 			
 			public function processLine(ar:Array,i:Number,total:Number):void {
 				var lineSections:Array = ar;
@@ -130,7 +151,7 @@
 				outputText = outputText + deliberator+"LA English";
 				outputText = outputText + deliberator+"DT Article";
 				outputText = outputText + deliberator+"DE None";
-				outputText = outputText + deliberator+"ID "+pmid_string;
+				outputText = outputText + deliberator+"ID "+clean2(pmid_string);
 				outputText = outputText + deliberator+"AB "+abstractclean(abstract_string);
 				outputText = outputText + deliberator+"C1 XXXX";
 				outputText = outputText + deliberator+"RP XXXX";
@@ -175,6 +196,7 @@
 				outputText = outputText + deliberator+"SN 1043-4631";
 				outputText = outputText + deliberator+"J9 "+sourceabvclean1(sourceabv_string);
 				outputText = outputText + deliberator+"JI "+sourceabvclean2(sourceabv_string);
+				outputText = outputText + deliberator+"PY "+sourcefullclean(year_string);
 				outputText = outputText + deliberator+"PD MAY";
 				outputText = outputText + deliberator+"VL 1";
 				outputText = outputText + deliberator+"IS 1";
