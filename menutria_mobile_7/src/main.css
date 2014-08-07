@@ -220,7 +220,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 {
 	s|Application
 	{
-		osStatusBarHeight: 30;
+		osStatusBarHeight: 0;
 	}
 	s|TextArea {
 		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
@@ -326,7 +326,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 {
 	s|Application
 	{
-		osStatusBarHeight: 40;
+		osStatusBarHeight: 0;
 	}
 	s|TextArea {
 		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
@@ -433,7 +433,7 @@ s|ActionBar.beveled s|Group#actionGroup s|Button
 {
 	s|Application
 	{
-		osStatusBarHeight: 60;
+		osStatusBarHeight: 0;
 	}
 	s|TextArea {
 		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
