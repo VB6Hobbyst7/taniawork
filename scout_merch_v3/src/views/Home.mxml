@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"
+		backgroundColor="#f5f6f7" >
+	<fx:Script source="../func/smallglobal.as" />
+	<fx:Script>
+		<![CDATA[
+			public function signinclick():void {
+				navigator.pushView(SignIn,{i:0});
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+	</fx:Declarations>
+	<s:VGroup gap="80" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<s:BitmapImage >
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="@Embed('assets/old/accountback_High.png')"
+					source240dpi="@Embed('assets/old/accountback_Med.png')"
+					source320dpi="@Embed('assets/old/accountback_Low.png')"/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage >
+			<s:source>
+				<s:MultiDPIBitmapSource
+										source160dpi="@Embed('assets/old/log2.png')"
+										source240dpi="@Embed('assets/old/log2.png')"
+										source320dpi="@Embed('assets/old/log2.png')"/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage>
+			<s:source>
+				<s:MultiDPIBitmapSource 
+										source160dpi="@Embed('assets/old/log3.png')"
+										source240dpi="@Embed('assets/old/log3.png')"
+										source320dpi="@Embed('assets/old/log3.png')"/>
+			</s:source>
+		</s:BitmapImage>
+		<s:Image click="signinclick();"
+				 mouseUp="gOut(event)">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/old/signin_Low.png')"
+										source240dpi="@Embed('assets/old/signin_Med.png')"
+										source320dpi="@Embed('assets/old/signin_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:VGroup>
+</s:View>
