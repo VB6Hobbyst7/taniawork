@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		contentBackgroundAlpha="1" name="sign2"
+		contentBackgroundColor="#f3f3f3"
+		backgroundAlpha="1" viewActivate="init();"
+		backgroundColor="#f3f3f3" 
+		actionBarVisible="false" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var busy:Boolean = false;
+			public function nextStep():void {
+				if (checkFields()){
+					
+					createNewUser.send();
+				}
+				else {
+					popupholder1.visible = true;	
+				}
+			}
+			protected function init():void
+			{
+				enableHardwareKeyListeners();
+			}
+			public function checkFields():Boolean {
+				if ((ncity.text == "")
+					||(nbirthday.text == "")
+					||(nbirthmonth.text == "")
+					||(nbirthyear.text == "")
+				){	
+				return false;	
+				}
+				return true;
+			}
+			public function afterCreateNewUser(ev:ResultEvent):void {
+				
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(data.email,data.nameo,'canada');
+				}
+				else {
+					popupholder1.visible = true;
+					logWarningTextinfo.text = ev.result[0].ress.message;
+				}
+			}
+			public function AddNewLocalUser(email:String,name:String,city:String):void
+			{
+				createIfNotExsist("localuser");
+				doQuery("delete FROM localuser;");
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.execute();
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:city)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":city"] = city;
+				stmt.execute();
+				navigator.pushView(Home);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:RadioButtonGroup id="gendergroup"/>
+		<s:HTTPService id="createNewUser" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.menutria.com/php/mobile/createNewUser.php"
+					   result="afterCreateNewUser(event)" >
+			<s:request xmlns="">
+				<email>{data.email}</email>		
+				<nameo>{data.nameo}</nameo>		
+				<password>{data.password}</password>		
+				<city>{ncity.text}</city>		
+				<locality>{nlocality.selectedItem.name}</locality>		
+				<gender>{gendergroup.selectedValue}</gender>		
+				<birthday>{nbirthday.text}</birthday>		
+				<birthmonth>{nbirthmonth.text}</birthmonth>		
+				<birthyear>{nbirthyear.text}</birthyear>		
+				<versionnumber>3</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:BitmapImage width="100%" height="100%"
+				   scaleMode="zoom"  
+				   contentLoader="{s_imageCache}" >
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/loginbackground.png')"
+									source240dpi="@Embed('../assets/240/loginbackground.png')"
+									source320dpi="@Embed('../assets/320/loginbackground.png')"
+									source480dpi="@Embed('../assets/480/loginbackground.png')"
+									source640dpi="@Embed('../assets/640/loginbackground.png')"/>
+		</s:source>
+	</s:BitmapImage>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
+				  horizontalCenter="0" verticalCenter="0"  
+				  paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  bottom="0" horizontalAlign="center" verticalAlign="top">
+			
+			<s:Group width="100%" >
+				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="ncity"  fontFamily="Arial"
+							 width="{550/(320/Capabilities.screenDPI)}"
+							 height="{100/(320/Capabilities.screenDPI)}"
+							 verticalCenter="0"
+							 horizontalCenter="0"
+							 contentBackgroundAlpha="0"
+							 prompt="City"
+							 borderVisible="false"/>
+			</s:Group>
+			
+			
+			
+			<s:Group width="100%">
+				<s:Rect id="reco" width="{550/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:Label text="Province" color="#cccccc" x="{reco.x + (10/(320/Capabilities.screenDPI))}" 
+						 verticalCenter="0"></s:Label>
+				<s:SpinnerListContainer  horizontalCenter="0"  width="20%">
+					<s:SpinnerList id="nlocality" right="0" height="80"
+								   labelField="name"  width="100%" 
+								   verticalCenter="0">
+						<s:ArrayList>
+							<fx:Object name="AB" />
+							<fx:Object name="BC" />
+							<fx:Object name="MB" />
+							<fx:Object name="NB" />
+							<fx:Object name="NS" />
+							<fx:Object name="ON" />
+							<fx:Object name="QC" />
+							<fx:Object name="SK" />
+							<fx:Object name="NT" />
+							<fx:Object name="YT" />
+							<fx:Object name="PE" />
+							<fx:Object name="NL" />
+							<fx:Object name="NU" />
+						</s:ArrayList>                        
+					</s:SpinnerList>
+				</s:SpinnerListContainer>
+			</s:Group>
+			
+			
+			
+			
+			<s:Group width="100%" >
+				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
+						   horizontalCenter="0" verticalCenter="0">
+					<s:TextInput id="nbirthday" width="33%" prompt="Day" softKeyboardType="number"
+								 borderVisible="false" fontFamily="Arial"/>
+					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" softKeyboardType="number"
+								 borderVisible="false" fontFamily="Arial"/>
+					<s:TextInput id="nbirthyear" width="33%" prompt="Year" softKeyboardType="number"
+								 borderVisible="false" fontFamily="Arial"/>
+				</s:HGroup>
+				
+			</s:Group>
+			
+			
+			
+			
+			<s:Group width="100%" >
+				<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+						height="{100/(320/Capabilities.screenDPI)}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:HGroup  width="{reco.width-30}" horizontalAlign="center"
+						  horizontalCenter="0" verticalCenter="0" >
+					<s:RadioButton label="Male" id="maleor" color="#cccccc" 
+								   fontWeight="normal" groupName="gendergroup"  selected="true"  />
+					<s:RadioButton label="Female" id="femaleor" color="#cccccc"
+								   fontWeight="normal" groupName="gendergroup"/>
+				</s:HGroup>
+				
+			</s:Group>		
+			<components:transbutton textLabel="Continue" horizontalCenter="0" click="nextStep();" />	
+			<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="navigator.popView();"/>	
+			<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+					 text="By Creating an account you agree to Menutria's Terms of Service and Privacy Policy. "
+					 textAlign="center"/>
+			
+			<s:Label top="290" width="95%"
+					 click="navigateToURL(new URLRequest('https://www.menutria.com/'));"
+					 color="#174FDE" fontWeight="bold" horizontalCenter="0"
+					 text="Terms of Service" textAlign="center" textDecoration="underline"/>
+			<s:Label top="290" width="95%" fontWeight="bold" horizontalCenter="0"
+					 text="Privacy Policy" textDecoration="underline"
+					 textAlign="center"   color="#174FDE"
+					 click="navigateToURL(new URLRequest('https://www.menutria.com/'));"/>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Group id="popupholder1"  width="100%" height="100%" visible="false">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group id="popupholder2" width="85%"  height="85%"
+				 horizontalCenter="0" verticalCenter="0"
+				 mouseDownOutside="{popupholder1.visible = false}">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+			</s:Rect>
+			
+			<!-- PUT POPUP CONTENTS HERE  -->
+			<s:Label id="logWarningTextinfo" textAlign="center"
+					 color="#656565"   width="90%"
+					 horizontalCenter="0"
+					 verticalCenter="0" 
+					 styleName="textsize13"
+					 verticalAlign="middle" 
+					 text="Sorry Incorrect Information"/>
+			<!-- END OF PUT POPUP CONTENTS HERE  -->
+			
+			<s:Group height="15%" width="100%" bottom="0" 
+					 click="{popupholder1.visible = false}"
+					 mouseDown="gDown(event);" mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:Rect width="100%" height="100%">
+					<s:fill><s:SolidColor alpha="1" color="#36ccba"/></s:fill>
+				</s:Rect>
+				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
+						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

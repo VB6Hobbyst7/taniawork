@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:ns="http://www.flextras.com/mxml" 
+		xmlns:cs="cs.*" 
+		xmlns:components="components.*"		
+		title="Change Password" 	
+		contentBackgroundColor="#f3f3f3"
+		contentBackgroundAlpha="1"
+		viewActivate="init()"
+		menuKeyPressed="menupress(event)" >	
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
+							   height="100%" mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			public function init():void
+			{	
+				enableHardwareKeyListeners();	
+				setLoginVars();
+			}	
+			public function changePass():void {
+				logWarning.visible = false;
+				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
+					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
+					
+					changePassword.send();					
+				}	
+			}
+			public function afterChangePassword(ev:ResultEvent):void {
+				
+				logWarning.text = ev.result[0].res.message;
+				logWarning.visible = true;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="changePassword" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.menutria.com/php/mobile/changePassword.php"
+					   result="afterChangePassword(event)" >
+			<s:request xmlns="">
+				<oldpass>{oldpassword.text}</oldpass>
+				<newpass>{newpassword1.text}</newpass>
+				<email>{emailGo}</email>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="95%"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				<s:TextInput id="oldpassword" top="37" width="98%"  fontFamily="Arial" horizontalCenter="0"
+							  displayAsPassword="true" prompt="Old Password"/>
+				<s:TextInput id="newpassword1" top="65" width="98%"  fontFamily="Arial"
+							 displayAsPassword="true" horizontalCenter="0" prompt="New Password"/>
+				<s:TextInput id="newpassword2" top="65" width="98%"  fontFamily="Arial"
+							 displayAsPassword="true" horizontalCenter="0" prompt="Confirm New Password"/>
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" 
+										click="changePass();" />
+				<components:transbutton textLabel="Cancel" horizontalCenter="0" 
+										click="navigator.popView();" />
+				<s:Label top="210" fontFamily="_sans" visible="false" right="2" left="2" height="100%" 
+						 color="#000000" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

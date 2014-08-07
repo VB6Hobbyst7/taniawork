@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				autoDrawBackground="false" mouseChildren="false"
+				dataChange="dchange(event)"
+				creationComplete="init(event)"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			protected function init(event:FlexEvent):void
+			{
+				if (data.totallikecount == null){
+					data.totallikecount = "0";
+				}
+				
+				if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
+					data.ratingdescription = "";	
+				}
+				var ratingstring:String = "";
+				var ratingnumber:Number = 0;		
+				ratingstring = data.rating.toString();
+				ratingnumber = Number(data.rating);
+				if (ratingnumber == 0){
+					ratinglabel.text = "-";
+				}
+				
+				if (ratingnumber >= 10){
+					ratingnumber = 10;
+					ratinglabel.text = "10";
+				}
+				
+				if (data.ratingdescription.length == 0){
+					likecont.height = 0;
+				}
+				else {
+					likecont.percentHeight = 100;
+				}
+				
+				var datedata:String = data.ratingdate;
+				var year:String = datedata.substring(0,datedata.indexOf("-"));
+				datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+				var month:String = datedata.substring(0,datedata.indexOf("-"));
+				datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+				var day:String = datedata.substring(0,datedata.indexOf(" "));
+				datedata = datedata.substring(datedata.indexOf(" ")+1,datedata.length);
+				var time:String = datedata;
+				var fullmonth:String = getMonth(Number(month));
+				var stop:String = "";
+				datetext.text = fullmonth+" "+day+", "+year+" at "+time;
+
+			}
+			public function getMonth(u:Number):String{
+				switch (u){
+					case 1 :
+						return "January";
+						break;
+					case 2 :
+						return "February";
+						break;
+					case 3 :
+						return "March";
+						break;
+					case 4 :
+						return "April";
+						break;
+					case 5 :
+						return "May";
+						break;
+					case 6 :
+						return "June";
+						break;
+					case 7 :
+						return "July";
+						break;
+					case 8 :
+						return "August";
+						break;
+					case 9 :
+						return "September";
+						break;
+					case 10 :
+						return "October";
+						break;
+					case 11 :
+						return "November";
+						break;
+					case 12 :
+						return "December";
+						break;
+				}
+				return "";
+			}
+			public function dchange(event:FlexEvent):void
+			{
+				try{
+					
+					if (data.totallikecount == null){
+						data.totallikecount = "0";
+					}
+					
+					if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
+						data.ratingdescription = "";	
+					}
+					
+					
+					var ratingstring:String = "";
+					var ratingnumber:Number = 0;
+					ratingstring = data.rating.toString();
+					ratingnumber = Number(data.rating);
+					
+					if (ratingnumber == 0){
+						ratinglabel.text = "-";
+					}
+					
+					if (ratingnumber >= 10){
+						ratingnumber = 10;
+						ratinglabel.text = "10";
+					}
+					
+					if (data.ratingdescription.length == 0){
+						likecont.height = 0;
+					}
+					else {
+						likecont.percentHeight = 100;
+					}
+					
+					var datedata:String = data.ratingdate;
+					var year:String = datedata.substring(0,datedata.indexOf("-"));
+					datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+					var month:String = datedata.substring(0,datedata.indexOf("-"));
+					datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+					var day:String = datedata.substring(0,datedata.indexOf(" "));
+					datedata = datedata.substring(datedata.indexOf(" ")+1,datedata.length);
+					var time:String = datedata;
+					var fullmonth:String = getMonth(Number(month));
+					var stop:String = "";
+					datetext.text = fullmonth+" "+day+", "+year+" at "+time;
+				}
+				catch(e:Error){}	
+			}
+		]]>
+	</fx:Script>
+<s:Group width="{this.width}"  mouseEnabled="false"   id="megacont"  >
+	<s:VGroup width="100%" height="100%" 
+			  paddingTop="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
+			  paddingBottom="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}">
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label  text="{data.name}"
+					  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+			<s:BitmapImage contentLoader="{s_imageCache}"  >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
+											source240dpi="@Embed('../assets/240/trirating.png')"
+											source320dpi="@Embed('../assets/320/trirating.png')"
+											source480dpi="@Embed('../assets/480/trirating.png')"
+											source640dpi="@Embed('../assets/640/trirating.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label  text="{data.menuname}" width="100%" maxDisplayedLines="1"
+					  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="top">
+			<s:Label id="ratinglabel"  text="{data.rating}"  color="#36ccba"  fontWeight="bold"
+					 styleName="textsize0" verticalAlign="middle"/>
+			<s:Group width="100%" >
+				<s:Label width="100%" visible="{data.ratingdescription.length != 0}"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
+						 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+				<s:HGroup verticalAlign="middle" visible="{data.ratingdescription.length == 0}" >
+					<s:BitmapImage contentLoader="{s_imageCache}"  >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+													source240dpi="@Embed('../assets/240/triratinggreen.png')"
+													source320dpi="@Embed('../assets/320/triratinggreen.png')"
+													source480dpi="@Embed('../assets/480/triratinggreen.png')"
+													source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold"
+							   styleName="textsize0" verticalAlign="middle"/>
+				</s:HGroup>
+			</s:Group>
+			
+		</s:HGroup>
+		<s:HGroup verticalAlign="middle" id="likecont"  visible="{data.ratingdescription.length != 0}">
+			<s:BitmapImage contentLoader="{s_imageCache}"  >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+											source240dpi="@Embed('../assets/240/triratinggreen.png')"
+											source320dpi="@Embed('../assets/320/triratinggreen.png')"
+											source480dpi="@Embed('../assets/480/triratinggreen.png')"
+											source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold"
+					   styleName="textsize0" verticalAlign="middle"/>
+		</s:HGroup>
+		<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold"
+				  styleName="textsize0" verticalAlign="middle"/>
+		<s:Label id="datetext"   color="#4d4d4d"  fontWeight="normal"
+				  styleName="textsize0" verticalAlign="middle"/>
+	</s:VGroup>		
+	<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:Group>
+</s:ItemRenderer>

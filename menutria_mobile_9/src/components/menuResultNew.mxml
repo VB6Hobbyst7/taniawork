@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="init(event)" 
+				contentBackgroundAlpha="1"
+				contentBackgroundColor="#FFFFFF" visible="false"
+				dataChange="datachango(event)"
+				mouseOver="gOver();"
+				mouseOut="gOut();" 
+				mouseUp="gOut();" 
+				mouseDown="gDown();">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.core.ContentCache;
+			[Bindable]
+			public var mainaddress:String = "";
+			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
+			[Bindable]
+			public var neededwidth:Number = 300;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			public function gOver():void {
+				this.alpha = 0.5;
+			}
+			public function gDown():void {
+				this.alpha = 0.5;
+			}
+			public function gOut():void {
+				this.alpha = 1;
+			}
+			protected function init(event:FlexEvent):void
+			{
+				neededwidth = this.parent.width/2-(2/2);
+				dostuff();
+			}
+			protected function datachango(event:FlexEvent):void
+			{
+				dostuff();
+			}
+			
+			public function dostuff():void {
+				try{
+					if (data)
+					{
+						var ratingstring:String = "";
+						var ratingnumber:Number = 0;
+						
+						ratingstring = data.rating.toString();
+						ratingnumber = Number(data.rating);
+						
+						if (ratingnumber == 0){
+							ratinglabel.text = "-";
+						}
+						else if (ratingnumber >= 10){
+							ratingnumber = 10;
+							ratinglabel.text = "10";
+						}
+						else {
+							ratinglabel.text = ratingnumber.toPrecision(2).toString();
+						}
+						
+						
+						var n:Number = Number(data.rating);
+						nameLabel.text =  data.name;
+						catLabel2.text = data.categoryname;
+						costLabel.text = "  $"+data.cost;
+						
+						if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+							bmpImg.source = "assets/640/dish_place_wide.png";
+						}
+						else if (data.picture.indexOf("dish") != -1){
+							bmpImg.source = "assets/640/dish_place_wide.png";
+						}
+						else {
+							bmpImg.source = data.picture;
+						}
+						bmpImg.contentLoader = s_imageCache;	
+					}
+				}
+				catch(e:Error){}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:VGroup id="megacont" width="{neededwidth}" height="100%"  gap="0"  mouseEnabled="false">
+		<s:Image id="bmpImg"
+				 contentLoader="{s_imageCache}"  
+				 width="{neededwidth}" height="{neededwidth*(300/640)}"  />
+		<s:HGroup horizontalAlign="center" paddingTop="0" width="100%" gap="0" verticalAlign="middle" >
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Label id="ratinglabel" color="#36ccba"  textAlign="center"
+						 horizontalCenter="0"
+						 verticalCenter="0"
+						 styleName="textsize1"
+						 fontWeight="bold" />
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line   top="0" bottom="0" right="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Label id="costLabel" color="#999999" text=""   textAlign="center"
+						 horizontalCenter="0" styleName="textsize0"  verticalCenter="0" />
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line   top="0" bottom="0" right="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="{neededwidth/3}" height="50">
+				<s:Image id="alertImage" horizontalAlign="center" horizontalCenter="0" visible="{data.goodforme == false}"
+						 verticalCenter="0"  contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/alert.png')"
+												source240dpi="@Embed('../assets/240/alert.png')"
+												source320dpi="@Embed('../assets/320/alert.png')"
+												source480dpi="@Embed('../assets/480/alert.png')"
+												source640dpi="@Embed('../assets/640/alert.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Line  right="0" left="0" bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xe6e6e6" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/>
+					</s:stroke>
+				</s:Line>
+				
+			</s:Group>
+		</s:HGroup>
+		<s:VGroup width="100%" gap="8" paddingTop="18"  paddingBottom="10" >
+			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
+					 fontWeight="bold" styleName="textsize4" id="nameLabel"
+					 text="{data.name}" maxDisplayedLines="1"
+					 verticalAlign="middle"></s:Label>
+			<s:Label width="100%" color="#4d4d4d"  id="catLabel2"
+					 styleName="textsize1" paddingLeft="{20}" left="0"
+					 text="{data.categoryname}"
+					 verticalAlign="middle"></s:Label>
+		</s:VGroup>	
+	</s:VGroup>
+</s:ItemRenderer>
