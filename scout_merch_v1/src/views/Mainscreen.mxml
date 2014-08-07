@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f5f6f7"
+		viewActivate="view1_viewActivateHandler(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" actionBarVisible="true" 
+		title="{titleo}">
+	<s:navigationContent>
+		<s:Image x="0" y="-2" click="signoutclick();"
+				 >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/signout_Low.png')"
+										source240dpi="@Embed('assets/signout_Med.png')"
+										source320dpi="@Embed('assets/signout_High.png')"/>
+			</s:source>
+		</s:Image>
+	</s:navigationContent>
+	<fx:Script source="../func/scanFunctions.as" />
+	<fx:Script>
+		<![CDATA[
+			import com.google.zxing.Result;
+			
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.filters.GlowFilter;
+			import spark.managers.PersistenceManager;
+			[Bindable]
+			public var titleo:String = "user@user.com";
+			[Bindable]
+			public var scannedText:String = "";
+			[Bindable]
+			public var scannedText2:String = "";
+			[Bindable]
+			public var scanningMode:Boolean = false;
+			[Bindable]
+			public var payamount:Number = 0;
+			[Bindable]
+			public var gst:String = "5";
+			public var codeArray:Array = new Array();
+			[Bindable]
+			public var code:String = "";
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var merchid:String = "";
+			protected var sqlConnection:SQLConnection;
+			[Bindable]
+			public var busy:Boolean = false;
+			[Bindable]
+			public var digitcount:Number = 0;
+			[Bindable]
+			public var valuewithtax:Number = 0.00;
+			[Bindable]
+			public var emailGo:String = "";
+			[Bindable]
+			public var idGo:String = "";
+			[Bindable]
+			public var refundstatus:String = 'false';
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+			//	System.gc();
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "SELECT email, merchid, active FROM merchusers where active = 'yes'";
+					stmt.execute();
+					var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+					
+					if (resData.length != 0){
+						//good login
+						for (var i:uint = 0; i < resData.length; i++){
+								emailGo = resData[i].email;
+								idGo = resData[i].merchid.toString();;
+						}
+					}
+					else {
+						//bad login or no local saved login.
+					}
+				}
+				catch(e:Error){
+					warn.text = "You are not connected";
+				}
+		
+				this.titleo = emailGo;
+				scanBTN.visible = false;
+				warn.text = "Enter Cost to Scan.";
+				busy = false;
+			}
+			public function signoutclick():void {
+				
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete from merchusers";
+				stmt.execute();
+				navigator.pushView(Home,{i:0});
+				
+			}
+			public function process(s:String):void
+			{
+				warn.text = "Enter Cost to Scan.";
+				if (s == 'c'){
+					digitcount = 0;
+					warn.text = "Enter Cost to Scan.";
+					totalValue.text = "$0.00";
+					scanBTN.enabled = true;
+					scanBTN.visible = false;
+					codeArray = new Array();
+					payamount = 0;
+					scannedText = "";
+					scannedText2 = "";
+					scanningMode = false;
+					userLBL.text = "Please Scan a User";
+				}
+				else if (s == '.'){
+					if (digitcount != 0){
+						if (scanningMode == false){
+							scanBTN.enabled = true;
+							scanBTN.visible = true;
+						}
+						
+						
+						if (digitcount == 0){
+							totalValue.text = "$0.00";
+						}
+						else if (digitcount == 1){
+							var lastdigit:String = totalValue.text.substr(totalValue.text.length-1,totalValue.text.length);
+							totalValue.text = "$"+lastdigit+".00";
+						}
+						else if (digitcount == 2){
+							var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+							var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+							totalValue.text = "$"+lastdigit2+lastdigit1+".00";
+						}
+						else if (digitcount >= 3){
+							var predecimaldigits:String = totalValue.text.substr(1,totalValue.text.indexOf(".")-1);
+							var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+							var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+							
+							totalValue.text = "$"+predecimaldigits+lastdigit2+lastdigit1+".00";
+						}
+						
+						digitcount = digitcount+2;
+					}
+				}
+				else {
+					if (scanningMode == false){
+						scanBTN.enabled = true;
+						scanBTN.visible = true;
+					}
+					
+					
+					if (digitcount == 0){
+						totalValue.text = "$0.0"+s;
+					}
+					else if (digitcount == 1){
+						var lastdigit:String = totalValue.text.substr(totalValue.text.length-1,totalValue.text.length);
+						totalValue.text = "$0."+lastdigit+s;
+					}
+					else if (digitcount == 2){
+						var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+						var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+						totalValue.text = "$"+lastdigit2+"."+lastdigit1+s;
+					}
+					else if (digitcount >= 3){
+						var predecimaldigits:String = totalValue.text.substr(1,totalValue.text.indexOf(".")-1);
+						var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+						var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+						
+						totalValue.text = "$"+predecimaldigits+lastdigit2+"."+lastdigit1+s;
+					}
+					
+					digitcount = digitcount+1;
+				}
+				
+				
+				var temp2:String = totalValue.text;
+				
+				if (totalValue.text.charAt(0) == "$"){	
+					temp2 = totalValue.text.substr(1,totalValue.text.length);
+				}
+				else {
+					temp2 = totalValue.text;
+				}
+				
+				valuewithtax= Number(temp2);
+				
+				amount = temp2;
+				
+			}
+			public function usermenuclick():void {
+				navigator.pushView(Account,{email:emailGo,
+					merchid:idGo});
+			}
+			[Bindable]
+			public var alertmsgg:AlertMsg = new AlertMsg();
+			public function afterProcess(ev:ResultEvent):void {
+				try{
+					totalValue.text = "$0.00";
+					digitcount = 0;
+					scanBTN.visible = false;
+					warn.visible = true;
+					var stop:String = "";
+					var message:String = ev.result[0].res.message;
+					
+				PopUpManager.centerPopUp(alertmsgg);
+				busy = false;
+				alertmsgg.width = this.width;
+				alertmsgg.height = this.height/2;
+				alertmsgg.open(this, false);
+			
+				alertmsgg.horizontalCenter = 0;
+				alertmsgg.verticalCenter = 0;
+				PopUpManager.centerPopUp(alertmsgg);
+			
+				//paymentresultinfo.
+				alertmsgg.paymentresultinfo.text = message;
+				if ( ev.result[0].res.status == '1'){
+					alertmsgg.img1.visible = true;
+					alertmsgg.img2.visible = false;
+				}
+				else {
+					alertmsgg.img1.visible = false;
+					alertmsgg.img2.visible = true;
+				}
+				alertmsgg.addEventListener(PopUpEvent.CLOSE,aftercloses);
+					//camGroup.visible = false;
+					//navigator.activeView.navigator.pushView(paymentfinal,{warn:message,status:ev.result[0].res.status});				
+				}
+				
+				catch(e:Error){
+					//alertmsgg.open(this, false);
+					//alertmsgg.addEventListener(PopUpEvent.CLOSE,aftercloses);
+					///navigator.activeView.navigator.pushView(paymentfinal,{warn:"huge error",status:"1"});				
+
+				}
+				
+			}
+			public function aftercloses(e:PopUpEvent):void {
+				busy = false;
+			}
+			public function scanClick(e:MouseEvent):void {
+				amount = totalValue.text;
+				merchid = idGo;
+				camGroup.visible = true;
+				onStart(e);
+			}
+			public function gOver2(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.6,15,15,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function gDown2(ev:MouseEvent):void {
+				var gl:GlowFilter = new GlowFilter(0x000000,0.6,15,15,5,1,true);
+				ev.currentTarget.filters = [gl];
+			}
+			public function togDown():void {
+				if (taxtool.source == taxon){
+					taxtool.source = taxoff;
+					refundstatus = 'false';
+				}
+				else {
+					taxtool.source = taxon;
+					refundstatus = 'true';
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="payGo" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/handshake/startprocess.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<code>{code}</code>	
+				<amount>{amount}</amount>	
+				<merchid>{idGo}</merchid>
+				<refund>{refundstatus}</refund>
+			</s:request>
+		</s:HTTPService>
+	
+		<s:MultiDPIBitmapSource id="taxon" source160dpi="@Embed('assets/reon.png')"
+								source240dpi="@Embed('assets/reon.png')"
+								source320dpi="@Embed('assets/reon.png')"/>
+		<s:MultiDPIBitmapSource id="taxoff" source160dpi="@Embed('assets/reoff.png')"
+								source240dpi="@Embed('assets/reoff.png')"
+								source320dpi="@Embed('assets/reoff.png')"/>
+	
+		<fx:Component  className="AlertMsg">
+			<s:SkinnablePopUpContainer horizontalCenter="0"  verticalCenter="0" skinClass="skins.popupskin" >
+				<s:VGroup  horizontalAlign="center" paddingTop="60" paddingBottom="10" horizontalCenter="0">
+					<s:Label id="paymentresultinfo" width="{this.width/1.12}" color="#3B3B3B"
+							 textAlign="center"/>
+					<s:Group>
+						
+						<s:Image id="img1" visible="false" width="{this.width/3}" height="{this.width/3}"  horizontalCenter="0"   smooth="true"
+								 source="@Embed('assets/paygood.png')" verticalCenter="0"/>
+						
+						<s:Image  id="img2" visible="false" horizontalCenter="0"  smooth="true"
+								  source="@Embed('assets/paybad.png')" width="{this.width/3}" height="{this.width/3}"  verticalCenter="0"/>
+					</s:Group>
+				
+					<s:Button label="Ok" width="{this.width/3.8}" click="this.close()" />
+				</s:VGroup>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+		
+		
+	</fx:Declarations>
+	<s:Label visible="false" width="20" id="userLBL"  
+			 fontWeight="normal" text="Please Scan a User"
+			 textAlign="center" />
+	<s:Label id="user" width="20" visible="false" 
+			 text="User : {scannedText}"
+			 textAlign="left"/>
+	<s:Group right="0" left="0" height="100%"  top="0" >
+		<s:VGroup width="100%" height="100%" horizontalAlign="center">
+
+			<s:Label id="totalValue" paddingRight="20" top="30" bottom="4" width="100%" height="100"
+					 color="#575859" fontSize="80" fontWeight="bold" text="$0.00" textAlign="right"
+					 verticalAlign="bottom"/>
+			<s:Group width="100%"    >
+				<s:Label id="warn" left="0" right="0" color="#575859" fontSize="50"
+						 horizontalCenter="0" text="Enter Cost to Scan." textAlign="center"
+						 verticalAlign="middle" verticalCenter="0"/>
+				<s:Image id="scanBTN" x="0" y="-2" width="100%" visible="false" click="scanClick(event);"
+						>
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/taptoscan_Low.png')"
+												source240dpi="@Embed('assets/taptoscan_Med.png')"
+												source320dpi="@Embed('assets/taptoscan_High.png')"/>
+					</s:source>
+				</s:Image>
+			</s:Group>
+			<s:Group width="100%" verticalCenter="0" mouseDown="togDown()">
+				<s:Image id="taxtool" width="{this.width}" left="0" right="0" mouseFocusEnabled="false" mouseEnabled="false"   scaleMode="stretch"
+						 smooth="true" source="{taxoff}" verticalCenter="0">
+				</s:Image>
+				<s:Group width="100%" horizontalCenter="0" verticalCenter="0">
+					<s:Label left="50" color="#000000" mouseEnabled="false"  mouseFocusEnabled="false" fontWeight="bold" text="Add Points"
+							 verticalCenter="0"/>
+					<s:Label right="35" color="#000000" mouseEnabled="false" mouseFocusEnabled="false" fontWeight="bold" text="Remove Points"
+							 verticalCenter="0"/>
+				</s:Group>
+			</s:Group>
+			
+			<s:Group width="100%" visible="true"  height="65%" bottom="0" >
+				<s:Group id="numkeycont" left="0" right="0" top="0" bottom="0" >
+					<s:HGroup left="0" gap="0"   right="0" top="0" bottom="0" verticalAlign="middle">
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('1');" label="1"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('4');" label="4"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('7');" label="7"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('.');" label=".00"/>
+						</s:VGroup>
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('2');" label="2"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('5');" label="5"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('8');" label="8"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('0');" label="0"/>
+						</s:VGroup>
+						<s:VGroup gap="0" horizontalAlign="center" height="100%" width="33.3%" >
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('3');" label="3"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('6');" label="6"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad"
+									  click="process('9');" label="9"/>
+							<s:Button width="100%"  height="100%"  color="#FFFFFF"
+									  fontSize="50" skinClass="skins.numpad2"
+									  click="process('c');" label=""/>
+						</s:VGroup>
+					</s:HGroup>
+				</s:Group>
+			</s:Group>
+		</s:VGroup>
+	</s:Group>
+
+	<s:Group right="0" left="0"  height="100%" id="camGroup" visible="false" >
+		<s:SpriteVisualElement id="cameraPad" visible="true" top="0" 
+							   verticalCenter="60" 
+							   width="{this.width/1.25}"
+							   height="{this.width/1.25}"
+							   horizontalCenter="0"/>
+	</s:Group>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>
