@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					    creationComplete="afterLoad(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			[Bindable]
+			public var s1:String = "";
+			[Bindable]
+			public var s2:String = "";
+			[Bindable]
+			public var s3:String = "";
+			[Bindable]
+			public var s4:String = "";
+			[Bindable]
+			public var s5:String = "";
+			[Bindable]
+			public var s6:String = "";
+			[Bindable]
+			public var s7:String = "";
+			[Bindable]
+			public var dataArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var putCounter:Number = 0;
+			private static const READ_CHUNK_SIZE:uint = 100;     
+			private var fileStream:FileStream = null;
+			private var file:File = null;
+			private var toRead:uint = 0;
+			private var bytesLeft:Number = 0;
+			private var curBytes:ByteArray = null;          
+			private var totalBytesRead:Number = 0;
+			[Bindable]
+			public var resultString:String = "";
+			public var resultArray:Array = new Array();
+			[Bindable]
+			public var limit:uint = 84000;
+			public var goby:uint = 2000;
+			public var counter:Number = 1;
+			public var csvtext:String = "";
+			public function afterLoad(event:FlexEvent):void
+			{
+				getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/"+counter.toString()+".xml"
+				getData.send();
+			}
+			protected function getData_resultHandler(event:ResultEvent):void
+			{
+				
+				
+				//var csvtext:String = "pmid\r\n"
+			//	var csvtext:String;
+				var x:String = event.result.toString();
+				
+				do {
+					
+					var section:String = x.substring(x.indexOf("<record "),x.indexOf("</record>"));
+					section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
+					section = section.substr(section.indexOf("type='c'")+9, section.length);
+					var pmid:String = section.substr(0,section.indexOf("<"));
+					
+					
+					/*section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
+					section = section.substr(section.indexOf("type='c'")+9, section.length);
+					var authors:String = section.substr(0,section.indexOf("<"));*/
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					var stodddp:String = "";
+						csvtext = csvtext  +pmid + "\r\n";
+					x = x.substring(x.indexOf("</record>")+9);
+					
+					
+					
+					
+					
+					
+					
+					
+				}while (x.indexOf("<record ") != -1);
+				
+				
+				
+				
+				
+				
+				var stop:String = "";
+				if (counter != 73){
+					counter++;
+					getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/"+counter.toString()+".xml"
+					getData.send();
+				}
+				else {
+					var f:File = new File("C:/Users/mark/Desktop/resultingcsvfiles/resultfile"+counter.toString()+".csv");
+					f.resolvePath("C:/Users/mark/Desktop/resultingcsvfiles/resultfile"+counter.toString()+".csv");
+					var stream:FileStream = new FileStream();
+					stream.open(f, FileMode.WRITE);                                         
+					stream.writeUTFBytes(csvtext.toUpperCase());
+					stream.close();
+				
+				}
+				
+			}
+			public function foundBadCharacter(s:String):Boolean {
+				if (s.indexOf("<") != -1){
+					return true;
+				}
+				if (s.indexOf(">") != -1){
+					return true;
+				}
+				if (s.indexOf("/") != -1){
+					//return true;
+				}
+				if (s.indexOf("\\") != -1){
+				//	return true;
+				}
+				
+				return false;
+			}
+			public function getMonth(s:String):String {
+				var month:String = "";
+				if ((s == "1")||(s == "01")){
+					month = "jan";
+				}
+				if ((s == "2")||(s == "02")){
+					month = "feb";
+				}
+				if ((s == "3")||(s == "03")){
+					month = "mar";
+				}
+				if ((s == "4")||(s == "04")){
+					month = "apr";
+				}
+				if ((s == "5")||(s == "05")){
+					month = "may";
+				}
+				if ((s == "6")||(s == "06")){
+					month = "jun";
+				}
+				if ((s == "7")||(s == "07")){
+					month = "jul";
+				}
+				if ((s == "8")||(s == "08")){
+					month = "aug";
+				}
+				if ((s == "9")||(s == "09")){
+					month = "sept";
+				}
+				if ((s == "10")||(s == "010")){
+					month = "oct";
+				}
+				if ((s == "11")||(s == "011")){
+					month = "nov";
+				}
+				if ((s == "12")||(s == "012")){
+					month = "dec";
+				}
+				return month;
+			}
+			public static function removeHtmlTags(html:String, tags:String = ""):String
+			{
+				var tagsToBeKept:Array = new Array();
+				if (tags.length > 0)
+					tagsToBeKept = tags.split(new RegExp("\\s*,\\s*"));
+				
+				var tagsToKeep:Array = new Array();
+				for (var i:int = 0; i < tagsToBeKept.length; i++)
+				{
+					if (tagsToBeKept[i] != null && tagsToBeKept[i] != "")
+						tagsToKeep.push(tagsToBeKept[i]);
+				}
+				
+				var toBeRemoved:Array = new Array();
+				var tagRegExp:RegExp = new RegExp("<([^>\\s]+)(\\s[^>]+)*>", "g");
+				
+				var foundedStrings:Array = html.match(tagRegExp);
+				for (i = 0; i < foundedStrings.length; i++) 
+				{
+					var tagFlag:Boolean = false;
+					if (tagsToKeep != null) 
+					{
+						for (var j:int = 0; j < tagsToKeep.length; j++)
+						{
+							var tmpRegExp:RegExp = new RegExp("<\/?" + tagsToKeep[j] + "( [^<>]*)*>", "i");
+							var tmpStr:String = foundedStrings[i] as String;
+							if (tmpStr.search(tmpRegExp) != -1) 
+								tagFlag = true;
+						}
+					}
+					if (!tagFlag)
+						toBeRemoved.push(foundedStrings[i]);
+				}
+				for (i = 0; i < toBeRemoved.length; i++) 
+				{
+					var tmpRE:RegExp = new RegExp("([\+\*\$\/])","g");
+					var tmpRemRE:RegExp = new RegExp((toBeRemoved[i] as String).replace(tmpRE, "\\$1"),"g");
+					html = html.replace(tmpRemRE, "");
+				} 
+				return html;
+			}
+			public function fixText(s:String):String {
+				var text:String = s;
+				
+				
+				var j:RegExp =/>/gi;
+				text = text.replace(j, " ");
+				
+				var j:RegExp =/</gi;
+				text = text.replace(j, " ");
+				
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf("'") != -1){
+					var j:RegExp =/'/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(";") != -1){
+					var j:RegExp =/;/gi;
+					text = text.replace(j, " ");
+				}
+				if (text.indexOf(",") != -1){
+					var j:RegExp =/,/gi;
+					text = text.replace(j, " ");
+				}
+				//if (text.indexOf(")") != -1){
+					var j:RegExp =/)/gi;
+					text = text.replace(j, " ");
+				//}
+				//if (text.indexOf("(") != -1){
+					var j:RegExp =/(/gi;
+					text = text.replace(j, " ");
+				//}
+				if (text.indexOf(":") != -1){
+					var j:RegExp =/:/gi;
+					text = text.replace(j, " ");
+				}
+				
+				return text;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:HTTPService id="getData" 
+					    resultFormat="text" result="getData_resultHandler(event)" />
+	</fx:Declarations>
+</s:WindowedApplication>
