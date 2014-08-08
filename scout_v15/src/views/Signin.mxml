@@ -5,7 +5,8 @@
 		xmlns:components="components.*" 
 		title="Scout" name="signin"
 		backKeyPressed="donothing(event)"
-		backgroundColor="#f2f3f4"  creationComplete="activ(event)"
+		backgroundColor="#f2f3f4" viewActivate="init(event)"  
+		creationComplete="activ(event)"
 		contentBackgroundColor="#f2f3f4">
 	<s:navigationContent >
 	</s:navigationContent>
@@ -93,6 +94,12 @@
 			}		
 			
 			public function activ(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				enableHardwareKeyListeners();
+			}
+			
+			public function init(event:ViewNavigatorEvent):void
 			{
 				// TODO Auto-generated method stub
 				enableHardwareKeyListeners();
