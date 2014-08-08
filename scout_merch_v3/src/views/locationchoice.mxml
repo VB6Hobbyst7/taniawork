@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Sign In" name="signin" 
+		viewActivate="init(event)"
+		backgroundColor="#f2f3f4"  
+		creationComplete="activ(event)"
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			public function activ(event:FlexEvent):void
+			{
+				enableHardwareKeyListeners();
+			}
+			public function init(event:ViewNavigatorEvent):void
+			{
+				enableHardwareKeyListeners();
+			}
+			
+			public function locationChange(event:IndexChangeEvent):void
+			{
+			
+				continue_btn.enabled = true;
+				continue_btn.mouseEnabled = true;
+			}
+			
+			public function continueclick(event:MouseEvent):void
+			{
+				if (locationlist.selectedIndex != -1){
+					createIfNotExsist("localuser");
+					doQuery("insert into localuser values ('"+data.email+"','"+
+						data.merchid+"','"+
+						locationlist.selectedItem.locationid+"','"+locationlist.selectedItem.name+"')");
+					navigator.pushView(Home);
+					
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
+				  horizontalCenter="0" verticalCenter="0"  
+				  paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  bottom="0" horizontalAlign="center" verticalAlign="top">
+			<s:Label text="Choose your Store" color="#737171"  styleName="textsize5"/>
+			<s:List width="100%"  horizontalCenter="0" 
+					top="{50/(320/Capabilities.screenDPI)}" height="75%"
+					id="locationlist" labelField="name"  contentBackgroundAlpha="0"
+					itemRenderer="components.locationitem" selectedIndex="-1" change="locationChange(event)"
+					horizontalScrollPolicy="off" dataProvider="{data.locations}"  >
+				<s:layout>
+					<s:VerticalLayout gap="0" paddingTop="15">
+					</s:VerticalLayout>
+				</s:layout>
+				</s:List>
+			
+				<components:continue_btn id="continue_btn" click="continueclick(event)" enabled="false" />
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+</s:View>

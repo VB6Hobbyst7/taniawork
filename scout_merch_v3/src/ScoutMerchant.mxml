@@ -3,82 +3,122 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
 			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
-			   applicationComplete="onApplicationComplete()"
+			   creationComplete="init1();"
 			   backgroundColor="#FFFFFF" 
 			   splashScreenScaleMode="zoom"
 			   frameRate="60" >
 	<fx:Style source="main.css"/>
+	<fx:Script source="func/smallglobal.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
-			import spark.managers.PersistenceManager;
-			import views.Mainscreen;
-			protected var sqlConnection:SQLConnection;
-			public var v1:Mainscreen;
+			import mx.core.DPIClassification;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.SlideViewTransition;
+			import spark.transitions.SlideViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import views.Home;
+			import views.Signin;
 			[Bindable]
-			public var busy:Boolean = true;
-			protected function onApplicationComplete():void
-			{
-				this.stage.autoOrients = false;
-				NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, onActivate);
-				NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, onDeactivate);
-				var stmt:SQLStatement = new SQLStatement();
-				// TODO Auto-generated method stub
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS merchusers (" +
-					"email varchar(255)," +
-					"merchid varchar(255)," +
-					"locality varchar(255)," +
-					"active varchar(255))";
-				stmt.execute();
-				getLocalUsers();
-			}
-			protected function getLocalUsers():void
-			{
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "SELECT email, merchid, locality, active FROM merchusers";
-				stmt.execute();
-				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
-				if (resData.length != 0){
-					//good login
-					var foundactive:Boolean = false;
-					for (var i:uint = 0; i < resData.length; i++){
-						if (resData[i].active == "yes"){
-							foundactive = true;
-							var saveManager:PersistenceManager = new PersistenceManager();
-							saveManager.setProperty("useremail", resData[i].email);
-							
-							home.pushView(Mainscreen,{email:resData[i].email,
-								merchid:resData[i].merchid,locality:resData[i].locality});
-							busy = false;
-						}
+			public var actionbarheight:Number = 0;
+			public var svt:SlideViewTransition = new SlideViewTransition();
+			public var svt2:SlideViewTransition = new SlideViewTransition();
+			[Bindable]
+			public var slideduration:Number = 250;
+			
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			public var resData:ArrayCollection = new ArrayCollection();
+			public function init1():void {
+				svt.duration = slideduration;
+				svt.direction =  ViewTransitionDirection.LEFT;
+				svt2.duration = slideduration;
+				svt2.direction =  ViewTransitionDirection.RIGHT;
+				svt2.mode = SlideViewTransitionMode.UNCOVER;
+				home.defaultPushTransition = svt;
+				home.defaultPopTransition = svt2;
+				NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
+				switch (applicationDPI)
+				{
+					case DPIClassification.DPI_640:
+					{
+						actionbarheight = 172;
+						break;
 					}
-					if (foundactive == false){	
-						busy = false;
+					case DPIClassification.DPI_480:
+					{
+						actionbarheight = 129;					
+						break;
+					}
+					case DPIClassification.DPI_320:
+					{
+						actionbarheight = 86;
+						break;
+					}
+					case DPIClassification.DPI_240:
+					{
+						actionbarheight = 65;
+						break;
+					}
+					default:
+					{
+						actionbarheight = 43;
+						break;
+					}
+				}
+				verifyDataTablesViaVersion();
+				createIfNotExsist("localuser");
+				resData = getDatabaseArray( "SELECT email, merchid, locationid  FROM localuser");				
+				loadStuff(resData);
+				
+			}
+			public function loadStuff(r:ArrayCollection):void {
+				if (r.length != 0){
+					emailGo = r[0].email;
+					merchid = r[0].merchid.toString();
+					locationid = r[0].locationid.toString();
+					if (home.firstView == null){
+						if (home.activeView == null){
+							home.pushView(Home,null,null,crosstrans);
+						}
 					}
 				}
 				else {
-					busy = false;
-					//bad login or no local saved login.
+					home.pushView(Signin,null,null,crosstrans);
 				}
-				
 			}
-			protected function onActivate(event:Event):void
-			{
-				stage.frameRate=60; 
+			public function logout():void {
+				dropalldatatables();
+				home.pushView(Signin);
 			}
-			// Handle the application being sent to the background, garbage collect and lower frame rate to use less resources
-			protected function onDeactivate(event:Event):void 
+			public function verifyDataTablesViaVersion():void {
+				createIfNotExsist("versionhistory");
+				var resData:ArrayCollection = getDatabaseArray("SELECT version from versionhistory");
+				if (resData.length != 0){
+					var versiontocheck:String = resData[0].version;
+					if (versiontocheck != VERSIONID.toString()){
+						dropalldatatables();
+					}
+					doQuery( "update versionhistory set version = ('"+VERSIONID.toString()+"')");
+				}
+				else {
+					doQuery("insert into versionhistory values ('"+VERSIONID.toString()+"')");
+					dropalldatatables();
+				}
+			}
+			public function dropalldatatables():void {
+				try{
+					doQuery("DROP TABLE localuser");
+				}
+				catch(e:Error){}
+			}
+			public function nativeKeyDown(event:KeyboardEvent):void
 			{
-				System.gc();
-				stage.frameRate=2;
+				var key:uint = event.keyCode;
+				if (key == Keyboard.BACK){
+					event.preventDefault();
+				}
 			}
 		]]>
 	</fx:Script>
-	<s:ViewNavigator id="home"   label="Home"   firstView='views.Home' width="100%" height="100%"/>
-	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<s:ViewNavigator id="home" width="100%" height="100%"/>
 </s:Application>

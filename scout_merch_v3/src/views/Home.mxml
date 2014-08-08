@@ -3,49 +3,421 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*"
-		backgroundColor="#f5f6f7" >
+		backKeyPressed="donothing(event)"
+		destructionPolicy="never"
+		viewActivate="init(event)"
+		 backgroundAlpha="1" backgroundColor="#f0f0f0"
+		actionBarVisible="true">
+	<s:navigationContent>
+		<s:Group width="{this.width*0.75}" height="100%" mouseEnabledWhereTransparent="true" 
+				 mouseOver="gOver(event);" mouseOut="gOut(event);"  click="accountClick();"
+				 mouseUp="gOut(event);" mouseDown="gDown(event);">
+			<s:Label styleName="textsize7" text="{titleo}"  color="#626364"
+					 verticalAlign="middle" verticalCenter="0"
+					 maxWidth="{this.width*0.75}" width="{this.width*0.75}"
+					 maxDisplayedLines="1" mouseEnabled="false"/>
+		</s:Group>
+	</s:navigationContent>
+	<s:titleContent></s:titleContent>
+	<s:actionContent>
+		<components:refund_btn id="refundbtn" click="refundClick(event)"/>
+	</s:actionContent>
 	<fx:Script source="../func/smallglobal.as" />
+	<!--fx:Script source="../func/scanFunctions.as" /-->
 	<fx:Script>
 		<![CDATA[
-			public function signinclick():void {
-				navigator.pushView(SignIn,{i:0});
+			import flash.system.Capabilities;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var titleo:String = "user@user.com";
+			[Bindable]
+			public var scannedText:String = "";
+			[Bindable]
+			public var scannedText2:String = "";
+			[Bindable]
+			public var scanningMode:Boolean = false;
+			[Bindable]
+			public var payamount:Number = 0;
+			[Bindable]
+			public var gst:String = "5";
+			public var codeArray:Array = new Array();
+			[Bindable]
+			public var code:String = "";
+			[Bindable]
+			public var amount:String = "";
+			[Bindable]
+			public var digitcount:Number = 0;
+			[Bindable]
+			public var valuewithtax:Number = 0.00;
+			[Bindable]
+			public var refundstatus:String = 'false';
+			protected function init(event:ViewNavigatorEvent):void
+			{
+				scanBTN.enabled = true;
+				refundbtn.enabled = false;
+				setLoginVars();
+				if (merchid == "-1"){
+					warn.text = "You are not connected";
+					navigator.pushView(Signin);
+				}
+				this.titleo = emailGo;
+				scanBTN.visible = false;
+				warn.text = "Enter Cost to Scan.";
+				busy = false;
+			}
+			public function signoutclick():void {
+				
+				var stmt:SQLStatement = new SQLStatement();
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				stmt = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete from localuser";
+				stmt.execute();
+				navigator.pushView(Home,{i:0});
+				
+			}
+			public function process(s:String):void
+			{
+				warn.text = "Enter Cost to Scan.";
+				if (s == 'c'){
+					digitcount = 0;
+					warn.text = "Enter Cost to Scan.";
+					totalValue.text = "$0.00";
+					scanBTN.enabled = true;
+					scanBTN.visible = false;
+					refundbtn.enabled = false;
+					codeArray = new Array();
+					payamount = 0;
+					scannedText = "";
+					scannedText2 = "";
+					scanningMode = false;
+					userLBL.text = "Please Scan a User";
+				}
+				else if (s == '.'){
+					if (digitcount != 0){
+						if (scanningMode == false){
+							scanBTN.enabled = true;
+							scanBTN.visible = true;
+							refundbtn.enabled = true;
+						}
+						
+						
+						if (digitcount == 0){
+							totalValue.text = "$0.00";
+						}
+						else if (digitcount == 1){
+							var lastdigit:String = totalValue.text.substr(totalValue.text.length-1,totalValue.text.length);
+							totalValue.text = "$"+lastdigit+".00";
+						}
+						else if (digitcount == 2){
+							var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+							var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+							totalValue.text = "$"+lastdigit2+lastdigit1+".00";
+						}
+						else if (digitcount >= 3){
+							var predecimaldigits:String = totalValue.text.substr(1,totalValue.text.indexOf(".")-1);
+							var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+							var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+							
+							totalValue.text = "$"+predecimaldigits+lastdigit2+lastdigit1+".00";
+						}
+						
+						digitcount = digitcount+2;
+					}
+				}
+				else {
+					if (scanningMode == false){
+						scanBTN.enabled = true;
+						scanBTN.visible = true;
+						refundbtn.enabled = true;
+					}
+					
+					
+					if (digitcount == 0){
+						totalValue.text = "$0.0"+s;
+					}
+					else if (digitcount == 1){
+						var lastdigit:String = totalValue.text.substr(totalValue.text.length-1,totalValue.text.length);
+						totalValue.text = "$0."+lastdigit+s;
+					}
+					else if (digitcount == 2){
+						var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+						var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+						totalValue.text = "$"+lastdigit2+"."+lastdigit1+s;
+					}
+					else if (digitcount >= 3){
+						var predecimaldigits:String = totalValue.text.substr(1,totalValue.text.indexOf(".")-1);
+						var lastdigit1:String = totalValue.text.charAt(totalValue.text.length-1);
+						var lastdigit2:String = totalValue.text.charAt(totalValue.text.length-2);
+						
+						totalValue.text = "$"+predecimaldigits+lastdigit2+"."+lastdigit1+s;
+					}
+					
+					digitcount = digitcount+1;
+				}
+				
+				
+				var temp2:String = totalValue.text;
+				
+				if (totalValue.text.charAt(0) == "$"){	
+					temp2 = totalValue.text.substr(1,totalValue.text.length);
+				}
+				else {
+					temp2 = totalValue.text;
+				}
+				
+				valuewithtax= Number(temp2);
+				
+				amount = temp2;
+				
+			}
+			public function accountClick():void {
+				navigator.pushView(Account);
+			}
+			public function afterProcess(ev:ResultEvent):void {
+				busy = false;
+				scanBTN.enabled = true;
+				refundbtn.enabled = false;
+				try{
+					totalValue.text = "$0.00";
+					digitcount = 0;
+					scanBTN.visible = false;
+					warn.visible = true;
+					var message:String = ev.result[0].res.message;	
+					resultPopup.visible = true;
+					
+					goodResultInfo.text = "";
+					badResultInfo.text = "";
+					if (ev.result[0].res.status == '1'){
+						good.visible = true;
+						bad.visible = false;
+						goodResultInfo.text = message;
+					}
+					else {
+						good.visible = false;
+						bad.visible = true;
+						badResultInfo.text = message;
+					}
+				}
+				catch(e:Error){}
+				
+			}
+			public function scanClick(e:MouseEvent):void {
+				refundstatus = 'false';
+				amount = totalValue.text;
+				camGroup.visible = true;
+				scanBTN.enabled = false;
+				//onStart(e);
+			}
+			public function refundClick(event:MouseEvent):void
+			{
+				refundstatus = 'true';
+				amount = totalValue.text;
+				camGroup.visible = true;
+				scanBTN.enabled = false;
+				//onStart(e);
 			}
 		]]>
 	</fx:Script>
-	<fx:Declarations>		
+	<fx:Declarations>
+		<s:HTTPService id="payGo" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/startprocess.php"
+					   result="afterProcess(event)" >
+			<s:request xmlns="">
+				<code>{code}</code>	
+				<amount>{amount}</amount>	
+				<merchid>{merchid}</merchid>
+				<locationid>{locationid}</locationid>
+				<refund>{refundstatus}</refund>
+			</s:request>
+		</s:HTTPService>
 	</fx:Declarations>
-	<s:VGroup gap="80" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-		<s:BitmapImage >
-			<s:source>
-				<s:MultiDPIBitmapSource
-					source160dpi="@Embed('assets/old/accountback_High.png')"
-					source240dpi="@Embed('assets/old/accountback_Med.png')"
-					source320dpi="@Embed('assets/old/accountback_Low.png')"/>
-			</s:source>
-		</s:BitmapImage>
-		<s:BitmapImage >
-			<s:source>
-				<s:MultiDPIBitmapSource
-										source160dpi="@Embed('assets/old/log2.png')"
-										source240dpi="@Embed('assets/old/log2.png')"
-										source320dpi="@Embed('assets/old/log2.png')"/>
-			</s:source>
-		</s:BitmapImage>
-		<s:BitmapImage>
-			<s:source>
-				<s:MultiDPIBitmapSource 
-										source160dpi="@Embed('assets/old/log3.png')"
-										source240dpi="@Embed('assets/old/log3.png')"
-										source320dpi="@Embed('assets/old/log3.png')"/>
-			</s:source>
-		</s:BitmapImage>
-		<s:Image click="signinclick();"
-				 mouseUp="gOut(event)">
-			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/old/signin_Low.png')"
-										source240dpi="@Embed('assets/old/signin_Med.png')"
-										source320dpi="@Embed('assets/old/signin_High.png')"/>
-			</s:source>
-		</s:Image>
+	<s:Label visible="false" width="20" id="userLBL"  
+			 fontWeight="normal" text="Please Scan a User"
+			 textAlign="center" />
+	<s:Label id="user" width="20" visible="false" 
+			 text="User : {scannedText}"
+			 textAlign="left"/>
+	<s:VGroup width="100%" height="100%" gap="-1">
+		<s:Line width="100%"> 
+			<s:stroke><s:SolidColorStroke color="0x2d7aa2" weight="{2/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Line>
+		<s:Group height="{this.height*0.09}" width="100%">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor alpha="1" color="#3ea9e1"/></s:fill>
+			</s:Rect>
+			<s:Label left="0" verticalAlign="middle" verticalCenter="3"
+					 text="Total" color="#FFFFFF" styleName="textsize10"  textAlign="left"
+					 fontWeight="bold" paddingLeft="{30/(320/Capabilities.screenDPI)}"/>
+			<s:Label id="totalValue" right="0" verticalAlign="middle" verticalCenter="3"
+					 text="0.00" color="#FFFFFF" styleName="textsize10" textAlign="right"
+					 fontWeight="bold" paddingRight="{30/(320/Capabilities.screenDPI)}"/>
+		</s:Group>
+		<s:Line width="100%"> 
+			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="{2/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Line>
+		<s:Group width="100%">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor alpha="1" color="#b5b5b5"/></s:fill>
+			</s:Rect>
+			<s:Label id="warn" left="0" right="0" color="#ffffff" styleName="textsize10"
+					 horizontalCenter="0" text="Enter Receipt Value" textAlign="center"
+					 verticalAlign="middle" verticalCenter="0"/>
+			<s:Image id="scanBTN"  width="100%" enabled="true"
+					 visible="false" click="scanClick(event);"
+					 contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/tap2scan.png')"
+											source240dpi="@Embed('assets/240/tap2scan.png')"
+											source320dpi="@Embed('assets/320/tap2scan.png')"
+											source480dpi="@Embed('assets/480/tap2scan.png')"
+											source640dpi="@Embed('assets/640/tap2scan.png')"/>
+				</s:source>
+			</s:Image>
+		</s:Group>
+		<s:VGroup width="100%" height="100%" gap="0">
+			<s:Group  width="100%" height="25%" horizontalCenter="0">
+				<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
+					<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+					<components:keypad click="process('1');"  numberlabel="1" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('2');"  numberlabel="2" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('3');"  showrightline="false"   numberlabel="3" width="34%" top="0"  bottom="0"  height="100%"/>
+				</s:HGroup>
+			</s:Group>
+			<s:Group  width="100%" height="25%" horizontalCenter="0">
+				<s:Line  right="{5/(320/Capabilities.screenDPI)}" 
+						 left="0"  bottom="0"  > 
+					<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+					<components:keypad  click="process('4');"  numberlabel="4" width="33%"
+										top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('5');"  numberlabel="5" width="33%"
+									   top="0"  bottom="0"  height="100%"/>
+					<components:keypad  click="process('6');"  showrightline="false"  
+										numberlabel="6" width="34%" top="0"  bottom="0"  height="100%"/>
+				</s:HGroup>
+			</s:Group>
+			<s:Group  width="100%" height="25%" horizontalCenter="0">
+				<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
+					<s:stroke><s:SolidColorStroke color="0xdadada" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+					<components:keypad click="process('7');"   numberlabel="7" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('8');"  numberlabel="8" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('9');"  showrightline="false"   numberlabel="9" width="34%" top="0"  bottom="0"  height="100%"/>
+				</s:HGroup>
+			</s:Group>
+			
+			
+			<s:Group  width="100%" height="25%" horizontalCenter="0">
+				<s:HGroup width="100%" top="0"  bottom="0" height="100%" gap="0">
+					<components:keypad  click="process('.');"  blx="15" bly="15"  numberlabel=".00" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypad click="process('0');"    numberlabel="0" width="33%" top="0"  bottom="0"  height="100%"/>
+					<components:keypaddel click="process('c');"  showrightline="false" brx="15" bry="15" numberlabel="del" width="34%" top="0"  bottom="0"  height="100%"/>
+				</s:HGroup>
+			</s:Group>
+		</s:VGroup>
 	</s:VGroup>
+	<s:Group right="0" left="0"  height="100%" id="camGroup" visible="false" >
+		<s:SpriteVisualElement id="cameraPad" visible="true" top="0" 
+							   verticalCenter="60" 
+							   width="{this.width/1.25}"
+							   height="{this.width/1.25}"
+							   horizontalCenter="0"/>
+	</s:Group>
+	
+	
+	
+	
+	<s:Group id="resultPopup" visible="true"   width="100%" height="100%" >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group  width="95%" height="60%"
+				  horizontalCenter="0" verticalCenter="0">
+			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}" radiusY="{20/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Rect>
+		
+			
+			<s:Group id="good" width="100%" height="80%" visible="true">
+				<s:VGroup  horizontalAlign="center" verticalAlign="middle" 
+						   paddingTop="20" paddingBottom="5" horizontalCenter="0">
+					<s:Group id="goodimg">
+						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0"  
+									   width="{200/(320/Capabilities.screenDPI)}" 
+									   height="{200/(320/Capabilities.screenDPI)}" scaleMode="stretch"
+									   verticalCenter="0"  contentLoader="{s_imageCache}">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
+														source240dpi="@Embed('assets/240/homepic.png')"
+														source320dpi="@Embed('assets/320/homepic.png')"
+														source480dpi="@Embed('assets/480/homepic.png')"
+														source640dpi="@Embed('assets/640/homepic.png')"/>
+							</s:source>
+							<s:mask>
+								<s:BorderContainer id="bmpMask"
+												   cornerRadius="{180/(320/Capabilities.screenDPI)}"
+												   width="{200/(320/Capabilities.screenDPI)}"
+												   height="{200/(320/Capabilities.screenDPI)}" />
+							</s:mask>
+						</s:BitmapImage>
+					</s:Group>
+					<s:Label id="goodResultInfo" width="{this.width/1.12}" color="#6b6a6a" 
+							 text="Good Test here Test here Test Here Test Here test Here Test Here"
+							 textAlign="center" styleName="textsize9"/>
+				</s:VGroup>
+				
+			</s:Group>
+			
+			<s:Group id="bad" width="100%" height="80%" visible="false">
+				<s:VGroup  horizontalAlign="center" paddingTop="60" paddingBottom="10" horizontalCenter="0">
+					<s:BitmapImage id="badimg" visible="true"
+								   verticalCenter="0" horizontalCenter="0"
+								   contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/offline.png')"
+													source240dpi="@Embed('../assets/240/offline.png')"
+													source320dpi="@Embed('../assets/320/offline.png')"
+													source480dpi="@Embed('../assets/480/offline.png')"
+													source640dpi="@Embed('../assets/640/offline.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:Label id="badResultInfo" width="{this.width/1.12}" color="#6b6a6a" 
+							 text="Test here Test here Test Here Test Here test Here Test Here"
+							 textAlign="center" styleName="textsize9"/>
+				</s:VGroup>
+			</s:Group>
+			
+			
+			
+			
+			<s:Group width="100%" height="20%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" horizontalCenter="0" height="100%" 
+						 click="{resultPopup.visible = false}"
+						 mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Label text="Close"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	
+	
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	
+	
 </s:View>

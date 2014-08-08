@@ -13,7 +13,8 @@
 		<fullScreen>false</fullScreen>
 		<systemChrome>standard</systemChrome>
 		<softKeyboardBehavior>pan</softKeyboardBehavior>
-	</initialWindow>
+	<visible>false</visible>
+    </initialWindow>
 	<supportedLanguages>en</supportedLanguages>
 	<icon>
 		<image16x16>assets/icons/icon-16.png</image16x16>
@@ -58,7 +59,5 @@
 		]]>
 	</manifestAdditions>
 	</android> 
-<extensions>
-     <extensionID>com.sbhave.nativeExtensions.zbar</extensionID>
-</extensions>
+
 </application>

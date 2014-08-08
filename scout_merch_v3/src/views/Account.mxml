@@ -1,86 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true"
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		backgroundColor="#f5f6f7"
-		 viewActivate="view1_viewActivateHandler(event)"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:components="components.*" actionBarVisible="true" 
-		 title="Account">
-	<s:navigationContent>
-		<s:Image x="0" y="-2" click="confirmclick();"
-				>
-			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/old/check_Low.png')"
-										source240dpi="@Embed('assets/old/check_Med.png')"
-										source320dpi="@Embed('assets/old/check_High.png')"/>
-			</s:source>
-		</s:Image>
+		xmlns:components="components.*"  viewActivate="init(event)"
+		title="Account" name="Account" 
+		backgroundColor="#f2f3f4"  
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
 	</s:navigationContent>
-	<s:actionContent>
-		<s:Image x="0" y="-2" click="signoutclick();"
-				>
-			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/old/signout_Low.png')"
-										source240dpi="@Embed('assets/old/signout_Med.png')"
-										source320dpi="@Embed('assets/old/signout_High.png')"/>
-			</s:source>
-		</s:Image>
-	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as" />
 	<fx:Script>
 		<![CDATA[
 			import spark.events.ViewNavigatorEvent;
-			protected var sqlConnection:SQLConnection;
-			[Bindable]
-			public var useremail:String = "";
-			import spark.filters.GlowFilter;
-			public function gOver(ev:MouseEvent):void {
-				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function gDown(ev:MouseEvent):void {
-				var gl:GlowFilter = new GlowFilter(000000,0.6,30,30,30,1,true);
-				ev.currentTarget.filters = [gl];
-			}
-			public function gOut(ev:MouseEvent):void {
-				ev.currentTarget.filters = [];
-			}
-			public function contclick():void {
-				navigator.pushView(Mainscreen,{i:0});	
-			}
-			public function confirmclick():void {
-				navigator.popView();
-			}
-			public function signoutclick():void {
-				
-				var stmt:SQLStatement = new SQLStatement();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("merchuser.db"));
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "update merchusers set active = 'no' where email not like 'bong'";
-				stmt.execute();
-				navigator.pushView(Home,{i:0});
-
-			}
-			
-			
-			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			public function init(event:ViewNavigatorEvent):void
 			{
-				useremail = data.email;
+				enableHardwareKeyListeners();
+				setLoginVars();
+				if (merchid == "-1"){
+					navigator.pushView(Signin);
+				}
+			}	
+			public function signoutclick():void {
+				this.parentApplication.logout();
 			}
 			
 		]]>
 	</fx:Script>
-	<s:VGroup gap="20" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-		<s:BitmapImage >
+	<s:VGroup horizontalAlign="center" width="100%" paddingTop="{30/(320/Capabilities.screenDPI)}" 
+			  gap="{40/(320/Capabilities.screenDPI)}">	
+		<s:BitmapImage  contentLoader="{s_imageCache}">
 			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('assets/old/accountback_Low.png')"
-										source240dpi="@Embed('assets/old/accountback_Med.png')"
-										source320dpi="@Embed('assets/old/accountback_High.png')"/>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/scoutdog.png')"
+										source240dpi="@Embed('../assets/240/scoutdog.png')"
+										source320dpi="@Embed('../assets/320/scoutdog.png')"
+										source480dpi="@Embed('../assets/480/scoutdog.png')"
+										source640dpi="@Embed('../assets/640/scoutdog.png')"/>
 			</s:source>
 		</s:BitmapImage>
-		<s:Label color="#626262" fontSize="50" text="{useremail}" textAlign="center"/>
-		<s:VGroup gap="0" width="100%" horizontalAlign="center">
-		</s:VGroup>
+		<s:Group width="100%" >
+			<s:Rect id="textback1" width="{signout_btn.width}" 
+					height="{signout_btn.height}" 
+					horizontalCenter="0" verticalCenter="0"
+					radiusX="{10/(320/Capabilities.screenDPI)}" 
+					radiusY="{10/(320/Capabilities.screenDPI)}" >
+				<s:fill>
+					<s:SolidColor alpha="1" color="#FFFFFF"/>
+				</s:fill>
+			</s:Rect>
+			<s:TextInput editable="false"   focusAlpha="0"
+						 width="{textback1.width}"
+						 height="{textback1.height}" text="{locationname}"
+						 verticalCenter="0" fontFamily="Arial"
+						 horizontalCenter="0"
+						 borderVisible="false"
+						 contentBackgroundAlpha="0"/>
+		</s:Group>
+		<components:signout_btn id="signout_btn" click="signoutclick();" />
 	</s:VGroup>
 </s:View>
