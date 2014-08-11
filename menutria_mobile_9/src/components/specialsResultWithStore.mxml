@@ -37,6 +37,24 @@
 					dayval.text = "Every "+ tempweekstring.substring(0,1).toUpperCase()+
 						tempweekstring.substring(1,tempweekstring.length);
 				}
+				fixdistance();
+			}
+			public function fixdistance():void {
+				try{
+					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
+						var dist:Number = data.distance;
+						if (dist >= 1){
+							distval.text = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							distval.text = dist.toFixed(0)+ " m";
+						}
+						distval.visible = true;
+					}
+				}
+				catch(e:Error) {}
+				
 			}
 		]]>
 	</fx:Script>
@@ -49,15 +67,16 @@
 				 verticalCenter="0"  scaleMode="zoom" />
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
-				<s:SolidColor alpha="0.2" color="#000000"/>
+				<s:SolidColor alpha="0.25" color="#000000"/>
 			</s:fill>
 		</s:Rect>
 			<s:VGroup    paddingLeft="{20/(320/Capabilities.screenDPI)}" width="100%"
 						 paddingBottom="{20/(320/Capabilities.screenDPI)}"  verticalAlign="bottom" bottom="0"
 						 paddingRight="{20/(320/Capabilities.screenDPI)}">
-				<s:Label color="#FFFFFF" maxDisplayedLines="5"
+				<s:Label color="#36ccba" maxDisplayedLines="5"
 						 fontWeight="bold" styleName="textsize3" 
-						 text="{data.business_name}"    width="{(setheightval-20)*data.type}"  maxWidth="{(setheightval-20)*data.type}"
+						 text="{data.business_name}"  
+						 width="{(setheightval-20)*data.type}"  maxWidth="{(setheightval-20)*data.type}"
 						 verticalAlign="middle"></s:Label>
 				<s:Label color="#FFFFFF" maxDisplayedLines="5"
 						 fontWeight="bold" styleName="textsize3"  paddingRight="{20/(320/Capabilities.screenDPI)}"
@@ -67,6 +86,14 @@
 						 styleName="textsize1" 
 						 maxDisplayedLines="1"
 						 verticalAlign="middle"></s:Label>
+			</s:VGroup>
+		<s:VGroup    paddingLeft="{20/(320/Capabilities.screenDPI)}" width="100%" horizontalAlign="right"
+					 paddingBottom="{20/(320/Capabilities.screenDPI)}"  verticalAlign="bottom" bottom="0"
+					 paddingRight="{20/(320/Capabilities.screenDPI)}">
+			<s:Label  id="distval"  right="0" color="#FFFFFF" 
+					 styleName="textsize1"  text="" visible="false"
+					 maxDisplayedLines="1"
+					 verticalAlign="middle"></s:Label>
 			</s:VGroup>
 		<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>

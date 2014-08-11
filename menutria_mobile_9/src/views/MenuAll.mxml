@@ -6,7 +6,8 @@
 		xmlns:components="components.*" 
 		contentBackgroundAlpha="1"
 		contentBackgroundColor="#f3f3f3" 
-		backgroundAlpha="1"   destructionPolicy="never"
+		backgroundAlpha="1"  
+		destructionPolicy="never"
 		backgroundColor="#f3f3f3"
 		menuKeyPressed="menupress(event)"
 		viewActivate="init()" creationComplete="init2()">
@@ -15,22 +16,18 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
-			import flash.filesystem.File;
-			
+			import flash.filesystem.File;			
 			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
 			import mx.events.EffectEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
-			
 			import flashx.textLayout.events.ScrollEvent;
-			
 			import skins.HomeTileListSkin;
 			[Bindable]
 			public var alphatitle:String = "Home";
@@ -72,12 +69,11 @@
 			{				
 				enableHardwareKeyListeners();
 				goingtonext = false;
-				setLoginVars();
+				setLoginVars();	
 			}
 			public function init2():void {
 				enableHardwareKeyListeners();
 				goingtonext = false;
-				this.parentApplication.showloading();
 				setLoginVars();
 				screenwidth = this.width;			
 				filterData1 = new ArrayCollection();
@@ -93,7 +89,9 @@
 				filterData4.addItem({name:"Highest"});
 				filterData4.addItem({name:"Lowest"});	
 				nofind.visible = false;
-				
+				refetchViewData();				
+			}
+			public function refetchViewData():void {
 				try{
 					if (data.homefilterarray != null){
 						if (data.homefilterarray != []){	
@@ -120,17 +118,14 @@
 				else {
 					getDishes.send();
 				}
-				
 				filterarea.visible = true;
 			}
 			public function afterGetDishes(ev:ResultEvent):void
-			{
-				
+			{	
 				this.destructionPolicy = "never";
 				loadingtext.visible = false;
 				var j:uint = 0;
 				var i:uint = 0;
-				//this.parentApplication.hideloading();
 				filterarea.visible = true;
 				listData = new ArrayCollection();
 				modData = new ArrayCollection();
@@ -163,28 +158,10 @@
 					catch(e:Error){}}
 				
 				syncmenurestrictions();
-				
-				//staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
-				//var usedlocationarray:Array = new Array();
 				for (i=  0; i < listData.length; i++){
 					var goodlocationid:Boolean = true;
 					listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
-					/*for (j = 0; j < usedlocationarray.length; j++){
-					if (usedlocationarray[j] == listData[i].locationid){
-					goodlocationid = false;
-					}
-					}
-					if (goodlocationid){
-					staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+listData[i].lat.toString()+","+listData[i].longa.toString();
-					usedlocationarray.push(listData[i].locationid);
-					}*/
-					
 				}
-				
-				//staticmapimageurl = staticmapimageurl + "&sensor=false";
-				//	mapimage.source = staticmapimageurl;
-				//mapimage.visible = true;
-				
 				var dataSortField:SortField = new SortField();
 				dataSortField.name = "distance";
 				dataSortField.numeric = true;
@@ -192,9 +169,7 @@
 				numericDataSort.fields = [dataSortField];
 				listData.sort = numericDataSort;
 				listData.refresh();
-				
-				
-				
+
 				if (listData.length <= 0){
 					warn.visible = true;
 				}
@@ -256,52 +231,23 @@
 					srt.fields = [new SortField("distance")];
 					listData.sort = srt;
 					listData.refresh();
-					for (i = 0; i < listData.length; i++){
-						listData[i].divtype = 0;
-					}
 				}
 				else if (currentselectmode == 2){
 					srt.fields = [new SortField("categoryname")];
 					listData.sort = srt;
 					listData.refresh();
-					var lastcat:String = "";
-					for (i = 0; i < listData.length; i++){
-						if ((listData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
-							listData[i].divtype = 1;
-						}
-						else {
-							listData[i].divtype = 0;
-							
-						}
-						lastcat = listData[i].categoryname.toLowerCase();
-					}
 				}
 				else if (currentselectmode == 3){
-					
-					
 					srt.fields = [new SortField("rating",!reverse,true)];
 					listData.sort = srt;
 					listData.refresh();
-					for (i = 0; i < listData.length; i++){
-						listData[i].divtype = 0;
-					}
 				}
 				else if (currentselectmode == 4){
-					
 					srt.fields = [new SortField("cost",!reverse,true)];
 					listData.sort = srt;
 					listData.refresh();
-					for (i = 0; i < listData.length; i++){
-						listData[i].divtype = 0;
-					}
 				}
-				startapplyingdata();
-				//	menuList.dataProvider = listData;
-				if (u == 0){
-					generateCategoryFilterArray();
-				}
-				
-				
+				startapplyingdata();	
 			}
 			public function press(event:KeyboardEvent):void {
 				searchClick();
@@ -635,12 +581,10 @@
 			}
 			public function filter3Click():void {
 				if (filterList3.selectedItem.name == "Highest"){
-					
 					currentselectmode = 3;
 					reverse = false;
 				}
 				else if (filterList3.selectedItem.name == "Lowest"){
-					
 					currentselectmode = 3;
 					reverse = true;
 				}
@@ -651,12 +595,10 @@
 			}
 			public function filter4Click():void {
 				if (filterList4.selectedItem.name == "Highest"){
-					
 					currentselectmode = 4;
 					reverse = false;
 				}
 				else if (filterList4.selectedItem.name == "Lowest"){
-					
 					currentselectmode = 4;
 					reverse = true;
 				}
@@ -701,80 +643,50 @@
 			public var addvalue:Number = 4;
 			public var originaladd:Number = 4;
 			public var ti:Timer = new Timer(500,0);
-			[Bindable]
-			public var tempData:ArrayCollection = new ArrayCollection();			
 			public var lastindex:Number = 0;
 			public var moving:Boolean = false;
 			public function startapplyingdata():void {
-				//menuList.dataProvider = listData;
-				//	menuList.height = (listData.length/2*300)
-				
-				ti.stop();
-				ti.removeEventListener(TimerEvent.TIMER,afterti);
-				lastindex 0;
-				tempData = new ArrayCollection();
-				menuList.dataProvider = tempData;
-				ti = new Timer(0,0);
+				try{
+					ti.stop();
+					ti.removeEventListener(TimerEvent.TIMER,afterti);
+				}
+				catch(e:Error){}
+				lastindex = 0;
+				menuList.dataProvider = new ArrayCollection();
+				ti = new Timer(10,0);
 				ti.addEventListener(TimerEvent.TIMER,afterti);
 				ti.start();
-				trace("doing it now");
-				//	previousscrollcount = scrollingCount;
-				
-				
 			}
-			
-			//private var previousscrollcount:Number = 1;
-			//public var previousscrollindex:Number = 0;
-			
 			public function afterti(ev:TimerEvent):void {
-				//previousscrollindex = menuList.dataGroup.verticalScrollPosition;
+				if (menuList.dataProvider.length <= 0){
+					menuList.dataProvider = new ArrayCollection();
+				}
 				ti.stop();
 				ti.removeEventListener(TimerEvent.TIMER,afterti);
-				//if (previousscrollcount == scrollingCount){
-					var startindex:Number = lastindex;
-					var endindex:Number = lastindex+addvalue;
-					if (lastindex == 0){
-						endindex = endindex + addvalue;
-					}
-					
-					if (endindex > listData.length){
-						endindex = listData.length-1;
-						lastindex = endindex;
-					}
-					else {
-						lastindex = endindex;
-					}
-					for (var i:uint = startindex; i < endindex; i++){
-						menuList.dataProvider.addItem(listData[i]);
-						//tempData.addItem(listData[i]);
-					}
-					
-					//tempData.refresh();
-
-			//	}
+				var startindex:Number = lastindex;
+				var endindex:Number = lastindex+addvalue;
+				if (lastindex == 0){
+					endindex = endindex + addvalue;
+				}
 				
+				if (endindex > listData.length){
+					endindex = listData.length-1;
+					lastindex = endindex;
+				}
+				else {
+					lastindex = endindex;
+				}
+				for (var i:uint = startindex; i < endindex; i++){
+					menuList.dataProvider.addItem(listData[i]);
+				}
 				if (lastindex <= listData.length-1){
 					ti = new Timer(timerdelay,0);
 					ti.addEventListener(TimerEvent.TIMER,afterti);
 					ti.start(); 
 				}
-				//scrollingCount = 0;
-				//previousscrollcount = 0;
 			}
-			
-			/*public function afterlistupdate(event:FlexEvent):void
-			{
-				menuList.dataGroup.verticalScrollPosition = previousscrollindex;				
-			}*/
-			
 		]]>
 	</fx:Script>
-	<!--fx:Declarations>
-		<fx:int id="scrollingCount" />
-	</fx:Declarations>
-	<s:initialize>
-		BindingUtils.bindSetter(function(x:*):void { scrollingCount++; }, menuList.scroller.viewport, "verticalScrollPosition");
-	</s:initialize-->
 	<s:titleContent>
 		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
 			<s:Rect width="100%"  height="100%"
@@ -958,8 +870,8 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List width="100%" horizontalCenter="0"  top="0" bottom="0"
-					id="menuList" useVirtualLayout="true" 
+			<s:List width="100%" horizontalCenter="0" height="{this.height-(150/(320/Capabilities.screenDPI))}"
+					id="menuList" useVirtualLayout="false" 
 					verticalScrollPolicy="on"   
 					horizontalScrollPolicy="off"  
 					contentBackgroundColor="#FFFFFF"

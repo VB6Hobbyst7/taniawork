@@ -159,7 +159,7 @@
 		</s:HGroup>
 		<s:VGroup width="100%" gap="8" paddingTop="18"  paddingBottom="10" >
 			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
-					 fontWeight="bold" styleName="textsize4"
+					 fontWeight="bold" styleName="textsize2"
 					 text="{data.business_name}" maxDisplayedLines="1"
 					 verticalAlign="middle"></s:Label>
 			<s:Label width="100%" color="#4d4d4d" 

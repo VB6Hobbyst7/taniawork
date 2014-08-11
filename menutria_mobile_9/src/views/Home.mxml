@@ -398,6 +398,7 @@
 			
 			public function generateCategoryFilterArray():void {
 				var tempfilter2:ArrayCollection = new ArrayCollection();
+				
 				if (homeData.length > 0){
 					for (var i:uint =  0; i < homeData.length; i++){
 						var tempfail:Boolean = false;
@@ -419,7 +420,9 @@
 				var fcst:Sort = new Sort();
 				fcst.fields = [filtercatsf];
 				tempfilter2.sort = fcst;
+				tempfilter2.addItemAt({name:"All"},0);
 				tempfilter2.refresh();
+				
 				
 				
 				filterData2 = new ArrayCollection();
@@ -801,11 +804,16 @@
 			public function filter2Click():void {
 				sv2label.text = filterList2.selectedItem.name;
 				goFilterScreen(1);
-				homeData.filterFunction = catFilter;
+				if (filterList2.selectedItem.name.toLowerCase() == "all"){
+					homeData.filterFunction = allFilter;
+				}
+				else {
+					homeData.filterFunction = catFilter;
+				}
+				
+				
 				homeData.refresh();
 				storeList.dataProvider = homeData;
-				//add filter here
-				
 			}
 			private function allFilter(item:Object):Boolean{
 				return true;
@@ -1108,7 +1116,7 @@
 							 width="{screenwidth}" height="{this.height/3.3}" x="0" y="0"/>
 					
 					
-					<s:List width="100%" height="{(homeData.length/2)*300}"
+					<s:List width="100%" height="{Math.ceil(homeData.length/2)*300}"
 							 verticalScrollPolicy="off"
 							useVirtualLayout="false" 
 							skinClass="skins.HomeTileListSkin"
