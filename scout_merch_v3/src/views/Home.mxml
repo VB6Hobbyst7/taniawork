@@ -23,7 +23,7 @@
 		<components:refund_btn id="refundbtn" click="refundClick(event)"/>
 	</s:actionContent>
 	<fx:Script source="../func/smallglobal.as" />
-	<!--fx:Script source="../func/scanFunctions.as" /-->
+	<fx:Script source="../func/scanFunctions.as" />
 	<fx:Script>
 		<![CDATA[
 			import flash.system.Capabilities;
@@ -189,17 +189,24 @@
 					var message:String = ev.result[0].res.message;	
 					resultPopup.visible = true;
 					
-					goodResultInfo.text = "";
+					goodResultName.text = "";
+					goodResultVisit.text = "";
+					goodResultPoints.text = "";
 					badResultInfo.text = "";
+					profimage.visible = false;
 					if (ev.result[0].res.status == '1'){
+						goodResultName.text = ev.result[0].res.goodname;
+						goodResultVisit.text = ev.result[0].res.goodvisit;
+						goodResultPoints.text = ev.result[0].res.message;
+						profimage.source = ev.result[0].res.goodpic;
+						profimage.visible = true;
 						good.visible = true;
 						bad.visible = false;
-						goodResultInfo.text = message;
 					}
-					else {
+					else {				
+						badResultInfo.text = message;
 						good.visible = false;
 						bad.visible = true;
-						badResultInfo.text = message;
 					}
 				}
 				catch(e:Error){}
@@ -210,15 +217,15 @@
 				amount = totalValue.text;
 				camGroup.visible = true;
 				scanBTN.enabled = false;
-				//onStart(e);
+				onStart(e);
 			}
-			public function refundClick(event:MouseEvent):void
+			public function refundClick(e:MouseEvent):void
 			{
 				refundstatus = 'true';
 				amount = totalValue.text;
 				camGroup.visible = true;
 				scanBTN.enabled = false;
-				//onStart(e);
+				onStart(e);
 			}
 		]]>
 	</fx:Script>
@@ -336,7 +343,7 @@
 	
 	
 	
-	<s:Group id="resultPopup" visible="true"   width="100%" height="100%" >
+	<s:Group id="resultPopup" visible="false"   width="100%" height="100%" >
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
@@ -348,13 +355,16 @@
 			</s:Rect>
 		
 			
-			<s:Group id="good" width="100%" height="80%" visible="true">
+			<s:Group id="good" width="100%" height="80%" visible="false">
 				<s:VGroup  horizontalAlign="center" verticalAlign="middle" 
-						   paddingTop="20" paddingBottom="5" horizontalCenter="0">
-					<s:Group id="goodimg">
+						   verticalCenter="0"
+						   horizontalCenter="0">
+					<s:Group id="goodimg"
+							 verticalCenter="0"
+							 horizontalCenter="0">
 						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0"  
-									   width="{200/(320/Capabilities.screenDPI)}" 
-									   height="{200/(320/Capabilities.screenDPI)}" scaleMode="stretch"
+									   width="{250/(320/Capabilities.screenDPI)}" 
+									   height="{250/(320/Capabilities.screenDPI)}" scaleMode="stretch"
 									   verticalCenter="0"  contentLoader="{s_imageCache}">
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
@@ -366,28 +376,36 @@
 							<s:mask>
 								<s:BorderContainer id="bmpMask"
 												   cornerRadius="{180/(320/Capabilities.screenDPI)}"
-												   width="{200/(320/Capabilities.screenDPI)}"
-												   height="{200/(320/Capabilities.screenDPI)}" />
+												   width="{250/(320/Capabilities.screenDPI)}"
+												   height="{250/(320/Capabilities.screenDPI)}" />
 							</s:mask>
 						</s:BitmapImage>
 					</s:Group>
-					<s:Label id="goodResultInfo" width="{this.width/1.12}" color="#6b6a6a" 
-							 text="Good Test here Test here Test Here Test Here test Here Test Here"
-							 textAlign="center" styleName="textsize9"/>
+					<s:Label id="goodResultName" width="{this.width/1.12}" color="#6b6a6a" 
+							 text="John Smith"
+							 textAlign="center" styleName="textsize10"/>
+					<s:Label id="goodResultVisit" width="{this.width/1.12}" color="#6b6a6a" 
+							 text="Visits: 0"
+							 textAlign="center" styleName="textsize8"/>
+					<s:Label id="goodResultPoints" width="{this.width/1.12}" color="#6b6a6a" 
+							 text="Just earned 0 points"
+							 textAlign="center" styleName="textsize8"/>
 				</s:VGroup>
 				
 			</s:Group>
 			
 			<s:Group id="bad" width="100%" height="80%" visible="false">
-				<s:VGroup  horizontalAlign="center" paddingTop="60" paddingBottom="10" horizontalCenter="0">
+				<s:VGroup  horizontalAlign="center"  gap="{40/(320/Capabilities.screenDPI)}"
+						   verticalCenter="0" verticalAlign="middle"
+							horizontalCenter="0">
 					<s:BitmapImage id="badimg" visible="true"
 								   verticalCenter="0" horizontalCenter="0"
 								   contentLoader="{s_imageCache}">
 						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/offline.png')"
-													source240dpi="@Embed('../assets/240/offline.png')"
-													source320dpi="@Embed('../assets/320/offline.png')"
-													source480dpi="@Embed('../assets/480/offline.png')"
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/240/offline.png')"
+													source240dpi="@Embed('../assets/320/offline.png')"
+													source320dpi="@Embed('../assets/480/offline.png')"
+													source480dpi="@Embed('../assets/640/offline.png')"
 													source640dpi="@Embed('../assets/640/offline.png')"/>
 						</s:source>
 					</s:BitmapImage>

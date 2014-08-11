@@ -3,12 +3,13 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
 			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
-			   creationComplete="init1();"
+			   creationComplete="init1();" activate="init2()"
 			   backgroundColor="#FFFFFF" 
 			   splashScreenScaleMode="zoom"
 			   frameRate="60" >
 	<fx:Style source="main.css"/>
 	<fx:Script source="func/smallglobal.as"/>
+	<fx:Script source="func/coreMobileFunctions.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -29,6 +30,9 @@
 			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 			public var resData:ArrayCollection = new ArrayCollection();
 			public function init1():void {
+				
+				startCoreMobile();
+				
 				svt.duration = slideduration;
 				svt.direction =  ViewTransitionDirection.LEFT;
 				svt2.duration = slideduration;
@@ -70,6 +74,9 @@
 				resData = getDatabaseArray( "SELECT email, merchid, locationid  FROM localuser");				
 				loadStuff(resData);
 				
+			}
+			public function init2():void {
+				recheckInternet();
 			}
 			public function loadStuff(r:ArrayCollection):void {
 				if (r.length != 0){
@@ -121,4 +128,26 @@
 		]]>
 	</fx:Script>
 	<s:ViewNavigator id="home" width="100%" height="100%"/>
+	<s:Group id="internetwarn" width="98%" click="recheckInternet();"
+			 height="15%" top="50" horizontalCenter="0">
+		<s:Rect width="100%" height="100%" >
+			<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
+			<s:stroke><s:SolidColorStroke color="#7f8080" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Rect>
+		<s:HGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0" verticalAlign="middle">
+			<s:BitmapImage id="badimg" visible="true"
+						   verticalCenter="0" horizontalCenter="0"
+						   contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/offline.png')"
+											source240dpi="@Embed('assets/240/offline.png')"
+											source320dpi="@Embed('assets/320/offline.png')"
+											source480dpi="@Embed('assets/480/offline.png')"
+											source640dpi="@Embed('assets/640/offline.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label color="#6b6a6a" text="The Internet Appears to be Offline" styleName="textsize6"/>
+		</s:HGroup>
+		
+	</s:Group>
 </s:Application>
