@@ -43,6 +43,7 @@
 				<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 				<uses-permission android:name="android.permission.CAMERA"/>
 				<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+				<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 			<uses-configuration android:reqFiveWayNav="true"/>
 			<supports-screens android:normalScreens="true"/>
 			<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
@@ -54,6 +55,12 @@
       				</intent-filter>
 				</activity>
 				  <activity  android:name="com.sbhave.nativeExtension.ui.CameraActivity"/>
+				  <receiver android:name="com.milkmangames.extensions.android.CMLocalNotificationReceiver"/>
+]				<receiver android:name="com.milkmangames.extensions.android.CMBootReceiver">
+				<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+				</intent-filter>
+				</receiver>
 			</application>
 		</manifest>		
 		]]>
