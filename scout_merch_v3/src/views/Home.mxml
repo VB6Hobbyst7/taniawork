@@ -5,7 +5,7 @@
 		xmlns:components="components.*"
 		backKeyPressed="donothing(event)"
 		destructionPolicy="never"
-		viewActivate="init(event)"
+		viewActivate="init()"
 		 backgroundAlpha="1" backgroundColor="#f0f0f0"
 		actionBarVisible="true">
 	<s:navigationContent>
@@ -53,8 +53,23 @@
 			public var valuewithtax:Number = 0.00;
 			[Bindable]
 			public var refundstatus:String = 'false';
-			protected function init(event:ViewNavigatorEvent):void
+			protected function init():void
 			{
+				digitcount = 0;
+				warn.text = "Enter Receipt Value";
+				warn.visible = true;
+				totalValue.text = "$0.00";
+				scanBTN.enabled = true;
+				scanBTN.visible = false;
+				refundbtn.enabled = false;
+				codeArray = new Array();
+				payamount = 0;
+				scannedText = "";
+				scannedText2 = "";
+				scanningMode = false;
+				userLBL.text = "Please Scan a User";
+				resultPopup.visible = false;
+				
 				scanBTN.enabled = true;
 				refundbtn.enabled = false;
 				setLoginVars();
@@ -66,6 +81,7 @@
 				scanBTN.visible = false;
 				warn.text = "Enter Receipt Value";
 				busy = false;
+				warn.visible = true;
 			}
 			public function signoutclick():void {
 				
@@ -82,9 +98,10 @@
 			public function process(s:String):void
 			{
 				warn.text = "Enter Receipt Value";
-				if (s == 'c'){
+				if ((s == 'c')||((digitcount == 0)&&(s == '0'))){
 					digitcount = 0;
 					warn.text = "Enter Receipt Value";
+					warn.visible = true;
 					totalValue.text = "$0.00";
 					scanBTN.enabled = true;
 					scanBTN.visible = false;
@@ -97,6 +114,7 @@
 					userLBL.text = "Please Scan a User";
 				}
 				else if (s == '.'){
+					warn.visible = false;
 					if (digitcount != 0){
 						if (scanningMode == false){
 							scanBTN.enabled = true;
@@ -129,6 +147,7 @@
 					}
 				}
 				else {
+					warn.visible = false;
 					if (scanningMode == false){
 						scanBTN.enabled = true;
 						scanBTN.visible = true;
@@ -137,7 +156,12 @@
 					
 					
 					if (digitcount == 0){
-						totalValue.text = "$0.0"+s;
+						if (s != '0'){
+							totalValue.text = "$0.0"+s;
+						}
+						else {
+							digitcount = digitcount-1;
+						}
 					}
 					else if (digitcount == 1){
 						var lastdigit:String = totalValue.text.substr(totalValue.text.length-1,totalValue.text.length);
@@ -180,11 +204,11 @@
 			public function afterProcess(ev:ResultEvent):void {
 				busy = false;
 				scanBTN.enabled = true;
-				refundbtn.enabled = false;
 				try{
 					totalValue.text = "$0.00";
 					digitcount = 0;
 					scanBTN.visible = false;
+					refundbtn.enabled = false;
 					warn.visible = true;
 					var message:String = ev.result[0].res.message;	
 					resultPopup.visible = true;
@@ -213,18 +237,22 @@
 				
 			}
 			public function scanClick(e:MouseEvent):void {
+				warn.visible = false;
 				refundstatus = 'false';
 				amount = totalValue.text;
 				camGroup.visible = true;
 				scanBTN.enabled = false;
+				refundbtn.enabled = false;
 				onStart(e);
 			}
 			public function refundClick(e:MouseEvent):void
 			{
+				warn.visible = false;
 				refundstatus = 'true';
 				amount = totalValue.text;
 				camGroup.visible = true;
 				scanBTN.enabled = false;
+				refundbtn.enabled = false;
 				onStart(e);
 			}
 		]]>
@@ -253,21 +281,21 @@
 		<s:Line width="100%"> 
 			<s:stroke><s:SolidColorStroke color="0x2d7aa2" weight="{2/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
-		<s:Group height="{this.height*0.09}" width="100%">
+		<s:Group height="{this.height*0.13}" width="100%">
 			<s:Rect width="100%" height="100%">
 				<s:fill><s:SolidColor alpha="1" color="#3ea9e1"/></s:fill>
 			</s:Rect>
 			<s:Label left="0" verticalAlign="middle" verticalCenter="3"
-					 text="Total" color="#FFFFFF" styleName="textsize10"  textAlign="left"
+					 text="Total" color="#FFFFFF" styleName="textsize11"  textAlign="left"
 					 fontWeight="bold" paddingLeft="{30/(320/Capabilities.screenDPI)}"/>
 			<s:Label id="totalValue" right="0" verticalAlign="middle" verticalCenter="3"
-					 text="0.00" color="#FFFFFF" styleName="textsize10" textAlign="right"
+					 text="$0.00" color="#FFFFFF" styleName="textsize11" textAlign="right"
 					 fontWeight="bold" paddingRight="{30/(320/Capabilities.screenDPI)}"/>
 		</s:Group>
 		<s:Line width="100%"> 
 			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="{2/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
-		<s:Group width="100%">
+		<s:Group width="100%" height="{scanBTN.height+(20/(320/Capabilities.screenDPI))}">
 			<s:Rect width="100%" height="100%">
 				<s:fill><s:SolidColor alpha="1" color="#b5b5b5"/></s:fill>
 			</s:Rect>
@@ -275,6 +303,7 @@
 					 horizontalCenter="0" text="Enter Receipt Value" textAlign="center"
 					 verticalAlign="middle" verticalCenter="0"/>
 			<s:Image id="scanBTN"  width="100%" enabled="true"
+					 verticalCenter="-2" horizontalCenter="0"
 					 visible="false" click="scanClick(event);"
 					 contentLoader="{s_imageCache}">
 				<s:source>
@@ -286,6 +315,9 @@
 				</s:source>
 			</s:Image>
 		</s:Group>
+		<s:Line width="100%"> 
+			<s:stroke><s:SolidColorStroke color="0x8d8d8d" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Line>
 		<s:VGroup width="100%" height="100%" gap="0">
 			<s:Group  width="100%" height="25%" horizontalCenter="0">
 				<s:Line  right="{5/(320/Capabilities.screenDPI)}" left="0"  bottom="0"  > 
@@ -347,7 +379,7 @@
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
 		</s:Rect>
-		<s:Group  width="95%" height="60%"
+		<s:Group  width="95%" height="70%"
 				  horizontalCenter="0" verticalCenter="0">
 			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}" radiusY="{20/(320/Capabilities.screenDPI)}">
 				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
@@ -359,12 +391,12 @@
 				<s:VGroup  horizontalAlign="center" verticalAlign="middle" 
 						   verticalCenter="0"
 						   horizontalCenter="0">
-					<s:Group id="goodimg"
+					<s:Group id="goodimg" 
 							 verticalCenter="0"
 							 horizontalCenter="0">
 						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0"  
-									   width="{250/(320/Capabilities.screenDPI)}" 
-									   height="{250/(320/Capabilities.screenDPI)}" scaleMode="stretch"
+									   width="{300/(320/Capabilities.screenDPI)}" 
+									   height="{300/(320/Capabilities.screenDPI)}" scaleMode="stretch"
 									   verticalCenter="0"  contentLoader="{s_imageCache}">
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
@@ -376,8 +408,8 @@
 							<s:mask>
 								<s:BorderContainer id="bmpMask"
 												   cornerRadius="{180/(320/Capabilities.screenDPI)}"
-												   width="{250/(320/Capabilities.screenDPI)}"
-												   height="{250/(320/Capabilities.screenDPI)}" />
+												   width="{300/(320/Capabilities.screenDPI)}"
+												   height="{300/(320/Capabilities.screenDPI)}" />
 							</s:mask>
 						</s:BitmapImage>
 					</s:Group>
@@ -418,7 +450,7 @@
 			
 			
 			
-			<s:Group width="100%" height="20%" bottom="0">
+			<s:Group width="100%" height="15%" bottom="0">
 				<s:Line  left="0" right="0"  top="0" > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>
