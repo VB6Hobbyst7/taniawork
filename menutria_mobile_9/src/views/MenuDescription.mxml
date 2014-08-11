@@ -822,10 +822,10 @@
 			 horizontalCenter="0" verticalCenter="0">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
-				<s:SolidColor alpha="0.5" color="#FFFFFF"/>
+				<s:SolidColor alpha="0.5" color="#000000"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect height="90%" width="{reviewseq1.width}"
+		<s:Rect height="98%" width="{reviewseq1.width}"
 				horizontalCenter="0" verticalCenter="0">
 			<s:fill>
 				<s:SolidColor alpha="1" color="#FFFFFF"/>
@@ -912,7 +912,7 @@
 			</s:Group>
 			
 			<s:VGroup width="100%"  height="100%" horizontalAlign="center" gap="0">
-				<s:Group width="90%" height="120" horizontalCenter="0" mouseEnabled="false"    >
+				<s:Group width="{reviewseq1.width}" height="120" horizontalCenter="0" mouseEnabled="false"    >
 					<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">
 						<s:Group height="100%" >
 							<s:BitmapImage left="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
@@ -945,9 +945,9 @@
 					</s:Line>
 					
 				</s:Group>
-				<s:Group width="100%"   height="100%" >
+				<s:Group width="{reviewseq1.width}"   height="100%" >
 					<s:Group id="grholder"  mouseEnabledWhereTransparent="true" visible="false"
-							 width="400" top="220" horizontalCenter="0">
+							 width="400" top="120" horizontalCenter="0">
 						<s:Group id="gr" width="200" mouseEnabledWhereTransparent="true"  
 								 height="200" blendMode="layer" cacheAsBitmap="true"
 								 horizontalCenter="0" verticalCenter="0">
@@ -969,9 +969,9 @@
 								 verticalAlign="bottom" verticalCenter="6"/>
 						
 					</s:Group>
-					<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  bottom="40" 
+					<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  bottom="0" 
 							 horizontalCenter="0" contentLoader="{s_imageCache}"
-							 mouseOver="gOver(event)" width="{this.width*0.9}" 
+							 mouseOver="gOver(event)" width="{reviewseq1.width}" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)" >
 						<s:source>
 							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/confirmbtn.png')"
@@ -981,8 +981,8 @@
 													source640dpi="@Embed('../assets/640/confirmbtn.png')"/>
 						</s:source>
 					</s:Image>
-					<s:Group id="writeholder" visible="false" x="10" y="0"
-							 width="580" height="{this.height/2}">
+					<s:Group id="writeholder" visible="false" horizontalCenter="0"
+							 width="570" height="{this.height/2}">
 						<s:VGroup width="100%" horizontalAlign="center" 
 								  paddingTop="{10/(320/Capabilities.screenDPI)}" gap="20">
 							<s:TextArea id="reviewText" width="95%"  returnKeyLabel="done"
