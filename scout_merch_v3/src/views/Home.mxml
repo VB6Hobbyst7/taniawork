@@ -64,7 +64,7 @@
 				}
 				this.titleo = emailGo;
 				scanBTN.visible = false;
-				warn.text = "Enter Cost to Scan.";
+				warn.text = "Enter Receipt Value";
 				busy = false;
 			}
 			public function signoutclick():void {
@@ -81,10 +81,10 @@
 			}
 			public function process(s:String):void
 			{
-				warn.text = "Enter Cost to Scan.";
+				warn.text = "Enter Receipt Value";
 				if (s == 'c'){
 					digitcount = 0;
-					warn.text = "Enter Cost to Scan.";
+					warn.text = "Enter Receipt Value";
 					totalValue.text = "$0.00";
 					scanBTN.enabled = true;
 					scanBTN.visible = false;
