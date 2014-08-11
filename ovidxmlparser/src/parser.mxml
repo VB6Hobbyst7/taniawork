@@ -45,7 +45,7 @@
 			public var csvtext:String = "";
 			public function afterLoad(event:FlexEvent):void
 			{
-				getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/"+counter.toString()+".xml"
+				getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/s"+counter.toString()+".xml"
 				getData.send();
 			}
 			protected function getData_resultHandler(event:ResultEvent):void
@@ -96,9 +96,9 @@
 				
 				
 				var stop:String = "";
-				if (counter != 73){
+				if (counter != 304){
 					counter++;
-					getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/"+counter.toString()+".xml"
+					getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/s"+counter.toString()+".xml"
 					getData.send();
 				}
 				else {
