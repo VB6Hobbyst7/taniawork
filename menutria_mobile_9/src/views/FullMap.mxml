@@ -7,7 +7,7 @@
 		menuKeyPressed="menupress(event)"
 		backgroundColor="#FFFFFF"
 		title="Map"
-		viewActivate="init();">
+		viewActivate="init();" viewDeactivate="deac(event)">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>
@@ -53,6 +53,7 @@
 					degrees_to_mercator_meters(mylong,mylat).y);
 				myMap.center = mp;
 				getLocations.send();
+				this.parentApplication.removeswipefunctions();
 			}
 			public function afterGetLocations(event:ResultEvent):void
 			{
@@ -135,6 +136,11 @@
 			protected function veLayer_loadErrorHandler(event:LayerEvent):void
 			{
 				var s:String = "";
+			}
+			
+			public function deac(event:ViewNavigatorEvent):void
+			{
+				this.parentApplication.addswipefunctions();
 			}
 			
 		]]>

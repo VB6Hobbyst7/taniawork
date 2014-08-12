@@ -93,6 +93,10 @@
 				
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					img1.source = "assets/320/dish_place_wide.png";	
+					bmpImg22.source = "assets/320/dish_place_square.png";	
+				}
+				else {
+					bmpImg22.source = data.picture;
 				}
 				img1.visible = true;
 				
@@ -294,6 +298,7 @@
 				navigator.pushView(MenuReviews,{id:data.id});
 			}
 			public function startReview():void {
+				this.parentApplication.removeswipefunctions();
 				check.visible = false;
 				forward.visible = true;
 				
@@ -304,10 +309,12 @@
 			}
 			public function backOnMenu():void {
 				if (reviewPopupStage == 0){
+					this.parentApplication.addswipefunctions();
 					reviewseq1.visible = true;
 					reviewseq2.visible = false;
 				}
 				else if (reviewPopupStage == 1){
+					this.parentApplication.addswipefunctions();
 					reviewPopupGroup.visible = false;
 					reviewPopupStage = 0;
 					reviewseq1.visible = true;
@@ -316,6 +323,7 @@
 					renderChart(0.6);
 				}
 				else if (reviewPopupStage == 2){
+					this.parentApplication.removeswipefunctions();
 					check.visible = false;
 					forward.visible = true;
 					grholder.visible = true;
@@ -331,6 +339,7 @@
 			}
 			public function forwardOnMenu():void {
 				 if (reviewPopupStage == 1){
+					 this.parentApplication.removeswipefunctions();
 					reviewseq1.visible = false;
 					reviewseq2.visible = true;
 					check.visible = true;
@@ -341,6 +350,7 @@
 					
 				}
 				else if (reviewPopupStage == 2){
+					this.parentApplication.addswipefunctions();
 					reviewPopupGroup.visible = false;
 					writeholder.visible = false;
 					reviewseq1.visible = true;
@@ -746,8 +756,8 @@
 						<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
 					</s:layout>
 				</s:List>
-				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="{80/(320/Capabilities.screenDPI)}" >
-					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="0"
+				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="{70/(320/Capabilities.screenDPI)}" >
+					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="-10"
 							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
 				</s:Group>
 			</s:VGroup>
@@ -800,9 +810,13 @@
 					<s:SolidColor alpha="1" color="#FFFFFF"/>
 				</s:fill>
 			</s:Rect>
-			<s:VGroup width="100%" horizontalAlign="center" gap="20">
-				<s:TextArea id="shareText" width="95%" height="100%" borderVisible="false"
+			<s:VGroup width="100%" horizontalAlign="center" paddingTop="{30/(320/Capabilities.screenDPI)}" gap="20">
+				<s:TextArea id="shareText" width="95%" height="{this.height/2.5}" borderVisible="false"
 							color="#5D5D5D" fontFamily="Arial" horizontalCenter="0" 
+							paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+							paddingTop="{30/(320/Capabilities.screenDPI)}" 
+							paddingRight="{30/(320/Capabilities.screenDPI)}"
+							paddingBottom="{30/(320/Capabilities.screenDPI)}"
 							contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
 							prompt="Write something about this dish">
 				</s:TextArea>
@@ -969,17 +983,17 @@
 						</s:Group>
 						<s:Group width="20">
 						</s:Group>
-						<s:VGroup width="100%" verticalAlign="middle"  height="100%">
-							<s:Label  text="{data.name}" width="100%"  color="#4d4d4d"  
-									  fontWeight="bold" styleName="textsize2" verticalAlign="middle"/>
+						<s:VGroup width="{reviewseq1.width-220}" verticalAlign="middle"  height="100%">
+							<s:Label  text="{data.name}" width="{reviewseq1.width-220}"  color="#4d4d4d"  
+									  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 							
-							<s:Label  text="{data.business_name}" width="100%" 
-									  color="#4d4d4d"  styleName="textsize1" verticalAlign="middle"/>
+							<s:Label  text="{data.business_name}" width="{reviewseq1.width-220}" 
+									  color="#4d4d4d"  styleName="textsize0" verticalAlign="middle"/>
 							
 						</s:VGroup>
 					</s:HGroup>
 					<s:BitmapImage id="bmpImg22" right="0"  width="100" 	
-								   height="100" source="{data.picture}" 
+								   height="100" 
 								   contentLoader="{s_imageCache}"  scaleMode="zoom" />
 					<s:Line left="0" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
@@ -988,7 +1002,7 @@
 				</s:Group>
 				<s:Group width="{reviewseq1.width}"   height="100%" >
 					<s:Group id="grholder"  mouseEnabledWhereTransparent="true" visible="false"
-							 width="400" top="120" horizontalCenter="0">
+							 width="400" verticalCenter="-80" horizontalCenter="0">
 						<s:Group id="gr" width="200" mouseEnabledWhereTransparent="true"  
 								 height="200" blendMode="layer" cacheAsBitmap="true"
 								 horizontalCenter="0" verticalCenter="0">
@@ -1010,7 +1024,7 @@
 								 verticalAlign="bottom" verticalCenter="6"/>
 						
 					</s:Group>
-					<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  bottom="0" 
+					<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  bottom="-7" 
 							 horizontalCenter="0" contentLoader="{s_imageCache}"
 							 mouseOver="gOver(event)" width="{reviewseq1.width}" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)" >
@@ -1029,10 +1043,10 @@
 							<s:TextArea id="reviewText" width="95%"  returnKeyLabel="done"
 										height="{this.height/2.5}" borderVisible="false"
 										color="#5D5D5D" fontFamily="Arial" horizontalCenter="0" 
-										paddingLeft="{50/(320/Capabilities.screenDPI)}" 
-										paddingTop="{50/(320/Capabilities.screenDPI)}" 
-										paddingRight="{50/(320/Capabilities.screenDPI)}"
-										paddingBottom="{50/(320/Capabilities.screenDPI)}"
+										paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+										paddingTop="{30/(320/Capabilities.screenDPI)}" 
+										paddingRight="{30/(320/Capabilities.screenDPI)}"
+										paddingBottom="{30/(320/Capabilities.screenDPI)}"
 										contentBackgroundAlpha="0" contentBackgroundColor="#FFFFFF"
 										prompt="Write someting about this dish">
 								

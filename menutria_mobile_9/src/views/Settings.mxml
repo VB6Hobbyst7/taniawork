@@ -21,7 +21,7 @@
 			{
 				enableHardwareKeyListeners();
 				catArray =  new ArrayCollection();
-				catArray.addItem({name:"Notifications", type:0, chosen:'no'});
+				//catArray.addItem({name:"Notifications", type:0, chosen:'no'});
 				catArray.addItem({name:"Account", type:1, chosen:'no'});
 				catArray.addItem({name:"About", type:1, chosen:'no'});
 				catArray.addItem({name:"Terms of Service and Privacy", type:1, chosen:'no'});
@@ -48,10 +48,10 @@
 						navigator.pushView(AccountSettings);
 					}
 					else if (settingsList.selectedItem.name == "About"){
-						
+						navigateToURL(new URLRequest("http://menutria.com/"));
 					}
 					else if (settingsList.selectedItem.name == "Terms of Service and Privacy"){
-						
+						navigateToURL(new URLRequest("http://menutria.com/tos.php"));
 					}
 					else if (settingsList.selectedItem.name == "Log Out"){
 						logout();

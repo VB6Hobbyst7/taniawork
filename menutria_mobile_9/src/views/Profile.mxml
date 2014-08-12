@@ -59,27 +59,27 @@
 			public function showThings(u:uint):void {
 				selectedThing = u;
 				if (u == 1){
-					rateList.dataProvider = new ArrayCollection();
-					rateList.visible = true;
-					placesList.visible = false;
+					myreviewlist.visible = true;
+					reviewsivelikedlist.visible = false;
+					placeslist.visible = false;
 					thing1.alpha = 0.5;
 					thing2.alpha = 1;
 					thing3.alpha = 1;
 					getRatings.send();
 				}
 				else if (u == 2){
-					rateList.dataProvider = new ArrayCollection();
-					rateList.visible = true;
-					placesList.visible = false;
+					myreviewlist.visible = false;
+					reviewsivelikedlist.visible = true;
+					placeslist.visible = false;
 					thing1.alpha = 1;
 					thing2.alpha = 0.5;
 					thing3.alpha = 1;
 					getReviewsILiked.send();
 				}
 				else if (u == 3){
-					placesList.dataProvider = new ArrayCollection();
-					rateList.visible = false;
-					placesList.visible = true;
+					myreviewlist.visible = false;
+					reviewsivelikedlist.visible = false;
+					placeslist.visible = true;
 					thing1.alpha = 1;
 					thing2.alpha = 1;
 					thing3.alpha = 0.5;
@@ -97,7 +97,7 @@
 					}
 					catch(e:Error){}
 				}
-				rateList.dataProvider = rateArray;
+				myreviewlist.dataProvider = rateArray;
 			}
 			public function afterGetLiked(ev:ResultEvent):void {				
 				likeArray = new ArrayCollection();
@@ -110,7 +110,7 @@
 					}
 					catch(e:Error){}
 				}
-				rateList.dataProvider = likeArray;
+				reviewsivelikedlist.dataProvider = likeArray;
 			}
 			public function afterGetPlacesEaten(ev:ResultEvent):void {
 				var i:uint = 0;
@@ -127,7 +127,7 @@
 				for (i=  0; i < placesArray.length; i++){
 					placesArray[i].distance = Number(getDistance(mylat,mylong,placesArray[i].lat,placesArray[i].longa));
 				}
-				placesList.dataProvider = placesArray;
+				placeslist.dataProvider = placesArray;
 			}
 		
 			public function gOut2(ev:MouseEvent):void {
@@ -140,15 +140,36 @@
 					ev.currentTarget.alpha = 1;
 				}
 			}			
-			public function ratingitemclick():void {
+			
+			
+			
+			
+			public function myreviewlistclick():void {
 				if (goingtonext == false){
 					goingtonext = true;
-					if (rateList.selectedIndex != -1){
+					if (myreviewlist.selectedIndex != -1){
 						if (selectedThing == 1){
-							navigator.pushView(ViewReview, rateArray[rateList.selectedIndex]);	
+							navigator.pushView(ViewReview, rateArray[myreviewlist.selectedIndex]);	
 						}
 						else {
-							navigator.pushView(ViewReview, likeArray[rateList.selectedIndex]);	
+							navigator.pushView(ViewReview, likeArray[myreviewlist.selectedIndex]);	
+						}
+						
+					}
+				}
+				else {
+					goingtonext = false;
+				}
+			}
+			public function reviewsivelikedclick():void {
+				if (goingtonext == false){
+					goingtonext = true;
+					if (reviewsivelikedlist.selectedIndex != -1){
+						if (selectedThing == 1){
+							navigator.pushView(ViewReview, rateArray[reviewsivelikedlist.selectedIndex]);	
+						}
+						else {
+							navigator.pushView(ViewReview, likeArray[reviewsivelikedlist.selectedIndex]);	
 						}
 						
 					}
@@ -160,12 +181,12 @@
 			public function storeListClick():void {	
 				if (goingtonext == false){
 					goingtonext = true;
-					if (placesList.selectedIndex != -1){
+					if (placeslist.selectedIndex != -1){
 						try{
 							data.homefilterarray = [];
 						}
 						catch(e:Error){}
-						navigator.pushView(StoresDescription, placesArray[placesList.selectedIndex]);	
+						navigator.pushView(StoresDescription, placesArray[placeslist.selectedIndex]);	
 					}
 					else {
 						goingtonext = false;
@@ -420,22 +441,36 @@
 				</s:HGroup>
 				</s:Group>
 				<s:Group width="100%" height="100%">
-					<s:List  id="rateList" visible="true"
-							 width="100%" 
+					<s:List  id="myreviewlist" visible="true"
+							 width="100%"  
 							 horizontalCenter="0" 
 							 verticalScrollPolicy="off"  
 							 horizontalScrollPolicy="off"  	 
 							 contentBackgroundAlpha="0" 
 							 itemRenderer="components.ratingsResultProfile"
-							 change="ratingitemclick();"
-							 click="ratingitemclick();"  >
+							 change="myreviewlistclick();"
+							 click="myreviewlistclick();"  >
 						<s:layout>
 							<s:VerticalLayout horizontalAlign="contentJustify" 
 											  variableRowHeight="true" gap="0"/>
 						</s:layout>
 					</s:List>
-					<s:List  id="placesList" visible="false"
-							 width="{this.width}" 
+					<s:List  id="reviewsivelikedlist" visible="false"
+							 width="100%"  
+							 horizontalCenter="0" 
+							 verticalScrollPolicy="off"  
+							 horizontalScrollPolicy="off"  	 
+							 contentBackgroundAlpha="0" 
+							 itemRenderer="components.ratingsResultProfile"
+							 change="reviewsivelikedclick();"
+							 click="reviewsivelikedclick();"  >
+						<s:layout>
+							<s:VerticalLayout horizontalAlign="contentJustify" 
+											  variableRowHeight="true" gap="0"/>
+						</s:layout>
+					</s:List>
+					<s:List  id="placeslist" visible="false"
+							 width="{this.width}"  
 							 horizontalCenter="0" 
 							 change="storeListClick();"
 							 click="storeListClick();"

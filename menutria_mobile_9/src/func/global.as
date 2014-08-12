@@ -107,6 +107,11 @@ public function createIfNotExsist(s:String):void {
 			"price float," +
 			"distance varchar(255))";							
 	}
+	else if (s == "gps"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS gps (" +
+			"lat varchar(255)," +
+			"longa varchar(255))";
+	}
 	else if (s == "localuser"){
 		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 			"email varchar(255)," +

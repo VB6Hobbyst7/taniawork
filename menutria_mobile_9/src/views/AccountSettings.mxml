@@ -29,7 +29,7 @@
 				catArray =  new ArrayCollection();
 				catArray.addItem({name:"Profile", type:1, chosen:'no'});
 				catArray.addItem({name:"Password", type:1, chosen:'no'});
-				catArray.addItem({name:"Connected Accounts", type:1, chosen:'no'});
+				//catArray.addItem({name:"Connected Accounts", type:1, chosen:'no'});
 				storeList.dataProvider = catArray;
 				setLoginVars();
 				
@@ -37,12 +37,13 @@
 			public function catListChange(ev:IndexChangeEvent):void {
 				try{
 					if (storeList.selectedItem.name == "Profile"){
-						//navigator.pushView(Profile);
+						navigator.pushView(Settings_ChangeProf);
 					}
 					else if (storeList.selectedItem.name == "Password"){
-						navigator.pushView(AccountSettingsChangePwd);
+						navigator.pushView(Settings_ChangePwd);
 					}
 					else if (storeList.selectedItem.name == "Connected Accounts"){
+						navigator.pushView(Settings_Connected_Accounts);
 					}
 				}
 				catch(e:Error){	

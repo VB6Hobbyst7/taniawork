@@ -108,8 +108,8 @@ protected function creationcomplete(event:FlexEvent):void
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
 		cityGo = resData[0].city;
-		pictureGo = resData[0].picture;
-		getUserInfo.send();
+	pictureGo = resData[0].picture;
+	getUserInfo.send();
 		for (var i:uint = 0; i < homeitems.length; i++){
 			if (homeitems[i].name == "Profile"){
 				homeitems[i].name = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
@@ -133,7 +133,13 @@ protected function creationcomplete(event:FlexEvent):void
 		loadedview = true; 
 		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
 	}	
+	addswipefunctions();
+}
+public function addswipefunctions():void {
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
+}
+public function removeswipefunctions():void {
+	this.removeEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
 }
 public function nativeKeyDown(event:KeyboardEvent):void
 {
