@@ -34,6 +34,7 @@
 			public var allreadylistclicked:Boolean = false;
 			protected function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				allreadylistclicked = false;
 				//setLoginVars();

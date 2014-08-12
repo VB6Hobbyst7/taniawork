@@ -29,6 +29,7 @@
 			public var busy:Boolean = false;
 			public function onActivate(event:Event):void
 			{			
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();		

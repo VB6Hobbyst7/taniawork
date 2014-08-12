@@ -26,6 +26,7 @@
 			public function init():void
 			{
 				enableHardwareKeyListeners();
+				this.parentApplication.showStatusBar();
 				setLoginVars();
 				getRatings.send();
 			}

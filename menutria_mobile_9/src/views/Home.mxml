@@ -75,6 +75,7 @@
 			public var creationloaded:Boolean = false;
 			public function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				goingtonext  = false;

@@ -36,6 +36,8 @@
 <string>1461197797460743</string>
 <key>FacebookDisplayName</key>
 <string>Menutria</string>
+<key>UIStatusBarStyle</key>
+<string>UIStatusBarStyleBlackOpaque</string>
 <key>UIDeviceFamily</key> 
 <array> 
     <string>1</string> 

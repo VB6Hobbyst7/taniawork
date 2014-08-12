@@ -65,6 +65,7 @@
 			public function init():void
 			{
 				enableHardwareKeyListeners();
+				this.parentApplication.showStatusBar();
 				goingtonext = false;
 				this.parentApplication.showloading();
 				createIfNotExsist("specials");

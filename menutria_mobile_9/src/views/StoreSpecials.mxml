@@ -39,6 +39,7 @@
 			public function init():void
 			{
 				warn.visible = false;
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				this.parentApplication.showloading();
 				setLoginVars();

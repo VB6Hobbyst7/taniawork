@@ -26,6 +26,7 @@
 			public var busy:Boolean = false;
 			public function activ(event:ViewNavigatorEvent):void
 			{
+				this.parentApplication.showStatusBar();
 				busy = true;
 				enableHardwareKeyListeners();
 				setLoginVars();	

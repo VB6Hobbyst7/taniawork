@@ -32,6 +32,7 @@
 			public var listData:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				scroller.visible = true;
 			}

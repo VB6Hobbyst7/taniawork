@@ -25,6 +25,7 @@
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				catArray =  new ArrayCollection();
 				catArray.addItem({name:"Profile", type:1, chosen:'no'});

@@ -42,6 +42,7 @@
 			public var goingtonext:Boolean = false;
 			public function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);

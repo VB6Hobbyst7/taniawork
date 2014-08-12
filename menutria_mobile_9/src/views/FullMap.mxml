@@ -47,6 +47,7 @@
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			private function init():void {
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,

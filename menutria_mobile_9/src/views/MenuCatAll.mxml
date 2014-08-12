@@ -52,6 +52,7 @@
 			public var filterData4:ArrayCollection = new ArrayCollection();
 			protected function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				warn.visible = false;
 				this.parentApplication.showloading();

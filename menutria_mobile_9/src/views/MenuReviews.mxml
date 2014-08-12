@@ -26,6 +26,7 @@
 			public var rateArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
+				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				getRatings.send();
