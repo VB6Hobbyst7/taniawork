@@ -13,7 +13,7 @@
    splashScreenScaleMode="zoom"
    contentBackgroundColor="#36ccba"
    backgroundColor="#36ccba"
-   frameRate="60"
+   frameRate="100"
    mouseUp="overAllMouseUp(event)" >
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  

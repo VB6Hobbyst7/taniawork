@@ -23,6 +23,8 @@ public var nameGo:String = "";
 [Bindable]
 public var cityGo:String = "";
 [Bindable]
+public var pictureGo:String = "";
+[Bindable]
 public var idGo:String = "";
 public var mylat:Number = 53.536979;
 public var mylong:Number = -113.296852;
@@ -31,11 +33,12 @@ public var slideduration:Number = 250;
 public var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
-		var resData:ArrayCollection = getDatabaseArray("SELECT email, name, city FROM localuser");
+		var resData:ArrayCollection = getDatabaseArray("SELECT * FROM localuser");
 		if (resData.length != 0){
 			emailGo = resData[0].email;
 			nameGo = resData[0].name;
 			cityGo = resData[0].city;
+			pictureGo = resData[0].picture;
 		}
 	}
 	catch(e:Error) {}
@@ -108,7 +111,8 @@ public function createIfNotExsist(s:String):void {
 		stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
 			"email varchar(255)," +
 			"name varchar(255)," +
-			"city varchar(255))";
+			"city varchar(255)," +
+			"picture varchar(255))";
 	}
 	else if (s == "specials"){
 		stmt.text = "CREATE TABLE IF NOT EXISTS specials (" +

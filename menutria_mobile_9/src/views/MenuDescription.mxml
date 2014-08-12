@@ -10,6 +10,11 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
+			import com.milkmangames.nativeextensions.GVFacebookFriend;
+			import com.milkmangames.nativeextensions.GoViral;
+			import com.milkmangames.nativeextensions.events.GVFacebookEvent;
+			import com.milkmangames.nativeextensions.events.GVTwitterEvent;
+			
 			import flash.display.Bitmap;
 			import flash.display.Graphics;
 			import flash.display.Sprite;
@@ -417,13 +422,56 @@
 				sharePopup.visible = false;
 			}
 			public function forwardOnShare():void {
-				sharePopup.visible = false;
+				
 				if (shareType == 0){
 				//share facebook
+					try{
+						GoViral.goViral.showFacebookShareDialog(
+							"Menutria",
+							data.name,
+							data.description,
+							"http://www.menutria.com",
+							data.image).addDialogListener(function(e:GVFacebookEvent) {
+								switch(e.type)
+								{
+									case GVFacebookEvent.FB_DIALOG_CANCELED:
+										shareText.text = "FB CANCELED";
+										break;
+									case GVFacebookEvent.FB_DIALOG_FAILED:
+										shareText.text = "The Share Dialog has failed:"+e.errorMessage
+										break;
+									case GVFacebookEvent.FB_DIALOG_FINISHED:
+										sharePopup.visible = false;
+										break;
+								}
+							});
+					}
+					catch(e:Error){
+						shareText.text = "FB ADOBE ERROR";
+					}
 				}
 				else {
 					//share twitter
-				
+					if(GoViral.goViral.isTweetSheetAvailable())
+					{
+						// show a twitter status post dialog
+						GoViral.goViral.showTweetSheetWithImage(
+							data.name,
+							img1.bitmapData).addDialogListener(function(e:GVTwitterEvent) {
+							switch(e.type)
+							{
+								case GVTwitterEvent.TW_DIALOG_FINISHED:
+									sharePopup.visible = false;
+									break;
+								case GVTwitterEvent.TW_DIALOG_FAILED:
+									shareText.text = "Twitter dialog failed.";
+									break;
+								case GVTwitterEvent.TW_DIALOG_CANCELED:
+									shareText.text = "Twitter dialog canceled.";
+									break;
+							}
+						});
+					}
 				}
 			}
 			public function switchShare(u:uint):void{
@@ -912,33 +960,26 @@
 			</s:Group>
 			
 			<s:VGroup width="100%"  height="100%" horizontalAlign="center" gap="0">
-				<s:Group width="{reviewseq1.width}" height="120" horizontalCenter="0" mouseEnabled="false"    >
+				<s:Group width="{reviewseq1.width}" height="100" horizontalCenter="0" mouseEnabled="false"    >
 					<s:HGroup width="100%" gap="0" verticalAlign="middle" height="90%" verticalCenter="0">
 						<s:Group height="100%" >
-							<s:BitmapImage left="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
-										   width="60" height="60" contentLoader="{s_imageCache}" >
-								<s:source>
-									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/menu-account.png')"
-															source240dpi="@Embed('../assets/240/menu-account.png')"
-															source320dpi="@Embed('../assets/320/menu-account.png')"
-															source480dpi="@Embed('../assets/480/menu-account.png')"
-															source640dpi="@Embed('../assets/640/menu-account.png')"/>
-								</s:source>
-							</s:BitmapImage>
+							<s:BitmapImage id="myprofimage" left="0" verticalCenter="0"
+										 height="100" width="100" 
+										 contentLoader="{s_imageCache}" source="{pictureGo}"/>
 						</s:Group>
 						<s:Group width="20">
 						</s:Group>
 						<s:VGroup width="100%" verticalAlign="middle"  height="100%">
 							<s:Label  text="{data.name}" width="100%"  color="#4d4d4d"  
-									  fontWeight="bold" styleName="textsize3" verticalAlign="middle"/>
+									  fontWeight="bold" styleName="textsize2" verticalAlign="middle"/>
 							
 							<s:Label  text="{data.business_name}" width="100%" 
-									  color="#4d4d4d"  styleName="textsize2" verticalAlign="middle"/>
+									  color="#4d4d4d"  styleName="textsize1" verticalAlign="middle"/>
 							
 						</s:VGroup>
 					</s:HGroup>
-					<s:BitmapImage id="bmpImg22" right="0"  width="120" 	
-								   height="120" source="{data.picture}" 
+					<s:BitmapImage id="bmpImg22" right="0"  width="100" 	
+								   height="100" source="{data.picture}" 
 								   contentLoader="{s_imageCache}"  scaleMode="zoom" />
 					<s:Line left="0" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
@@ -988,10 +1029,10 @@
 							<s:TextArea id="reviewText" width="95%"  returnKeyLabel="done"
 										height="{this.height/2.5}" borderVisible="false"
 										color="#5D5D5D" fontFamily="Arial" horizontalCenter="0" 
-										paddingLeft="{10/(320/Capabilities.screenDPI)}" 
-										paddingTop="{10/(320/Capabilities.screenDPI)}" 
-										paddingRight="{10/(320/Capabilities.screenDPI)}"
-										paddingBottom="{10/(320/Capabilities.screenDPI)}"
+										paddingLeft="{50/(320/Capabilities.screenDPI)}" 
+										paddingTop="{50/(320/Capabilities.screenDPI)}" 
+										paddingRight="{50/(320/Capabilities.screenDPI)}"
+										paddingBottom="{50/(320/Capabilities.screenDPI)}"
 										contentBackgroundAlpha="0" contentBackgroundColor="#FFFFFF"
 										prompt="Write someting about this dish">
 								

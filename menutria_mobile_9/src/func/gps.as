@@ -8,7 +8,7 @@ public var g:Geolocation = new Geolocation();
 public function onactivate(event:Event):void
 {
 	try{
-	stage.frameRate=60; 
+	stage.frameRate=100; 
 	}
 	catch(e:Error){}
 	

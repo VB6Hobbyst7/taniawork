@@ -64,16 +64,17 @@
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 				var stmt:SQLStatement = new SQLStatement();
 				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:city)";
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:picture)";
 				stmt.parameters[":email"] = email;
 				stmt.parameters[":name"] = name;
 				stmt.parameters[":city"] = city;
+				stmt.parameters[":picture"] = "";
 				stmt.execute();
 				getLocalUsers();
 			}
 			protected function getLocalUsers():void
 			{
-				var resData:ArrayCollection = getDatabaseArray("SELECT email, name, city FROM localuser");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM localuser");
 				if (resData.length != 0){
 					//good login
 					for (var i:uint = 0; i < resData.length; i++){

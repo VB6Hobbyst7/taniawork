@@ -20,7 +20,7 @@ import spark.transitions.ViewTransitionDirection;
 import views.Home;
 import views.Login;
 [Bindable]
-public var VERSIONID:Number = 12;
+public var VERSIONID:Number = 13;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;
@@ -103,11 +103,12 @@ protected function creationcomplete(event:FlexEvent):void
 	]);
 	verifyDataTablesViaVersion();
 	createIfNotExsist("localuser");
-	var resData:ArrayCollection = getDatabaseArray( "SELECT email, name FROM localuser");
+	var resData:ArrayCollection = getDatabaseArray( "SELECT * FROM localuser");
 	if (resData.length != 0){
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
 		cityGo = resData[0].city;
+		pictureGo = resData[0].picture;
 		getUserInfo.send();
 		for (var i:uint = 0; i < homeitems.length; i++){
 			if (homeitems[i].name == "Profile"){
@@ -286,7 +287,7 @@ public function reloadProfInfo():void {
 	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "SELECT email, name, city FROM localuser";
+	stmt.text = "SELECT * FROM localuser";
 	stmt.execute();
 	var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);	
 	
@@ -294,6 +295,7 @@ public function reloadProfInfo():void {
 		nameGo = resData[0].name;
 		emailGo = resData[0].email;
 		cityGo = resData[0].city;
+		pictureGo = resData[0].pictre;
 		getUserInfo.send();
 	}
 }
@@ -302,6 +304,7 @@ public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Numb
 		nameGo = r[0].name;
 		emailGo = r[0].email;
 		cityGo = r[0].city;
+		pictureGo = r[0].pictre;
 		getUserInfo.send();
 		if (mainNavigator.navigator.firstView == null){
 			if (mainNavigator.navigator.activeView == null){

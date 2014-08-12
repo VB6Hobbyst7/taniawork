@@ -174,7 +174,7 @@
 				</s:stroke>
 			</s:Line>	
 		</s:Group>			
-		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="1" 
+		<s:List width="100%" horizontalCenter="0" top="0" bottom="0" contentBackgroundAlpha="1" 
 				id="resList" contentBackgroundColor="#e8e8e8"
 				itemRenderer="components.restrictResult"
 				selectedIndex="1" click="res_listClick()"    >

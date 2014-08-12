@@ -152,13 +152,17 @@
 			</s:Group>
 		</s:HGroup>
 		<s:VGroup width="100%" gap="8" paddingTop="18"  paddingBottom="10" >
-			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
-					 fontWeight="bold" styleName="textsize2" id="nameLabel"
+			<s:Label width="{neededwidth-20}" color="#36ccba" paddingLeft="{20}"
+					 fontWeight="bold" styleName="textsize1" id="nameLabel"
 					 text="{data.name}" maxDisplayedLines="1"
+					 verticalAlign="middle"></s:Label>
+			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
+					 fontWeight="bold" styleName="textsize0" id="businessLabel"
+					 text="{data.business_name}" maxDisplayedLines="1"
 					 verticalAlign="middle"></s:Label>
 			<s:Group width="{neededwidth-20}">
 				<s:Label width="100%" color="#4d4d4d"  id="catLabel2"
-						 styleName="textsize1" paddingLeft="{20}" left="0"
+						 styleName="textsize0" paddingLeft="{20}" left="0"
 						 text="{data.categoryname}"
 						 verticalAlign="middle"></s:Label>
 				<s:Image id="alertImage" right="20" visible="{data.goodforme == false}"

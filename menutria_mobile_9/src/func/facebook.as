@@ -194,10 +194,11 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	doQuery("delete FROM localuser;");
 	var stmt:SQLStatement = new SQLStatement();
 	stmt.sqlConnection = sqlConnection;
-	stmt.text = "INSERT into localuser values(:email,:name,:city)";
+	stmt.text = "INSERT into localuser values(:email,:name,:city,:picture)";
 	stmt.parameters[":email"] = fsemail;
 	stmt.parameters[":name"] = fsname;
 	stmt.parameters[":city"] = fscity;
+	stmt.parameters[":picture"] = "";
 	stmt.execute();
 	reloadProfInfo();
 	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
@@ -213,6 +214,7 @@ public function afterGetUserInfo(ev:ResultEvent):void {
 			profimage.source = newpicture;
 			profimage.scaleMode = "zoom";
 			profimage.visible = true;
+			doQuery("update localuser set picture = '"+newpicture+"';");
 		}
 	}
 	catch(e:Error){}
