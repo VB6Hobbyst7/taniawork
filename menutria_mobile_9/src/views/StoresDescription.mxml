@@ -49,6 +49,14 @@
 			
 			public function init():void
 			{
+				if (Capabilities.version.indexOf('IOS') > -1){
+					if (getDPIHeight() == 320){
+						backbutton.top = 20;
+					}
+					else if (getDPIHeight() == 160){
+						backbutton.top = 10;
+					}
+				}
 				enableHardwareKeyListeners();
 				this.parentApplication.hideStatusBar();
 				didlistclick = false;
@@ -260,7 +268,7 @@
 												source320dpi="@Embed('../assets/320/pictureshadow.png')"/>
 					</s:source>
 				</s:BitmapImage>
-				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" mouseEnabledWhereTransparent="true" 
+				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" id="backbutton" mouseEnabledWhereTransparent="true" 
 						 top="0" left="0"  mouseDown="navigator.popView();">
 					<s:Image  top="{30/(320/Capabilities.screenDPI)}" 
 							  left="{30/(320/Capabilities.screenDPI)}" 

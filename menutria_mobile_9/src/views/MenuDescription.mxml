@@ -72,6 +72,15 @@
 			public var eatenstatus:uint = 0;
 			public function init():void
 			{
+				
+				if (Capabilities.version.indexOf('IOS') > -1){
+					if (getDPIHeight() == 320){
+						backbutton.top = 20;
+					}
+					else if (getDPIHeight() == 160){
+						backbutton.top = 10;
+					}
+				}
 				this.parentApplication.hideStatusBar();
 				enableHardwareKeyListeners();
 				didlistclick = false;
@@ -590,7 +599,7 @@
 					</s:source>
 				</s:Image>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" 
-						 mouseEnabledWhereTransparent="true" top="0" left="0"  
+						 mouseEnabledWhereTransparent="true" id="backbutton" top="0" left="0"  
 						 mouseDown="navigator.popView();">
 					<s:BitmapImage top="{30/(320/Capabilities.screenDPI)}"
 							  left="{30/(320/Capabilities.screenDPI)}"
@@ -888,13 +897,13 @@
 				<s:SolidColor alpha="0.5" color="#000000"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect height="98%" width="{reviewseq1.width}"
+		<s:Rect height="95%" width="{reviewseq1.width}"
 				horizontalCenter="0" verticalCenter="0">
 			<s:fill>
 				<s:SolidColor alpha="1" color="#FFFFFF"/>
 			</s:fill>
 		</s:Rect>
-		<s:VGroup gap="0" height="98%" width="{reviewseq1.width}"
+		<s:VGroup gap="0" height="95%" width="{reviewseq1.width}"
 				   horizontalCenter="0" verticalCenter="0">
 			<s:Group height="{reviewseq1.height}" width="100%">
 				<s:Rect width="100%"  height="100%">
