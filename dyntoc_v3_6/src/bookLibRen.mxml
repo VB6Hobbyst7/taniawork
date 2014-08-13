@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.GlowFilter;
+		
+			public function glowOver(ev:MouseEvent):void {
+			//	var g:GlowFilter = new GlowFilter(16711680,1,5,5,1);
+				//ev.currentTarget.filters = [g];
+			}
+			public function glowOut(ev:MouseEvent):void {
+				//ev.currentTarget.filters = [];
+			}
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				data.show = true;
+			}
+			public function textOver(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","underline");
+			}
+			public function textOut(ev:MouseEvent):void {
+				ev.currentTarget.setStyle("textDecoration","none");
+			}
+		]]>
+	</fx:Script>
+
+	
+	
+	<s:HGroup left="0" right="0" useHandCursor="true"
+			   buttonMode="true" top="0" height="35" width="150"
+			   name="{data.name}+box" 
+			  bottom="0" verticalAlign="middle">
+		<!--s:Image source="assets/delete.png" width="20"
+				 height="15" buttonMode="true" useHandCursor="true"
+				 top="0" left="0" mouseOver="glowOver(event);"
+				 mouseOut="glowOut(event);" click="image1_clickHandler(event)" /-->
+		<s:Label left="2" width="23" height="35" color="#FFFFFF" fontFamily="Myriad Pro"
+				 fontSize="18" text="{data.id}" textAlign="right" verticalAlign="middle"/>
+		<s:Label left="31" width="100%" height="35" color="#FFFFFF" fontFamily="Myriad Pro"
+				 fontSize="18" text="{data.name}" mouseOut="textOut(event)" mouseOver="textOver(event);" textAlign="left" verticalAlign="middle"/>
+		
+	</s:HGroup>
+</s:ItemRenderer>

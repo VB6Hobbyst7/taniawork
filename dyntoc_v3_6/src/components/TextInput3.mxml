@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:graphics="assets.graphics.*">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<graphics:Graphic33 y="0" x="0"/>
+	<s:RichEditableText heightInLines="1" id="textDisplay" width="264" x.normal="3" y.normal="1" x.disabled="4" y.disabled="2" fontFamily="Arial"/>
+</s:Skin>

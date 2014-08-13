@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group>
+		<mask>
+			<Group x="-21" y="-499" ai:spare="1">
+				<Rect height="800" width="1280">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Rect>
+			</Group>
+		</mask>
+		<Group alpha="0.100006" flm:isolated="false" flm:knockout="false">
+			<Group>
+				<mask>
+					<Group x="-0.8" y="-1" ai:spare="1">
+						<Rect height="22.25" width="348.606">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<Rect height="20" width="347">
+					<fill>
+						<SolidColor color="#ECE5D5"/>
+					</fill>
+				</Rect>
+				<Rect x="0.5" y="0.5" height="20" width="346">
+					<stroke>
+						<SolidColorStroke caps="none" color="#6C0D01" joints="miter" miterLimit="4" weight="1"/>
+					</stroke>
+				</Rect>
+			</Group>
+		</Group>
+	</Group>
+</Graphic>

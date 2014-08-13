@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:graphics="assets.graphics.*" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:RichText color="#FFFFFF" text="Excerpts" columnCount="1" fontSize="16" 
+				kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" 
+				ai:aa="2" d:id="72" d:userLabel="Notes " flm:variant="70" 
+				fontFamily="Myriad Pro" x="0" y="0" textDecoration.over="underline" 
+				tabStops.over="S0" textDecoration.down="underline" tabStops.down="S0" 
+				color.down="#333333">
+	</s:RichText>
+	<s:RichText x="60" y="3" color="#FFFFFF" columnCount="1" fontSize="11" kerning="off" tabStops="S0 S50 S100" whiteSpaceCollapse="preserve" ai:aa="2" d:id="74" d:userLabel="click to highlight in page" flm:variant="72" fontFamily="Myriad Pro" textDecoration.over="underline" textDecoration.down="underline" color.down="#333333">
+		<s:content><s:p><s:span trackingRight="1%">c</s:span><s:span trackingRight="0.9%">li</s:span><s:span trackingRight="1%">c</s:span><s:span trackingRight="0.9%">k</s:span><s:span trackingRight="1%"> </s:span><s:span trackingRight="0.3%">t</s:span><s:span trackingRight="1%">o h</s:span><s:span trackingRight="0.9%">i</s:span><s:span trackingRight="1%">ghlig</s:span><s:span trackingRight="0.6%">h</s:span><s:span trackingRight="0.9%">t</s:span><s:span trackingRight="1%"> in p</s:span><s:span trackingRight="0.9%">a</s:span><s:span trackingRight="1%">g</s:span><s:span>e</s:span></s:p></s:content>
+	</s:RichText>
+</s:Skin>

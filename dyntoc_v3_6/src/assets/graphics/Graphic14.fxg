@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#FFFFFF" columnCount="1" fontFamily="Myriad Pro" fontSize="16" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="72" d:userLabel="Notes " flm:variant="70">
+		<content><p><span trackingRight="1%">N</span><span trackingRight="0.9%">o</span><span trackingRight="0.3%">t</span><span trackingRight="1%">es</span><span> </span></p></content>
+	</RichText>
+	<RichText x="46" y="5" color="#FFFFFF" columnCount="1" fontFamily="Myriad Pro" fontSize="11" kerning="off" tabStops="S0 S50 S100" whiteSpaceCollapse="preserve" ai:aa="2" d:id="74" d:userLabel="click to highlight in page" flm:variant="72">
+		<content><p><span trackingRight="1%">c</span><span trackingRight="0.9%">li</span><span trackingRight="1%">c</span><span trackingRight="0.9%">k</span><span trackingRight="1%"> </span><span trackingRight="0.3%">t</span><span trackingRight="1%">o h</span><span trackingRight="0.9%">i</span><span trackingRight="1%">ghlig</span><span trackingRight="0.6%">h</span><span trackingRight="0.9%">t</span><span trackingRight="1%"> in p</span><span trackingRight="0.9%">a</span><span trackingRight="1%">g</span><span>e</span></p></content>
+	</RichText>
+</Graphic>

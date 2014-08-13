@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXTreeItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" dataChange="dchange();" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:graphics="assets.graphics.*">
+	<fx:Script>
+		<![CDATA[
+			import assets.graphics.Graphic30;
+			import assets.graphics.Graphic31;
+			import assets.graphics.Graphic32;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			protected function dchange():void
+			{
+				holder3.removeAllElements();
+				try{
+					if (data.boc != null){
+						var s:String = "";
+						var circleSize:uint = 0;
+						var assoc:Array = new Array();
+						var assoc2:Array = new Array();
+						for (var j:uint = 0; j < data.boc.length; j++){
+							var h:Number = (data.boc[j]/data.count)*10;
+							h = Math.round(h);
+							assoc.push(h);
+						}
+						for (var k:uint = 0; k < assoc.length; k++){
+							var kcount:uint = 1;
+							for (var k2:uint = 0; k2 < assoc.length; k2++){
+								if (k2 != k){
+									if (assoc[k] == assoc[k2]){
+										kcount++;
+									}
+								}
+							}
+							assoc2.push(kcount);
+						}
+						for (var i:uint = 0; i < data.boc.length; i++){
+								if (data.boc[i] > data.count){
+									var weird:String = "stop";
+								}
+								if ((data.xmax != -1)&&(data.xmin != -1)){
+									lino.xTo = 100+((200/(data.xmax-data.xmin))*
+												(data.count-data.xmin));
+								}
+								var clr:String = "0x"+data.sTip.substring(1,
+									data.sTip.length);
+								var glo:spark.filters.GlowFilter = 
+									new spark.filters.GlowFilter(int(clr),1,10,10,20,1,true);
+								lino.filters = [glo];
+								if (assoc2[i] == 1){
+									var sx:uint = (data.boc[i]/data.count)*lino.xTo;
+									var gl:Graphic32 = new Graphic32();
+									gl.x = sx;
+									gl.y = 2.5;
+									gl.filters = [glo];
+									gl.name = i.toString();
+									gl.addEventListener(MouseEvent.CLICK, clickBubble);
+									gl.useHandCursor = true;
+									gl.buttonMode = true;
+									holder3.addElement(gl);
+								}
+								else if (assoc2[i] <= 6){
+									var h2:Number = (data.boc[i]/data.count)*10;
+									h2 = Math.round(h2);
+									h2 = (h2/10)*lino.xTo;
+									var gl2:Graphic31 = new Graphic31();
+									gl2.x = h2;
+									gl2.y = 1.5;
+									gl2.filters = [glo];
+									gl2.name = i.toString();
+									gl2.useHandCursor = true;
+									gl2.buttonMode = true;
+									gl2.addEventListener(MouseEvent.CLICK, clickBubble);
+									holder3.addElement(gl2);
+								}
+								else {
+									var h3:Number = (data.boc[i]/data.count)*10;
+									h3 = Math.round(h3);
+									h3 = (h3/10)*lino.xTo;
+									var gl3:Graphic30 = new Graphic30();
+									gl3.x = h3;
+									gl3.y = 0;
+									gl3.name = i.toString();
+									gl3.filters = [glo];
+									gl3.useHandCursor = true;
+									gl3.buttonMode = true;
+									gl3.addEventListener(MouseEvent.CLICK, clickBubble);
+									holder3.addElement(gl3);
+								}	
+						}	
+					}
+					else {
+						var s3:String = "";
+					}
+				}
+				catch(Exception:Error){}
+			}
+			public function clickBubble(ev:MouseEvent):void {
+				var stop:String = "";
+				data.occurIndex = Number(ev.currentTarget.name)+1;
+				data.selected = true;
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal" />            
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	<s:HGroup left="-10" right="0" top="0" bottom="0"
+			  verticalAlign="middle">
+		<s:Rect id="indentationSpacer"
+				width="{treeListData.indent}"
+				percentHeight="100" alpha="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" />
+			</s:fill>
+		</s:Rect>
+		<s:Group id="disclosureGroup">
+			<s:BitmapImage source="{treeListData.disclosureIcon}" 
+						   visible="{treeListData.hasChildren}" />
+		</s:Group>
+		<s:BitmapImage visible="false" 
+					   source="{treeListData.icon}" />
+		<s:BorderContainer id = "holder" 
+						   width="100%" height="20"
+						   backgroundAlpha="0" borderAlpha="0" >
+			<s:Label id="labelField" text="{treeListData.label}"
+				 visible="{!data.isTool}" paddingLeft="-23" 
+				 paddingTop="2" width="134"
+				 maxDisplayedLines.selected="1"/>
+			<s:BorderContainer id = "holder2" visible="{data.isTool}" 
+							   width="100%" height="20" 
+							   backgroundAlpha="0" borderAlpha="0" >
+				<s:BorderContainer id = "holder3"  width="100%" 
+								   height="20" backgroundAlpha="0" 
+								   borderAlpha="0"/>
+				<s:Line id="lino" x="0" xTo="200" y="6.5">
+					<s:stroke>
+						<s:SolidColorStroke caps="none" 
+											color="#FFFFFF" 
+											joints="miter" 
+											miterLimit="4" 
+											weight="1"/>
+					</s:stroke>
+				</s:Line>
+			</s:BorderContainer>
+		</s:BorderContainer>
+	</s:HGroup> 	
+</s:MXTreeItemRenderer>

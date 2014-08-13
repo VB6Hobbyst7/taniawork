@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:graphics="assets.graphics.*" 
+		 xmlns:d="http://ns.adobe.com/fxg/2008/dt" 
+		 xmlns:ai="http://ns.adobe.com/ai/2009" 
+		 xmlns:flm="http://ns.adobe.com/flame/2008" 
+		 xmlns:ATE="http://ns.adobe.com/ate/2009" 
+		 xmlns:lib="assets.graphics.dyntoc_v2_2.*" 
+		 xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" 
+		 xmlns:components="components.*" >
+	
+	
+	<fx:Script source="../func/bubbleNnoteFunctions.as" />
+	<s:states>
+		<s:State name="Notes"/>
+		<s:State name="Bubble"/>
+	</s:states>
+	<fx:DesignLayer d:id="2" d:userLabel="Layer 1">
+		<!-- ***************************************************-->
+		<!-- START OF BACKGROUND STUFF -->
+		<graphics:Graphic22 id="graphic221" d:userLabel="bubbleBack" 
+							y.Bubble="448" y.Notes="741" x="1" 
+							width.Bubble="377.6" width.Notes="377.6"/>
+		<graphics:Graphic23 id="graphic231" d:userLabel="notesBack" 
+							y.Bubble="487" y.Notes="447" x="1" 
+							width.Bubble="377.8" width.Notes="377.6"/>
+		<!-- END OF BACKGROUND STUFF -->
+		<!-- ***************************************************-->
+		<!-- START OF NOTES STUFF -->
+		<graphics:Graphic18 id="graphic182" d:userLabel="notesS" 
+							visible.Bubble="false" x="0" y="481" 
+							x.Notes="16" y.Notes="481"/>
+		<s:Button id = "noteLabelButton" 
+				  x="11" y="458"
+				  click="button_clickHandler()" 
+				  skinClass="components.Button3"/>
+		<s:Button id="notesRightButton" click = "noteGo(1)" 
+				  x="330" y="486"
+				  x.Notes="346" y.Notes="486"
+				  skinClass="components.Button2" 
+				  visible.Bubble="false"/>
+		<s:Button id="notesLeftButton" enabled="false" 
+				  click = "noteGo(-1)" rotation="180" 
+				  skinClass="components.Button2" visible.Bubble="false" 
+				  x="16" y="497" 
+				  x.Notes="32" y.Notes="497"/>
+		<mx:Panel  backgroundAlpha="0"  visible.Notes="true" 
+				   visible.Bubble="false"  id = "noteHolder" 
+				   headerHeight="0" verticalScrollPolicy="off"
+				   horizontalScrollPolicy="off"
+				   borderAlpha="0" borderColor="#FFFFFF"
+				   dropShadowVisible="false"
+				   color="#000000" fontWeight="normal"  width="307" height="22"
+				   x="64" y="474" x.Notes="35" y.Notes="479">
+			<s:BorderContainer   borderAlpha="0" x="0" y="0"  id="notes"
+								 dropShadowVisible="false" 
+								 visible.Notes="true" visible.Bubble="false"
+								 fontFamily="Verdana" fontSize="12" 
+								 color="#000000" fontWeight="normal"
+								 height="22" width="845" width.Notes="824">
+				<s:backgroundFill> 
+					<s:SolidColor color="red" alpha="0"/> 
+				</s:backgroundFill> 
+			</s:BorderContainer>
+		</mx:Panel>
+		<s:TextArea id="noteText" x="20" y="505" width="307" height="219" alpha="1"
+					borderVisible="false" color="#FFFFFF" contentBackgroundAlpha="0.0"
+					editable="false" fontFamily="Myriad Pro" fontSize="12"
+					visible.Bubble="false"
+					visible.Notes="true" width.Notes="335"/>
+		<!-- END OF NOTES STUFF -->
+		<!-- ***************************************************-->
+		<!-- START OF BUBBLE STUFF -->
+		<mx:Tree id="bubbleTree" dataProvider="{bubbleContents}"
+				 x="45" y="500" width="155" height="277"
+				 x.Bubble="16" y.Bubble="566" width.Bubble="347" height.Bubble="211"
+				 itemRenderer="bubbleItemRenderer" labelField="name"
+				 visible.Bubble="true" visible.Notes="false"
+				 color="#FFFFFF" contentBackgroundAlpha.Bubble="0.0"/>
+		<graphics:Graphic18 id="graphic181" 
+							x="15" y="517"
+							width="347.8" height="50.25" 
+							includeIn="Bubble"/>
+		<s:Button click="button_clickHandler_1()" id="button1" 
+				  skinClass="components.bubbleGButton" 
+				  y.Bubble="496" y.Notes="751" x="10"/>
+		<s:RichText ai:aa="2" color="#FFFFFF" columnCount="1"
+					fontFamily="Georgia" 
+					fontSize="28.5" d:id="5" includeIn="Bubble"
+					kerning="off" 
+					tabStops="S36" text=" " flm:variant="3"
+					whiteSpaceCollapse="preserve" 
+					x="196" y="17"/>
+		<s:Button id="addBubbleButton"
+				  x="341" y="525"
+				  visible.Bubble="true"
+				  visible.Notes="false" 
+				  skinClass="components.Button2"/>
+		<s:ComboBox id="bubbleSearch" x="24" y="519"
+					width="309" labelField="label"
+					visible.Bubble="true" x.Bubble="24" y.Bubble="521"
+					visible.Notes="false"/>
+		<s:HGroup id="bubSelection" x="17" y="544" 
+				  width="343" height="22"
+				  visible.Bubble="true" 
+				  x.Bubble="24" y.Bubble="550" 
+				  width.Bubble="326"
+				  height.Bubble="16"
+				  visible.Notes="false">
+		</s:HGroup>
+		<s:Label id="clearBubbleButton" x="327" y="499" 
+				 click="tclick(event);" color="#FFFFFF"
+				 fontFamily="Myriad Pro" mouseOut="tout(event);"
+				 mouseOver="tover(event);"
+				 text="Clear"
+				 visible.Bubble="true"
+				 visible.Notes="false"/>
+		<!-- END OF BUBBLE STUFF -->
+		<!-- ***************************************************-->
+	</fx:DesignLayer>
+	<s:transitions>
+		<s:Transition autoReverse="true" fromState="Notes" toState="Bubble">
+			<s:Parallel>
+				<s:Parallel target="{graphic221}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic231}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic181}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{button1}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic182}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{notesRightButton}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{notesLeftButton}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="Bubble" toState="Notes">
+			<s:Parallel>
+				<s:Parallel target="{graphic221}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic231}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic181}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{button1}">
+					<s:Move autoCenterTransform="true" duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic182}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{notesRightButton}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{notesLeftButton}">
+					<s:Fade duration="300" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+</s:Group>

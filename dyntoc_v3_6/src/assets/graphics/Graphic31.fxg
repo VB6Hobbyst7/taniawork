@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Path winding="nonZero" x="0.234" y="0.315" data="M 3.154 6.307 C 4.895 6.307 6.307 4.895 6.307 3.154 C 6.307 1.412 4.895 0 3.154 0 C 1.412 0 0 1.412 0 3.154 C 0 4.895 1.412 6.307 3.154 6.307">
+		<fill>
+			<SolidColor color="#FFFFFF"/>
+		</fill>
+	</Path>
+</Graphic>

@@ -1,0 +1,35 @@
+
+@font-face
+{
+	fontFamily: "Myriad Pro";
+	src: url("assets/MyriadPro-Regular.otf");
+	embedAsCFF: true;
+}
+@font-face
+{
+	fontFamily: "Myriad Pro";
+	fontWeight: bold;
+	src: url("assets/MyriadPro-Regular.otf");
+	embedAsCFF: true;
+}
+global
+{
+	selection-color: #929292;
+	vertical-align: top;
+	text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

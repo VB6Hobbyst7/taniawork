@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Group>
+		<Group>
+			<mask>
+				<Group x="406.5" y="90.75" ai:spare="1">
+					<Path winding="nonZero" data="M0 0 0 663.51 402.15 663.51C402.15 663.51 426.15 663.51 426.15 639.51L426.15 24C426.15 24 426.15 0 402.15 0L0 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group ai:spare="1">
+						<Rect height="800" width="1280">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<Group>
+					<Group>
+						<mask>
+							<Group ai:spare="1">
+								<Rect height="800" width="1280">
+									<fill>
+										<SolidColor color="#FFFFFF"/>
+									</fill>
+								</Rect>
+							</Group>
+						</mask>
+						<Group>
+							<mask>
+								<Group ai:spare="1">
+									<Rect height="799.992" width="1280">
+										<fill>
+											<SolidColor color="#FFFFFF"/>
+										</fill>
+									</Rect>
+								</Group>
+							</mask>
+							<BitmapImage source="@Embed('../images/dyntocdesigns/Image_0001.png')" height="800" width="1280" ai:embed="1"/>
+						</Group>
+					</Group>
+				</Group>
+			</Group>
+		</Group>
+		<Group x="406" y="90">
+			<mask>
+				<Group x="-406" y="-90" ai:spare="1">
+					<Rect height="800" width="1280">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Path winding="nonZero" x="0.25" y="0.547" data="M 0.25 0.25 L 0.25 663.76 L 402.4 663.76 C 402.4 663.76 426.4 663.76 426.4 639.76 L 426.4 24.25 C 426.4 24.25 426.4 0.25 402.4 0.25 L 0.25 0.25 Z">
+				<stroke>
+					<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+				</stroke>
+			</Path>
+		</Group>
+		<Group>
+			<mask>
+				<Group x="832.15" y="90.75" ai:spare="1">
+					<Path winding="nonZero" data="M24 0C24 0 0 0 0 24L0 639.51C0 639.51 0 663.51 24 663.51L426.149 663.51 426.149 0 24 0Z">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Path>
+				</Group>
+			</mask>
+			<Group>
+				<mask>
+					<Group ai:spare="1">
+						<Rect height="800" width="1280">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<Group>
+					<Group>
+						<mask>
+							<Group ai:spare="1">
+								<Rect height="800" width="1280">
+									<fill>
+										<SolidColor color="#FFFFFF"/>
+									</fill>
+								</Rect>
+							</Group>
+						</mask>
+						<Group>
+							<mask>
+								<Group ai:spare="1">
+									<Rect height="799.998" width="1280">
+										<fill>
+											<SolidColor color="#FFFFFF"/>
+										</fill>
+									</Rect>
+								</Group>
+							</mask>
+							<BitmapImage source="@Embed('../images/dyntocdesigns/Image_0002.png')" height="800" width="1280" ai:embed="1"/>
+						</Group>
+					</Group>
+				</Group>
+			</Group>
+		</Group>
+	</Group>
+</Graphic>

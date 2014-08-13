@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<RichText color="#ECE5D5" columnCount="1" fontFamily="Myriad Pro" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="21" d:userLabel="  |  switch to " flm:variant="19">
+		<content><p><span trackingRight="2.5%">  |  </span><span trackingRight="2.4%">s</span><span trackingRight="2.5%">w</span><span trackingRight="2.4%">i</span><span trackingRight="1.9%">t</span><span trackingRight="2.4%">c</span><span trackingRight="2.5%">h </span><span trackingRight="1.9%">t</span><span trackingRight="2.5%">o</span><span> </span></p></content>
+	</RichText>
+	<RichText x="112" color="#ECE5D5" columnCount="1" fontFamily="Myriad Pro" kerning="off" tabStops="S36" whiteSpaceCollapse="preserve" ai:aa="2" d:id="23" d:userLabel=" mode  |  " flm:variant="21">
+		<content><p><span trackingRight="2.5%"> m</span><span trackingRight="2.4%">o</span><span trackingRight="2.5%">de  </span><span trackingRight="2.4%">|</span><span trackingRight="2.5%"> </span><span> </span></p></content>
+	</RichText>
+</Graphic>

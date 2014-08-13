@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group alpha="0.100006" flm:isolated="false" flm:knockout="false">
+		<Group>
+			<mask>
+				<Group x="-0.8" y="-1.2" ai:spare="1">
+					<Rect height="712.825" width="874.455">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Rect height="711" width="873">
+				<fill>
+					<SolidColor color="#ECE5D5"/>
+				</fill>
+			</Rect>
+			<Rect x="0.5" y="0.5" height="710" width="872">
+				<stroke>
+					<SolidColorStroke caps="none" color="#6C0D01" joints="miter" miterLimit="4" weight="1"/>
+				</stroke>
+			</Rect>
+		</Group>
+	</Group>
+	<Group x="11" y="8">
+		<mask>
+			<Group x="-0.5" y="-0.2" ai:spare="1">
+				<Path winding="nonZero" data="M0 0 0 663.51 402.15 663.51C402.15 663.51 426.15 663.51 426.15 639.51L426.15 24C426.15 24 426.15 0 402.15 0L0 0Z">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Path>
+			</Group>
+		</mask>
+		<Rect height="663" width="426" d:id="76" flm:variant="74">
+			<fill>
+				<LinearGradient scaleX="426.233" x="-0.0794373" y="331.869">
+					<GradientEntry color="#FFFFFF" ratio="0"/>
+					<GradientEntry color="#FFFFFF" ratio="0.906601"/>
+					<GradientEntry color="#FAF7F3" ratio="0.948918"/>
+					<GradientEntry color="#ECE5D5" ratio="1"/>
+				</LinearGradient>
+			</fill>
+		</Rect>
+	</Group>
+	<Group x="10" y="7">
+		<mask>
+			<Group x="-406" y="-90" ai:spare="1">
+				<Rect height="800" width="1280">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Rect>
+			</Group>
+		</mask>
+		<Path winding="nonZero" x="0.25" y="0.547" data="M 0.25 0.25 L 0.25 663.76 L 402.4 663.76 C 402.4 663.76 426.4 663.76 426.4 639.76 L 426.4 24.25 C 426.4 24.25 426.4 0.25 402.4 0.25 L 0.25 0.25 Z">
+			<stroke>
+				<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+			</stroke>
+		</Path>
+	</Group>
+	<Group x="436" y="8">
+		<mask>
+			<Group x="0.15" y="-0.2" ai:spare="1">
+				<Path winding="nonZero" data="M24 0C24 0 0 0 0 24L0 639.51C0 639.51 0 663.51 24 663.51L426.149 663.51 426.149 0 24 0Z">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Path>
+			</Group>
+		</mask>
+		<Rect height="663" width="426" d:id="77" flm:variant="75">
+			<fill>
+				<LinearGradient rotation="180" scaleX="426.233" x="426.137" y="331.454">
+					<GradientEntry color="#FFFFFF" ratio="0"/>
+					<GradientEntry color="#FFFFFF" ratio="0.906601"/>
+					<GradientEntry color="#FAF7F3" ratio="0.948918"/>
+					<GradientEntry color="#ECE5D5" ratio="1"/>
+				</LinearGradient>
+			</fill>
+		</Rect>
+	</Group>
+	<Group x="435" y="7">
+		<mask>
+			<Group x="-831" y="-90" ai:spare="1">
+				<Rect height="800" width="1280">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Rect>
+			</Group>
+		</mask>
+		<Path winding="nonZero" x="0.9" y="0.546" data="M 426.399 663.76 L 426.399 0.25 L 24.25 0.25 C 24.25 0.25 0.25 0.25 0.25 24.25 L 0.25 639.76 C 0.25 639.76 0.25 663.76 24.25 663.76 L 426.399 663.76 Z">
+			<stroke>
+				<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+			</stroke>
+		</Path>
+	</Group>
+</Graphic>

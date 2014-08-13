@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<RichText color="#FFFFFF" fontSize="16" tabStops="S0 S50" fontFamily="Georgia" fontWeight="bold">
+		<content><p><span>|</span></p></content>
+	</RichText>
+	<RichText x="191" color="#FFFFFF" fontSize="16" tabStops="S0 S50" fontFamily="Georgia" fontWeight="bold">
+		<content><p><span>|</span></p></content>
+	</RichText>
+</Graphic>

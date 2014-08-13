@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group alpha="0.5" flm:isolated="false" flm:knockout="false">
+		<Group>
+			<mask>
+				<Group x="-0.8" y="-0.2" ai:spare="1">
+					<Rect height="290.757" width="348.606">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Path winding="nonZero" x="0.416" y="1.05" data="M 346.106 288.257 L 346.106 12 C 346.106 12 346.106 0 334.106 0 L 12 0 C 12 0 0 0 0 12 L 0 288.257 L 346.106 288.257 Z">
+				<fill>
+					<SolidColor/>
+				</fill>
+			</Path>
+			<Path winding="nonZero" x="0.166" y="0.8" data="M 346.356 288.507 L 346.356 12.25 C 346.356 12.25 346.356 0.25 334.356 0.25 L 12.25 0.25 C 12.25 0.25 0.25 0.25 0.25 12.25 L 0.25 288.507 L 346.356 288.507 Z">
+				<stroke>
+					<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+				</stroke>
+			</Path>
+		</Group>
+	</Group>
+</Graphic>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXTreeItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx">
+	<s:states>
+		<s:State name="normal" />            
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	<s:HGroup left="-10" right="0" top="0"
+			  bottom="0" verticalAlign="middle">
+		<s:Rect id="indentationSpacer" 
+				width="{treeListData.indent}" 
+				percentHeight="100" alpha="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" />
+			</s:fill>
+		</s:Rect>
+		<s:Group id="disclosureGroup">
+			<s:BitmapImage source="{treeListData.disclosureIcon}"
+						   visible="{treeListData.hasChildren}" />
+		</s:Group>
+		<s:BitmapImage visible="false" source="{treeListData.icon}" />
+		<s:Label id="labelField" 
+				 width="134" height="15"
+				 text="{treeListData.label.substring(0,20)}"
+				 paddingLeft="-23" paddingTop="2"
+				 maxDisplayedLines.selected="0" />
+	</s:HGroup>
+</s:MXTreeItemRenderer>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				dataChange="itemrenderer1_dataChangeHandler(event)"
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			public function glowOver(ev:MouseEvent):void {
+				var g:GlowFilter = new GlowFilter(16711680,1,5,5,1);
+				ev.currentTarget.filters = [g];
+			}
+			public function glowOut(ev:MouseEvent):void {
+				ev.currentTarget.filters = [];
+			}
+
+			protected function checkbox1_changeHandler(event:Event):void
+			{
+				if (checko.selected){
+					data.show = true;
+				}
+				else {
+					data.show = false;
+				}
+			}
+
+
+			protected function itemrenderer1_dataChangeHandler(event:FlexEvent):void
+			{
+				if (data.show){
+					checko.selected = true;
+				}
+				else {
+					checko.selected= false;
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	
+	
+	<s:HGroup left="0" right="0" buttonMode="true"
+			  useHandCursor="true" top="0" 
+			  height="25" width="150"
+			   name="{data.name}+box" 
+			  bottom="0" verticalAlign="middle">
+		
+		<s:CheckBox id = "checko" selected="{data.show}"
+					change="checkbox1_changeHandler(event)" 
+					top="2" left="3"/>
+		<s:Label text = "{data.name}" top="4" 
+				 width="110" fontFamily="Myriad Pro"
+				 color="#FFFFFF" left="20" />
+		<s:Label  text="{data.num}" fontFamily="Myriad Pro" color="#FFFFFF" 
+				  top="4" right="5"/>
+		
+	</s:HGroup>
+</s:ItemRenderer>

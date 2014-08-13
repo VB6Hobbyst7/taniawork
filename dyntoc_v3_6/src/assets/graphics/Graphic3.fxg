@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<Path winding="nonZero" x="-0.008" y="0.65" data="M 0 0 L 0 267.909 C 0 267.909 0 279.909 12 279.909 L 309.9 279.909 C 309.9 279.909 321.9 279.909 321.9 267.909 L 321.9 0 L 0 0 Z">
+		<fill>
+			<SolidColor color="#F1EDE1"/>
+		</fill>
+	</Path>
+	<Path winding="nonZero" x="-0.258" y="0.4" data="M 0.25 0.25 L 0.25 268.159 C 0.25 268.159 0.25 280.159 12.25 280.159 L 310.15 280.159 C 310.15 280.159 322.15 280.159 322.15 268.159 L 322.15 0.25 L 0.25 0.25 Z">
+		<stroke>
+			<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+		</stroke>
+	</Path>
+</Graphic>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" version="2.0">
+	<RichText y="1" color="#FFFFFF" fontSize="30" tabStops="S0 S50 S100 S150 S200 S250 S300 S350 S400 S450 S500" fontFamily="Georgia">
+		<content><p><span>DYNAMIC  TABLE  OF  CONTEXTS</span></p></content>
+		<filters>
+			<GlowFilter alpha="0.63" blurX="25" blurY="25" color="#FEFFCA" inner="false" knockout="false" quality="2" strength="1"/>
+		</filters>
+	</RichText>
+	<RichText x="491" color="#FFFFFF" fontSize="30" tabStops="S0 S50 S100 S150 S200 S250 S300 S350 S400 S450 S500" whiteSpaceCollapse="preserve" width="168" fontFamily="Georgia" fontWeight="bold">
+		<content><p><span fontWeight="normal">-</span><span> Inke</span></p></content>
+		<filters>
+			<GlowFilter alpha="0.63" blurX="25" blurY="25" color="#FEFFCA" inner="false" knockout="false" quality="2" strength="1"/>
+		</filters>
+	</RichText>
+</Graphic>

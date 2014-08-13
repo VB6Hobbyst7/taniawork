@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:ATE="http://ns.adobe.com/ate/2009"
+			   xmlns:ai="http://ns.adobe.com/ai/2009"
+			   xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+			   xmlns:lib="assets.graphics.dyntocdesigns.*" 
+			   xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flm="http://ns.adobe.com/flame/2008"
+			   xmlns:graphics="assets.graphics.*" 
+			   xmlns:lib2="assets.graphics.dyntoc_v2_1.*"
+			   xmlns:components="components.*"
+			   scriptTimeLimit="9999"
+			   pageTitle="Dynamic Table of Context"
+			   backgroundColor="#5F5654"
+ 				minHeight="0" minWidth="0"
+			   preloaderChromeColor="#5F5654"
+			   creationComplete="refreshList();" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" >
+	<fx:Style source="Main.css"/>
+	
+	<fx:Script source="func/requests.as" />
+	<fx:Script source="func/results.as" />
+	<fx:Script source="func/mouse.as" />
+	<fx:Script source="func/parser.as" />
+	<fx:Script source="func/display.as" />
+	<fx:Script source="func/objectCreation.as" />
+	<fx:Script source="func/highlightFunctions.as" />
+	<fx:Script source="func/imports.as" />
+	<fx:Declarations >
+		<!-- *******START OF SERVER FUNCTIONS ****************************** -->
+		<s:HTTPService id="getMain" url="http://www.myradar.ca/php/dyntoc/getMain.php" 
+					   method="GET" useProxy="false"
+					   result = "afterMain(event);">
+		</s:HTTPService>
+		<s:HTTPService id="getCuratorTags" url="http://www.myradar.ca/php/dyntoc/getCuratorTags.php" 
+					   method="POST" useProxy="false"
+					   result = "afterCuratorGet(event);">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="preDelete" url= "http://www.myradar.ca/php/dyntoc/preDelete.php"
+					   method="POST" result="afterPreDelete(event);" useProxy="false">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="updateCuratorTags" url="http://www.myradar.ca/php/dyntoc/updateCuratorTags.php" 
+					   method="POST" useProxy="false">
+			<s:request xmlns="">
+				<s1>{s1}</s1>
+				<s2>{s2}</s2>
+				<s3>{s3}</s3>
+				<s4>{s4}</s4>
+				<s5>{s5}</s5>
+				<s6>{s6}</s6>
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id = "parseFile" url="{lastFileUrl}"
+					   resultFormat="text"
+					   result="afterFileParse(event);" />
+		<mx:NumberFormatter id="numberFormatter" />
+		<!-- *******END OF SERVER FUNCTIONS ********************************* -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="intro"/>
+		<s:State name="curatorLibrary"/>
+		<s:State name="userLibrary"/>
+		<s:State name="curatorBookView"/>
+		<s:State name="userBookView"/>
+	</s:states>
+	<fx:DesignLayer d:id="2">
+		<mx:Canvas height="100%" width="100%" verticalScrollPolicy="on"   y="0"  horizontalCenter="0"
+				    horizontalScrollPolicy="on" backgroundAlpha="0" borderAlpha="0"  >
+			
+		
+		<s:BorderContainer height="800" width="99%"   horizontalCenter="0" y="0"   backgroundColor="#4D3F3B"
+						    id="houseContianer">
+			
+			        
+		<!-- *******START OF BACKGROUND ART ****************************** -->
+		
+		<s:BorderContainer id ="DarkColorBackdrop" 
+						   horizontalCenter="0" verticalCenter="0" 
+						   backgroundColor="#4D3F3B" borderAlpha="0"
+						   height="100%" width="1000" />
+		<s:BitmapImage smooth="true" id="MAINLOGO"
+					   source="@Embed('/assets/images/headerlogosize2.png')" 
+					   left="58" y="0"/>
+		<s:BitmapImage id="bookBackImage" smooth="true"
+					   source="@Embed('/assets/images/RasterizedItems1.png')"
+					   visible.curatorLibrary="false"
+					   visible.intro="false"
+					   left="422" top="44"
+					   visible.userLibrary="false"/>
+		<!-- *******END OF BACKGROUND ART ******************************** -->
+		<!-- ************************************************************* -->
+		<!-- ******START OF INTRO COMPONENTS**************************** -->
+		<s:BorderContainer top.intro="250" width.intro="400" height.intro="200"
+						   visible.intro="true" visible.curatorBookView="false"
+						   visible.curatorLibrary="false" visible.userBookView="false"
+						   visible.userLibrary="false"  borderAlpha="0"
+						   backgroundAlpha.intro="0.56" backgroundColor="#000000"
+						   cornerRadius.intro="20" horizontalCenter.intro="0">
+			<s:Label x.intro="92" y.intro="76" color.intro="#FFFFFF" fontFamily.intro="Myriad Pro"
+					 fontSize.intro="16" textAlign.intro="right" text.intro="User Name :"/>
+			<s:Label includeIn="intro" top="24" color="#FFFFFF" fontFamily="Myriad Pro" fontSize="20"
+					 horizontalCenter="0" text="Enter Account Information" textAlign="right"/>
+			<s:Label includeIn="intro" x="105" y="110" color="#FFFFFF" fontFamily="Myriad Pro"
+					 fontSize="16" text="Password:" textAlign="right"/>
+			<s:Label id="regLogin" includeIn="intro" x="267" y="137" color="#FFFFFF"
+					  mouseOut="textOut(event)" mouseOver="textOver(event)"
+					  click="regLoginClick(event)" useHandCursor="true" buttonMode="true"
+					 fontFamily="Myriad Pro" fontSize="16" text="Login" textAlign="right"/>
+			<s:Label id="guestLogin" includeIn="intro" x="153" y="137" color="#FFFFFF"
+					 mouseOut="textOut(event)" mouseOver="textOver(event)"
+					 click="guestLoginClick(event)" useHandCursor="true" buttonMode="true"
+					 fontFamily="Myriad Pro" fontSize="16" text="Login as Guest" textAlign="right"/>
+			<s:TextInput id="loginname"
+						 x.intro="178" y.intro="74"/>
+			<s:TextInput id="loginpass" displayAsPassword="true"
+						 x.intro="178" y.intro="107"/>
+		</s:BorderContainer>	
+		<!-- *******END OF INTRO ART ******************************** -->
+		<!-- ************************************************************* -->
+		<!-- ******START OF LIBRARY COMPONENTS**************************** -->
+		<!-- This container is the Inital Book Library container
+		that holds all the book options at the intro page -->
+		<s:BorderContainer top="250" width="400" height="200"
+						   visible.intro="false" visible.curatorBookView="false"
+						   visible.curatorLibrary="true" visible.userBookView="false"
+						   visible.userLibrary="true" borderAlpha="0"
+						   backgroundAlpha="0.56" backgroundColor="#000000"
+						   cornerRadius="20" horizontalCenter="0">
+		<s:List id="bookLib" bottom="0" left="50" top="100" width="200"  borderVisible="false"
+				dataProvider="{mainArray}" itemRenderer="bookLibRen"
+				contentBackgroundAlpha="0.0" change="bookChange(event)"
+				visible.curatorBookView="false"
+				visible.curatorLibrary="true" 
+				 rollOverColor="#000000"
+				visible.intro="false"
+				visible.userBookView="false"
+				visible.userLibrary="true"  
+				textAlign="center"/>
+		<!-- Library Header Title to vary Curator and User Library -->
+		<s:RichText id="menuBookLabel" includeIn="curatorLibrary,userLibrary" top="15" left="50"
+					width="258" height="57" color="#FFFFFF" columnCount="1"
+					fontFamily="Myriad Pro" fontSize="32" kerning="off"
+					width.curatorLibrary="286" 
+					visible.intro="false"
+					visible.curatorBookView="false"
+					visible.curatorLibrary="true"
+					visible.userBookView="false"
+					visible.userLibrary="true"
+					text.userLibrary="User Library"
+					text.curatorLibrary="Curator Library"/>
+			<s:RichText includeIn="curatorLibrary,userLibrary"
+						color="#FFFFFF" columnCount="1" fontFamily="Myriad Pro"
+						 kerning="off" text="please select one of the documents below"
+						visible.curatorBookView="false"
+						visible.curatorLibrary="true" 
+						visible.intro="false"
+						visible.userBookView="false"
+						visible.userLibrary="true" left="50" top="49"
+						width="338" height="36" fontSize="16"
+						fontStyle="italic"/>
+			<!--s:Label id="chooseBook" visible="true" right="40" bottom="10" buttonMode="true"
+					 click="mainLabelClick(event)" color="#FFFFFF" fontFamily="Myriad Pro"
+					  mouseOut="textOut(event)" mouseOver="textOver(event)"
+					 text="Load Item" textAlign="right" useHandCursor="true"
+					 visible.curatorBookView="false"
+					 visible.curatorLibrary="true"
+					 visible.intro="false"
+					 visible.userBookView="false"
+					 visible.userLibrary="true" fontSize="20"/-->
+				</s:BorderContainer>
+		<!-- Progress bar for uploading documents -->
+		<mx:ProgressBar id="progressBar" visible="false" 
+						indeterminate="true"
+						visible.intro="false"
+						x.userBookView="0" y.userBookView="-25"/>
+				
+		<!-- This is the add book button, only visible in the 
+		curator library menue -->
+		<s:Label id="importBookButton" x="273" y="702" click="importClick(event);" color="#000000"
+				 fontFamily="Myriad Pro" fontSize="25" mouseOut="textOut(event);"
+				 mouseOver="textOver(event);" text="Import Document" useHandCursor="true"
+				 visible.curatorBookView="false"
+				 visible.curatorLibrary="true" x.curatorLibrary="273" y.curatorLibrary="672"
+				 visible.intro="false"
+				 visible.userBookView="false"
+				 visible.userLibrary="false"/>
+		<!-- FILE UPLOAD message for file size uploading -->
+		<s:Label x="428" y="694" 
+				 fontFamily="Myriad Pro" 
+				 color="#000000" 
+				 visible.intro="false"
+				 includeIn="curatorLibrary" 
+				 fontStyle="italic" 
+				 width="180" id="message"
+				 height="24"/>
+		<!-- ******END OF LIBRARY COMPONENTS****************************** -->
+		<!-- ************************************************************* -->
+		<!-- ****START OF BOOK VIEWER COMPONENTS************************** -->
+		<!-- This is the MAIN TEXT BOOK VIEWER It is a container inside a 
+		panel because panels dont show whats outside of them, and then the 
+		container just movies right to left and is super wide. -->
+		<mx:Panel id="bookHolder" left="420" top="46" 
+				  width="433" height="672"
+				  backgroundAlpha="0" borderAlpha="0" 
+				  borderColor="#FFFFFF" color="#000000" 
+				  dropShadowVisible="false"
+				  fontWeight="normal" headerHeight="0" 
+				  horizontalScrollPolicy="off"
+				  verticalScrollPolicy="off"
+				  visible.curatorBookView="true"
+				  visible.curatorLibrary="false"
+				  visible.userBookView="true"
+				  visible.userLibrary="false"
+				  visible.intro="false">
+			<s:BorderContainer  id="bookText" visible="true"
+								borderAlpha="0" x="30" y="0" 
+								dropShadowVisible="false"
+								fontFamily="Myriad Pro" fontSize="12"
+								color="#000000" fontWeight="normal" 
+								height="670" width="422.5"
+								visible.intro="false">
+				<s:backgroundFill> 
+					<s:SolidColor color="red" alpha="0"/> 
+				</s:backgroundFill> 
+			</s:BorderContainer>
+		</mx:Panel>
+			<!-- Graph Holder for Frequency Graph -->
+		<mx:Panel id="graphHolder" left="430" y="90" width="415" height="600" backgroundAlpha="0"
+				  borderAlpha="1" borderColor="#000000" color="#000000" dropShadowVisible="false"
+				  fontWeight="normal" headerHeight="0" horizontalScrollPolicy="off"
+				  verticalScrollPolicy="off" visible.curatorBookView="true"
+				  visible.curatorLibrary="false"
+				  visible.userBookView="false"
+				  visible.userLibrary="false"
+				  visible.intro="false">
+			
+			<mx:LineChart id="linechart" fontSize="12"
+						  color="0x323232" 
+						  width="100%" height="100%">
+				<mx:horizontalAxis >
+					<mx:CategoryAxis id="hAxis" 
+									  dataProvider="{grapherArray}"
+									 categoryField="chapter" 
+									  title="Chapter"
+									 /> 
+				</mx:horizontalAxis>
+				<mx:horizontalAxisRenderers >
+					<mx:AxisRenderer   height="300" id="hAxisRen"
+						axis="{hAxis}"  canDropLabels="false">
+						<mx:labelRotation  >
+							<fx:Number>-45</fx:Number>
+						</mx:labelRotation>
+						<mx:labelRenderer  >
+							<fx:Component>
+								<mx:Label rotation="-45" toolTip="{this.myTip}">
+									<fx:Script><![CDATA[
+										[Bindable]
+										private var myTip:String;
+										
+										override public function set data(value:Object):void{
+										if(value == null)
+										return;
+										myTip = value.text;
+										var length:int = value.text.toString().length;
+										if (length > 10) {
+										text = value.text.toString().substr(0, 10) + "...";
+										} else {
+										text = value.text;
+										}
+										}
+									]]></fx:Script>
+								</mx:Label>
+							</fx:Component>
+						</mx:labelRenderer>
+					</mx:AxisRenderer>                
+				</mx:horizontalAxisRenderers>
+				<mx:verticalAxis>
+					<mx:LinearAxis
+						title="Frequency"
+						/>
+				</mx:verticalAxis>
+			</mx:LineChart>
+			<mx:Legend dataProvider="{linechart}"  direction="horizontal"  labelPlacement="right"  layoutDirection="ltr" x="100" y="0" width="100%" height="25"/>
+			
+		</mx:Panel>
+		<!-- TABLE of CONTENTS SECTION ***************-->
+		<graphics:Graphic8 id="graphic81" includeIn="curatorBookView,userBookView" x="30" y="51"
+						   width="180"
+						   visible.intro="false"
+						   height.curatorBookView="712.8"/>
+		<graphics:Graphic13 id="graphic131"
+							visible.intro="false"
+							includeIn="curatorBookView,userBookView" 
+							width="175.9" x="32" y="76"/>
+		<graphics:Graphic15 id="graphic151" includeIn="curatorBookView,userBookView"
+							visible.intro="false"
+							d:userLabel="contentG" x="56" y="62"/>
+		<!-- This is the tree that holds all the 
+		chapters and then their corespondings tags when 
+		selected from the tag menu -->
+		<mx:Tree id = "chapterTree"  
+				 x="35" y="100"
+				 width="170" height="299"
+				 visible.intro="false"
+				 dataProvider="{chapterContents}" 
+				 labelField="name" 
+				 itemClick="clickChapter(event);" 
+				 itemRollOver="rollChapter(event)"
+				 visible.curatorBookView="false"
+				 visible.curatorLibrary="false"
+				 visible.userBookView="true"
+				 visible.userLibrary="false"
+				 includeIn="curatorBookView,userBookView" 
+				 borderSkin="{com.panellayout.PanelBorderSkin}"
+				 color="#FFFFFF" itemRenderer="chapterItemRenderer"/>
+		<s:Label id = "curatorSaveButton"
+				 visible.curatorBookView="true"
+				 visible.curatorLibrary="false"
+				 visible.userBookView="false"
+				 visible.userLibrary="false"
+				 buttonMode="true"
+				 visible.intro="false"
+				 useHandCursor="true"
+				 x="65" y="729"
+				 width="99" height="21"
+				 color="#FFFFFF" mouseOver="textOver(event);"
+				 mouseOut="textOut(event);"
+				 click="saveCuratorSelection();"
+				 fontFamily="Myriad Pro" fontSize="15"
+				 text="Save Tags" textAlign="center"/>
+		<!-- END TABLE OF CONTENTS SECTION ***************-->
+		<!-- XML MARKUP SECTION ***************-->
+		<graphics:Graphic9 id="graphic91" x="212" y="51" width="180"
+						   visible.curatorBookView="true" height.curatorBookView="712.8"
+						   visible.curatorLibrary="false"
+						   visible.userBookView="true"
+						   visible.intro="false"
+						   visible.userLibrary="false"/>
+		<graphics:Graphic13 id="graphic0" width="175.9" 
+							visible.intro="false"
+							includeIn="curatorBookView,userBookView" 
+							x="214" y="76"/>
+		<graphics:Graphic16 id="graphic161" includeIn="curatorBookView,userBookView"
+							d:userLabel="XMlG"
+							visible.intro="false" x="224" y="62"/>
+		<!-- This box holds all the tag checkbox used for displaying
+		or hiding tags in the book -->
+		<s:List id="userTagBox" 
+				   x="216" y="100" click="checkUserTags();"
+				   dataProvider="{userTagArray}" 
+				   itemRenderer="userTagRen"
+				   width="174" height="299" 
+				   contentBackgroundAlpha="0.0"
+				   visible.curatorBookView="false"
+				   visible.curatorLibrary="false"
+				   visible.userBookView="true"
+				   visible.userLibrary="false"
+				   visible.intro="false"/>
+		<s:List id="curatorTagBox" x="216" y="100" width="174" height="299"
+				dataProvider="{curatorTagArray}" itemRenderer="curatorTagRen"
+				visible.curatorBookView="true" height.curatorBookView="618"
+				contentBackgroundAlpha="0.0" click="checkCuratorTags();"
+				visible.curatorLibrary="false"
+				visible.userBookView="false"
+				visible.userLibrary="false"
+				visible.intro="false"/>
+		<s:List id="curatorAcceptTagBox" x="32" y="100" width="174" height="299"
+				dataProvider="{curatorAcceptArray}" itemRenderer="curatorAcceptRen"
+				visible.curatorBookView="true" height.curatorBookView="618"
+				contentBackgroundAlpha="0.0"
+				visible.curatorLibrary="false"
+				visible.userBookView="false"
+				visible.userLibrary="false"
+				visible.intro="false"/>
+		<!-- END XML MARKUP SECTION ***************-->
+		<!-- NOTES AND BUBBLE TOOL COMPONENT -->
+		<components:bubbleNnoteComp id="dynTool" x="29.35" y="-31"
+								visible.curatorBookView="false"
+								visible.curatorLibrary="false"
+								visible.userBookView="true"
+								visible.userLibrary="false"
+								visible.intro="false"/>
+		
+		<!-- This is the page slider that works but not
+		how it was intended to be in the designs, so its commented out -->
+		<s:HSlider id="hslider1" 
+				   x="0" y="600"
+				   change="sliderChange(event);"
+				   value="0"
+				   visible="false"
+				   visible.intro="false"
+				   maximum="40" minimum="0" stepSize="1"
+				   skinClass="components.HorizontalSlider1" />
+		<!-- START OF TOP TOOL BUTTONS ***************-->
+		<s:Button id="changeBookButton"  label="Library" buttonMode="true"
+				  click="changeBook()" skinClass="components.changeButton" useHandCursor="true"
+				  visible.intro="false" 
+				  left="557" top="22"
+				 />
+		<graphics:Graphic20 id="userChangerBack"
+							visible.intro="false" 
+							left="593" top="22"
+							/>
+		<s:Button id="userChanger" buttonMode="true" click="changeAuthority()"
+				  skinClass="components.changeButton" useHandCursor="true"
+				  visible.intro="false"
+				  left="662" top="22" 
+				  label.curatorBookView="  User"
+				  label.curatorLibrary="  User"
+				  label.userBookView="Curator"
+				  label.userLibrary="Curator"/>
+		<!--s:Button id="saveButton" 
+				  visible.intro="false"
+				  x="1177" y="22" label="save" buttonMode="true"
+				  skinClass="components.changeButton"/-->
+		<s:Button id="prefButton" label="graph mode" buttonMode="true" click="showView();"
+				  skinClass="components.changeButton" useHandCursor="true" 
+				  visible.curatorLibrary="false"
+				  visible.intro="false" 
+				  left="790" top="22"
+				  visible.userLibrary="false" />
+		<!-- END OF TOP TOOLS ***************-->
+		<!-- Side Arrow buttons used for changing pages -->
+		<mx:Image includeIn="curatorBookView,userBookView"
+				  x="400" y="349" width="25" height="50"
+				  alpha="0.5" buttonMode="true" 
+				  visible.intro="false"
+				  click="page(-1)" mouseOut="glowOut(event);"
+				  mouseOver="glowOver(event);" 
+				  source="assets/pageArrow.png" 
+				  toolTip="Previous Page"
+				  useHandCursor="true"/>
+		<mx:Image includeIn="curatorBookView,userBookView" 
+				  left="856" y="416" width="25" height="50"
+				  alpha="0.5" buttonMode="true" 
+				  visible.intro="false"
+				  click="page(1)" mouseOut="glowOut(event);"
+				  mouseOver="glowOver(event);" rotation="180" 
+				  source="assets/pageArrow.png"
+				  toolTip="Next Page" useHandCursor="true"/>
+		<!-- End of Side Arrows -->
+		<!-- *********END OF BOOK VIEWER COMPONENTS****************** -->
+		<!-- ******************************************************** -->
+		<!--Warning tool that popups up when showWarn(string),
+		or hideWarn(timerevent) is called. Note: you call the
+		showWarn, and the hideWarn is called after a 1.5 second
+		Time interval automatically set in the call. -->
+		<mx:Canvas id="mainWarn" visible="false"  width="200" height="150"
+				   backgroundAlpha="0.7" backgroundColor="0x000000" 
+				   x="412" y="291" cornerRadius="4">
+			<s:Label id = "mainWarnLabel" fontSize="16"
+					 fontFamily="Myriad Web Pro"  height="100%"
+					 backgroundAlpha="0.0" width="100%"  
+					 textAlign="center" verticalAlign="middle" 
+					 color="#FFFFFF"/>
+		</mx:Canvas>
+		<!-- END OF WARNING TOOL -->
+				
+		</s:BorderContainer>
+		</mx:Canvas>
+	</fx:DesignLayer>
+	<s:transitions>
+		<s:Transition autoReverse="true" 
+					  fromState="userBookView" toState="curatorLibrary">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="userLibrary" toState="curatorBookView">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="curatorBookView" toState="userLibrary">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="curatorBookView" toState="curatorLibrary">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="curatorLibrary" toState="curatorBookView">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="userBookView" toState="userLibrary">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="userLibrary" toState="userBookView">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition autoReverse="true" fromState="curatorLibrary" toState="userBookView">
+			<s:Parallel>
+				<s:Parallel target="{graphic91}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic81}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{hslider1}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic131}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				
+				<s:Parallel target="{graphic151}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{graphic161}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{bookBackImage}">
+					<s:Move autoCenterTransform="true" duration="500" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{dynTool}">
+					<s:Fade duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="userBookView" toState="curatorBookView" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{userChanger}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="userLibrary" toState="curatorLibrary" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{userChanger}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{menuBookLabel}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="curatorBookView" toState="userBookView" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{userChanger}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="curatorLibrary" toState="userLibrary" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{userChanger}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{menuBookLabel}">
+					<s:Move duration="500" autoCenterTransform="true" startDelay="0"/>
+					<s:Resize duration="500" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	<fx:Private/>
+</s:Application>

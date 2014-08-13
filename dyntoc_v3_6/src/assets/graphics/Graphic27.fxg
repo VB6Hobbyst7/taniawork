@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group alpha="0.75" flm:isolated="false" flm:knockout="false">
+		<Group>
+			<mask>
+				<Group x="-0.85" y="-0.75" ai:spare="1">
+					<Rect height="11.5332" width="11.5327">
+						<fill>
+							<SolidColor color="#FFFFFF"/>
+						</fill>
+					</Rect>
+				</Group>
+			</mask>
+			<Path winding="nonZero" x="0.12" y="0.206" data="M 4.767 9.533 C 7.4 9.533 9.534 7.399 9.534 4.767 C 9.534 2.135 7.4 0 4.767 0 C 2.134 0 0 2.135 0 4.767 C 0 7.399 2.134 9.533 4.767 9.533">
+				<fill>
+					<SolidColor color="#FF7000"/>
+				</fill>
+			</Path>
+		</Group>
+	</Group>
+</Graphic>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Path data="M 6 0 C 6 0 0 0 0 6 L 0 16.517 C 0 16.517 0 22.517 6 22.517 L 321.9 22.517 L 321.9 0 L 6 0 Z" winding="nonZero" x="-0.008" y="0.034">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+	</s:Path>
+	<s:Path data="M 6.25 0.25 C 6.25 0.25 0.25 0.25 0.25 6.25 L 0.25 16.767 C 0.25 16.767 0.25 22.767 6.25 22.767 L 322.15 22.767 L 322.15 0.25 L 6.25 0.25 Z" winding="nonZero" x="-0.258" y="-0.216">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+		</s:stroke>
+	</s:Path>
+	<s:RichEditableText x="5" y="5" width="313" heightInLines="1" id="textDisplay" fontFamily="Arial"/>
+</s:Skin>

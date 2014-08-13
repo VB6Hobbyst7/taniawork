@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group>
+		<mask>
+			<Group x="-21" y="-759" ai:spare="1">
+				<Rect height="800" width="1280">
+					<fill>
+						<SolidColor color="#FFFFFF"/>
+					</fill>
+				</Rect>
+			</Group>
+		</mask>
+		<Group alpha="0.5" flm:isolated="false" flm:knockout="false">
+			<Group>
+				<mask>
+					<Group x="-1" y="-1" ai:spare="1">
+						<Rect height="36.625" width="348.606">
+							<fill>
+								<SolidColor color="#FFFFFF"/>
+							</fill>
+						</Rect>
+					</Group>
+				</mask>
+				<Path winding="nonZero" x="0.243" y="0.25" data="M 346.106 34.125 L 346.106 12 C 346.106 12 346.106 0 334.106 0 L 12 0 C 12 0 0 0 0 12 L 0 34.125 L 346.106 34.125 Z">
+					<fill>
+						<SolidColor/>
+					</fill>
+				</Path>
+				<Path winding="nonZero" x="-0.007" data="M 346.356 34.375 L 346.356 12.25 C 346.356 12.25 346.356 0.25 334.356 0.25 L 12.25 0.25 C 12.25 0.25 0.25 0.25 0.25 12.25 L 0.25 34.375 L 346.356 34.375 Z">
+					<stroke>
+						<SolidColorStroke caps="none" color="#C5B69D" joints="miter" miterLimit="4" weight="0.5"/>
+					</stroke>
+				</Path>
+			</Group>
+		</Group>
+	</Group>
+</Graphic>

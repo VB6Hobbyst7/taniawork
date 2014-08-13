@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:RichText color="#FFFFFF" fontSize="14" height="17" id="labelDisplay"
+				tabStops="S0 S50 S100 S150 S200 S250 S300" 
+				whiteSpaceCollapse="preserve" width="219" x="0" y="0" 
+				fontFamily="Georgia" fontWeight="bold">
+		<s:filters>
+			<s:GlowFilter alpha="0.63" blurX="25" blurY="25" color="#FEFFCA"
+						  inner="false" knockout="false" quality="2"
+						  strength="1" includeIn="disabled,up"/>
+			<s:GlowFilter includeIn="down" blurX="6.0" blurY="6.0" 
+						  color="#000000" inner="true" strength="1"
+						  alpha="1.0" quality="2" knockout="false"/>
+			<s:GlowFilter includeIn="over" blurX="6.0" blurY="6.0" 
+						  color="#666666" inner="true" strength="1"
+						  alpha="1.0" quality="2" knockout="false"/>
+		</s:filters>
+	</s:RichText>
+</s:Skin>
