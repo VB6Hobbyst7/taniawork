@@ -182,7 +182,7 @@
 					 mouseDown="gDown(event);" mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);">
 				<s:Rect width="100%" height="100%">
-					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#36ccba"/></s:fill>
 				</s:Rect>
 				<s:Label text="Close" color="#36ccba" styleName="textsize6"
 						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>

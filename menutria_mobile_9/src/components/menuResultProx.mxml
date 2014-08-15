@@ -30,7 +30,7 @@
 			}
 			protected function init(event:FlexEvent):void
 			{
-				neededwidth = this.parent.width/2-(2/2);
+				neededwidth = this.parent.width/2;
 				dostuff();
 			}
 			protected function datachango(event:FlexEvent):void
@@ -66,10 +66,10 @@
 						costLabel.text = "  $"+data.cost;
 						
 						if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
-							bmpImg.source = "assets/640/dish_place_wide.png";
+							bmpImg.source = "assets/320/dish_place_wide.png";
 						}
 						else if (data.picture.indexOf("dish") != -1){
-							bmpImg.source = "assets/640/dish_place_wide.png";
+							bmpImg.source = "assets/320/dish_place_wide.png";
 						}
 						else {
 							bmpImg.source = data.picture;
@@ -106,10 +106,10 @@
 	
 	<s:VGroup id="megacont" width="{neededwidth}" height="100%"  gap="0"  mouseEnabled="false">
 		<s:Image id="bmpImg"
-				 contentLoader="{s_imageCache}"  
+				 contentLoader="{s_imageCache}" scaleMode="zoom"
 				 width="{neededwidth}" height="{neededwidth*(300/640)}"  />
 		<s:HGroup horizontalAlign="center" paddingTop="0" width="100%" gap="0" verticalAlign="middle" >
-			<s:Group width="{neededwidth/3}" height="50">
+			<s:Group width="{neededwidth/3}" height="{50/(320/Capabilities.screenDPI)}">
 				<s:Label id="ratinglabel" color="#36ccba"  textAlign="center"
 						 horizontalCenter="0"
 						 verticalCenter="0"
@@ -126,7 +126,7 @@
 					</s:stroke>
 				</s:Line>
 			</s:Group>
-			<s:Group width="{neededwidth/3}" height="50">
+			<s:Group width="{neededwidth/3}" height="{50/(320/Capabilities.screenDPI)}">
 				<s:Label id="costLabel" color="#999999" text=""   textAlign="center"
 						 horizontalCenter="0" styleName="textsize0"  verticalCenter="0" />
 				<s:Line  right="0" left="0" bottom="0" > 
@@ -140,7 +140,7 @@
 					</s:stroke>
 				</s:Line>
 			</s:Group>
-			<s:Group width="{neededwidth/3}" height="50">
+			<s:Group width="{neededwidth/3}" height="{50/(320/Capabilities.screenDPI)}">
 				<s:Label color="#999999"  styleName="textsize0"  textAlign="center"
 						 id="distotexto" visible="false"  verticalCenter="0" horizontalCenter="0"/>
 				<s:Line  right="0" left="0" bottom="0" > 
@@ -151,21 +151,25 @@
 				
 			</s:Group>
 		</s:HGroup>
-		<s:VGroup width="100%" gap="8" paddingTop="18"  paddingBottom="10" >
-			<s:Label width="{neededwidth-20}" color="#36ccba" paddingLeft="{20}"
+		<s:VGroup width="100%" gap="{8/(320/Capabilities.screenDPI)}"
+				  paddingTop="{18/(320/Capabilities.screenDPI)}" 
+				  paddingBottom="{10/(320/Capabilities.screenDPI)}" >
+			<s:Label width="{neededwidth-(20/(320/Capabilities.screenDPI))}" 
+					 color="#36ccba" paddingLeft="{20/(320/Capabilities.screenDPI)}"
 					 fontWeight="bold" styleName="textsize1" id="nameLabel"
 					 text="{data.name}" maxDisplayedLines="1"
 					 verticalAlign="middle"></s:Label>
-			<s:Label width="{neededwidth-20}" color="#4d4d4d" paddingLeft="{20}"
+			<s:Label width="{neededwidth-(20/(320/Capabilities.screenDPI))}" 
+					 color="#4d4d4d" paddingLeft="{20/(320/Capabilities.screenDPI)}"
 					 fontWeight="bold" styleName="textsize0" id="businessLabel"
 					 text="{data.business_name}" maxDisplayedLines="1"
 					 verticalAlign="middle"></s:Label>
-			<s:Group width="{neededwidth-20}">
+			<s:Group width="{neededwidth-(20/(320/Capabilities.screenDPI))}">
 				<s:Label width="100%" color="#4d4d4d"  id="catLabel2"
-						 styleName="textsize0" paddingLeft="{20}" left="0"
+						 styleName="textsize0" paddingLeft="{20/(320/Capabilities.screenDPI)}" left="0"
 						 text="{data.categoryname}"
 						 verticalAlign="middle"></s:Label>
-				<s:Image id="alertImage" right="20" visible="{data.goodforme == false}"
+				<s:Image id="alertImage" right="{20/(320/Capabilities.screenDPI)}" visible="{data.goodforme == false}"
 						 verticalCenter="0"  contentLoader="{s_imageCache}" >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/alert.png')"

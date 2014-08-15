@@ -15,6 +15,7 @@
    backgroundColor="#36ccba"
    frameRate="100"
    mouseUp="overAllMouseUp(event)" >
+	<fx:Script source="func/coreMobileFunctions.as"/>
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  
 								height="100%"  x="0"  contentBackgroundColor="#36ccba"
@@ -303,4 +304,25 @@
 								source480dpi="@Embed('assets/480/menu-settings.png')"
 								source640dpi="@Embed('assets/640/menu-settings.png')"/>
 	</fx:Declarations>
+	<s:Group id="internetwarn" width="98%" 
+			 height="15%" top="50" horizontalCenter="0" visible="false">
+		<s:Rect width="100%" height="100%" >
+			<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
+			<s:stroke><s:SolidColorStroke color="#36ccba" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Rect>
+		<s:HGroup horizontalAlign="left" gap="30" verticalCenter="0" horizontalCenter="0" verticalAlign="middle">
+			<s:BitmapImage id="badimg" visible="true"
+						   verticalCenter="0" horizontalCenter="0"
+						   contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/offline.png')"
+											source240dpi="@Embed('assets/240/offline.png')"
+											source320dpi="@Embed('assets/320/offline.png')"
+											source480dpi="@Embed('assets/480/offline.png')"
+											source640dpi="@Embed('assets/640/offline.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label color="#6b6a6a" text="Network Unavailable" styleName="textsize6"/>
+		</s:HGroup>
+	</s:Group>
 </s:Application>

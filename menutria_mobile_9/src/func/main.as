@@ -46,6 +46,7 @@ public var svt:SlideViewTransition = new SlideViewTransition();
 public var svt2:SlideViewTransition = new SlideViewTransition();
 protected function creationcomplete(event:FlexEvent):void
 {
+	startCoreMobile();
 	svt.duration = slideduration;
 	svt.direction =  ViewTransitionDirection.LEFT;
 	svt2.duration = slideduration;
