@@ -387,9 +387,9 @@
 			</s:Rect>
 		
 			
-			<s:Group id="good" width="100%" height="80%" visible="false">
+			<s:Group id="good" width="100%" height="{this.height*0.56}" visible="false">
 				<s:VGroup  horizontalAlign="center" verticalAlign="middle" 
-						   verticalCenter="0"
+						   verticalCenter="0" gap="{10/(320/Capabilities.screenDPI)}"
 						   horizontalCenter="0">
 					<s:Group id="goodimg" 
 							 verticalCenter="0"
@@ -413,14 +413,14 @@
 							</s:mask>
 						</s:BitmapImage>
 					</s:Group>
-					<s:Label id="goodResultName" width="{this.width/1.12}" color="#6b6a6a" 
-							 text="John Smith"
+					<s:Label id="goodResultName" height="{good.height*0.14}" width="{this.width/1.12}"  color="#6b6a6a" 
+							 text="John Smith" verticalAlign="middle"
 							 textAlign="center" styleName="textsize10"/>
 					<s:Label id="goodResultVisit" width="{this.width/1.12}" color="#6b6a6a" 
-							 text="Visits: 0"
+							 text="Visits: 0" height="{good.height*0.13}" verticalAlign="middle"
 							 textAlign="center" styleName="textsize8"/>
 					<s:Label id="goodResultPoints" width="{this.width/1.12}" color="#6b6a6a" 
-							 text="Just earned 0 points"
+							 text="Just earned 0 points" height="{good.height*0.13}" verticalAlign="middle"
 							 textAlign="center" styleName="textsize8"/>
 				</s:VGroup>
 				

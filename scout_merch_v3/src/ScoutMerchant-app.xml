@@ -67,8 +67,6 @@
 	</manifestAdditions>
 	</android> 
 
-
-
 <extensions>
         <extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
         <extensionID>com.sbhave.nativeExtensions.zbar</extensionID>
