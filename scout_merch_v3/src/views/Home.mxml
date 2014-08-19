@@ -113,7 +113,7 @@
 					scanningMode = false;
 					userLBL.text = "Please Scan a User";
 				}
-				else if (s == '.'){
+				else if ((s == '.')&&(digitcount < 11)){
 					warn.visible = false;
 					if (digitcount != 0){
 						if (scanningMode == false){
@@ -146,7 +146,7 @@
 						digitcount = digitcount+2;
 					}
 				}
-				else {
+				else if (digitcount < 11){
 					warn.visible = false;
 					if (scanningMode == false){
 						scanBTN.enabled = true;
