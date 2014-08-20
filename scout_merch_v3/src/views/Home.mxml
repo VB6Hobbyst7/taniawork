@@ -27,8 +27,10 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.system.Capabilities;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var titleo:String = "user@user.com";
@@ -222,7 +224,27 @@
 						goodResultName.text = ev.result[0].res.goodname;
 						goodResultVisit.text = ev.result[0].res.goodvisit;
 						goodResultPoints.text = ev.result[0].res.message;
-						profimage.source = ev.result[0].res.goodpic;
+						var tempimage:String = "";
+						try{
+							tempimage = ev.result[0].res.goodpic;
+						}
+						catch(e:Error){
+							tempimage = "";
+						}
+						
+						try{
+							if (tempimage.length > 5){
+								profimage.source = tempimage;
+							}
+							else {
+								profimage.source = "assets/640/userpic.png";
+							}
+						}
+						catch(e:Error){
+							profimage.source = "assets/640/userpic.png";
+						}
+						
+					
 						profimage.visible = true;
 						good.visible = true;
 						bad.visible = false;
@@ -255,6 +277,7 @@
 				refundbtn.enabled = false;
 				onStart(e);
 			}
+		
 		]]>
 	</fx:Script>
 	<fx:Declarations>
