@@ -85,14 +85,14 @@ public function setLoginVars():void {
 			emailGo = "none";
 			merchid = "-1";
 			locationid = "-1";
-			locationname = "none";
+			locationname = "ERROR";
 		}	
 	}
 	catch(e:Error) {
 		emailGo = "none";
 		merchid = "-1";
 		locationid = "-1";
-		locationname = "none";
+		locationname = "ERROR";
 	}	
 }
 protected function donothing(event:FlexEvent):void
