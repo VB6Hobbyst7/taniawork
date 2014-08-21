@@ -737,12 +737,46 @@
 					menuList.dataProvider.getItemAt(previousindexes[i]).viz = foundo;
 				} 
 				
-				
+				var maxindex:Number = -1;
+				var minindex:Number = 80000000
 				for (var i:uint = 0; i < visibleindexes.length; i++){
+
+					if (visibleindexes[i] > maxindex){
+						maxindex = visibleindexes[i];
+					}
+					
+					if (visibleindexes[i] < minindex){
+						minindex = visibleindexes[i];
+					}
+	
 					if (menuList.dataProvider.getItemAt(visibleindexes[i]).viz == false){
 						menuList.dataProvider.getItemAt(visibleindexes[i]).viz = true;
 					}
 				}
+				
+				
+				if (minindex < 16){
+					minindex = 16;
+				}
+				
+				if (maxindex > listData.length-17){
+					maxindex = listData.length-17;
+				}
+				
+				var j:uint = 0;
+				for (j = minindex; j > minindex-16; j--){
+					menuList.dataProvider.getItemAt(j).viz = true;
+				}
+				
+				for (j = maxindex; j < maxindex+16; j++){
+					menuList.dataProvider.getItemAt(j).viz = true;
+				}
+				
+				
+				
+				
+				
+				
 				previousindexes = visibleindexes;
 			}
 			public function gobacktohome(event:FlexEvent):void {

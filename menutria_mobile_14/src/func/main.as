@@ -57,8 +57,15 @@ protected function creationcomplete(event:FlexEvent):void
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
 	
-	hideStatusBar();
-	
+	//hideStatusBar();
+	if (Capabilities.version.indexOf('IOS') > -1){
+		if (getDPIHeight() == 320){
+			obarheight = 40;
+		}
+		else if (getDPIHeight() == 160){
+			obarheight = 10;
+		}
+	}
 	
 	
 	
@@ -146,24 +153,24 @@ public function nativeKeyDown(event:KeyboardEvent):void
 	}
 }
 public function showStatusBar():void {
-	if (Capabilities.version.indexOf('IOS') > -1){
+	/*if (Capabilities.version.indexOf('IOS') > -1){
 		if (getDPIHeight() == 320){
 			obarheight = 40;
 		}
 		else if (getDPIHeight() == 160){
 			obarheight = 10;
 		}
-	}
+	}*/
 }
 public function hideStatusBar():void {
-	if (Capabilities.version.indexOf('IOS') > -1){
+	/*if (Capabilities.version.indexOf('IOS') > -1){
 		if (getDPIHeight() == 320){
 			obarheight = 0;
 		}
 		else if (getDPIHeight() == 160){
 			obarheight = 0;
 		}
-	}
+	}*/
 }
 public function onSwipe(event:TransformGestureEvent):void
 {
