@@ -45,7 +45,7 @@
 			public var csvtext:String = "";
 			public function afterLoad(event:FlexEvent):void
 			{
-				getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/s"+counter.toString()+".xml"
+				getData.url = "D:/Work/Bone Marrow Caroline/2014 work/Medline New Search/medlinexmlfiles/s"+counter.toString()+".xml"
 				getData.send();
 			}
 			protected function getData_resultHandler(event:ResultEvent):void
@@ -64,9 +64,9 @@
 					var pmid:String = section.substr(0,section.indexOf("<"));
 					
 					
-					/*section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
+					section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
 					section = section.substr(section.indexOf("type='c'")+9, section.length);
-					var authors:String = section.substr(0,section.indexOf("<"));*/
+					var authors:String = section.substr(0,section.indexOf("<"));
 					
 					
 					
@@ -98,7 +98,7 @@
 				var stop:String = "";
 				if (counter != 304){
 					counter++;
-					getData.url = "C:/Users/mark/Desktop/bone_marrow_data_seperated/s"+counter.toString()+".xml"
+					getData.url = "D:/Work/Bone Marrow Caroline/2014 work/Medline New Search/medlinexmlfiles/s"+counter.toString()+".xml"
 					getData.send();
 				}
 				else {
