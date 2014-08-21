@@ -28,6 +28,7 @@
 			public var dataArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var putCounter:Number = 0;
+			public var meshfreq:ArrayCollection = new ArrayCollection();
 			private static const READ_CHUNK_SIZE:uint = 100;     
 			private var fileStream:FileStream = null;
 			private var file:File = null;
@@ -38,19 +39,18 @@
 			[Bindable]
 			public var resultString:String = "";
 			public var resultArray:Array = new Array();
-			[Bindable]
-			public var limit:uint = 84000;
-			public var goby:uint = 2000;
-			public var counter:Number = 1;
+	
+			public var counter:Number = 16;
 			
 			public function afterLoad(event:FlexEvent):void
 			{
-				getData.url = "C:/Users/mark/Desktop/pubmed/pubmed_result("+counter.toString()+").xml"
+				getData.url = "C:/pubmed/pubmed_result ("+counter.toString()+").xml"
 				getData.send();
 			}
 			protected function getData_resultHandler(event:ResultEvent):void
 			{
-				var csvtext:String = "pmid,publicationtype,journaltitle\r\n"
+				trace("didone:"+counter.toString());
+				var csvtext:String = "pmid,publicationtype,journaltitle,meshterms\r\n"
 				var resultarray:ArrayCollection = new ArrayCollection();
 				dataArray = event.result[0].PubmedArticleSet.PubmedArticle;
 				var stop:String = "";
@@ -107,22 +107,86 @@
 						trace("HUGE ERROR FIND IT");
 					}
 					
-					csvtext = csvtext + "\"" +pmid + "\"" + ","+ "\"" + publicationtypefirst+ "\"" + ","+ "\"" + journaltitle+ "\"" + "\r\n";
+					var mha:ArrayCollection = new ArrayCollection();
+					try{
+						mha = dataArray[i].MedlineCitation.MeshHeadingList.MeshHeading;
+					}
+					catch(e:Error){
+						
+					}
+				
+					
+					var stop:String = "";
+			
+					var totalmeshstring:String = "";
+					
+					
+					try{
+						for (var j:uint = 0; j < mha.length; j++){
+							
+							var meshstring:String = mha[j].DescriptorName.value;
+							
+							
+							var foundm:Boolean = false;
+							for (var k:uint = 0; k < meshfreq.length; k++){
+								if (meshfreq[k].meshtext == meshstring){
+									meshfreq[k].counter = meshfreq[k].counter+1;
+									foundm = true;
+								}
+							}
+							
+							if (foundm == false){
+								meshfreq.addItem({meshtext:meshstring,counter:1});
+							}
+							
+							
+							if (totalmeshstring == ""){
+								totalmeshstring = meshstring;
+							}
+							else {
+								totalmeshstring = totalmeshstring + "," + meshstring;
+							}
+							
+						}
+						
+					}
+					catch(e:Error){
+						
+					}
+					trace("f:"+i.toString());
+					
+					
+					csvtext = csvtext + "\"" +pmid + "\"" + ","+ "\"" + publicationtypefirst+ "\"" + ","+ "\"" + journaltitle+ "\"" + ","+ "\"" + totalmeshstring+ "\"" + "\r\n";
 					resultarray.addItem({pmid:pmid,publicationtypefirst:publicationtypefirst,journaltitle:journaltitle});
 				}
 				
-				var f:File = new File("C:/Users/mark/Desktop/pubmed/resultfile"+counter.toString()+".csv");
-				f.resolvePath("C:/Users/mark/Desktop/pubmed/resultfile"+counter.toString()+".csv");
+				var f:File = new File("C:/Users/mark/Desktop/resultfile"+counter.toString()+".csv");
+				f.resolvePath("C:/Users/mark/Desktop/resultfile"+counter.toString()+".csv");
 				var stream:FileStream = new FileStream();
 				stream.open(f, FileMode.WRITE);                                         
 				stream.writeUTFBytes(csvtext.toUpperCase());
 				stream.close();
 				
 				var stop:String = "";
-				if (counter != 22){
+				if (counter != 18){
 					counter++;
-					getData.url = "C:/Users/mark/Desktop/pubmed/pubmed_result("+counter.toString()+").xml"
+					getData.url = "C:/pubmed/pubmed_result ("+counter.toString()+").xml"
 					getData.send();
+				}
+				else {
+					var meshcsv:String = "mesh,freq\r\n"
+					for (var u:uint = 0; u < meshfreq.length; u++){
+						meshcsv = meshcsv + "\"" + meshfreq[u].meshtext+ "\"" + ","+ "\"" + meshfreq[u].counter+ "\"" + "\r\n";
+
+					}
+					
+					var f:File = new File("C:/Users/mark/Desktop/meshfreq.csv");
+					f.resolvePath("C:/Users/mark/Desktop/meshfreq.csv");
+					var stream:FileStream = new FileStream();
+					stream.open(f, FileMode.WRITE);                                         
+					stream.writeUTFBytes(meshcsv);
+					stream.close();
+					
 				}
 			
 				
