@@ -49,14 +49,7 @@
 			
 			public function init():void
 			{
-				if (Capabilities.version.indexOf('IOS') > -1){
-					if (getDPIHeight() == 320){
-						backbutton.top = 20;
-					}
-					else if (getDPIHeight() == 160){
-						backbutton.top = 10;
-					}
-				}
+
 				enableHardwareKeyListeners();
 				this.parentApplication.hideStatusBar();
 				didlistclick = false;
