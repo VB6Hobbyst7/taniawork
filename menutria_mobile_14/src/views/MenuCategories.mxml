@@ -151,11 +151,18 @@
 						
 						
 					}
+					
+					
+					if (savedsampleimage == ""){
+						savedsampleimage = sampleimage;
+					}
 					var srt:Sort = new Sort();
 					srt.fields = [new SortField("orderid")];
+					catarray.addItem({name:"All",picture:savedsampleimage,orderid:-1,frequency:totalcount,categoryid:"-1",locationid:locationid});
+
 					catarray.sort = srt;
 					catarray.refresh();
-					catarray.addItemAt({name:"All",picture:savedsampleimage,frequency:totalcount,categoryid:"-1",locationid:locationid},0);
+					//catarray.refresh();
 					dataList.dataProvider = catarray;
 				}
 				

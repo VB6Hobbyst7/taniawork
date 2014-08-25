@@ -278,6 +278,7 @@
 					try{
 						
 						modifications.addItem(ev.result[0].results4.result4);
+						modList.dataProvider = modifications;
 					}
 					catch(e:Error){
 					}
@@ -529,6 +530,7 @@
 						for (var i:uint = 0; i < dataArray.length; i++){
 							if (dataArray[i].id == data.locationid){
 								navigator.pushView(StoresDescription, dataArray[i]);	
+								
 							}
 						}
 					}
@@ -659,7 +661,7 @@
 						 click="descriptionclick(event)"
 						 maxDisplayedLines="4" textDecoration="none"
 						 verticalAlign="middle"/>
-				<s:Group width="100%">
+				<s:Group width="100%" visible="{additiontext.text.length > 4}">
 					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
@@ -671,7 +673,7 @@
 						 click="additionclick(event)"
 						 maxDisplayedLines="4" textDecoration="none"
 						 verticalAlign="middle"/>
-				<s:Group width="100%">
+				<s:Group width="100%" >
 					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
