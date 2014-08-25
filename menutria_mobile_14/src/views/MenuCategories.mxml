@@ -92,6 +92,7 @@
 				else {
 					
 					var lastcat:String = "";
+					var lastorderid:String = "";
 					var lastcatstr:String = "";
 					var savedsampleimage:String = "";
 					var sampleimage:String = "";
@@ -108,11 +109,12 @@
 										sampleimage = "../assets/"+getDPIHeight()+"/dish_place_square.png";
 									}
 									
-									catarray.addItem({frequency:catcount,name:lastcatstr,categoryid:lastcat,locationid:locationid,picture:sampleimage});
+									catarray.addItem({frequency:catcount,orderid:lastorderid, name:lastcatstr,categoryid:lastcat,locationid:locationid,picture:sampleimage});
 									savedsampleimage = sampleimage;
 									sampleimage = "";
 								}		
 								lastcat = listData[i].categoryid;
+								lastorderid = listData[i].orderid;
 								lastcatstr = listData[i].categoryname;
 								catcount = 1;
 							}
@@ -149,6 +151,10 @@
 						
 						
 					}
+					var srt:Sort = new Sort();
+					srt.fields = [new SortField("orderid")];
+					catarray.sort = srt;
+					catarray.refresh();
 					catarray.addItemAt({name:"All",picture:savedsampleimage,frequency:totalcount,categoryid:"-1",locationid:locationid},0);
 					dataList.dataProvider = catarray;
 				}
