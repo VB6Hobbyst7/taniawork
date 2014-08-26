@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:maps="com.google.maps.*" 	
+		xmlns:components="components.*" 
+		backgroundColor="#f3f3f3"
+		viewActivate="init()"
+		backKeyPressed="gobacktohome(event)"
+		menuKeyPressed="menupress(event)"
+		title="Specials"   >
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/specialscommon.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.SlideViewTransition;
+			import spark.transitions.SlideViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var specialsData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backupspecialsData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var currentfilterweekday:String = "monday";
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			public function init():void
+			{
+				warn.visible = false;
+				this.parentApplication.showStatusBar();
+				enableHardwareKeyListeners();
+				this.parentApplication.showloading();
+				setLoginVars();
+				scroller.visible = true;
+				getSpecials.send();
+			}
+			
+			public function afterGetSpecials(ev:ResultEvent):void {
+				this.parentApplication.hideloading();
+				
+				backupspecialsData = new ArrayCollection();
+				try{			
+					backupspecialsData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						
+						backupspecialsData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){
+					}
+				}
+				for (var i:uint = 0; i < backupspecialsData.length; i++){
+					backupspecialsData[i].distance = Number(getDistance(mylat,mylong,backupspecialsData[i].lat,backupspecialsData[i].longa));
+				}
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				backupspecialsData.sort = numericDataSort;
+				backupspecialsData.refresh();
+				populatelist();
+			} 
+			public function populatelist():void {
+				specialsData = new ArrayCollection();
+				var datevar:Date = new Date();
+				for (var j:uint = 0; j < 7; j++){
+					if (j != 0){
+						datevar.setDate(datevar.getDate() + 1);
+					}
+					var weekdaynum:Number = datevar.day;
+					var monthstring:String = datevar.toDateString().split(' ')[1];
+					var daystring:String = datevar.toDateString().split(' ')[2];	
+					var currentfilterweekday:String = gettextweekday(weekdaynum);
+					var tempweekstring:String = currentfilterweekday.charAt(0).toUpperCase()+currentfilterweekday.substring(1,currentfilterweekday.length);
+					if (j == 0){
+						specialsData.addItem({name:"Today",description:"",
+							categoryname:"",type:0,weekday:"",business_picture:""});
+					}
+					else {
+						specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+							categoryname:"",type:0,weekday:"",business_picture:""});
+					}
+					
+					for (var i:uint = 0; i < backupspecialsData.length; i++){
+						if (key.text.length > 0){
+							if((backupspecialsData[i].business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+								(backupspecialsData[i].description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)){
+								if (currentselectmode == 1){
+									if (backupspecialsData[i].weekday == currentfilterweekday){
+										backupspecialsData[i].type = 1;
+										specialsData.addItem(backupspecialsData[i]);
+									}	
+								}
+								else if (currentselectmode == 2){
+									if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
+										backupspecialsData[i].type = 1;
+										specialsData.addItem(backupspecialsData[i]);
+									}
+								}
+								else if (currentselectmode == 3){
+									if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
+										backupspecialsData[i].type = 1;
+										specialsData.addItem(backupspecialsData[i]);
+									}
+								}
+								else if (currentselectmode == 4){
+									if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "desserts")){
+										backupspecialsData[i].type = 1;
+										specialsData.addItem(backupspecialsData[i]);
+									}
+								}
+							}
+						}
+						else {
+							if (currentselectmode == 1){
+								if (backupspecialsData[i].weekday == currentfilterweekday){
+									backupspecialsData[i].type = 1;
+									specialsData.addItem(backupspecialsData[i]);
+								}	
+							}
+							else if (currentselectmode == 2){
+								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
+									backupspecialsData[i].type = 1;
+									specialsData.addItem(backupspecialsData[i]);
+								}
+							}
+							else if (currentselectmode == 3){
+								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
+									backupspecialsData[i].type = 1;
+									specialsData.addItem(backupspecialsData[i]);
+								}
+							}
+							else if (currentselectmode == 4){
+								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "desserts")){
+									backupspecialsData[i].type = 1;
+									specialsData.addItem(backupspecialsData[i]);
+								}
+							}
+						}
+						
+						
+					}
+				}
+				specialsData.refresh();
+				specialsList.dataProvider = specialsData;
+			}
+			public var goingtonext:Boolean = false;
+			public function dataListClick():void {	
+				if (goingtonext == false){
+					goingtonext = true;
+					if (specialsList.selectedIndex != -1){
+						try{
+							data.homefilterarray = [];
+						}
+						catch(e:Error){}
+						
+						try{
+							var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
+							if (dataArray.length != 0){
+								for (var i:uint = 0; i < dataArray.length; i++){
+									if (dataArray[i].id == specialsData[specialsList.selectedIndex].locationid){
+										navigator.pushView(StoresDescription, dataArray[i]);	
+									}
+								}
+							}
+						}
+						catch(e:Error){}
+						
+					}
+					else {
+						goingtonext = false;
+					}
+				}
+			}
+			public function filterCompleted2(item:Object):Boolean{
+				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			public function press(event:KeyboardEvent):void {
+				populatelist();
+			}
+
+			public function gobacktohome(event:FlexEvent):void {
+				event.preventDefault();
+				gobacktohome2();
+			}
+			public function gobacktohome2():void {
+				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.duration = slideduration;
+				slideTrans.direction = ViewTransitionDirection.RIGHT;
+				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+				navigator.pushView(Home, null,null,slideTrans);
+			}
+		]]>
+	</fx:Script>
+	<s:titleContent>
+		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
+			<s:Rect width="100%"  height="100%"
+					radiusX="{25/(320/Capabilities.screenDPI)}"
+					radiusY="{25/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#39a994"/>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage left="{20/(320/Capabilities.screenDPI)}" verticalCenter="0" contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/glass.png')"
+											source240dpi="@Embed('../assets/240/glass.png')"
+											source320dpi="@Embed('../assets/320/glass.png')"
+											source480dpi="@Embed('../assets/480/glass.png')"
+											source640dpi="@Embed('../assets/640/glass.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
+						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}"
+						   id="key"  top="{6/(320/Capabilities.screenDPI)}"  height="98%" borderVisible="false" fontWeight="normal"  
+						   contentBackgroundAlpha="0"
+						   maxChars="20" prompt="Search Specials"
+						   returnKeyLabel="search"/>
+		</s:Group>
+	</s:titleContent>
+	<fx:Declarations>		
+		<s:HTTPService id="getSpecials" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getSpecialsAll.php"
+					   result="afterGetSpecials(event)"/>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="0" width="100%" horizontalAlign="center" verticalAlign="bottom">	 
+			<s:List id="specialsList" width="100%" height="100%"  horizontalScrollPolicy="off"
+					alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"  contentBackgroundAlpha="1" 
+					contentBackgroundColor="#FFFFFF"
+					horizontalCenter="0"
+					itemRenderer="components.specialsResultWithStore" 
+					selectedIndex="1" change="dataListClick();"
+					click="dataListClick();" >
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify" 
+									  variableRowHeight="true" gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	</s:Scroller>
+	<s:Label id="warn" visible="false" width="100%" color="#111111" fontWeight="bold"
+			 horizontalCenter="0" styleName="textsize9" text="No Specials Today" textAlign="center"
+			 verticalAlign="middle" verticalCenter="0"></s:Label>
+</s:View>
