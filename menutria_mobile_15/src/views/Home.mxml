@@ -176,7 +176,7 @@
 					catch(e:Error){}
 				}
 				
-				staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+				staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.width/(16/9))).toString()+"&maptype=roadmap";
 				for (i=  0; i < listData.length; i++){
 					listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
 					try{
@@ -244,7 +244,7 @@
 					catch(e:Error){}
 				}
 				if (listData.length > 0){
-					staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+					staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.width/(16/9))).toString()+"&maptype=roadmap";
 					
 					for (i=  0; i < listData.length; i++){
 						listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
@@ -330,8 +330,8 @@
 					listData.sort = srt;
 					listData.refresh();
 				}
-				
-				extraitemarray.addItem({type:"map",url:staticmapimageurl});
+				extraitemarray = new ArrayCollection();
+				extraitemarray.addItem({name:"map",url:staticmapimageurl,viz:true});
 				startapplyingdata();	
 				generateCategoryFilterArray();
 				
@@ -356,7 +356,7 @@
 					if (dataArray.length != 0){
 						listData = dataArray;
 						this.parentApplication.hideloading();
-						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.width/(16/9))).toString()+"&maptype=roadmap";
 						for (var i:uint =  0; i < listData.length; i++){
 							staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+listData[i].lat.toString()+","+listData[i].longa.toString();
 						}
@@ -388,7 +388,7 @@
 					if (dataArray.length != 0){
 						listData = dataArray;
 						this.parentApplication.hideloading();
-						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.height/3.3)).toString()+"&maptype=roadmap";
+						staticmapimageurl = "http://maps.googleapis.com/maps/api/staticmap?size="+this.width.toString()+"x"+Math.round((this.width/(16/9))).toString()+"&maptype=roadmap";
 						for (var i:uint =  0; i < listData.length; i++){
 							staticmapimageurl = staticmapimageurl + "&markers=color:green%7Clabel:"+i.toString()+"%7C"+listData[i].lat.toString()+","+listData[i].longa.toString();
 						}
@@ -826,19 +826,6 @@
 								source320dpi="@Embed('../assets/320/close.png')"
 								source480dpi="@Embed('../assets/480/close.png')"
 								source640dpi="@Embed('../assets/640/close.png')"/>
-		<s:ArrayList id="themesAndroid">
-			<fx:Object name="ANDROID_DEVICE_DEFAULT_DARK_THEME" data="0x00000004"/>
-			<fx:Object name="ANDROID_DEVICE_DEFAULT_LIGHT_THEME" data="0x00000005"/>
-			<fx:Object name="ANDROID_HOLO_DARK_THEME" data="0x00000002"/>
-			<fx:Object name="ANDROID_HOLO_LIGHT_THEME" data="0x00000003"/>
-			<fx:Object name="DEFAULT_THEME" data="0x00000001"/>
-		</s:ArrayList>
-		<s:ArrayList id="themesIOS">
-			<fx:Object name="IOS_SVHUD_GRADIENT_BACKGROUND_THEME" data="0x00000004" />
-			<fx:Object name="IOS_SVHUD_BLACK_BACKGROUND_THEME" data="0x00000002" />
-			<fx:Object name="IOS_SVHUD_NON_BACKGROUND_THEME" data="0x00000003" />
-			<fx:Object name="DEFAULT_THEME" data="0x00000001"/>
-		</s:ArrayList>
 	</fx:Declarations>
 	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
 		<s:Group id="filterarea" visible="true"  width="100%"
@@ -995,7 +982,7 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List width="100%"  height="{this.height}"
+			<s:List width="100%"  height="100%"
 					useVirtualLayout="false" 
 					skinClass="skins.HomeTileListSkin"
 					id="menuList" 	 selectedIndex="1"

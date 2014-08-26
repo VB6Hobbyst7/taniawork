@@ -34,7 +34,7 @@ public function addsomedata():void {
 			endindex = endindex + originaladd;
 			for (var i:uint = 0; i < extraitemarray.length; i++){
 				try{
-					menuList.dataProvider.addItem(extraitemarray[0]);	
+					menuList.dataProvider.addItem(extraitemarray[i]);	
 				}
 				catch(e:Error){}
 			}
