@@ -15,7 +15,7 @@
 			   backgroundColor="#36ccba"
 			   frameRate="100"
 			   mouseUp="overAllMouseUp(event)" >
-	<fx:Script source="func/coreMobileFunctions.as"/>
+	<!--fx:Script source="func/coreMobileFunctions.as"/-->
 	<s:ViewNavigatorApplication persistNavigatorState="true" 
 								id="mainNavigator" click="navigatorClick(event)"  
 								height="100%"  x="0"  contentBackgroundColor="#36ccba"
@@ -68,7 +68,7 @@
 			</s:fill>
 		</s:Rect>
 		<s:VGroup width="{this.width/1.15}"
-				  height="100%" paddingTop="0" gap="0">
+				  height="100%" paddingTop="{statusbuffertop}" gap="0">
 			<s:Group width="{this.width/1.15}" 
 					 height="{actionbarheight+4}" mouseDown="menuButtonClick();"    >
 				<s:Label  left="{15/(320/Capabilities.screenDPI)}" text="menu" verticalCenter="0" mouseEnabled="false"
@@ -132,7 +132,7 @@
 				<s:SolidColor alpha="1" color="#5b5b5b"/>
 			</s:fill>
 		</s:Rect>
-		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
+		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="{statusbuffertop}" gap="0">
 			<s:Group width="{this.width/1.15}"
 					 height="{actionbarheight+4}" 
 					 mouseDown="filtersButtonClick();" >
@@ -186,7 +186,7 @@
 			
 		</s:VGroup>		
 	</s:Group>
-	<s:Group id="internetwarn" width="98%"  height="15%" top="50" horizontalCenter="0" click="recheckInternet();" visible="false">
+	<s:Group id="internetwarn" width="98%"  height="15%" top="50" horizontalCenter="0"  visible="false">
 		<s:Rect width="100%" height="100%" >
 			<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
 			<s:stroke><s:SolidColorStroke color="#36ccba" 

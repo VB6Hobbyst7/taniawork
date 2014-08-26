@@ -31,6 +31,8 @@ public var xFadeTrans:CrossFadeViewTransition = new CrossFadeViewTransition();
 [Bindable]
 public var actionbarheight:Number = 0;
 [Bindable]
+public var statusbuffertop:Number = 0;
+[Bindable]
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var filteritems:ArrayCollection = new ArrayCollection(
@@ -46,7 +48,7 @@ public var svt:SlideViewTransition = new SlideViewTransition();
 public var svt2:SlideViewTransition = new SlideViewTransition();
 protected function creationcomplete(event:FlexEvent):void
 {
-	startCoreMobile();
+	//startCoreMobile();
 	svt.duration = slideduration;
 	svt.direction =  ViewTransitionDirection.LEFT;
 	svt2.duration = slideduration;
@@ -96,14 +98,14 @@ protected function creationcomplete(event:FlexEvent):void
 		
 	if (Capabilities.version.indexOf('IOS') > -1){
 		if (getDPIHeight() == 320){
-			//obarheight = 40;
 			obarheight = 0;
-			mainNavigator.actionBar.height = actionbarheight + 40;
+			statusbuffertop = 20;
+			//actionbarheight = actionbarheight + (actionbarheight/2);
 		}
 		else if (getDPIHeight() == 160){
-			//obarheight = 10;
 			obarheight = 0;
-			mainNavigator.actionBar.height = actionbarheight + 10;
+			statusbuffertop = 10;
+			//actionbarheight = actionbarheight + (actionbarheight/2);
 		}
 	}
 	
