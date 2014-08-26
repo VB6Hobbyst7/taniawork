@@ -29,6 +29,8 @@
 			import spark.transitions.SlideViewTransition;
 			import spark.transitions.SlideViewTransitionMode;
 			import spark.transitions.ViewTransitionDirection;
+			
+			import skins.HomeTileListSkin;
 			private var mediaSource:CameraRoll = new CameraRoll();
 			private var imageLoader:Loader; 
 			private var dataSource:IDataInput;
@@ -487,20 +489,19 @@
 											  variableRowHeight="true" gap="0"/>
 						</s:layout>
 					</s:List>
-					<s:List  id="placeslist" visible="false"
-							 width="{this.width}"  
-							 horizontalCenter="0" 
-							 change="storeListClick();"
-							 click="storeListClick();"
-							 verticalScrollPolicy="off"  
-							 horizontalScrollPolicy="off"
-							 contentBackgroundAlpha="0" 
-							 itemRenderer="components.storeResult">
-						<s:layout>
-							<s:VerticalLayout horizontalAlign="contentJustify" 
-											  variableRowHeight="true" gap="0"/>
-						</s:layout>
+					<s:List width="100%" height="{Math.ceil(placesArray.length/2)*(this.width/2)}"
+							verticalScrollPolicy="off"
+							useVirtualLayout="false" 
+							skinClass="skins.HomeTileListSkin"
+							id="placeslist" 	
+							horizontalScrollPolicy="off" 
+							change="storeListClick();"
+							click="storeListClick();" >
 					</s:List>
+					
+					
+					
+					
 				</s:Group>
 				</s:VGroup>
 			</s:Scroller>

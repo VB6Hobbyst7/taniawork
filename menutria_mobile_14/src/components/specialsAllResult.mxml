@@ -89,7 +89,7 @@
 							 paddingTop="{10/(320/Capabilities.screenDPI)}" 
 							 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
 							 paddingRight="{10/(320/Capabilities.screenDPI)}">
-					<s:Label  color="#4d4d4d" maxDisplayedLines="1"
+					<s:Label  color="#EEEEEE" maxDisplayedLines="1"
 							 fontWeight="bold" styleName="textsize4" 
 							 text="{data.description}"   width="{640-bmpImg.width}"  maxWidth="{640-bmpImg.width}"
 							 verticalAlign="middle"></s:Label>

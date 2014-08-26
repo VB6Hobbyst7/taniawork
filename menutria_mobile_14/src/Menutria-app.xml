@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/15.0">
-	<id>com.menutria.menutria</id>
-	<filename>Menutria</filename>
-	<name>Menutria</name>
-<versionNumber>1.0.8</versionNumber>
-<versionLabel>v1.0.8</versionLabel>
+<id>com.menutria.menutria</id>
+<filename>Menutria</filename>
+<name>Menutria</name>
+<versionNumber>2.0.0</versionNumber>
+<versionLabel>v2.0.0</versionLabel>
 <initialWindow>
 <content>Menutria.swf</content>
 <autoOrients>false</autoOrients>
@@ -12,7 +12,6 @@
 <renderMode>auto</renderMode>
 <fullScreen>false</fullScreen>
 <systemChrome>standard</systemChrome>
-<softKeyboardBehavior>pan</softKeyboardBehavior>
     </initialWindow>
 	<supportedLanguages>en</supportedLanguages>
 	<icon>
@@ -37,8 +36,6 @@
 <string>1461197797460743</string>
 <key>FacebookDisplayName</key>
 <string>Menutria</string>
-<key>UIStatusBarStyle</key>
-<string>UIStatusBarStyleBlackOpaque</string>
 <key>UIDeviceFamily</key> 
 <array> 
     <string>1</string> 

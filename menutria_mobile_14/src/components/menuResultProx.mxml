@@ -254,7 +254,7 @@
 					
 					var l6:Label = new Label();
 					l6.width = neededwidth-(20/(320/Capabilities.screenDPI));
-					l6.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
+					l6.setStyle("paddingLeft",10/(320/Capabilities.screenDPI));
 					l6.setStyle("fontWeight","bold");
 					l6.horizontalCenter = 0;
 					l6.verticalCenter = 0;

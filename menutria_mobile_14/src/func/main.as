@@ -58,14 +58,7 @@ protected function creationcomplete(event:FlexEvent):void
 	initGPS();
 	
 	//hideStatusBar();
-	if (Capabilities.version.indexOf('IOS') > -1){
-		if (getDPIHeight() == 320){
-			obarheight = 40;
-		}
-		else if (getDPIHeight() == 160){
-			obarheight = 10;
-		}
-	}
+	
 	
 	
 	
@@ -98,6 +91,23 @@ protected function creationcomplete(event:FlexEvent):void
 		}
 	}
 	
+	
+
+		
+	if (Capabilities.version.indexOf('IOS') > -1){
+		if (getDPIHeight() == 320){
+			//obarheight = 40;
+			obarheight = 0;
+			mainNavigator.actionBar.height = actionbarheight + 40;
+		}
+		else if (getDPIHeight() == 160){
+			//obarheight = 10;
+			obarheight = 0;
+			mainNavigator.actionBar.height = actionbarheight + 10;
+		}
+	}
+	
+		
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
 		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643"},
@@ -359,6 +369,10 @@ public function logout():void {
 public function goProfile(event:MouseEvent):void
 {
 	mainNavigator.navigator.pushView(Profile);
+	if ((menuopen)&&(menumoving == false)){
+		menumoving = true;
+		closeMenu();
+	}
 }
 public function filterchange(event:IndexChangeEvent):void
 {

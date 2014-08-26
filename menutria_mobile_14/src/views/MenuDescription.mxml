@@ -10,10 +10,7 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import com.milkmangames.nativeextensions.GVFacebookFriend;
-			import com.milkmangames.nativeextensions.GoViral;
-			import com.milkmangames.nativeextensions.events.GVFacebookEvent;
-			import com.milkmangames.nativeextensions.events.GVTwitterEvent;
+			
 			import flash.display.Bitmap;
 			import flash.display.Graphics;
 			import flash.display.Sprite;
@@ -51,8 +48,7 @@
 			public var modifications:ArrayCollection = new ArrayCollection();
 			
 		
-			[Bindable]
-			public var shareType:uint = 0;
+		
 			[Bindable]
 			public var eatenstatus:uint = 0;
 			public function init():void
@@ -93,6 +89,14 @@
 				reviewPopupGroup.menuname = data.name;
 				reviewPopupGroup.businessname = data.business_name;
 				reviewPopupGroup.mypic = pictureGo;
+				
+				
+				sharePopup.menuid = data.id;
+				sharePopup.email = emailGo;
+				sharePopup.locationid = data.locationid;
+				sharePopup.menuname = data.name;
+				sharePopup.businessname = data.business_name;
+				sharePopup.mypic = pictureGo;
 
 				getMenuItemInformation.send();
 			}
@@ -128,6 +132,7 @@
 				recentreviews = new ArrayCollection();
 				modifications = new ArrayCollection();
 				descriptiontext.text = ev.result[0].results5.result5.description;
+				sharePopup.descriptiontext = ev.result[0].results5.result5.description;
 				additiontext.text =  ev.result[0].results5.result5.additions;
 				if (ev.result[0].eatinthis == 0){
 					eatenimage.source = eatenthis2;
@@ -181,6 +186,7 @@
 				//	modList.dataProvider = modifications;
 				reviewList.dataProvider = topreviews;
 				reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
+				sharePopup.bmpData = img1.bitmapData;
 			}
 			public function topratedrecentclick(event:MouseEvent):void
 			{
@@ -218,12 +224,7 @@
 				}
 			}
 			public function startShare():void {
-				var gl:GlowFilter = new GlowFilter(0x36ccba,1,20,20,5,1,true);
-				shareType = 0;
-				sharefacebook.filters = [gl];
-				sharetwitter.filters = [];
-				shareText.text = "";
-				sharePopup.visible = true;	
+				sharePopup.startShare();
 			}
 			public function eatenClick():void {
 				if (eatenstatus == 0){
@@ -236,84 +237,7 @@
 				}
 				sendEatenThis.send();	
 			}
-			public function backOnShare():void {
-				sharePopup.visible = false;
-			}
-			public function forwardOnShare():void {
-				
-				if (shareType == 0){
-				//share facebook
-					
-					if(!GoViral.goViral.isFacebookAuthenticated())
-					{
-						GoViral.goViral.authenticateWithFacebook("email,public_profile,user_birthday,user_location");
-					}
-					else {		
-						try{
-							GoViral.goViral.showFacebookShareDialog(
-								"Menutria",
-								data.name,
-								descriptiontext.text,
-								"http://www.menutria.com",
-								img1.source.toString()).addDialogListener(function(e:GVFacebookEvent) {
-									switch(e.type)
-									{
-										case GVFacebookEvent.FB_DIALOG_CANCELED:
-											sharePopup.visible = false;
-											break;
-										case GVFacebookEvent.FB_DIALOG_FAILED:
-											shareText.text = "The Share Dialog has failed:"+e.errorMessage
-											break;
-										case GVFacebookEvent.FB_DIALOG_FINISHED:
-											sharePopup.visible = false;
-											break;
-									}
-								});
-						}
-						catch(e:Error){
-							shareText.text = "FB ADOBE ERROR";
-						}	
-					}
-					
-					
-					
-				}
-				else {
-					//share twitter
-					if(GoViral.goViral.isTweetSheetAvailable())
-					{
-						// show a twitter status post dialog
-						GoViral.goViral.showTweetSheetWithImage(
-							data.name,
-							img1.bitmapData).addDialogListener(function(e:GVTwitterEvent) {
-							switch(e.type)
-							{
-								case GVTwitterEvent.TW_DIALOG_FINISHED:
-									sharePopup.visible = false;
-									break;
-								case GVTwitterEvent.TW_DIALOG_FAILED:
-									shareText.text = "Twitter dialog failed.";
-									break;
-								case GVTwitterEvent.TW_DIALOG_CANCELED:
-									sharePopup.visible = false;
-									break;
-							}
-						});
-					}
-				}
-			}
-			public function switchShare(u:uint):void{
-				shareType = u;
-				var gl:GlowFilter = new GlowFilter(0x36ccba,1,20,20,15,1,true);
-				if (u == 0){
-					sharefacebook.filters = [gl];
-					sharetwitter.filters = [];
-				}
-				else {
-					sharefacebook.filters = [];
-					sharetwitter.filters = [gl];
-				}
-			}
+			
 			public function afterGetEatenThis(ev:ResultEvent):void {
 				eatenimage.visible = true;
 			}
@@ -573,110 +497,8 @@
 		</s:VGroup>
 	</s:Scroller>
 	
-	<s:Group id="sharePopup" horizontalCenter="0"
-					   verticalCenter="0" visible="false" 
-					   height="95%" width="90%">
-		<s:Rect width="100%"  height="100%"
-				radiusX="{10/(320/Capabilities.screenDPI)}"
-				radiusY="{10/(320/Capabilities.screenDPI)}">
-			<s:fill>
-				<s:SolidColor alpha="1" color="#36ccba"/>
-			</s:fill>
-		</s:Rect>
-		<s:Group left="0" top="{10/(320/Capabilities.screenDPI)}" mouseDown="backOnShare();"  
-				 mouseEnabledWhereTransparent="true" width="{100/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}">
-			<s:BitmapImage width="{40/(320/Capabilities.screenDPI)}" height="{40/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
-						   horizontalCenter="0" verticalCenter="0">
-				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/back.png')"
-											source240dpi="@Embed('../assets/240/back.png')"
-											source320dpi="@Embed('../assets/320/back.png')"
-											source480dpi="@Embed('../assets/480/back.png')"
-											source640dpi="@Embed('../assets/640/back.png')"/>
-				</s:source>
-			</s:BitmapImage>
-		</s:Group>
-		<s:Group horizontalCenter="0" top="{10/(320/Capabilities.screenDPI)}"  height="{50/(320/Capabilities.screenDPI)}">
-			<s:Label height="100%" color="#FFFFFF" styleName="textsize3" text="Share"
-					 verticalAlign="middle"/>
-		</s:Group>
-		<s:Group  mouseDown="forwardOnShare();" right="0" top="{10/(320/Capabilities.screenDPI)}" 
-				  mouseEnabledWhereTransparent="true"  width="{100/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}">
-			<s:BitmapImage id="checkshare" width="{40/(320/Capabilities.screenDPI)}" visible="true" height="{40/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
-					 horizontalCenter="0" verticalCenter="0">
-				<s:source>
-					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/checkwhite.png')"
-											source240dpi="@Embed('../assets/240/checkwhite.png')"
-											source320dpi="@Embed('../assets/320/checkwhite.png')"
-											source480dpi="@Embed('../assets/480/checkwhite.png')"
-											source640dpi="@Embed('../assets/640/checkwhite.png')"/>
-				</s:source>
-			</s:BitmapImage>
-		</s:Group>
-		<s:Group x="0" top="{65/(320/Capabilities.screenDPI)}" bottom="{60/(320/Capabilities.screenDPI)}" width="100%" >
-			<s:Rect width="100%"  height="100%">
-				<s:fill>
-					<s:SolidColor alpha="1" color="#FFFFFF"/>
-				</s:fill>
-			</s:Rect>
-			<s:VGroup width="100%" horizontalAlign="center" paddingTop="{30/(320/Capabilities.screenDPI)}" gap="{20/(320/Capabilities.screenDPI)}">
-				<s:TextArea id="shareText" width="95%" height="{this.height/2.5}" borderVisible="false"
-							color="#5D5D5D" fontFamily="Arial" horizontalCenter="0" 
-							paddingLeft="{30/(320/Capabilities.screenDPI)}" 
-							paddingTop="{30/(320/Capabilities.screenDPI)}" 
-							paddingRight="{30/(320/Capabilities.screenDPI)}"
-							paddingBottom="{30/(320/Capabilities.screenDPI)}"
-							contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
-							prompt="Write something about this dish">
-				</s:TextArea>
-			</s:VGroup>
-		</s:Group>
-		<s:Group width="100%" bottom="0" height="{70/(320/Capabilities.screenDPI)}">
-			<s:Rect width="100%"  height="100%"
-					radiusX="{10/(320/Capabilities.screenDPI)}"
-					radiusY="{10/(320/Capabilities.screenDPI)}">
-				<s:fill>
-					<s:SolidColor alpha="1" color="#f2f2f2"/>
-				</s:fill>
-			</s:Rect>
-			<s:HGroup paddingLeft="{30/(320/Capabilities.screenDPI)}" 
-					  top="{20/(320/Capabilities.screenDPI)}"
-					  bottom="{20/(320/Capabilities.screenDPI)}"
-					  width="100%" gap="{80/(320/Capabilities.screenDPI)}" 
-					  verticalAlign="middle">
-				<s:BitmapImage contentLoader="{s_imageCache}" >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-share.png')"
-												source240dpi="@Embed('../assets/240/rate-share.png')"
-												source320dpi="@Embed('../assets/320/rate-share.png')"
-												source480dpi="@Embed('../assets/480/rate-share.png')"
-												source640dpi="@Embed('../assets/640/rate-share.png')"/>
-					</s:source>
-				</s:BitmapImage>
-				<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(0)">
-					<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharefacebook">
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-facebook.png')"
-													source240dpi="@Embed('../assets/240/rate-facebook.png')"
-													source320dpi="@Embed('../assets/320/rate-facebook.png')"
-													source480dpi="@Embed('../assets/480/rate-facebook.png')"
-													source640dpi="@Embed('../assets/640/rate-facebook.png')"/>
-						</s:source>
-					</s:BitmapImage>
-				</s:Group>
-				<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(1)">
-					<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharetwitter">
-						<s:source>
-							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-twitter.png')"
-													source240dpi="@Embed('../assets/240/rate-twitter.png')"
-													source320dpi="@Embed('../assets/320/rate-twitter.png')"
-													source480dpi="@Embed('../assets/480/rate-twitter.png')"
-													source640dpi="@Embed('../assets/640/rate-twitter.png')"/>
-						</s:source>
-					</s:BitmapImage>
-				</s:Group>
-			</s:HGroup>
-		</s:Group>
-	</s:Group>
+	
+	
+	<components:sharePopup id="sharePopup"  width="100%" height="100%" visible="false"/>
 	<components:ratePopup height="100%" width="100%" id="reviewPopupGroup" visible="false"/>
 </s:View>

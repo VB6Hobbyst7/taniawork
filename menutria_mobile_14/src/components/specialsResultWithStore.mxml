@@ -74,7 +74,7 @@
 						 paddingBottom="{20/(320/Capabilities.screenDPI)}"  
 						 verticalAlign="bottom" bottom="0"
 						 paddingRight="{20/(320/Capabilities.screenDPI)}">
-				<s:Label color="#36ccba" maxDisplayedLines="5"
+				<s:Label color="#EEEEEE" maxDisplayedLines="5"
 						 fontWeight="bold" styleName="textsize3" 
 						 text="{data.business_name}"  
 						 width="{(setheightval-20)*data.type}"  maxWidth="{(setheightval-20)*data.type}"
