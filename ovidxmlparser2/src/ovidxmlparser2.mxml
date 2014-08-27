@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="afterLoad(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			public var counter:Number = 1;
+			public var csvtext:String = "";
+			public var directory:String = "file:///Users/Ninja/Downloads/diabeties_ovid/";
+			public function afterLoad(event:FlexEvent):void
+			{
+				getData.url = directory+counter.toString()+".xml"
+				getData.send();
+			}
+			protected function getData_resultHandler(event:ResultEvent):void
+			{
+				var x:String = event.result.toString();
+				do {
+					var section:String = x.substring(x.indexOf("<record "),x.indexOf("</record>"));
+					section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
+					section = section.substr(section.indexOf("type='c'")+9, section.length);
+					var pmid:String = section.substr(0,section.indexOf("<"));
+					section = section.substr(section.indexOf("L='Unique Identifier'"), section.length);
+					section = section.substr(section.indexOf("type='c'")+9, section.length);
+					var authors:String = section.substr(0,section.indexOf("<"));					
+					var stodddp:String = "";
+					csvtext = csvtext  +pmid + "\r\n";
+					x = x.substring(x.indexOf("</record>")+9);
+					
+				}while (x.indexOf("<record ") != -1);
+				
+				if (counter != 25){
+					counter++;
+					getData.url = directory+counter.toString()+".xml"
+					getData.send();
+				}
+				else {
+					var f:File = new File(directory+"allpmids.csv");
+					f.resolvePath(directory+"allpmids.csv");
+					var stream:FileStream = new FileStream();
+					stream.open(f, FileMode.WRITE);                                         
+					stream.writeUTFBytes(csvtext.toUpperCase());
+					stream.close();
+				}	
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="getData" 
+					   resultFormat="text" result="getData_resultHandler(event)" />
+	</fx:Declarations>
+</s:WindowedApplication>
