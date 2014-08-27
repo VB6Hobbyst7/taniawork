@@ -66,8 +66,10 @@ public class FlowLayout4 extends LayoutBase
             totalWidth += elementWidth;
             totalHeight = Math.max(totalHeight, elementHeight);
         }
-        if (count > 0)
+        if (count > 0){
             totalWidth += (count - 1) * _horizontalGap;
+			totalHeight += (count - 1) * _horizontalGap;
+		}
         
         layoutTarget.measuredWidth = totalWidth;
         layoutTarget.measuredHeight = totalHeight;
@@ -121,7 +123,7 @@ public class FlowLayout4 extends LayoutBase
                 
                 // Move down by elementHeight, we're assuming all 
                 // elements are of equal height
-                y += elementHeight;
+                y += elementHeight+ _horizontalGap;
             }
             
             // Position the element

@@ -199,7 +199,7 @@
 						l3.text = "";
 					}
 					g3.addElement(line5);
-					g3.addElement(line6);
+				
 					g3.addElement(l3);
 					
 

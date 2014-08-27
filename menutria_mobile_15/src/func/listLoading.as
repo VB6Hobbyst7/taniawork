@@ -4,7 +4,7 @@ import flash.utils.Timer;
 import mx.collections.ArrayCollection;
 import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
-public var addvalue:Number = 6;
+public var addvalue:Number = 12;
 public var originaladd:Number = 4;
 public var lastindex:Number = 0;
 public var moving:Boolean = false;
