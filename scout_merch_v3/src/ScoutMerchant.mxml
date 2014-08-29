@@ -114,7 +114,19 @@
 			}
 			public function dropalldatatables():void {
 				try{
+					var stmt:SQLStatement = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "delete from localuser";
+					stmt.execute();
+					
 					doQuery("DROP TABLE localuser");
+					emailGo = "none";
+					merchid = "-1";
+					locationid = "-1";
+					locationname = "ERROR";
 				}
 				catch(e:Error){}
 			}

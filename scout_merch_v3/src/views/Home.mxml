@@ -57,6 +57,7 @@
 			public var refundstatus:String = 'false';
 			protected function init():void
 			{
+				setLoginVars();
 				digitcount = 0;
 				warn.text = "Enter Receipt Value";
 				warn.visible = true;
@@ -71,10 +72,9 @@
 				scanningMode = false;
 				userLBL.text = "Please Scan a User";
 				resultPopup.visible = false;
-				
 				scanBTN.enabled = true;
 				refundbtn.enabled = false;
-				setLoginVars();
+				
 				if (merchid == "-1"){
 					warn.text = "You are not connected";
 					navigator.pushView(Signin);
@@ -94,6 +94,9 @@
 				stmt.sqlConnection = sqlConnection;
 				stmt.text = "delete from localuser";
 				stmt.execute();
+				merchid = "-1";
+				locationid = "-1";
+				
 				navigator.pushView(Home,{i:0});
 				
 			}
