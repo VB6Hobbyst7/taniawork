@@ -4,13 +4,10 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
 		title="login" 
-		backKeyPressed="donothing(event)"
 		contentBackgroundAlpha="1" name="sign0"
 		contentBackgroundColor="#f3f3f3"
-		backgroundAlpha="1"
-		backgroundColor="#f3f3f3" 
 		actionBarVisible="false" 
-		 viewActivate="init()"
+		viewActivate="init()"
 		xmlns:cs="cs.*" >
 	<fx:Script source="../func/global.as" />
 	<fx:Script>
@@ -20,7 +17,6 @@
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
 			public function init():void {	
-				this.parentApplication.hideStatusBar();
 				createIfNotExsist("localuser");
 				enableHardwareKeyListeners();
 			}	
@@ -84,7 +80,6 @@
 				}
 				else {
 				}
-				this.parentApplication.hideloading();
 			}
 			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
 			{

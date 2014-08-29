@@ -8,8 +8,7 @@
 		contentBackgroundColor="#f3f3f3"
 		backgroundAlpha="1" title="Specials"
 		backgroundColor="#f3f3f3"  
-		viewActivate="init()"
-		menuKeyPressed="menupress(event)">
+		viewActivate="init()">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
@@ -65,9 +64,7 @@
 			public function init():void
 			{
 				enableHardwareKeyListeners();
-				this.parentApplication.showStatusBar();
 				goingtonext = false;
-				this.parentApplication.showloading();
 				createIfNotExsist("specials");
 				setLoginVars();
 				screenwidth = this.width;

@@ -4,15 +4,12 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*"
-		destructionPolicy="never"
-		viewActivate="init()"
+		viewActivate="init()" destructionPolicy="never"
 		creationComplete="init2()"
-		backKeyPressed="donothing(event)"
-		menuKeyPressed="menupress(event)"
+		backgroundAlpha="1"
+		backgroundColor="#f3f3f3"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#f3f3f3" 
-		backgroundAlpha="1" 
-		backgroundColor="#f3f3f3" >
+		contentBackgroundColor="#f3f3f3" >
 	<s:titleContent>
 		<s:Group horizontalCenter="0" verticalCenter="0" width="{this.width/1.5}"  height="60%">
 			<s:Rect width="100%"  height="100%"
@@ -98,18 +95,10 @@
 			public var goingtonext:Boolean = false;
 			public function init():void
 			{
-				enableHardwareKeyListeners();
-				setLoginVars();
-				goingtonext  = false;
-				if (creationloaded){
-					if (listData.length > 0){
-						calculateDistanceandmap();
-						currentselectmode = 1;
-						populatelist();
-					}					
-				}		
+				goingtonext  = false;								
 			}
 			public function init2():void{
+				//creation complete
 				enableHardwareKeyListeners();
 				setLoginVars();
 				this.parentApplication.showloading();
@@ -300,6 +289,7 @@
 				extraitemarray.addItem({name:"map",url:staticmapimageurl,viz:true});
 				startapplyingdata();	
 				generateCategoryFilterArray();
+				this.parentDocument.hideBusy();
 			}
 			public function press(event:KeyboardEvent):void {
 				searchClick();

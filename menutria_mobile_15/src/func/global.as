@@ -29,7 +29,7 @@ public var idGo:String = "";
 public var mylat:Number = 53.536979;
 public var mylong:Number = -113.296852;
 [Bindable]
-public var slideduration:Number = 250;
+public var slideduration:Number = 150;
 public var sqlConnection:SQLConnection;
 public function setLoginVars():void {
 	try{
@@ -195,8 +195,8 @@ protected function donothing(event:FlexEvent):void
 }
 private function enableHardwareKeyListeners():void
 {
-	systemManager.stage.addEventListener(KeyboardEvent.KEY_DOWN, stageKeyDownHandler, false, 500, true);
-	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+	//systemManager.stage.addEventListener(KeyboardEvent.KEY_DOWN, stageKeyDownHandler, false, 500, true);
+	//NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 }
 private function keyDown(event:KeyboardEvent):void
 {

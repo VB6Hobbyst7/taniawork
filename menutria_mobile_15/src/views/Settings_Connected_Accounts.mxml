@@ -4,7 +4,6 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:components="components.*"
 		xmlns:model="model.*" 
-		menuKeyPressed="menupress(event)"
 		viewActivate="onActivate(event)"
 		title="Change Password" 	
 		backgroundColor="#f2f3f4" >	
@@ -25,24 +24,19 @@
 			import mx.rpc.events.ResultEvent;
 			import spark.core.ContentCache;
 			import spark.events.ViewNavigatorEvent;
-			[Bindable]
-			public var busy:Boolean = false;
 			public function onActivate(event:Event):void
 			{			
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();		
 			}	
 			public function changePass():void {
 				popupholder1.visible = false;
-		
 			}
 			public function afterChangePassword(ev:ResultEvent):void {
-				busy = false;
+				this.parentDocument.hideBusy();
 				logWarningTextinfo.text = ev.result[0].ress.message;
 				popupholder1.visible = true;
-				
 			}			
 		]]>
 	</fx:Script>
@@ -120,5 +114,4 @@
 			</s:Group>
 		</s:Group>
 	</s:Group>
-	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>

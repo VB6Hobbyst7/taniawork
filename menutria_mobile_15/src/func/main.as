@@ -54,44 +54,30 @@ protected function creationcomplete(event:FlexEvent):void
 	svt2.duration = slideduration;
 	svt2.direction =  ViewTransitionDirection.RIGHT;
 	svt2.mode = SlideViewTransitionMode.UNCOVER;
-	mainNavigator.navigator.defaultPushTransition = svt;
-	mainNavigator.navigator.defaultPopTransition = svt2;
+	mainNavigator.defaultPushTransition = svt;
+	mainNavigator.defaultPopTransition = svt2;
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
 	
 	//hideStatusBar();
 	
 	
-	
-	
-	switch (applicationDPI)
-	{
-		case DPIClassification.DPI_640:
-		{
-			actionbarheight = 172;
-			break;
-		}
-		case DPIClassification.DPI_480:
-		{
-			actionbarheight = 129;					
-			break;
-		}
-		case DPIClassification.DPI_320:
-		{
-			actionbarheight = 86;
-			break;
-		}
-		case DPIClassification.DPI_240:
-		{
-			actionbarheight = 65;
-			break;
-		}
-		default:
-		{
-			actionbarheight = 43;
-			break;
-		}
+	if (getDPIHeight() == 640){
+		actionbarheight = 172;	
 	}
+	else if (getDPIHeight() == 480){
+		actionbarheight = 129;		
+	}
+	else if (getDPIHeight() == 320){
+		actionbarheight = 86;
+	}
+	else if (getDPIHeight() == 240){
+		actionbarheight = 65;
+	}
+	else {
+		actionbarheight = 43;
+	}
+
 	
 	
 
@@ -131,10 +117,11 @@ protected function creationcomplete(event:FlexEvent):void
 				homeitems[i].name = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
 			}
 		}
-		if (mainNavigator.navigator.firstView == null){
-			if (mainNavigator.navigator.activeView == null){
+		
+		if (mainNavigator.firstView == null){
+			if (mainNavigator.activeView == null){
 				loadedview = true;
-				mainNavigator.navigator.pushView(Home,null,null,crosstrans);	
+				mainNavigator.pushView(Home,null,null,crosstrans);	
 			}
 			else {
 				loadedview = true;
@@ -147,7 +134,7 @@ protected function creationcomplete(event:FlexEvent):void
 	}
 	else {
 		loadedview = true; 
-		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
+		mainNavigator.pushView(Login,null,null,crosstrans);
 	}	
 	addswipefunctions();
 }
@@ -161,28 +148,34 @@ public function nativeKeyDown(event:KeyboardEvent):void
 {
 	var key:uint = event.keyCode;
 	if (key == Keyboard.BACK){
+		if ((mainNavigator.activeView.className == "Home")||
+			(mainNavigator.activeView.className == "Login")){
+			//dont pop
+		}
+		else if ((mainNavigator.activeView.className == "Profile")||
+			(mainNavigator.activeView.className == "MenuAll")||
+			(mainNavigator.activeView.className == "Settings")||
+			(mainNavigator.activeView.className == "SpecialsAll")||
+			(mainNavigator.activeView.className == "Restrictions")){
+			var slideTrans:SlideViewTransition = new SlideViewTransition();
+			slideTrans.duration = slideduration;
+			slideTrans.direction = ViewTransitionDirection.RIGHT;
+			slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+			mainNavigator.pushView(Home, null,null,slideTrans);
+		}
+		else {
+			mainNavigator.popView();
+		}
 		event.preventDefault();
 	}
-}
-public function showStatusBar():void {
-	/*if (Capabilities.version.indexOf('IOS') > -1){
-		if (getDPIHeight() == 320){
-			obarheight = 40;
+	if (key == Keyboard.MENU){
+		if ((mainNavigator.activeView.className != "Login")&&
+			(mainNavigator.activeView.className != "Signup_step1")&&
+			(mainNavigator.activeView.className != "Signup_step2")){
+			menuButtonClick();
 		}
-		else if (getDPIHeight() == 160){
-			obarheight = 10;
-		}
-	}*/
-}
-public function hideStatusBar():void {
-	/*if (Capabilities.version.indexOf('IOS') > -1){
-		if (getDPIHeight() == 320){
-			obarheight = 0;
-		}
-		else if (getDPIHeight() == 160){
-			obarheight = 0;
-		}
-	}*/
+		event.preventDefault();
+	}
 }
 public function onSwipe(event:TransformGestureEvent):void
 {
@@ -199,18 +192,18 @@ public function onSwipe(event:TransformGestureEvent):void
 					autofiltersmove = false;
 					openclosestatus = 2;
 					filtersmoving = true;
-					mainNavigator.navigator.activeView.mouseChildren = false;
+					mainNavigator.activeView.mouseChildren = false;
 					this.addEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 					menufeaturebutton.visible = false;
 					
 				}
-				else if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('login') == -1)){ 
+				else if ((mainNavigator.activeView.name.toLocaleLowerCase().indexOf('login') == -1)){ 
 					if (menumoving == false){
 						setNavigatorMovingStatus(true);
 						automenumove = false;
 						openclosestatus = 1;
 						menumoving = true;
-						mainNavigator.navigator.activeView.mouseChildren = false;
+						mainNavigator.activeView.mouseChildren = false;
 						this.addEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 						filterfeaturebutton.visible = false;
 					}	
@@ -229,20 +222,20 @@ public function onSwipe(event:TransformGestureEvent):void
 					openclosestatus = 2;
 					automenumove = false;
 					menumoving = true;
-					mainNavigator.navigator.activeView.mouseChildren = false;
+					mainNavigator.activeView.mouseChildren = false;
 					this.addEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 					filterfeaturebutton.visible = false;
 				}
-				else if ((mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1)||
-					(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('specialsall') != -1)||
-					(mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1)){
+				else if ((mainNavigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1)||
+					(mainNavigator.activeView.name.toLocaleLowerCase().indexOf('specialsall') != -1)||
+					(mainNavigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1)){
 					
 					if (filtersmoving == false){
 						setNavigatorMovingStatus(true);
 						openclosestatus = 1;
 						autofiltersmove = false;
 						filtersmoving = true;
-						mainNavigator.navigator.activeView.mouseChildren = false;
+						mainNavigator.activeView.mouseChildren = false;
 						this.addEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 						menufeaturebutton.visible = false;
 					}
@@ -284,28 +277,28 @@ public function pushScreen(u:uint):void {
 	listmenu.selectedIndex = -1;
 	if (u == 0){
 		//your account
-		mainNavigator.navigator.pushView(Profile);
+		mainNavigator.pushView(Profile);
 	}
 	else if (u == 1){
 		//home
-		mainNavigator.navigator.pushView(Home,{homefilterarray:[]});
+		mainNavigator.pushView(Home,{homefilterarray:[]});
 	}
 	else if (u == 2){
 		//restrictions
-		mainNavigator.navigator.pushView(Restrictions);
+		mainNavigator.pushView(Restrictions);
 		
 	}
 	else if (u == 3){
 		//specials
-		mainNavigator.navigator.pushView(MenuAll,{homefilterarray:[]});	
+		mainNavigator.pushView(MenuAll,{homefilterarray:[]});	
 	}
 	else if (u == 4){
 		//specials
-		mainNavigator.navigator.pushView(SpecialsAll);	
+		mainNavigator.pushView(SpecialsAll);	
 	}
 	else if (u == 5){
 		//settings
-		mainNavigator.navigator.pushView(Settings);
+		mainNavigator.pushView(Settings);
 	}	
 }
 public function viewadd(event:ElementExistenceEvent):void
@@ -322,7 +315,8 @@ public function setProfImage(s:String):void {
 }
 public function refresh(email:String):void {
 	reloadProfInfo();
-	mainNavigator.navigator.pushView(Home);
+	stage.focus = null;
+	mainNavigator.pushView(Home,null,null,crosstrans);
 }
 public function reloadProfInfo():void {
 	sqlConnection = new SQLConnection();
@@ -348,14 +342,14 @@ public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Numb
 		cityGo = r[0].city;
 		pictureGo = r[0].pictre;
 		getUserInfo.send();
-		if (mainNavigator.navigator.firstView == null){
-			if (mainNavigator.navigator.activeView == null){
-				mainNavigator.navigator.pushView(Home,null,null,crosstrans);
+		if (mainNavigator.firstView == null){
+			if (mainNavigator.activeView == null){
+				mainNavigator.pushView(Home,null,null,crosstrans);
 			}
 		}
 	}
 	else {
-		mainNavigator.navigator.pushView(Login,null,null,crosstrans);
+		mainNavigator.pushView(Login,null,null,crosstrans);
 	}
 }
 public function logout():void {
@@ -366,11 +360,11 @@ public function logout():void {
 		
 	}
 	dropalldatatables();
-	mainNavigator.navigator.pushView(Login);
+	mainNavigator.pushView(Login);
 }
 public function goProfile(event:MouseEvent):void
 {
-	mainNavigator.navigator.pushView(Profile);
+	mainNavigator.pushView(Profile);
 	if ((menuopen)&&(menumoving == false)){
 		menumoving = true;
 		closeMenu();
@@ -431,14 +425,14 @@ public function filterchange(event:IndexChangeEvent):void
 		}
 	}
 	xFadeTrans.duration = 400;
-	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1){
-		mainNavigator.navigator.pushView(MenuAll,{homefilterarray:homefilterarray},null,xFadeTrans);
+	if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1){
+		mainNavigator.pushView(MenuAll,{homefilterarray:homefilterarray},null,xFadeTrans);
 	}
-	else if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('specialsall') != -1){
-		mainNavigator.navigator.pushView(SpecialsAll,{homefilterarray:homefilterarray},null,xFadeTrans);
+	else if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('specialsall') != -1){
+		mainNavigator.pushView(SpecialsAll,{homefilterarray:homefilterarray},null,xFadeTrans);
 	}
 	else {
-		mainNavigator.navigator.pushView(Home,{homefilterarray:homefilterarray},null,xFadeTrans);
+		mainNavigator.pushView(Home,{homefilterarray:homefilterarray},null,xFadeTrans);
 	}
 	
 	var ev:MouseEvent;
@@ -486,6 +480,10 @@ public function dropalldatatables():void {
 	}
 	catch(e:Error){}
 	if (loadedview == false){
-		mainNavigator.navigator.pushView(Login,null,null,crosstrans);	
+		mainNavigator.pushView(Login,null,null,crosstrans);	
 	}
 }
+
+
+
+

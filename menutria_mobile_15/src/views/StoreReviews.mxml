@@ -4,7 +4,6 @@
 		xmlns:components="components.*"
 		backgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="Reviews"  >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -26,7 +25,6 @@
 			public function init():void
 			{
 				enableHardwareKeyListeners();
-				this.parentApplication.showStatusBar();
 				setLoginVars();
 				getRatings.send();
 			}

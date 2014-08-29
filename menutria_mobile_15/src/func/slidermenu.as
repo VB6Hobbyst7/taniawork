@@ -30,11 +30,11 @@ protected function overAllMouseUp(event:MouseEvent):void{
 	}
 }
 public function setNavigatorMovingStatus(b:Boolean):void {
-	if (mainNavigator.navigator.activeView.data == null){
-		mainNavigator.navigator.activeView.data = {moving:b};
+	if (mainNavigator.activeView.data == null){
+		mainNavigator.activeView.data = {moving:b};
 	}
 	else {
-		mainNavigator.navigator.activeView.data.moving = b;	
+		mainNavigator.activeView.data.moving = b;	
 	}
 }
 //Menu Menu functions
@@ -81,7 +81,7 @@ public function closeMenu():void {
 	var menuendx:Number = menu.x+menu.width;
 	var mo:Move = new Move();
 	mo.target = menu;
-	mainNavigator.navigator.activeView.mouseChildren = false;
+	mainNavigator.activeView.mouseChildren = false;
 	mo.addEventListener(EffectEvent.EFFECT_END,afterCloseMenu );
 	mo.xTo = 0-(this.width/1.15)-1;
 	mo.duration = 100;
@@ -93,7 +93,7 @@ public function afterCloseMenu(ev:EffectEvent):void {
 	menuopen = false;
 	menumoving = false;
 	automenumove = false;
-	mainNavigator.navigator.activeView.mouseChildren = true;
+	mainNavigator.activeView.mouseChildren = true;
 	setNavigatorMovingStatus(false);
 
 }
@@ -102,7 +102,7 @@ public function openMenu():void {
 	var menuendx:Number = menu.x+menu.width;
 	var mo:Move = new Move();
 	mo.target = menu;
-	mainNavigator.navigator.activeView.mouseChildren = false;
+	mainNavigator.activeView.mouseChildren = false;
 	mo.addEventListener(EffectEvent.EFFECT_END, afterOpenMenu);
 	mo.xTo = 0;
 	mo.duration = 100;
@@ -119,7 +119,7 @@ public function afterOpenMenu(ev:EffectEvent):void {
 public function updateMenuLocation(ev:MouseEvent):void {
 	if (ev.stageX <= menu.width){
 		menuopen = true;
-		mainNavigator.navigator.activeView.mouseChildren = true;
+		mainNavigator.activeView.mouseChildren = true;
 		menumoving = true;
 		automenumove = false;
 		menu.x = ev.stageX-menu.width;
@@ -169,7 +169,7 @@ public function closeFilters():void {
 	var filtersendx:Number = filtersmenu.x+filtersmenu.width;
 	var mo:Move = new Move();
 	mo.target = filtersmenu;
-	mainNavigator.navigator.activeView.mouseChildren = false;
+	mainNavigator.activeView.mouseChildren = false;
 	mo.addEventListener(EffectEvent.EFFECT_END,afterCloseFilters );
 	mo.xTo = this.width;
 	mo.duration = 100;
@@ -181,7 +181,7 @@ public function afterCloseFilters(ev:EffectEvent):void {
 	filtersopen = false;
 	filtersmoving = false;
 	autofiltersmove = false;
-	mainNavigator.navigator.activeView.mouseChildren = true;
+	mainNavigator.activeView.mouseChildren = true;
 	setNavigatorMovingStatus(false);
 	
 }
@@ -189,7 +189,7 @@ public function openFilters():void {
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	var mo:Move = new Move();
 	mo.target = filtersmenu;
-	mainNavigator.navigator.activeView.mouseChildren = false;
+	mainNavigator.activeView.mouseChildren = false;
 	mo.addEventListener(EffectEvent.EFFECT_END, afterOpenFilters);
 	mo.xTo = this.width-filtersmenu.width;
 	mo.duration = 100;
@@ -206,7 +206,7 @@ public function afterOpenFilters(ev:EffectEvent):void {
 public function updateFiltersLocation(ev:MouseEvent):void {
 	if (ev.stageX >= this.width-filtersmenu.width){
 		filtersopen = true;
-		mainNavigator.navigator.activeView.mouseChildren = true;
+		mainNavigator.activeView.mouseChildren = true;
 		filtersmoving = true;
 		autofiltersmove = false;
 		filtersmenu.x = ev.stageX;

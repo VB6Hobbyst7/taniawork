@@ -5,12 +5,10 @@
 		xmlns:components="components.*"
 		backgroundColor="#FFFFFF"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			
 			import flash.display.Bitmap;
 			import flash.display.Graphics;
 			import flash.display.Sprite;
@@ -18,17 +16,13 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import flash.media.StageWebView;
-			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.events.IndexChangeEvent;
 			import spark.filters.GlowFilter;
 			import spark.primitives.Graphic;
-			
 			import components.modItem;
-			
 			import views.MenuReviews;
 			import views.StoresDescription;
 			import views.ViewReview;
@@ -68,7 +62,6 @@
 				
 				enableHardwareKeyListeners();
 				didlistclick = false;
-				this.parentApplication.showloading();
 				setLoginVars();			
 				scroller.visible = true;
 			
@@ -141,7 +134,6 @@
 			public var descriptiontext:Label = new Label();
 			public function afterGetMenuInformation(ev:ResultEvent):void {
 				reviewPopupGroup.reviewText.text = "";
-				this.parentApplication.hideloading();
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				modifications = new ArrayCollection();
@@ -233,13 +225,7 @@
 					}
 				}
 				catch(e:Error){}
-				
-			
-				
-				
-				
-				
-				
+
 				try{			
 					topreviews = ev.result[0].results.result;	
 				}

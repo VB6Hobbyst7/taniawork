@@ -11,10 +11,25 @@ import flash.filesystem.File;
 import mx.collections.ArrayCollection;
 import mx.rpc.events.ResultEvent;
 
+import spark.managers.PersistenceManager;
+
 import views.Home;
+import views.Login;
+import views.MenuAll;
+import views.StoresDescription;
+
 public static const FACEBOOK_APP_ID:String="1461197797460743";
 public function initz(event:FlexEvent):void
 {
+	pm.load();
+	try{
+		loadedview = true; 
+		mainNavigator.loadViewData(pm.getProperty("sviewdata"));
+	}
+	catch(e:Error){
+		loadedview = true; 
+		mainNavigator.pushView(Login,null,null,crosstrans);
+	}
 	try{
 		GoViral.create();
 		GoViral.goViral.initFacebook(FACEBOOK_APP_ID, "");
@@ -201,8 +216,8 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	stmt.parameters[":picture"] = "";
 	stmt.execute();
 	reloadProfInfo();
-	if (mainNavigator.navigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
-		mainNavigator.navigator.pushView(Home,{homefilterarray:[]});
+	if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
+		mainNavigator.pushView(Home,{homefilterarray:[]});
 	}
 	
 }

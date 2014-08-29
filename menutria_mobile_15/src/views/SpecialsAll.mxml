@@ -4,10 +4,9 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*" 
-		backgroundColor="#f3f3f3"
+		 contentBackgroundAlpha="1"
+		 contentBackgroundColor="#f3f3f3" 
 		viewActivate="init()"
-		backKeyPressed="gobacktohome(event)"
-		menuKeyPressed="menupress(event)"
 		title="Specials"   >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/specialscommon.as"/>
@@ -41,17 +40,13 @@
 			public function init():void
 			{
 				warn.visible = false;
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
-				this.parentApplication.showloading();
 				setLoginVars();
 				scroller.visible = true;
 				getSpecials.send();
 			}
 			
-			public function afterGetSpecials(ev:ResultEvent):void {
-				this.parentApplication.hideloading();
-				
+			public function afterGetSpecials(ev:ResultEvent):void {				
 				backupspecialsData = new ArrayCollection();
 				try{			
 					backupspecialsData = ev.result[0].ress.res;		
@@ -197,18 +192,6 @@
 			public function press(event:KeyboardEvent):void {
 				populatelist();
 			}
-
-			public function gobacktohome(event:FlexEvent):void {
-				event.preventDefault();
-				gobacktohome2();
-			}
-			public function gobacktohome2():void {
-				var slideTrans:SlideViewTransition = new SlideViewTransition();
-				slideTrans.duration = slideduration;
-				slideTrans.direction = ViewTransitionDirection.RIGHT;
-				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
-				navigator.pushView(Home, null,null,slideTrans);
-			}
 		]]>
 	</fx:Script>
 	<s:titleContent>
@@ -245,10 +228,8 @@
 	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
 				horizontalScrollPolicy="off" verticalScrollPolicy="on">
 		<s:VGroup   height="100%" gap="0" width="100%" horizontalAlign="center" verticalAlign="bottom">	 
-			<s:List id="specialsList" width="100%" height="100%"  horizontalScrollPolicy="off"
-					alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"  contentBackgroundAlpha="1" 
-					contentBackgroundColor="#FFFFFF"
-					horizontalCenter="0"
+			<s:List id="specialsList" width="100%" height="100%" 
+					horizontalScrollPolicy="off"
 					itemRenderer="components.specialsResultWithStore" 
 					selectedIndex="1" change="dataListClick();"
 					click="dataListClick();" >

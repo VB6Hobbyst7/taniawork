@@ -3,7 +3,6 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		backgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="Account" 
 		xmlns:components="components.*" >
 	<s:navigationContent >
@@ -25,7 +24,6 @@
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				catArray =  new ArrayCollection();
 				catArray.addItem({name:"Profile", type:1, chosen:'no'});
@@ -47,8 +45,7 @@
 						navigator.pushView(Settings_Connected_Accounts);
 					}
 				}
-				catch(e:Error){	
-				}
+				catch(e:Error){}
 			}
 		]]>
 	</fx:Script>

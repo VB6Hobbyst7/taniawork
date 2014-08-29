@@ -8,7 +8,7 @@ public var g:Geolocation = new Geolocation();
 public function onactivate(event:Event):void
 {
 	try{
-	stage.frameRate=100; 
+	stage.frameRate=60; 
 	}
 	catch(e:Error){}
 	
@@ -33,10 +33,9 @@ protected function onUpdate(event:GeolocationEvent):void
 
 protected function ondeactivate():void
 {
-	try{
-	stage.frameRate=2;
-	}
-	catch(e:Error){}
+	pm.setProperty("sviewdata",mainNavigator.saveViewData());
+	pm.save();
+	//stage.frameRate=2;
 	try{
 	g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);  
 	}

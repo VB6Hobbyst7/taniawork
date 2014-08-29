@@ -4,8 +4,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:components="components.*"
 		xmlns:model="model.*" 
-		menuKeyPressed="menupress(event)"
-		 viewActivate="onActivate(event)"
+		 viewActivate="init()"
 		title="Change Password" 	
 		backgroundColor="#f2f3f4" >	
 	<s:navigationContent >
@@ -25,11 +24,9 @@
 			import mx.rpc.events.ResultEvent;
 			import spark.core.ContentCache;
 			import spark.events.ViewNavigatorEvent;
-			[Bindable]
-			public var busy:Boolean = false;
-			public function onActivate(event:Event):void
+			
+			public function init():void
 			{			
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();		
@@ -38,15 +35,14 @@
 				popupholder1.visible = false;
 				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
 					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
-					busy = true;
+					this.parentDocument.showBusy();
 					changePassword.send();					
 				}	
 			}
 			public function afterChangePassword(ev:ResultEvent):void {
-				busy = false;
+				this.parentDocument.hideBusy();
 				popupholder1.visible = true;
-				popupholder1.logWarningTextinfo.text = ev.result[0].res.message;
-				
+				popupholder1.logWarningTextinfo.text = ev.result[0].res.message;	
 			}			
 		]]>
 	</fx:Script>
@@ -137,5 +133,4 @@
 	</s:Scroller>
 
 	<components:genericpopup id="popupholder1"  width="100%" height="100%"/>
-	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
 </s:View>

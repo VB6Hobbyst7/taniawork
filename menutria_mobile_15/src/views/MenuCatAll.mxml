@@ -4,12 +4,10 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
-		contentBackgroundAlpha="1" accentColor="#f3f3f3"
+		contentBackgroundAlpha="1"
 		contentBackgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
-		backgroundColor="#f3f3f3"
-		backgroundAlpha="1"  title="Menu">
+		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" 
 							   mouseEnabledWhereTransparent="true"
@@ -52,10 +50,9 @@
 			public var filterData4:ArrayCollection = new ArrayCollection();
 			protected function init():void
 			{
-				this.parentApplication.showStatusBar();
+				this.parentDocument.showBusy();
 				enableHardwareKeyListeners();
 				warn.visible = false;
-				this.parentApplication.showloading();
 				setLoginVars();
 				filterData1 = new ArrayCollection();
 				filterData2 = new ArrayCollection();
@@ -125,6 +122,7 @@
 					generateCategoryFilterArray();
 					populatelist(0);
 				}
+				this.parentDocument.hideBusy();
 			} 
 			public function generateCategoryFilterArray():void {
 				var tempfilter2:ArrayCollection = new ArrayCollection();

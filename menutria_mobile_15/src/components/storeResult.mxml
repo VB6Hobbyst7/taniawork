@@ -23,7 +23,7 @@
 			static public const s_imageCache:ContentCache = new ContentCache();
 			public var v1:VGroup = new VGroup();
 			public var addedallitems:Boolean = false;
-			public var gapo:uint = 5;
+			public var gapo:uint = 2;
 			public function gOver():void {
 				this.alpha = 0.5;
 			}
@@ -74,30 +74,34 @@
 			}
 			protected function datachango():void
 			{	
-				var neededwidth:Number = this.parent.width/2-gapo;
-				if (data.viz == true){
-					if (data.name == "Loading More Items"){
-						v1.width = neededwidth;
-						this.width = neededwidth;
-						
-					}
-					else if (data.name == "map"){
-						this.width = this.parent.width;
-						v1.width = this.parent.width;
-						
+				try{
+					var neededwidth:Number = this.parent.width/2-gapo;
+					if (data.viz == true){
+						if (data.name == "Loading More Items"){
+							v1.width = neededwidth;
+							this.width = neededwidth;
+							
+						}
+						else if (data.name == "map"){
+							this.width = this.parent.width;
+							v1.width = this.parent.width;
+							
+						}
+						else {
+							this.width = neededwidth;
+							v1.width = neededwidth;
+							loadrest();
+						}
 					}
 					else {
 						this.width = neededwidth;
-						v1.width = neededwidth;
-						loadrest();
+						v1.removeAllElements();
+						addedallitems = false;
 					}
 				}
-				else {
-					this.width = neededwidth;
-					v1.removeAllElements();
-					addedallitems = false;
-				}
+				catch(ev:Error){}
 			}
+				
 			public function loadrest():void {
 				var neededwidth:Number = this.parent.width/2-gapo;
 				if (addedallitems == false){

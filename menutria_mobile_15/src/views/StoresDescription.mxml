@@ -6,7 +6,6 @@
 		backgroundColor="#FFFFFF"
 		contentBackgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
@@ -49,11 +48,8 @@
 			
 			public function init():void
 			{
-
 				enableHardwareKeyListeners();
-				this.parentApplication.hideStatusBar();
 				didlistclick = false;
-				this.parentApplication.showloading();
 				setLoginVars();	
 				img1.source = data.business_picture;
 				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
@@ -133,9 +129,7 @@
 				topratedlist.dataProvider = storetoprateddata;
 				
 			}
-			public function afterGetMerchReviews(ev:ResultEvent):void {
-				this.parentApplication.hideloading();
-				
+			public function afterGetMerchReviews(ev:ResultEvent):void {				
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				try{			

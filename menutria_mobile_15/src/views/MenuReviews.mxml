@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*" 
 		backgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
-		title="Reviews" 
-		xmlns:components="components.*" >
+		title="Reviews" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"  mouseDown="navigator.popView();"/>
@@ -26,7 +25,6 @@
 			public var rateArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				getRatings.send();
@@ -45,8 +43,7 @@
 					try{
 						rateArray.addItem(ev.result[0].results.result);
 					}
-					catch(e:Error){
-					}
+					catch(e:Error){}
 				}
 			}
 		]]>

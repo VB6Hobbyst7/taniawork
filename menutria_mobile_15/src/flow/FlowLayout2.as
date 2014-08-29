@@ -1,40 +1,12 @@
-package
+package flow
 {
 import mx.core.ILayoutElement;
 
 import spark.components.supportClasses.GroupBase;
 import spark.layouts.supportClasses.LayoutBase;
 
-public class FlowLayout3 extends LayoutBase
+public class FlowLayout2 extends LayoutBase
 {
-    //---------------------------------------------------------------
-    //
-    //  Class properties
-    //
-    //---------------------------------------------------------------
-    
-    //---------------------------------------------------------------
-    //  horizontalGap
-    //---------------------------------------------------------------
-    
-    private var _horizontalGap:Number = 0;
-    
-    public function set horizontalGap(value:Number):void
-    {
-        _horizontalGap = value;
-        
-        // We must invalidate the layout
-        var layoutTarget:GroupBase = target;
-        if (layoutTarget)
-            layoutTarget.invalidateDisplayList();
-    }
-    
-    //---------------------------------------------------------------
-    //
-    //  Class methods
-    //
-    //---------------------------------------------------------------
-    
     override public function updateDisplayList(containerWidth:Number,
                                                containerHeight:Number):void
     {
@@ -52,9 +24,9 @@ public class FlowLayout3 extends LayoutBase
             // get the current element, we're going to work with the
             // ILayoutElement interface
             var element:ILayoutElement = useVirtualLayout ? 
-                layoutTarget.getVirtualElementAt(i) :
-                layoutTarget.getElementAt(i);
-            
+                                    layoutTarget.getVirtualElementAt(i) :
+                                    layoutTarget.getElementAt(i);
+
             // Resize the element to its preferred size by passing
             // NaN for the width and height constraints
             element.setLayoutBoundsSize(NaN, NaN);
@@ -79,14 +51,14 @@ public class FlowLayout3 extends LayoutBase
             
             // Position the element
             element.setLayoutBoundsPosition(x, y);
-            
+
             // Find maximum element extents. This is needed for
             // the scrolling support.
             maxWidth = Math.max(maxWidth, x + elementWidth);
             maxHeight = Math.max(maxHeight, y + elementHeight);
             
-            // Update the current position, add the gap
-            x += elementWidth + _horizontalGap;
+            // Update the current position, add a gap of 10
+            x += elementWidth + 10;
         }
         
         // Scrolling support - update the content size

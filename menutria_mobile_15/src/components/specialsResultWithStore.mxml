@@ -28,7 +28,11 @@
 					bmpImg.source = data.picture;
 				}
 				bmpImg.percentWidth = 100*data.type;
-				bmpImg.height = this.width*(300/640)*data.type;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.height = this.width*(300/640)*data.type;
+				bmpImg.contentLoader = s_imageCache;
+				
+				
+				//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 				if (data.yearly == 'y'){
 					dayval.text = data.startdate + " - " + data.enddate;
 				}
@@ -63,7 +67,7 @@
 			  visible="{data.type == 1}">
 	<s:Group width="{this.width}"  
 			 mouseEnabled="false"   id="megacont" >
-		<s:Image id="bmpImg"  top="0" 
+		<s:BitmapImage id="bmpImg"  top="0" 
 				 verticalCenter="0"  scaleMode="zoom" />
 		<s:Rect width="100%"  height="100%">
 			<s:fill>

@@ -5,7 +5,6 @@
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -32,10 +31,9 @@
 			public var allreadylistclicked:Boolean = false;
 			protected function init():void
 			{
-				this.parentApplication.showStatusBar();
+				this.parentDocument.showBusy();
 				enableHardwareKeyListeners();
 				allreadylistclicked = false;
-				this.parentApplication.showloading();
 				setLoginVars();
 				createIfNotExsist("resvalues");
 				warn.visible = false;
@@ -44,7 +42,6 @@
 			}	
 			public function afterGetMenu(ev:ResultEvent):void
 			{	
-				this.parentApplication.hideloading();
 				filterarea.visible = true;
 				listData = new ArrayCollection();
 				modData = new ArrayCollection();
@@ -82,6 +79,7 @@
 				else {
 					populatelist();
 				}
+				this.parentDocument.hideBusy();
 			} 
 			
 			public function populatelist():void {

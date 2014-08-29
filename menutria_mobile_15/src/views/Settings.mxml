@@ -4,8 +4,6 @@
 		xmlns:components="components.*"
 		backgroundColor="#f3f3f3"
 		viewActivate="init()"
-		backKeyPressed="gobacktohome(event)"
-		menuKeyPressed="menupress(event)"
 		title="Settings" >
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
@@ -13,10 +11,8 @@
 		<![CDATA[
 			import flash.events.Event;
 			import flash.events.MouseEvent;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			
 			import spark.events.ViewNavigatorEvent;
 			import spark.transitions.SlideViewTransition;
 			import spark.transitions.SlideViewTransitionMode;
@@ -25,7 +21,6 @@
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				catArray =  new ArrayCollection();
 				//catArray.addItem({name:"Notifications", type:0, chosen:'no'});
@@ -88,17 +83,6 @@
 					cityGo = "";
 					this.parentApplication.logout();
 				}
-			}
-			public function gobacktohome(event:FlexEvent):void {
-				event.preventDefault();
-				gobacktohome2();
-			}
-			public function gobacktohome2():void {
-				var slideTrans:SlideViewTransition = new SlideViewTransition();
-				slideTrans.duration = slideduration;
-				slideTrans.direction = ViewTransitionDirection.RIGHT;
-				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
-				navigator.pushView(Home, null,null,slideTrans);
 			}
 		]]>
 	</fx:Script>

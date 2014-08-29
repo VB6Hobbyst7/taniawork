@@ -3,9 +3,8 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:controls="com.flexcapacitor.controls.*"
-		xmlns:components="components.*" xmlns:cs="cs.*"
+		xmlns:components="components.*"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -18,15 +17,12 @@
 		<![CDATA[
 			import flash.events.Event;
 			import flash.events.MouseEvent;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
-			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
-			
 			import views.Menu;
 			import views.MenuCatAll;
 			[Bindable]
@@ -38,22 +34,19 @@
 			public var allreadylistclicked:Boolean = false;
 			protected function init():void
 			{
-				this.parentApplication.showStatusBar();
+				this.parentDocument.showBusy();
 				enableHardwareKeyListeners();
 				allreadylistclicked = false;
-				//setLoginVars();
 				warn.visible = false;
 				locationid = data.locationid;
 				getMenu.send();
 			}	
 			public function afterGetMenu(ev:ResultEvent):void
 			{	
-				//this.parentApplication.hideloading();
 				listData = new ArrayCollection();
 				modData = new ArrayCollection();
 				resData = new ArrayCollection();
 				catarray = new ArrayCollection();
-				
 				
 				
 				try{			
@@ -165,10 +158,7 @@
 					//catarray.refresh();
 					dataList.dataProvider = catarray;
 				}
-				
-				
-				
-				
+				this.parentDocument.hideBusy();
 				
 			} 
 		
@@ -187,7 +177,6 @@
 			}
 		]]>
 	</fx:Script>
-
 	<fx:Declarations>		
 		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
 					   url="http://www.menutria.com/php/mobile/getMenuCategories2.php"

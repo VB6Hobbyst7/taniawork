@@ -2,9 +2,8 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		backgroundColor="#f3f3f3"
-		backKeyPressed="gobacktohome(event)"
-		viewActivate="init()" creationComplete="init2();"
-		menuKeyPressed="menupress(event)"
+		viewActivate="init()" 
+		creationComplete="init2();"
 		xmlns:components="components.*" >
 	<s:actionContent>	
 	</s:actionContent>
@@ -48,51 +47,74 @@
 			[Bindable]
 			public var selectedThing:Number = -1;
 			public var goingtonext:Boolean = false;
+			public var fetechedMyReviews:Boolean = false;
+			public var fetechedLikedReviews:Boolean = false;
+			public var fetechedPlaces:Boolean = false;
+
 			public function init():void
 			{
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
 				setLoginVars();
 				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
-				getRatings.send();
-				selectedThing = 1;
-				thing1.alpha = 0.5;
-				
+				showThings(1);
 			}
 			public function init2():void {
 				enableHardwareKeyListeners();
 				setLoginVars();
 				getUserInfo.send();
+				getRatings.send();
 			}
-			
 			public function showThings(u:uint):void {
 				selectedThing = u;
 				if (u == 1){
 					myreviewlist.visible = true;
 					reviewsivelikedlist.visible = false;
 					placeslist.visible = false;
-					thing1.alpha = 0.5;
-					thing2.alpha = 1;
-					thing3.alpha = 1;
-					getRatings.send();
+					reviewsivelikedlist.dataProvider = new ArrayCollection();
+					placeslist.dataProvider = new ArrayCollection();
+					rec1.alpha = 0.5;
+					rec2.alpha = 1;
+					rec3.alpha = 1;
+					if (fetechedMyReviews){
+						myreviewlist.dataProvider = rateArray;
+					}
+					else {
+						getRatings.send();
+					}
 				}
 				else if (u == 2){
 					myreviewlist.visible = false;
 					reviewsivelikedlist.visible = true;
 					placeslist.visible = false;
-					thing1.alpha = 1;
-					thing2.alpha = 0.5;
-					thing3.alpha = 1;
-					getReviewsILiked.send();
+					myreviewlist.dataProvider = new ArrayCollection();
+					placeslist.dataProvider = new ArrayCollection();
+					rec1.alpha = 1;
+					rec2.alpha = 0.5;
+					rec3.alpha = 1;
+					if (fetechedLikedReviews){
+						reviewsivelikedlist.dataProvider = likeArray;
+					}
+					else {
+						getReviewsILiked.send();
+					}
+					
 				}
 				else if (u == 3){
 					myreviewlist.visible = false;
 					reviewsivelikedlist.visible = false;
 					placeslist.visible = true;
-					thing1.alpha = 1;
-					thing2.alpha = 1;
-					thing3.alpha = 0.5;
-					getPlacesEaten.send();
+					myreviewlist.dataProvider = new ArrayCollection();
+					reviewsivelikedlist.dataProvider = new ArrayCollection();
+					rec1.alpha = 1;
+					rec2.alpha = 1;
+					rec3.alpha = 0.5;
+					
+					if (fetechedPlaces){
+						placeslist.dataProvider = placesArray;
+					}
+					else {
+						getPlacesEaten.send();
+					}
 				}
 			}
 			public function afterGetRatings(ev:ResultEvent):void {
@@ -107,6 +129,8 @@
 					catch(e:Error){}
 				}
 				myreviewlist.dataProvider = rateArray;
+				fetechedMyReviews = true;
+			
 			}
 			public function afterGetLiked(ev:ResultEvent):void {				
 				likeArray = new ArrayCollection();
@@ -120,6 +144,8 @@
 					catch(e:Error){}
 				}
 				reviewsivelikedlist.dataProvider = likeArray;
+				fetechedLikedReviews = true;
+				
 			}
 			public function afterGetPlacesEaten(ev:ResultEvent):void {
 				var i:uint = 0;
@@ -135,24 +161,12 @@
 				}
 				for (i=  0; i < placesArray.length; i++){
 					placesArray[i].distance = Number(getDistance(mylat,mylong,placesArray[i].lat,placesArray[i].longa));
+					placesArray[i].viz = true;
 				}
 				placeslist.dataProvider = placesArray;
+				fetechedPlaces = true;	
 			}
-		
-			public function gOut2(ev:MouseEvent):void {
-				if (((ev.currentTarget.id == 'thing1')&&(selectedThing == 1))||
-					((ev.currentTarget.id == 'thing2')&&(selectedThing == 2))||
-					((ev.currentTarget.id == 'thing3')&&(selectedThing == 3))){
-					ev.currentTarget.alpha = 0.5;
-				}
-				else {
-					ev.currentTarget.alpha = 1;
-				}
-			}			
-			
-			
-			
-			
+
 			public function myreviewlistclick():void {
 				if (goingtonext == false){
 					goingtonext = true;
@@ -295,24 +309,27 @@
 				fa.play();
 				
 			}
-			public function gobacktohome(event:FlexEvent):void {
-				event.preventDefault();
-				gobacktohome2();
-			}
-			public function gobacktohome2():void {
-				var slideTrans:SlideViewTransition = new SlideViewTransition();
-				slideTrans.duration = slideduration;
-				slideTrans.direction = ViewTransitionDirection.RIGHT;
-				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
-				navigator.pushView(Home, null,null,slideTrans);
-			}
 			public function recDown(u:uint):void {
 				if (u == 1){
-					rec1.alpha
+					rec1.alpha = 0.5
+				}
+				else if (u == 2){
+					rec2.alpha = 0.5;
+				}
+				else if (u == 3){
+					rec3.alpha = 0.5;
 				}
 			}
 			public function recUp(u:uint):void {
-				
+				if ((u == 1)&&(u != selectedThing)){
+					rec1.alpha = 1
+				}
+				else if ((u == 2)&&(u != selectedThing)){
+					rec2.alpha = 1;
+				}
+				else if ((u == 3)&&(u != selectedThing)){
+					rec3.alpha = 1;
+				}
 			}
 		]]>
 	</fx:Script>
@@ -383,14 +400,14 @@
 							  verticalCenter="0"/>
 				</s:Group>
 				<s:Group>
-					<s:Rect width="100%"  height="100%">
+					<s:Rect width="100%"  height="99%" horizontalCenter="0"  top="0">
 						<s:fill>
 							<s:SolidColor alpha="1" color="#808080"/>
 						</s:fill>
 					</s:Rect>
 				
 				<s:HGroup gap="-1"  width="100%" height="{140/(320/Capabilities.screenDPI)}">
-					<s:Group id="thing1" height="100%" width="{this.width/3}" 
+					<s:Group id="thing1" height="100%" width="{this.width/3+1}" 
 						    click="showThings(1)"
 						    mouseDown="recDown(1)"  mouseUp="recUp(1)" 
 							mouseOver="recDown(1)" mouseOut="recUp(1)">
@@ -416,11 +433,11 @@
 							<s:Label mouseEnabled="false" text="My Reviews" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
 					</s:Group>
-					<s:Group id="thing2" height="100%" width="{this.width/3}"
+					<s:Group id="thing2" height="100%" width="{this.width/3+1}"
 						   click="showThings(2)"
-						   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-						   mouseOver="gOver(event)" mouseOut="gOut2(event)">
-						<s:Rect width="100%"  height="100%">
+						   mouseDown="recDown(2)"  mouseUp="recUp(2)" 
+						   mouseOver="recDown(2)" mouseOut="recUp(2)">
+						<s:Rect id="rec2" width="100%"  height="100%">
 							<s:fill>
 								<s:SolidColor alpha="1" color="#9ebade"/>
 							</s:fill>
@@ -442,11 +459,11 @@
 							<s:Label mouseEnabled="false" text="Liked Reviews" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
 					</s:Group>
-					<s:Group id="thing3" height="100%" width="{this.width/3}" 
+					<s:Group id="thing3" height="100%" width="{this.width/3+1}" 
 									   click="showThings(3)"
-									   mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-									   mouseOver="gOver(event)" mouseOut="gOut2(event)">
-						<s:Rect width="100%"  height="100%">
+									   mouseDown="recDown(3)"  mouseUp="recUp(3)" 
+									   mouseOver="recDown(3)" mouseOut="recUp(3)">
+						<s:Rect id="rec3" width="100%"  height="100%">
 							<s:fill>
 								<s:SolidColor alpha="1" color="#c7c7c7"/>
 							</s:fill>

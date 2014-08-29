@@ -5,12 +5,10 @@
 		xmlns:components="components.*"
 		xmlns:maps="com.google.maps.*" 	
 		backgroundColor="#f3f3f3" 
-		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="{data.name}">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%" mouseDown="navigator.popView();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
@@ -19,33 +17,8 @@
 			import flash.events.MouseEvent;
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var alphatitle:String = "Restrictions";
-			[Bindable]
-			public var togstatus:Boolean = false;
-			[Bindable]
-			public var catArray:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var alerArray:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var listData:ArrayCollection = new ArrayCollection();
-			public function init():void
-			{
-				this.parentApplication.showStatusBar();
-				enableHardwareKeyListeners();
-				scroller.visible = true;
-			}
-			public function usermenuclick():void {
-				navigator.pushView(AccountSettings);
-			}
-			public function goback(ev:MouseEvent):void {
-				navigator.popView();
-			}
-			protected function storeList_clickHandler(event:MouseEvent):void {
-			}
-			public function press(event:KeyboardEvent):void {	
-			}
 		]]>
 	</fx:Script>
 	<s:VGroup id="scroller" visible="true" height="100%"

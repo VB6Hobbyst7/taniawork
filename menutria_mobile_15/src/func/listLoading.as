@@ -4,7 +4,7 @@ import flash.utils.Timer;
 import mx.collections.ArrayCollection;
 import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
-public var addvalue:Number = 12;
+public var addvalue:Number = 6;
 public var originaladd:Number = 4;
 public var lastindex:Number = 0;
 public var moving:Boolean = false;
@@ -70,24 +70,35 @@ public function addsomedata():void {
 protected function list_creationCompleteHandler( event : FlexEvent ) : void {
 	menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );
 }
+public var addingdatamode:Boolean = false;
 protected function propertyChangeHandler( event:PropertyChangeEvent ) : void {
 	if ( event.property == "verticalScrollPosition" ) {
 		visibleindexes =  menuList.dataGroup.getItemIndicesInView().toString().split(",");
-		if (ti.running == false){
-			ti = new Timer(1000,0);
-			ti.addEventListener(TimerEvent.TIMER, afterti);
-			ti.start();
-		}
-		if ( event.newValue >= ( event.currentTarget.measuredHeight - event.currentTarget.height-50 )) {
-			addsomedata();
+		trace("new val: "+event.newValue.toString()+
+			"  ||| mesured height: "+event.currentTarget.measuredHeight.toString()+
+			"  || cont height: "+event.currentTarget.height.toString()+
+			" ||| scroll pos: "+menuList);
+		if ( event.newValue >=  (event.currentTarget.measuredHeight+event.currentTarget.height)) {
+			if (addingdatamode == false){
+				addingdatamode = true;
+				trace("doingit");
+				addsomedata();
+				if (ti.running == false){
+					ti = new Timer(1000,0);
+					ti.addEventListener(TimerEvent.TIMER, afterti);
+					ti.start();
+				}
+			}
+			
 		}
 	}
 }
 
 
-
+public var beforeaftervar:Number = 10
 public function afterti(ev:TimerEvent):void {
 	ti.stop();
+	ti.removeEventListener(TimerEvent.TIMER, afterti);
 	for (var i:uint = 0; i < previousindexes.length; i++){
 		var foundo:Boolean = false;
 		for (var j:uint = 0; j < visibleindexes.length; j++){
@@ -116,22 +127,30 @@ public function afterti(ev:TimerEvent):void {
 	}
 	
 	
-	if (minindex < 16){
-		minindex = 16;
+	if (minindex < beforeaftervar){
+		minindex = beforeaftervar;
 	}
 	
-	if (maxindex > listData.length-17){
-		maxindex = listData.length-17;
+	if (maxindex > listData.length-(beforeaftervar+1)){
+		maxindex = listData.length-(beforeaftervar+1);
 	}
 	
+	try{
+		for (j = minindex; j > minindex-beforeaftervar; j--){
+			menuList.dataProvider.getItemAt(j).viz = true;
+		}	
+	}
+	catch(e:Error){}
 	var j:uint = 0;
-	for (j = minindex; j > minindex-16; j--){
-		menuList.dataProvider.getItemAt(j).viz = true;
-	}
 	
-	for (j = maxindex; j < maxindex+16; j++){
-		menuList.dataProvider.getItemAt(j).viz = true;
+	try{
+		for (j = maxindex; j < maxindex+beforeaftervar; j++){
+			menuList.dataProvider.getItemAt(j).viz = true;
+		}
 	}
+	catch(e:Error){}
+	
 	
 	previousindexes = visibleindexes;
+	addingdatamode = false;
 }

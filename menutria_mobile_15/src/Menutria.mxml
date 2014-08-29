@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"					
-			   xmlns:ns="http://www.google.com/analytics/2009"
 			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
 			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
 			   initialize="initz(event)" 
@@ -13,14 +12,14 @@
 			   splashScreenScaleMode="zoom"
 			   contentBackgroundColor="#36ccba"
 			   backgroundColor="#36ccba"
-			   frameRate="100"
+			   frameRate="60"
 			   mouseUp="overAllMouseUp(event)" >
-	<!--fx:Script source="func/coreMobileFunctions.as"/-->
-	<s:ViewNavigatorApplication persistNavigatorState="true" 
-								id="mainNavigator" click="navigatorClick(event)"  
-								height="100%"  x="0"  contentBackgroundColor="#36ccba"
-								elementAdd="viewadd(event)" firstView="views.Blank"
-								width="{this.width}"  backgroundColor="#5b5b5b">
+	<s:ViewNavigator width="100%" height="100%"
+		id="mainNavigator"
+		backgroundColor="#5b5b5b"
+		contentBackgroundColor="#36ccba"
+		click="navigatorClick(event)"  						
+		elementAdd="viewadd(event)" >
 		<s:navigationContent>
 			<s:Group  id="menufeaturebutton"
 					  width="{this.width/8}" left="0" x="0"
@@ -57,7 +56,7 @@
 				</s:Image>
 			</s:Group>
 		</s:actionContent>	
-	</s:ViewNavigatorApplication>
+	</s:ViewNavigator>
 	
 	<s:Group id="menu"  height="100%"  
 			 width="{this.width/1.15}" 
@@ -207,6 +206,7 @@
 			<s:Label color="#6b6a6a" text="Network Unavailable" styleName="textsize6"/>
 		</s:HGroup>
 	</s:Group>
+	<s:BusyIndicator id="bi" verticalCenter="0" visible="false" horizontalCenter="0"/>
 	<fx:Style source="./main.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -240,6 +240,13 @@
 			import views.SpecialsAll;
 			[Bindable]
 			public var obarheight:Number = 0;
+			public var pm:PersistenceManager = new PersistenceManager();
+			public function showBusy():void {
+				bi.visible = true;
+			}
+			public function hideBusy():void {
+				bi.visible = false;
+			}
 		]]>
 	</fx:Script>
 	<fx:Script source="func/global.as" />

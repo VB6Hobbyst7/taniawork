@@ -6,7 +6,6 @@
 		xmlns:components="components.*" 
 		backgroundColor="#f3f3f3"
 		viewActivate="init()"
-		menuKeyPressed="menupress(event)"
 		title="Specials"   >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -39,9 +38,7 @@
 			public function init():void
 			{
 				warn.visible = false;
-				this.parentApplication.showStatusBar();
 				enableHardwareKeyListeners();
-				this.parentApplication.showloading();
 				setLoginVars();
 				scroller.visible = true;
 				locationid = data.locationid;

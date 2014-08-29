@@ -32,6 +32,17 @@
 					data.totallikecount = "0";
 				}
 				
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/profile-dark.png";
+					bmpImg.scaleMode = "stretch";
+					bmpImg.smooth = true;
+				}
+				else {
+					bmpImg.source = data.picture;
+					bmpImg.smooth = false;
+				}
+				
 				if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
 					data.ratingdescription = "";	
 				}
@@ -111,9 +122,8 @@
 			  paddingTop="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
 			  paddingBottom="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}">
 		<s:HGroup width="100%" verticalAlign="middle" gap="{20/(320/Capabilities.screenDPI)}">
-			
-			<s:VGroup verticalAlign="top" height="100%" horizontalAlign="left">
-				<s:BitmapImage source="{data.picture}" height="75" width="75">
+			<s:VGroup id="vg1" verticalAlign="top" height="100%" horizontalAlign="left">
+				<s:BitmapImage id="bmpImg"  contentLoader="{s_imageCache}"  height="75" width="75">
 					<s:mask>
 						<s:BorderContainer id="bmpMask"
 										   cornerRadius="{20/(320/Capabilities.screenDPI)}"
@@ -121,9 +131,8 @@
 										   height="{75/(320/Capabilities.screenDPI)}" />
 					</s:mask>
 				</s:BitmapImage>
-				
 			</s:VGroup>
-			<s:VGroup verticalAlign="top" height="100%" horizontalAlign="left">
+			<s:VGroup verticalAlign="top" height="100%" maxWidth="{this.parent.width-vg1.width-60}" horizontalAlign="left">
 				<s:HGroup height="100%" width="100%" horizontalAlign="left" verticalAlign="middle">
 					<s:Label id="ratinglabel"  text="{data.rating}" color="#36ccba"  fontWeight="bold"
 							 styleName="textsize1" verticalAlign="middle"/>
@@ -143,7 +152,7 @@
 				</s:HGroup>
 				<s:Group width="100%" id="desccont" >
 					<s:Label width="100%" visible="{data.ratingdescription.length != 0}" height="100%" verticalCenter="0"  maxDisplayedLines="3"  text="{data.ratingdescription}" 
-							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" maxWidth="{this.parent.width/5}" verticalAlign="middle"/>
+							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0"  verticalAlign="middle"/>
 				</s:Group>
 				
 				<s:HGroup verticalAlign="middle" id="likecont" width="100%" height="100%" horizontalAlign="left" 
@@ -167,12 +176,7 @@
 				<s:Label id="datetext"   color="#808080"  fontWeight="normal"
 						 styleName="textsize0" verticalAlign="middle"/>
 			</s:VGroup>
-			
-			
 		</s:HGroup>
-		
-		
-		
 	</s:VGroup>		
 	<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
-			 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:local="*">
+			 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:local="*" xmlns:flow="flow.*">
 	<s:states>
 		<s:State name="normal" />
 		<s:State name="disabled" />
@@ -20,7 +20,7 @@
 				 minViewportInset="0" focusEnabled="false">
 		<s:DataGroup id="dataGroup"	itemRenderer="components.storeResult" >
 			<s:layout>
-				<local:FlowLayout4  horizontalGap="10"  />
+				<flow:FlowLayout4  horizontalGap="4"  />
 			</s:layout>
 		</s:DataGroup>
 	</s:Scroller>
