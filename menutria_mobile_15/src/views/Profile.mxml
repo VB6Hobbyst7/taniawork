@@ -306,6 +306,14 @@
 				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
 				navigator.pushView(Home, null,null,slideTrans);
 			}
+			public function recDown(u:uint):void {
+				if (u == 1){
+					rec1.alpha
+				}
+			}
+			public function recUp(u:uint):void {
+				
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -381,18 +389,18 @@
 						</s:fill>
 					</s:Rect>
 				
-				<s:HGroup gap="0"  width="100%" height="{140/(320/Capabilities.screenDPI)}">
+				<s:HGroup gap="-1"  width="100%" height="{140/(320/Capabilities.screenDPI)}">
 					<s:Group id="thing1" height="100%" width="{this.width/3}" 
 						    click="showThings(1)"
-						    mouseDown="gDown(event)"  mouseUp="gOut2(event)" 
-							mouseOver="gOver(event)" mouseOut="gOut2(event)">
-						<s:Rect width="100%"  height="100%">
+						    mouseDown="recDown(1)"  mouseUp="recUp(1)" 
+							mouseOver="recDown(1)" mouseOut="recUp(1)">
+						<s:Rect id="rec1" width="100%"  height="100%">
 							<s:fill>
 								<s:SolidColor alpha="1" color="#8eddce"/>
 							</s:fill>
 						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  gap="{15/(320/Capabilities.screenDPI)}" verticalCenter="0"
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
@@ -418,7 +426,7 @@
 							</s:fill>
 						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  gap="{15/(320/Capabilities.screenDPI)}" verticalCenter="0"
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Image mouseEnabled="false" >
 								<s:source>
@@ -431,7 +439,7 @@
 								</s:source>
 								
 							</s:Image>
-							<s:Label mouseEnabled="false" text="Reviews I've Liked" styleName="textsize0"  color="#FFFFFF"/>
+							<s:Label mouseEnabled="false" text="Liked Reviews" styleName="textsize0"  color="#FFFFFF"/>
 						</s:VGroup>
 					</s:Group>
 					<s:Group id="thing3" height="100%" width="{this.width/3}" 
@@ -444,7 +452,7 @@
 							</s:fill>
 						</s:Rect>
 						<s:VGroup mouseEnabled="false" horizontalCenter="0" 
-								  gap="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
+								  gap="{15/(320/Capabilities.screenDPI)}" verticalCenter="0"
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:BitmapImage contentLoader="{s_imageCache}" >
 								<s:source>
