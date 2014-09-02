@@ -1,6 +1,5 @@
  package edu.iu.nwb.composite.extractauthorpapernetwork.algorithm;
-/*   2:    */ 
-/*   3:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.ExtractNetworkFromTable;
+import edu.iu.nwb.analysis.extractnetfromtable.components.ExtractNetworkFromTable;
 /*   4:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.GraphContainer;
 /*   5:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.GraphContainer.PropertyParsingException;
 /*   6:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.InvalidColumnNameException;
@@ -9,11 +8,12 @@
 /*   8:    */ import java.io.FileNotFoundException;
 /*   9:    */ import java.io.IOException;
 /*  10:    */ import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 /*  11:    */ import java.util.Dictionary;
 /*  12:    */ import java.util.Map;
 /*  13:    */ import java.util.Properties;
-
+import javax.swing.SwingUtilities;
 /*  14:    */ import org.cishell.framework.algorithm.Algorithm;
 /*  15:    */ import org.cishell.framework.algorithm.AlgorithmExecutionException;
 /*  16:    */ import org.cishell.framework.algorithm.ProgressMonitor;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 /*  28:    */   private LogService logger;
 /*  29:    */   private Table table;
 /*  30:    */   private String fileFormat;
+				public int numberofcores = 4;
 /*  31:    */   private String fileFormatPropertiesFileName;
 /*  32:    */   private ProgressMonitor progressMonitor;
 /*  33:    */   
@@ -67,8 +68,8 @@ import java.util.ArrayList;
 					String dataTableColumnNeded3 = "Abstract";
 					int dataTableColumnIndex3 = 0;
 					
-					String term1 = "protein";
-					String term2 = "contain";
+					String term1 = "auto";
+					String term2 = "allo";
 					
 					
 					
@@ -111,11 +112,7 @@ import java.util.ArrayList;
 							outputNetwork.getNode(i).setString("termso", "none");
 						}
 					}
-					catch (ArrayIndexOutOfBoundsException e) {
-						
-					}
-					
-					
+					catch (ArrayIndexOutOfBoundsException e) {}
 					this.logger.log(1, "Here 2");
 					int counter = 0;
 					for (i = 0; i < initialsizeedge; i++){
@@ -123,15 +120,8 @@ import java.util.ArrayList;
 						String target1 = outputNetwork.getEdge(i).get("target").toString();
 						if (lasttarget.compareTo(target1) != 0){
 							lasttarget = target1;
-						//	this.logger.log(1, "Here 3");
 							String termso = "";
 							String titlecheck =  outputNetwork.getNode(Integer.parseInt(target1)).get("label").toString();
-							//for (int j = 0; j < dataTable.getRowCount()-1; j++){
-							//this.logger.log(1, "Here 3.5");
-								//String titlerow = dataTable.getString(counter, dataTableColumnIndex2);
-								//if (titlerow.toLowerCase().contains(titlecheck.toLowerCase())){
-									//author found in row. do stuff.
-									//this.logger.log(1, "Here 4");
 									String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
 									if ((nc.contains(term1))&&(nc.contains(term2))){
 										termso = "Both";
@@ -145,11 +135,6 @@ import java.util.ArrayList;
 									else {
 										termso = "neither";
 									}
-								//}	
-							//	j = dataTable.getRowCount();
-							//}
-							
-							//this.logger.log(1, "Here 5");
 							outputNetwork.addNode();
 							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("label", outputNetwork.getNode(Integer.parseInt(target1)).get("label").toString());
 							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setInt("numberOfWorks", Integer.parseInt(outputNetwork.getNode(Integer.parseInt(target1)).get("numberOfWorks").toString()));
@@ -164,73 +149,35 @@ import java.util.ArrayList;
 							counter++;
 						}		
 					}
-					//this.logger.log(1, "Here 4");
+					this.logger.log(1, "Here 4");
+					Thread tarray[] = new Thread[numberofcores];
 					for (i = 0; i < initialsizeedge; i++){
 						String source1 = outputNetwork.getEdge(i).get("source").toString();
 						String target1 = outputNetwork.getEdge(i).get("target").toString();
-						//this.logger.log(1, "Here 7");
+						this.logger.log(1, "Doing : "+Integer.toString(i)+"/"+Integer.toString(initialsizeedge));
+						Boolean didit = false;
+						Boolean foundacore = false;
 						if (i != initialsizeedge-1){
-							for (int k = i+1; k < initialsizeedge; k++){
-								//this.logger.log(1, "Here 8");
-								String source2 = outputNetwork.getEdge(k).get("source").toString();
-								String target2 = outputNetwork.getEdge(k).get("target").toString();
-								if ((target2.compareTo(target1) != 0)&&(source2.compareTo(source1) == 0)){
-									String target3 = "";
-									String source3 = "";
-								
-									for (int j = endcount; j < outputNetwork.getNodeCount(); j++){
-										if (target2.compareTo(outputNetwork.getNode(j).get("oldid").toString()) == 0){
-											target3 = Integer.toString(j);
-										}
-										
-										if (target1.compareTo(outputNetwork.getNode(j).get("oldid").toString()) == 0){
-											source3 = Integer.toString(j);
-										}
-										
-									}
-								//	this.logger.log(1, "Here 9");
-									Boolean goodtogo = true;
-									for (int kk = initialsizeedge; kk < outputNetwork.getEdgeCount(); kk++){
-										if ((outputNetwork.getEdge(kk).getString("source").compareTo(source3) == 0)&&
-												(outputNetwork.getEdge(kk).getString("target").compareTo(target3) == 0)){
-											outputNetwork.getEdge(kk).setInt("numberOfCoAuthoredWorks", outputNetwork.getEdge(kk).getInt("numberOfCoAuthoredWorks")+1);
-											outputNetwork.getNode(Integer.parseInt(source3)).setInt("numberOfWorks", outputNetwork.getNode(Integer.parseInt(source3)).getInt("numberOfWorks")+1);
-											outputNetwork.getNode(Integer.parseInt(target3)).setInt("numberOfWorks", outputNetwork.getNode(Integer.parseInt(target3)).getInt("numberOfWorks")+1);
-											goodtogo = false;
-										}
-										else if ((outputNetwork.getEdge(kk).getString("source").compareTo(target3) == 0)&&
-												(outputNetwork.getEdge(kk).getString("target").compareTo(source3) == 0)){
-											outputNetwork.getEdge(kk).setInt("numberOfCoAuthoredWorks", outputNetwork.getEdge(kk).getInt("numberOfCoAuthoredWorks")+1);
-											outputNetwork.getNode(Integer.parseInt(source3)).setInt("numberOfWorks", outputNetwork.getNode(Integer.parseInt(source3)).getInt("numberOfWorks")+1);
-											outputNetwork.getNode(Integer.parseInt(target3)).setInt("numberOfWorks", outputNetwork.getNode(Integer.parseInt(target3)).getInt("numberOfWorks")+1);
-											goodtogo = false;
-										}
-									}
-								//	this.logger.log(1, "Here 10");
-									if (goodtogo){
-										outputNetwork.addEdge(outputNetwork.getNode(Integer.parseInt(target3)), outputNetwork.getNode(Integer.parseInt(source3)));
-										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setInt("numberOfCoAuthoredWorks", 1);
-										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setString("oldid", "1");
-										//outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setString("termo", "none");
-										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setInt("special", 10);
-									}
-									
-								}
-							}
+							do {
+						  		for (int ll = 0; ll < numberofcores; ll++){
+						  			if ((tarray[ll] == null)||(tarray[ll].isAlive() == false)){
+						  				try{
+						  					NotifyingThread newThread = 
+						  							new processfile(initialsizeedge,outputNetwork,source1,target1,endcount, i);
+						  					tarray[ll] = newThread;
+						  					tarray[ll].start();	
+						  					foundacore = true;
+						  				}
+										catch(Exception StringIndexOutOfBoundsException){	
+						  				}
+						  			}
+						  		}
+					  		} while (foundacore == false);
 						}
-						
 					}
-					this.logger.log(1, "Here 5");
 					outputNetwork.removeEdge(outputNetwork.getEdgeCount()-1);
-					
-					
-					
-					
 					this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
-					
-					
 					Data graphData = wrapOutputNetworkAsData(outputNetwork);
-/*  51:    */       
 /*  52: 49 */       Table outputTable = ExtractNetworkFromTable.constructTable(outputNetwork);
 /*  53: 50 */       Data tableData = wrapOutputTableAsData(outputTable);
 /*  54:    */       
