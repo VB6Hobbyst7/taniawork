@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*" 
+		backgroundColor="#f3f3f3"
+		viewActivate="init()"
+		title="Reviews" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"  mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var rateArray:ArrayCollection = new ArrayCollection();
+			public function init():void
+			{
+				enableHardwareKeyListeners();
+				setLoginVars();
+				getRatings.send();
+			}
+			public function rateListChange(ev:IndexChangeEvent):void {
+				try{}
+				catch(e:Error){	}
+			}
+			public function afterGetRatings(ev:ResultEvent):void {
+				
+				rateArray = new ArrayCollection();
+				try{			
+					rateArray = ev.result[0].results.result;		
+				}
+				catch(e:Error){
+					try{
+						rateArray.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){}
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMenuItemRatings.php"
+					   result="afterGetRatings(event)" >
+			<s:request xmlns="">
+				<menuid>{data.id}</menuid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+		<s:List  id="rateList" 
+				 width="{this.width}" 
+				 horizontalCenter="0" height="100%"
+				 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+				dataProvider="{rateArray}" 
+				itemRenderer="components.ratingsResultProfile"
+				change="rateListChange(event);"  >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+</s:View>
