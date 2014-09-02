@@ -482,10 +482,10 @@ public function dropalldatatables():void {
 	}
 }
 public function showBusy():void {
-//	bi.visible = true;
+	bi.visible = true;
 }
 public function hideBusy():void {
-	//bi.visible = false;
+	bi.visible = false;
 }
 
 
