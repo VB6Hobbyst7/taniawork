@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:BarCode="BarCode.*" 
+		xmlns:components="components.*"
+		backKeyPressed="donothing(event)"
+		menuKeyPressed="menupress(event)"
+		destructionPolicy="never" title="Scout"
+		viewActivate="init(event)"
+		backgroundColor="#FFFFFF" 
+		actionBarVisible="false">
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.display.Bitmap;
+			import flash.display.Sprite;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import flash.net.navigateToURL;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.UIDUtil;
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			
+			import org.qrcode.QRCode;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			private var mediaSource:CameraRoll = new CameraRoll();
+			private var imageLoader:Loader; 
+			private var dataSource:IDataInput;
+			private var eventSource:IEventDispatcher;
+			private const serverURL:String = "http://scoutcard.ca/uploadify/profileimages/upload-multipart.php";
+			private var tempDir:File;
+			[Bindable]
+			public var ranfilename:String = "";
+			[Bindable]
+			public var copyrighturl:String = "";
+			public function init(event:Event):void
+			{			
+				setLoginVars();	
+				try{
+				navigator.activeView.mouseChildren = true;
+				
+				if (cityGo.toLowerCase() == "edmonton"){
+					copyright.text = "© Mack Male";
+					copyrighturl = "https://www.flickr.com/photos/mastermaq/209751537";
+					cityback.source = edmonton;
+				}
+				else if (cityGo.toLowerCase() == "calgary"){
+					copyright.text = "© davebloggs007";
+					copyrighturl = "https://www.flickr.com/photos/davebloggs007/8995477799";
+					cityback.source = calgary;
+				}
+				else {
+					copyright.text = "© Mack Male";
+					copyrighturl = "https://www.flickr.com/photos/mastermaq/209751537";
+					cityback.source = edmonton;
+				}
+				try{
+					var code:String = emailGo;
+					var sp:Sprite = new Sprite();
+					var qr:QRCode = new QRCode();
+					qr.encode(code+"formalendofstatement");
+					var img:Bitmap = new Bitmap(qr.bitmapData);
+					var qrsize:Number = qrholder2.height/1.5;
+					img.width = qrsize;
+					img.height = qrsize;						
+					sp.addChild(img);
+					var u:UIComponent = new UIComponent();
+					u.addChild(sp);
+					u.horizontalCenter = 0;
+					u.verticalCenter = 0;
+					u.height = qrsize;
+					u.width = qrsize;
+					qrholder2.addElement(u);	
+				}
+				catch(e:Error){}
+				fincityback();
+				getUserInfo.send();
+				}
+				catch(e:Error){
+					
+				}
+			}
+			
+		
+			
+			
+			
+			public function usermenuclick():void {
+				navigator.pushView(Settings);
+			}
+			protected function locationsClick(event:MouseEvent):void
+			{
+				foutcityback();
+				navigator.pushView(Stores);
+			}
+			
+			public function settingsClick(event:MouseEvent):void
+			{
+				foutcityback();
+				navigator.pushView(Settings);
+			}
+			protected function rewardsClick(event:MouseEvent):void
+			{
+				foutcityback();
+				navigator.pushView(Loyalty);
+			}		
+			protected function treatsClick(event:MouseEvent):void
+			{
+
+			}
+			protected function activityClick(event:MouseEvent):void
+			{
+				foutcityback();
+				navigator.pushView(Activity);
+			}
+			public function fincityback():void {
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = cityback;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function foutcityback():void {
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = cityback;
+				fa.duration = 500;
+				fa.play();
+			}
+			
+			protected function closeQR():void
+			{
+				qrholder.visible = false;
+			}
+			protected function openQR():void
+			{
+				qrholder.visible = true;
+			}
+			public function homepicclick(event:MouseEvent):void
+			{
+				mediaSource.addEventListener( MediaEvent.SELECT, imageSelected );
+				mediaSource.browseForImage();
+			}
+			private function imageSelected( event:MediaEvent ):void
+			{
+				dlog( "Media selected..." );
+				
+				var imagePromise:MediaPromise = event.data;
+				dataSource = imagePromise.open();
+				
+				if( imagePromise.isAsync )
+				{
+					dlog( "Asynchronous media promise." );
+					eventSource = dataSource as IEventDispatcher;
+				//	dlog( eventSource );
+					
+					eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
+				}
+				else
+				{
+					dlog( "Synchronous media promise." );
+					readMediaData();
+				}
+			}
+			private function onDataComplete( event:Event ):void
+			{
+				dlog("Data load complete");
+				readMediaData();
+			}			
+			private function readMediaData():void
+			{
+				var imageBytes:ByteArray = new ByteArray();
+				dataSource.readBytes( imageBytes );
+				imageBytes.position = 0;
+				var string:String = imageBytes.readUTFBytes( 300 );
+				upload(imageBytes,serverURL);
+			}
+			public function upload( data:ByteArray, destination:String):void
+			{	
+				dlog( "Uploading..." );
+				var loader:URLLoader = new URLLoader();
+				loader.dataFormat= URLLoaderDataFormat.BINARY;
+				ranfilename = UIDUtil.createUID().substr(0,9);
+				var urlString:String = destination + "?email=" + emailGo+"&filename="+ranfilename;
+				var request:URLRequest = new URLRequest( urlString );
+				request.data = data;
+				request.method = URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";
+				loader.addEventListener( Event.COMPLETE, uploadComplete );
+				loader.addEventListener(IOErrorEvent.IO_ERROR, ioError );
+				loader.load(request);           
+			} 
+			private function uploadComplete( event:Event ):void
+			{
+				dlog( "Upload successful." );
+				profimage.source = "http://www.scoutcard.ca/uploadify/profileimages/"+ranfilename+".jpg";
+				this.parentDocument.setProfImage("http://www.scoutcard.ca/uploadify/profileimages/"+ranfilename+".jpg");
+			}
+		
+			private function ioError( error:IOErrorEvent ):void
+			{
+				dlog( "Upload failed: " + error.text );
+			}
+			
+			private function mediaError( error:ErrorEvent ):void
+			{
+				dlog( "Error:" + error.text );
+			}
+			public function dlog(s:String):void {
+				//debuginput.text = debuginput.text + " ---- " + s;
+			}
+			public function afterGetUserInfo(ev:ResultEvent):void {
+				try{
+					var newpicture:String = ev.result[0].ress.res.picture;
+					if (newpicture.length > 1){
+						profimage.source = newpicture;
+						this.parentDocument.setProfImage(newpicture);
+					}
+				}
+				catch(e:Error){}
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = profimage;
+				fa.duration = 500;
+				fa.play();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/mobile_v2/getUserInfo.php"
+					   result="afterGetUserInfo(event)" >	
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>		
+			</s:request>
+		</s:HTTPService>	
+		<s:MultiDPIBitmapSource id="edmonton"
+								source160dpi="@Embed('../assets/160/edmonton.jpg')"
+								source240dpi="@Embed('../assets/240/edmonton.jpg')"
+								source320dpi="@Embed('../assets/320/edmonton.jpg')"
+								source480dpi="@Embed('../assets/480/edmonton.jpg')"
+								source640dpi="@Embed('../assets/640/edmonton.jpg')"/>
+		<s:MultiDPIBitmapSource id="calgary"
+								source160dpi="@Embed('../assets/160/calgary.jpg')"
+								source240dpi="@Embed('../assets/240/calgary.jpg')"
+								source320dpi="@Embed('../assets/320/calgary.jpg')"
+								source480dpi="@Embed('../assets/480/calgary.jpg')"
+								source640dpi="@Embed('../assets/640/calgary.jpg')"/>
+	</fx:Declarations>
+	<s:VGroup gap="0" width="{this.width}" height="100%" verticalAlign="middle"  horizontalAlign="center"  >
+		<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  verticalAlign="middle" >
+			<s:Group width="{this.width*0.4}"   click="homepicclick(event)"
+					 mouseDown="gDown(event);" mouseOver="gOver(event);"
+					 mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:BitmapImage id="profimage" alpha="0" horizontalCenter="0"  
+							   width="{200/(320/Capabilities.screenDPI)}" 
+							   height="{200/(320/Capabilities.screenDPI)}" scaleMode="stretch"
+							   verticalCenter="0"  contentLoader="{s_imageCache}">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homepic.png')"
+												source240dpi="@Embed('assets/240/homepic.png')"
+												source320dpi="@Embed('assets/320/homepic.png')"
+												source480dpi="@Embed('assets/480/homepic.png')"
+												source640dpi="@Embed('assets/640/homepic.png')"/>
+					</s:source>
+					<s:mask>
+						<s:BorderContainer id="bmpMask"
+										   cornerRadius="{180/(320/Capabilities.screenDPI)}"
+										   width="{200/(320/Capabilities.screenDPI)}"
+										   height="{200/(320/Capabilities.screenDPI)}" />
+					</s:mask>
+				</s:BitmapImage>
+			</s:Group>
+			<s:VGroup gap="{10/(320/Capabilities.screenDPI)}"
+					  width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
+				<s:Label color="#737171" text="{nameGo}" maxWidth="{this.width*0.50}"
+						 maxDisplayedLines="1" styleName="textsize8" 
+						 verticalAlign="middle"/>
+				<s:Label color="#737171" text="{cityGo}" styleName="textsize1" verticalAlign="middle"/>
+			</s:VGroup>
+		</s:HGroup>
+		
+		<s:Group height="{this.height*0.75}"   width="{this.width}">
+			<s:Rect width="100%" height="100%">
+				<s:fill><s:SolidColor alpha="1" color="#c5c5c5"/></s:fill>
+			</s:Rect>
+			<s:Image id="cityback" horizontalCenter="0" verticalCenter="0" 
+					 height="100%" scaleMode="zoom"  contentLoader="{s_imageCache}" alpha="0"/>
+			<s:VGroup gap="0" width="100%"  top="0"  
+					  height="{this.height*(7/12)}" 
+					  verticalAlign="middle"  
+					  horizontalAlign="center"  >
+				
+				<s:HGroup height="30%" width="100%">
+					<s:Group width="50%" height="100%">
+						<s:Image bottom="0" horizontalCenter="0" click="locationsClick(event)"
+								 mouseDown="gDown(event);" mouseOver="gOver(event);"  contentLoader="{s_imageCache}"
+								 mouseOut="gOut(event);" mouseUp="gOut(event);">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/locations.png')"
+														source240dpi="@Embed('assets/240/locations.png')"
+														source320dpi="@Embed('assets/320/locations.png')"
+														source480dpi="@Embed('assets/480/locations.png')"
+														source640dpi="@Embed('assets/640/locations.png')"/>
+							</s:source>
+						</s:Image>
+					</s:Group>
+					<s:Group width="50%" height="100%">
+						<s:Image top="0" horizontalCenter="0"   click="settingsClick(event)"
+								 mouseDown="gDown(event);" mouseOver="gOver(event);"  contentLoader="{s_imageCache}"
+								 mouseOut="gOut(event);" mouseUp="gOut(event);">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/settings.png')"
+														source240dpi="@Embed('assets/240/settings.png')"
+														source320dpi="@Embed('assets/320/settings.png')"
+														source480dpi="@Embed('assets/480/settings.png')"
+														source640dpi="@Embed('assets/640/settings.png')"/>
+							</s:source>
+						</s:Image>
+					</s:Group>
+				</s:HGroup>
+				
+				
+				
+				<s:HGroup height="30%" width="100%">
+					<s:Group width="100%" height="100%">
+						<s:Image verticalCenter="0" horizontalCenter="0"  click="rewardsClick(event)"
+								 mouseDown="gDown(event);" mouseOver="gOver(event);"  contentLoader="{s_imageCache}"
+								 mouseOut="gOut(event);" mouseUp="gOut(event);">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/rewards.png')"
+														source240dpi="@Embed('assets/240/rewards.png')"
+														source320dpi="@Embed('assets/320/rewards.png')"
+														source480dpi="@Embed('assets/480/rewards.png')"
+														source640dpi="@Embed('assets/640/rewards.png')"/>
+							</s:source>
+						</s:Image>
+					</s:Group>
+				</s:HGroup>
+				
+				
+				
+				
+				<s:HGroup height="30%" width="100%">
+					<s:Group width="50%" height="100%">
+						<s:Image top="0" horizontalCenter="0" click="treatsClick(event)" 
+								 enabled="false" alpha="0.6"
+								 contentLoader="{s_imageCache}"
+								 mouseDown="gDown(event);" mouseOver="gOver(event);"
+								 mouseOut="gOut(event);" mouseUp="gOut(event);">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/treats.png')"
+														source240dpi="@Embed('assets/240/treats.png')"
+														source320dpi="@Embed('assets/320/treats.png')"
+														source480dpi="@Embed('assets/480/treats.png')"
+														source640dpi="@Embed('assets/640/treats.png')"/>
+							</s:source>
+						</s:Image>
+					</s:Group>
+					<s:Group width="50%" height="100%">
+						<s:Image bottom="0" horizontalCenter="0"  click="activityClick(event)"
+								  enabled="true" alpha="1"  contentLoader="{s_imageCache}"
+								 mouseDown="gDown(event);" mouseOver="gOver(event);"
+								 mouseOut="gOut(event);" mouseUp="gOut(event);">
+							<s:source>
+								<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/activity.png')"
+														source240dpi="@Embed('assets/240/activity.png')"
+														source320dpi="@Embed('assets/320/activity.png')"
+														source480dpi="@Embed('assets/480/activity.png')"
+														source640dpi="@Embed('assets/640/activity.png')"/>
+							</s:source>
+						</s:Image>
+					</s:Group>
+				</s:HGroup>
+
+			</s:VGroup>
+			<s:Label id="copyright" 
+					 click="navigateToURL(new URLRequest(copyrighturl));"
+					 textAlign="left" paddingLeft="{5/(320/Capabilities.screenDPI)}" bottom="{this.height/6+10}" 
+					 left="0" color="#FFFFFF" styleName="textsize0" />
+			
+			<s:Group height="{this.height/6}" width="100%" bottom="0"  
+							   mouseDown="gDown(event);" mouseOver="gOver(event);"
+							   mouseOut="gOut(event);" mouseUp="gOut(event);"  click="openQR();">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="0.75" color="#0aaae5"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label text="TAP TO SCAN" color="#FFFFFF" styleName="textsize8" 
+						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:VGroup>
+
+	<s:Group id="qrholder" width="100%" height="100%" visible="false" >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group  id="qrholder2" width="95%" height="60%"
+				  horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Rect width="100%" height="100%"
+					radiusX="{20/(320/Capabilities.screenDPI)}"
+					radiusY="{20/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9"
+											  weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Rect>
+			<s:Label text="Scan Now"  mouseEnabled="false" width="100%" textAlign="center"
+					 top="{40/(320/Capabilities.screenDPI)}" horizontalCenter="0"
+					 styleName="textsize8" color="#389ec8"/>
+			<s:Group width="100%" height="15%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" 
+												  weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" horizontalCenter="0" height="100%" 
+						 click="closeQR()"
+						 mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Label text="Close"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
+		</s:Group>
+	</s:Group>
+	</s:Group>
+
+	
+	
+	
+	
+	
+	
+	
+	<!--s:Group width="100%" height="20%" bottom="0">
+		<s:TextArea  contentBackgroundColor="#FFFFFF" color="#000000" width="100%" height="100%"
+					 id="debuginput" visible="true"/>
+	</s:Group-->
+</s:View>
