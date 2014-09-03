@@ -34,7 +34,7 @@
 			public var currentselectmode:Number = 1;
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				if (data.totallikecount == "null"){
 					data.totallikecount = "0";

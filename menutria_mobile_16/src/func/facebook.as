@@ -1,23 +1,18 @@
 import com.milkmangames.nativeextensions.GVFacebookFriend;
 import com.milkmangames.nativeextensions.GoViral;
 import com.milkmangames.nativeextensions.events.GVFacebookEvent;
-
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
 import flash.desktop.NativeApplication;
 import flash.desktop.SystemIdleMode;
 import flash.filesystem.File;
-
 import mx.collections.ArrayCollection;
 import mx.rpc.events.ResultEvent;
-
 import spark.managers.PersistenceManager;
-
 import views.Home;
 import views.Login;
 import views.MenuAll;
 import views.StoresDescription;
-
 public static const FACEBOOK_APP_ID:String="1461197797460743";
 public function initz(event:FlexEvent):void
 {

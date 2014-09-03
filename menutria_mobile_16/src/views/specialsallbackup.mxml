@@ -63,7 +63,7 @@
 			public var goingtonext:Boolean = false;
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				goingtonext = false;
 				createIfNotExsist("specials");
 				setLoginVars();

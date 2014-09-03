@@ -35,7 +35,7 @@
 			protected function init():void
 			{
 				this.parentDocument.showBusy();
-				enableHardwareKeyListeners();
+				
 				allreadylistclicked = false;
 				warn.visible = false;
 				locationid = data.locationid;

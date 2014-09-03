@@ -193,11 +193,6 @@ protected function donothing(event:FlexEvent):void
 {
 	event.preventDefault();
 }
-private function enableHardwareKeyListeners():void
-{
-	//systemManager.stage.addEventListener(KeyboardEvent.KEY_DOWN, stageKeyDownHandler, false, 500, true);
-	//NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-}
 private function keyDown(event:KeyboardEvent):void
 {
 	var key:uint = event.keyCode;

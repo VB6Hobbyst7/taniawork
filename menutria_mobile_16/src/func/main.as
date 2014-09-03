@@ -56,10 +56,7 @@ protected function creationcomplete(event:FlexEvent):void
 	mainNavigator.defaultPopTransition = svt2;
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
-	
-	//hideStatusBar();
-	
-	
+
 	if (getDPIHeight() == 640){
 		actionbarheight = 172;	
 	}
@@ -84,12 +81,10 @@ protected function creationcomplete(event:FlexEvent):void
 		if (getDPIHeight() == 320){
 			obarheight = 0;
 			statusbuffertop = 20;
-			//actionbarheight = actionbarheight + (actionbarheight/2);
 		}
 		else if (getDPIHeight() == 160){
 			obarheight = 0;
 			statusbuffertop = 10;
-			//actionbarheight = actionbarheight + (actionbarheight/2);
 		}
 	}
 	

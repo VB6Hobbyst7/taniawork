@@ -26,7 +26,7 @@
 			import spark.events.ViewNavigatorEvent;
 			public function onActivate(event:Event):void
 			{			
-				enableHardwareKeyListeners();
+				
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();		
 			}	

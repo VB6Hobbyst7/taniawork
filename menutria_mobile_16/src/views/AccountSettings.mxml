@@ -24,7 +24,7 @@
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				catArray =  new ArrayCollection();
 				catArray.addItem({name:"Profile", type:1, chosen:'no'});
 				catArray.addItem({name:"Password", type:1, chosen:'no'});

@@ -32,7 +32,7 @@
 			protected function init():void
 			{
 				this.parentDocument.showBusy();
-				enableHardwareKeyListeners();
+				
 				allreadylistclicked = false;
 				setLoginVars();
 				createIfNotExsist("resvalues");

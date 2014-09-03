@@ -72,13 +72,13 @@
 			
 			public function init():void
 			{			
-				enableHardwareKeyListeners();
+				
 				goingtonext = false;
 				//setLoginVars();	
 			}
 			public function init2():void {
 				this.parentDocument.showBusy();
-				enableHardwareKeyListeners();
+				
 				goingtonext = false;
 				setLoginVars();
 				screenwidth = this.width;			

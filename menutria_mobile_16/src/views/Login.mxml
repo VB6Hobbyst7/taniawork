@@ -18,7 +18,7 @@
 			import spark.events.ViewNavigatorEvent;
 			public function init():void {	
 				createIfNotExsist("localuser");
-				enableHardwareKeyListeners();
+				
 			}	
 			public function loginClick(event:MouseEvent):void
 			{	

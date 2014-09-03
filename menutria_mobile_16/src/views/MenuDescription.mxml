@@ -60,7 +60,7 @@
 				
 				backbutton.visible = true;
 				
-				enableHardwareKeyListeners();
+				
 				didlistclick = false;
 				setLoginVars();			
 				scroller.visible = true;

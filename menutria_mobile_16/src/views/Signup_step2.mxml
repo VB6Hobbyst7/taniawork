@@ -20,7 +20,7 @@
 			import mx.rpc.events.ResultEvent;
 			protected function init():void
 			{
-				enableHardwareKeyListeners();
+				
 			}
 			public function nextStep():void {
 				if (checkFields()){

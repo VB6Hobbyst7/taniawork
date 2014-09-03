@@ -24,7 +24,7 @@
 			public var rateArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				getRatings.send();
 			}

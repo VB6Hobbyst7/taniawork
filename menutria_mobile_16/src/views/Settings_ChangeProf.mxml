@@ -23,7 +23,7 @@
 			public function init():void
 			{
 				this.parentDocument.showBusy();
-				enableHardwareKeyListeners();
+				
 				setLoginVars();	
 				getProfInfo.send();
 			}

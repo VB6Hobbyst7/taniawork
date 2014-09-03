@@ -35,7 +35,7 @@ protected function ondeactivate():void
 {
 	pm.setProperty("sviewdata",mainNavigator.saveViewData());
 	pm.save();
-	//stage.frameRate=2;
+	stage.frameRate=2;
 	try{
 	g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);  
 	}

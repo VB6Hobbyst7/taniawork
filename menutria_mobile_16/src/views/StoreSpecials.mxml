@@ -38,7 +38,7 @@
 			public function init():void
 			{
 				warn.visible = false;
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				scroller.visible = true;
 				locationid = data.locationid;

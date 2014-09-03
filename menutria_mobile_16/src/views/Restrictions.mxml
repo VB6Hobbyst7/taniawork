@@ -34,7 +34,7 @@
 			public var onoffstatus:uint = 0;
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				createIfNotExsist("resvalues");
 				getRestrictions.send();

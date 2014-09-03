@@ -21,7 +21,7 @@
 			public var catArray:ArrayCollection = new ArrayCollection();
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				catArray =  new ArrayCollection();
 				//catArray.addItem({name:"Notifications", type:0, chosen:'no'});
 				catArray.addItem({name:"Account", type:1, chosen:'no'});
@@ -64,7 +64,7 @@
 				}
 			}
 			public function logout():void {
-				enableHardwareKeyListeners();
+				
 				try{
 					sqlConnection = new SQLConnection();
 					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));

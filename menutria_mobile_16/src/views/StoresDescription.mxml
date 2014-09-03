@@ -48,7 +48,7 @@
 			
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				didlistclick = false;
 				setLoginVars();	
 				img1.source = data.business_picture;

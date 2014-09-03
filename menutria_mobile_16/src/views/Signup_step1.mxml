@@ -21,7 +21,7 @@
 			import spark.events.ViewNavigatorEvent;
 			protected function init():void
 			{
-				enableHardwareKeyListeners();
+				
 			}
 			public function nextStep():void {
 				if (checkFields()){

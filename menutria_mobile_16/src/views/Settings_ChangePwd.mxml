@@ -27,7 +27,7 @@
 			
 			public function init():void
 			{			
-				enableHardwareKeyListeners();
+				
 				navigator.activeView.mouseChildren = true;
 				setLoginVars();		
 			}	

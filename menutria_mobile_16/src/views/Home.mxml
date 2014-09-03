@@ -99,7 +99,7 @@
 			}
 			public function init2():void{
 				//creation complete
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				this.parentApplication.showloading();
 				createIfNotExsist("merchusers");

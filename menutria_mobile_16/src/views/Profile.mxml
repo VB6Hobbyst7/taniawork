@@ -53,13 +53,13 @@
 
 			public function init():void
 			{
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
 				showThings(1);
 			}
 			public function init2():void {
-				enableHardwareKeyListeners();
+				
 				setLoginVars();
 				getUserInfo.send();
 				getRatings.send();
