@@ -50,7 +50,7 @@ public class Gui{
 	public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
 	public PreparedStatement preparedStatement = null;
 	public java.util.ArrayList<String>  fileArray = new java.util.ArrayList<String>();
-	public int numberofcores = 4;
+	public int numberofcores = 1;
 	public int counter = 0;
     public Gui(){
         f.setJMenuBar(mb);
@@ -87,7 +87,7 @@ public class Gui{
         }
     }
     
-    public String projectfilepath = "D:/Work/Bone Marrow Caroline/2014 work/pubmed extract based off ovid pmids";
+    public String projectfilepath = "D:/Work/GENE Project/APP/pubmed export from scopus pmids";
     public void launchFrame(){
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack(); //Adjusts panel to components for display
