@@ -13,7 +13,9 @@ import java.util.ArrayList;
 /*  11:    */ import java.util.Dictionary;
 /*  12:    */ import java.util.Map;
 /*  13:    */ import java.util.Properties;
+
 import javax.swing.SwingUtilities;
+
 /*  14:    */ import org.cishell.framework.algorithm.Algorithm;
 /*  15:    */ import org.cishell.framework.algorithm.AlgorithmExecutionException;
 /*  16:    */ import org.cishell.framework.algorithm.ProgressMonitor;
@@ -56,127 +58,116 @@ import javax.swing.SwingUtilities;
 					int i = 0;
 					
 					String dataTableColumnNeded = "id";
-					int dataTableColumnIndex = 0;
-					
 					String authorColumnNeeded = "Authors";
-					int authorColumnIndex = 0;
-					
-					
 					String dataTableColumnNeded2 = "Title";
-					int dataTableColumnIndex2 = 0;
-					
 					String dataTableColumnNeded3 = "Abstract";
-					int dataTableColumnIndex3 = 0;
-					
+					String dataTableColumnNeded4 = "Cited_by";
 					String term1 = "auto";
 					String term2 = "allo";
-					
-					
-					
-					for (int p = 0; p < dataTable.getColumnCount(); p++){
-						if (dataTableColumnNeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
-							dataTableColumnIndex = p;
-							this.logger.log(1, "Analyzing Column : "+dataTable.getColumnName(p));
-						}
-
-						if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
-							dataTableColumnIndex2 = p;
-							this.logger.log(1, "Analyzing Column2 : "+dataTable.getColumnName(p));
-						}
-						
-						if (authorColumnNeeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
-							authorColumnIndex = p;
-							this.logger.log(1, "Author Column found : "+dataTable.getColumnName(p));
-						}
-						
-						if (dataTableColumnNeded3.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
-							dataTableColumnIndex3 = p;
-							this.logger.log(1, "Abstract Column found : "+dataTable.getColumnName(p));
-						}
-					}
-					
+		
 					int erorcount = 0;
 					outputNetwork.addColumn("oldid", String.class);
 					outputNetwork.addColumn("special", int.class);
 					outputNetwork.addColumn("termso", String.class);
+					outputNetwork.addColumn("citedby", int.class);
 
 					int initialsizeedge = outputNetwork.getEdgeCount();
 					int endcount = outputNetwork.getNodeCount();
-					String lasttarget = "";
 					
-					this.logger.log(1, "Here 1");
+					this.logger.log(1, "Step 1");
 					try{
 						for (i = 0; i < outputNetwork.getNodeCount(); i++){
 							outputNetwork.getNode(i).setInt("regular", 0);
 							outputNetwork.getNode(i).setString("amount", "0");
 							outputNetwork.getNode(i).setString("termso", "none");
+							outputNetwork.getNode(i).setInt("citedby", 0);
 						}
 					}
 					catch (ArrayIndexOutOfBoundsException e) {}
-					this.logger.log(1, "Here 2");
+					this.logger.log(1, "Step 2");
 					int counter = 0;
+					String lasttarget = "";
+					int[][] edgearray = new int[initialsizeedge][2];
 					for (i = 0; i < initialsizeedge; i++){
 						String source1 = outputNetwork.getEdge(i).get("source").toString();
 						String target1 = outputNetwork.getEdge(i).get("target").toString();
+						
+						edgearray[i][0] = Integer.parseInt(source1);
+						edgearray[i][1] = Integer.parseInt(target1);
+
 						if (lasttarget.compareTo(target1) != 0){
 							lasttarget = target1;
+							outputNetwork.getNode(Integer.parseInt(target1)).setInt("special", 10);
 							String termso = "";
 							String titlecheck =  outputNetwork.getNode(Integer.parseInt(target1)).get("label").toString();
-									String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnIndex2).toLowerCase();
-									if ((nc.contains(term1))&&(nc.contains(term2))){
-										termso = "Both";
-									}
-									else	 if (nc.contains(term1)){
-										termso = term1;
-									}
-									else if (nc.contains(term2)){
-										termso = term2;
-									}
-									else {
-										termso = "neither";
-									}
-							outputNetwork.addNode();
-							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("label", outputNetwork.getNode(Integer.parseInt(target1)).get("label").toString());
-							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setInt("numberOfWorks", Integer.parseInt(outputNetwork.getNode(Integer.parseInt(target1)).get("numberOfWorks").toString()));
-							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("oldid", target1);
-							outputNetwork.getNode(outputNetwork.getNodeCount()-1).setInt("special", 10);
-							if (termso.length() > 0){
-								outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("termso", termso); 
+							String nc = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() + " " + dataTable.getString(counter, dataTableColumnNeded2).toLowerCase();
+							
+							String citedby = dataTable.getString(counter, dataTableColumnNeded4).toLowerCase();
+							citedby = citedby.replace("[", "");
+							citedby = citedby.replace("]", "");
+							
+							if (citedby == ""){
+								citedby = "0";
+							}
+							
+							if ((nc.contains(term1))&&(nc.contains(term2))){
+								termso = "Both";
+							}
+							else if (nc.contains(term1)){
+								termso = term1;
+							}
+							else if (nc.contains(term2)){
+								termso = term2;
 							}
 							else {
-								outputNetwork.getNode(outputNetwork.getNodeCount()-1).setString("termso", "none"); 
+								termso = "neither";
+							}
+							
+							outputNetwork.getNode(Integer.parseInt(target1)).setString("termso", termso); 
+							
+							if (isNaN(citedby)){
+								outputNetwork.getNode(Integer.parseInt(target1)).setInt("citedby", Integer.parseInt(citedby)); 	
+							}
+							else {
+								outputNetwork.getNode(Integer.parseInt(target1)).setInt("citedby", 0); 
 							}
 							counter++;
 						}		
 					}
-					this.logger.log(1, "Here 4");
-					Thread tarray[] = new Thread[numberofcores];
+
+					java.util.Arrays.sort(edgearray, new java.util.Comparator<int[]>() {
+					    public int compare(int[] a, int[] b) {
+					        return Integer.compare(a[0], b[0]);
+					    }
+					});
+					this.logger.log(1, "Step 3");
+					
+					ArrayList<Integer> al=new ArrayList<Integer>();
+					int lastsource = -1;
 					for (i = 0; i < initialsizeedge; i++){
-						String source1 = outputNetwork.getEdge(i).get("source").toString();
-						String target1 = outputNetwork.getEdge(i).get("target").toString();
-						this.logger.log(1, "Doing : "+Integer.toString(i)+"/"+Integer.toString(initialsizeedge));
-						Boolean didit = false;
-						Boolean foundacore = false;
-						if (i != initialsizeedge-1){
-							do {
-						  		for (int ll = 0; ll < numberofcores; ll++){
-						  			if ((tarray[ll] == null)||(tarray[ll].isAlive() == false)){
-						  				try{
-						  					NotifyingThread newThread = 
-						  							new processfile(initialsizeedge,outputNetwork,source1,target1,endcount, i);
-						  					tarray[ll] = newThread;
-						  					tarray[ll].start();	
-						  					foundacore = true;
-						  				}
-										catch(Exception StringIndexOutOfBoundsException){	
-						  				}
-						  			}
-						  		}
-					  		} while (foundacore == false);
+						int source = edgearray[i][0];
+						int target = edgearray[i][1];
+						if (i % 2000 == 0){
+							this.logger.log(1, "Doing : "+Integer.toString(i)+"/"+Integer.toString(initialsizeedge));
 						}
+						if ((lastsource != -1)&&(lastsource != source)){
+							
+							for (int j = 0; j < al.size(); j++){
+								for (int k = 0; k < al.size(); k++){
+									if (al.get(j) != al.get(k)){
+										outputNetwork.addEdge(outputNetwork.getNode(al.get(j)), outputNetwork.getNode(al.get(k)));
+										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setInt("numberOfCoAuthoredWorks", 1);
+										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setString("oldid", "1");
+										outputNetwork.getEdge(outputNetwork.getEdgeCount()-1).setInt("special", 10);
+									}
+								}
+							}
+							al = new ArrayList<Integer>();
+						}
+						
+						al.add(target);
+						lastsource = source;
 					}
-					outputNetwork.removeEdge(outputNetwork.getEdgeCount()-1);
-					this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
 					Data graphData = wrapOutputNetworkAsData(outputNetwork);
 /*  52: 49 */       Table outputTable = ExtractNetworkFromTable.constructTable(outputNetwork);
 /*  53: 50 */       Data tableData = wrapOutputTableAsData(outputTable);
@@ -200,6 +191,19 @@ import javax.swing.SwingUtilities;
 /*  70: 63 */     this.progressMonitor = progressMonitor;
 /*  71:    */   }
 /*  72:    */   
+					public static boolean isNaN(String s){
+					    try{
+					        Integer.parseInt(s);
+					        return true;
+					    }catch (Exception e) {      
+					    }
+					    return false;
+					}
+
+
+
+
+
 /*  73:    */   private Data wrapOutputNetworkAsData(Graph outputNetwork)
 /*  74:    */     throws InvalidColumnNameException
 /*  75:    */   {
@@ -297,3 +301,41 @@ import javax.swing.SwingUtilities;
  * Qualified Name:     edu.iu.nwb.composite.extractauthorpapernetwork.algorithm.ExtractAuthorPaperNetwork
  * JD-Core Version:    0.7.0.1
  */
+
+
+
+/*for (i = 0; i < 20; i++){
+this.logger.log(1, "source: "+Integer.toString(edgearray[i][0])+"  |  target:  "+ Integer.toString(edgearray[i][1]));
+}*/
+
+/*	
+this.logger.log(1, "Here 4");
+Thread tarray[] = new Thread[numberofcores];
+for (i = 0; i < initialsizeedge; i++){
+String source1 = outputNetwork.getEdge(i).get("source").toString();
+String target1 = outputNetwork.getEdge(i).get("target").toString();
+if (i % 500 == 0){
+	this.logger.log(1, "Doing : "+Integer.toString(i)+"/"+Integer.toString(initialsizeedge));
+}
+Boolean didit = false;
+Boolean foundacore = false;
+if (i != initialsizeedge-1){
+	do {
+  		for (int ll = 0; ll < numberofcores; ll++){
+  			if ((tarray[ll] == null)||(tarray[ll].isAlive() == false)){
+  				try{
+  					NotifyingThread newThread = 
+  							new processfile(initialsizeedge,outputNetwork,source1,target1,endcount, i);
+  					tarray[ll] = newThread;
+  					tarray[ll].start();	
+  					foundacore = true;
+  				}
+				catch(Exception StringIndexOutOfBoundsException){	
+  				}
+  			}
+  		}
+		} while (foundacore == false);
+}
+}
+outputNetwork.removeEdge(outputNetwork.getEdgeCount()-1);
+this.logger.log(1, "errorfound: "+Integer.toString(erorcount));*/
