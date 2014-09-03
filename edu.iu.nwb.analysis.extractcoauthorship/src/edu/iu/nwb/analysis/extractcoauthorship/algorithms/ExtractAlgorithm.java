@@ -7,7 +7,9 @@
 /*   7:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.GraphContainer.PropertyParsingException;
 /*   8:    */ import edu.iu.nwb.analysis.extractnetfromtable.components.InvalidColumnNameException;
 
+import java.io.BufferedReader;
 /*   9:    */ import java.io.FileNotFoundException;
+import java.io.FileReader;
 /*  10:    */ import java.io.IOException;
 /*  11:    */ import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ import stemmer.PorterAlgo;
 /*  30:    */   CIShellContext ciContext;
 /*  31:    */   LogService logger;
 /*  32:    */   ProgressMonitor progressMonitor;
+				
 /*  33:    */   
 /*  34:    */   public ProgressMonitor getProgressMonitor()
 /*  35:    */   {
@@ -94,63 +97,185 @@ import stemmer.PorterAlgo;
 /*  80:    */     {
 					int step = 1;
 					this.logger.log(1,"Doing Bieber Method");
-/*  81: 73 */       String authorColumn = SupportedFileTypes.CitationFormat.getAuthorColumnByName(fileFormat);
+
+					
+				    String dataArray[][] = new String[238][3];
+					String tempfile ="C:/countrylatlong.csv";
+					StringBuilder rs2 = new StringBuilder();
+			    	BufferedReader reader;
+			    	int counter2 = 0;
+					try {
+						reader = new BufferedReader( new FileReader (tempfile));
+						String         line = null;
+				    	String ls = System.getProperty("line.separator");
+			    	    try {
+							while( ( line = reader.readLine() ) != null ) {
+								//rs2.append( line );
+								
+								String tempstring = line.toString();
+								String[] temparray = tempstring.split(",");
+								
+								dataArray[counter2][0] = temparray[0];
+								dataArray[counter2][1] = temparray[1];
+								dataArray[counter2][2] = temparray[2];
+								counter2++;
+							   // rs2.append( ls );
+							}
+							
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} 
+					catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+					
+					
+					
+					String authorColumn = SupportedFileTypes.CitationFormat.getAuthorColumnByName(fileFormat);
 /*  82: 74 */       GraphContainer gc = GraphContainer.initializeGraph(dataTable, authorColumn, authorColumn, false, metaData, this.logger, this.progressMonitor);
 					Graph outputGraph = gc.buildGraph(authorColumn, authorColumn, "|", false, this.logger);
-					outputGraph.addColumn("indexids", String.class);
-					outputGraph.addColumn("focusterms", String.class);
-					outputGraph.addColumn("mainjournal", String.class);
+				
+					outputGraph.addColumn("location", String.class);
+					outputGraph.addColumn("journal", String.class);
+					outputGraph.addColumn("lat", double.class);
+					outputGraph.addColumn("long", double.class);
+					outputGraph.addColumn("mesh", String.class);
+					
+					String authorColumnNeeded = "Authors";
+					int authorColumnIndex = 0;
 
-				/*	this.logger.log(1,outputGraph.getNode(2).toString());
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(0));
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(1));
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(2));
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(3));*/
-					int erorcount = 0;
-					for (int i = 0; i < outputGraph.getNodeCount()-1; i++){
-						try{
-							String authorcheck =  outputGraph.getNode(i).getString("label");
-							
-							String reso = "";
-							String termreso = "";
-							ArrayList<String> journals = new ArrayList<String>();
-							for (int j = 0; j < dataTable.getRowCount()-1; j++){
-								String authorrow = dataTable.getString(j, 1);
-								if (authorrow.toLowerCase().contains(authorcheck.toLowerCase())){
-									if (reso.length() <= 0){
-										reso = 	dataTable.getString(j, 0);
-										
-									}
-									else {
-										reso = reso+","+dataTable.getString(j, 0);
-										
-									}
-									
-									
-									termreso = termreso + " " + dataTable.getString(j, 15);
-									journals.add(dataTable.getString(j, 4));
-									
-								}
-								
-							}
-
-							outputGraph.getNode(i).setString("indexids", reso);
-							outputGraph.getNode(i).setString("focusterms", getTerms(termreso));
-							outputGraph.getNode(i).setString("mainjournal", journals.get(0));
-							 
-						}
-						catch (IndexOutOfBoundsException ex ){
-							erorcount++;
+					String dataTableColumnNeded2 = "Title";
+					int dataTableColumnIndex2 = 0;
+					
+					String dataTableColumnNeded3 = "authors_with_affiliations";
+					int dataTableColumnIndex3 = 0;
+					
+					String term1 = "protein";
+					String term2 = "contain";
+					
+					
+					
+					for (int p = 0; p < dataTable.getColumnCount(); p++){
+		
+						if (dataTableColumnNeded2.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							dataTableColumnIndex2 = p;
+							this.logger.log(1, "Title Analyzing Column2 : "+dataTable.getColumnName(p));
 						}
 						
+						if (authorColumnNeeded.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							authorColumnIndex = p;
+							this.logger.log(1, "Author Column found : "+dataTable.getColumnName(p));
+						}
+						
+						if (dataTableColumnNeded3.toLowerCase().compareTo(dataTable.getColumnName(p).toLowerCase()) == 0){
+							dataTableColumnIndex3 = p;
+							this.logger.log(1, "authors_with_affiliations Column found : "+dataTable.getColumnName(p));
+						}
+					}
+
+					String lasttarget = "";
+					int erorcount = 0;
+					int counter = 0;
+					for (int i = 0; i < outputGraph.getNodeCount(); i++){
+						//this.logger.log(1, "doing : "+Integer.toString(i)+" / "+Integer.toString(outputGraph.getNodeCount()));
+						String authorcheck =  outputGraph.getNode(i).getString("label");
+						
+						
+						String authorcolumn = dataTable.getString(counter, authorColumnNeeded).toLowerCase() ;
+						try{
+							if (authorcolumn.contains(authorcheck.toLowerCase()) == false){
+								counter++;
+								authorcolumn = dataTable.getString(counter, authorColumnNeeded).toLowerCase() ;
+							}
+							
+							if (authorcolumn.contains(authorcheck.toLowerCase()) == false){
+								counter++;
+								authorcolumn = dataTable.getString(counter, authorColumnNeeded).toLowerCase() ;
+							}
+							
+							if (authorcolumn.contains(authorcheck.toLowerCase()) == false){
+								counter++;
+								authorcolumn = dataTable.getString(counter, authorColumnNeeded).toLowerCase() ;
+							}
+						}
+						catch (Exception ex ){
+							
+						}
+						
+						
+						
+						try{
+							String afdata = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() ;
+							authorcheck = authorcheck.toLowerCase();
+							authorcheck = authorcheck.substring(0, authorcheck.indexOf(" "));
+							authorcheck = authorcheck.trim();
+							afdata = afdata.substring(afdata.indexOf(authorcheck),afdata.length());
+							
+							if ((afdata.length() > 5)&&(afdata.contains(";") == false)){
+								afdata = afdata.substring(0, afdata.length());
+							}
+							else {
+								afdata = afdata.substring(0, afdata.indexOf(";"));
+							}
+							
+							afdata = afdata.substring(afdata.lastIndexOf(",")+2,afdata.length());
+							
+							if ((afdata.length() > 4)||(afdata.contains("usa"))){
+								
+								afdata = fixText(afdata);
+								String lat = "0";
+								String longa = "0";
+								for (int j = 0; j < dataArray.length-1; j++){
+								//	this.logger.log(1, "comparing: |"+dataArray[j][0].toLowerCase()+"| to |"+afdata.toLowerCase()+"|");
+									if (dataArray[j][0].toLowerCase().contains(afdata.toLowerCase())){
+										lat = dataArray[j][1];
+										longa = dataArray[j][2];
+									}
+								}
+								outputGraph.getNode(i).setString("location",afdata);
+								outputGraph.getNode(i).setDouble("lat",Double.parseDouble(lat));
+								outputGraph.getNode(i).setDouble("long",Double.parseDouble(longa));
+							}
+							else {
+								outputGraph.getNode(i).setString("location","");
+								outputGraph.getNode(i).setDouble("lat",Double.parseDouble("0.0"));
+								outputGraph.getNode(i).setDouble("long",Double.parseDouble("0.0"));
+								
+							}
+							
+						}
+						catch (Exception ex ){
+							erorcount++;
+							//String afdata2 = dataTable.getString(counter, dataTableColumnNeded3).toLowerCase() ;
+							//this.logger.log(1, "Error with  : "+afdata2);
+							outputGraph.getNode(i).setString("location","");
+							//outputGraph.getNode(i).setDouble("lat",Double.parseDouble("0"));
+							//outputGraph.getNode(i).setDouble("long",Double.parseDouble("0"));
+							outputGraph.getNode(i).setDouble("lat",Double.parseDouble("0.0"));
+							outputGraph.getNode(i).setDouble("long",Double.parseDouble("0.0"));
+						}
+						
+						try{
+							String meshdata = dataTable.getString(counter, "mesh");	
+							outputGraph.getNode(i).setString("mesh", meshdata);
+						}
+						catch (Exception ex ){
+							erorcount++;
+							outputGraph.getNode(i).setString("mesh", "");
+						}
+						
+						try{
+							String journaldata = dataTable.getString(counter, "journal");
+							outputGraph.getNode(i).setString("journal", journaldata);
+						}
+						catch (Exception ex ){
+							erorcount++;
+							outputGraph.getNode(i).setString("journal", "");
+						}
+		
 					}
 					this.logger.log(1, "errorfound: "+Integer.toString(erorcount));
-					
-					/*this.logger.log(1,outputGraph.getNode(2).toString());
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(0));
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(1));
-					this.logger.log(1,outputGraph.getNode(2).getColumnName(2));*/
-					
 					Data outputData1 = new BasicData(outputGraph,  Graph.class.getName());
 					Dictionary graphAttributes = outputData1.getMetadata();
 					graphAttributes.put("Modified", new Boolean(true));	
@@ -236,6 +361,7 @@ public String getTerms(String filetext){
 	return retoString;
 
 }
+
 public static ArrayList<String> completeStem(List<String> tokens1){
     PorterAlgo pa = new PorterAlgo();
     ArrayList<String> arrstr = new ArrayList<String>();
@@ -260,51 +386,51 @@ public static ArrayList<String> completeStem(List<String> tokens1){
 public static String fixText(String s){
 	
 	String pattern = "\r";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\n";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = ";";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = ",";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\]";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\[";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = ">";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "<";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "/";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "'s";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "'";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = ":";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "&nbsp;";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "-";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "/n";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\r";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\.";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\?";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\)";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "\\(";
-	s = s.replaceAll(pattern, " ");
+	s = s.replaceAll(pattern, "");
 	pattern = "Monday";
-	s = s.replaceAll(pattern, " ");
-	s = s.replaceAll("[-+.^:,]"," ");
-	s = s.replaceAll("[\\-\\+\\.\\^:,]"," ");
-	
-	s = s.replaceAll("[^\\x20-\\x7e]", " ");
+	s = s.replaceAll(pattern, "");
+	s = s.replaceAll("[-+.^:,]","");
+	s = s.replaceAll("[\\-\\+\\.\\^:,]","");
+	s = s.replaceAll("\\.", "");
+	s = s.replaceAll("[^\\x20-\\x7e]", "");
 	
 	
 	s = s.replaceAll("^ +| +$|( )+", "$1");
