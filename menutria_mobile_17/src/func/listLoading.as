@@ -14,6 +14,8 @@ public var extraitemarray:ArrayCollection =  new ArrayCollection();
 public var beforeaftervar:Number = 6;
 public function startapplyingdata():void {
 	menuList.dataProvider = new ArrayCollection();
+	previousindexes = new Array();
+	visibleindexes = new Array();
 	var i:uint = 0;
 	for (i = 0; i < extraitemarray.length; i++){
 		try{
@@ -33,6 +35,7 @@ public function startapplyingdata():void {
 			menuList.dataProvider.addItem(listData[i]);
 		}	
 	}
+	listData.refresh();
 }
 protected function list_creationCompleteHandler( event : FlexEvent ) : void {
 	menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );

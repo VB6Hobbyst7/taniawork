@@ -36,7 +36,7 @@
 			protected function init(event:FlexEvent):void
 			{
 				var neededwidth:Number = this.parent.width/2-gapo;
-				v1.height = neededwidth;
+				v1.height = neededwidth-30;
 				v1.gap = 0;
 				v1.mouseEnabled = false;
 				this.addElement(v1);

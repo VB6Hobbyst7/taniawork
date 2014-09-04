@@ -98,8 +98,7 @@
 				goingtonext  = false;								
 			}
 			public function init2():void{
-				//creation complete
-				
+				//creation complete			
 				setLoginVars();
 				this.parentApplication.showloading();
 				createIfNotExsist("merchusers");
@@ -193,6 +192,7 @@
 							listData[i].distance+"')");
 					}
 				}
+				generateCategoryFilterArray();
 				populatelist();	
 			} 
 			public function afterGetLocationsFilter(event:ResultEvent):void
@@ -287,8 +287,9 @@
 				}
 				extraitemarray = new ArrayCollection();
 				extraitemarray.addItem({name:"map",url:staticmapimageurl,viz:true});
-				startapplyingdata();	
-				generateCategoryFilterArray();
+				setTimeout(	startapplyingdata,50);
+				
+				
 				this.parentDocument.hideBusy();
 			}
 			public function press(event:KeyboardEvent):void {
@@ -608,7 +609,7 @@
 					listData.filterFunction = catFilter;
 				}
 				listData.refresh();
-				populatelist();
+				setTimeout(	populatelist,50);
 			}
 			private function allFilter(item:Object):Boolean{
 				return true;
