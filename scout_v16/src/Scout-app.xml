@@ -55,6 +55,7 @@
 </InfoAdditions>
 </iPhone>
  <android>
+  <colorDepth>16bit</colorDepth> 
         <manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto">
 				<uses-sdk android:targetSdkVersion="19"/>
