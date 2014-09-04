@@ -847,7 +847,7 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<components:InfiniteScrollList  width="100%" horizontalCenter="0"
+			<s:List  width="100%" horizontalCenter="0"
 					height="{this.height-(150/(320/Capabilities.screenDPI))}"
 					id="menuList" useVirtualLayout="false" 
 					verticalScrollPolicy="on"   
@@ -855,7 +855,7 @@
 					horizontalScrollPolicy="off"  
 					contentBackgroundColor="#FFFFFF"
 					skinClass="skins.MenuProxTileListSkin"
-					selectedIndex="1" dataProvider="{listData}"
+					selectedIndex="1" 
 					change="menuListClick();"
 					click="menuListClick();"/>
 			

@@ -47,6 +47,8 @@
 			}
 			public function afterGetRestrictions(event:ResultEvent):void
 			{
+				var i:uint = 0;
+				var j:uint = 0;
 				createIfNotExsist("resvalues");
 				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
 				listData = new ArrayCollection();
@@ -60,13 +62,13 @@
 					catch(e:Error){}
 				}	
 				
-				for (var j:uint = 0; j < listData.length; j++){
+				for (j = 0; j < listData.length; j++){
 					listData[j].chosen = 'no';
 					
 				}
 				if (resvaluesData.length > 0){
-					for (var i:uint = 0; i<resvaluesData.length; i++){
-						for (var j:uint = 0; j < listData.length; j++){
+					for (i = 0; i<resvaluesData.length; i++){
+						for (j = 0; j < listData.length; j++){
 							if (resvaluesData[i].id == listData[j].id){
 								listData[j].chosen = resvaluesData[i].chosen;
 							}

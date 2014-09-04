@@ -151,10 +151,11 @@
 					}
 					var srt:Sort = new Sort();
 					srt.fields = [new SortField("orderid")];
-					catarray.addItem({name:"All",picture:savedsampleimage,orderid:-1,frequency:totalcount,categoryid:"-1",locationid:locationid});
-
 					catarray.sort = srt;
 					catarray.refresh();
+					catarray.addItem({name:"All",picture:savedsampleimage,orderid:-1,frequency:totalcount,categoryid:"-1",locationid:locationid});
+
+				//	catarray.refresh();
 					//catarray.refresh();
 					dataList.dataProvider = catarray;
 				}

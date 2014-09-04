@@ -13,14 +13,15 @@ public var ti:Timer = new Timer(750,0);
 public var extraitemarray:ArrayCollection =  new ArrayCollection();
 public var beforeaftervar:Number = 6;
 public function startapplyingdata():void {
-	/*menuList.dataProvider = new ArrayCollection();
-	for (var i:uint = 0; i < extraitemarray.length; i++){
+	menuList.dataProvider = new ArrayCollection();
+	var i:uint = 0;
+	for (i = 0; i < extraitemarray.length; i++){
 		try{
 			menuList.dataProvider.addItem(extraitemarray[i]);	
 		}
 		catch(e:Error){}
 	}
-	for (var i:uint = 0; i < listData.length; i++){
+	for (i = 0; i < listData.length; i++){
 		if (listData[i].hideall != true){
 			if (i < 9){
 				listData[i].viz = true;
@@ -31,29 +32,29 @@ public function startapplyingdata():void {
 			
 			menuList.dataProvider.addItem(listData[i]);
 		}	
-	}*/
+	}
 }
 protected function list_creationCompleteHandler( event : FlexEvent ) : void {
-	//menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );
+	menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );
 }
 public var previousval:Number = 0;
 public var freetoload:Boolean = true;
 protected function propertyChangeHandler( event:PropertyChangeEvent ) : void {
 	if ( event.property == "verticalScrollPosition" ) {
-		
+		/*
 		trace("new val: "+event.newValue.toString()+
 			"  ||| mesured height: "+event.currentTarget.measuredHeight.toString()+
 			"  || cont height: "+event.currentTarget.height.toString()+
 			" ||| scroll pos: "+menuList.dataGroup.getItemIndicesInView());
 		
-		
+		*/
 		if (Math.round(Number(event.newValue)-previousval) != 0){
 			//trace("difference val: "+Math.round(Number(event.newValue)-previousval).toString());
 			if (Math.round(Number(event.newValue)-previousval) < 3){
-				/*if (freetoload){
+				if (freetoload){
 					dolistupdate();
 					freetoload = false;
-				}*/
+				}
 			
 			}
 		}
@@ -102,7 +103,7 @@ public function dolistupdate():void {
 	visibleindexes = new Array();
 	for (i = minindex; i <= maxindex; i++){
 		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,75*(i+1),i);
+			setTimeout(vizwait,15*(i+1),i);
 		}
 		visibleindexes.push(i);
 	}
@@ -110,14 +111,14 @@ public function dolistupdate():void {
 	
 	for (i = newminindex; i < minindex; i++){
 		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,(100*(i+1))+500,i);
+			setTimeout(vizwait,(50*(i+1))+500,i);
 		}
 		visibleindexes.push(i);
 	}
 	
 	for (i = maxindex+1; i <= newmaxindex; i++){
 		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,(100*(i+1))+500,i);
+			setTimeout(vizwait,(50*(i+1))+500,i);
 		}
 		visibleindexes.push(i);
 	}
@@ -125,7 +126,7 @@ public function dolistupdate():void {
 	
 	for (i = 0; i < previousindexes.length; i++){
 		var foundo:Boolean = false;
-		for (var j:uint = 0; j < visibleindexes.length; j++){
+		for (j = 0; j < visibleindexes.length; j++){
 			if (visibleindexes[j] == previousindexes[i]){
 				foundo = true;
 			}
@@ -133,17 +134,17 @@ public function dolistupdate():void {
 		
 		if (menuList.dataProvider.getItemAt(previousindexes[i]).viz != foundo){
 			if (foundo == true){
-				setTimeout(vizwait,(50*(i+1)),previousindexes[i]);
+				setTimeout(vizwait,(10*(i+1)),previousindexes[i]);
 			}
 			else {
-				setTimeout(vizwait2,(50*(i+1)),previousindexes[i]);
+				setTimeout(vizwait2,(10*(i+1)),previousindexes[i]);
 			}
 		}	
 	} 
 	previousindexes = new Array();
 	previousindexes = visibleindexes;
 
-	ti = new Timer(1500,0);
+	ti = new Timer(250,0);
 	ti.addEventListener(TimerEvent.TIMER, afterti);
 	ti.start();
 	
@@ -153,10 +154,10 @@ public function afterti(ev:TimerEvent):void {
 	ti.removeEventListener(TimerEvent.TIMER, afterti);
 	freetoload = true;
 }
-public function vizwait(index:uint){
+public function vizwait(index:uint):void {
 	menuList.dataProvider.getItemAt(index).viz = true;
 }
 
-public function vizwait2(index:uint){
+public function vizwait2(index:uint):void {
 	menuList.dataProvider.getItemAt(index).viz = false;
 }

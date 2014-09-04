@@ -7,6 +7,7 @@ public var resData:ArrayCollection = new ArrayCollection();
 public var modData:ArrayCollection = new ArrayCollection();
 public function syncmenurestrictions():void {
 	createIfNotExsist("resvalues");
+	var i:uint = 0;
 	var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
 	if (resvaluesData.length > 0){
 		for (var j:uint = 0; j < listData.length; j++){
@@ -14,7 +15,7 @@ public function syncmenurestrictions():void {
 			var permabad:Boolean = false;
 			for (var k:uint = 0; k < resData.length; k++){
 				if (resData[k].menuid == listData[j].id){
-					for (var i:uint = 0; i<resvaluesData.length; i++){
+					for (i = 0; i<resvaluesData.length; i++){
 						if ((resvaluesData[i].id == resData[k].restrictid)
 							&&(resvaluesData[i].chosen == 'yes')){
 							goodstatus = 1;
@@ -54,7 +55,7 @@ public function syncmenurestrictions():void {
 		}
 	}
 	else {
-		for (var i:uint = 0; i < listData.length; i++){
+		for (i = 0; i < listData.length; i++){
 			listData[i].hideall = false;
 		}
 	}

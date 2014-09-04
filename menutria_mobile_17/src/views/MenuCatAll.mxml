@@ -158,12 +158,14 @@
 			}
 			public function populatelist(u:uint):void {
 				var srt:Sort = new Sort();
+				var i:uint = 0;
+				var lastcat:String = "";
 				if ((u == 1)||(u==0)){
 					srt.fields = [new SortField("categoryname")];
 					listData.sort = srt;
 					listData.refresh();
-					var lastcat:String = "";
-					for (var i:uint = 0; i < listData.length; i++){
+					lastcat = "";
+					for (i = 0; i < listData.length; i++){
 						if ((listData[i].categoryname.toLowerCase() != lastcat)
 							||(lastcat == "")){
 							if (listData[i].hideall == false){
@@ -181,7 +183,7 @@
 					srt.fields = [new SortField("rating",!reverse,true)];
 					listData.sort = srt;
 					listData.refresh();
-					for (var i:uint = 0; i < listData.length; i++){
+					for (i = 0; i < listData.length; i++){
 						listData[i].divtype = 0;
 					}
 				}
@@ -189,7 +191,7 @@
 					srt.fields = [new SortField("cost",!reverse,true)];
 					listData.sort = srt;
 					listData.refresh();
-					for (var i:uint = 0; i < listData.length; i++){
+					for (i = 0; i < listData.length; i++){
 						listData[i].divtype = 0;
 					}
 				}
@@ -197,10 +199,10 @@
 					srt.fields = [new SortField("categoryname")];
 					listData.sort = srt;
 					listData.refresh();
-					var lastcat:String = "";
+					lastcat = "";
 					
 					
-					for (var i:uint = 0; i < listData.length; i++){
+					for (i = 0; i < listData.length; i++){
 						if ((listData[i].categoryname.toLowerCase() != lastcat)||(lastcat == "")){
 							listData[i].divtype = 1;
 						}

@@ -53,6 +53,8 @@
 				loadrest();
 			}
 			public function loadrest():void {
+				var ratingstring:String ="";
+				var ratingnumber:Number = -1;
 				var neededwidth:Number = this.parent.width/2-1;
 				if (addedallitems == false){
 					addedallitems = true;
@@ -126,8 +128,8 @@
 					l1.styleName = "textsize1";
 					l1.setStyle("fontWeight","bold");
 					l1.setStyle("color","#36ccba");
-					var ratingstring:String =data.rating.toString();
-					var ratingnumber:Number = Number(data.rating);
+					ratingstring =data.rating.toString();
+					ratingnumber = Number(data.rating);
 					if (ratingnumber == 0){
 						l1.text = "-";
 					}
@@ -232,8 +234,8 @@
 						bmpImg.source = data.picture;
 					}
 					
-					var ratingstring:String =data.rating.toString();
-					var ratingnumber:Number = Number(data.rating);
+					ratingstring =data.rating.toString();
+					ratingnumber = Number(data.rating);
 					if (ratingnumber == 0){
 						l1.text = "-";
 					}

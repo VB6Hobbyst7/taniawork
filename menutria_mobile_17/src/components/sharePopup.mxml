@@ -59,7 +59,7 @@
 								menuname,
 								descriptiontext,
 								"http://www.menutria.com",
-								dishImg).addDialogListener(function(e:GVFacebookEvent) {
+								dishImg).addDialogListener(function(e:GVFacebookEvent):void {
 									switch(e.type)
 									{
 										case GVFacebookEvent.FB_DIALOG_CANCELED:
@@ -89,7 +89,7 @@
 						// show a twitter status post dialog
 						GoViral.goViral.showTweetSheetWithImage(
 							menuname,
-							bmpData).addDialogListener(function(e:GVTwitterEvent) {
+							bmpData).addDialogListener(function(e:GVTwitterEvent):void {
 								switch(e.type)
 								{
 									case GVTwitterEvent.TW_DIALOG_FINISHED:
