@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				autoDrawBackground="false" contentBackgroundAlpha="0" 
+				mouseChildren="false"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<fx:Script source="../func/global.as"/>
+	<fx:Declarations>
+		<s:GlowFilter id="selectionglow"
+			alpha="1" strength="200" knockout="true"
+			color="0x36ccba"  blurX="30" blurY="30"
+			inner="true"/>
+	</fx:Declarations>
+<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}">
+	<s:Rect width="100%"  height="100%">
+		<s:fill>
+			<s:SolidColor alpha.selected="0" alpha.hovered="1" alpha.normal="0" color="#494949" />
+		</s:fill>
+	</s:Rect>
+	<s:BitmapImage left="{30/(320/Capabilities.screenDPI)}" verticalCenter="0"  
+	 filters.hovered="{[selectionglow]}" contentLoader="{s_imageCache}"
+	 filters.normal="[]"  source="{data.img}"/>
+	<s:Label left="{90/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+			 styleName="textsize1" text="{data.name}" verticalCenter="0"
+			 filters.normal="[]" fontWeight="bold"
+			 filters.hovered="{[selectionglow]}"/>
+	<s:Line  left="0" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="#8d8d8d" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:Group>
+</s:ItemRenderer>
