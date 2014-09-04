@@ -1,0 +1,27 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace renderers  "renderers.*";
+
+
+renderers|TweetGridRenderer
+{
+	padding-left: 15;
+	padding-right: 15;
+	gap: 20;
+	
+	min-height: 50;
+	vertical-grid-line-color:#aaaaaa;
+	font-size: 15;
+	color: #555555;
+	font-family: _sans;
+	separator: Embed(source='/styles/images/separator.png' );
+	
+	background: Embed(source='/styles/images/background_up.png', 
+		scaleGridLeft=10, scaleGridTop=20, scaleGridRight=11, scaleGridBottom=21 );
+}
+
+renderers|TweetGridRenderer:selected
+{
+	background: Embed(source='/styles/images/background_down.png',
+		scaleGridLeft=50, scaleGridTop=20, scaleGridRight=51, scaleGridBottom=21 );
+}
