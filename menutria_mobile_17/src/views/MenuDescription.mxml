@@ -407,7 +407,7 @@
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  visible="false"
 						 mouseEnabledWhereTransparent="true" id="backbutton"  left="0"  
 						 mouseDown="navigator.popView();">
-					<s:BitmapImage top="{30/(320/Capabilities.screenDPI)}" 
+					<s:BitmapImage top="{60/(320/Capabilities.screenDPI)}" 
 							  left="{30/(320/Capabilities.screenDPI)}"
 							  contentLoader="{s_imageCache}" >
 						<s:source>
@@ -454,7 +454,6 @@
 				
 				
 				</s:VGroup>
-				
 				<s:Group width="100%"  horizontalCenter="0"  verticalCenter="0">
 					<s:Group click="reviewPopupGroup.startReview();" height="{60/(320/Capabilities.screenDPI)}" 
 							 mouseDown="gDown(event)" mouseOver="gOver(event)"

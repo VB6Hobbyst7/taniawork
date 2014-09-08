@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				creationComplete="init(event)" 
+				creationComplete="init()" 
 				contentBackgroundAlpha="1"
 				contentBackgroundColor="#FFFFFF" 
 				dataChange="datachango()"
@@ -33,60 +33,35 @@
 			public function gOut():void {
 				this.alpha = 1;
 			}
-			protected function init(event:FlexEvent):void
+			protected function init():void
 			{
-				var neededwidth:Number = this.parent.width/2-gapo;
-				v1.height = neededwidth-30;
-				v1.gap = 0;
-				v1.mouseEnabled = false;
-				this.addElement(v1);
-				if ((data.viz == true)&&(addedallitems == false)){
-					if (data.name == "Loading More Items"){
-						v1.width = neededwidth;
-						var ll:Label = new Label();
-						ll.width = neededwidth;
-						ll.horizontalCenter = 0;
-						ll.top = 50/(320/Capabilities.screenDPI);
-						ll.styleName = styleManager.getStyleDeclaration("textsize3");
-						ll.setStyle("color",0x36ccba);
-						ll.text = data.name;
-						v1.addElement(ll);
-					}
-					else if (data.name == "map"){
-						this.width = this.parent.width;
-						v1.height = this.parent.width/(16/7);
-						v1.width = this.parent.width;
-						var bmpImg:BitmapImage = new BitmapImage();
-						bmpImg.source = data.url;
-						bmpImg.width = this.parent.width;
-						bmpImg.height = this.parent.width/(16/7);
-						v1.addElement(bmpImg);
-					}
-					else {
-						this.width = neededwidth;
-						v1.width = neededwidth;
-						loadrest();
-					}
-				}
-				else {
-					this.width = neededwidth;
-				}
-			}
-			protected function datachango():void
-			{	
-				try{
+				if (data != null){
 					var neededwidth:Number = this.parent.width/2-gapo;
-					if ((data.viz == true)&&(addedallitems == false)){
+					v1.height = neededwidth-30;
+					v1.gap = 0;
+					v1.mouseEnabled = false;
+					this.addElement(v1);
+					if ((addedallitems == false)){
 						if (data.name == "Loading More Items"){
 							v1.width = neededwidth;
-							this.width = neededwidth;
-							
+							var ll:Label = new Label();
+							ll.width = neededwidth;
+							ll.horizontalCenter = 0;
+							ll.top = 50/(320/Capabilities.screenDPI);
+							ll.styleName = styleManager.getStyleDeclaration("textsize3");
+							ll.setStyle("color",0x36ccba);
+							ll.text = data.name;
+							v1.addElement(ll);
 						}
 						else if (data.name == "map"){
-							v1.height = this.parent.width/(16/7);
 							this.width = this.parent.width;
+							v1.height = this.parent.width/(16/7);
 							v1.width = this.parent.width;
-							
+							var bmpImg:BitmapImage = new BitmapImage();
+							bmpImg.source = data.url;
+							bmpImg.width = this.parent.width;
+							bmpImg.height = this.parent.width/(16/7);
+							v1.addElement(bmpImg);
 						}
 						else {
 							this.width = neededwidth;
@@ -96,11 +71,41 @@
 					}
 					else {
 						this.width = neededwidth;
-						v1.removeAllElements();
-						addedallitems = false;
 					}
 				}
-				catch(ev:Error){}
+			}
+			protected function datachango():void
+			{	
+				if (data != null){
+					try{
+						var neededwidth:Number = this.parent.width/2-gapo;
+						if ((addedallitems == false)){
+							if (data.name == "Loading More Items"){
+								v1.width = neededwidth;
+								this.width = neededwidth;
+								
+							}
+							else if (data.name == "map"){
+								v1.height = this.parent.width/(16/7);
+								this.width = this.parent.width;
+								v1.width = this.parent.width;
+								
+							}
+							else {
+								this.width = neededwidth;
+								v1.width = neededwidth;
+								loadrest();
+							}
+						}
+						else {
+							this.width = neededwidth;
+							v1.removeAllElements();
+							addedallitems = false;
+							init();
+						}
+					}
+					catch(ev:Error){}
+				}	
 			}
 				
 			public function loadrest():void {
@@ -301,7 +306,6 @@
 					
 					v1.addElement(hg);
 					v1.addElement(v2);
-					
 				}		
 			}
 			public function getDPIHeight():Number {

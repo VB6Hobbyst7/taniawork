@@ -70,7 +70,8 @@
 								catLabel2.text = data.categoryname;
 								costLabel.text = "  $"+data.cost;
 								bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
-								bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+								bmpImg.height = setheightval-2;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+								bmpImg.verticalCenter = 0;
 								bmpImg.maxHeight = this.height;
 								if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 									bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
@@ -148,7 +149,8 @@
 								catLabel2.text = data.categoryname;
 								costLabel.text = "  $"+data.cost;
 								bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
-								bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+								bmpImg.height = setheightval-2;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+								bmpImg.verticalCenter = 0;
 								if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 									bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
 								}

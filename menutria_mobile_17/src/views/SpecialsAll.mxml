@@ -6,7 +6,9 @@
 		xmlns:components="components.*" 
 		 contentBackgroundAlpha="1"
 		 contentBackgroundColor="#f3f3f3" 
+		  destructionPolicy="never"
 		viewActivate="init()"
+		 creationComplete="init2()"
 		title="Specials"   >
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/specialscommon.as"/>
@@ -39,13 +41,14 @@
 			public var currentselectmode:Number = 1;
 			public function init():void
 			{
+				goingtonext = false;
+			}
+			public function init2():void {
 				warn.visible = false;
-				
 				setLoginVars();
 				scroller.visible = true;
 				getSpecials.send();
 			}
-			
 			public function afterGetSpecials(ev:ResultEvent):void {				
 				backupspecialsData = new ArrayCollection();
 				try{			
@@ -160,23 +163,7 @@
 				if (goingtonext == false){
 					goingtonext = true;
 					if (specialsList.selectedIndex != -1){
-						try{
-							data.homefilterarray = [];
-						}
-						catch(e:Error){}
-						
-						try{
-							var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
-							if (dataArray.length != 0){
-								for (var i:uint = 0; i < dataArray.length; i++){
-									if (dataArray[i].id == specialsData[specialsList.selectedIndex].locationid){
-										navigator.pushView(StoresDescription, dataArray[i]);	
-									}
-								}
-							}
-						}
-						catch(e:Error){}
-						
+						navigator.pushView(SpecialsDescription, specialsData[specialsList.selectedIndex]);		
 					}
 					else {
 						goingtonext = false;

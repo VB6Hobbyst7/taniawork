@@ -208,7 +208,7 @@
 				<!--components:transbutton textLabel="Sign In" horizontalCenter="0" 
 										click="authorizeLogin(userNameInput.text,userPasswordInput.text)" /-->	
 				<components:transbutton textLabel="Sign In" horizontalCenter="0" 
-										click="authorizeLogin('bieber@ualberta.ca','bieber77')" />
+										click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
 				<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="backToLoginOptions();"/>	
 
 				<s:Label top="210" fontFamily="_sans" visible="false"  color="#FFFFFF" id="logWarning"

@@ -246,8 +246,8 @@
 				  horizontalCenter="0" verticalCenter="0"  width="{this.width}"  maxWidth="{this.width}" >
 			<s:Group width="100%" height="{img1.height}"   id="megacont"  >
 				<s:BitmapImage id="img1"  width="{this.width}"  maxWidth="{this.width}" scaleMode="zoom"
-						 top="0"  height="{this.width/(640/300)}"
-							  source="{data.business_picture}"  contentLoader="{s_imageCache}" />
+							   top="0"  height="{this.width/(640/300)}"
+							   source="{data.business_picture}"  contentLoader="{s_imageCache}" />
 				<s:BitmapImage id="shaddow"  width="100%"  top="0"	contentLoader="{s_imageCache}"   >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadow.png')"
@@ -259,7 +259,7 @@
 				</s:BitmapImage>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}" id="backbutton" mouseEnabledWhereTransparent="true" 
 						 top="0" left="0"  mouseDown="navigator.popView();">
-					<s:Image  top="{30/(320/Capabilities.screenDPI)}" 
+					<s:Image  top="{60/(320/Capabilities.screenDPI)}" 
 							  left="{30/(320/Capabilities.screenDPI)}" 
 							  mouseEnabled="false" contentLoader="{s_imageCache}" >
 						<s:source>
@@ -305,9 +305,9 @@
 				
 				<s:Group  width="100%" >
 					<s:Group click="menuClick();" height="{60/(320/Capabilities.screenDPI)}"
-									   mouseDown="gDown(event)" mouseOver="gOver(event)" 
-									   mouseUp="gOut(event)" mouseOut="gOut(event)"
-									   width="{this.width/2-30}" left="{20/(320/Capabilities.screenDPI)}" >
+							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
+							 mouseUp="gOut(event)" mouseOut="gOut(event)"
+							 width="{this.width/2-30}" left="{20/(320/Capabilities.screenDPI)}" >
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
@@ -319,10 +319,10 @@
 								 text="Menu" color="#FFFFFF"  textAlign="center" styleName="textsize2"  fontWeight="bold"/>
 					</s:Group>
 					<s:Group click="viewspecials(event);"
-									   height="{60/(320/Capabilities.screenDPI)}"
-									   mouseDown="gDown(event)" mouseOver="gOver(event)" 
-									   mouseUp="gOut(event)" mouseOut="gOut(event)"
-									   width="{this.width/2-30}" right="{20/(320/Capabilities.screenDPI)}">
+							 height="{60/(320/Capabilities.screenDPI)}"
+							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
+							 mouseUp="gOut(event)" mouseOut="gOut(event)"
+							 width="{this.width/2-30}" right="{20/(320/Capabilities.screenDPI)}">
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
@@ -336,9 +336,9 @@
 				</s:Group>
 				<s:VGroup width="{this.width}"  maxWidth="{this.width}"  gap="0" >
 					<s:Group width="100%" height="{120/(320/Capabilities.screenDPI)}"
-									   click="navigateToURL(new URLRequest(googleTravelUrl))"
-									   mouseOver="gOver(event);" mouseDown="gDown(event);"
-									   mouseOut="gOut(event);" mouseUp="gOut(event);" >
+							 click="navigateToURL(new URLRequest(googleTravelUrl))"
+							 mouseOver="gOver(event);" mouseDown="gDown(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);" >
 						<s:Rect width="100%"  height="100%">
 							<s:fill>
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
@@ -403,9 +403,9 @@
 					</s:Group>
 					
 					<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"
-									   click="navigateToURL(new URLRequest('tel:'+data.business_number));"
-									   mouseOver="gOver(event);" mouseDown="gDown(event);"
-									   mouseOut="gOut(event);" mouseUp="gOut(event);">
+							 click="navigateToURL(new URLRequest('tel:'+data.business_number));"
+							 mouseOver="gOver(event);" mouseDown="gDown(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
 						<s:Rect width="100%"  height="100%">
 							<s:fill>
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
@@ -453,9 +453,9 @@
 				</s:Group>
 				<s:Group width="100%" >
 					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
-							 fontWeight="bold" styleName="textsize5"
-							id="reviewlabel"
-							 verticalCenter="0"/>
+							  fontWeight="bold" styleName="textsize5"
+							  id="reviewlabel"
+							  verticalCenter="0"/>
 					<s:Image id="topratedrecentimg" 
 							 right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
 							 click="topratedrecentclick(event)" 

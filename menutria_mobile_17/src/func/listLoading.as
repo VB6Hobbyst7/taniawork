@@ -12,8 +12,14 @@ public var previousindexes:Array = new Array();
 public var ti:Timer = new Timer(750,0);
 public var extraitemarray:ArrayCollection =  new ArrayCollection();
 public var beforeaftervar:Number = 6;
+public var hurrymode:Boolean = false;
 public function startapplyingdata():void {
-	menuList.dataProvider = new ArrayCollection();
+	if (menuList.dataProvider != null){
+		menuList.dataProvider.removeAll();
+	}
+	else {
+		menuList.dataProvider = new ArrayCollection();
+	}
 	previousindexes = new Array();
 	visibleindexes = new Array();
 	var i:uint = 0;
@@ -23,18 +29,30 @@ public function startapplyingdata():void {
 		}
 		catch(e:Error){}
 	}
-	for (i = 0; i < listData.length; i++){
-		if (listData[i].hideall != true){
-			if (i < 9){
+	
+	if (hurrymode){
+		for (i = 0; i < listData.length; i++){
+			if (listData[i].hideall != true){
 				listData[i].viz = true;
-			}
-			else {
-				listData[i].viz = false;
-			}
-			
-			menuList.dataProvider.addItem(listData[i]);
+				menuList.dataProvider.addItem(listData[i]);
+			}	
+		}
+	}
+	else {
+		for (i = 0; i < listData.length; i++){
+			if (listData[i].hideall != true){
+				if (i < 9){
+					listData[i].viz = true;
+				}
+				else {
+					listData[i].viz = false;
+				}
+				
+				menuList.dataProvider.addItem(listData[i]);
+			}	
 		}	
 	}
+	
 	listData.refresh();
 }
 protected function list_creationCompleteHandler( event : FlexEvent ) : void {
@@ -99,8 +117,8 @@ public function dolistupdate():void {
 		newmaxindex = listData.length;
 	}
 	
-	if (maxindex > listData.length){
-		maxindex = listData.length;
+	if (maxindex >= listData.length){
+		maxindex = listData.length-1;
 	}
 	
 	visibleindexes = new Array();
