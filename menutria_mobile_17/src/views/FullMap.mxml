@@ -6,7 +6,7 @@
 		xmlns:components="components.*"
 		backgroundColor="#FFFFFF"
 		title="Map"
-		viewActivate="init();"
+		viewActivate="init()"
 		viewDeactivate="deac(event)">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -36,49 +36,36 @@
 	<fx:Script>
 		<![CDATA[
 			import com.esri.ags.events.LayerEvent;
-			import com.esri.ags.geometry.MapPoint;			
+			import com.esri.ags.geometry.MapPoint;
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
 			import components.mapGraphic;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			private function init():void {
-				
-				setLoginVars();
-				var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,
-					degrees_to_mercator_meters(mylong,mylat).y);
-				myMap.center = mp;
-				getLocations.send();
-				this.parentApplication.removeswipefunctions();
-			}
-			public function afterGetLocations(event:ResultEvent):void
-			{
-				listData = new ArrayCollection();
-				try{			
-					listData = event.result[0].ress.res;		
+				try{
+					setLoginVars();
+					var mp:MapPoint = new MapPoint(degrees_to_mercator_meters(mylong,mylat).x,degrees_to_mercator_meters(mylong,mylat).y);
+					myMap.center = mp;
+					this.parentApplication.removeswipefunctions();
+					listData = data.listData;
+					for (var i:uint = 0; i < listData.length; i++){
+						var mg:mapGraphic = new mapGraphic();
+						mg.addEventListener(MouseEvent.MOUSE_DOWN, checkifgogo);
+						mg.symbol = infoSymbolWithStates;
+						mg.xx = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).x;
+						mg.yy = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).y;
+						mg.name = i.toString()+"gr";
+						mg.title = listData[i].business_name;
+						mg.ido = i.toString();
+						mg.address =  listData[i].business_address1;
+						myGraphicsLayer.add(mg);
+					}	
 				}
 				catch(e:Error){
-					try{
-						listData.addItem(event.result[0].ress.res);
-					}
-					catch(e:Error){
-					}
-				}
-				for (var i:uint = 0; i < listData.length; i++){
-					var mg:mapGraphic = new mapGraphic();
-					mg.addEventListener(MouseEvent.MOUSE_DOWN, checkifgogo);
-					mg.symbol = infoSymbolWithStates;
-					mg.xx = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).x;
-					mg.yy = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).y;
-					mg.name = i.toString()+"gr";
-					mg.title = listData[i].business_name;
-					mg.ido = i.toString();
-					mg.address =  listData[i].business_address1;
-					myGraphicsLayer.add(mg);
-				}
-				
+					
+				}				
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
@@ -144,14 +131,6 @@
 		]]>
 	</fx:Script>
 	<fx:Declarations>
-		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
-					   url="http://www.menutria.com/php/mobile/getLocations.php"
-					   result="afterGetLocations(event)" >
-			<s:request xmlns="">
-				<mylat>{data.mylat}</mylat>		
-				<mylong>{data.mylong}</mylong>		
-			</s:request>
-		</s:HTTPService>
 		<esri:InfoSymbol id="infoSymbolWithStates" containerStyleName="mapstyle"
 						 infoPlacement="center" 
 						 infoRenderer="com.esri.ags.samples.InfoRendererWithStates"/>

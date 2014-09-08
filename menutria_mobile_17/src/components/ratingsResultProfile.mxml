@@ -125,7 +125,7 @@
 			<s:VGroup id="vg1" verticalAlign="top" height="100%" horizontalAlign="left">
 				<s:BitmapImage id="bmpImg"  contentLoader="{s_imageCache}"  height="75" width="75">
 					<s:mask>
-						<s:BorderContainer id="bmpMask"
+						<s:BorderContainer id="bmpMask" 
 										   cornerRadius="{20/(320/Capabilities.screenDPI)}"
 										   width="{75/(320/Capabilities.screenDPI)}"
 										   height="{75/(320/Capabilities.screenDPI)}" />
