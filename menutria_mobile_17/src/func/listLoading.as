@@ -138,10 +138,13 @@ public function dolistupdate():void {
 	}
 	
 	for (i = maxindex+1; i <= newmaxindex; i++){
-		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,(50*(i+1))+500,i);
+		try{
+			if (menuList.dataProvider.getItemAt(i).viz == false){
+				setTimeout(vizwait,(50*(i+1))+500,i);
+			}
+			visibleindexes.push(i);
 		}
-		visibleindexes.push(i);
+		catch(e:Error){}
 	}
 	
 	

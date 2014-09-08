@@ -672,8 +672,8 @@
 			</s:BitmapImage>
 			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
 						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}"
-						   id="key"  top="{6/(320/Capabilities.screenDPI)}"  height="98%" borderVisible="false" fontWeight="normal"  
-						   contentBackgroundAlpha="0"
+						   id="key"  top="{6/(320/Capabilities.screenDPI)}"  height="98%" borderVisible="false" 
+						   contentBackgroundAlpha="0" softKeyboardType="contact"
 						   maxChars="20" prompt="Search Dishes"
 						   returnKeyLabel="search"/>
 		</s:Group>

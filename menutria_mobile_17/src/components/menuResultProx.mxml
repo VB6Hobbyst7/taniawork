@@ -61,15 +61,17 @@
 			}
 			protected function datachango():void
 			{
-				var neededwidth:Number = this.parent.width/2-gapo;
-				if ((data.viz == true)&&(addedallitems == false)){
-					if (data.name != "Loading More Items"){
-						loadrest();
+				if (data != null){
+					var neededwidth:Number = this.parent.width/2-gapo;
+					if ((data.viz == true)&&(addedallitems == false)){
+						if (data.name != "Loading More Items"){
+							loadrest();
+						}
 					}
-				}
-				else {
-					v1.removeAllElements();
-					addedallitems = false;
+					else {
+						v1.removeAllElements();
+						addedallitems = false;
+					}
 				}
 			}
 			public function loadrest():void {

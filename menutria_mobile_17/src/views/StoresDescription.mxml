@@ -257,7 +257,7 @@
 												source640dpi="@Embed('../assets/640/pictureshadow.png')"/>
 					</s:source>
 				</s:BitmapImage>
-				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  visible="false"
+				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  
 						 mouseEnabledWhereTransparent="true" id="backbutton"  left="0"  
 						 mouseDown="navigator.popView();">
 					<s:BitmapImage top="{40/(320/Capabilities.screenDPI)}" 
