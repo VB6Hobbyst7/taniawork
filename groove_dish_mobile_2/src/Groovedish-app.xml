@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/14.0">
-<id>com.groovedish.groovedish</id>
-<filename>groovedish</filename>
-<name>groovedish</name>
+<id>com.menutria.menutria</id>
+<filename>Groovedish</filename>
+<name>Groovedish</name>
 <versionNumber>2.0.0</versionNumber>
 <versionLabel>v2.0.0</versionLabel>
 <initialWindow>
-<content>groovedish.swf</content>
+<content>Groovedish.swf</content>
 <autoOrients>false</autoOrients>
 <aspectRatio>any</aspectRatio>
 <renderMode>auto</renderMode>
@@ -38,7 +38,7 @@
 <key>FacebookAppID</key>
 <string>1461197797460743</string>
 <key>FacebookDisplayName</key>
-<string>groovedish</string>
+<string>Menutria</string>
 <key>UIDeviceFamily</key> 
 <array> 
     <string>1</string> 
@@ -85,5 +85,6 @@
 <extensions>
 <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
 
+    
     </extensions>
 </application>

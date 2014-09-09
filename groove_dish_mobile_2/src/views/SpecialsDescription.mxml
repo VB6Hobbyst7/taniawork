@@ -5,19 +5,24 @@
 		xmlns:components="components.*"
 		backgroundColor="#FFFFFF"
 		contentBackgroundColor="#f3f3f3"
-		viewActivate="init()"
+		viewActivate="init()"  
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.ViewNavigatorEvent;
+			
+			import components.ratingsResultStore;
 			public function init():void
 			{
+				didlistclick = false;
 				setLoginVars();	
 				//getSpecialDescription.send();
 				if (Capabilities.version.indexOf('IOS') > -1){
@@ -32,34 +37,65 @@
 				backbutton.visible = true;
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
-					reviewPopupGroup.dishImg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
+					reviewPopupGroup.itemimg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
 				}
 				else {
-					reviewPopupGroup.dishImg = data.picture;
+					reviewPopupGroup.itemimg = data.picture;
 				}
 				img1.visible = true;
 				
 				
 				
-				reviewPopupGroup.menuid = data.id;
+				reviewPopupGroup.itemid = data.id;
+				reviewPopupGroup.type = "special";
 				reviewPopupGroup.email = emailGo;
 				reviewPopupGroup.locationid = data.locationid;
-				reviewPopupGroup.menuname = data.name;
+				reviewPopupGroup.itemname = data.name;
 				reviewPopupGroup.businessname = data.business_name;
 				reviewPopupGroup.mypic = pictureGo;
 				
 				
-				sharePopup.menuid = data.id;
+				sharePopup.itemid = data.id;
 				sharePopup.email = emailGo;
 				sharePopup.locationid = data.locationid;
 				sharePopup.menuname = data.name;
 				sharePopup.businessname = data.business_name;
 				sharePopup.mypic = pictureGo;
-				
+				getSpecialInformation.send();
 				
 			}
 			public function afterGetDesc(ev:ResultEvent):void {
+				var stop:String = "";
 				
+				reviewPopupGroup.reviewText.text = "";
+				topreviews = new ArrayCollection();
+				recentreviews = new ArrayCollection();
+				
+				try{			
+					topreviews = ev.result[0].results.result;	
+				}
+				catch(e:Error){
+					try{
+						
+						topreviews.addItem(ev.result[0].results.result);
+					}
+					catch(e:Error){
+					}
+				}
+				
+				try{			
+					recentreviews = ev.result[0].results2.result2;	
+				}
+				catch(e:Error){
+					try{
+						
+						recentreviews.addItem(ev.result[0].results2.result2);
+					}
+					catch(e:Error){
+					}
+				}
+				reviewList.dataProvider = topreviews;
+				reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
 			}
 			public function goback(ev:MouseEvent):void {
 				navigator.popView();
@@ -76,17 +112,57 @@
 			public function startShare():void {
 				sharePopup.startShare();
 			}
+			public var didlistclick:Boolean = false;
+			[Bindable]
+			public var topreviews:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var topratedrecentval:uint = 1;
+			[Bindable]
+			public var recentreviews:ArrayCollection = new ArrayCollection();
+			public function topratedrecentclick(event:MouseEvent):void
+			{
+				if (topratedrecentval == 1){
+					topratedrecentval = 2;
+					topratedrecentimg.source = topratedrecent2;
+					reviewList.dataProvider = recentreviews;
+					reviewlabel.text = 'Reviews ('+recentreviews.length.toString()+')';
+				}
+				else {
+					topratedrecentval = 1;
+					topratedrecentimg.source = topratedrecent1;
+					reviewList.dataProvider = topreviews;
+					reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
+				}
+				
+				
+			}
+		
+			public function seemoreclick():void {
+				navigator.pushView(SpecialsReviews,{id:data.id});
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
-		<s:HTTPService id="getSpecialDescription" method="GET" resultFormat="array"
-					   url="http://www.groovedish.com/php/mobile/getTopRatedDishes.php"
+		<s:HTTPService id="getSpecialInformation" method="GET" resultFormat="array"
+					   url="http://www.groovedish.com/php/mobile/getSpecialsInformation.php"
 					   result="afterGetDesc(event)" >
 			<s:request xmlns="">
 				<specialid>{data.id}</specialid>
 				<emailGo>{emailGo}</emailGo>
 			</s:request>
 		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="topratedrecent1"
+								source160dpi="@Embed('../assets/160/topratedrecent1.png')"
+								source240dpi="@Embed('../assets/240/topratedrecent1.png')"
+								source320dpi="@Embed('../assets/320/topratedrecent1.png')"
+								source480dpi="@Embed('../assets/480/topratedrecent1.png')"
+								source640dpi="@Embed('../assets/640/topratedrecent1.png')"/>
+		<s:MultiDPIBitmapSource id="topratedrecent2"
+								source160dpi="@Embed('../assets/160/topratedrecent2.png')"
+								source240dpi="@Embed('../assets/240/topratedrecent2.png')"
+								source320dpi="@Embed('../assets/320/topratedrecent2.png')"
+								source480dpi="@Embed('../assets/480/topratedrecent2.png')"
+								source640dpi="@Embed('../assets/640/topratedrecent2.png')"/>
 	</fx:Declarations>
 	<s:Scroller id="scroller" visible="true" left="0" right="0" height="100%" 
 				width="{this.width}"  maxWidth="{this.width}"
@@ -203,6 +279,31 @@
 					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
+				</s:Group>
+			
+				<s:Group width="100%" >
+					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
+							  fontWeight="bold" styleName="textsize5"
+							  id="reviewlabel" verticalAlign="middle"
+							  verticalCenter="0"/>
+					<s:Image id="topratedrecentimg" 
+							 right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
+							 click="topratedrecentclick(event)" 
+							 source="{topratedrecent1}"
+							 verticalCenter="0"/>
+				</s:Group>
+				<s:List  id="reviewList" 
+						 width="100%"
+						 verticalScrollPolicy="off" 
+						 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+						 itemRenderer="components.ratingsResultSpecial">
+					<s:layout>
+						<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
+					</s:layout>
+				</s:List>
+				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="{70/(320/Capabilities.screenDPI)}" >
+					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="{-10/(320/Capabilities.screenDPI)}"
+							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
 				</s:Group>
 			</s:VGroup>
 		</s:VGroup>

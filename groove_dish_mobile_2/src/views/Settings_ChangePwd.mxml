@@ -68,16 +68,16 @@
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{continue_btn.width}" 
-							height="{continue_btn.height}" 
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="oldpassword"   focusAlpha="0" fontFamily="Arial"
-								 width="{continue_btn.width}"
-								 height="{continue_btn.height}"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
 								 prompt="Old Password"
@@ -88,16 +88,16 @@
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{continue_btn.width}" 
-							height="{continue_btn.height}" 
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="newpassword1"   focusAlpha="0" fontFamily="Arial"
-								 width="{continue_btn.width}"
-								 height="{continue_btn.height}"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
 								 prompt="New Password"
@@ -108,16 +108,16 @@
 				
 				
 				<s:Group width="100%" >
-					<s:Rect width="{continue_btn.width}" 
-							height="{continue_btn.height}" 
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
 						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="newpassword2"   focusAlpha="0" fontFamily="Arial"
-								 width="{continue_btn.width}"
-								 height="{continue_btn.height}"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
 								 verticalCenter="0"
 								 horizontalCenter="0"
 								 prompt="Confirm New Password"
@@ -125,9 +125,7 @@
 								 displayAsPassword="true"
 								 borderVisible="false"/>
 				</s:Group>
-				
-				<components:continue_btn id="submit_btn" width="80%" click="changePass();"/>
-				<components:continue_btn visible="false" id="continue_btn" />
+				<components:transbutton id="submit_btn" textLabel="Submit" horizontalCenter="0" click="changePass();" />	
 			</s:VGroup>
 		</s:VGroup>
 	</s:Scroller>

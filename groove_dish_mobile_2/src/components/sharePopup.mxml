@@ -14,7 +14,7 @@
 			[Bindable]
 			public var dishImg:String = "";
 			[Bindable]
-			public var menuid:String = "";
+			public var itemid:String = "";
 			[Bindable]
 			public var menuname:String = "";
 			[Bindable]
@@ -32,12 +32,14 @@
 			[Bindable]
 			public var bmpData:BitmapData;
 			public function startShare():void {
+				stage.focus = null;
 				var gl:GlowFilter = new GlowFilter(0x36ccba,1,20,20,5,1,true);
 				shareType = 0;
 				sharefacebook.filters = [gl];
 				sharetwitter.filters = [];
 				shareText.text = "";
 				this.visible = true;
+				shareText.setFocus();
 
 			}
 			public function backOnShare():void {
@@ -66,7 +68,8 @@
 											this.visible = false;
 											break;
 										case GVFacebookEvent.FB_DIALOG_FAILED:
-											shareText.text = "The Share Dialog has failed:"+e.errorMessage
+											this.visible = false;
+											//shareText.text = "The Share Dialog has failed:"+e.errorMessage
 											break;
 										case GVFacebookEvent.FB_DIALOG_FINISHED:
 											this.visible = false;
@@ -76,6 +79,7 @@
 						}
 						catch(e:Error){
 							shareText.text = "FB ADOBE ERROR";
+							this.visible = false;
 						}	
 					}
 					
@@ -96,7 +100,8 @@
 										this.visible = false;
 										break;
 									case GVTwitterEvent.TW_DIALOG_FAILED:
-										shareText.text = "Twitter dialog failed.";
+										this.visible = false;
+									//	shareText.text = "Twitter dialog failed.";
 										break;
 									case GVTwitterEvent.TW_DIALOG_CANCELED:
 										this.visible = false;

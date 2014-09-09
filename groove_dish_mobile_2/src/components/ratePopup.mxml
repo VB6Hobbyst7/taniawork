@@ -10,11 +10,13 @@
 			[Bindable]
 			public var textl:String = "";
 			[Bindable]
-			public var dishImg:String = "";
+			public var itemimg:String = "";
 			[Bindable]
-			public var menuid:String = "";
+			public var itemid:String = "";
 			[Bindable]
-			public var menuname:String = "";
+			public var type:String = "";
+			[Bindable]
+			public var itemname:String = "";
 			[Bindable]
 			public var businessname:String = "";
 			[Bindable]
@@ -125,7 +127,8 @@
 				this.parentApplication.removeswipefunctions();
 				check.visible = false;
 				forward.visible = true;
-				
+				reviewback1.color = 0x85ded5;
+				reviewback2.color = 0xe6e6e6;
 				reviewPopupStage = 1;
 				writeholder.visible = false;
 				grholder.visible = true;
@@ -136,10 +139,14 @@
 					this.parentApplication.addswipefunctions();
 					reviewseq1.visible = true;
 					reviewseq2.visible = false;
+					reviewback1.color = 0x85ded5;
+					reviewback2.color = 0xe6e6e6;
 				}
 				else if (reviewPopupStage == 1){
 					this.parentApplication.addswipefunctions();
 					this.visible = false;
+					reviewback1.color = 0x85ded5;
+					reviewback2.color = 0xe6e6e6;
 					reviewPopupStage = 0;
 					reviewseq1.visible = true;
 					reviewseq2.visible = false;
@@ -151,6 +158,8 @@
 					check.visible = false;
 					forward.visible = true;
 					grholder.visible = true;
+					reviewback1.color = 0x85ded5;
+					reviewback2.color = 0xe6e6e6;
 					reviewseq1.visible = true;
 					reviewseq2.visible = false;
 					writeholder.visible = false;
@@ -169,6 +178,8 @@
 					this.parentApplication.removeswipefunctions();
 					reviewseq1.visible = false;
 					reviewseq2.visible = true;
+					reviewback1.color = 0xe6e6e6;
+					reviewback2.color = 0x85ded5;
 					check.visible = true;
 					forward.visible = false;
 					grholder.visible = false;
@@ -177,11 +188,15 @@
 					savedgrheight = grholder.height;
 					grholder.height = 15;
 					reviewPopupStage = 2;
+					stage.focus = null;
+					reviewText.setFocus();
 					
 				}
 				else if (reviewPopupStage == 2){
 					this.parentApplication.addswipefunctions();
 					this.visible = false;
+					reviewback1.color = 0x85ded5;
+					reviewback2.color = 0xe6e6e6;
 					writeholder.visible = false;
 					reviewseq1.visible = true;
 					reviewseq2.visible = false;
@@ -233,11 +248,12 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Declarations>
 		<s:HTTPService id="sendReview" method="GET" resultFormat="array"
-					   url="http://www.groovedish.com/php/mobile/sendReview.php"
+					   url="http://www.groovedish.com/php/mobile/sendRate.php"
 					   result="afterSendReview(event)" >
 			<s:request xmlns="">
-				<menuid>{menuid}</menuid>	
-				<emailGo>{email}</emailGo>		
+				<id>{itemid}</id>	
+				<emailGo>{email}</emailGo>	
+				<type>{type}</type>		
 				<locationid>{locationid}</locationid>		
 				<reviewValue>{actualRateValue}</reviewValue>		
 				<reviewText>{reviewText.text}</reviewText>		
@@ -253,7 +269,7 @@
 			</s:fill>
 		</s:Rect>
 		
-		<s:VGroup gap="0" height="95%" width="{reviewseq1.width}"
+		<s:VGroup gap="0" height="95%" width="90%"
 				  horizontalCenter="0" top="{60/(320/Capabilities.screenDPI)}">
 			<!-- TOP BAR WITH FORWARD BACK BUTTONS -->
 			<s:Group width="100%" height="{reviewseq1.height}">
@@ -314,6 +330,17 @@
 			<!-- Rate Write labels  -->
 			<s:Group width="100%" height="{reviewseq1.height}">
 				<s:Group height="{reviewseq1.height}" width="100%">
+					<s:Rect  width="49%" left="0"  height="100%" >
+						<s:fill>
+							<s:SolidColor id="reviewback1" alpha="1" color="#85ded5"/>
+						</s:fill>
+					</s:Rect>
+					<s:Rect width="49%" right="0"  height="100%" >
+						<s:fill>
+							<s:SolidColor id="reviewback2" alpha="1" color="#e6e6e6"/>
+						</s:fill>
+					</s:Rect>
+					
 					<s:BitmapImage id="reviewseq1" visible="true"
 								   horizontalCenter="0"
 								   verticalCenter="0" 
@@ -341,7 +368,7 @@
 				</s:Group>
 			</s:Group>	
 			<!-- Profile and item info sections  -->
-			<s:Group width="{reviewseq1.width}" height="{100/(320/Capabilities.screenDPI)}" horizontalCenter="0" mouseEnabled="false"    >
+			<s:Group width="100%" height="{100/(320/Capabilities.screenDPI)}" horizontalCenter="0" mouseEnabled="false"    >
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="1" color="#FFFFFF"/>
@@ -356,7 +383,7 @@
 					<s:Group width="{20/(320/Capabilities.screenDPI)}">
 					</s:Group>
 					<s:VGroup width="{reviewseq1.width-(220/(320/Capabilities.screenDPI))}" verticalAlign="middle"  height="100%">
-						<s:Label  text="{menuname}" width="{reviewseq1.width-220}"  color="#4d4d4d"  
+						<s:Label  text="{itemname}" width="{reviewseq1.width-220}"  color="#4d4d4d"   maxDisplayedLines="1"
 								  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
 						
 						<s:Label  text="{businessname}" width="{reviewseq1.width-(220/(320/Capabilities.screenDPI))}" 
@@ -365,14 +392,14 @@
 					</s:VGroup>
 				</s:HGroup>
 				<s:BitmapImage id="bmpImg22" right="0"  width="{100/(320/Capabilities.screenDPI)}" 	
-							   height="{100/(320/Capabilities.screenDPI)-1}"  source="{dishImg}"
+							   height="{100/(320/Capabilities.screenDPI)-1}"  source="{itemimg}"
 							   contentLoader="{s_imageCache}"  scaleMode="zoom" />
 				<s:Line left="0" right="0"  bottom="0" > 
 					<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 				</s:Line>				
 			</s:Group>
 			<!-- Circle and Write Holder  -->
-			<s:Group id="maincont" width="{reviewseq1.width}"   height="100%" >
+			<s:Group id="maincont" width="100%"   height="100%" >
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="1" color="#FFFFFF"/>
@@ -413,7 +440,7 @@
 			</s:Group>
 			<s:Image id="confirmbtn"   mouseDown="forwardOnMenu();"  
 					 horizontalCenter="0" contentLoader="{s_imageCache}"
-					 mouseOver="gOver(event)" width="{reviewseq1.width}"  scaleMode="zoom"
+					 mouseOver="gOver(event)" width="100%"  scaleMode="zoom"
 					 mouseUp="gOut(event)" mouseOut="gOut(event)" >
 				<s:source>
 					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/confirmbtn.png')"

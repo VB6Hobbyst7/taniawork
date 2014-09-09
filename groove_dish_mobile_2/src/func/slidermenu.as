@@ -18,7 +18,6 @@ public var autofiltersmove:Boolean = false;
 public var openclosestatus:Number = 0;
 //general menu functions
 protected function overAllMouseUp(event:MouseEvent):void{
-	mainNavigator.focusEnabled = true;
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	if ((menumoving)&&(automenumove == false)){
@@ -123,7 +122,6 @@ public function afterOpenMenu(ev:EffectEvent):void {
 public function updateMenuLocation(ev:MouseEvent):void {
 	if (ev.stageX <= menu.width){
 		menuopen = true;
-		mainNavigator.focusEnabled = false;
 		menumoving = true;
 		automenumove = false;
 		menu.x = ev.stageX-menu.width;
@@ -212,7 +210,6 @@ public function afterOpenFilters(ev:EffectEvent):void {
 }
 public function updateFiltersLocation(ev:MouseEvent):void {
 	if (ev.stageX >= this.width-filtersmenu.width){
-		mainNavigator.focusEnabled = false;
 		filtersopen = true;
 		mainNavigator.activeView.mouseChildren = true;
 		filtersmoving = true;

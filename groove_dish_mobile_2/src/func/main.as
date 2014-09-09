@@ -160,6 +160,7 @@ public function nativeKeyDown(event:KeyboardEvent):void
 			mainNavigator.popView();
 		}
 		event.preventDefault();
+		stage.focus = null;
 	}
 	if (key == Keyboard.MENU){
 		if ((mainNavigator.activeView.className != "Login")&&
@@ -168,6 +169,7 @@ public function nativeKeyDown(event:KeyboardEvent):void
 			menuButtonClick();
 		}
 		event.preventDefault();
+		stage.focus = null;
 	}
 }
 public function onSwipe(event:TransformGestureEvent):void

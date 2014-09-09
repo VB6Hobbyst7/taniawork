@@ -58,6 +58,7 @@
 			}
 			public function showThings(u:uint):void {
 				selectedThing = u;
+				warn1.visible = false;
 				if (u == 1){
 					myreviewlist.visible = true;
 					reviewsivelikedlist.visible = false;
@@ -68,14 +69,20 @@
 					rec2.alpha = 1;
 					rec3.alpha = 1;
 					if (fetechedMyReviews){
-						myreviewlist.dataProvider = rateArray;
+						if (rateArray.length > 0){
+							myreviewlist.dataProvider = rateArray;
+						}
+						else {
+							warn1.text = "No Reviewed Dishes";
+							warn1.visible = true;
+						}
 					}
 					else {
 						getRatings.send();
 					}
 				}
 				else if (u == 2){
-					myreviewlist.visible = false;
+					myreviewlist.visible = false;	
 					reviewsivelikedlist.visible = true;
 					placeslist.visible = false;
 					myreviewlist.dataProvider = new ArrayCollection();
@@ -84,7 +91,13 @@
 					rec2.alpha = 0.5;
 					rec3.alpha = 1;
 					if (fetechedLikedReviews){
-						reviewsivelikedlist.dataProvider = likeArray;
+						if (likeArray.length > 0){
+							reviewsivelikedlist.dataProvider = likeArray;
+						}
+						else {
+							warn1.text = "No Liked Reviews";
+							warn1.visible = true;
+						}
 					}
 					else {
 						getReviewsILiked.send();
@@ -102,7 +115,13 @@
 					rec3.alpha = 0.5;
 					
 					if (fetechedPlaces){
-						placeslist.dataProvider = placesArray;
+						if (placesArray.length > 0){
+							placeslist.dataProvider = placesArray;
+						}
+						else {
+							warn1.text = "No Places Eaten";
+							warn1.visible = true;
+						}
 					}
 					else {
 						getPlacesEaten.send();
@@ -120,7 +139,15 @@
 					}
 					catch(e:Error){}
 				}
-				myreviewlist.dataProvider = rateArray;
+				
+				if (rateArray.length > 0){
+					//warn1.visible = false;
+					myreviewlist.dataProvider = rateArray;
+				}
+				else {
+					warn1.text = "No Reviewed Dishes";
+					warn1.visible = true;
+				}
 				fetechedMyReviews = true;
 			
 			}
@@ -135,7 +162,14 @@
 					}
 					catch(e:Error){}
 				}
-				reviewsivelikedlist.dataProvider = likeArray;
+				
+				if (likeArray.length > 0){
+					reviewsivelikedlist.dataProvider = likeArray;
+				}
+				else {
+					warn1.text = "No Liked Reviews";
+					warn1.visible = true;
+				}
 				fetechedLikedReviews = true;
 				
 			}
@@ -155,7 +189,14 @@
 					placesArray[i].distance = Number(getDistance(mylat,mylong,placesArray[i].lat,placesArray[i].longa));
 					placesArray[i].viz = true;
 				}
-				placeslist.dataProvider = placesArray;
+				
+				if (placesArray.length > 0){
+					placeslist.dataProvider = placesArray;
+				}
+				else {
+					warn1.text = "No Places Eaten";
+					warn1.visible = true;
+				}
 				fetechedPlaces = true;	
 			}
 
@@ -478,6 +519,8 @@
 				</s:HGroup>
 				</s:Group>
 				<s:Group width="100%" height="100%">
+					<s:Label color="#494949"  id="warn1" visible="false" horizontalCenter="0" 
+							 styleName="textsize8" top="{100/(320/Capabilities.screenDPI)}"/>
 					<s:List  id="myreviewlist" visible="true"
 							 width="100%"  
 							 horizontalCenter="0" 
@@ -515,6 +558,7 @@
 							change="storeListClick();"
 							click="storeListClick();" >
 					</s:List>
+					
 				</s:Group>
 				</s:VGroup>
 			</s:Scroller>

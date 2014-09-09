@@ -80,22 +80,23 @@
 				
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
-					reviewPopupGroup.dishImg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
+					reviewPopupGroup.itemimg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
 				}
 				else {
-					reviewPopupGroup.dishImg = data.picture;
+					reviewPopupGroup.itemimg = data.picture;
 				}
 				img1.visible = true;
 				
-				reviewPopupGroup.menuid = data.id;
+				reviewPopupGroup.itemid = data.id;
+				reviewPopupGroup.type = "menu";
 				reviewPopupGroup.email = emailGo;
 				reviewPopupGroup.locationid = data.locationid;
-				reviewPopupGroup.menuname = data.name;
+				reviewPopupGroup.itemname = data.name;
 				reviewPopupGroup.businessname = data.business_name;
 				reviewPopupGroup.mypic = pictureGo;
 				
 				
-				sharePopup.menuid = data.id;
+				sharePopup.itemid = data.id;
 				sharePopup.email = emailGo;
 				sharePopup.locationid = data.locationid;
 				sharePopup.menuname = data.name;

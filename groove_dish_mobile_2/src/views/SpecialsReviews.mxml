@@ -50,10 +50,10 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getRatings" method="GET" resultFormat="array"
-					   url="http://www.groovedish.com/php/mobile/getMenuItemRatings.php"
+					   url="http://www.groovedish.com/php/mobile/getSpecialsItemRatings.php"
 					   result="afterGetRatings(event)" >
 			<s:request xmlns="">
-				<menuid>{data.id}</menuid>	
+				<specialid>{data.id}</specialid>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
@@ -63,7 +63,7 @@
 				 horizontalCenter="0" height="100%"
 				 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
 				dataProvider="{rateArray}" 
-				itemRenderer="components.ratingsResultStore"
+				itemRenderer="components.ratingsResultSpecial"
 				change="rateListChange(event);"  >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>

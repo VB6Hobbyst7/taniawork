@@ -216,7 +216,7 @@
 								   fontWeight="normal" groupName="gendergroup"/>
 				</s:HGroup>
 			</s:Group>
-			<components:continue_btn id="submit_btn"  click="subChanges();"/>
+			<components:transbutton id="submit_btn" textLabel="Submit" horizontalCenter="0" click="subChanges();" />	
 		</s:VGroup>
 	</s:Scroller>
 	
