@@ -1,0 +1,542 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace esri "http://www.esri.com/2008/ags";
+@namespace components "components.*";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace local "*";
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeue";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeue";
+	fontStyle: "italic";
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeue";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Roman.otf");
+	fontFamily: "HelveticaNeuecff";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-Bd.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-BdIt.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontWeight: bold;
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+
+@font-face {
+	src: url("font/HelveticaNeueLTW1G-It.otf");
+	fontFamily: "HelveticaNeuecff";
+	fontStyle: "italic";
+	embedAsCFF: true;
+}
+s|TextInput {
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	fontFamily: "HelveticaNeue";
+	
+}
+s|Label
+{
+	fontFamily: "HelveticaNeuecff";
+	trackingRight: -0.7;
+}
+s|LabelItemRenderer
+{
+	fontFamily: "HelveticaNeue";
+}
+s|ActionBar
+{	
+
+	borderAlpha: 1;
+	borderSize : 1;
+	borderColor: #36ccba;
+	backgroundAlpha: 1;
+	backgroundColor: #36ccba;
+	fontFamily: "HelveticaNeue";
+	paddingLeft: 10;
+	paddingRight: 10;
+	paddingTop: 2;
+	chromeColor: #36ccba;
+	skinClass: ClassReference("skins.SolidActionBarSkin");
+	titleAlign: center;
+	fontWeight: bold;
+}
+s|ActionBar #titleDisplay
+{
+	color: #FFFFFF; 
+	titleAlign: center;
+	fontWeight: bold;
+	fontFamily: "HelveticaNeue";
+}
+s|ActionBar.beveled s|Group#navigationGroup s|Button
+{
+	/* use the rounded button instead of the arrow button */
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+s|ActionBar.beveled s|Group#actionGroup s|Button
+{
+	skinClass: ClassReference("spark.skins.mobile.BeveledActionButtonSkin");
+	paddingLeft: 3;
+	paddingRight: 3;
+}
+
+@media (application-dpi: 160) {
+	s|Application {
+		osStatusBarHeight: 0;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		color:#FFFFFF;
+		
+		height:25;
+	}
+	s|Button {
+		fontSize: 10;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 18;
+	}
+	.textsize0
+	{
+		fontSize: 12;
+	}
+	.textsize1
+	{
+		fontSize: 14;
+	}
+	.textsize2
+	{
+		fontSize: 15;
+	}
+	.textsize3
+	{
+		fontSize: 16;
+	}
+	.textsize4
+	{
+		fontSize: 17;
+	}
+	.textsize5
+	{
+		fontSize: 18;
+	}
+	.textsize6
+	{
+		fontSize: 19;
+	}
+	.textsize7
+	{
+		fontSize: 20;
+	}
+	.textsize8
+	{
+		fontSize: 21;
+	}
+	.textsize9
+	{
+		fontSize: 22;
+	}
+	.textsize10
+	{
+		fontSize: 23;
+	}
+	
+	.textsize11
+	{
+		fontSize: 24;
+	}
+	.textsize12
+	{
+		fontSize: 25;
+	}
+	.textsize13
+	{
+		fontSize: 26;
+	}
+	.textsize14
+	{
+		fontSize: 27;
+	}
+	.textsize15
+	{
+		fontSize: 28;
+	}
+	.textsize16
+	{
+		fontSize: 29;
+	}
+	.textsize17
+	{
+		fontSize: 30;
+	}
+	.textsize18
+	{
+		fontSize: 31;
+	}
+	.textsize19
+	{
+		fontSize: 32;
+	}
+	.textsize20
+	{
+		fontSize: 33;
+	}
+	
+}
+
+@media (application-dpi: 240)
+{
+	s|Application
+	{
+		osStatusBarHeight: 0;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:37.5;
+		color:#FFFFFF;
+	}
+	
+	s|Button {
+		fontSize: 15;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 26;
+	}
+	.textsize0
+	{
+		fontSize: 18;
+	}
+	.textsize1
+	{
+		fontSize: 21;
+	}
+	.textsize2
+	{
+		fontSize: 22.5;
+	}
+	.textsize3
+	{
+		fontSize: 24;
+	}
+	.textsize4
+	{
+		fontSize: 25.5;
+	}
+	.textsize5
+	{
+		fontSize: 27;
+	}
+	.textsize6
+	{
+		fontSize: 28.5;
+	}
+	.textsize7
+	{
+		fontSize: 30;
+	}
+	.textsize8
+	{
+		fontSize: 31.5;
+	}
+	.textsize9
+	{
+		fontSize: 33;
+	}
+	.textsize10
+	{
+		fontSize: 34.5;
+	}
+	.textsize11
+	{
+		fontSize: 36;
+	}
+	.textsize12
+	{
+		fontSize: 37.5;
+	}
+	.textsize13
+	{
+		fontSize: 39;
+	}
+	.textsize14
+	{
+		fontSize: 40.5;
+	}
+	.textsize15
+	{
+		fontSize: 42;
+	}
+	.textsize16
+	{
+		fontSize: 43.5;
+	}
+	.textsize17
+	{
+		fontSize: 45;
+	}
+	.textsize18
+	{
+		fontSize: 46.5;
+	}
+	.textsize19
+	{
+		fontSize: 48;
+	}
+	.textsize20
+	{
+		fontSize: 49.5;
+	}
+}
+
+@media (application-dpi: 320)
+{
+	s|Application
+	{
+		osStatusBarHeight: 0;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:50;
+		measuredDefaultHeight:50;
+		color:#FFFFFF;
+	}
+	
+	s|Button {
+		fontSize: 20;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 35;
+	}
+	.textsize0
+	{
+		fontSize: 24;
+	}
+	.textsize1
+	{
+		fontSize: 28;
+	}
+	.textsize2
+	{
+		fontSize: 30;
+	}
+	.textsize3
+	{
+		fontSize: 32;
+	}
+	.textsize4
+	{
+		fontSize: 34;
+	}
+	.textsize5
+	{
+		fontSize: 36;
+	}
+	.textsize6
+	{
+		fontSize: 38;
+	}
+	.textsize7
+	{
+		fontSize: 40;
+	}
+	.textsize8
+	{
+		fontSize: 42;
+	}
+	.textsize9
+	{
+		fontSize: 44;
+	}
+	.textsize10
+	{
+		fontSize: 46;
+	}
+	.textsize11
+	{
+		fontSize: 48;
+	}
+	.textsize12
+	{
+		fontSize: 50;
+	}
+	.textsize13
+	{
+		fontSize: 52;
+	}
+	.textsize14
+	{
+		fontSize: 54;
+	}
+	.textsize15
+	{
+		fontSize: 56;
+	}
+	.textsize16
+	{
+		fontSize: 58;
+	}
+	.textsize17
+	{
+		fontSize: 60;
+	}
+	.textsize18
+	{
+		fontSize: 62;
+	}
+	.textsize19
+	{
+		fontSize: 64;
+	}
+	.textsize20
+	{
+		fontSize: 66;
+	}
+}
+
+@media (application-dpi: 480)
+{
+	s|Application
+	{
+		osStatusBarHeight: 0;
+	}
+	s|TextArea {
+		skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+		textAlign: left;
+		height:75;
+		measuredDefaultHeight:75;
+		color:#FFFFFF;
+	}
+	
+	s|Button {
+		fontSize: 30;
+	}
+	s|ActionBar #titleDisplay
+	{	
+		fontSize: 52.5;
+	}
+	.textsize0
+	{
+		fontSize: 36;
+	}
+	.textsize1
+	{
+		fontSize: 42;
+	}
+	.textsize2
+	{
+		fontSize: 45;
+	}
+	.textsize3
+	{
+		fontSize: 48;
+	}
+	.textsize4
+	{
+		fontSize: 51;
+	}
+	.textsize5
+	{
+		fontSize: 54;
+	}
+	.textsize6
+	{
+		fontSize: 57;
+	}
+	.textsize7
+	{
+		fontSize: 60;
+	}
+	.textsize8
+	{
+		fontSize: 63;
+	}
+	.textsize9
+	{
+		fontSize: 66;
+	}
+	.textsize10
+	{
+		fontSize: 69;
+	}
+	.textsize11
+	{
+		fontSize: 72;
+	}
+	.textsize12
+	{
+		fontSize: 75;
+	}
+	.textsize13
+	{
+		fontSize: 78;
+	}
+	.textsize14
+	{
+		fontSize: 81;
+	}
+	.textsize15
+	{
+		fontSize: 84;
+	}
+	.textsize16
+	{
+		fontSize: 87;
+	}
+	.textsize17
+	{
+		fontSize: 90;
+	}
+	.textsize18
+	{
+		fontSize: 93;
+	}
+	.textsize19
+	{
+		fontSize: 96;
+	}
+	.textsize20
+	{
+		fontSize: 99;
+	}
+}
+global
+{
+	content-background-color: #F0F0F0;
+	content-background-alpha: 1.0;
+}

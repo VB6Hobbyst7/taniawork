@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	mouseChildren="false"
+	mouseOver="gOver(event);" mouseDown="gDown(event);"
+	mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<fx:Script source="../func/global.as"/>
+	<s:Image verticalCenter="0"  contentLoader="{s_imageCache}" 
+			 horizontalCenter="0" mouseEnabled="false">
+		<s:source>
+			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/back.png')"
+									source240dpi="@Embed('../assets/240/back.png')"
+									source320dpi="@Embed('../assets/320/back.png')"
+									source480dpi="@Embed('../assets/480/back.png')"
+									source640dpi="@Embed('../assets/640/back.png')"/>
+		</s:source>
+	</s:Image>
+</s:Group>

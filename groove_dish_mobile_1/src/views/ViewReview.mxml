@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"  
+		xmlns:maps="com.google.maps.*" 	
+		backgroundColor="#f3f3f3"
+		viewActivate="init()"
+		title="Review" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true" 
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var backuplistdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var currentfilterweekday:String = "monday";
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var currentselectmode:Number = 1;
+			public function init():void
+			{
+				
+				setLoginVars();
+				if (data.totallikecount == "null"){
+					data.totallikecount = "0";
+				}
+				scroller.visible = true;				
+				checkReviewLinkage.send();
+			}
+			public function likeClick():void {
+				
+				likebtn.alpha = 0.5;
+				likebtn.mouseEnabled = false;
+				likeReview.send();
+			}
+			public function reportClick():void {
+				
+				reportbtn.alpha = 0.5;
+				reportbtn.mouseEnabled = false;
+				reportReview.send();
+			}
+			public function afterCheckReviewLinkage(ev:ResultEvent):void {
+				var stop:String = "";
+				
+				
+				if ((ev.result[0].likes == 0)||(ev.result[0].likes == "0")){
+					likebtn.alpha = 1;
+					likebtn.mouseEnabled = true;
+				}
+				
+				if ((ev.result[0].reports == 0)||(ev.result[0].reports == "0")){
+					reportbtn.alpha = 1;
+					reportbtn.mouseEnabled = true;
+				}
+			}		
+			public function afterLikeReview(ev:ResultEvent):void {
+				
+				likebtn.alpha = 0.5;
+				data.totallikecount = (Number(data.totallikecount) + 1).toString();
+				likebtn.mouseEnabled = false;
+			}
+			public function afterReportReview(ev:ResultEvent):void {
+				
+				reportbtn.alpha = 0.5;
+				reportbtn.mouseEnabled = false;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:HTTPService id="checkReviewLinkage" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/checkReviewLinkage.php"
+					   result="afterCheckReviewLinkage(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<ratingid>{data.id}</ratingid>		
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="likeReview" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/likeReview.php"
+					   result="afterLikeReview(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<locationid>{data.locationid}</locationid>	
+				<menuid>{data.menuid}</menuid>	
+				<ratingid>{data.id}</ratingid>	
+			</s:request>
+		</s:HTTPService>
+		<s:HTTPService id="reportReview" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/reportReview.php"
+					   result="afterReportReview(event)" >
+			<s:request xmlns="">
+				<emailGo>{emailGo}</emailGo>	
+				<locationid>{data.locationid}</locationid>	
+				<menuid>{data.menuid}</menuid>	
+				<ratingid>{data.id}</ratingid>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller id="scroller" visible="true" height="100%" width="100%" horizontalCenter="0"
+				horizontalScrollPolicy="off" verticalScrollPolicy="on">
+		<s:VGroup   height="100%" gap="{30/(320/Capabilities.screenDPI)}" width="100%" horizontalAlign="center" verticalAlign="top">	 
+			<s:Group width="100%" height="{250/(320/Capabilities.screenDPI)}">
+				<s:HGroup gap="{20/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+						  paddingRight="{30/(320/Capabilities.screenDPI)}" width="100%" height="{200/(320/Capabilities.screenDPI)}"  verticalCenter="0">
+					<s:VGroup width="100%"  height="100%">
+						<s:HGroup width="100%" verticalAlign="middle" maxWidth="{this.width/1.1}">
+							<s:Label  text="{data.name.charAt(0).toUpperCase()+data.name.substring(1,data.name.length)}"  
+									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
+															source240dpi="@Embed('../assets/240/trirating.png')"
+															source320dpi="@Embed('../assets/320/trirating.png')"
+															source480dpi="@Embed('../assets/480/trirating.png')"
+															source640dpi="@Embed('../assets/640/trirating.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:Label  text="{data.menuname.charAt(0).toUpperCase()+data.menuname.substring(1)}" width="100%" maxDisplayedLines="1"
+									  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:HGroup width="100%" verticalAlign="top"  maxWidth="{this.width/1.1}">
+							<s:Label  text="{data.rating}"  color="#36ccba"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+							<s:Label width="100%"    maxDisplayedLines="3"  text="{data.ratingdescription}" 
+									 color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:HGroup width="100%" verticalAlign="middle">
+							<s:BitmapImage contentLoader="{s_imageCache}"  >
+								<s:source>
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+															source240dpi="@Embed('../assets/240/triratinggreen.png')"
+															source320dpi="@Embed('../assets/320/triratinggreen.png')"
+															source480dpi="@Embed('../assets/480/triratinggreen.png')"
+															source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
+								</s:source>
+							</s:BitmapImage>
+							<s:Label   text="{data.totallikecount}"  color="#36ccba"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+						</s:HGroup>
+						<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold" styleName="textsize0" verticalAlign="middle"/>
+						<s:Label  text="{data.ratingdate}"  color="#4d4d4d"  fontWeight="normal" styleName="textsize0" verticalAlign="middle"/>
+					</s:VGroup>		
+				</s:HGroup>
+				<s:Line left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:HGroup gap="20" horizontalAlign="center" horizontalCenter="0" verticalAlign="middle" verticalCenter="0">
+				<s:Image  id="likebtn" click="likeClick();" 
+						  alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/like.png')"
+												source240dpi="@Embed('../assets/240/like.png')"
+												source320dpi="@Embed('../assets/320/like.png')"
+												source480dpi="@Embed('../assets/480/like.png')"
+												source640dpi="@Embed('../assets/640/like.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Image id="reportbtn" click="reportClick();" 
+						 alpha="0.3" mouseEnabled="false" contentLoader="{s_imageCache}" >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/report.png')"
+												source240dpi="@Embed('../assets/240/report.png')"
+												source320dpi="@Embed('../assets/320/report.png')"
+												source480dpi="@Embed('../assets/480/report.png')"
+												source640dpi="@Embed('../assets/640/report.png')"/>
+					</s:source>
+				</s:Image>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Scroller>
+	
+</s:View>

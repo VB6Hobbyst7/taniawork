@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:controls="com.flexcapacitor.controls.*"
+		xmlns:components="components.*"
+		viewActivate="init()"
+		title="Menu">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuglobal.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import views.Menu;
+			import views.MenuCatAll;
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var catarray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var ratingpriceoptionval:uint = 0;
+			public var allreadylistclicked:Boolean = false;
+			protected function init():void
+			{
+				this.parentDocument.showBusy();
+				
+				allreadylistclicked = false;
+				warn.visible = false;
+				locationid = data.locationid;
+				getMenu.send();
+			}	
+			public function afterGetMenu(ev:ResultEvent):void
+			{	
+				listData = new ArrayCollection();
+				modData = new ArrayCollection();
+				resData = new ArrayCollection();
+				catarray = new ArrayCollection();
+				
+				
+				try{			
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){}}
+				
+				try{			
+					resData = ev.result[0].ress2.res2;		
+				}
+				catch(e:Error){
+					try{	
+						resData.addItem(ev.result[0].ress2.res2);
+					}
+					catch(e:Error){}}
+				
+				try{			
+					modData = ev.result[0].ress3.res3;		
+				}
+				catch(e:Error){
+					try{	
+						modData.addItem(ev.result[0].ress3.res3);
+					}
+					catch(e:Error){}}
+				
+				syncmenurestrictions();
+				
+				
+				if (listData.length <= 0){
+					warn.visible = true;
+				}
+				else {
+					
+					var lastcat:String = "";
+					var lastorderid:String = "";
+					var lastcatstr:String = "";
+					var savedsampleimage:String = "";
+					var sampleimage:String = "";
+					var catcount:Number = 0;
+					var totalcount:Number = 0;
+					for (var i:uint = 0; i < listData.length; i++){
+						if (listData[i].hideall != true){
+							totalcount++;
+							
+							if (listData[i].categoryid != lastcat){
+								if (i != 0){
+									
+									if (sampleimage == ""){
+										sampleimage = "../assets/"+getDPIHeight()+"/dish_place_square.png";
+									}
+									
+									catarray.addItem({frequency:catcount,orderid:lastorderid, name:lastcatstr,categoryid:lastcat,locationid:locationid,picture:sampleimage});
+									savedsampleimage = sampleimage;
+									sampleimage = "";
+								}		
+								lastcat = listData[i].categoryid;
+								lastorderid = listData[i].orderid;
+								lastcatstr = listData[i].categoryname;
+								catcount = 1;
+							}
+							else {
+								catcount++;
+							}
+							
+							if ((sampleimage == "")&&(listData[i].picture != "None")&&
+								(listData[i].picture != "")&&
+								(listData[i].picture != null)&&
+								(listData[i].picture != "null")){
+								sampleimage = listData[i].picture;
+							}
+							else {
+								var foundfix:Boolean = false
+								for (var j:uint = 0; j < listData.length; j++){
+									if ((listData[j].categoryid == listData[i].categoryid)&&(listData[j].picture != "None")&&
+										(listData[j].picture != "")&&
+										(listData[j].picture != null)&&
+										(listData[j].picture != "null")){
+										foundfix = true;
+										listData[i].picture = listData[j].picture;
+										j =  listData.length;
+									}
+								}
+								
+								if (foundfix == false){
+									listData[i].picture = "../assets/"+getDPIHeight()+"/dish_place_square.png";
+								}
+							}
+							
+							
+						}
+						
+						
+					}
+					
+					
+					if (savedsampleimage == ""){
+						savedsampleimage = sampleimage;
+					}
+					var srt:Sort = new Sort();
+					srt.fields = [new SortField("orderid")];
+				
+					catarray.addItemAt({name:"All",picture:savedsampleimage,orderid:0,frequency:totalcount,categoryid:"-1",locationid:locationid},0);
+					catarray.sort = srt;
+					catarray.refresh();
+				//	catarray.refresh();
+					//catarray.refresh();
+					dataList.dataProvider = catarray;
+				}
+				this.parentDocument.hideBusy();
+				
+			} 
+		
+			public function listClick():void {	
+				if (allreadylistclicked == false){
+					if (dataList.selectedIndex != -1){
+						allreadylistclicked = true;
+						if (dataList.selectedIndex == 0){
+							navigator.pushView(MenuCatAll, catarray[dataList.selectedIndex]);
+						}
+						else {
+							navigator.pushView(Menu, catarray[dataList.selectedIndex]);
+						}	
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getMenu" method="GET" resultFormat="array"
+					   url="http://www.menutria.com/php/mobile/getMenuCategories2.php"
+					   result="afterGetMenu(event)" >
+			<s:request xmlns="">
+				<locationid>{locationid}</locationid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
+			<s:List width="100%" horizontalCenter="0" height="100%"
+				 contentBackgroundAlpha="0"
+					id="dataList" horizontalScrollPolicy="off" 
+					 itemRenderer="components.menuCatResult"
+					selectedIndex="1" 
+					alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
+					click="listClick();"
+					change="listClick();">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="contentJustify"  gap="0"/>
+				</s:layout>
+			</s:List>
+		</s:VGroup>
+	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
+			 styleName="textsize8"  text="No Items Available" verticalCenter="0"/>
+</s:View>
