@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		backgroundColor="#f3f3f3"
+		viewActivate="init()"
+		title="Account" 
+		xmlns:components="components.*" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" height="100%"
+							   mouseEnabledWhereTransparent="true"
+							   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			public function init():void
+			{
+				
+				catArray =  new ArrayCollection();
+				catArray.addItem({name:"Profile", type:1, chosen:'no'});
+				catArray.addItem({name:"Password", type:1, chosen:'no'});
+				//catArray.addItem({name:"Connected Accounts", type:1, chosen:'no'});
+				storeList.dataProvider = catArray;
+				setLoginVars();
+				
+			}
+			public function catListChange(ev:IndexChangeEvent):void {
+				try{
+					if (storeList.selectedItem.name == "Profile"){
+						navigator.pushView(Settings_ChangeProf);
+					}
+					else if (storeList.selectedItem.name == "Password"){
+						navigator.pushView(Settings_ChangePwd);
+					}
+					else if (storeList.selectedItem.name == "Connected Accounts"){
+						navigator.pushView(Settings_Connected_Accounts);
+					}
+				}
+				catch(e:Error){}
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup height="100%" horizontalCenter="0" verticalCenter="0"  width="100%"  >
+		<s:List width="100%" horizontalCenter="0" height="100%" contentBackgroundAlpha="0" 
+				id="storeList" labelField="name"  
+				dataProvider="{catArray}" itemRenderer="components.catResult"
+				selectedIndex="1" change="catListChange(event);"  >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" 
+								  gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>
+</s:View>
