@@ -39,13 +39,11 @@
 			{
 				var neededwidth:Number = this.parent.width/2-gapo;
 				v1.width = neededwidth;
-				//v1.percentHeight = 100;
 				v1.height = neededwidth+30;
 				v1.gap = 0;
 				v1.mouseEnabled = false;
 				this.addElement(v1);
 				if ((data.viz == true)&&(addedallitems == false)){
-					//v1.percentHeight = 100;
 					if (data.name == "Loading More Items"){
 						var ll:Label = new Label();
 						ll.width = neededwidth;
@@ -55,6 +53,23 @@
 						ll.setStyle("color",0x36ccba);
 						ll.text = data.name;
 						v1.addElement(ll);
+					}
+					else if (data.name == "catsep"){
+						var l4:Label = new Label();
+						l4.width = neededwidth-(20/(320/Capabilities.screenDPI));
+						l4.setStyle("paddingTop",20/(320/Capabilities.screenDPI));
+						l4.setStyle("fontWeight","bold");
+						l4.height = neededwidth+30;
+						l4.width = neededwidth;
+						l4.horizontalCenter = 0;
+						l4.verticalCenter = 0;
+						l4.styleName =  "textsize10";
+						l4.setStyle("color","#36ccba");
+						l4.text = data.catname;
+						l4.maxDisplayedLines = 5;
+						l4.setStyle("verticalAlign","middle");
+						l4.setStyle("textAlign","center");
+						v1.addElement(l4);
 					}
 					else {
 						loadrest();
@@ -66,7 +81,13 @@
 				if (data != null){
 					var neededwidth:Number = this.parent.width/2-gapo;
 					if ((data.viz == true)&&(addedallitems == false)){
-						if (data.name != "Loading More Items"){
+						if (data.name == "Loading More Items"){
+							
+						}
+						else if (data.name == "catsep"){
+							
+						}
+						else {
 							loadrest();
 						}
 					}
@@ -74,7 +95,36 @@
 						v1.removeAllElements();
 						addedallitems = false;
 						if (data.viz){
-							loadrest();
+							if (data.name == "Loading More Items"){
+								var ll:Label = new Label();
+								ll.width = neededwidth;
+								ll.horizontalCenter = 0;
+								ll.top = 50/(320/Capabilities.screenDPI);
+								ll.styleName = styleManager.getStyleDeclaration("textsize3");
+								ll.setStyle("color",0x36ccba);
+								ll.text = data.name;
+								v1.addElement(ll);
+							}
+							else if (data.name == "catsep"){
+								var l4:Label = new Label();
+								l4.width = neededwidth-(20/(320/Capabilities.screenDPI));
+								l4.setStyle("paddingTop",20/(320/Capabilities.screenDPI));
+								l4.setStyle("fontWeight","bold");
+								l4.height = neededwidth+30;
+								l4.width = neededwidth;
+								l4.horizontalCenter = 0;
+								l4.verticalCenter = 0;
+								l4.styleName =  "textsize10";
+								l4.setStyle("color","#36ccba");
+								l4.text = data.catname;
+								l4.maxDisplayedLines = 5;
+								l4.setStyle("verticalAlign","middle");
+								l4.setStyle("textAlign","center");
+								v1.addElement(l4);
+							}
+							else {
+								loadrest();
+							}
 						}
 						
 					}

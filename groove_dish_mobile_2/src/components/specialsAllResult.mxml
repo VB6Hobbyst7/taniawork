@@ -74,7 +74,7 @@
 				</s:fill>
 			</s:Rect>
 			<s:Label width="100%" verticalCenter="2"  id="catLabel" 
-					 left="{20/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+					 left="{30/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
 					 fontWeight="bold" styleName="textsize1" 
 					 verticalAlign="middle"></s:Label>
 		</s:Group>
@@ -107,7 +107,7 @@
 			
 		</s:Group>
 	</s:VGroup>
-	<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+	<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 	</s:Line>
 </s:ItemRenderer>

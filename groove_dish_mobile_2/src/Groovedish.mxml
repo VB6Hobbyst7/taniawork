@@ -35,7 +35,7 @@
 					  mouseDown="menuButtonClick();"
 					  mouseEnabledWhereTransparent="true"
 					  horizontalCenter="0" >
-				<s:Image left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
+				<s:Image left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
 						 mouseEnabled="false" 
 						 contentLoader="{s_imageCache}" >
 					<s:source>
@@ -52,7 +52,7 @@
 			<s:Group id="filterfeaturebutton"   mouseDown="filtersButtonClick();" 
 					 mouseEnabledWhereTransparent="true"  height="100%"  top="0"
 					 right="0" horizontalCenter="0"    width="{this.width/8}" >
-				<s:Image mouseEnabled="false" right="{20/(320/Capabilities.screenDPI)}" 
+				<s:Image mouseEnabled="false" right="{30/(320/Capabilities.screenDPI)}" 
 						 verticalCenter="0"   contentLoader="{s_imageCache}"  >
 					<s:source>
 						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
@@ -169,13 +169,13 @@
 				</s:Rect>
 				<s:Label fontFamily="HelveticaNeuecff" styleName="textsize0" fontWeight="normal"
 						 text="Only Show:" 
-						 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
+						 left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0"
 						 color="#FFFFFF"/>
 				
-				<s:Group right="{20/(320/Capabilities.screenDPI)}" click="clearallclick(event)"   verticalCenter="0">
+				<s:Group right="{30/(320/Capabilities.screenDPI)}" click="clearallclick(event)"   verticalCenter="0">
 					<s:Label fontFamily="HelveticaNeuecff" mouseEnabled="false" styleName="textsize0" fontWeight="normal"
 							 text="Clear All" 
-							 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
+							 left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0"
 							 color="#36ccba"/>
 				</s:Group>
 			</s:Group>

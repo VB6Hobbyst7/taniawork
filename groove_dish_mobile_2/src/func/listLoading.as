@@ -4,6 +4,8 @@ import flash.utils.Timer;
 import mx.collections.ArrayCollection;
 import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
+import mx.messaging.channels.StreamingAMFChannel;
+
 public var addvalue:Number = 6;
 public var originaladd:Number = 4;
 public var moving:Boolean = false;
@@ -11,8 +13,10 @@ public var visibleindexes:Array = new Array();
 public var previousindexes:Array = new Array();
 public var ti:Timer = new Timer(750,0);
 public var extraitemarray:ArrayCollection =  new ArrayCollection();
+public var catitemarray:ArrayCollection =  new ArrayCollection();
 public var beforeaftervar:Number = 6;
 public var hurrymode:Boolean = false;
+public var addcatsep:Boolean = false;
 public function startapplyingdata():void {
 	if (menuList.dataProvider != null){
 		menuList.dataProvider.removeAll();
@@ -39,8 +43,15 @@ public function startapplyingdata():void {
 		}
 	}
 	else {
+		//var lastcat:String = "";
 		for (i = 0; i < listData.length; i++){
 			if (listData[i].hideall != true){
+				/*if (addcatsep){
+					if (lastcat != listData[i].categoryname){
+						lastcat = listData[i].categoryname;
+						menuList.dataProvider.addItem({name:"catsep",catname:listData[i].categoryname,viz:true});
+					}
+				}*/
 				listData[i].viz = false;
 				menuList.dataProvider.addItem(listData[i]);
 			}	

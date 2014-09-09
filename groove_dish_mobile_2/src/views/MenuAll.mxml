@@ -80,6 +80,7 @@
 			public function init():void
 			{		
 				goingtonext = false;
+				hurrymode = false;
 				//setLoginVars();	
 			}
 			public function init2():void {
@@ -235,30 +236,27 @@
 				for (var k:uint = 0; k < tempfilter2.length; k++){
 					filterData2.addItem({name:tempfilter2[k].name});
 				}
+				catitemarray = filterData2;
 			}
 			public function populatelist():void {
 				var i:uint = 0;
 				var srt:Sort = new Sort();
+				addcatsep = false;
 				if (currentselectmode == 1){
 					srt.fields = [new SortField("distance")];
-					listData.sort = srt;
-					listData.refresh();
 				}
 				else if (currentselectmode == 2){
+					addcatsep = true;
 					srt.fields = [new SortField("categoryname")];
-					listData.sort = srt;
-					listData.refresh();
 				}
 				else if (currentselectmode == 3){
 					srt.fields = [new SortField("rating",!reverse,true)];
-					listData.sort = srt;
-					listData.refresh();
 				}
 				else if (currentselectmode == 4){
 					srt.fields = [new SortField("cost",!reverse,true)];
-					listData.sort = srt;
-					listData.refresh();
 				}
+				listData.sort = srt;
+				listData.refresh();
 				startapplyingdata();	
 			}
 			public function enterpress():void {
@@ -361,7 +359,10 @@
 							data.homefilterarray = [];
 						}
 						catch(e:Error){}
-						navigator.pushView(MenuDescription, listData[menuList.selectedIndex]);	
+						if (menuList.selectedItem.name != 'catsep'){
+							navigator.pushView(MenuDescription, menuList.selectedItem);	
+						}
+						
 					}
 					else {
 						goingtonext = false;

@@ -6,7 +6,7 @@
 		xmlns:components="components.*" 
 		 contentBackgroundAlpha="1"
 		 contentBackgroundColor="#f3f3f3" 
-		  destructionPolicy="never"
+		  destructionPolicy="auto"
 		viewActivate="init()"
 		 creationComplete="init2()"
 		title="Specials"   >
@@ -50,13 +50,14 @@
 			public function init():void
 			{
 				goingtonext = false;
-			}
-			public function init2():void {
 				this.parentDocument.showBusy();
 				warn.visible = false;
 				setLoginVars();
 				scroller.visible = true;
 				getSpecials.send();
+			}
+			public function init2():void {
+				
 			}
 			public function afterGetSpecials(ev:ResultEvent):void {	
 				loadingtext.visible = false

@@ -20,9 +20,29 @@
 			import spark.events.ViewNavigatorEvent;
 			
 			import components.ratingsResultStore;
+			[Bindable]
+			public var finaldate:String = "";
+			[Bindable]
+			public var likemode:Number = -1;
 			public function init():void
 			{
-				didlistclick = false;
+				
+				if (data.liked == 'yes'){
+					likemode = 1;
+				}
+				else {
+					likemode = 0;
+				}
+				updatelikelabel();
+				if (data.yearly == 'y'){
+					finaldate = data.startdate + " - " + data.enddate;
+				}
+				else {
+					var tempweekstring:String = data.weekday;
+					finaldate = tempweekstring.substring(0,1).toUpperCase()+
+						tempweekstring.substring(1,tempweekstring.length)+"s";
+				}
+
 				setLoginVars();	
 				//getSpecialDescription.send();
 				if (Capabilities.version.indexOf('IOS') > -1){
@@ -37,66 +57,19 @@
 				backbutton.visible = true;
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
-					reviewPopupGroup.itemimg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
 				}
-				else {
-					reviewPopupGroup.itemimg = data.picture;
-				}
+
 				img1.visible = true;
-				
-				
-				
-				reviewPopupGroup.itemid = data.id;
-				reviewPopupGroup.type = "special";
-				reviewPopupGroup.email = emailGo;
-				reviewPopupGroup.locationid = data.locationid;
-				reviewPopupGroup.itemname = data.name;
-				reviewPopupGroup.businessname = data.business_name;
-				reviewPopupGroup.mypic = pictureGo;
-				
-				
+
 				sharePopup.itemid = data.id;
 				sharePopup.email = emailGo;
 				sharePopup.locationid = data.locationid;
 				sharePopup.menuname = data.name;
 				sharePopup.businessname = data.business_name;
 				sharePopup.mypic = pictureGo;
-				getSpecialInformation.send();
 				
 			}
-			public function afterGetDesc(ev:ResultEvent):void {
-				var stop:String = "";
-				
-				reviewPopupGroup.reviewText.text = "";
-				topreviews = new ArrayCollection();
-				recentreviews = new ArrayCollection();
-				
-				try{			
-					topreviews = ev.result[0].results.result;	
-				}
-				catch(e:Error){
-					try{
-						
-						topreviews.addItem(ev.result[0].results.result);
-					}
-					catch(e:Error){
-					}
-				}
-				
-				try{			
-					recentreviews = ev.result[0].results2.result2;	
-				}
-				catch(e:Error){
-					try{
-						
-						recentreviews.addItem(ev.result[0].results2.result2);
-					}
-					catch(e:Error){
-					}
-				}
-				reviewList.dataProvider = topreviews;
-				reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
-			}
+
 			public function goback(ev:MouseEvent):void {
 				navigator.popView();
 			}
@@ -112,43 +85,53 @@
 			public function startShare():void {
 				sharePopup.startShare();
 			}
-			public var didlistclick:Boolean = false;
-			[Bindable]
-			public var topreviews:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var topratedrecentval:uint = 1;
-			[Bindable]
-			public var recentreviews:ArrayCollection = new ArrayCollection();
-			public function topratedrecentclick(event:MouseEvent):void
-			{
-				if (topratedrecentval == 1){
-					topratedrecentval = 2;
-					topratedrecentimg.source = topratedrecent2;
-					reviewList.dataProvider = recentreviews;
-					reviewlabel.text = 'Reviews ('+recentreviews.length.toString()+')';
+
+			public function gotobusiness():void {
+				try{
+					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
+					if (dataArray.length != 0){
+						for (var i:uint = 0; i < dataArray.length; i++){
+							if (dataArray[i].id == data.locationid){
+								navigator.pushView(StoresDescription, dataArray[i]);	
+							}
+						}
+					}
+				}
+				catch(e:Error){}
+			}
+			public function likeThis():void {
+				if (likemode == 0){
+					likemode = 1;
 				}
 				else {
-					topratedrecentval = 1;
-					topratedrecentimg.source = topratedrecent1;
-					reviewList.dataProvider = topreviews;
-					reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';
+					likemode = 0;
 				}
-				
-				
+				updateLikeStatus.send();
+				updatelikelabel();
 			}
-		
-			public function seemoreclick():void {
-				navigator.pushView(SpecialsReviews,{id:data.id});
+			public function updatelikelabel():void {
+				if (likemode == 0){
+					likelabel.text = "Like";
+					likeback.color = 0x36ccba;
+					likeback.alpha = 1;
+				}
+				else {
+					likelabel.text = "Unlike";
+					likeback.color = 0xc4c4c4;
+					likeback.alpha = 1;
+				}
 			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
-		<s:HTTPService id="getSpecialInformation" method="GET" resultFormat="array"
-					   url="http://www.groovedish.com/php/mobile/getSpecialsInformation.php"
-					   result="afterGetDesc(event)" >
+		<s:HTTPService id="updateLikeStatus" method="GET" resultFormat="array"
+					   url="http://www.groovedish.com/php/mobile/updateSpecialLikes.php">
 			<s:request xmlns="">
-				<specialid>{data.id}</specialid>
-				<emailGo>{emailGo}</emailGo>
+				<email>{emailGo}</email>	
+				<specialid>{data.id}</specialid>	
+				<liketype>{likemode}</liketype>	
+				<merchid>{data.merchid}</merchid>	
+				<locationid>{data.locationid}</locationid>	
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="topratedrecent1"
@@ -176,11 +159,11 @@
 				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
 							   scaleMode="stretch"	contentLoader="{s_imageCache}"   >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowfliped.png')"
-												source240dpi="@Embed('../assets/240/pictureshadowfliped.png')"
-												source320dpi="@Embed('../assets/320/pictureshadowfliped.png')"
-												source480dpi="@Embed('../assets/480/pictureshadowfliped.png')"
-												source640dpi="@Embed('../assets/640/pictureshadowfliped.png')"/>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowflipped.png')"
+												source240dpi="@Embed('../assets/240/pictureshadowflipped.png')"
+												source320dpi="@Embed('../assets/320/pictureshadowflipped.png')"
+												source480dpi="@Embed('../assets/480/pictureshadowflipped.png')"
+												source640dpi="@Embed('../assets/640/pictureshadowflipped.png')"/>
 					</s:source>
 				</s:BitmapImage>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  visible="false"
@@ -198,45 +181,60 @@
 						</s:source>
 					</s:BitmapImage>
 				</s:Group>
+				<s:Group bottom="{20/(320/Capabilities.screenDPI)}" left="{30/(320/Capabilities.screenDPI)}">
+					<s:Rect width="100%"  height="100%" radiusX="5" radiusY="5">
+						<s:fill>
+							<s:SolidColor alpha="0.7" color="#36ccba"/>
+						</s:fill>
+					</s:Rect>
+					<s:Label  color="#FFFFFF" 
+							  paddingBottom="10" paddingLeft="15"
+							  paddingRight="15" paddingTop="10" 
+							  text="{data.value}"  fontWeight="bold"
+							  horizontalCenter="0" verticalCenter="3"
+							  styleName="textsize5" 
+							  maxDisplayedLines="1"
+							  verticalAlign="middle"></s:Label>
+				</s:Group>
 			</s:Group>
 			
 			<s:VGroup width="{this.width}"  maxWidth="{this.width}" 
 					  gap="{25/(320/Capabilities.screenDPI)}" paddingLeft="0" paddingRight="0">
-				<s:HGroup paddingLeft="{20/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-					<s:Group>
-						<s:Rect width="100%"  height="100%" radiusX="5" radiusY="5">
-							<s:fill>
-								<s:SolidColor alpha="0.7" color="#36ccba"/>
-							</s:fill>
-						</s:Rect>
-						<s:Label  color="#FFFFFF" 
-								  paddingBottom="10" paddingLeft="15"
-								  paddingRight="15" paddingTop="10" 
-								  text="{data.value}"  fontWeight="bold"
-								  horizontalCenter="0" verticalCenter="3"
-								  styleName="textsize5" 
-								  maxDisplayedLines="1"
-								  verticalAlign="middle"></s:Label>
-					</s:Group>
-					<s:Label   paddingLeft="{20/(320/Capabilities.screenDPI)}" 
-							   paddingRight="{20/(320/Capabilities.screenDPI)}"
-							   width="100%" color="#4d4d4d" paddingTop="5"
-							   styleName="textsize4" fontWeight="bold" text="{data.categoryname}"/>
+				<s:HGroup gap="{15/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}" verticalAlign="top">
+					<s:BitmapImage  id="starimg"	contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/specialsstar.png')"
+													source240dpi="@Embed('../assets/240/specialsstar.png')"
+													source320dpi="@Embed('../assets/320/specialsstar.png')"
+													source480dpi="@Embed('../assets/480/specialsstar.png')"
+													source640dpi="@Embed('../assets/640/specialsstar.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:VGroup width="{this.width}"  maxWidth="{this.width}" 
+							  gap="{10/(320/Capabilities.screenDPI)}" paddingLeft="0" paddingRight="0">
+						<s:Label id="selectedTitle"  maxDisplayedLines="1" 
+								paddingTop="{2/(320/Capabilities.screenDPI)}"
+								 width="100%" color="#4d4d4d"  verticalCenter="0" maxWidth="{this.width*0.70}"
+								 styleName="textsize4" fontWeight="bold" text="{data.name}"/>
+						<s:Label  color="#36ccba" fontWeight="bold" click="gotobusiness();"
+								
+								  mouseDown="gDown(event)" mouseOver="gOver(event)" 
+								  mouseUp="gOut(event)" mouseOut="gOut(event)"
+								  styleName="textsize3" text="{data.business_name+ ' • ' + finaldate }"
+								  verticalAlign="middle"/>
+					</s:VGroup>
 				</s:HGroup>
-				<s:Label id="selectedTitle"  paddingLeft="{20/(320/Capabilities.screenDPI)}" 
-						 paddingRight="{20/(320/Capabilities.screenDPI)}" paddingTop="{2/(320/Capabilities.screenDPI)}"
-						 width="100%" color="#4d4d4d"  verticalCenter="0" maxWidth="{this.width*0.90}"
-						 styleName="textsize4" fontWeight="bold" text="{data.name}"/>
+				
 				<s:Label width="100%"  
-						 paddingLeft="{20/(320/Capabilities.screenDPI)}" 
-						 paddingRight="{20/(320/Capabilities.screenDPI)}"
+						 paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+						 paddingRight="{30/(320/Capabilities.screenDPI)}"
 						 color="#4d4d4d" fontWeight="normal" id="descriptiontext"  lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0"
 						 text="{data.description}" textDecoration="none"
 						 verticalAlign="middle"/>
 				
 				
 				<s:Group width="100%">
-					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 				</s:Group>
@@ -244,22 +242,22 @@
 				
 				<s:Group  width="100%" >
 					<s:Group width="100%"  horizontalCenter="0"  verticalCenter="0">
-						<s:Group click="reviewPopupGroup.startReview();" height="{60/(320/Capabilities.screenDPI)}" 
+						<s:Group click="likeThis();" height="{60/(320/Capabilities.screenDPI)}" 
 								 mouseDown="gDown(event)" mouseOver="gOver(event)"
 								 mouseUp="gOut(event)" mouseOut="gOut(event)"
-								 width="{this.width/2-30}" left="{20/(320/Capabilities.screenDPI)}">
+								 width="{this.width/2-40}" left="{30/(320/Capabilities.screenDPI)}">
 							<s:Rect width="100%"  height="100%"
 									radiusX="{10/(320/Capabilities.screenDPI)}"
 									radiusY="{10/(320/Capabilities.screenDPI)}">
 								<s:fill>
-									<s:SolidColor alpha="1" color="#36ccba"/>
+									<s:SolidColor id="likeback" alpha="0" color="#36ccba"/>
 								</s:fill>
 							</s:Rect>
-							<s:Label verticalAlign="middle" mouseEnabled="false" horizontalCenter="0"  verticalCenter="2" 
-									 text="Rate" color="#FFFFFF"  textAlign="center" styleName="textsize2"  fontWeight="bold"/>
+							<s:Label  id="likelabel" verticalAlign="middle" mouseEnabled="false" horizontalCenter="0"  verticalCenter="2" 
+									 text="Like" color="#FFFFFF"  textAlign="center" styleName="textsize2"  fontWeight="bold"/>
 						</s:Group>
 						<s:Group click="startShare();" height="{60/(320/Capabilities.screenDPI)}" 
-								 width="{this.width/2-30}" right="{20/(320/Capabilities.screenDPI)}"
+								 width="{this.width/2-40}" right="{30/(320/Capabilities.screenDPI)}"
 								 mouseDown="gDown(event)" mouseOver="gOver(event)"
 								 mouseUp="gOut(event)" mouseOut="gOut(event)">
 							<s:Rect width="100%"  height="100%"
@@ -275,39 +273,9 @@
 						</s:Group>
 					</s:Group>				
 				</s:Group>
-				<s:Group width="100%">
-					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
-						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
-					</s:Line>
-				</s:Group>
-			
-				<s:Group width="100%" >
-					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
-							  fontWeight="bold" styleName="textsize5"
-							  id="reviewlabel" verticalAlign="middle"
-							  verticalCenter="0"/>
-					<s:Image id="topratedrecentimg" 
-							 right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
-							 click="topratedrecentclick(event)" 
-							 source="{topratedrecent1}"
-							 verticalCenter="0"/>
-				</s:Group>
-				<s:List  id="reviewList" 
-						 width="100%"
-						 verticalScrollPolicy="off" 
-						 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
-						 itemRenderer="components.ratingsResultSpecial">
-					<s:layout>
-						<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
-					</s:layout>
-				</s:List>
-				<s:Group width="100%"  click="seemoreclick();" visible="{topreviews.length > 0}" height="{70/(320/Capabilities.screenDPI)}" >
-					<s:Label styleName="textsize5"  fontWeight="bold" mouseEnabled="false" color="#b3b3b3" verticalCenter="{-10/(320/Capabilities.screenDPI)}"
-							 textAlign="center" horizontalCenter="0"  verticalAlign="middle" text="See More"/>
-				</s:Group>
+				
 			</s:VGroup>
 		</s:VGroup>
 	</s:Scroller>
 	<components:sharePopup id="sharePopup"  width="100%" height="100%" visible="false"/>
-	<components:ratePopup height="100%" width="100%" id="reviewPopupGroup" visible="false"/>
 </s:View>

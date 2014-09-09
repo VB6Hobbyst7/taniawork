@@ -19,10 +19,10 @@
 		</s:Rect>
 		<s:Label id="hll" styleName="textsize1" fontWeight="bold"
 				 text="{data.name}" 
-				 left="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0"
+				 left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0"
 				 color.normal="#FFFFFF"
 				 color.selected="#36ccba"/>
-		<s:Group right="{20/(320/Capabilities.screenDPI)}"   verticalCenter="0">
+		<s:Group right="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
 			<s:BitmapImage id="checkimage" contentLoader="{s_imageCache}"
 						   visible.selected="true" visible.normal="false" >
 				<s:source>

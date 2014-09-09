@@ -7,7 +7,8 @@
 		contentBackgroundAlpha="1"
 		contentBackgroundColor="#f3f3f3" 
 		backgroundColor="#f3f3f3"
-		viewActivate="init()"
+		viewActivate="init()" 
+		destructionPolicy="auto"
 		 creationComplete="init2()"
 		title="Specials"   >
 	<s:navigationContent >
@@ -52,13 +53,14 @@
 			public function init():void
 			{
 				goingtonext = false;
-			}
-			public function init2():void {
 				this.parentDocument.showBusy();
 				warn.visible = false;
 				setLoginVars();
 				locationid = data.locationid;
 				getSpecials2.send();
+			}
+			public function init2():void {
+				
 			}
 			public function afterGetSpecials(ev:ResultEvent):void {
 				backupspecialsData = new ArrayCollection();

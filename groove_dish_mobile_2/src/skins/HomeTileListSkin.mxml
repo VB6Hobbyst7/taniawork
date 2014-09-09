@@ -20,7 +20,7 @@
 				 minViewportInset="0" focusEnabled="false">
 		<s:DataGroup id="dataGroup"	itemRenderer="components.storeResult" >
 			<s:layout>
-				<flow:FlowLayout4  horizontalGap="4"  />
+				<flow:FlowLayout4  horizontalGap="6"  />
 			</s:layout>
 		</s:DataGroup>
 	</s:Scroller>

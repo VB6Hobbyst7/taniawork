@@ -71,11 +71,11 @@
 				
 				didlistclick = false;
 				setLoginVars();	
-				img1.source = data.business_picture;
-				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				img1.source = unescape(data.business_picture);
+				googleTravelUrl = "http://maps.google.com/?q="+unescape(data.lat)+","+unescape(data.longa);	
 				scroller.visible = true;
-				var ratingstring:String = data.rating.toString();
-				var ratingnumber:Number = Number(data.rating);
+				var ratingstring:String = unescape(data.rating.toString());
+				var ratingnumber:Number = Number(unescape(data.rating));
 				if (ratingnumber == 0){
 					ratinglabel.text = "-";
 				}
@@ -90,7 +90,8 @@
 				getTopReviews.send();
 				getHours.send();
 				
-				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+				if ((unescape(data.business_picture) == "None")||(unescape(data.business_picture) == "")
+					||(unescape(data.business_picture) == null)||(unescape(data.business_picture) == "null")){
 					img1.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";	
 				}
 				img1.visible = true;
@@ -111,16 +112,16 @@
 				ev.currentTarget.setStyle("backgroundColor",0xFFFFFF);
 			}
 			public function menuClick():void {
-				navigator.pushView(MenuCategories,{locationid:data.id,business_name:data.business_name});
+				navigator.pushView(MenuCategories,{locationid:unescape(data.id),business_name:unescape(data.business_name)});
 			}
 			protected function viewspecials(event:MouseEvent):void
 			{
-				navigator.pushView(StoreSpecials, {id:data.id,
-					locationid:data.id,
-					business_picture:data.business_picture,
+				navigator.pushView(StoreSpecials, {id:unescape(data.id),
+					locationid:unescape(data.id),
+					business_picture:unescape(data.business_picture),
 					emailGo:emailGo,
-					business_name:data.business_name,
-					amount:data.amount});
+					business_name:unescape(data.business_name),
+					amount:unescape(data.amount)});
 			}	
 			
 			protected function descriptionclick(event:MouseEvent):void
@@ -244,7 +245,7 @@
 				
 			}
 			public function seemoreclick():void {
-				navigator.pushView(StoreReviews,{id:data.id});
+				navigator.pushView(StoreReviews,{id:unescape(data.id)});
 			}
 			public function menuitemclick():void {
 				if (didlistclick == false){
@@ -283,12 +284,12 @@
 			}
 			public function phoneClick():void {
 				
-				CoreMobile.mobile.showModalYesNoDialog('Call '+data.business_number,"", "Yes", "No").
+				CoreMobile.mobile.showModalYesNoDialog('Call '+unescape(data.business_number),"", "Yes", "No").
 					addDismissListener(function(e:CMDialogEvent):void 
 					{
 						if (e.selectedButtonLabel=="YES!")
 						{
-							navigateToURL(new URLRequest('tel:'+data.business_number));
+							navigateToURL(new URLRequest('tel:'+unescape(data.business_number)));
 						}
 						else {
 							
@@ -311,7 +312,7 @@
 					   url="http://www.groovedish.com/php/mobile/getTopRatedDishes.php"
 					   result="afterGetTopRated(event)" >
 			<s:request xmlns="">
-				<locationid>{data.id}</locationid>
+				<locationid>{unescape(data.id)}</locationid>
 				<emailGo>{emailGo}</emailGo>
 			</s:request>
 		</s:HTTPService>
@@ -319,14 +320,14 @@
 					   url="http://www.groovedish.com/php/mobile/getHours.php"
 					   result="afterGetHours(event)" >
 			<s:request xmlns="">
-				<locationid>{data.id}</locationid>
+				<locationid>{unescape(data.id)}</locationid>
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getTopReviews" method="GET" resultFormat="array"
 					   url="http://www.groovedish.com/php/mobile/getTopMerchReviews.php"
 					   result="afterGetMerchReviews(event)" >
 			<s:request xmlns="">
-				<locationid>{data.id}</locationid>		
+				<locationid>{unescape(data.id)}</locationid>		
 			</s:request>
 		</s:HTTPService>
 		<s:MultiDPIBitmapSource id="topratedrecent1"
@@ -352,16 +353,16 @@
 				<s:BitmapImage id="img1"  width="100%"  maxWidth="{this.width}"
 							   scaleMode="zoom"
 							   top="0"  height="{this.width/(16/9)}" 
-							   source="{data.business_picture}" 
+							   source="{unescape(data.business_picture)}" 
 							   contentLoader="{s_imageCache}" />
 				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
 							   scaleMode="stretch"	contentLoader="{s_imageCache}"   >
 					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowfliped.png')"
-												source240dpi="@Embed('../assets/240/pictureshadowfliped.png')"
-												source320dpi="@Embed('../assets/320/pictureshadowfliped.png')"
-												source480dpi="@Embed('../assets/480/pictureshadowfliped.png')"
-												source640dpi="@Embed('../assets/640/pictureshadowfliped.png')"/>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowflipped.png')"
+												source240dpi="@Embed('../assets/240/pictureshadowflipped.png')"
+												source320dpi="@Embed('../assets/320/pictureshadowflipped.png')"
+												source480dpi="@Embed('../assets/480/pictureshadowflipped.png')"
+												source640dpi="@Embed('../assets/640/pictureshadowflipped.png')"/>
 					</s:source>
 				</s:BitmapImage>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  visible="false" 
@@ -384,7 +385,7 @@
 			<s:VGroup width="{this.width}"  maxWidth="{this.width}" 
 					  gap="{25/(320/Capabilities.screenDPI)}" paddingLeft="0" paddingRight="0">
 				<s:HGroup width="100%"  gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle" 
-						  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}" >
+						  paddingLeft="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}" >
 					<s:Group height="{70/(320/Capabilities.screenDPI)}" 
 							 width="{70/(320/Capabilities.screenDPI)}"
 							 horizontalCenter="0" verticalCenter="0">
@@ -401,21 +402,21 @@
 					</s:Group>
 					<s:VGroup height="100%">
 						<s:Label id="selectedTitle" left="{14/(320/Capabilities.screenDPI)}" right="{2/(320/Capabilities.screenDPI)}" top="{13/(320/Capabilities.screenDPI)}" width="100%" color="#4d4d4d"
-								 styleName="textsize6" fontWeight="bold" text="{data.business_name}"/>
+								 styleName="textsize6" fontWeight="bold" text="{unescape(data.business_name)}"/>
 						<s:Label  left="{14/(320/Capabilities.screenDPI)}" right="{2/(320/Capabilities.screenDPI)}" top="{13/(320/Capabilities.screenDPI)}" width="100%" color="#4d4d4d"
-								  styleName="textsize2" fontWeight="bold" text="{data.categoryname}"/>
+								  styleName="textsize2" fontWeight="bold" text="{unescape(data.categoryname)}"/>
 					</s:VGroup>
 				</s:HGroup>
-				<s:Label width="100%"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"
+				<s:Label width="100%"  paddingLeft="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
 						 color="#4d4d4d" fontWeight="normal" id="descriptiontext"  lineHeight="{35/(320/Capabilities.screenDPI)}" styleName="textsize0" click="descriptionclick(event)"
-						 text="{data.business_description}" maxDisplayedLines="4" textDecoration="none"
+						 text="{unescape(data.business_description)}" maxDisplayedLines="4" textDecoration="none"
 						 verticalAlign="middle"/>
 				
-				<s:Group  width="100%" >
+				<s:Group  width="100%" height="{60/(320/Capabilities.screenDPI)}" >
 					<s:Group click="menuClick();" height="{60/(320/Capabilities.screenDPI)}"
 							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)"
-							 width="{this.width/2-30}" left="{20/(320/Capabilities.screenDPI)}" >
+							 width="{this.width/2-40}" left="{30/(320/Capabilities.screenDPI)}" >
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
@@ -430,7 +431,7 @@
 							 height="{60/(320/Capabilities.screenDPI)}"
 							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)"
-							 width="{this.width/2-30}" right="{20/(320/Capabilities.screenDPI)}">
+							 width="{this.width/2-40}" right="{30/(320/Capabilities.screenDPI)}">
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
@@ -441,8 +442,13 @@
 						<s:Label verticalAlign="middle" textAlign="center"  mouseEnabled="false"  
 								 text="Specials" color="#FFFFFF" styleName="textsize2"  fontWeight="bold" horizontalCenter="0"  verticalCenter="2" />
 					</s:Group>
-				</s:Group>
+				</s:Group>				
 				<s:VGroup width="{this.width}"  maxWidth="{this.width}"  gap="0" >
+					<s:Group width="100%">
+						<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+						</s:Line>
+					</s:Group>
 					<s:Group width="100%" height="{120/(320/Capabilities.screenDPI)}"
 							 click="addressClick()"
 							 mouseOver="gOver(event);" mouseDown="gDown(event);"
@@ -452,7 +458,7 @@
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
 							</s:fill>
 						</s:Rect>
-						<s:HGroup width="100%"  paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}" 
+						<s:HGroup width="100%"  paddingLeft="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}" 
 								  gap="15" mouseEnabled="false"  verticalCenter="0" verticalAlign="middle" >
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
@@ -468,13 +474,13 @@
 										  maxWidth="{this.width-(80/(320/Capabilities.screenDPI))}" 
 										  maxDisplayedLines="1" 
 										  color="#36ccba"  mouseEnabled="false"
-										  styleName="textsize1"   text="{data.business_address1}"/>
+										  styleName="textsize1"   text="{unescape(data.business_address1)}"/>
 								<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
-										   styleName="textsize0"   text="{data.business_city+', '+data.business_locality}"/>
+										   styleName="textsize0"   text="{unescape(data.business_city)+', '+unescape(data.business_locality)}"/>
 							</s:VGroup>
 						</s:HGroup>
-						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Map"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
-						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+						<s:Label right="{30/(320/Capabilities.screenDPI)}" text="Map"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
+						<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
@@ -488,10 +494,10 @@
 							</s:fill>
 						</s:Rect>
 						<s:HGroup width="100%"  gap="15" 
-								  paddingLeft="{20/(320/Capabilities.screenDPI)}" 
-								  paddingRight="{20/(320/Capabilities.screenDPI)}"
+								  paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+								  paddingRight="{30/(320/Capabilities.screenDPI)}"
 								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
-							<s:BitmapImage contentLoader="{s_imageCache}"  >
+							<s:Image >
 								<s:source>
 									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/infoclock.png')"
 															source240dpi="@Embed('../assets/240/infoclock.png')"
@@ -499,13 +505,13 @@
 															source480dpi="@Embed('../assets/480/infoclock.png')"
 															source640dpi="@Embed('../assets/640/infoclock.png')"/>
 								</s:source>
-							</s:BitmapImage>
+							</s:Image>
 							<s:Label   width="100%" color="#4d4d4d"  mouseEnabled="false"
 									   styleName="textsize0"     text="Open Now"/>
 						</s:HGroup>
-						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Hours" 
+						<s:Label right="{30/(320/Capabilities.screenDPI)}" text="Hours" 
 								 styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
-						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+						<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
@@ -520,8 +526,8 @@
 							</s:fill>
 						</s:Rect>
 						<s:HGroup width="100%"  gap="15" 
-								  paddingLeft="{20/(320/Capabilities.screenDPI)}" 
-								  paddingRight="{20/(320/Capabilities.screenDPI)}"  
+								  paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+								  paddingRight="{30/(320/Capabilities.screenDPI)}"  
 								  verticalCenter="0"  mouseEnabled="false" verticalAlign="middle" >
 							<s:BitmapImage contentLoader="{s_imageCache}"  >
 								<s:source>
@@ -533,18 +539,18 @@
 								</s:source>
 							</s:BitmapImage>
 							<s:Label  width="100%" color="#4d4d4d"  mouseEnabled="false"
-									  styleName="textsize0"   text="{data.business_number}"/>
+									  styleName="textsize0"   text="{unescape(data.business_number)}"/>
 						</s:HGroup>
-						<s:Label right="{20/(320/Capabilities.screenDPI)}" text="Call"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
-						<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+						<s:Label right="{30/(320/Capabilities.screenDPI)}" text="Call"   styleName="textsize0"  color="#b3b3b3"  verticalCenter="0"/>
+						<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 							<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 						</s:Line>
 					</s:Group>
 				</s:VGroup>
-				<s:Label color="#4D4D4D" styleName="textsize5"   paddingLeft="{20/(320/Capabilities.screenDPI)}" paddingRight="{20/(320/Capabilities.screenDPI)}"
+				<s:Label color="#4D4D4D" styleName="textsize5"   paddingLeft="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
 						 fontWeight="bold" text="{'Top Rated Dishes ('+storetoprateddata.length.toString()+')'}"/>
 				<s:Group width="100%">
-					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="0" > 
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  top="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 					<s:List width="100%" verticalScrollPolicy="off"  
@@ -560,18 +566,18 @@
 					</s:List>
 				</s:Group>
 				<s:Group width="100%" >
-					<s:Label  left="{20/(320/Capabilities.screenDPI)}" color="#4D4D4D"
+					<s:Label  left="{30/(320/Capabilities.screenDPI)}" color="#4D4D4D"
 							  fontWeight="bold" styleName="textsize5"
 							  id="reviewlabel"
 							  verticalCenter="0"/>
 					<s:Image id="topratedrecentimg" 
-							 right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
+							 right="{30/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}" 
 							 click="topratedrecentclick(event)" 
 							 source="{topratedrecent1}"
 							 verticalCenter="0"/>
 				</s:Group>
 				<s:Group width="100%">
-					<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  top="-1" > 
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  top="-1" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
 					<s:List  id="reviewlist" 

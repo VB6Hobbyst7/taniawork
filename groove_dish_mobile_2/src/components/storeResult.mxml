@@ -23,7 +23,7 @@
 			static public const s_imageCache:ContentCache = new ContentCache();
 			public var v1:VGroup = new VGroup();
 			public var addedallitems:Boolean = false;
-			public var gapo:uint = 2;
+			public var gapo:uint = 3;
 			public function gOver():void {
 				this.alpha = 0.5;
 			}
@@ -42,7 +42,7 @@
 					v1.mouseEnabled = false;
 					this.addElement(v1);
 					if ((addedallitems == false)){
-						if (data.name == "Loading More Items"){
+						if (unescape(data.name) == "Loading More Items"){
 							v1.width = neededwidth;
 							var ll:Label = new Label();
 							ll.width = neededwidth;
@@ -50,15 +50,15 @@
 							ll.top = 50/(320/Capabilities.screenDPI);
 							ll.styleName = styleManager.getStyleDeclaration("textsize3");
 							ll.setStyle("color",0x36ccba);
-							ll.text = data.name;
+							ll.text = unescape(data.name);
 							v1.addElement(ll);
 						}
-						else if (data.name == "map"){
+						else if (unescape(data.name) == "map"){
 							this.width = this.parent.width;
 							v1.height = this.parent.width/(16/7);
 							v1.width = this.parent.width;
 							var bmpImg:BitmapImage = new BitmapImage();
-							bmpImg.source = data.url;
+							bmpImg.source = unescape(data.url);
 							bmpImg.width = this.parent.width;
 							bmpImg.height = this.parent.width/(16/7);
 							v1.addElement(bmpImg);
@@ -80,12 +80,12 @@
 					try{
 						var neededwidth:Number = this.parent.width/2-gapo;
 						if ((addedallitems == false)){
-							if (data.name == "Loading More Items"){
+							if (unescape(data.name) == "Loading More Items"){
 								v1.width = neededwidth;
 								this.width = neededwidth;
 								
 							}
-							else if (data.name == "map"){
+							else if (unescape(data.name) == "map"){
 								v1.height = this.parent.width/(16/7);
 								this.width = this.parent.width;
 								v1.width = this.parent.width;
@@ -114,14 +114,15 @@
 					this.width = neededwidth;
 					addedallitems = true;
 					var bmpImg:BitmapImage = new BitmapImage();
-					if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
+					if ((unescape(data.business_picture) == "None")||(unescape(data.business_picture) == "")||
+						(unescape(data.business_picture) == null)||(unescape(data.business_picture) == "null")){
 						bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
 					}
-					else if (data.business_picture.indexOf("dish") != -1){
+					else if (unescape(data.business_picture).indexOf("dish") != -1){
 						bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
 					}
 					else {
-						bmpImg.source = data.business_picture;
+						bmpImg.source = unescape(data.business_picture);
 					}
 					bmpImg.contentLoader = s_imageCache;
 					bmpImg.width = neededwidth;
@@ -186,8 +187,8 @@
 					l1.styleName = "textsize1";
 					l1.setStyle("fontWeight","bold");
 					l1.setStyle("color","#36ccba");
-					var ratingstring:String =data.rating.toString();
-					var ratingnumber:Number = Number(data.rating);
+					var ratingstring:String =unescape(data.rating.toString());
+					var ratingnumber:Number = Number(unescape(data.rating));
 					if (ratingnumber == 0){
 						l1.text = "-";
 					}
@@ -241,8 +242,8 @@
 					l3.verticalCenter = 0;
 					l3.styleName =  "textsize0";
 					l3.setStyle("color","#999999");
-					if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
-						var dist:Number = data.distance;
+					if ((unescape(data.distance) != '')&&(unescape(data.distance) != 'null')&&(unescape(data.distance) != null)){
+						var dist:Number = Number(unescape(data.distance));
 						if (dist >= 1){
 							l3.text = dist.toFixed(1)+ " km";
 						}
@@ -279,7 +280,7 @@
 					l5.verticalCenter = 0;
 					l5.styleName =  "textsize0";
 					l5.setStyle("color","#4d4d4d");
-					l5.text = data.business_name;
+					l5.text = unescape(data.business_name);
 					l5.maxDisplayedLines = 1;
 					l5.setStyle("verticalAlign","middle");
 					
@@ -295,7 +296,7 @@
 					l6.left = 0;
 					l6.styleName =  "textsize0";
 					l6.setStyle("color","#4d4d4d");
-					l6.text = data.categoryname;
+					l6.text = unescape(data.categoryname);
 					l6.maxDisplayedLines = 1;
 					l6.setStyle("verticalAlign","middle");
 					

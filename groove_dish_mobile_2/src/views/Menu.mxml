@@ -5,6 +5,8 @@
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*" xmlns:cs="cs.*"
 		viewActivate="init()"
+		backgroundColor="#f3f3f3"
+		contentBackgroundColor="#f3f3f3"
 		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -13,6 +15,7 @@
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script source="../func/menuglobal.as"/>
+	<fx:Script source="../func/listLoading.as"/>
 	<fx:Script>
 		<![CDATA[
 			import flash.events.Event;
@@ -94,7 +97,7 @@
 					listData.sort = srt;
 					listData.refresh();
 				}
-				menuList.dataProvider = listData;
+				startapplyingdata();	
 			}
 			public function listClick():void {	
 				if (allreadylistclicked == false){
@@ -181,9 +184,10 @@
 			</s:Group>
 		</s:Group>
 		<s:List width="100%" horizontalCenter="0"  height="100%"
-				id="menuList" useVirtualLayout="true" 
+				id="menuList" useVirtualLayout="false" 
 				verticalScrollPolicy="on"  
 				horizontalScrollPolicy="off"  
+				creationComplete="list_creationCompleteHandler(event)"
 				contentBackgroundColor="#FFFFFF"
 				skinClass="skins.MenuTileListSkin"
 				selectedIndex="1" 
