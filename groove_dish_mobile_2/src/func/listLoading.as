@@ -82,40 +82,16 @@ public var freetoload:Boolean = true;
 public var previousIndicesInView:String = "";
 protected function propertyChangeHandler( event:PropertyChangeEvent ) : void {
 	if ( event.property == "verticalScrollPosition" ) {
-	/*	
-		trace("new val: "+event.newValue.toString()+
-			"  ||| mesured height: "+event.currentTarget.measuredHeight.toString()+
-			"  || cont height: "+event.currentTarget.height.toString()+
-			" ||| scroll pos: "+menuList.dataGroup.getItemIndicesInView());*/
-		
-		
-		
 		if (previousIndicesInView != menuList.dataGroup.getItemIndicesInView().toString()){
 			previousIndicesInView = menuList.dataGroup.getItemIndicesInView().toString();
-			if (freetoload){
-				
+			if (freetoload){	
 				dolistupdate();
 				freetoload = false;
 			}
 		}
-		
-		
-		/*
-		if (Math.round(Number(event.newValue)-previousval) != 0){
-			//trace("difference val: "+Math.round(Number(event.newValue)-previousval).toString());
-			if (Math.round(Number(event.newValue)-previousval) < 3){
-				if (freetoload){
-					dolistupdate();
-					freetoload = false;
-				}
-			
-			}
-		}
-		previousval = Number(event.newValue);*/
 	}
 }
 public function dolistupdate():void {
-	trace("updateing list");
 	var i:uint = 0;
 	var j:uint = 0;
 	
@@ -156,7 +132,7 @@ public function dolistupdate():void {
 	visibleindexes = new Array();
 	for (i = minindex; i <= maxindex; i++){
 		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,15*(i+1),i);
+			setTimeout(vizwait,30*(i+1),i);
 		}
 		visibleindexes.push(i);
 	}
@@ -164,7 +140,7 @@ public function dolistupdate():void {
 	
 	for (i = newminindex; i < minindex; i++){
 		if (menuList.dataProvider.getItemAt(i).viz == false){
-			setTimeout(vizwait,(50*(i+1))+500,i);
+			setTimeout(vizwait,(100*(i+1))+500,i);
 		}
 		visibleindexes.push(i);
 	}
@@ -172,7 +148,7 @@ public function dolistupdate():void {
 	for (i = maxindex+1; i <= newmaxindex; i++){
 		try{
 			if (menuList.dataProvider.getItemAt(i).viz == false){
-				setTimeout(vizwait,(50*(i+1))+500,i);
+				setTimeout(vizwait,(100*(i+1))+500,i);
 			}
 			visibleindexes.push(i);
 		}
@@ -190,17 +166,17 @@ public function dolistupdate():void {
 		
 		if (menuList.dataProvider.getItemAt(previousindexes[i]).viz != foundo){
 			if (foundo == true){
-				setTimeout(vizwait,(10*(i+1)),previousindexes[i]);
+				setTimeout(vizwait,(30*(i+1)),previousindexes[i]);
 			}
 			else {
-				setTimeout(vizwait2,(10*(i+1)),previousindexes[i]);
+				setTimeout(vizwait2,(100*(i+1)),previousindexes[i]);
 			}
 		}	
 	} 
 	previousindexes = new Array();
 	previousindexes = visibleindexes;
 
-	ti = new Timer(250,0);
+	ti = new Timer(500,0);
 	ti.addEventListener(TimerEvent.TIMER, afterti);
 	ti.start();
 	

@@ -86,5 +86,6 @@
 <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
 
     
+    <extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
     </extensions>
 </application>

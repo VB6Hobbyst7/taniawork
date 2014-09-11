@@ -125,7 +125,7 @@ public function updateMenuLocation(ev:MouseEvent):void {
 		menumoving = true;
 		automenumove = false;
 		menu.x = ev.stageX-menu.width;
-		mainNavigator.enabled = false;	
+		//mainNavigator.enabled = false;	
 	}
 }
 //Filters menu functions
