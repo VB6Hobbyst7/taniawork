@@ -448,25 +448,25 @@
 				<s:Label text="{data.business_description}" width="100%" color="#3c4042"  styleName="textsize6" fontWeight="normal"/>
 				<s:Label text="Hours of Operation" color="#58aeea" fontWeight="bold"  styleName="textsize6" />
 			
-						<s:Label id="weekday1" text="Monday :" horizontalCenter="0" verticalCenter="0" 
+						<s:Label id="weekday1" text="Monday : Closed" horizontalCenter="0" verticalCenter="0" 
 								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 			
-						<s:Label id="weekday2" text="Tuesday :" horizontalCenter="0" verticalCenter="0"  
+						<s:Label id="weekday2" text="Tuesday : Closed" horizontalCenter="0" verticalCenter="0"  
 								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 			
-						<s:Label id="weekday3" text="Wednesday :" horizontalCenter="0" verticalCenter="0" 
+						<s:Label id="weekday3" text="Wednesday : Closed" horizontalCenter="0" verticalCenter="0" 
 								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 					
-						<s:Label id="weekday4" text="Thursday :" horizontalCenter="0" verticalCenter="0"  
+						<s:Label id="weekday4" text="Thursday : Closed" horizontalCenter="0" verticalCenter="0"  
 								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 			
-						<s:Label id="weekday5" text="Friday :" horizontalCenter="0" verticalCenter="0" 
+						<s:Label id="weekday5" text="Friday : Closed" horizontalCenter="0" verticalCenter="0" 
 								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 					
-						<s:Label id="weekday6" text="Saturday :" horizontalCenter="0" verticalCenter="0"  
+						<s:Label id="weekday6" text="Saturday : Closed" horizontalCenter="0" verticalCenter="0"  
 								 color="#3c4042" styleName="textsize3" fontWeight="normal" />
 				
-						<s:Label id="weekday7" text="Sunday :" horizontalCenter="0" verticalCenter="0" 
+						<s:Label id="weekday7" text="Sunday : Closed" horizontalCenter="0" verticalCenter="0" 
 								 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 				
 			</s:VGroup>
