@@ -41,34 +41,55 @@ public function startapplyingdata():void {
 	else {
 		for (i = 0; i < listData.length; i++){
 			if (listData[i].hideall != true){
-				if (i < 9){
-					listData[i].viz = true;
-				}
-				else {
-					listData[i].viz = false;
-				}
-				
+				listData[i].viz = false;
 				menuList.dataProvider.addItem(listData[i]);
 			}	
 		}	
+		
+		var visibleindexestemp:Array =  menuList.dataGroup.getItemIndicesInView().toString().split(",");
+		if (visibleindexestemp.length > 2){
+			for (i = 0; i < visibleindexestemp.length; i++){
+				vizwait(visibleindexestemp[i]);
+			}
+		}
+		else {
+			for (i = 0; i < 10; i++){
+				vizwait(i);
+			}
+		}
+		
 	}
 	
 	listData.refresh();
 }
 protected function list_creationCompleteHandler( event : FlexEvent ) : void {
-	menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );
+	menuList.scroller.viewport.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler );	
+	
 }
 public var previousval:Number = 0;
 public var freetoload:Boolean = true;
+public var previousIndicesInView:String = "";
 protected function propertyChangeHandler( event:PropertyChangeEvent ) : void {
 	if ( event.property == "verticalScrollPosition" ) {
-		/*
+	/*	
 		trace("new val: "+event.newValue.toString()+
 			"  ||| mesured height: "+event.currentTarget.measuredHeight.toString()+
 			"  || cont height: "+event.currentTarget.height.toString()+
-			" ||| scroll pos: "+menuList.dataGroup.getItemIndicesInView());
+			" ||| scroll pos: "+menuList.dataGroup.getItemIndicesInView());*/
 		
-		*/
+		
+		
+		if (previousIndicesInView != menuList.dataGroup.getItemIndicesInView().toString()){
+			previousIndicesInView = menuList.dataGroup.getItemIndicesInView().toString();
+			if (freetoload){
+				
+				dolistupdate();
+				freetoload = false;
+			}
+		}
+		
+		
+		/*
 		if (Math.round(Number(event.newValue)-previousval) != 0){
 			//trace("difference val: "+Math.round(Number(event.newValue)-previousval).toString());
 			if (Math.round(Number(event.newValue)-previousval) < 3){
@@ -79,7 +100,7 @@ protected function propertyChangeHandler( event:PropertyChangeEvent ) : void {
 			
 			}
 		}
-		previousval = Number(event.newValue);
+		previousval = Number(event.newValue);*/
 	}
 }
 public function dolistupdate():void {
@@ -179,9 +200,15 @@ public function afterti(ev:TimerEvent):void {
 	freetoload = true;
 }
 public function vizwait(index:uint):void {
-	menuList.dataProvider.getItemAt(index).viz = true;
+	try{
+		menuList.dataProvider.getItemAt(index).viz = true;
+	}
+	catch(e:Error){}
+	
 }
 
 public function vizwait2(index:uint):void {
-	menuList.dataProvider.getItemAt(index).viz = false;
+	if (index > 4){
+		menuList.dataProvider.getItemAt(index).viz = false;
+	}
 }

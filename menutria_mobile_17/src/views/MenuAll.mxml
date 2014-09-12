@@ -18,21 +18,27 @@
 		<![CDATA[
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			import flash.utils.setTimeout;
+			
 			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
 			import mx.events.EffectEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
+			import spark.components.Scroller;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.transitions.SlideViewTransition;
 			import spark.transitions.SlideViewTransitionMode;
 			import spark.transitions.ViewTransitionDirection;
+			
 			import flashx.textLayout.events.ScrollEvent;
+			
 			import skins.HomeTileListSkin;
 			[Bindable]
 			public var alphatitle:String = "Home";
@@ -69,10 +75,10 @@
 			[Bindable]
 			public var screenwidth:Number = 200;
 			public var didupdate:Boolean = false;
+			public var searchdone:Boolean = false;
 			
 			public function init():void
-			{			
-				
+			{		
 				goingtonext = false;
 				//setLoginVars();	
 			}
@@ -193,7 +199,7 @@
 					selectview3.mouseEnabled = false;
 					selectview3.mouseEnabledWhereTransparent = false;
 					generateCategoryFilterArray();
-					populatelist(0);
+					populatelist();
 				}
 				this.parentDocument.hideBusy();
 			} 
@@ -231,7 +237,7 @@
 					filterData2.addItem({name:tempfilter2[k].name});
 				}
 			}
-			public function populatelist(u:uint):void {
+			public function populatelist():void {
 				var i:uint = 0;
 				var srt:Sort = new Sort();
 				if (currentselectmode == 1){
@@ -256,8 +262,21 @@
 				}
 				startapplyingdata();	
 			}
-			public function press(event:KeyboardEvent):void {
+			public function enterpress():void {
+				searchdone = true;
 				searchClick();
+			}
+			public function keypress():void {
+				if ((key.text.length == 0)&&(searchdone == true)){
+					searchdone = false;
+					searchClick();
+				}	
+			}
+			public function textchange():void {
+				if ((key.text.length == 0)&&(searchdone == true)){
+					searchdone = false;
+					searchClick();
+				}	
 			}
 			public function postalpress(event:KeyboardEvent):void {
 				var tempText:String = svi2.text;
@@ -319,15 +338,7 @@
 					listData[i].distance = Number(getDistance(Number(newlat),Number(newlong),listData[i].lat,listData[i].longa));
 				}
 				listData.refresh();
-				populatelist(0);
-				
-				
-				for (i =  0; i < listData.length; i++){
-					
-					listData[i].distance = Number(getDistance(Number(newlat),Number(newlong),listData[i].lat,listData[i].longa));
-				}
-				listData.refresh();
-				populatelist(0);
+				populatelist();	
 			}
 			public function searchClick():void
 			{
@@ -374,8 +385,6 @@
 			public function filterClick(u:uint):void {
 				listData.filterFunction = allFilter;
 				listData.refresh();
-				startapplyingdata();
-				//menuList.dataProvider = listData;
 				
 				var fadein:Fade = new Fade();
 				fadein.alphaFrom = 0;
@@ -506,7 +515,7 @@
 					fadeout.play();
 					fadein.play();
 					currentselectmode = u;
-					populatelist(0);
+					setTimeout(	populatelist,500);
 				}
 			}
 			public function goFilterScreen(u:uint):void {
@@ -515,7 +524,7 @@
 						//close dropdown menu
 						var fadeout:Fade = new Fade();
 						fadeout.alphaFrom = 1;
-						fadeout.alphaTo = 0;
+						fadeout.alphaTo = 0;currentselectmode
 						fadeout.duration = 500;
 						fadeout.target = dropDownContainer;
 						fadeout.play();
@@ -547,7 +556,7 @@
 					for (var i:uint =  0; i < listData.length; i++){
 						listData[i].distance = Number(getDistance(mylat,mylong,listData[i].lat,listData[i].longa));
 					}
-					populatelist(0);
+					populatelist();
 				}
 				else if (filterList1.selectedItem.name == "Postal Code"){
 					svi1.visible = false;
@@ -570,7 +579,7 @@
 				startapplyingdata();
 				//menuList.dataProvider = listData;
 				//add filter here
-				populatelist(1);
+				populatelist();
 			}
 			private function allFilter(item:Object):Boolean{
 				return true;
@@ -595,7 +604,7 @@
 					currentselectmode = 3;
 					reverse = true;
 				}
-				populatelist(0);
+				populatelist();
 				sv3label.text = filterList3.selectedItem.name;
 				goFilterScreen(2);
 				
@@ -609,7 +618,7 @@
 					currentselectmode = 4;
 					reverse = true;
 				}
-				populatelist(0);
+				populatelist();
 				sv4label.text = filterList4.selectedItem.name;
 				goFilterScreen(3);
 				
@@ -670,12 +679,12 @@
 											source640dpi="@Embed('../assets/640/glass.png')"/>
 				</s:source>
 			</s:BitmapImage>
-			<s:TextInput   fontFamily="Arial"  keyUp="press(event);" verticalCenter="0"  styleName="textsize0"    
-						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}"
+			<s:TextInput   fontFamily="Arial" returnKeyLabel="search"  enter="enterpress();" verticalCenter="0" change="textchange();" 
+						   color="#FFFFFF"  right="0" left="{35/(320/Capabilities.screenDPI)}" fontWeight="normal"   styleName="textsize0"    
 						   id="key"  top="{6/(320/Capabilities.screenDPI)}"  height="98%" borderVisible="false" 
-						   contentBackgroundAlpha="0" softKeyboardType="contact"
+						   contentBackgroundAlpha="0" softKeyboardType="contact" keyDown="keypress()"
 						   maxChars="20" prompt="Search Dishes"
-						   returnKeyLabel="search"/>
+						   />
 		</s:Group>
 	</s:titleContent>
 	<fx:Declarations>		

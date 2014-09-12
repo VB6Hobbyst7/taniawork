@@ -18,6 +18,7 @@ public var autofiltersmove:Boolean = false;
 public var openclosestatus:Number = 0;
 //general menu functions
 protected function overAllMouseUp(event:MouseEvent):void{
+	mainNavigator.focusEnabled = true;
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	if ((menumoving)&&(automenumove == false)){
@@ -51,6 +52,7 @@ public function menuButtonClick():void {
 	}
 }
 public function calculateMenuOperation():void {
+	hidekeyboard();
 	var menuendx:Number = menu.x+menu.width;
 	if (menumoving == false){
 		menumoving = true;
@@ -77,6 +79,7 @@ public function calculateMenuOperation():void {
 	}
 }
 public function closeMenu():void {
+	hidekeyboard();
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 	var menuendx:Number = menu.x+menu.width;
 	var mo:Move = new Move();
@@ -98,6 +101,7 @@ public function afterCloseMenu(ev:EffectEvent):void {
 
 }
 public function openMenu():void {
+	hidekeyboard();
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 	var menuendx:Number = menu.x+menu.width;
 	var mo:Move = new Move();
@@ -119,10 +123,11 @@ public function afterOpenMenu(ev:EffectEvent):void {
 public function updateMenuLocation(ev:MouseEvent):void {
 	if (ev.stageX <= menu.width){
 		menuopen = true;
-		mainNavigator.activeView.mouseChildren = true;
+		mainNavigator.focusEnabled = false;
 		menumoving = true;
 		automenumove = false;
 		menu.x = ev.stageX-menu.width;
+		mainNavigator.enabled = false;	
 	}
 }
 //Filters menu functions
@@ -165,6 +170,7 @@ public function calculateFiltersOperation():void {
 	}
 }
 public function closeFilters():void {
+	hidekeyboard();
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	var filtersendx:Number = filtersmenu.x+filtersmenu.width;
 	var mo:Move = new Move();
@@ -186,6 +192,7 @@ public function afterCloseFilters(ev:EffectEvent):void {
 	
 }
 public function openFilters():void {
+	hidekeyboard();
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	var mo:Move = new Move();
 	mo.target = filtersmenu;
@@ -205,6 +212,7 @@ public function afterOpenFilters(ev:EffectEvent):void {
 }
 public function updateFiltersLocation(ev:MouseEvent):void {
 	if (ev.stageX >= this.width-filtersmenu.width){
+		mainNavigator.focusEnabled = false;
 		filtersopen = true;
 		mainNavigator.activeView.mouseChildren = true;
 		filtersmoving = true;

@@ -58,7 +58,10 @@
 	embedAsCFF: true;
 }
 s|TextInput {
-	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");	
+	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
+	showPromptWhenFocused:false;
+	fontFamily: "HelveticaNeue";
+	
 }
 s|Label
 {

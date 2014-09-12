@@ -75,6 +75,7 @@
 				if (resData.length != 0){
 					//good login
 					for (var i:uint = 0; i < resData.length; i++){
+						hidekeyboard();
 						this.parentDocument.refresh(resData[i].email);		
 					}			
 				}

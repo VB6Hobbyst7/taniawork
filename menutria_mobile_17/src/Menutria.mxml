@@ -21,8 +21,9 @@
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/facebook.as" />
 	<fx:Script source="func/loading.as" />
+	<fx:Script source="func/coreMobileFunctions.as" />
 	<s:ViewNavigator width="100%" height="100%"
-					 id="mainNavigator"
+					 id="mainNavigator" 
 					 backgroundColor="#5b5b5b"
 					 contentBackgroundColor="#36ccba"
 					 click="navigatorClick(event)"  						
@@ -193,7 +194,7 @@
 		</s:VGroup>		
 	</s:Group>
 	
-	<!--s:Group id="internetwarn" width="98%"  height="15%" top="50" horizontalCenter="0"  visible="false">
+	<s:Group id="internetwarn" width="98%"  height="15%" top="50" horizontalCenter="0"  visible="false">
 	<s:Rect width="100%" height="100%" >
 	<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
 	<s:stroke><s:SolidColorStroke color="#36ccba" 
@@ -213,7 +214,7 @@
 	</s:BitmapImage>
 	<s:Label color="#6b6a6a" text="Network Unavailable" styleName="textsize6"/>
 	</s:HGroup>
-	</s:Group-->
+	</s:Group>
 	<s:BusyIndicator id="bi" verticalCenter="0" visible="false" horizontalCenter="0"/>
 	<fx:Style source="./main.css"/>
 	<fx:Script>

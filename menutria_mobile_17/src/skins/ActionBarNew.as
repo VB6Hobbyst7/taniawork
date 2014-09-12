@@ -57,7 +57,7 @@ package skins
 					layoutShadowHeight = 0;
 					
 					if (Capabilities.version.indexOf('IOS') > -1){
-						mobilepaddingtop = 40;
+						mobilepaddingtop = 50;
 					}
 					else {
 						mobilepaddingtop = 0;
@@ -73,7 +73,7 @@ package skins
 					
 					
 					if (Capabilities.version.indexOf('IOS') > -1){
-						mobilepaddingtop = 30;
+						mobilepaddingtop = 40;
 					}
 					else {
 						mobilepaddingtop = 0;
@@ -88,7 +88,7 @@ package skins
 					layoutShadowHeight = 0;
 					
 					if (Capabilities.version.indexOf('IOS') > -1){
-						mobilepaddingtop = 20;
+						mobilepaddingtop = 30;
 					}
 					else {
 						mobilepaddingtop = 0;
@@ -104,7 +104,7 @@ package skins
 					
 					
 					if (Capabilities.version.indexOf('IOS') > -1){
-						mobilepaddingtop = 15;
+						mobilepaddingtop = 20;
 					}
 					else {
 						mobilepaddingtop = 0;

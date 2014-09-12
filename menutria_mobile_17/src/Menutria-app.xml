@@ -12,6 +12,7 @@
 <renderMode>auto</renderMode>
 <fullScreen>false</fullScreen>
 <systemChrome>standard</systemChrome>
+    <visible>false</visible>
     </initialWindow>
 	<supportedLanguages>en</supportedLanguages>
 	<icon>
@@ -83,5 +84,6 @@
     </android>
 <extensions>
 <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
-</extensions>
+
+    </extensions>
 </application>

@@ -46,7 +46,7 @@ public var svt2:SlideViewTransition = new SlideViewTransition();
 public var pm:PersistenceManager = new PersistenceManager();
 protected function creationcomplete(event:FlexEvent):void
 {
-	//startCoreMobile();
+	startCoreMobile();
 	svt.duration = slideduration;
 	svt.direction =  ViewTransitionDirection.LEFT;
 	svt2.duration = slideduration;
@@ -172,6 +172,7 @@ public function nativeKeyDown(event:KeyboardEvent):void
 }
 public function onSwipe(event:TransformGestureEvent):void
 {
+	hidekeyboard();
 	var ev:MouseEvent;
 	if (event.currentTarget.id != 'uic'){
 		switch(event.offsetX)
@@ -270,28 +271,61 @@ public function pushScreen(u:uint):void {
 	listmenu.selectedIndex = -1;
 	if (u == 0){
 		//your account
-		mainNavigator.pushView(Profile);
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('profile') == -1){
+			mainNavigator.pushView(Profile);
+		}
+		else if (menuopen){
+			closeMenu();
+		}
+		
 	}
 	else if (u == 1){
 		//home
-		mainNavigator.pushView(Home,{homefilterarray:[]});
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('home') == -1){
+			mainNavigator.pushView(Home,{homefilterarray:[]});
+		}
+		else if (menuopen){
+			closeMenu();
+		}
+		
 	}
 	else if (u == 2){
 		//restrictions
-		mainNavigator.pushView(Restrictions);
-		
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('restrictions') == -1){
+			mainNavigator.pushView(Restrictions);
+		}
+		else if (menuopen){
+			closeMenu();
+		}
 	}
 	else if (u == 3){
-		//specials
-		mainNavigator.pushView(MenuAll,{homefilterarray:[]});	
+		//dishes
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('menuall') == -1){
+			mainNavigator.pushView(MenuAll,{homefilterarray:[]});	
+		}
+		else if (menuopen){
+			closeMenu();
+		}
 	}
 	else if (u == 4){
 		//specials
-		mainNavigator.pushView(SpecialsAll);	
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('specialsall') == -1){
+			mainNavigator.pushView(SpecialsAll);	
+		}
+		else if (menuopen){
+			closeMenu();
+		}
+			
 	}
 	else if (u == 5){
 		//settings
-		mainNavigator.pushView(Settings);
+		if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('settings') == -1){
+			mainNavigator.pushView(Settings);	
+		}
+		else if (menuopen){
+			closeMenu();
+		}
+		
 	}	
 }
 public function viewadd(event:ElementExistenceEvent):void
@@ -357,9 +391,10 @@ public function logout():void {
 }
 public function goProfile(event:MouseEvent):void
 {
-	mainNavigator.pushView(Profile);
-	if ((menuopen)&&(menumoving == false)){
-		menumoving = true;
+	if (mainNavigator.activeView.className.toLocaleLowerCase().indexOf('profile') == -1){
+		mainNavigator.pushView(Profile);
+	}
+	else if (menuopen){
 		closeMenu();
 	}
 }

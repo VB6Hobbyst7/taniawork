@@ -20,6 +20,14 @@
 				dostuff();
 			}
 			public function dostuff():void {
+				if (data.liked == 'yes'){
+					specialheart.source = "assets/"+getDPIHeight().toString()+"/specialsheart.png";
+				}
+				else {
+					specialheart.source = "assets/"+getDPIHeight().toString()+"/specialsheartoutline.png";
+				}
+				
+				
 				if ((data.picture == "None")||(data.picture == "")||
 					(data.picture == null)||(data.picture == "null")){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
@@ -58,6 +66,22 @@
 				catch(e:Error) {}
 				
 			}
+			
+			public function heartclick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				data.heartclick = 1;
+				
+				if (data.liked == 'yes'){
+					data.liked = 'no';
+					specialheart.source = "assets/"+getDPIHeight().toString()+"/specialsheartoutline.png";
+				}
+				else {
+					data.liked = 'yes';
+					specialheart.source = "assets/"+getDPIHeight().toString()+"/specialsheart.png";
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<s:VGroup width="100%"  top="-1"
@@ -78,9 +102,14 @@
 										/>
 			</s:source>
 		</s:BitmapImage>
+		<s:Group width="100" height="100" top="0" right="0" click="heartclick(event)">
+			<s:BitmapImage   id="specialheart" top="30" right="30"  contentLoader="{s_imageCache}"
+							 scaleMode="stretch"/>
+		</s:Group>
+		
 			<s:VGroup    paddingLeft="{20/(320/Capabilities.screenDPI)}" width="100%"
 						 paddingBottom="{20/(320/Capabilities.screenDPI)}"  
-						 verticalAlign="bottom" bottom="0"
+						 verticalAlign="bottom" bottom="0" gap="{10/(320/Capabilities.screenDPI)}"
 						 paddingRight="{20/(320/Capabilities.screenDPI)}">
 				<s:Group>
 					<s:Rect width="100%"  height="100%" radiusX="5" radiusY="5">
@@ -99,7 +128,7 @@
 				</s:Group>
 				
 				
-				<s:Label color="#FFFFFF" maxDisplayedLines="5"
+				<s:Label color="#FFFFFF" maxDisplayedLines="1"  paddingTop="{10/(320/Capabilities.screenDPI)}"
 						 fontWeight="bold" styleName="textsize3"  paddingRight="{20/(320/Capabilities.screenDPI)}"
 						 text="{data.name}"    width="{(setheightval-20)*data.type}"  maxWidth="{(setheightval-20)*data.type}"
 						 verticalAlign="middle"></s:Label>
@@ -131,6 +160,7 @@
 		<s:Line left="{20/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 		</s:Line>
+	
 	</s:Group>
 		</s:VGroup>
 	<s:Group width="{this.width}" visible="{data.type == 0}" top="-1" 

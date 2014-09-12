@@ -147,5 +147,5 @@
 			<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="navigator.popView();"/>	
 		</s:VGroup>
 	</s:Scroller>
-	<components:genericpopup id="popupholder1"  width="100%" height="100%"/>
+	<components:genericpopup id="popupholder1" styleo="textsize13"  width="100%" height="100%"/>
 </s:View>

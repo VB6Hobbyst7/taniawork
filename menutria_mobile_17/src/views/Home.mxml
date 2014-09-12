@@ -548,7 +548,7 @@
 					fadeout.play();
 					fadein.play();
 					currentselectmode = u;
-					populatelist();
+					setTimeout(	populatelist,500);
 					
 				}
 			}
@@ -829,11 +829,11 @@
 							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
 							 text="Current Location" verticalCenter="0"/>
 					<s:TextInput id="svi2" height="90%" right="{10/(320/Capabilities.screenDPI)}" width="80%" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
-								 visible="false" click="svilabelclick();" keyUp="postalpress(event);" left="0" prompt="Enter Postal Code"
+								 visible="false" click="svilabelclick();" fontFamily="Arial" keyUp="postalpress(event);" left="0" prompt="Enter Postal Code"
 								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
 					<s:TextInput id="svi3" height="90%" click="svilabelclick();" width="80%" keyUp="addressPress(event)" right="{10/(320/Capabilities.screenDPI)}" verticalCenter="0"
 								 visible="false" left="0" prompt="Enter Address" color="#b2b2b2" styleName="textsize1"
-								 borderVisible="false" fontWeight="normal"  contentBackgroundAlpha="0"/>
+								 borderVisible="false" fontWeight="normal" fontFamily="Arial"  contentBackgroundAlpha="0"/>
 				</s:Group>
 			
 			</s:HGroup>

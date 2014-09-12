@@ -34,8 +34,11 @@ protected function onUpdate(event:GeolocationEvent):void
 protected function ondeactivate():void
 {
 	pm.setProperty("sviewdata",mainNavigator.saveViewData());
-	pm.save();
-	stage.frameRate=2;
+	pm.save();	
+	try{
+		stage.frameRate=2;
+	}
+	catch(e:Error){}
 	try{
 	g.removeEventListener(GeolocationEvent.UPDATE, onUpdate);  
 	}

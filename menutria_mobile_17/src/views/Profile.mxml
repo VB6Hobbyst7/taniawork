@@ -11,24 +11,16 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.display.Loader;
-			import flash.events.ErrorEvent;
-			import flash.events.Event;
 			import flash.events.MediaEvent;
 			import flash.events.MouseEvent;
 			import flash.media.CameraRoll;
 			import flash.media.MediaPromise;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
-			
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.transitions.SlideViewTransition;
-			import spark.transitions.SlideViewTransitionMode;
-			import spark.transitions.ViewTransitionDirection;
-			
 			import skins.HomeTileListSkin;
 			private var mediaSource:CameraRoll = new CameraRoll();
 			private var imageLoader:Loader; 
@@ -523,10 +515,6 @@
 							change="storeListClick();"
 							click="storeListClick();" >
 					</s:List>
-					
-					
-					
-					
 				</s:Group>
 				</s:VGroup>
 			</s:Scroller>

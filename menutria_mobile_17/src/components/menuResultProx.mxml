@@ -11,8 +11,10 @@
 				mouseDown="gDown();">
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Image;
 			import mx.events.FlexEvent;
 			import mx.graphics.SolidColorStroke;
+			
 			import spark.components.Group;
 			import spark.components.HGroup;
 			import spark.components.Label;
@@ -71,6 +73,10 @@
 					else {
 						v1.removeAllElements();
 						addedallitems = false;
+						if (data.viz){
+							loadrest();
+						}
+						
 					}
 				}
 			}
@@ -263,11 +269,11 @@
 					v2.addElement(l5);
 					g4.addElement(l6);
 					if (data.goodforme == false){
-						var bmpImg2:BitmapImage = new BitmapImage();
+						var bmpImg2:Image = new Image();
 						bmpImg2.source = "../assets/"+getDPIHeight().toString()+"/alert.png";
 						bmpImg2.right = 20/(320/Capabilities.screenDPI);
 						bmpImg2.verticalCenter = 0;
-						bmpImg2.contentLoader = s_imageCache;
+						//bmpImg2.contentLoader = s_imageCache;
 						g4.addElement(bmpImg2);
 					}
 					v2.addElement(g4);

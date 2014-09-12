@@ -13,6 +13,7 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			import mx.graphics.SolidColorStroke;
+			
 			import spark.components.Group;
 			import spark.components.HGroup;
 			import spark.components.Image;
@@ -27,7 +28,7 @@
 			public var bmpImg:BitmapImage = new BitmapImage();
 			public var l1:Label = new Label();
 			public var l2:Label = new Label();
-			public var bmpImg2:BitmapImage = new BitmapImage();
+			public var bmpImg2:Image = new Image();
 			public var l4:Label = new Label();
 			public var l5:Label = new Label();
 			public function gOver():void {

@@ -128,7 +128,7 @@
 				<s:SolidColor alpha="0.5" color="#000000"/>
 			</s:fill>
 		</s:Rect>
-	<s:Group width="95%" horizontalCenter="0" height="50%" top="{60/(320/Capabilities.screenDPI)}">
+	<s:Group width="90%" horizontalCenter="0" height="50%" top="{60/(320/Capabilities.screenDPI)}">
 	<s:Rect width="100%"  height="100%"
 			radiusX="{10/(320/Capabilities.screenDPI)}"
 			radiusY="{10/(320/Capabilities.screenDPI)}">
@@ -136,9 +136,11 @@
 			<s:SolidColor alpha="1" color="#36ccba"/>
 		</s:fill>
 	</s:Rect>
-	<s:Group left="0" top="{10/(320/Capabilities.screenDPI)}" mouseDown="backOnShare();"  
-			 mouseEnabledWhereTransparent="true" width="{100/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}">
-		<s:BitmapImage width="{40/(320/Capabilities.screenDPI)}" height="{40/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
+	<s:Group  mouseDown="backOnShare();"   left="0" top="0" 
+			  mouseEnabledWhereTransparent="true"  
+			  width="{100/(320/Capabilities.screenDPI)}" 
+			  height="{75/(320/Capabilities.screenDPI)}">
+		<s:BitmapImage  contentLoader="{s_imageCache}"
 					   horizontalCenter="0" verticalCenter="0">
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/back.png')"
@@ -149,13 +151,16 @@
 			</s:source>
 		</s:BitmapImage>
 	</s:Group>
-	<s:Group horizontalCenter="0" top="{10/(320/Capabilities.screenDPI)}"  height="{50/(320/Capabilities.screenDPI)}">
-		<s:Label height="100%" color="#FFFFFF" styleName="textsize3" text="Share"
-				 verticalAlign="middle"/>
+	<s:Group horizontalCenter="0" top="0"  height="{75/(320/Capabilities.screenDPI)}">
+		<s:Label color="#FFFFFF" fontWeight="bold" styleName="textsize5" 
+				 text="Share" horizontalCenter="0" verticalCenter="2" textAlign="center"/>
 	</s:Group>
-	<s:Group  mouseDown="forwardOnShare();" right="0" top="{10/(320/Capabilities.screenDPI)}" 
-			  mouseEnabledWhereTransparent="true"  width="{100/(320/Capabilities.screenDPI)}" height="{50/(320/Capabilities.screenDPI)}">
-		<s:BitmapImage id="checkshare" width="{40/(320/Capabilities.screenDPI)}" visible="true" height="{40/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
+	<s:Group  mouseDown="forwardOnShare();" right="0" top="0" 
+			  mouseEnabledWhereTransparent="true"  
+			  width="{100/(320/Capabilities.screenDPI)}" 
+			  height="{75/(320/Capabilities.screenDPI)}">
+		<s:BitmapImage id="checkshare"
+					   visible="true"  contentLoader="{s_imageCache}"
 					   horizontalCenter="0" verticalCenter="0">
 			<s:source>
 				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/checkwhite.png')"
@@ -166,7 +171,7 @@
 			</s:source>
 		</s:BitmapImage>
 	</s:Group>
-	<s:Group x="0" top="{65/(320/Capabilities.screenDPI)}" bottom="{60/(320/Capabilities.screenDPI)}" width="100%" >
+	<s:Group x="0" top="{75/(320/Capabilities.screenDPI)}" bottom="{60/(320/Capabilities.screenDPI)}" width="100%" >
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="1" color="#FFFFFF"/>
