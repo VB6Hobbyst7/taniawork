@@ -133,7 +133,7 @@
 					var addedheaderlabel:Boolean = false;
 					for (var i:uint = 0; i < backupspecialsData.length; i++){
 							if (currentselectmode == 1){
-								if (backupspecialsData[i].weekday == currentfilterweekday){
+								if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
@@ -150,7 +150,7 @@
 								}	
 							}
 							else if (currentselectmode == 2){
-								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
+								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
@@ -167,7 +167,7 @@
 								}
 							}
 							else if (currentselectmode == 3){
-								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
+								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
@@ -184,7 +184,7 @@
 								}
 							}
 							else if (currentselectmode == 4){
-								if ((backupspecialsData[i].weekday == currentfilterweekday)&&(backupspecialsData[i].categoryname.toLowerCase() == "event")){
+								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "event")){
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
