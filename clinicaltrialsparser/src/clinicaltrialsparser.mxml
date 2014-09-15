@@ -33,8 +33,9 @@
 			{
 			//	fileName = "K://wamp/www/clinicaltrialsparser/bin-debug/data/ntc"+fileIndex.toString()+".xml";
 				resArray = new ArrayCollection();
-				for (fileIndex = 0; fileIndex < 268; fileIndex++){
-					fileName = "app:/data/nct"+fileIndex.toString()+".xml";
+				for (fileIndex = 18000; fileIndex < 35980; fileIndex++){
+					trace("doing: "+fileIndex.toString());
+					fileName = "C:/data/"+fileIndex.toString()+".xml";
 					var file:File = new File(fileName);
 					var fs:FileStream = new FileStream();
 					fs.open(file, FileMode.READ);
@@ -47,6 +48,8 @@
 					var officialtitle:String = "";
 					var summary:String = "";
 					var description:String = "";
+					var intervention:String = "";
+					var studytype:String = "";
 					var sponsor:String = "";
 					nctid = text.substring(text.indexOf("<nct_id>")+8,text.indexOf("</nct_id>"));
 					brieftitle = text.substring(text.indexOf("<brief_title>")+13,text.indexOf("</brief_title>"));
@@ -72,8 +75,56 @@
 						sponsor = stripHtmlTags(sponsor);
 					}
 					
+					
+					intervention = text.substring(text.indexOf("<intervention>")+14,text.indexOf("</intervention>"));
+					if (intervention.indexOf("<intervention>") != -1){
+						intervention = intervention.substring(intervention.indexOf("<intervention>")+14,intervention.indexOf("</intervention>"));
+					}
+					else {
+						intervention = stripHtmlTags(intervention);
+					}
+				
+					
+					var j:RegExp = new RegExp("\n","g");
+					intervention = intervention.replace(j,",");
+					
+					if (intervention.indexOf("  ") != -1){
+						var stop:String  = "";
+						
+						do {
+							var j:RegExp = new RegExp("  ","g");
+							intervention = intervention.replace(j," ");
+						}while(intervention.indexOf("  ") != -1);
+							
+						
+					}
+					
+					var j:RegExp = new RegExp(", ","g");
+					intervention = intervention.replace(j,",");
+					
+					
+					intervention = intervention.substring(1,intervention.length-1);
+				
+					
+					studytype = text.substring(text.indexOf("<study_type>")+12,text.indexOf("</study_type>"));
+					if (studytype.indexOf("<study_type>") != -1){
+						studytype = studytype.substring(studytype.indexOf("<study_type>")+12,studytype.indexOf("</study_type>"));
+					}
+					else {
+						studytype = stripHtmlTags(studytype);
+					}
+					
+					
+					if (officialtitle == "<?xml version=\""){
+						officialtitle = "";
+					}
+					
+					if (description == " ?xml version=1.0 e"){
+						description = "";
+					}
+					
 					resArray.addItem({nctid:nctid,brieftitle:fixText(brieftitle),officialtitle:fixText(officialtitle),
-						summary:summary,description:description,sponsor:fixText(sponsor)});
+						summary:summary,description:description,sponsor:fixText(sponsor),intervention:intervention,studytype:studytype});
 					
 					
 
@@ -81,7 +132,30 @@
 					
 				}	
 				
-				updateToDatabase();
+				
+				var meshcsv:String = "nctid,brieftitle,intervention,officialtitle,summary,description,sponsor,studytype\r\n"
+				for (var u:uint = 0; u < resArray.length; u++){
+					meshcsv = meshcsv + "\"" + 
+						resArray[u].nctid+ "\"" + ","+ "\"" +
+						resArray[u].brieftitle+ "\"" + ","+ "\"" +
+						resArray[u].intervention+ "\"" + ","+ "\"" +
+						resArray[u].officialtitle+ "\"" + ","+ "\"" +
+						resArray[u].summary+ "\"" + ","+ "\"" +
+						resArray[u].description+ "\"" + ","+ "\"" +
+						resArray[u].sponsor+ "\"" + ","+ "\"" +
+						resArray[u].studytype+ "\"" +
+						"\r\n";
+					
+				}
+				
+				var f:File = new File("C:/Users/mark/Desktop/clinicaltrialsresult.csv");
+				f.resolvePath("C:/Users/mark/Desktop/clinicaltrialsresult.csv");
+				var stream:FileStream = new FileStream();
+				stream.open(f, FileMode.WRITE);                                         
+				stream.writeUTFBytes(meshcsv);
+				stream.close();
+				
+			//	updateToDatabase();
 				
 				
 			}
