@@ -233,7 +233,7 @@
 					l2.verticalCenter = 0;
 					l2.styleName = "textsize0";
 					l2.setStyle("color","#999999");
-					l2.text = "  $"+data.cost;
+					l2.text = "  $"+Number(data.cost).toFixed(2);
 					g2.addElement(line3);
 					g2.addElement(line4);
 					g2.addElement(l2);

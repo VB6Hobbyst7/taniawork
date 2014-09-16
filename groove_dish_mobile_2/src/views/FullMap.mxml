@@ -57,9 +57,9 @@
 						mg.xx = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).x;
 						mg.yy = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).y;
 						mg.name = i.toString()+"gr";
-						mg.title = listData[i].business_name;
+						mg.title = unescape(listData[i].business_name);
 						mg.ido = i.toString();
-						mg.address =  listData[i].business_address1;
+						mg.address =  unescape(listData[i].business_address1);
 						myGraphicsLayer.add(mg);
 					}	
 				}

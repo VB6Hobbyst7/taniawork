@@ -145,25 +145,25 @@
 					}
 					
 					if (hrsarray[i].weekday == 1){
-						hrstext = hrstext + "Monday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Monday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 2){
-						hrstext = hrstext + "Tuesday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Tuesday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 3){
-						hrstext = hrstext + "Wednesday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Wednesday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 4){
-						hrstext = hrstext + "Thursday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Thursday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 5){
-						hrstext = hrstext + "Friday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Friday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 6){
-						hrstext = hrstext + "Saturday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Saturday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					else if (hrsarray[i].weekday == 7){
-						hrstext = hrstext + "Sunday "+hrsarray[i].opentime + " - " + hrsarray[i].closetime;
+						hrstext = hrstext + "Sunday "+hrsarray[i].opentime.substring(0,hrsarray[i].opentime.length-3) + " - " + hrsarray[i].closetime.substring(0,hrsarray[i].opentime.length-3);
 					}
 					
 					
@@ -416,7 +416,7 @@
 					<s:Group click="menuClick();" height="{60/(320/Capabilities.screenDPI)}"
 							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)"
-							 width="{this.width/2-40}" left="{30/(320/Capabilities.screenDPI)}" >
+							 width="{this.width/2-(40/(320/Capabilities.screenDPI))}" left="{30/(320/Capabilities.screenDPI)}" >
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">
@@ -431,7 +431,7 @@
 							 height="{60/(320/Capabilities.screenDPI)}"
 							 mouseDown="gDown(event)" mouseOver="gOver(event)" 
 							 mouseUp="gOut(event)" mouseOut="gOut(event)"
-							 width="{this.width/2-40}" right="{30/(320/Capabilities.screenDPI)}">
+							 width="{this.width/2-(40/(320/Capabilities.screenDPI))}" right="{30/(320/Capabilities.screenDPI)}">
 						<s:Rect radiusX="{10/(320/Capabilities.screenDPI)}"
 								radiusY="{10/(320/Capabilities.screenDPI)}" 
 								width="100%"  height="100%">

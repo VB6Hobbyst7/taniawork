@@ -68,7 +68,7 @@
 								var n:Number = Number(data.rating);
 								nameLabel.text =  data.name;
 								catLabel2.text = data.categoryname;
-								costLabel.text = "  $"+data.cost;
+								costLabel.text = "  $"+Number(data.cost).toFixed(2);
 								bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
 								bmpImg.height = setheightval-2;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 								bmpImg.verticalCenter = 0;
@@ -147,7 +147,7 @@
 								var n:Number = Number(data.rating);
 								nameLabel.text =  data.name;
 								catLabel2.text = data.categoryname;
-								costLabel.text = "  $"+data.cost;
+								costLabel.text = "  $"+Number(data.cost).toFixed(2);
 								bmpImg.width = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
 								bmpImg.height = setheightval-2;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 								bmpImg.verticalCenter = 0;

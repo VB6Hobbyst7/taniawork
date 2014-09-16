@@ -245,7 +245,7 @@
 						<s:Group click="likeThis();" height="{60/(320/Capabilities.screenDPI)}" 
 								 mouseDown="gDown(event)" mouseOver="gOver(event)"
 								 mouseUp="gOut(event)" mouseOut="gOut(event)"
-								 width="{this.width/2-40}" left="{30/(320/Capabilities.screenDPI)}">
+								 width="{this.width/2-(40/(320/Capabilities.screenDPI))}" left="{30/(320/Capabilities.screenDPI)}">
 							<s:Rect width="100%"  height="100%"
 									radiusX="{10/(320/Capabilities.screenDPI)}"
 									radiusY="{10/(320/Capabilities.screenDPI)}">
@@ -257,7 +257,7 @@
 									 text="Like" color="#FFFFFF"  textAlign="center" styleName="textsize2"  fontWeight="bold"/>
 						</s:Group>
 						<s:Group click="startShare();" height="{60/(320/Capabilities.screenDPI)}" 
-								 width="{this.width/2-40}" right="{30/(320/Capabilities.screenDPI)}"
+								 width="{this.width/2-(40/(320/Capabilities.screenDPI))}" right="{30/(320/Capabilities.screenDPI)}"
 								 mouseDown="gDown(event)" mouseOver="gOver(event)"
 								 mouseUp="gOut(event)" mouseOut="gOut(event)">
 							<s:Rect width="100%"  height="100%"

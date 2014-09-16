@@ -132,74 +132,83 @@
 					var tempweekstring:String = currentfilterweekday.charAt(0).toUpperCase()+currentfilterweekday.substring(1,currentfilterweekday.length);
 					var addedheaderlabel:Boolean = false;
 					for (var i:uint = 0; i < backupspecialsData.length; i++){
-							if (currentselectmode == 1){
-								if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
-									backupspecialsData[i].type = 1;
-									if (addedheaderlabel == false){
-										addedheaderlabel = true;
-										if (j == 0){
-											specialsData.addItem({name:"Today",description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
-										else {
-											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
-									}
-									specialsData.addItem(backupspecialsData[i]);
-								}	
+						var stringmatch:Boolean = true;
+						/*if (key.text.length > 0){
+							stringmatch = false;
+							if((backupspecialsData[i].business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+								(backupspecialsData[i].description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)){
+								stringmatch = true;
+								
+								
 							}
-							else if (currentselectmode == 2){
-								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "food")){
-									backupspecialsData[i].type = 1;
-									if (addedheaderlabel == false){
-										addedheaderlabel = true;
-										if (j == 0){
-											specialsData.addItem({name:"Today",description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
-										else {
-											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
+						}*/
+						var goodo:Boolean = false;
+						if (currentselectmode == 1){
+							goodo = true;
+						}
+						else if (currentselectmode == 2){
+							if (backupspecialsData[i].categoryname.toLowerCase() == "food"){
+								goodo = true;
+							}
+						}
+						else if (currentselectmode == 3){
+							if (backupspecialsData[i].categoryname.toLowerCase() == "drinks"){
+								goodo = true;
+							}	
+						}
+						else if (currentselectmode == 4){
+							if (backupspecialsData[i].categoryname.toLowerCase() == "event"){
+								goodo = true;
+							}
+						}
+						
+						
+						if ((backupspecialsData[i].yearly == 'n')&&(goodo)&&(stringmatch)){
+							if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
+								backupspecialsData[i].type = 1;
+								if (addedheaderlabel == false){
+									addedheaderlabel = true;
+									if (j == 0){
+										specialsData.addItem({name:"Today",description:"",
+											categoryname:"",type:0,weekday:"",business_picture:""});
 									}
-									specialsData.addItem(backupspecialsData[i]);
+									else {
+										specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+											categoryname:"",type:0,weekday:"",business_picture:""});
+									}
 								}
-							}
-							else if (currentselectmode == 3){
-								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "drinks")){
-									backupspecialsData[i].type = 1;
-									if (addedheaderlabel == false){
-										addedheaderlabel = true;
-										if (j == 0){
-											specialsData.addItem({name:"Today",description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
-										else {
-											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
+								specialsData.addItem(backupspecialsData[i]);
+							}	
+						}
+						else if ((goodo)&&(stringmatch)){
+							var spdatestring1:String = backupspecialsData[i].startdate;
+							var spdatestring2:String = backupspecialsData[i].enddate;
+							var datespan1:Array = new Array();
+							datespan1.push(spdatestring1.substr(0,4));
+							datespan1.push(spdatestring1.substr(5,7).substr(0,2));
+							datespan1.push(spdatestring1.substr(8,spdatestring1.length));
+							var date1:Date = new Date(datespan1[0],datespan1[1],datespan1[2]);
+							var datespan2:Array = new Array();
+							datespan2.push(spdatestring2.substr(0,4));
+							datespan2.push(spdatestring2.substr(5,7).substr(0,2));
+							datespan2.push(spdatestring2.substr(8,spdatestring2.length));
+							var date2:Date = new Date(datespan2[0],datespan2[1],datespan2[2]);
+							if ((date1 <= datevar)&&(date2>=datevar)){
+								backupspecialsData[i].type = 1;
+								if (addedheaderlabel == false){
+									addedheaderlabel = true;
+									if (j == 0){
+										specialsData.addItem({name:"Today",description:"",
+											categoryname:"",type:0,weekday:"",business_picture:""});
 									}
-									specialsData.addItem(backupspecialsData[i]);
-								}
-							}
-							else if (currentselectmode == 4){
-								if ((backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase())&&(backupspecialsData[i].categoryname.toLowerCase() == "event")){
-									backupspecialsData[i].type = 1;
-									if (addedheaderlabel == false){
-										addedheaderlabel = true;
-										if (j == 0){
-											specialsData.addItem({name:"Today",description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
-										else {
-											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-												categoryname:"",type:0,weekday:"",business_picture:""});
-										}
+									else {
+										specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+											categoryname:"",type:0,weekday:"",business_picture:""});
 									}
-									specialsData.addItem(backupspecialsData[i]);
 								}
-							}
+								specialsData.addItem(backupspecialsData[i]);
+							}	
+						}
 						}
 						
 						

@@ -149,13 +149,13 @@
 					rec2.filters = null;
 					rec3.filters = [gl];
 					rec4.filters = null;
-					listLabel = "My Places Eaten";
+					listLabel = "Dishes I've Eaten";
 					if (fetechedPlaces){
 						if (placesArray.length > 0){
 							placeslist.dataProvider = placesArray;
 						}
 						else {
-							warn1.text = "No Places Eaten";
+							warn1.text = "No Dishes Eaten";
 							warn1.visible = true;
 						}
 					}
@@ -175,13 +175,13 @@
 					rec2.filters = null;
 					rec3.filters = null;
 					rec4.filters = [gl];
-					listLabel = "My Specials Liked";
+					listLabel = "Liked Specials";
 					if (fetchedSpecials){
 						if (specialsArray.length > 0){
 							specialsList.dataProvider = specialsArray;
 						}
 						else {
-							warn1.text = "No Specials Liked";
+							warn1.text = "No Liked Specials";
 							warn1.visible = true;
 						}
 					}
@@ -256,7 +256,7 @@
 					placeslist.dataProvider = placesArray;
 				}
 				else {
-					warn1.text = "No Places Eaten";
+					warn1.text = "No Dishes Eaten";
 					warn1.visible = true;
 				}
 				fetechedPlaces = true;	
@@ -322,7 +322,7 @@
 					specialsList.dataProvider = specialsArray;
 				}
 				else {
-					warn1.text = "No Specials Liked";
+					warn1.text = "No Liked Specials";
 					warn1.visible = true;
 				}
 				fetchedSpecials = true;	

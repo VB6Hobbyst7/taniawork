@@ -13,9 +13,14 @@
 		<![CDATA[
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.transitions.SlideViewTransition;
 			import spark.transitions.SlideViewTransitionMode;
@@ -77,40 +82,40 @@
 				}
 				listData.refresh();
 				resList.dataProvider = listData;
+				for (i = 0; i < listData.length; i++){
+					if (listData[i].chosen == 'yes'){
+						resList.selectedIndices.push(i);
+					}
+				}
 				updateResDatabase();
 				resList.enabled = true;
 			} 
-			public function res_listClick():void
-			{
+			public function res_listClick(event:IndexChangeEvent):void
+			{		
 				try{
-					if(resList.selectedItem.infostatus == true){
-						var stop:String = "";
-						resList.selectedItem.infostatus = false;
-						navigator.pushView(RestrictionInfo,{description:resList.selectedItem.user_description,
-							name:resList.selectedItem.name});	
-					}
-					else if (resList.selectedItem.chosen == "yes"){
-						resList.selectedItem.chosen = 'no';
-						listData[resList.selectedIndex].chosen = 'no';
-						idGo = resList.selectedItem.id;
-						//delete
-						updateResDatabase();
-						
-					}
-					else if (resList.selectedItem.chosen == "no"){
-						resList.selectedItem.chosen = 'yes';
-						listData[resList.selectedIndex].chosen = 'yes';
-						idGo = resList.selectedItem.id;
-						//add
-						updateResDatabase();
-					}	
-				}
-				catch(e:Error){
 					
+					if(resList.selectedItem.infostatus == true){
+						resList.selectedItem.infostatus = false;
+					}
+					else {
+						setTimeout(doublechecklist,150);
+					}
 				}
-				listData.refresh();
-				resList.dataProvider = listData;
+				catch(e:Error){}
+				
 			}
+			public function doublechecklist():void {
+				for (var j:uint = 0; j < listData.length; j++){
+					listData[j].chosen = 'no';	
+				}
+				for (var i:uint  = 0; i < resList.selectedIndices.length; i++){
+					listData[resList.selectedIndices[i]].chosen = 'yes'	
+				}
+				updateResDatabase();
+			}
+			
+			
+			
 			public function onoffclick():void {
 				if (onoffstatus == 1){
 					eatenimage.source = onoff1;
@@ -179,9 +184,9 @@
 			</s:Line>	
 		</s:Group>			
 		<s:List width="100%" horizontalCenter="0" contentBackgroundAlpha="1" 
-				id="resList" contentBackgroundColor="#e8e8e8" height="100%"
-				itemRenderer="components.restrictResult"
-				selectedIndex="1" click="res_listClick()"    >
+				id="resList" contentBackgroundColor="#e8e8e8" height="100%" 
+				itemRenderer="components.restrictResult"  allowMultipleSelection="true"
+				change="res_listClick(event)"    >
 			<s:layout>
 				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
 			</s:layout>
