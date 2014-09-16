@@ -13,7 +13,8 @@
 <fullScreen>false</fullScreen>
 <systemChrome>standard</systemChrome>
 <softKeyboardBehavior>pan</softKeyboardBehavior>
-</initialWindow>
+<visible>false</visible>
+    </initialWindow>
   <supportedLanguages>en</supportedLanguages>
 	<icon>
 		<image16x16>assets/icons/icon-16.png</image16x16>
@@ -85,5 +86,7 @@
     </android>
 <extensions>
 <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
-</extensions>
+<extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
+    <extensionID>com.milkmangames.extensions.RateBox</extensionID>
+    </extensions>
 </application>

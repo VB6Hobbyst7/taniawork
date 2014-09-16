@@ -29,6 +29,8 @@
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="5" linkType="2" path="libs/com.milkmangames.extensions.GoViral.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/com.milkmangames.extensions.CoreMobile.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/com.milkmangames.extensions.RateBox.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

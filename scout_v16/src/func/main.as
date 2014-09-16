@@ -59,6 +59,7 @@ public function creationcomplete(event:FlexEvent):void
 	mainNavigator.defaultPopTransition = svt2;
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
+	startRate();
 	if (getDPIHeight() == 640){
 		actionbarheight = 172;	
 	}
@@ -316,6 +317,39 @@ public function verifyDataTablesViaVersion():void {
 		stmt.execute();
 		dropalldatatables();
 	}
+	
+	
+	/*sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = "CREATE TABLE IF NOT EXISTS timesran (amt varchar(255))";
+	stmt.execute();
+	sqlConnection = new SQLConnection();
+	sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+	stmt = new SQLStatement();
+	stmt.sqlConnection = sqlConnection;
+	stmt.text = "SELECT amt from timesran";
+	stmt.execute();
+	var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+	if (resData.length != 0){
+		var prevamt:Number = Number(resData[0].amt)+1;
+		
+		if (prevamt == 4){
+			showRate();
+		}
+		
+		
+		stmt = new SQLStatement();
+		stmt.sqlConnection = sqlConnection;
+		stmt.text = "update timesran set amt = ('"+prevamt.toString()+"')";
+		stmt.execute();
+	}
+	else {
+		stmt = new SQLStatement();
+		stmt.sqlConnection = sqlConnection;
+		stmt.text = "insert into timesran values ('1')";
+		stmt.execute();
+	}*/
 }
 public function dropalldatatables():void {
 	var stmt:SQLStatement = new SQLStatement();

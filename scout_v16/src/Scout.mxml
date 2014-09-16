@@ -128,6 +128,7 @@
 	<fx:Script source="func/gps.as"/>
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/main.as"/>
+	<fx:Script source="func/rate.as"/>
 	<fx:Declarations>	
 		<s:MultiDPIBitmapSource id="menu_settings"
 								source160dpi="@Embed('assets/160/settingsslider.png')"

@@ -1,11 +1,19 @@
 import flash.events.Event;
 import flash.events.GeolocationEvent;
 import flash.sensors.Geolocation;
+
 import mx.collections.ArrayCollection;
+
 import spark.events.ViewNavigatorEvent;
 public var g:Geolocation = new Geolocation();    
 public function onactivate(event:Event):void
 {
+	
+	try{
+		RateBox.rateBox.onLaunch();	
+	}
+	catch(e:Error){}
+	
 	try{
 		stage.frameRate=60; 
 	}
