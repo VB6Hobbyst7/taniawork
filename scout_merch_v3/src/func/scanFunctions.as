@@ -2,7 +2,7 @@ import com.sbhave.nativeExtensions.zbar.Config;
 import com.sbhave.nativeExtensions.zbar.Scanner;
 import com.sbhave.nativeExtensions.zbar.ScannerEvent;
 import com.sbhave.nativeExtensions.zbar.Symbology;
-import spark.filters.GlowFilter;
+
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.GradientType;
@@ -18,6 +18,8 @@ import flash.media.Video;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
+
+import spark.filters.GlowFilter;
 private const SRC_SIZE:int = 320;
 private const STAGE_SIZE:int = 350;
 private var errorView:Sprite;
@@ -52,12 +54,16 @@ private function onStart(e:MouseEvent):void {
 	s.setConfig(Symbology.EAN13,Config.ENABLE,1);
 	//4. Add event listenser so that we get notfied whenever a barcode is scanned.
 	s.addEventListener(ScannerEvent.SCAN,onScan);
+	s.addEventListener(Event.DEACTIVATE, afterDeac);
 	//5. Actually launch the scanning UI, true means UI will automatically close after 1 scan.
 	s.launch(true);
 	// 6. Use launched property to know if the scanner is already running.
 	// Optionally call stop() to stop the scanning UI and bring the user back to the app. 
 	trace("Launched: " + s.launched); 
 	//textArea.text += "\nLaunched: " + s.launched;   
+}
+public function afterDeac(ev:Event):void {
+	init();
 }
 private function onStart2(e:MouseEvent):void {
 	trace("starting");   
