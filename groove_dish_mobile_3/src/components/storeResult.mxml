@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				creationComplete="init()" 
+				contentBackgroundAlpha="1"
+				contentBackgroundColor="#FFFFFF" 
+				dataChange="datachango()"
+				mouseOver="gOver();"
+				mouseOut="gOut();" 
+				mouseUp="gOut();" 
+				mouseDown="gDown();">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.graphics.SolidColorStroke;
+			import spark.components.Group;
+			import spark.components.HGroup;
+			import spark.components.Label;
+			import spark.components.VGroup;
+			import spark.core.ContentCache;
+			import spark.primitives.BitmapImage;
+			import spark.primitives.Line;
+			static public const s_imageCache:ContentCache = new ContentCache();
+			public var v1:VGroup = new VGroup();
+			public var addedallitems:Boolean = false;
+			public var gapo:uint = 3;
+			public function gOver():void {
+				this.alpha = 0.5;
+			}
+			public function gDown():void {
+				this.alpha = 0.5;
+			}
+			public function gOut():void {
+				this.alpha = 1;
+			}
+			protected function init():void
+			{
+				if (data != null){
+					var neededwidth:Number = this.parent.width/2-gapo;
+					v1.height = neededwidth-30;
+					v1.gap = 0;
+					v1.mouseEnabled = false;
+					this.addElement(v1);
+					if ((addedallitems == false)){
+						if (unescape(data.name) == "Loading More Items"){
+							v1.width = neededwidth;
+							var ll:Label = new Label();
+							ll.width = neededwidth;
+							ll.horizontalCenter = 0;
+							ll.top = 50/(320/Capabilities.screenDPI);
+							ll.styleName = styleManager.getStyleDeclaration("textsize3");
+							ll.setStyle("color",0x36ccba);
+							ll.text = unescape(data.name);
+							v1.addElement(ll);
+						}
+						else if (unescape(data.name) == "map"){
+							this.width = this.parent.width;
+							v1.height = this.parent.width/(16/7);
+							v1.width = this.parent.width;
+							var bmpImg:BitmapImage = new BitmapImage();
+							bmpImg.source = unescape(data.url);
+							bmpImg.width = this.parent.width;
+							bmpImg.height = this.parent.width/(16/7);
+							v1.addElement(bmpImg);
+						}
+						else {
+							this.width = neededwidth;
+							v1.width = neededwidth;
+							loadrest();
+						}
+					}
+					else {
+						this.width = neededwidth;
+					}
+				}
+			}
+			protected function datachango():void
+			{	
+				if (data != null){
+					try{
+						var neededwidth:Number = this.parent.width/2-gapo;
+						if ((addedallitems == false)){
+							if (unescape(data.name) == "Loading More Items"){
+								v1.width = neededwidth;
+								this.width = neededwidth;
+								
+							}
+							else if (unescape(data.name) == "map"){
+								v1.height = this.parent.width/(16/7);
+								this.width = this.parent.width;
+								v1.width = this.parent.width;
+								
+							}
+							else {
+								this.width = neededwidth;
+								v1.width = neededwidth;
+								loadrest();
+							}
+						}
+						else {
+							this.width = neededwidth;
+							v1.removeAllElements();
+							addedallitems = false;
+							init();
+						}
+					}
+					catch(ev:Error){}
+				}	
+			}
+				
+			public function loadrest():void {
+				var neededwidth:Number = this.parent.width/2-gapo;
+				if (addedallitems == false){
+					this.width = neededwidth;
+					addedallitems = true;
+					var bmpImg:BitmapImage = new BitmapImage();
+					if ((unescape(data.business_picture) == "None")||(unescape(data.business_picture) == "")||
+						(unescape(data.business_picture) == null)||(unescape(data.business_picture) == "null")){
+						bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					}
+					else if (unescape(data.business_picture).indexOf("dish") != -1){
+						bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					}
+					else {
+						bmpImg.source = unescape(data.business_picture);
+					}
+					bmpImg.contentLoader = s_imageCache;
+					bmpImg.width = neededwidth;
+					bmpImg.height = neededwidth*(300/640);
+					v1.addElement(bmpImg);
+					
+					var hg:HGroup = new HGroup();
+					hg.horizontalAlign = "center";
+					hg.paddingTop = 0; 
+					hg.percentWidth = 100;
+					hg.maxWidth = neededwidth;
+					hg.gap = 0;
+					hg.verticalAlign = "middle";
+					
+					
+					
+					
+					var stroke1:SolidColorStroke = new SolidColorStroke();
+					stroke1.color = 0xe6e6e6;
+					stroke1.weight = 1/(320/Capabilities.screenDPI);
+					var line1:Line = new Line();
+					line1.right = 0;
+					line1.left = 0;
+					line1.bottom = 0;
+					line1.stroke = stroke1;
+					var line2:Line = new Line();
+					line2.top = 0;
+					line2.bottom = 0;
+					line2.right = 0;
+					line2.stroke = stroke1;
+					line2.rotation = 90;
+					var line3:Line = new Line();
+					line3.right = 0;
+					line3.left = 0;
+					line3.bottom = 0;
+					line3.stroke = stroke1;
+					var line4:Line = new Line();
+					line4.top = 0;
+					line4.bottom = 0;
+					line4.right = 0;
+					line4.stroke = stroke1;
+					line4.rotation = 90;
+					var line5:Line = new Line();
+					line5.right = 0;
+					line5.left = 0;
+					line5.bottom = 0;
+					line5.stroke = stroke1;
+					var line6:Line = new Line();
+					line6.top = 0;
+					line6.bottom = 0;
+					line6.right = 0;
+					line6.stroke = stroke1;
+					line6.rotation = 90;
+					
+					var g1:Group = new Group();
+					g1.width = neededwidth/3;
+					g1.height = 50/(320/Capabilities.screenDPI);
+					var l1:Label = new Label();
+					l1.setStyle("textAlign","center");
+					l1.horizontalCenter = 0;
+					l1.verticalCenter = 0;
+					l1.styleName = "textsize1";
+					l1.setStyle("fontWeight","bold");
+					l1.setStyle("color","#36ccba");
+					var ratingstring:String =unescape(data.rating.toString());
+					var ratingnumber:Number = Number(unescape(data.rating));
+					if (ratingnumber == 0){
+						l1.text = "-";
+					}
+					else if (ratingnumber >= 10){
+						ratingnumber = 10;
+						l1.text = "10";
+					}
+					else {
+						l1.text = ratingnumber.toPrecision(2).toString();
+					}
+					g1.addElement(line1);
+					g1.addElement(line2);
+					g1.addElement(l1);
+					
+					var pricelabel:String = "";
+					if (data.price == 1){
+						pricelabel  = "$";
+					}
+					else if (data.price == 2){
+						pricelabel  = "$$";
+					}
+					else if (data.price == 3){
+						pricelabel  = "$$$";
+					}
+					else if (data.price == 4){
+						pricelabel  = "$$$$";
+					}
+					else if (data.price == 5){
+						pricelabel  = "$$$$$";
+					}
+					var g2:Group = new Group();
+					g2.width = neededwidth/3;
+					g2.height = 50/(320/Capabilities.screenDPI);
+					var l2:Label = new Label();
+					l2.setStyle("textAlign","center");
+					l2.horizontalCenter = 0;
+					l2.verticalCenter = 0;
+					l2.styleName = "textsize0";
+					l2.setStyle("color","#999999");
+					l2.text = pricelabel;
+					g2.addElement(line3);
+					g2.addElement(line4);
+					g2.addElement(l2);
+					
+					var g3:Group = new Group();
+					g3.width = neededwidth/3;
+					g3.height = 50/(320/Capabilities.screenDPI);
+					var l3:Label = new Label();
+					l3.setStyle("textAlign","center");
+					l3.horizontalCenter = 0;
+					l3.verticalCenter = 0;
+					l3.styleName =  "textsize0";
+					l3.setStyle("color","#999999");
+					if ((unescape(data.distance) != '')&&(unescape(data.distance) != 'null')&&(unescape(data.distance) != null)){
+						var dist:Number = Number(unescape(data.distance));
+						if (dist >= 1){
+							l3.text = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							l3.text = dist.toFixed(0)+ " m";
+						}
+					}
+					else {
+						l3.text = "";
+					}
+					g3.addElement(line5);
+					
+					g3.addElement(l3);
+					
+					
+					hg.addElement(g1);
+					hg.addElement(g2);
+					hg.addElement(g3);
+					
+					var v2:VGroup = new VGroup();
+					v2.width = neededwidth;
+					v2.gap = 8/(320/Capabilities.screenDPI);
+					v2.paddingTop = 18/(320/Capabilities.screenDPI);
+					v2.paddingBottom = 10/(320/Capabilities.screenDPI);
+					
+				
+					
+					var l5:Label = new Label();
+					l5.width = neededwidth-(20/(320/Capabilities.screenDPI));
+					l5.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
+					l5.setStyle("fontWeight","bold");
+					l5.horizontalCenter = 0;
+					l5.verticalCenter = 0;
+					l5.styleName =  "textsize0";
+					l5.setStyle("color","#4d4d4d");
+					l5.text = unescape(data.business_name);
+					l5.maxDisplayedLines = 1;
+					l5.setStyle("verticalAlign","middle");
+					
+					var g4:Group = new Group();
+					g4.width = neededwidth;
+					
+					var l6:Label = new Label();
+					l6.width = neededwidth-(20/(320/Capabilities.screenDPI));
+					l6.setStyle("paddingLeft",10/(320/Capabilities.screenDPI));
+					l6.setStyle("fontWeight","bold");
+					l6.horizontalCenter = 0;
+					l6.verticalCenter = 0;
+					l6.left = 0;
+					l6.styleName =  "textsize0";
+					l6.setStyle("color","#4d4d4d");
+					l6.text = unescape(data.categoryname);
+					l6.maxDisplayedLines = 1;
+					l6.setStyle("verticalAlign","middle");
+					
+					v2.addElement(l5);
+					g4.addElement(l6);
+					v2.addElement(g4);
+					
+					
+					v1.addElement(hg);
+					v1.addElement(v2);
+				}		
+			}
+			public function getDPIHeight():Number {
+				var _runtimeDPI:int;
+				if(Capabilities.screenDPI < 200){
+					_runtimeDPI = 160;
+				}
+				else if(Capabilities.screenDPI >=200 && Capabilities.screenDPI <= 240){
+					_runtimeDPI = 240
+				}
+				else if (Capabilities.screenDPI < 480){
+					_runtimeDPI = 320;
+				}
+				else if (Capabilities.screenDPI < 640){
+					_runtimeDPI = 480;
+				}
+				else if (Capabilities.screenDPI >=640){
+					_runtimeDPI = 640;
+				}
+				return(_runtimeDPI)
+			}
+		]]>
+	</fx:Script>
+</s:ItemRenderer>
