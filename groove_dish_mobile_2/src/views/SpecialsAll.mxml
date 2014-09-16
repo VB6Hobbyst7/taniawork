@@ -134,53 +134,56 @@
 							}
 						}
 						
+						try{
+							if ((backupspecialsData[i].yearly == 'n')&&(goodo)&&(stringmatch)){
+								if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
+									backupspecialsData[i].type = 1;
+									if (addedheaderlabel == false){
+										addedheaderlabel = true;
+										if (j == 0){
+											specialsData.addItem({name:"Today",description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+										else {
+											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+									}
+									specialsData.addItem(backupspecialsData[i]);
+								}	
+							}
+							else if ((goodo)&&(stringmatch)){
+								var spdatestring1:String = backupspecialsData[i].startdate;
+								var spdatestring2:String = backupspecialsData[i].enddate;
+								var datespan1:Array = new Array();
+								datespan1.push(spdatestring1.substr(0,4));
+								datespan1.push(spdatestring1.substr(5,7).substr(0,2));
+								datespan1.push(spdatestring1.substr(8,spdatestring1.length));
+								var date1:Date = new Date(datespan1[0],datespan1[1],datespan1[2]);
+								var datespan2:Array = new Array();
+								datespan2.push(spdatestring2.substr(0,4));
+								datespan2.push(spdatestring2.substr(5,7).substr(0,2));
+								datespan2.push(spdatestring2.substr(8,spdatestring2.length));
+								var date2:Date = new Date(datespan2[0],datespan2[1],datespan2[2]);
+								if ((date1 <= datevar)&&(date2>=datevar)){
+									backupspecialsData[i].type = 1;
+									if (addedheaderlabel == false){
+										addedheaderlabel = true;
+										if (j == 0){
+											specialsData.addItem({name:"Today",description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+										else {
+											specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+									}
+									specialsData.addItem(backupspecialsData[i]);
+								}	
+							}
+						}
+						catch(e:Error){}
 						
-						if ((backupspecialsData[i].yearly == 'n')&&(goodo)&&(stringmatch)){
-							if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
-								backupspecialsData[i].type = 1;
-								if (addedheaderlabel == false){
-									addedheaderlabel = true;
-									if (j == 0){
-										specialsData.addItem({name:"Today",description:"",
-											categoryname:"",type:0,weekday:"",business_picture:""});
-									}
-									else {
-										specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-											categoryname:"",type:0,weekday:"",business_picture:""});
-									}
-								}
-								specialsData.addItem(backupspecialsData[i]);
-							}	
-						}
-						else if ((goodo)&&(stringmatch)){
-							var spdatestring1:String = backupspecialsData[i].startdate;
-							var spdatestring2:String = backupspecialsData[i].enddate;
-							var datespan1:Array = new Array();
-							datespan1.push(spdatestring1.substr(0,4));
-							datespan1.push(spdatestring1.substr(5,7).substr(0,2));
-							datespan1.push(spdatestring1.substr(8,spdatestring1.length));
-							var date1:Date = new Date(datespan1[0],datespan1[1],datespan1[2]);
-							var datespan2:Array = new Array();
-							datespan2.push(spdatestring2.substr(0,4));
-							datespan2.push(spdatestring2.substr(5,7).substr(0,2));
-							datespan2.push(spdatestring2.substr(8,spdatestring2.length));
-							var date2:Date = new Date(datespan2[0],datespan2[1],datespan2[2]);
-							if ((date1 <= datevar)&&(date2>=datevar)){
-								backupspecialsData[i].type = 1;
-								if (addedheaderlabel == false){
-									addedheaderlabel = true;
-									if (j == 0){
-										specialsData.addItem({name:"Today",description:"",
-											categoryname:"",type:0,weekday:"",business_picture:""});
-									}
-									else {
-										specialsData.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-											categoryname:"",type:0,weekday:"",business_picture:""});
-									}
-								}
-								specialsData.addItem(backupspecialsData[i]);
-							}	
-						}
 					}
 				}
 				if (specialsData.length <= 0){

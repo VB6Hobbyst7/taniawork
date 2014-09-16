@@ -162,7 +162,7 @@
 							}
 						}
 						
-						
+					try{
 						if ((backupspecialsData[i].yearly == 'n')&&(goodo)&&(stringmatch)){
 							if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
 								backupspecialsData[i].type = 1;
@@ -209,6 +209,9 @@
 								specialsData.addItem(backupspecialsData[i]);
 							}	
 						}
+					}
+					catch(e:Error){}
+						
 						}
 						
 						
