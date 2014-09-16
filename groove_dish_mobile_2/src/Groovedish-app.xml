@@ -34,7 +34,7 @@
 <InfoAdditions> 
 	<![CDATA[ 
 <key>UIStatusBarStyle</key>
-<string>UIStatusBarStyleBlackOpaque</string>
+  <string>UIStatusBarStyleLightContent</string>
 <key>FacebookAppID</key>
 <string>1461197797460743</string>
 <key>FacebookDisplayName</key>
@@ -84,8 +84,6 @@
     </android>
 <extensions>
 <extensionID>com.milkmangames.extensions.GoViral</extensionID> 
-
-    
-    <extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
-    </extensions>
+<extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
+</extensions>
 </application>

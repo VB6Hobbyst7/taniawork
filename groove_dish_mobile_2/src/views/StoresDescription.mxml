@@ -273,7 +273,7 @@
 				CoreMobile.mobile.showModalYesNoDialog("View location in maps?","", "Yes", "No").
 					addDismissListener(function(e:CMDialogEvent):void 
 					{
-						if (e.selectedButtonLabel=="YES!")
+						if (e.selectedButtonLabel=="Yes")
 						{
 							navigateToURL(new URLRequest(googleTravelUrl));
 						}
@@ -287,7 +287,7 @@
 				CoreMobile.mobile.showModalYesNoDialog('Call '+unescape(data.business_number),"", "Yes", "No").
 					addDismissListener(function(e:CMDialogEvent):void 
 					{
-						if (e.selectedButtonLabel=="YES!")
+						if (e.selectedButtonLabel=="Yes")
 						{
 							navigateToURL(new URLRequest('tel:'+unescape(data.business_number)));
 						}
