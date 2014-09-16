@@ -40,13 +40,33 @@
 				bmpImg.contentLoader = s_imageCache;
 
 				if (data.yearly == 'y'){
-					dayval.text = data.startdate + " - " + data.enddate;
+					var date1:String = data.startdate;
+					date1 = date1.substring(5,date1.length);
+					var month1:String = getMonth(Number(date1.substring(0,2)));
+					date1 = date1.substring(3,date1.length);
+					
+					var date2:String = data.enddate;
+					date2 = date2.substring(5,date2.length);
+					var month2:String = getMonth(Number(date2.substring(0,2)));
+					date2 = date2.substring(3,date2.length);
+					
+					
+					if (date1.charAt(0) == "0"){
+						date1 = date1.substr(1,date1.length);
+					}
+					
+					if (date2.charAt(0) == "0"){
+						date2 = date2.substr(1,date2.length);
+					}
+					
+					dayval.text = month1+" "+ date1 + " - " + month2+" "+ date2;
 				}
 				else {
 					var tempweekstring:String = data.weekday;
 					dayval.text = tempweekstring.substring(0,1).toUpperCase()+
 						tempweekstring.substring(1,tempweekstring.length)+"s";
 				}
+				
 				fixdistance();
 			}
 			public function fixdistance():void {
@@ -81,6 +101,48 @@
 					specialheart.source = "assets/"+getDPIHeight().toString()+"/specialsheart.png";
 				}
 			}
+			public function getMonth(u:Number):String{
+				switch (u){
+					case 1 :
+						return "Jan";
+						break;
+					case 2 :
+						return "Feb";
+						break;
+					case 3 :
+						return "Mar";
+						break;
+					case 4 :
+						return "Apr";
+						break;
+					case 5 :
+						return "May";
+						break;
+					case 6 :
+						return "Jun";
+						break;
+					case 7 :
+						return "Jul";
+						break;
+					case 8 :
+						return "Aug";
+						break;
+					case 9 :
+						return "Sep";
+						break;
+					case 10 :
+						return "Oct";
+						break;
+					case 11 :
+						return "Nov";
+						break;
+					case 12 :
+						return "Dec";
+						break;
+				}
+				return "";
+			}
+			
 			
 		]]>
 	</fx:Script>

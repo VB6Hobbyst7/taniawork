@@ -185,15 +185,20 @@
 							var spdatestring2:String = backupspecialsData[i].enddate;
 							var datespan1:Array = new Array();
 							datespan1.push(spdatestring1.substr(0,4));
-							datespan1.push(spdatestring1.substr(5,7).substr(0,2));
+							datespan1.push(Number(spdatestring1.substr(5,7).substr(0,2))-1);
 							datespan1.push(spdatestring1.substr(8,spdatestring1.length));
 							var date1:Date = new Date(datespan1[0],datespan1[1],datespan1[2]);
 							var datespan2:Array = new Array();
 							datespan2.push(spdatestring2.substr(0,4));
-							datespan2.push(spdatestring2.substr(5,7).substr(0,2));
+							datespan2.push(Number(spdatestring2.substr(5,7).substr(0,2))-1);
 							datespan2.push(spdatestring2.substr(8,spdatestring2.length));
 							var date2:Date = new Date(datespan2[0],datespan2[1],datespan2[2]);
-							if ((date1 <= datevar)&&(date2>=datevar)){
+							
+							var currentdatetime:Number = datevar.getTime();
+							var date1time:Number = date1.getTime();
+							var date2time:Number = date2.getTime();
+							
+							if ((date1.getTime() <= datevar.getTime())&&(date2.getTime() >= datevar.getTime())){
 								backupspecialsData[i].type = 1;
 								if (addedheaderlabel == false){
 									addedheaderlabel = true;
