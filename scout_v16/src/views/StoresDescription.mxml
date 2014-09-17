@@ -482,8 +482,8 @@
 			
 					
 					
-					<s:HGroup width="100%" gap="20">
-						<s:VGroup  height="100%" gap="30">
+					<s:HGroup width="100%" gap="{20/(320/Capabilities.screenDPI)}">
+						<s:VGroup  height="100%" gap="{30/(320/Capabilities.screenDPI)}">
 							<s:Label  text="Monday : " horizontalCenter="0" verticalCenter="0" 
 									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 							
@@ -505,7 +505,7 @@
 							<s:Label text="Sunday : " horizontalCenter="0" verticalCenter="0" 
 									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 						</s:VGroup>
-						<s:VGroup width="100%" height="100%" gap="30" horizontalAlign="left">
+						<s:VGroup width="100%" height="100%" gap="{30/(320/Capabilities.screenDPI)}" horizontalAlign="left">
 							<s:Label id="weekday1" text="Closed" horizontalCenter="0" verticalCenter="0" 
 									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
 							

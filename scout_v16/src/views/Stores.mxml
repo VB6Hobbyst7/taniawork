@@ -51,6 +51,7 @@
 	</s:actionContent>
 	<fx:Script source="../func/smallglobal.as"/>
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/listLoading.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
