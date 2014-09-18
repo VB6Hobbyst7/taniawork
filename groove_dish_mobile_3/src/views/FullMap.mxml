@@ -29,7 +29,8 @@
 					mainCont.addChild(nm);
 				}
 				catch(e:Error){
-					navigator.popView();
+					mylabel.text = e.message;
+					//navigator.popView();
 				}
 				
 				/*try{
@@ -64,4 +65,5 @@
 		]]>
 	</fx:Script>
 	<mx:UIComponent id="mainCont" width="{this.width}" height="{this.height}"></mx:UIComponent>
+	<s:Label id="mylabel" maxWidth="{this.width}" x="0" y="0" maxDisplayedLines="100"/>
 </s:View>
