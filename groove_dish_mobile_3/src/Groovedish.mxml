@@ -22,7 +22,7 @@
 	<fx:Script source="func/facebook.as" />
 	<fx:Script source="func/loading.as" />
 	<fx:Script source="func/coreMobileFunctions.as" />
-	<fx:Script source="func/appnative.as" />
+	<!--fx:Script source="func/appnative.as" /-->
 	<s:ViewNavigator width="100%" height="100%"
 					 id="mainNavigator" 
 					 backgroundColor="#5b5b5b"

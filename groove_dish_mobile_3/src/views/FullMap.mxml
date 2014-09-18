@@ -22,11 +22,16 @@
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
 			private function init():void {
+				try{
+					var nm:MyNativeMaps = new MyNativeMaps();
+					nm.width = this.width;
+					nm.height = this.height;
+					mainCont.addChild(nm);
+				}
+				catch(e:Error){
+					navigator.popView();
+				}
 				
-				var nm:MyNativeMaps = new MyNativeMaps();
-				nm.width = this.width;
-				nm.height = this.height;
-				mainCont.addChild(nm);
 				/*try{
 					setLoginVars();
 					this.parentApplication.removeswipefunctions();

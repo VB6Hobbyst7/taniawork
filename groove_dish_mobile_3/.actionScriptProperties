@@ -31,7 +31,6 @@
       <libraryPathEntry kind="5" linkType="2" path="libs/com.milkmangames.extensions.GoViral.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="libs/com.milkmangames.extensions.CoreMobile.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="libs/com.distriqt.NativeMaps.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="libs/com.distriqt.Application.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -83,7 +82,6 @@
           <anePathEntry path="libs/com.milkmangames.extensions.GoViral.ane"/>
           <anePathEntry path="libs/com.milkmangames.extensions.CoreMobile.ane"/>
           <anePathEntry path="libs/com.distriqt.NativeMaps.ane"/>
-          <anePathEntry path="libs/com.distriqt.Application.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>

@@ -17,7 +17,7 @@ public static const FACEBOOK_APP_ID:String="1461197797460743";
 public function initz(event:FlexEvent):void
 {
 	
-	beginappnative();
+	//beginappnative();
 	pm.load();
 	try{
 		loadedview = true; 
