@@ -27,6 +27,8 @@ public var xFadeTrans:CrossFadeViewTransition = new CrossFadeViewTransition();
 [Bindable]
 public var actionbarheight:Number = 0;
 [Bindable]
+public var statusbuffertop:Number = 0;
+[Bindable]
 public var homeitems:ArrayCollection = new ArrayCollection();
 [Bindable]
 public var filteritems:ArrayCollection = new ArrayCollection(
@@ -54,44 +56,36 @@ protected function creationcomplete(event:FlexEvent):void
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	initGPS();
 
+	if (getDPIHeight() == 640){
+		actionbarheight = 172;	
+	}
+	else if (getDPIHeight() == 480){
+		actionbarheight = 129;		
+	}
+	else if (getDPIHeight() == 320){
+		actionbarheight = 86;
+	}
+	else if (getDPIHeight() == 240){
+		actionbarheight = 65;
+	}
+	else {
+		actionbarheight = 43;
+	}
+	
+	
+	
+	
+	
 	if (Capabilities.version.indexOf('IOS') > -1){
 		if (getDPIHeight() == 320){
-			obarheight = 40;
+			obarheight = 0;
+			statusbuffertop = 20;
 		}
 		else if (getDPIHeight() == 160){
-			obarheight = 10;
-		}
-		
-	}
-	switch (applicationDPI)
-	{
-		case DPIClassification.DPI_640:
-		{
-			actionbarheight = 172;
-			break;
-		}
-		case DPIClassification.DPI_480:
-		{
-			actionbarheight = 129;					
-			break;
-		}
-		case DPIClassification.DPI_320:
-		{
-			actionbarheight = 86;
-			break;
-		}
-		case DPIClassification.DPI_240:
-		{
-			actionbarheight = 65;
-			break;
-		}
-		default:
-		{
-			actionbarheight = 43;
-			break;
+			obarheight = 0;
+			statusbuffertop = 10;
 		}
 	}
-
 		
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},

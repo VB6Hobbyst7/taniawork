@@ -2,10 +2,13 @@ package skins
 {
 	import flash.display.GradientType;
 	import flash.events.Event;
+	import flash.system.Capabilities;
 	import flash.text.TextFormatAlign;
+	
 	import mx.core.DPIClassification;
 	import mx.core.mx_internal;
 	import mx.utils.ColorUtil;
+	
 	import spark.components.ActionBar;
 	import spark.components.Group;
 	import spark.components.supportClasses.StyleableTextField;
@@ -14,6 +17,7 @@ package skins
 	import spark.layouts.HorizontalLayout;
 	import spark.layouts.VerticalAlign;
 	import spark.skins.mobile.supportClasses.MobileSkin;
+	
 	use namespace mx_internal;
 	public class ActionBarNew extends MobileSkin
 	{
@@ -33,7 +37,7 @@ package skins
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		
+		public var mobilepaddingtop:uint = 0;
 		/**
 		 *  Constructor.
 		 *  
@@ -51,7 +55,14 @@ package skins
 				{
 					borderSize = 0;
 					layoutShadowHeight = 0;
-					layoutContentGroupHeight = 172;
+					
+					if (Capabilities.version.indexOf('IOS') > -1){
+						mobilepaddingtop = 50;
+					}
+					else {
+						mobilepaddingtop = 0;
+					}
+					layoutContentGroupHeight = 172+mobilepaddingtop;
 					layoutTitleGroupHorizontalPadding = 52;
 					break;
 				}
@@ -59,7 +70,15 @@ package skins
 				{
 					borderSize = 0;
 					layoutShadowHeight = 0;
-					layoutContentGroupHeight = 129;
+					
+					
+					if (Capabilities.version.indexOf('IOS') > -1){
+						mobilepaddingtop = 40;
+					}
+					else {
+						mobilepaddingtop = 0;
+					}
+					layoutContentGroupHeight = 129+mobilepaddingtop;
 					layoutTitleGroupHorizontalPadding = 39;
 					break;
 				}
@@ -67,7 +86,14 @@ package skins
 				{
 					borderSize = 0;
 					layoutShadowHeight = 0;
-					layoutContentGroupHeight = 86;
+					
+					if (Capabilities.version.indexOf('IOS') > -1){
+						mobilepaddingtop = 30;
+					}
+					else {
+						mobilepaddingtop = 0;
+					}
+					layoutContentGroupHeight = 86+mobilepaddingtop;
 					layoutTitleGroupHorizontalPadding = 26;
 					break;
 				}
@@ -75,7 +101,15 @@ package skins
 				{
 					borderSize = 0;
 					layoutShadowHeight = 0;
-					layoutContentGroupHeight = 65;
+					
+					
+					if (Capabilities.version.indexOf('IOS') > -1){
+						mobilepaddingtop = 20;
+					}
+					else {
+						mobilepaddingtop = 0;
+					}
+					layoutContentGroupHeight = 65+mobilepaddingtop;
 					layoutTitleGroupHorizontalPadding = 20;
 					break;
 				}
@@ -83,7 +117,13 @@ package skins
 				{
 					borderSize = 0;
 					layoutShadowHeight = 0;
-					layoutContentGroupHeight = 43;
+					if (Capabilities.version.indexOf('IOS') > -1){
+						mobilepaddingtop = 10;
+					}
+					else {
+						mobilepaddingtop = 0;
+					}
+					layoutContentGroupHeight = 43+mobilepaddingtop;
 					layoutTitleGroupHorizontalPadding = 13;
 					break;
 				}
@@ -133,6 +173,8 @@ package skins
 		 *  @productversion Flex 4.5
 		 */
 		protected var layoutContentGroupHeight:uint;
+		
+		
 		
 		/**
 		 *  Default horizontal padding for the titleGroup and titleDisplay.
@@ -226,8 +268,8 @@ package skins
 			hLayout.horizontalAlign = HorizontalAlign.LEFT;
 			hLayout.verticalAlign = VerticalAlign.MIDDLE;
 			hLayout.gap = 0;
-			hLayout.paddingLeft = hLayout.paddingTop = hLayout.paddingRight = 
-				hLayout.paddingBottom = 0;
+			hLayout.paddingLeft =  hLayout.paddingRight = hLayout.paddingBottom = 0;
+			hLayout.paddingTop = mobilepaddingtop/2;
 			navigationGroup.layout = hLayout;
 			navigationGroup.id = "navigationGroup";
 			
@@ -237,7 +279,8 @@ package skins
 			hLayout.verticalAlign = VerticalAlign.MIDDLE;
 			hLayout.gap = 0;
 			hLayout.paddingLeft = hLayout.paddingRight = layoutTitleGroupHorizontalPadding; 
-			hLayout.paddingTop = hLayout.paddingBottom = 0;
+			hLayout.paddingBottom = 0;
+			hLayout.paddingTop = mobilepaddingtop/2;
 			titleGroup.layout = hLayout;
 			titleGroup.id = "titleGroup";
 			
@@ -246,18 +289,19 @@ package skins
 			hLayout.horizontalAlign = HorizontalAlign.RIGHT;
 			hLayout.verticalAlign = VerticalAlign.MIDDLE;
 			hLayout.gap = 0;
-			hLayout.paddingLeft = hLayout.paddingTop = hLayout.paddingRight = 
-				hLayout.paddingBottom = 0;
+			hLayout.paddingLeft = hLayout.paddingRight = hLayout.paddingBottom = 0;
+			hLayout.paddingTop = mobilepaddingtop/2;
 			actionGroup.layout = hLayout;
 			actionGroup.id = "actionGroup";
 			
 			titleDisplay = new TitleDisplayComponent();
 			titleDisplay.id = "titleDisplay";
-			
 			// initialize titleAlign style (center is managed explicitly in layoutContents)
 			var titleAlign:String = getStyle("titleAlign");
 			titleAlign = (titleAlign == "center") ? TextFormatAlign.LEFT : titleAlign;
 			titleDisplay.setStyle("textAlign", titleAlign);
+			
+			
 			
 			addChild(navigationGroup);
 			addChild(titleGroup);
@@ -361,7 +405,7 @@ package skins
 			
 			var paddingLeft:Number   = getStyle("paddingLeft"); 
 			var paddingRight:Number  = getStyle("paddingRight");
-			var paddingTop:Number    = getStyle("paddingTop");
+			var paddingTop:Number    = mobilepaddingtop;
 			var paddingBottom:Number = getStyle("paddingBottom");
 			
 			var titleCompX:Number = paddingLeft;
@@ -492,7 +536,7 @@ package skins
 				titleCompWidth = (titleCompWidth < 0) ? 0 : titleCompWidth;
 				
 				setElementSize(titleDisplay, titleCompWidth, contentGroupsHeight);
-				setElementPosition(titleDisplay, titleCompX, paddingTop);
+				setElementPosition(titleDisplay, titleCompX, paddingTop+(mobilepaddingtop/4));
 				
 				titleDisplay.visible = true;
 			}
@@ -640,7 +684,7 @@ class TitleDisplayComponent extends UIComponent implements IDisplayText
 		var tightY:Number = (unscaledHeight - tightHeight) / 2;
 		
 		titleDisplay.setLayoutBoundsSize(unscaledWidth, tightHeight);
-		titleDisplay.setLayoutBoundsPosition(0, (unscaledHeight - tightHeight) / 2);
+		titleDisplay.setLayoutBoundsPosition(0, ((unscaledHeight - tightHeight) / 2));
 		
 		// now truncate the text
 		titleDisplay.truncateToFit();

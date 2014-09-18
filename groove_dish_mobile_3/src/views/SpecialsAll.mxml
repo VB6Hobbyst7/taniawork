@@ -107,12 +107,14 @@
 						var stringmatch:Boolean = true;
 						if (key.text.length > 0){
 							stringmatch = false;
-							if((backupspecialsData[i].business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
-								(backupspecialsData[i].description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)){
-								stringmatch = true;
-								
-								
+							try{
+								if((backupspecialsData[i].business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+									(backupspecialsData[i].description.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)){
+									stringmatch = true;
+								}
 							}
+							catch(e:Error){}
+						
 						}
 						var goodo:Boolean = false;
 						if (currentselectmode == 1){
