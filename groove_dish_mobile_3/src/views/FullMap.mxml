@@ -27,7 +27,7 @@
 				nm.width = this.width;
 				nm.height = this.height;
 				mainCont.addChild(nm);
-				try{
+				/*try{
 					setLoginVars();
 					this.parentApplication.removeswipefunctions();
 					listData = data.listData;
@@ -41,12 +41,12 @@
 						mg.title = unescape(listData[i].business_name);
 						mg.ido = i.toString();
 						mg.address =  unescape(listData[i].business_address1);
-						myGraphicsLayer.add(mg);*/
+						myGraphicsLayer.add(mg);
 					}	
 				}
 				catch(e:Error){
 					
-				}				
+				}		*/		
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
@@ -58,5 +58,5 @@
 			
 		]]>
 	</fx:Script>
-	<mx:UIComponent id="mainCont" width="100%" height="100%"></mx:UIComponent>
+	<mx:UIComponent id="mainCont" width="{this.width}" height="{this.height}"></mx:UIComponent>
 </s:View>
