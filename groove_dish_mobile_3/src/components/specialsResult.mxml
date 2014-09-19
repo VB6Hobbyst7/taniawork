@@ -5,6 +5,7 @@
 				creationComplete="init()"
 				dataChange="dchange()">
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/tileSizerSpecials.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
@@ -128,11 +129,14 @@
 			
 		]]>
 	</fx:Script>
-	<s:VGroup width="100%"  top="-1"
+	<s:VGroup width="100%"  top="-1" id="v0"
+			  verticalAlign="middle" horizontalAlign="center"
+			  mouseDown="tileDown(event)" mouseUp="tileUp(event)" 
+			  mouseOut="tileUp(event)" click="imedDown(event)"
 			  gap="0"  height="{this.width*(300/640)*data.type-1}"
 			  visible="{data.type == 1}">
-		<s:Group width="{this.width}"  
-				 mouseEnabled="false"   id="megacont" >
+		<s:Group width="{this.width}"   
+				 mouseEnabled="false"   name="megacont"   id="megacont" >
 			<s:BitmapImage id="bmpImg"  top="0"  contentLoader="{s_imageCache}"
 						   verticalCenter="0"  scaleMode="zoom" />
 			<s:BitmapImage   top="0"  contentLoader="{s_imageCache}" width="{bmpImg.width}" height="{bmpImg.height}"

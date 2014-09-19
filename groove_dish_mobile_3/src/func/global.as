@@ -9,14 +9,16 @@ import flash.filesystem.File;
 import flash.system.Capabilities;
 import flash.ui.Keyboard;
 import flash.utils.Timer;
-
 import mx.collections.ArrayCollection;
 import mx.core.DPIClassification;
 import mx.events.EffectEvent;
 import mx.events.FlexEvent;
-
 import spark.core.ContentCache;
 import spark.effects.Fade;
+[Bindable]
+public var actionbarheight:Number = 0;
+[Bindable]
+public var statusbuffertop:Number = 0;
 static public const s_imageCache:ContentCache = new ContentCache();
 [Bindable]
 public var emailGo:String = "";
@@ -288,4 +290,31 @@ public function hidekeyboard():void {
 		stage.focus = null;
 	}catch(e:Error){}
 
+}
+public function calculateActionbarVals():void {
+	if (getDPIHeight() == 640){
+		actionbarheight = 172;	
+	}
+	else if (getDPIHeight() == 480){
+		actionbarheight = 129;		
+	}
+	else if (getDPIHeight() == 320){
+		actionbarheight = 86;
+	}
+	else if (getDPIHeight() == 240){
+		actionbarheight = 65;
+	}
+	else {
+		actionbarheight = 43;
+	}
+	
+	
+	if (Capabilities.version.indexOf('IOS') > -1){
+		if (getDPIHeight() == 320){
+			statusbuffertop = 30;
+		}
+		else if (getDPIHeight() == 160){
+			statusbuffertop = 15;
+		}
+	}
 }

@@ -3,7 +3,9 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="components.*"
-		backgroundColor="#FFFFFF"
+		 backgroundAlpha="1" contentBackgroundAlpha="1"
+		backgroundColor="#f9f5ed"
+		contentBackgroundColor="#f9f5ed"
 		title="Map"
 		viewActivate="init()"
 		viewDeactivate="deac(event)">
@@ -16,67 +18,33 @@
 	<fx:Script>
 		<![CDATA[
 			import com.distriqt.extension.nativemaps.NativeMaps;
-			import com.distriqt.extension.nativemaps.events.NativeMapBitmapEvent;
 			import com.distriqt.extension.nativemaps.events.NativeMapEvent;
-			import com.distriqt.extension.nativemaps.objects.CircleOverlay;
-			import com.distriqt.extension.nativemaps.objects.CustomMarkerIcon;
 			import com.distriqt.extension.nativemaps.objects.LatLng;
 			import com.distriqt.extension.nativemaps.objects.LatLngBounds;
 			import com.distriqt.extension.nativemaps.objects.MapMarker;
 			import com.distriqt.extension.nativemaps.objects.MapMarkerColour;
 			import com.distriqt.extension.nativemaps.objects.MapOptions;
-			import com.distriqt.extension.nativemaps.objects.MapType;
-			import com.distriqt.extension.nativemaps.objects.Polyline;
-			import com.distriqt.extension.nativemaps.objects.UserTrackingMode;
-			import com.milkmangames.nativeextensions.CoreMobile;
-			import com.milkmangames.nativeextensions.events.CMDialogEvent;
-			
-			import flash.net.navigateToURL;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
 			import spark.events.ViewNavigatorEvent;
-			
-			import components.mapGraphic;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			private var _devKey : String = "3269bde10987c4588095221ba3986769a726784abojbGsOk3TToXIK6zq8dgjUXWYzCuINIODJ+LXgzkfFrtbPAOuaSRMWmavD9SFqLiBW1RUwGCou04RPL9DlrX6Bgxwo1hIMQj63w/MfLfE3EY2Oau9vca4bZNI4lJZWpix8YRqxvgHJ95rs5FSPUx3hBqJsT8oQ9/H6XTpTEQ9e8pNzHziFM4gdD9B1Y8vAgXtSuSp2+ZzcdZdhxl1EJX+JdDNORWUPNrSJr5L/51R6U8gXipG+VkEgPX1kAYOan3knS6vkYwiWwaDezTEN7AlSludXq3msFsu242nvJZBCis16KIaZL0Kft2Ps3SHqGv+QrMGcd74LcMZOSy3s8IA==";
+			private var devKey : String = "3269bde10987c4588095221ba3986769a726784abojbGsOk3TToXIK6zq8dgjUXWYzCuINIODJ+LXgzkfFrtbPAOuaSRMWmavD9SFqLiBW1RUwGCou04RPL9DlrX6Bgxwo1hIMQj63w/MfLfE3EY2Oau9vca4bZNI4lJZWpix8YRqxvgHJ95rs5FSPUx3hBqJsT8oQ9/H6XTpTEQ9e8pNzHziFM4gdD9B1Y8vAgXtSuSp2+ZzcdZdhxl1EJX+JdDNORWUPNrSJr5L/51R6U8gXipG+VkEgPX1kAYOan3knS6vkYwiWwaDezTEN7AlSludXq3msFsu242nvJZBCis16KIaZL0Kft2Ps3SHqGv+QrMGcd74LcMZOSy3s8IA==";
 			private function init():void {
-				var actionbarheight:Number = 0;
-				var statusbuffertop:Number = 0;
-				this.parentApplication.removeswipefunctions();
-				if (getDPIHeight() == 640){
-					actionbarheight = 172;	
-				}
-				else if (getDPIHeight() == 480){
-					actionbarheight = 129;		
-				}
-				else if (getDPIHeight() == 320){
-					actionbarheight = 86;
-				}
-				else if (getDPIHeight() == 240){
-					actionbarheight = 65;
-				}
-				else {
-					actionbarheight = 43;
-				}
-
-				if (Capabilities.version.indexOf('IOS') > -1){
-					if (getDPIHeight() == 320){
-						statusbuffertop = 40;
-					}
-					else if (getDPIHeight() == 160){
-						statusbuffertop = 20;
-					}
-				}
-				
+				calculateActionbarVals();
 				setLoginVars();
 				try{
-					NativeMaps.init( _devKey );
-					NativeMaps.service.createMap( this.width, this.height, 0, actionbarheight+statusbuffertop );
-					NativeMaps.service.setCentre( new LatLng(mylat, mylong), 11, true );
-					var options:MapOptions = NativeMaps.service.mapOptions;
+				NativeMaps.init(devKey);
+				NativeMaps.service.createMap( this.width, this.height, 0, actionbarheight+statusbuffertop+4 );
+				//NativeMaps.service.setCentre( new LatLng(mylat, mylong), 11, true );
+		
+				
+				var bounds:LatLngBounds = new LatLngBounds( new LatLng(53.596924, -113.666954), new LatLng(53.440500, -113.283463) );
+				NativeMaps.service.setBounds( bounds, 10, false );
+				
+				var options:MapOptions = NativeMaps.service.mapOptions;
 					options.trafficEnabled = false;
 					options.compassEnabled = true;
 					options.zoomControlsEnabled = true;
@@ -110,34 +78,40 @@
 					}	
 					
 				}
-				catch(e2:Error){
-					try{
-						NativeMaps.service.destroyMap();
-					}
-					catch(e:Error){
-						
-					}
-					mylabel.text = e2.name+" " + e2.message+" "+e2.getStackTrace();
+				catch(e:Error){
+					navigator.popView();
 				}
 			}
 
 			private function map_infoWindowTouchedHandler( event:NativeMapEvent ):void
 			{
-				NativeMaps.service.destroyMap();
-				navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				try{
+					NativeMaps.service.destroyMap();
+					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				}
+				catch(e:Error){}
+				
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
 			}
 			public function deac(event:ViewNavigatorEvent):void
 			{
-				this.parentApplication.addswipefunctions();
+				try{
+					this.parentApplication.addswipefunctions();
+				}
+				catch(e:Error){}
+				
 			}
 			public function goback():void {
-				NativeMaps.service.destroyMap();
+				try{
+					NativeMaps.service.destroyMap();
+					
+				}
+				catch(e:Error){}
 				navigator.popView();
+				
 			}
 		]]>
 	</fx:Script>
-	<s:Label id="mylabel" maxWidth="{this.width}" x="0" y="0" maxDisplayedLines="100"/>
 </s:View>

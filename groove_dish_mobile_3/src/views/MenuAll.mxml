@@ -102,7 +102,7 @@
 				filterData4.addItem({name:"Highest"});
 				filterData4.addItem({name:"Lowest"});	
 				nofind.visible = false;
-				refetchViewData();				
+				setTimeout(refetchViewData,100);			
 			}
 			public function refetchViewData():void {
 				try{

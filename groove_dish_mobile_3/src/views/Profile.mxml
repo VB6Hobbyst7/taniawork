@@ -416,28 +416,22 @@
 			}
 			private function imageSelected( event:MediaEvent ):void
 			{
-				dlog( "Media selected..." );
 				beginappnative();
 				var imagePromise:MediaPromise = event.data;
 				dataSource = imagePromise.open();
 				
 				if( imagePromise.isAsync )
 				{
-					dlog( "Asynchronous media promise." );
-					eventSource = dataSource as IEventDispatcher;
-					//	dlog( eventSource );
-					
+					eventSource = dataSource as IEventDispatcher;					
 					eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
 				}
 				else
 				{
-					dlog( "Synchronous media promise." );
 					readMediaData();
 				}
 			}
 			private function onDataComplete( event:Event ):void
 			{
-				dlog("Data load complete");
 				readMediaData();
 			}			
 			private function readMediaData():void
@@ -450,7 +444,6 @@
 			}
 			public function upload( data:ByteArray, destination:String):void
 			{	
-				dlog( "Uploading..." );
 				var loader:URLLoader = new URLLoader();
 				loader.dataFormat= URLLoaderDataFormat.BINARY;
 				ranfilename = UIDUtil.createUID().substr(0,9);
@@ -460,28 +453,13 @@
 				request.method = URLRequestMethod.POST;
 				request.contentType = "application/octet-stream";
 				loader.addEventListener( Event.COMPLETE, uploadComplete );
-				loader.addEventListener(IOErrorEvent.IO_ERROR, ioError );
 				loader.load(request);  
 				
 			} 
 			private function uploadComplete( event:Event ):void
 			{
-				dlog( "Upload successful." );
 				profimage.source = "http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg";
 				this.parentApplication.updateProfileImage("http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg");
-			}
-			
-			private function ioError( error:IOErrorEvent ):void
-			{
-				dlog( "Upload failed: " + error.text );
-			}
-			
-			private function mediaError( error:ErrorEvent ):void
-			{
-				dlog( "Error:" + error.text );
-			}
-			public function dlog(s:String):void {
-				//debuginput.text = debuginput.text + " ---- " + s;
 			}
 			public function afterGetUserInfo(ev:ResultEvent):void {
 				try{

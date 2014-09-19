@@ -8,7 +8,7 @@
 			   activate="onactivate(event)"
 			   deactivate="ondeactivate()"
 			   contentBackgroundAlpha="1" 
-			   osStatusBarHeight="{obarheight}"
+			   osStatusBarHeight="0"
 			   splashScreenScaleMode="zoom" 
 			   resizeForSoftKeyboard="true"
 			   contentBackgroundColor="#36ccba"
@@ -248,8 +248,6 @@
 			import views.Restrictions;
 			import views.Settings;
 			import views.SpecialsAll;
-			[Bindable]
-			public var obarheight:Number = 0;
 		]]>
 	</fx:Script>
 	

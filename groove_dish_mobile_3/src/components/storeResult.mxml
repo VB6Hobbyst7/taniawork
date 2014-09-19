@@ -2,17 +2,14 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				creationComplete="init()" 
-				contentBackgroundAlpha="1"
-				contentBackgroundColor="#FFFFFF" 
-				dataChange="datachango()"
-				mouseOver="gOver();"
-				mouseOut="gOut();" 
-				mouseUp="gOut();" 
-				mouseDown="gDown();">
+				 autoDrawBackground="false" 
+				dataChange="datachango()">
+	<fx:Script source="../func/tileSizerMenu.as"/>
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 			import mx.graphics.SolidColorStroke;
+			
 			import spark.components.Group;
 			import spark.components.HGroup;
 			import spark.components.Label;
@@ -21,26 +18,33 @@
 			import spark.primitives.BitmapImage;
 			import spark.primitives.Line;
 			static public const s_imageCache:ContentCache = new ContentCache();
+			[Bindable]
 			public var v1:VGroup = new VGroup();
 			public var addedallitems:Boolean = false;
 			public var gapo:uint = 3;
-			public function gOver():void {
-				this.alpha = 0.5;
-			}
-			public function gDown():void {
-				this.alpha = 0.5;
-			}
-			public function gOut():void {
-				this.alpha = 1;
-			}
 			protected function init():void
 			{
 				if (data != null){
 					var neededwidth:Number = this.parent.width/2-gapo;
-					v1.height = neededwidth-30;
-					v1.gap = 0;
+					v1.height = v0.height =v00.height = neededwidth-30;
+					v1.gap= 0;
 					v1.mouseEnabled = false;
-					this.addElement(v1);
+					v1.mouseEnabledWhereTransparent = false;
+					v1.horizontalAlign =  "center";
+					v1.verticalAlign = "middle";
+					v1.horizontalCenter = 0;
+					v1.verticalCenter = 0;
+					v0.addEventListener(MouseEvent.MOUSE_DOWN, tileDown);
+					v0.addEventListener(MouseEvent.MOUSE_UP, tileUp);
+					v0.addEventListener(MouseEvent.MOUSE_OUT, tileUp);
+					v0.addEventListener(MouseEvent.CLICK, imedDown);
+					v0.mouseEnabled = true;
+					v0.mouseEnabledWhereTransparent = true;
+					
+					v1.id = "megacont";
+					v1.name = "megacont";
+					v0.addElement(v1);
+					this.addElement(v0);
 					if ((addedallitems == false)){
 						if (unescape(data.name) == "Loading More Items"){
 							v1.width = neededwidth;
@@ -55,12 +59,13 @@
 						}
 						else if (unescape(data.name) == "map"){
 							this.width = this.parent.width;
+							v1.gap = -1;
 							v1.height = this.parent.width/(16/7);
 							v1.width = this.parent.width;
 							var bmpImg:BitmapImage = new BitmapImage();
 							bmpImg.source = unescape(data.url);
 							bmpImg.width = this.parent.width;
-							bmpImg.height = this.parent.width/(16/7);
+							bmpImg.height = this.parent.width/(16/7)+6;
 							v1.addElement(bmpImg);
 						}
 						else {
@@ -86,6 +91,7 @@
 								
 							}
 							else if (unescape(data.name) == "map"){
+								v1.gap = -1;
 								v1.height = this.parent.width/(16/7);
 								this.width = this.parent.width;
 								v1.width = this.parent.width;
@@ -136,7 +142,7 @@
 					hg.maxWidth = neededwidth;
 					hg.gap = 0;
 					hg.verticalAlign = "middle";
-					
+					hg.mouseEnabled = false;
 					
 					
 					
@@ -180,6 +186,7 @@
 					var g1:Group = new Group();
 					g1.width = neededwidth/3;
 					g1.height = 50/(320/Capabilities.screenDPI);
+					g1.mouseEnabled = false;
 					var l1:Label = new Label();
 					l1.setStyle("textAlign","center");
 					l1.horizontalCenter = 0;
@@ -222,6 +229,7 @@
 					var g2:Group = new Group();
 					g2.width = neededwidth/3;
 					g2.height = 50/(320/Capabilities.screenDPI);
+					g2.mouseEnabled = false;
 					var l2:Label = new Label();
 					l2.setStyle("textAlign","center");
 					l2.horizontalCenter = 0;
@@ -236,6 +244,7 @@
 					var g3:Group = new Group();
 					g3.width = neededwidth/3;
 					g3.height = 50/(320/Capabilities.screenDPI);
+					g3.mouseEnabled = false;
 					var l3:Label = new Label();
 					l3.setStyle("textAlign","center");
 					l3.horizontalCenter = 0;
@@ -327,7 +336,17 @@
 					_runtimeDPI = 640;
 				}
 				return(_runtimeDPI)
+			
 			}
 		]]>
 	</fx:Script>
+	<s:Group id="v00" horizontalCenter="0" verticalCenter="0">
+	<s:Group id="v0" horizontalCenter="0" verticalCenter="0">
+		<s:Rect id="backrec"  width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	</s:Group>
 </s:ItemRenderer>
