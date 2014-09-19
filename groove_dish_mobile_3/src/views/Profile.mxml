@@ -9,6 +9,7 @@
 	<s:actionContent>	
 	</s:actionContent>
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/appnative.as" />
 	<fx:Script>
 		<![CDATA[
 			import flash.display.Loader;
@@ -416,7 +417,7 @@
 			private function imageSelected( event:MediaEvent ):void
 			{
 				dlog( "Media selected..." );
-				
+				beginappnative();
 				var imagePromise:MediaPromise = event.data;
 				dataSource = imagePromise.open();
 				
@@ -460,7 +461,8 @@
 				request.contentType = "application/octet-stream";
 				loader.addEventListener( Event.COMPLETE, uploadComplete );
 				loader.addEventListener(IOErrorEvent.IO_ERROR, ioError );
-				loader.load(request);           
+				loader.load(request);  
+				
 			} 
 			private function uploadComplete( event:Event ):void
 			{

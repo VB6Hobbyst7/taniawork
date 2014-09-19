@@ -123,18 +123,8 @@
 
 			private function map_infoWindowTouchedHandler( event:NativeMapEvent ):void
 			{
+				NativeMaps.service.destroyMap();
 				navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
-				/*CoreMobile.mobile.showModalYesNoDialog("Info Window Touched for marker : " + event.markerId,"", "Yes", "No").
-					addDismissListener(function(e:CMDialogEvent):void 
-					{
-						if (e.selectedButtonLabel=="Yes")
-						{
-							
-						}
-						else {
-							
-						}
-					});*/
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
