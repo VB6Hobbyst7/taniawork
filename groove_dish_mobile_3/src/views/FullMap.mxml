@@ -9,50 +9,132 @@
 		viewDeactivate="deac(event)">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
-							   height="100%"   mouseDown="navigator.popView();"/>
+							   height="100%"   mouseDown="goback();"/>
 	</s:navigationContent>
 	<s:actionContent></s:actionContent>
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
+			import com.distriqt.extension.nativemaps.NativeMaps;
+			import com.distriqt.extension.nativemaps.events.NativeMapBitmapEvent;
+			import com.distriqt.extension.nativemaps.events.NativeMapEvent;
+			import com.distriqt.extension.nativemaps.objects.CircleOverlay;
+			import com.distriqt.extension.nativemaps.objects.CustomMarkerIcon;
+			import com.distriqt.extension.nativemaps.objects.LatLng;
+			import com.distriqt.extension.nativemaps.objects.LatLngBounds;
+			import com.distriqt.extension.nativemaps.objects.MapMarker;
+			import com.distriqt.extension.nativemaps.objects.MapMarkerColour;
+			import com.distriqt.extension.nativemaps.objects.MapOptions;
+			import com.distriqt.extension.nativemaps.objects.MapType;
+			import com.distriqt.extension.nativemaps.objects.Polyline;
+			import com.distriqt.extension.nativemaps.objects.UserTrackingMode;
+			import com.milkmangames.nativeextensions.CoreMobile;
+			import com.milkmangames.nativeextensions.events.CMDialogEvent;
+			
+			import flash.net.navigateToURL;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
 			import spark.events.ViewNavigatorEvent;
+			
+			import components.mapGraphic;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
+			private var _devKey : String = "3269bde10987c4588095221ba3986769a726784abojbGsOk3TToXIK6zq8dgjUXWYzCuINIODJ+LXgzkfFrtbPAOuaSRMWmavD9SFqLiBW1RUwGCou04RPL9DlrX6Bgxwo1hIMQj63w/MfLfE3EY2Oau9vca4bZNI4lJZWpix8YRqxvgHJ95rs5FSPUx3hBqJsT8oQ9/H6XTpTEQ9e8pNzHziFM4gdD9B1Y8vAgXtSuSp2+ZzcdZdhxl1EJX+JdDNORWUPNrSJr5L/51R6U8gXipG+VkEgPX1kAYOan3knS6vkYwiWwaDezTEN7AlSludXq3msFsu242nvJZBCis16KIaZL0Kft2Ps3SHqGv+QrMGcd74LcMZOSy3s8IA==";
 			private function init():void {
-				try{
-					var nm:MyNativeMaps = new MyNativeMaps();
-					nm.width = this.width;
-					nm.height = this.height;
-					mainCont.addChild(nm);
+				var actionbarheight:Number = 0;
+				var statusbuffertop:Number = 0;
+				this.parentApplication.removeswipefunctions();
+				if (getDPIHeight() == 640){
+					actionbarheight = 172;	
 				}
-				catch(e:Error){
-					mylabel.text = e.message;
-					//navigator.popView();
+				else if (getDPIHeight() == 480){
+					actionbarheight = 129;		
+				}
+				else if (getDPIHeight() == 320){
+					actionbarheight = 86;
+				}
+				else if (getDPIHeight() == 240){
+					actionbarheight = 65;
+				}
+				else {
+					actionbarheight = 43;
+				}
+
+				if (Capabilities.version.indexOf('IOS') > -1){
+					if (getDPIHeight() == 320){
+						statusbuffertop = 40;
+					}
+					else if (getDPIHeight() == 160){
+						statusbuffertop = 20;
+					}
 				}
 				
-				/*try{
-					setLoginVars();
-					this.parentApplication.removeswipefunctions();
+				setLoginVars();
+				try{
+					NativeMaps.init( _devKey );
+					NativeMaps.service.createMap( this.width, this.height, 0, actionbarheight+statusbuffertop );
+					NativeMaps.service.setCentre( new LatLng(mylat, mylong), 11, true );
+					var options:MapOptions = NativeMaps.service.mapOptions;
+					options.trafficEnabled = false;
+					options.compassEnabled = true;
+					options.zoomControlsEnabled = true;
+					options.zoomGesturesEnabled = true;
+					options.scrollGesturesEnabled = true;
+					options.tiltGesturesEnabled = false;
+					options.rotateGesturesEnabled = false;
+					options.myLocationButtonEnabled = true;
+					NativeMaps.service.setMapOptions( options );
+					NativeMaps.service.addEventListener( NativeMapEvent.MARKER_INFO_WINDOW_TOUCHED, map_infoWindowTouchedHandler );
+					
 					listData = data.listData;
 					for (var i:uint = 0; i < listData.length; i++){
-					/*	var mg:mapGraphic = new mapGraphic();
-						mg.addEventListener(MouseEvent.MOUSE_DOWN, checkifgogo);
-						mg.symbol = infoSymbolWithStates;
-						mg.xx = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).x;
-						mg.yy = degrees_to_mercator_meters(listData[i].longa,listData[i].lat).y;
-						mg.name = i.toString()+"gr";
-						mg.title = unescape(listData[i].business_name);
-						mg.ido = i.toString();
-						mg.address =  unescape(listData[i].business_address1);
-						myGraphicsLayer.add(mg);
+						var marker2:MapMarker = new MapMarker(listData[i].id.toString());
+						marker2.title = unescape(listData[i].business_name);
+						marker2.info = unescape(listData[i].business_address1);
+						marker2.setPosition( new LatLng(listData[i].lat,listData[i].longa) );
+						marker2.draggable = true; // this was false
+						marker2.animatesDrop = true; // this was flalse
+						marker2.infoWindowEnabled = true;
+						marker2.showInfoWindowButton = true; // this was false
+						//marker2.customIconId = "myCustomIcon";
+
+						if (Capabilities.version.indexOf("AND") != -1)
+							marker2.colour = MapMarkerColour.AND_ROSE;
+						else
+							marker2.colour = MapMarkerColour.IOS_GREEN;
+						
+						NativeMaps.service.addMarker( marker2 )
+		
 					}	
-				}
-				catch(e:Error){
 					
-				}		*/		
+				}
+				catch(e2:Error){
+					try{
+						NativeMaps.service.destroyMap();
+					}
+					catch(e:Error){
+						
+					}
+					mylabel.text = e2.name+" " + e2.message+" "+e2.getStackTrace();
+				}
+			}
+
+			private function map_infoWindowTouchedHandler( event:NativeMapEvent ):void
+			{
+				navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				/*CoreMobile.mobile.showModalYesNoDialog("Info Window Touched for marker : " + event.markerId,"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							
+						}
+						else {
+							
+						}
+					});*/
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
@@ -61,9 +143,11 @@
 			{
 				this.parentApplication.addswipefunctions();
 			}
-			
+			public function goback():void {
+				NativeMaps.service.destroyMap();
+				navigator.popView();
+			}
 		]]>
 	</fx:Script>
-	<mx:UIComponent id="mainCont" width="{this.width}" height="{this.height}"></mx:UIComponent>
 	<s:Label id="mylabel" maxWidth="{this.width}" x="0" y="0" maxDisplayedLines="100"/>
 </s:View>

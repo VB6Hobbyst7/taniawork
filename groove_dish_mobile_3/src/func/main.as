@@ -45,6 +45,7 @@ public var svt2:SlideViewTransition = new SlideViewTransition();
 public var pm:PersistenceManager = new PersistenceManager();
 protected function creationcomplete(event:FlexEvent):void
 {
+	beginappnative();
 	startCoreMobile();
 	svt.duration = slideduration;
 	svt.direction =  ViewTransitionDirection.LEFT;

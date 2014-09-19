@@ -52,7 +52,7 @@ package
 		[Embed(source="./assets/custom-marker.png")]
 		public var CustomMarker	: Class;
 		
-		private var _devKey : String = "";
+		private var _devKey : String = "3269bde10987c4588095221ba3986769a726784abojbGsOk3TToXIK6zq8dgjUXWYzCuINIODJ+LXgzkfFrtbPAOuaSRMWmavD9SFqLiBW1RUwGCou04RPL9DlrX6Bgxwo1hIMQj63w/MfLfE3EY2Oau9vca4bZNI4lJZWpix8YRqxvgHJ95rs5FSPUx3hBqJsT8oQ9/H6XTpTEQ9e8pNzHziFM4gdD9B1Y8vAgXtSuSp2+ZzcdZdhxl1EJX+JdDNORWUPNrSJr5L/51R6U8gXipG+VkEgPX1kAYOan3knS6vkYwiWwaDezTEN7AlSludXq3msFsu242nvJZBCis16KIaZL0Kft2Ps3SHqGv+QrMGcd74LcMZOSy3s8IA==";
 		
 		protected var _created :Boolean = false;
 		protected var _count:int = 0;
