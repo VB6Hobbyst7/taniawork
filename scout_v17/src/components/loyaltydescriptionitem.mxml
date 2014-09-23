@@ -49,12 +49,12 @@
 		<s:Label id="la1" text="{data.spend}" 
 				 styleName="textsize2"
 				 verticalAlign="middle" verticalCenter="0"
-				 width="{this.width*0.1}" left="{30/(320/Capabilities.screenDPI)}" />
+				 width="{this.width*0.2}" left="{30/(320/Capabilities.screenDPI)}" />
 		<s:Label id="la2" text="{data.name}"
 				 top="{35/(320/Capabilities.screenDPI)}"
 				 bottom="{35/(320/Capabilities.screenDPI)}" styleName="textsize2"
 				 verticalAlign="middle" verticalCenter="0"
-				 width="{this.width*0.8}" maxWidth="{this.width*0.8}"  
+				 width="{this.width*0.7}" maxWidth="{this.width*0.7}"  
 				 left="{100/(320/Capabilities.screenDPI)}"  maxDisplayedLines="1"/>
 		<s:Line id="lineo" visible="true" left="0" right="0"  bottom="0"  width="100%" > 
 			<s:stroke><s:SolidColorStroke id="stroko" alpha="1"  weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>

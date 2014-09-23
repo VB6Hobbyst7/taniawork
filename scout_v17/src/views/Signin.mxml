@@ -43,6 +43,7 @@
 			public function AddNewLocalUser(email:String,name:String,city:String):void
 			{
 				busy = true;
+				createIfNotExsist("localuser");
 				sqlConnection = new SQLConnection();
 				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 				var stmt:SQLStatement = new SQLStatement();
@@ -52,8 +53,8 @@
 				stmt.sqlConnection = sqlConnection;
 				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 				stmt.parameters[":email"] = email;
-				stmt.parameters[":name"] = name;
-				stmt.parameters[":city"] = city;
+				stmt.parameters[":name"] = escape(name);
+				stmt.parameters[":city"] = escape(city);
 				stmt.parameters[":active"] = "yes";
 				stmt.execute();
 				getLocalUsers();

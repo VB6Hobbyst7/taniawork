@@ -34,6 +34,8 @@ import spark.transitions.ViewTransitionDirection;
 
 import views.Home;
 import views.MapView;
+public var pm:PersistenceManager = new PersistenceManager();
+
 public static const FACEBOOK_APP_ID:String="1424621771149692";
 [Bindable]
 public var VERSIONID:Number = 10;
@@ -45,7 +47,6 @@ public var homeitems:ArrayCollection = new ArrayCollection();
 public var actionbarheight:Number = 0;
 public var svt:SlideViewTransition = new SlideViewTransition();
 public var svt2:SlideViewTransition = new SlideViewTransition();
-public var pm:PersistenceManager = new PersistenceManager();
 public var loadedview:Boolean = false;
 protected function afterappcomplete(event:FlexEvent):void
 {
@@ -465,11 +466,12 @@ public function doFacebookStuff():void {
 			if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
 			{
 				var myProfile:GVFacebookFriend=e.friends[0];
-				
+				var rex:RegExp = /[\s\r\n]+/gim;
 				fsid = myProfile.id.toString();
 				
 				try{
 					fsemail = myProfile.email();
+					fsemail = fsemail.replace(rex,'');
 				}
 				catch(e:Error){}
 				
@@ -575,8 +577,8 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 	stmt.sqlConnection = sqlConnection;
 	stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 	stmt.parameters[":email"] = fsemail;
-	stmt.parameters[":name"] = fsname;
-	stmt.parameters[":city"] = fscity;
+	stmt.parameters[":name"] = escape(fsname);
+	stmt.parameters[":city"] = escape(fscity);
 	stmt.parameters[":active"] = "yes";
 	stmt.execute();
 	reloadProfInfo();

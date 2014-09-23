@@ -32,8 +32,8 @@ public function setLoginVars():void {
 		var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 		if (resData.length != 0){
 			emailGo = resData[0].email;
-			nameGo = resData[0].name;
-			cityGo = resData[0].city;
+			nameGo = unescape(resData[0].name);
+			cityGo = unescape(resData[0].city);
 		}
 		else {
 			emailGo = "none";

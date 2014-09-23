@@ -50,6 +50,7 @@
 					data.amount = '0';
 				}	
 				pointsamount.text = data.amount + " Points";
+				loyaltyvall.text = "$ "+data.loyaltyval+" = 1 point"; 
 				getLoyaltyDescription.send();
 			}
 			public function afterGetLoyaltyDescription(ev:ResultEvent):void  {
@@ -262,10 +263,23 @@
 	<s:Scroller left="0" right="0" top="0" bottom="0"  verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" paddingTop="0" gap="0"  horizontalAlign="center" height="100%" >
 			
-			<s:Group width="100%"  height="{img1.width/(16/9)}"  >
-				<s:BitmapImage width="100%" id="img1" 
-							   height="{img1.width/(16/9)}" 
-							   contentLoader="{s_imageCache}" scaleMode="zoom" />
+			<s:Group>
+				<s:Image x="0" id="img1" width="{this.width}" height="{this.width/(16/9)}" scaleMode="zoom"/>
+				<s:Image  width="{this.width}"  bottom="0"
+						  contentLoader="{s_imageCache}" 
+						  scaleMode="stretch">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/largeshadow.png')"
+												source240dpi="@Embed('../assets/240/largeshadow.png')"
+												source320dpi="@Embed('../assets/320/largeshadow.png')"
+												source480dpi="@Embed('../assets/480/largeshadow.png')"
+												source640dpi="@Embed('../assets/640/largeshadow.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="loyaltyvall"  bottom="{10/(320/Capabilities.screenDPI)}" 
+						 paddingLeft="{20/(320/Capabilities.screenDPI)}"
+						 paddingRight="{10/(320/Capabilities.screenDPI)}" width="100%" color="#FFFFFF"
+						 styleName="textsize3" />
 			</s:Group>
 			<s:Group  bottom="0" width="100%" 
 					  height="{img1.height/5}">

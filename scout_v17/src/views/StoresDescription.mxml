@@ -110,11 +110,11 @@
 			{
 				if ((data.amount == null)||(data.amount == 'null')){
 					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
-						emailGo:emailGo,business_name:data.business_name,amount:'0'});
+						emailGo:emailGo,business_name:data.business_name,amount:'0',loyaltyval:data.loyaltyval});
 				}
 				else {
 					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
-						emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+						emailGo:emailGo,business_name:data.business_name,amount:data.amount,loyaltyval:data.loyaltyval});
 				}
 			}	
 			

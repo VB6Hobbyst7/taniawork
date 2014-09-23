@@ -20,7 +20,6 @@
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
 			[Bindable]
 			public var busy:Boolean = false;
 			public function nextStep():void {
@@ -73,12 +72,10 @@
 				stmt.sqlConnection = sqlConnection;
 				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
 				stmt.parameters[":email"] = email;
-				stmt.parameters[":name"] = name;
-				stmt.parameters[":city"] = city;
+				stmt.parameters[":name"] = escape(name);
+				stmt.parameters[":city"] = escape(city);
 				stmt.parameters[":active"] = "yes";
 				stmt.execute();
-				var saveManager:PersistenceManager = new PersistenceManager();
-				saveManager.setProperty("useremail", email);
 				this.parentDocument.refresh(email);	
 			}
 			public function provChange():void {
@@ -155,7 +152,10 @@
 			
 			
 			
-			
+			<s:Label top="{290/(320/Capabilities.screenDPI)}" 
+					 width="{continue_btn.width}"  verticalAlign="middle"   color="#8c8d8d"
+					 text="Birthday"
+					 textAlign="left"/>
 			<s:Group width="100%" >
 				<s:Rect width="{continue_btn.width}" 
 						height="{continue_btn.height}" 
