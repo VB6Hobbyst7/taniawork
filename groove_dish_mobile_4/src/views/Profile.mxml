@@ -3,8 +3,10 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		viewActivate="init()" 
 		creationComplete="init2();"
-		backgroundColor="#FFFFFF"
-		contentBackgroundColor="#FFFFFF" contentBackgroundAlpha="1"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		xmlns:components="components.*" >
 	<s:actionContent>	
 	</s:actionContent>

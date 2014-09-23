@@ -3,7 +3,10 @@
 		xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:components="components.*"
-		backgroundColor="#FFFFFF"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		viewActivate="init()"
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
@@ -393,7 +396,7 @@
 			<s:Group width="100%"   id="megacont"  >
 				<s:Image id="img1" visible="false" 
 						 width="100%" top="0"  scaleMode="zoom"
-						 source="{data.picture}" 
+						 source="{data.picture}" smooth="true" 
 						 contentLoader="{s_imageCache}"  height="{this.width/(16/9)}"   />
 				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
 							    scaleMode="stretch"	contentLoader="{s_imageCache}"   >

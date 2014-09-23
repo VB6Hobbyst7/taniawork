@@ -4,11 +4,11 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*" 
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#f3f3f3" 
-		backgroundAlpha="1"  
+		contentBackgroundColor="#e5e5e5"
 		destructionPolicy="never"
-		backgroundColor="#f3f3f3"
 		viewActivate="init()" 
 		creationComplete="init2()">
 	<fx:Script source="../func/global.as"/>
@@ -836,7 +836,7 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List  width="100%" horizontalCenter="0"
+			<s:List right="{6/(320/Capabilities.screenDPI)}" left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 					height="{this.height-(150/(320/Capabilities.screenDPI))}"
 					id="menuList" useVirtualLayout="false" 
 					verticalScrollPolicy="on"   

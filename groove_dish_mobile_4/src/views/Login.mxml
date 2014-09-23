@@ -4,8 +4,11 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
 		title="login" 
-		contentBackgroundAlpha="1" name="sign0"
-		contentBackgroundColor="#f3f3f3"
+		name="sign0"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		actionBarVisible="false" 
 		viewActivate="init()"
 		xmlns:cs="cs.*" >

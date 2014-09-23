@@ -3,10 +3,11 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
-		contentBackgroundAlpha="1" name="sign1"
-		contentBackgroundColor="#f3f3f3"
+		name="sign1"
 		backgroundAlpha="1"
-		backgroundColor="#f3f3f3" 
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		actionBarVisible="false" viewActivate="init()" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"

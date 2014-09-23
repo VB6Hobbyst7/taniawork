@@ -4,12 +4,13 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*" 
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#f3f3f3" 
-		backgroundColor="#f3f3f3"
+		contentBackgroundColor="#e5e5e5"
 		viewActivate="init()" 
 		destructionPolicy="auto"
-		 creationComplete="init2()"
+		creationComplete="init2()"
 		title="Specials"   >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"

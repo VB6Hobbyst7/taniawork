@@ -5,8 +5,10 @@
 		xmlns:components="components.*" 
 		title="Change Profile"  name="changeProf"
 		viewActivate="init()"
-		backgroundColor="#f2f3f4" 
-		contentBackgroundColor="#f2f3f4">
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView();"/>

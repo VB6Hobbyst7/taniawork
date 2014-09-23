@@ -25,7 +25,7 @@
 			static public const s_imageCache:ContentCache = new ContentCache();
 			public var v1:VGroup = new VGroup();
 			public var addedallitems:Boolean = false;
-			public var gapo:uint = 2;
+			public var gapo:uint = 3;
 			public var subvalue:uint = 25;
 			public function gOver():void {
 				this.alpha = 0.5;

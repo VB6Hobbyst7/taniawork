@@ -151,17 +151,7 @@ public function onSwipe(event:TransformGestureEvent):void
 			{
 				// swiped right also back swipe
 				//opening menu or closing filters
-				if ((filtersmoving == false)&&(filtersopen)){
-					setNavigatorMovingStatus(true);
-					autofiltersmove = false;
-					openclosestatus = 2;
-					filtersmoving = true;
-					mainNavigator.activeView.mouseChildren = false;
-					this.addEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
-					menufeaturebutton.visible = false;
-					
-				}
-				else if ((mainNavigator.activeView.name.toLocaleLowerCase().indexOf('login') == -1)){ 
+			 if ((mainNavigator.activeView.name.toLocaleLowerCase().indexOf('login') == -1)){ 
 					if (menumoving == false){
 						setNavigatorMovingStatus(true);
 						automenumove = false;
@@ -190,21 +180,7 @@ public function onSwipe(event:TransformGestureEvent):void
 					this.addEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
 					filterfeaturebutton.visible = false;
 				}
-				else if ((mainNavigator.activeView.name.toLocaleLowerCase().indexOf('home') != -1)||
-					(mainNavigator.activeView.name.toLocaleLowerCase().indexOf('specialsall') != -1)||
-					(mainNavigator.activeView.name.toLocaleLowerCase().indexOf('menuall') != -1)){
-					
-					if (filtersmoving == false){
-						setNavigatorMovingStatus(true);
-						openclosestatus = 1;
-						autofiltersmove = false;
-						filtersmoving = true;
-						mainNavigator.activeView.mouseChildren = false;
-						this.addEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
-						menufeaturebutton.visible = false;
-					}
-					
-				}
+				
 				
 				
 				

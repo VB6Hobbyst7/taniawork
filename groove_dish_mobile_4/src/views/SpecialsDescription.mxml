@@ -3,8 +3,10 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:components="components.*"
-		backgroundColor="#FFFFFF"
-		contentBackgroundColor="#f3f3f3"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		viewActivate="init()"  
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
@@ -215,7 +217,7 @@
 				  horizontalCenter="0" verticalCenter="0"  width="{this.width}"  maxWidth="{this.width}" >
 			<s:Group width="100%" height="{img1.height}"   id="megacont"  >
 				<s:BitmapImage id="img1"  width="{this.width}"  maxWidth="{this.width}" scaleMode="zoom"
-							   top="0"  height="{this.width/(640/300)}"
+							   top="0"  height="{this.width/(640/300)}" smooth="true" 
 							   source="{data.picture}"  contentLoader="{s_imageCache}" />
 				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
 							   scaleMode="stretch"	contentLoader="{s_imageCache}"   >

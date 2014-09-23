@@ -5,6 +5,10 @@
 		xmlns:controls="com.flexcapacitor.controls.*"
 		xmlns:components="components.*"
 		viewActivate="init()"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		title="Menu">
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"

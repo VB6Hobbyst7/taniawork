@@ -4,7 +4,10 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*"
 		xmlns:maps="com.google.maps.*" 	
-		backgroundColor="#f3f3f3" 
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		viewActivate="init()" actionBarVisible="true"
 		title="Restrictions"   >
 	<s:actionContent></s:actionContent>

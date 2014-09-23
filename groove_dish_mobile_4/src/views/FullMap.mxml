@@ -3,9 +3,10 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="components.*"
-		 backgroundAlpha="1" contentBackgroundAlpha="1"
-		backgroundColor="#f9f5ed"
-		contentBackgroundColor="#f9f5ed"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
 		title="Map"
 		viewActivate="init()"
 		viewDeactivate="deac(event)">

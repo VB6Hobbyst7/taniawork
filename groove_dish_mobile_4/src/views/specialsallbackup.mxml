@@ -4,10 +4,11 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" 	
 		xmlns:maps="com.google.maps.*" 	
 		xmlns:components="components.*" 
+		title="Specials"
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#f3f3f3"
-		backgroundAlpha="1" title="Specials"
-		backgroundColor="#f3f3f3"  
+		contentBackgroundColor="#e5e5e5"
 		viewActivate="init()">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>

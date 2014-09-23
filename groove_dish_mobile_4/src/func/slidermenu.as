@@ -19,15 +19,15 @@ public var openclosestatus:Number = 0;
 //general menu functions
 protected function overAllMouseUp(event:MouseEvent):void{
 	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateMenuLocation);
-	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
+	//this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	if ((menumoving)&&(automenumove == false)){
 		menumoving = false;
 		calculateMenuOperation();
 	}
-	else if ((filtersmoving)&&(autofiltersmove == false)){
+	/*else if ((filtersmoving)&&(autofiltersmove == false)){
 		filtersmoving = false;
 		calculateFiltersOperation();
-	}
+	}*/
 }
 public function setNavigatorMovingStatus(b:Boolean):void {
 	if (mainNavigator.activeView.data == null){
@@ -169,7 +169,7 @@ public function calculateFiltersOperation():void {
 }
 public function closeFilters():void {
 	hidekeyboard();
-	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
+	//this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	var filtersendx:Number = filtersmenu.x+filtersmenu.width;
 	var mo:Move = new Move();
 	mo.target = filtersmenu;
@@ -191,7 +191,7 @@ public function afterCloseFilters(ev:EffectEvent):void {
 }
 public function openFilters():void {
 	hidekeyboard();
-	this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
+	//this.removeEventListener(MouseEvent.MOUSE_MOVE, updateFiltersLocation);
 	var mo:Move = new Move();
 	mo.target = filtersmenu;
 	mainNavigator.activeView.mouseChildren = false;
@@ -208,7 +208,7 @@ public function afterOpenFilters(ev:EffectEvent):void {
 	autofiltersmove = false;
 	setNavigatorMovingStatus(false);
 }
-public function updateFiltersLocation(ev:MouseEvent):void {
+/*public function updateFiltersLocation(ev:MouseEvent):void {
 	if (ev.stageX >= this.width-filtersmenu.width){
 		filtersopen = true;
 		mainNavigator.activeView.mouseChildren = true;
@@ -216,4 +216,4 @@ public function updateFiltersLocation(ev:MouseEvent):void {
 		autofiltersmove = false;
 		filtersmenu.x = ev.stageX;
 	}
-}
+}*/
