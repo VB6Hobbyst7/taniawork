@@ -8,7 +8,6 @@ import flash.desktop.SystemIdleMode;
 import flash.filesystem.File;
 import mx.collections.ArrayCollection;
 import mx.rpc.events.ResultEvent;
-import spark.managers.PersistenceManager;
 import views.Home;
 import views.Login;
 import views.MenuAll;

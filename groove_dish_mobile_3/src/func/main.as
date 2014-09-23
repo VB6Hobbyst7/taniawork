@@ -39,7 +39,6 @@ public var filteritems:ArrayCollection = new ArrayCollection(
 public var loadedview:Boolean = false;
 public var svt:SlideViewTransition = new SlideViewTransition();
 public var svt2:SlideViewTransition = new SlideViewTransition();
-public var pm:PersistenceManager = new PersistenceManager();
 protected function creationcomplete(event:FlexEvent):void
 {
 	beginappnative();
