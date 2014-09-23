@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false" mouseChildren="false"
+				creationComplete="init(event)"
+				dataChange="dchange(event)"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/tileSizerSpecials.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			private var _sectionField:String = "section";
+			public var setheightval:Number = 100/(320/Capabilities.screenDPI);
+			protected function init(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
+				}
+				else {
+					bmpImg.source = data.picture;
+				}
+				
+				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval;//thi	s.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.maxHeight = this.height;
+				
+				if (data.divtype == 1){
+					catgroup.height = (75/(320/Capabilities.screenDPI));
+					catLabel.text = data.categoryname;
+				}
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
+			}
+			public function dchange(event:FlexEvent):void
+			{
+				if ((data.picture == "None")||(data.picture == "")||
+					(data.picture == null)||(data.picture == "null")){
+					bmpImg.source = "assets/"+getDPIHeight().toString()+"/res_place_wide.png";
+				}
+				else {
+					bmpImg.source = data.picture;
+				}
+				
+				if (data.divtype == 1){
+					catgroup.height = (75/(320/Capabilities.screenDPI));
+					catLabel.text = data.categoryname;
+				}
+				
+				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
+				bmpImg.height = setheightval;//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
+				bmpImg.maxHeight = this.height;
+				
+				if (data.yearly == 'y'){
+					dayval.text = data.startdate + " - " + data.enddate;
+				}
+				else {
+					dayval.text = data.weekday;
+				}
+			
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" gap="0" id="v0"
+			  verticalAlign="middle" horizontalAlign="center"
+			  mouseDown="tileDown(event)" mouseUp="tileUp(event)" 
+			  mouseOut="tileUp(event)" click="imedDown(event)">
+		<s:Group id="catgroup" height="-1" width="100%"  >
+			<s:Rect width="100%" top="-1" bottom="0">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#8eddce"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label width="100%" verticalCenter="2"  id="catLabel" 
+					 left="{30/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+					 fontWeight="bold" styleName="textsize1" 
+					 verticalAlign="middle"></s:Label>
+		</s:Group>
+		<s:Group width="{this.width}"  mouseEnabled="false" 
+				 maxHeight="{130/(320/Capabilities.screenDPI)}"  name="megacont"   id="megacont"  >
+			<s:HGroup  width="100%" gap="0" 
+					  paddingTop="{20/(320/Capabilities.screenDPI)}"
+					  paddingBottom="{20/(320/Capabilities.screenDPI)}" 
+					  paddingLeft="{10/(320/Capabilities.screenDPI)}" 
+					  verticalAlign="middle" height="90%" verticalCenter="0">
+				<s:VGroup    paddingLeft="{10/(320/Capabilities.screenDPI)}" width="100%"
+							 paddingTop="{10/(320/Capabilities.screenDPI)}" 
+							 paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+							 paddingRight="{10/(320/Capabilities.screenDPI)}">
+					<s:Label  color="#EEEEEE" maxDisplayedLines="1"
+							 fontWeight="bold" styleName="textsize4" 
+							 text="{data.description}"   width="{640-bmpImg.width}"  maxWidth="{640-bmpImg.width}"
+							 verticalAlign="middle"></s:Label>
+					<s:Label id="dayval"   width="100%"  color="#4d4d4d" fontWeight="bold" 
+							 styleName="textsize1" 
+							 maxDisplayedLines="1"
+							 verticalAlign="middle"></s:Label>
+					<s:Label  width="100%" color="#36ccba"  fontWeight="bold" maxDisplayedLines="1"
+							  styleName="textsize1" text=" {data.categoryname}"
+							  verticalAlign="middle"></s:Label>
+				</s:VGroup>
+				<s:Image id="bmpImg" right="0" contentLoader="{s_imageCache}"
+						  verticalCenter="0"  scaleMode="letterbox" />
+			</s:HGroup>
+			
+		</s:Group>
+	</s:VGroup>
+	<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:ItemRenderer>

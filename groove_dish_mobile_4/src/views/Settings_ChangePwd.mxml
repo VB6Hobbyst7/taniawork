@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		xmlns:model="model.*" 
+		 viewActivate="init()"
+		title="Change Password" 	
+		backgroundColor="#f2f3f4" >	
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.core.ContentCache;
+			import spark.events.ViewNavigatorEvent;
+			
+			public function init():void
+			{			
+				
+				navigator.activeView.mouseChildren = true;
+				setLoginVars();		
+			}	
+			public function changePass():void {
+				popupholder1.visible = false;
+				if ((oldpassword.text.length  > 0)&&(newpassword1.text.length  > 0)
+					&&(newpassword2.text.length  > 0)&&(newpassword1.text == newpassword2.text)){
+					this.parentDocument.showBusy();
+					changePassword.send();					
+				}	
+			}
+			public function afterChangePassword(ev:ResultEvent):void {
+				this.parentDocument.hideBusy();
+				popupholder1.visible = true;
+				popupholder1.logWarningTextinfo.text = ev.result[0].res.message;	
+			}			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	
+		<s:HTTPService id="changePassword" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.groovedish.com/php/mobile/changePassword.php"
+					   result="afterChangePassword(event)" >
+			<s:request xmlns="">
+				<oldpass>{oldpassword.text}</oldpass>
+				<newpass>{newpassword1.text}</newpass>
+				<email>{emailGo}</email>
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" id="v2" right="0" top="0" bottom="0"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup  gap="10" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="oldpassword"   focusAlpha="0" fontFamily="Arial"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="Old Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="newpassword1"   focusAlpha="0" fontFamily="Arial"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="New Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{submit_btn.width}" 
+							height="{submit_btn.height}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="newpassword2"   focusAlpha="0" fontFamily="Arial"
+								 width="{submit_btn.width}"
+								 height="{submit_btn.height}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 prompt="Confirm New Password"
+								 contentBackgroundAlpha="0"
+								 displayAsPassword="true"
+								 borderVisible="false"/>
+				</s:Group>
+				<components:transbutton id="submit_btn" textLabel="Submit" horizontalCenter="0" click="changePass();" />	
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+
+	<components:genericpopup id="popupholder1"  width="100%" height="100%"/>
+</s:View>
