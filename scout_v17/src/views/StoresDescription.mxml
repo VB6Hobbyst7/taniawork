@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="components.*"
+		backgroundColor="#FFFFFF"
+		viewActivate="init(event)"
+		menuKeyPressed="menupress(event)"
+		title="Store Detail" >
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<s:actionContent>
+			<s:Label color="#FFFFFF" click="viewrewards(event)" horizontalCenter="0" text="Rewards" verticalCenter="0"/>
+	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import com.milkmangames.nativeextensions.CoreMobile;
+			import com.milkmangames.nativeextensions.events.CMDialogEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Fade;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var googleTravelUrl:String = "";
+			[Bindable]
+			public var picture:String = "";
+			[Bindable]
+			public var busy:Boolean = true;
+	
+			public function init(event:Event):void
+			{
+				if (data.facebook.length > 10){
+					
+				}
+				else {
+					fbbutton.alpha = 0.5;
+					fbbutton.mouseEnabled = false;
+					fbbutton.enabled = false;
+					fbbutton.mouseChildren = false;
+
+				}
+				
+				if (data.website.length > 10){
+					
+				}
+				else {
+					webbutton.alpha = 0.5;
+					webbutton.mouseEnabled = false;
+					webbutton.enabled = false;
+					webbutton.mouseChildren = false;
+				}
+				
+				if (data.twitter.length > 10){
+					
+				}
+				else {
+					twbutton.alpha = 0.5;
+					twbutton.mouseEnabled = false;
+					twbutton.enabled = false;
+					twbutton.mouseChildren = false;
+				}
+				navigator.activeView.mouseChildren = true;
+				starclick(0);
+				busy = true;
+				setLoginVars();
+				img1.source = data.business_picture;
+				googleTravelUrl = "http://maps.google.com/?q="+data.lat+","+data.longa;	
+				var heightofmap:Number =this.width/2;
+				var widthofmap:Number = this.width;
+				mapimage.source = "http://maps.google.com/maps/api/staticmap?sensor=false&language=en&maptype=roadmap&size="+
+				widthofmap.toString()+"x"+heightofmap.toString()+"&markers=color:red%7Ccolor:red%7Clabel:C%7C"+data.lat+","+data.longa+"&sensor=false";
+				getLocationInfo.send();
+			}
+			public function afterGetLocationInfo(ev:ResultEvent):void {
+				var stop:String = "";
+				var tempArray:ArrayCollection = ev.result[0].ress.res;				
+				for (var i:uint = 0; i < tempArray.length; i++){
+					if (tempArray[i].weekday == 1){
+						weekday1.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 2){
+						weekday2.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 3){
+						weekday3.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 4){
+						weekday4.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 5){
+						weekday5.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 6){
+						weekday6.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+					else if (tempArray[i].weekday == 7){
+						weekday7.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
+					}
+				}
+			}
+			protected function viewrewards(event:MouseEvent):void
+			{
+				if ((data.amount == null)||(data.amount == 'null')){
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:'0'});
+				}
+				else {
+					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
+						emailGo:emailGo,business_name:data.business_name,amount:data.amount});
+				}
+			}	
+			
+			protected function closeRatingPopup():void
+			{
+				RatingPopupOut();
+			}
+			protected function openRatingPopup():void
+			{
+				RatingPopupIn();
+			}
+			public function RatingPopupIn():void {
+				starclick(0);
+				ratingtextinput.text = "";
+				ratingpopup.visible = true;
+				var fa:Fade = new Fade();
+				fa.alphaFrom = 0;
+				fa.alphaTo = 1;
+				fa.target = ratingpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function RatingPopupOut():void {
+				var fa:Fade = new Fade();
+				fa.addEventListener(EffectEvent.EFFECT_END, afterratingout);
+				fa.alphaFrom = 1;
+				fa.alphaTo = 0;
+				fa.target = ratingpopup;
+				fa.duration = 500;
+				fa.play();
+			}
+			public function afterratingout(ev:EffectEvent):void {
+				ratingpopup.visible = false;
+			}
+			public function sendRating():void {
+				sendrating.send();
+			}
+			[Bindable]
+			public var ratingvalue:Number = 0;
+			public function starclick(u:uint):void {
+				ratingvalue = u;
+				if (u >= 5){
+					s5.source = staractive;
+				}
+				else {
+					s5.source = star;
+				}
+				
+				if (u >= 4){
+					s4.source = staractive
+				}
+				else {
+					s4.source = star;
+				}
+				
+				if (u >= 3){
+					s3.source = staractive
+				}
+				else {
+					s3.source = star;
+				}
+				
+				if (u >= 2){
+					s2.source = staractive
+				}
+				else {
+					s2.source = star;
+				}
+				
+				if (u >= 1){
+					s1.source = staractive
+				}
+				else {
+					s1.source = star;
+				}
+			}
+			public function afterSubmitRating(ev:ResultEvent):void {
+				RatingPopupOut();
+			}
+			public function gotomapapp():void {
+				CoreMobile.mobile.showModalYesNoDialog("View location in maps?","", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(googleTravelUrl));
+						}
+						else {
+							
+						}
+					});
+				
+			
+			}
+			public function docall():void {
+				CoreMobile.mobile.showModalYesNoDialog('Call '+unescape(data.business_number),"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest('tel:'+data.business_number));
+						}
+						else {
+							
+						}
+					});
+					
+					
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocationInfo" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/mobile_v2/getLocationInfo.php"
+					   result="afterGetLocationInfo(event)" >	
+			<s:request xmlns="">
+				<versionnumber>3</versionnumber>	
+				<locationid>{data.id}</locationid>		
+			</s:request>
+		</s:HTTPService>	
+		<s:HTTPService id="sendrating" method="POST" resultFormat="text"
+					   url="http://www.scoutcard.ca/php/mobile_v2/submitrating.php"
+					   result="afterSubmitRating(event)" >	
+			<s:request xmlns="">
+				<versionnumber>3</versionnumber>	
+				<locationid>{data.id}</locationid>	
+				<emailGo>{emailGo}</emailGo>	
+				<reviewValue>{ratingvalue}</reviewValue>	
+				<reviewText>{ratingtextinput.text}</reviewText>	
+			</s:request>
+		</s:HTTPService>
+		<s:MultiDPIBitmapSource id="star"
+								source160dpi="@Embed('../assets/160/starlarge.png')"
+								source240dpi="@Embed('../assets/240/starlarge.png')"
+								source320dpi="@Embed('../assets/320/starlarge.png')"
+								source480dpi="@Embed('../assets/480/starlarge.png')"
+								source640dpi="@Embed('../assets/640/starlarge.png')"/>
+		<s:MultiDPIBitmapSource id="staractive"
+								source160dpi="@Embed('../assets/160/starlargeactive.png')"
+								source240dpi="@Embed('../assets/240/starlargeactive.png')"
+								source320dpi="@Embed('../assets/320/starlargeactive.png')"
+								source480dpi="@Embed('../assets/480/starlargeactive.png')"
+								source640dpi="@Embed('../assets/640/starlargeactive.png')"/>
+	</fx:Declarations>
+	<s:Scroller  left="0" right="0" top="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+		<s:VGroup   id="vg1"  width="100%" top="0"
+					paddingTop="{5/(320/Capabilities.screenDPI)}"
+					bottom="0" gap="{5/(320/Capabilities.screenDPI)}" horizontalAlign="center">
+			<s:Group>
+				<s:Image x="0" id="img1" width="{this.width}" height="{this.width/(16/9)}" scaleMode="zoom"/>
+				<s:Image  width="{this.width}"  bottom="0"
+						  contentLoader="{s_imageCache}" 
+						  scaleMode="stretch">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/largeshadow.png')"
+												source240dpi="@Embed('../assets/240/largeshadow.png')"
+												source320dpi="@Embed('../assets/320/largeshadow.png')"
+												source480dpi="@Embed('../assets/480/largeshadow.png')"
+												source640dpi="@Embed('../assets/640/largeshadow.png')"/>
+					</s:source>
+				</s:Image>
+				<s:Label id="selectedTitle"  bottom="{10/(320/Capabilities.screenDPI)}" 
+						 paddingLeft="{20/(320/Capabilities.screenDPI)}"
+						 paddingRight="{10/(320/Capabilities.screenDPI)}" width="100%" color="#FFFFFF"
+						 styleName="textsize3" text="{data.business_name}"/>
+			</s:Group>
+			<s:HGroup width="100%" paddingTop="{20/(320/Capabilities.screenDPI)}" paddingBottom="{20/(320/Capabilities.screenDPI)}">
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);" id="webbutton"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);" click="navigateToURL(new URLRequest(data.website));">
+					<s:Image  horizontalCenter="0" verticalCenter="0"  mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/web.png')"
+													source240dpi="@Embed('../assets/240/web.png')"
+													source320dpi="@Embed('../assets/320/web.png')"
+													source480dpi="@Embed('../assets/480/web.png')"
+													source640dpi="@Embed('../assets/640/web.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);" 
+						 click="docall();">
+					<s:Image  horizontalCenter="0" verticalCenter="0"
+							  contentLoader="{s_imageCache}" mouseEnabled="false">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/phone.png')"
+													source240dpi="@Embed('../assets/240/phone.png')"
+													source320dpi="@Embed('../assets/320/phone.png')"
+													source480dpi="@Embed('../assets/480/phone.png')"
+													source640dpi="@Embed('../assets/640/phone.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 click="navigateToURL(new URLRequest(data.facebook));" id="fbbutton"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/fb.png')"
+													source240dpi="@Embed('../assets/240/fb.png')"
+													source320dpi="@Embed('../assets/320/fb.png')"
+													source480dpi="@Embed('../assets/480/fb.png')"
+													source640dpi="@Embed('../assets/640/fb.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+				<s:Group width="25%" mouseDown="gDown(event);" mouseOver="gOver(event);" id="twbutton"
+						 click="navigateToURL(new URLRequest(data.twitter));"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tw.png')"
+													source240dpi="@Embed('../assets/240/tw.png')"
+													source320dpi="@Embed('../assets/320/tw.png')"
+													source480dpi="@Embed('../assets/480/tw.png')"
+													source640dpi="@Embed('../assets/640/tw.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:HGroup>
+			<s:Line width="100%"> 
+				<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Line>
+			<s:HGroup width="100%" paddingTop="{20/(320/Capabilities.screenDPI)}" paddingBottom="20">
+				<s:VGroup height="100%" width="48%"  gap="{25/(320/Capabilities.screenDPI)}" verticalAlign="middle" horizontalAlign="center"
+						   click="{popupholder1.visible = true}"
+						  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						  mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/briefcase.png')"
+													source240dpi="@Embed('../assets/240/briefcase.png')"
+													source320dpi="@Embed('../assets/320/briefcase.png')"
+													source480dpi="@Embed('../assets/480/briefcase.png')"
+													source640dpi="@Embed('../assets/640/briefcase.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Label styleName="textsize1" color="#929191" text="About Us" textAlign="center"/>
+				</s:VGroup>
+				<s:Group width="2%" height="100%">
+					<s:Line height="90%" horizontalCenter="0" verticalCenter="0" > 
+						<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
+				</s:Group>
+				<s:VGroup height="100%" width="48%" gap="{25/(320/Capabilities.screenDPI)}" verticalAlign="middle" horizontalAlign="center"
+						  mouseDown="gDown(event);" mouseOver="gOver(event);" click="viewrewards(event)"
+						  mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Image  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/heart.png')"
+													source240dpi="@Embed('../assets/240/heart.png')"
+													source320dpi="@Embed('../assets/320/heart.png')"
+													source480dpi="@Embed('../assets/480/heart.png')"
+													source640dpi="@Embed('../assets/640/heart.png')"/>
+						</s:source>
+					</s:Image>
+					<s:Label styleName="textsize1" color="#929191" text="Rewards" textAlign="center"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:Line width="100%" > 
+				<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Line>
+			
+			<s:HGroup width="100%" paddingBottom="{15/(320/Capabilities.screenDPI)}"
+					  paddingTop="{15/(320/Capabilities.screenDPI)}"  click="openRatingPopup();" 
+					  mouseDown="gDown(event);" mouseOver="gOver(event);" mouseEnabledWhereTransparent="true"
+					  mouseOut="gOut(event);" mouseUp="gOut(event);">
+				<s:Group width="50%" height="100%" mouseEnabled="false">
+					<s:Label verticalCenter="{2/(320/Capabilities.screenDPI)}" 
+							 left="{20/(320/Capabilities.screenDPI)}" styleName="textsize3" mouseEnabled="false"
+							 color="#929191" text="Leave Feedback" textAlign="center"/>
+				</s:Group>
+				<s:HGroup width="50%" height="100%" mouseEnabled="false">
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+							  contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:BitmapImage  horizontalCenter="0" verticalCenter="0"
+									contentLoader="{s_imageCache}">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/star.png')"
+													source240dpi="@Embed('../assets/240/star.png')"
+													source320dpi="@Embed('../assets/320/star.png')"
+													source480dpi="@Embed('../assets/480/star.png')"
+													source640dpi="@Embed('../assets/640/star.png')"/>
+						</s:source>
+					</s:BitmapImage>
+				</s:HGroup>
+			</s:HGroup>
+			<s:Group>
+				<s:Line left="0" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Image id="mapimage" top="{1/(320/Capabilities.screenDPI)}"  mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);"  click="gotomapapp();" 
+						 width="{this.width}"  />
+			</s:Group>
+		</s:VGroup>
+	</s:Scroller>
+	
+	
+	
+	<s:Group id="popupholder1"  width="100%" height="100%" visible="false">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group id="popupholder2" width="90%"  height="90%"
+				 horizontalCenter="0" verticalCenter="0"
+				 mouseDownOutside="{popupholder1.visible = false}">
+			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}" radiusY="{20/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+			</s:Rect>
+			
+			
+			<s:Scroller  left="0" right="0" top="0" bottom="{this.height*0.15}" verticalScrollPolicy="auto" horizontalScrollPolicy="off" >
+				<s:VGroup   width="100%" paddingTop="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+							paddingRight="{30/(320/Capabilities.screenDPI)}" bottom="0" gap="{30/(320/Capabilities.screenDPI)}"   
+							horizontalCenter="0" verticalAlign="top">
+
+				<s:Label text="{data.business_name}" width="100%"  textAlign="center" color="#58aeea" fontWeight="bold" styleName="textsize9" />
+				<s:Label text="{data.business_description}" width="100%" color="#3c4042"  styleName="textsize6" fontWeight="normal"/>
+				<s:Label text="Hours of Operation" color="#58aeea" fontWeight="bold"  styleName="textsize6" />
+			
+					
+					
+					<s:HGroup width="100%" gap="{20/(320/Capabilities.screenDPI)}">
+						<s:VGroup  height="100%" gap="{30/(320/Capabilities.screenDPI)}">
+							<s:Label  text="Monday : " horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label  text="Tuesday : " horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label  text="Wednesday : " horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label  text="Thursday : " horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label text="Friday : " horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label  text="Saturday : " horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label text="Sunday : " horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+						</s:VGroup>
+						<s:VGroup width="100%" height="100%" gap="{30/(320/Capabilities.screenDPI)}" horizontalAlign="left">
+							<s:Label id="weekday1" text="Closed" horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday2" text="Closed" horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday3" text="Closed" horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday4" text="Closed" horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday5" text="Closed" horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday6" text="Closed" horizontalCenter="0" verticalCenter="0"  
+									 color="#3c4042" styleName="textsize3" fontWeight="normal" />
+							
+							<s:Label id="weekday7" text="Closed" horizontalCenter="0" verticalCenter="0" 
+									 color="#3c4042"  styleName="textsize3" fontWeight="normal" />
+						</s:VGroup>
+					</s:HGroup>
+						
+				
+			</s:VGroup>
+			</s:Scroller>
+			<s:Group width="100%" height="15%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" horizontalCenter="0" height="100%" 
+						 click="{popupholder1.visible = false}"
+						 mouseDown="gDown(event);" mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" mouseUp="gOut(event);">
+					<s:Label text="Close"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	
+	
+	
+	
+	
+	<s:Group id="ratingpopup" width="100%" height="100%" visible="false" alpha="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group width="95%" height="60%" horizontalCenter="0" verticalCenter="0" visible="true">
+			<s:Rect width="100%" height="100%" radiusX="{20/(320/Capabilities.screenDPI)}" radiusY="{20/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#e9e7e7"/></s:fill>
+				<s:stroke><s:SolidColorStroke color="#389ec9" weight="4"/></s:stroke>
+			</s:Rect>
+			<s:VGroup width="100%" height="100%" top="0" gap="18" horizontalAlign="center" paddingTop="{20/(320/Capabilities.screenDPI)}">
+				<s:Label text="Rating"  mouseEnabled="false" width="100%" textAlign="center"
+						 verticalCenter="0" horizontalCenter="0"
+						 styleName="textsize5" color="#389ec8"/>
+				<s:HGroup  height="20%" visible="true">
+					<s:Group width="20%"  click="starclick(1);" mouseEnabledWhereTransparent="true" visible="true">
+						<s:Image id="s1"  horizontalCenter="0" verticalCenter="0"  mouseEnabled="false" visible="true"
+								  contentLoader="{s_imageCache}">
+						</s:Image>
+					</s:Group>
+					<s:Group width="20%"  click="starclick(2);" mouseEnabledWhereTransparent="true">
+						<s:Image id="s2"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+										contentLoader="{s_imageCache}">
+						</s:Image>
+					</s:Group>
+					<s:Group width="20%" click="starclick(3);" mouseEnabledWhereTransparent="true">
+						<s:Image id="s3"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+										contentLoader="{s_imageCache}">
+						</s:Image>
+					</s:Group>
+					<s:Group width="20%"  click="starclick(4);" mouseEnabledWhereTransparent="true">
+						<s:Image id="s4"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+										contentLoader="{s_imageCache}">
+						</s:Image>
+					</s:Group>
+					<s:Group width="20%"  click="starclick(5);" mouseEnabledWhereTransparent="true">
+						<s:Image id="s5"  horizontalCenter="0" verticalCenter="0" mouseEnabled="false"
+										contentLoader="{s_imageCache}">
+						</s:Image>
+					</s:Group>
+					
+				
+				</s:HGroup>
+				<s:TextArea id="ratingtextinput" width="95%" returnKeyLabel="done" focusAlpha="0"
+							paddingLeft="10" paddingRight="10"
+							  color="#444444" prompt="How did we do?"  height="40%" maxChars="150"
+							contentBackgroundAlpha="0" borderVisible="false"/>
+			</s:VGroup>
+			<s:Group width="100%" height="20%" bottom="0">
+				<s:Line  left="0" right="0"  top="0" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Line height="100%"  horizontalCenter="0" rotation="90" > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Group width="50%" left="0" height="100%" 
+						 click="closeRatingPopup()"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Later"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
+				<s:Group width="50%" right="0" height="100%" id="redeembtn"
+						 click="sendRating()"
+						 mouseOver="gOver(event);"
+						 mouseOut="gOut(event);" 
+						 mouseUp="gOut(event);" 
+						 mouseDown="gDown(event);">
+					<s:Label text="Send"  mouseEnabled="false"
+							 verticalCenter="0" horizontalCenter="0"
+							 styleName="textsize4" color="#389dc8"/>
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	
+	
+	
+</s:View>

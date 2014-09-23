@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Scout" name="signin"
+		backKeyPressed="donothing(event)"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var busy:Boolean = false;
+			public static const FACEBOOK_APP_ID:String="1424621771149692";
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					AddNewLocalUser(ev.result[0].ress.email,
+						ev.result[0].ress.name,
+						ev.result[0].ress.city);
+				}
+				else {
+					//bad login
+					popupholder1.textl = ev.result[0].ress.message;
+					popupholder1.visible = true;
+				}
+			}
+			public function AddNewLocalUser(email:String,name:String,city:String):void
+			{
+				busy = true;
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "delete FROM localuser;";
+				stmt.execute();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":city"] = city;
+				stmt.parameters[":active"] = "yes";
+				stmt.execute();
+				getLocalUsers();
+			}
+			protected function getLocalUsers():void
+			{
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "SELECT email, name, city, active FROM localuser";
+				stmt.execute();
+				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				if (resData.length != 0){
+					//good login
+					for (var i:uint = 0; i < resData.length; i++){
+							popupholder1.visible = false;
+							this.parentDocument.refresh(resData[i].email);	
+					}			
+				}
+				else {}
+				busy = false;
+			}
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+			public function signupclick(event:MouseEvent):void
+			{
+				navigator.pushView(Signup_step1);
+			}
+			public function facebookLogin():void
+			{		
+				createIfNotExsist("facebookcallback");
+				doQuery("insert into facebookcallback values (1);");
+				this.parentApplication.facebookloging();
+			}		
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v2/checkLogin.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>
+				<versionnumber>3</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+			<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
+					  horizontalCenter="0" verticalCenter="0"  
+					  paddingTop="{20/(320/Capabilities.screenDPI)}"
+					  bottom="0" horizontalAlign="center" verticalAlign="top">
+				<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
+				<components:facebook click="facebookLogin();"/>
+				<components:or/>
+				<s:VGroup horizontalAlign="center" width="100%" 
+						  gap="{10/(320/Capabilities.screenDPI)}">	
+					<s:Group width="100%" >
+						<s:Rect id="textback1" width="{continue_btn.width}" 
+								height="{continue_btn.height}" 
+								horizontalCenter="0" verticalCenter="0"
+								radiusX="{10/(320/Capabilities.screenDPI)}" 
+								radiusY="{10/(320/Capabilities.screenDPI)}" >
+							<s:fill>
+								<s:SolidColor alpha="1" color="#FFFFFF"/>
+							</s:fill>
+						</s:Rect>
+						<s:TextInput id="userNameInput"   focusAlpha="0"
+									 width="{textback1.width}"
+									 height="{textback1.height}"
+									 verticalCenter="0" fontFamily="Arial"
+									 horizontalCenter="0"
+									 borderVisible="false"
+									 contentBackgroundAlpha="0"
+									 prompt="Email"/>
+					</s:Group>
+					<s:Group width="100%">
+						<s:Rect id="textback2" width="{continue_btn.width}" 
+								height="{continue_btn.height}" 
+								horizontalCenter="0" verticalCenter="0"
+								radiusX="{10/(320/Capabilities.screenDPI)}"
+								radiusY="{10/(320/Capabilities.screenDPI)}" >
+							<s:fill>
+								<s:SolidColor alpha="1" color="#FFFFFF"/>
+							</s:fill>
+						</s:Rect>
+						<s:TextInput id="userPasswordInput"   focusAlpha="0"
+									 width="{textback2.width}"
+									 height="{textback2.height}"
+									 verticalCenter="0"
+									 horizontalCenter="0"
+									 displayAsPassword="true" fontFamily="Arial"
+									 contentBackgroundAlpha="0"
+									 prompt="Password"
+									 borderVisible="false"
+									 keyDown="userPasswordInput_keyDownHandler(event)"/>
+					</s:Group>
+					<components:continue_btn id="continue_btn" click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
+				</s:VGroup>
+				
+
+				<s:Group verticalCenter="0" width="{continue_btn.width}" >
+					<s:Label left="0" text="Need an Account?" verticalCenter="0" color="#737171"
+							 styleName="textsize4"/>
+					<components:signup right="0" verticalCenter="0" click="signupclick(event)"  />
+				</s:Group>
+				
+				<s:Label left="0" text="Forgot Password" click="navigator.pushView(ForgotPassword);" verticalCenter="0" color="#51aded"
+						 styleName="textsize4"/>
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+</s:View>
