@@ -11,61 +11,119 @@
 			   osStatusBarHeight="0"
 			   splashScreenScaleMode="zoom" 
 			   resizeForSoftKeyboard="true"
-			   contentBackgroundColor="#36ccba"
-			   backgroundColor="#36ccba"
-			   frameRate="60" splashScreenMinimumDisplayTime="2"
+			   contentBackgroundColor="#333333"
+			   backgroundColor="#333333"
+			   frameRate="100" splashScreenMinimumDisplayTime="2"
 			   mouseUp="overAllMouseUp(event)" >
 	<fx:Script source="func/global.as" />
 	<fx:Script source="func/gps.as" />
 	<fx:Script source="func/main.as" />
+	<fx:Script source="func/tabbar.as" />
 	<fx:Script source="func/slidermenu.as"/>
 	<fx:Script source="func/facebook.as" />
 	<fx:Script source="func/loading.as" />
 	<fx:Script source="func/coreMobileFunctions.as" />
 	<fx:Script source="func/appnative.as" />
-	<s:ViewNavigator width="100%" height="100%"
-					 id="mainNavigator" 
-					 backgroundColor="#5b5b5b"
-					 contentBackgroundColor="#36ccba"
-					 click="navigatorClick(event)"  						
-					 elementAdd="viewadd(event)" >
-		<s:navigationContent>
-			<s:Group  id="menufeaturebutton"
-					  width="{this.width/8}" left="0" x="0"
-					  height="100%"  top="0"
-					  mouseDown="menuButtonClick();"
-					  mouseEnabledWhereTransparent="true"
-					  horizontalCenter="0" >
-				<s:Image left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
-						 mouseEnabled="false" 
-						 contentLoader="{s_imageCache}" >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homemenu.png')"
-												source240dpi="@Embed('assets/240/homemenu.png')"
-												source320dpi="@Embed('assets/320/homemenu.png')"
-												source480dpi="@Embed('assets/480/homemenu.png')"
-												source640dpi="@Embed('assets/640/homemenu.png')"/>
-					</s:source>
-				</s:Image>
+	<s:VGroup width="100%" height="100%" gap="0" verticalAlign="bottom">
+		<s:ViewNavigator width="100%" height="{this.height-tabbar.height}"
+						 id="mainNavigator" 
+						 backgroundColor="#5b5b5b"
+						 contentBackgroundColor="#36ccba"
+						 click="navigatorClick(event)"  						
+						 elementAdd="viewadd(event)" >
+			<s:navigationContent>
+				<s:Group  id="menufeaturebutton"
+						  width="{this.width/8}" left="0" x="0"
+						  height="100%"  top="0"
+						  mouseDown="menuButtonClick();"
+						  mouseEnabledWhereTransparent="true"
+						  horizontalCenter="0" >
+					<s:Image left="{30/(320/Capabilities.screenDPI)}"  verticalCenter="0" 
+							 mouseEnabled="false" 
+							 contentLoader="{s_imageCache}" >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homemenu.png')"
+													source240dpi="@Embed('assets/240/homemenu.png')"
+													source320dpi="@Embed('assets/320/homemenu.png')"
+													source480dpi="@Embed('assets/480/homemenu.png')"
+													source640dpi="@Embed('assets/640/homemenu.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:navigationContent>
+			<s:actionContent>
+				<s:Group id="filterfeaturebutton"   mouseDown="filtersButtonClick();" 
+						 mouseEnabledWhereTransparent="true"  height="100%"  top="0"
+						 right="0" horizontalCenter="0"    width="{this.width/8}" >
+					<s:Image mouseEnabled="false" right="{30/(320/Capabilities.screenDPI)}" 
+							 verticalCenter="0"   contentLoader="{s_imageCache}"  >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
+													source240dpi="@Embed('assets/240/homefilter.png')"
+													source320dpi="@Embed('assets/320/homefilter.png')"
+													source480dpi="@Embed('assets/480/homefilter.png')"
+													source640dpi="@Embed('assets/640/homefilter.png')"/>
+						</s:source>
+					</s:Image>
+				</s:Group>
+			</s:actionContent>	
+		</s:ViewNavigator>
+		<s:HGroup id="tabbar" width="{this.width}"  height="-1" gap="0">
+			<s:Group width="20%" height="100%" click="clicktab(1)">
+				<s:Rect width="100%"  height="100%" >
+					<s:fill>
+						<s:SolidColor alpha="1" color="#333333"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage smooth="true" id="tabimg1"  horizontalCenter="0" verticalCenter="0"   contentLoader="{s_imageCache}" source="{tab1}"/>
+				<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  > 
+					<s:stroke><s:SolidColorStroke color="#b2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
 			</s:Group>
-		</s:navigationContent>
-		<s:actionContent>
-			<s:Group id="filterfeaturebutton"   mouseDown="filtersButtonClick();" 
-					 mouseEnabledWhereTransparent="true"  height="100%"  top="0"
-					 right="0" horizontalCenter="0"    width="{this.width/8}" >
-				<s:Image mouseEnabled="false" right="{30/(320/Capabilities.screenDPI)}" 
-						 verticalCenter="0"   contentLoader="{s_imageCache}"  >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/homefilter.png')"
-												source240dpi="@Embed('assets/240/homefilter.png')"
-												source320dpi="@Embed('assets/320/homefilter.png')"
-												source480dpi="@Embed('assets/480/homefilter.png')"
-												source640dpi="@Embed('assets/640/homefilter.png')"/>
-					</s:source>
-				</s:Image>
+			<s:Group width="20%" height="100%" click="clicktab(2)">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#333333"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage smooth="true"  id="tabimg2" horizontalCenter="0" verticalCenter="0"   contentLoader="{s_imageCache}" source="{tab2}"/>
+				<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  > 
+					<s:stroke><s:SolidColorStroke color="#b2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
 			</s:Group>
-		</s:actionContent>	
-	</s:ViewNavigator>
+			<s:Group width="20%" height="100%" click="clicktab(3)">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#333333"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage smooth="true" id="tabimg3"  horizontalCenter="0" verticalCenter="0"   contentLoader="{s_imageCache}" source="{tab3}"/>
+				<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  >
+					<s:stroke><s:SolidColorStroke color="#b2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="20%" height="100%" click="clicktab(4)">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#333333"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage smooth="true" id="tabimg4"  horizontalCenter="0" verticalCenter="0"   contentLoader="{s_imageCache}" source="{tab4}"/>
+				<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  > 
+					<s:stroke><s:SolidColorStroke color="#b2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+			</s:Group>
+			<s:Group width="20%" height="100%" click="clicktab(5)">
+				<s:Rect width="100%"  height="100%">
+					<s:fill>
+						<s:SolidColor alpha="1" color="#333333"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage smooth="true" id="tabimg5"  horizontalCenter="0" verticalCenter="0"   contentLoader="{s_imageCache}" source="{tab5}"/>
+			</s:Group>
+		</s:HGroup>
+	</s:VGroup>
+	
 	
 	<s:Group id="menu"  height="100%"  
 			 width="{this.width/1.15}" 
@@ -327,6 +385,67 @@
 								source320dpi="@Embed('assets/320/menu-settings.png')"
 								source480dpi="@Embed('assets/480/menu-settings.png')"
 								source640dpi="@Embed('assets/640/menu-settings.png')"/>
+		<s:MultiDPIBitmapSource id="tab1"
+								source160dpi="@Embed('assets/160/bottomhomegrey.png')"
+								source240dpi="@Embed('assets/240/bottomhomegrey.png')"
+								source320dpi="@Embed('assets/320/bottomhomegrey.png')"
+								source480dpi="@Embed('assets/480/bottomhomegrey.png')"
+								source640dpi="@Embed('assets/640/bottomhomegrey.png')"/>
+		<s:MultiDPIBitmapSource id="tab2"
+								source160dpi="@Embed('assets/160/bottomdishesgrey.png')"
+								source240dpi="@Embed('assets/240/bottomdishesgrey.png')"
+								source320dpi="@Embed('assets/320/bottomdishesgrey.png')"
+								source480dpi="@Embed('assets/480/bottomdishesgrey.png')"
+								source640dpi="@Embed('assets/640/bottomdishesgrey.png')"/>
+		<s:MultiDPIBitmapSource id="tab3"
+								source160dpi="@Embed('assets/160/bottomspecialsgrey.png')"
+								source240dpi="@Embed('assets/240/bottomspecialsgrey.png')"
+								source320dpi="@Embed('assets/320/bottomspecialsgrey.png')"
+								source480dpi="@Embed('assets/480/bottomspecialsgrey.png')"
+								source640dpi="@Embed('assets/640/bottomspecialsgrey.png')"/>
+		<s:MultiDPIBitmapSource id="tab4"
+								source160dpi="@Embed('assets/160/bottomrestrictionsgrey.png')"
+								source240dpi="@Embed('assets/240/bottomrestrictionsgrey.png')"
+								source320dpi="@Embed('assets/320/bottomrestrictionsgrey.png')"
+								source480dpi="@Embed('assets/480/bottomrestrictionsgrey.png')"
+								source640dpi="@Embed('assets/640/bottomrestrictionsgrey.png')"/>
+		<s:MultiDPIBitmapSource id="tab5"
+								source160dpi="@Embed('assets/160/bottomprofilegrey.png')"
+								source240dpi="@Embed('assets/240/bottomprofilegrey.png')"
+								source320dpi="@Embed('assets/320/bottomprofilegrey.png')"
+								source480dpi="@Embed('assets/480/bottomprofilegrey.png')"
+								source640dpi="@Embed('assets/640/bottomprofilegrey.png')"/>
+		
+		<s:MultiDPIBitmapSource id="tab11"
+								source160dpi="@Embed('assets/160/bottomhomegreen.png')"
+								source240dpi="@Embed('assets/240/bottomhomegreen.png')"
+								source320dpi="@Embed('assets/320/bottomhomegreen.png')"
+								source480dpi="@Embed('assets/480/bottomhomegreen.png')"
+								source640dpi="@Embed('assets/640/bottomhomegreen.png')"/>
+		<s:MultiDPIBitmapSource id="tab21"
+								source160dpi="@Embed('assets/160/bottomdishesgreen.png')"
+								source240dpi="@Embed('assets/240/bottomdishesgreen.png')"
+								source320dpi="@Embed('assets/320/bottomdishesgreen.png')"
+								source480dpi="@Embed('assets/480/bottomdishesgreen.png')"
+								source640dpi="@Embed('assets/640/bottomdishesgreen.png')"/>
+		<s:MultiDPIBitmapSource id="tab31"
+								source160dpi="@Embed('assets/160/bottomspecialsgreen.png')"
+								source240dpi="@Embed('assets/240/bottomspecialsgreen.png')"
+								source320dpi="@Embed('assets/320/bottomspecialsgreen.png')"
+								source480dpi="@Embed('assets/480/bottomspecialsgreen.png')"
+								source640dpi="@Embed('assets/640/bottomspecialsgreen.png')"/>
+		<s:MultiDPIBitmapSource id="tab41"
+								source160dpi="@Embed('assets/160/bottomrestrictionsgreen.png')"
+								source240dpi="@Embed('assets/240/bottomrestrictionsgreen.png')"
+								source320dpi="@Embed('assets/320/bottomrestrictionsgreen.png')"
+								source480dpi="@Embed('assets/480/bottomrestrictionsgreen.png')"
+								source640dpi="@Embed('assets/640/bottomrestrictionsgreen.png')"/>
+		<s:MultiDPIBitmapSource id="tab51"
+								source160dpi="@Embed('assets/160/bottomprofilegreen.png')"
+								source240dpi="@Embed('assets/240/bottomprofilegreen.png')"
+								source320dpi="@Embed('assets/320/bottomprofilegreen.png')"
+								source480dpi="@Embed('assets/480/bottomprofilegreen.png')"
+								source640dpi="@Embed('assets/640/bottomprofilegreen.png')"/>
 	</fx:Declarations>
 	
 </s:Application>

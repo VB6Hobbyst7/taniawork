@@ -685,7 +685,7 @@
 						data.homefilterarray = [];
 					}
 					catch(e:Error){}
-					//navigator.pushView(FullMap,{listData:listData});
+					navigator.pushView(FullMap,{listData:listData});
 				}
 			}
 		]]>

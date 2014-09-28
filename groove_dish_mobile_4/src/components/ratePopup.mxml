@@ -26,7 +26,7 @@
 			[Bindable]
 			public var locationid:String = "";
 			[Bindable]
-			public var globalradious:uint = 200;
+			public var globalradious:uint = 150;
 			[Bindable]
 			public var reviewPopupStage:uint = 0;
 			[Bindable]
@@ -39,7 +39,7 @@
 			public var actualRateValue:Number = 0;
 			public function init():void
 			{
-				globalradious = 200/(320/Capabilities.screenDPI);
+				globalradious = 150/(320/Capabilities.screenDPI);
 				// Store sprites
 				var container:UIComponent = new UIComponent();
 				gr.addElementAt(container, 0);
@@ -58,13 +58,13 @@
 				
 				
 				
-				circleMask.width = 400/(320/Capabilities.screenDPI);
-				circleMask.height = 400/(320/Capabilities.screenDPI);
+				circleMask.width = 300/(320/Capabilities.screenDPI);
+				circleMask.height = 300/(320/Capabilities.screenDPI);
 				circleMask.verticalCenter = 0;
 				circleMask.horizontalCenter = 0;
 				
-				circleMask2.width = 400/(320/Capabilities.screenDPI);
-				circleMask2.height = 400/(320/Capabilities.screenDPI);
+				circleMask2.width = 300/(320/Capabilities.screenDPI);
+				circleMask2.height = 300/(320/Capabilities.screenDPI);
 				circleMask2.verticalCenter = 0;
 				circleMask2.horizontalCenter = 0;
 				// Add the mask
@@ -73,19 +73,19 @@
 				
 				
 				//Set the position of the circle
-				circleToMask.x = (circleMask.x = 100/(320/Capabilities.screenDPI));
-				circleToMask.y = (circleMask.y = 100/(320/Capabilities.screenDPI));
+				circleToMask.x = (circleMask.x = 75/(320/Capabilities.screenDPI));
+				circleToMask.y = (circleMask.y = 75/(320/Capabilities.screenDPI));
 				circleToMask.mask = circleMask;
-				circleToMask.width = 400/(320/Capabilities.screenDPI);
-				circleToMask.height = 400/(320/Capabilities.screenDPI);
+				circleToMask.width = 300/(320/Capabilities.screenDPI);
+				circleToMask.height = 300/(320/Capabilities.screenDPI);
 				circleToMask.verticalCenter = 0;
 				circleToMask.horizontalCenter = 0;
 				
-				circleToMask2.x = (circleMask2.x = 100/(320/Capabilities.screenDPI));
-				circleToMask2.y = (circleMask2.y = 100/(320/Capabilities.screenDPI));
+				circleToMask2.x = (circleMask2.x = 75/(320/Capabilities.screenDPI));
+				circleToMask2.y = (circleMask2.y = 75/(320/Capabilities.screenDPI));
 				circleToMask2.mask = circleMask2;
-				circleToMask2.width = 400/(320/Capabilities.screenDPI);
-				circleToMask2.height = 400/(320/Capabilities.screenDPI);
+				circleToMask2.width = 300/(320/Capabilities.screenDPI);
+				circleToMask2.height = 300/(320/Capabilities.screenDPI);
 				circleToMask2.verticalCenter = 0;
 				circleToMask2.horizontalCenter = 0;
 				
@@ -96,7 +96,7 @@
 				gr.addEventListener(MouseEvent.MOUSE_MOVE, circleMove);
 			}
 			public function circleMove(ev:MouseEvent):void {
-				var angleRadians:Number=Math.abs(Math.atan2(ev.localY-0,ev.localX-0)-Math.atan2(-200-0,0-0));
+				var angleRadians:Number=Math.abs(Math.atan2(ev.localY-0,ev.localX-0)-Math.atan2(-150-0,0-0));
 				if (angleRadians>0.5*Math.PI) angleRadians=Math.PI-angleRadians;
 				var degreeso:Number = angleRadians* 180/Math.PI;
 				
@@ -229,7 +229,8 @@
 				circleMask.graphics.endFill();
 			}
 			// Function from flassari (a little simplified)
-			private function drawPieMask(graphics:Graphics, percentage:Number, radius:Number = 200, rotation:Number = 0, sides:int = 6):void {
+			private function drawPieMask(graphics:Graphics, percentage:Number, radius:Number = 150, rotation:Number = 0, sides:int = 6):void {
+			
 				radius /= Math.cos(1/sides * Math.PI);
 				var lineToRadians:Function = function(rads:Number):void {
 					graphics.lineTo(Math.cos(rads) * radius + x, Math.sin(rads) * radius + y);
@@ -262,15 +263,14 @@
 	</fx:Declarations>
 	<s:Group width="100%" height="100%"  
 			 horizontalCenter="0" verticalCenter="0">
-		<s:Rect width="100%"  height="100%" radiusX="{10/(320/Capabilities.screenDPI)}"
-				radiusY="{10/(320/Capabilities.screenDPI)}">
+		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="0.5" color="#000000"/>
 			</s:fill>
 		</s:Rect>
 		
-		<s:VGroup gap="0" height="95%" width="90%"
-				  horizontalCenter="0" top="{60/(320/Capabilities.screenDPI)}">
+		<s:VGroup gap="0" height="100%" width="90%"
+				  horizontalCenter="0" top="{50/(320/Capabilities.screenDPI)}">
 			<!-- TOP BAR WITH FORWARD BACK BUTTONS -->
 			<s:Group width="100%" height="{reviewseq1.height}">
 				<s:Rect width="100%"  height="100%"
@@ -406,18 +406,18 @@
 					</s:fill>
 				</s:Rect>
 				<s:Group id="grholder"  mouseEnabledWhereTransparent="true" visible="false"
-						 width="{400/(320/Capabilities.screenDPI)}"
+						 width="{300/(320/Capabilities.screenDPI)}"
 						 verticalCenter="0"
 						 horizontalCenter="0">
-					<s:Group id="gr" width="{200/(320/Capabilities.screenDPI)}" mouseEnabledWhereTransparent="true"  
-							 height="{200/(320/Capabilities.screenDPI)}" blendMode="layer" cacheAsBitmap="true"
+					<s:Group id="gr" width="{150/(320/Capabilities.screenDPI)}" mouseEnabledWhereTransparent="true"  
+							 height="{150/(320/Capabilities.screenDPI)}" blendMode="layer" cacheAsBitmap="true"
 							 horizontalCenter="0" verticalCenter="0">
 						
-						<s:Group width="{200/(320/Capabilities.screenDPI)}"
-								 height="{200/(320/Capabilities.screenDPI)}" mouseEnabledWhereTransparent="true"
+						<s:Group width="{150/(320/Capabilities.screenDPI)}"
+								 height="{150/(320/Capabilities.screenDPI)}" mouseEnabledWhereTransparent="true"
 								 blendMode="erase" cacheAsBitmap="true"
 								 horizontalCenter="0" verticalCenter="0">
-							<s:Ellipse width="{200/(320/Capabilities.screenDPI)}"   height="{200/(320/Capabilities.screenDPI)}" 
+							<s:Ellipse width="{150/(320/Capabilities.screenDPI)}"   height="{150/(320/Capabilities.screenDPI)}" 
 									   horizontalCenter="0" verticalCenter="0" >
 								<s:fill>
 									<s:SolidColor color="0"/>
@@ -426,9 +426,9 @@
 						</s:Group>
 					</s:Group>
 					<s:Label id="ratevalue" color="#808080" 
-							 fontWeight="bold" horizontalCenter="-2" fontSize="110"
+							 fontWeight="bold" horizontalCenter="-2" fontSize="100"
 							 text="10" textAlign="center" 
-							 verticalAlign="bottom" verticalCenter="{6/(320/Capabilities.screenDPI)}"/>						
+							 verticalAlign="bottom" verticalCenter="{10/(320/Capabilities.screenDPI)}"/>						
 				</s:Group>
 				<s:Group id="writeholder" visible="false" horizontalCenter="0"   width="100%" >
 					<s:TextInput id="reviewText" width="95%" top="10"  returnKeyLabel="done"

@@ -21,12 +21,15 @@
 		<![CDATA[
 			import flash.events.Event;
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
+			
 			import views.Menu;
 			import views.MenuCatAll;
 			[Bindable]
@@ -154,9 +157,9 @@
 						savedsampleimage = sampleimage;
 					}
 					var srt:Sort = new Sort();
-					srt.fields = [new SortField("orderid")];
-				
-					catarray.addItemAt({name:"All",picture:savedsampleimage,orderid:0,frequency:totalcount,categoryid:"-1",locationid:locationid},0);
+					var sf:SortField = new SortField("orderid",false,true);
+					srt.fields = [sf];
+					catarray.addItemAt({name:"All",picture:savedsampleimage,orderid:-1,frequency:totalcount,categoryid:"-1",locationid:locationid},0);
 					catarray.sort = srt;
 					catarray.refresh();
 				//	catarray.refresh();
@@ -193,10 +196,11 @@
 	</fx:Declarations>
 		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
 			<s:List width="100%" horizontalCenter="0" height="100%"
-				 contentBackgroundAlpha="0"
 					id="dataList" horizontalScrollPolicy="off" 
 					 itemRenderer="components.menuCatResult"
 					selectedIndex="1" 
+					contentBackgroundAlpha="1" 
+					contentBackgroundColor="#FFFFFF"
 					alternatingItemColors="[0xFFFFFF,0xFFFFFF ]"
 					click="listClick();"
 					change="listClick();">

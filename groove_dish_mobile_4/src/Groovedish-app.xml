@@ -87,5 +87,7 @@
 <extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
 
     
+    <extensionID>com.distriqt.Application</extensionID>
+        <extensionID>com.distriqt.NativeMaps</extensionID>
     </extensions>
 </application>

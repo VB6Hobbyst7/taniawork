@@ -4,9 +4,9 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:components="components.*"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		viewActivate="init()"
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>

@@ -836,7 +836,8 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List right="{6/(320/Capabilities.screenDPI)}" left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
+			<s:List right="{6/(320/Capabilities.screenDPI)}" 
+					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 					height="{this.height-(150/(320/Capabilities.screenDPI))}"
 					id="menuList" useVirtualLayout="false" 
 					verticalScrollPolicy="on"   
@@ -915,7 +916,7 @@
 		</s:Group>
 	</s:VGroup>
 	<s:Label color="#494949"  id="loadingtext" visible="true" horizontalCenter="0" 
-			 styleName="textsize8"  text="Loading Dishes Near You..." verticalCenter="0"/>
+			 styleName="textsize8"  text="Loading Dishes Near You..." verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
-			 styleName="textsize8"  text="No Items Available" verticalCenter="0"/>
+			 styleName="textsize8"  text="No Items Available" verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 </s:View>

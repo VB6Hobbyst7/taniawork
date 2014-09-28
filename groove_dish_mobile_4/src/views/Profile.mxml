@@ -11,6 +11,7 @@
 	<s:actionContent>	
 	</s:actionContent>
 	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/menuglobal.as"/>
 	<fx:Script source="../func/appnative.as" />
 	<fx:Script>
 		<![CDATA[
@@ -34,9 +35,9 @@
 			
 			import skins.HomeTileListSkin;
 			private var mediaSource:CameraRoll = new CameraRoll();
-			private var imageLoader:Loader; 
-			private var dataSource:IDataInput;
-			private var eventSource:IEventDispatcher;
+			public var imageLoader:Loader; 
+			public var dataSource:IDataInput;
+			public var eventSource:IEventDispatcher;
 			private const serverURL:String = "http://groovedish.com/uploadify/profileimages/upload-multipart.php";
 			private var tempDir:File;
 			[Bindable]
@@ -45,8 +46,6 @@
 			public var rateArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var likeArray:ArrayCollection = new ArrayCollection();
-			[Bindable]
-			public var placesArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			public var specialsArray:ArrayCollection = new ArrayCollection();
 			[Bindable]
@@ -90,10 +89,10 @@
 				if (u == 1){
 					myreviewlist.visible = true;
 					reviewsivelikedlist.visible = false;
-					placeslist.visible = false;
+					eatenList.visible = false;
 					specialsList.visible = false;
 					reviewsivelikedlist.dataProvider = new ArrayCollection();
-					placeslist.dataProvider = new ArrayCollection();
+					eatenList.dataProvider = new ArrayCollection();
 					specialsArray = new ArrayCollection();
 					rec1.filters = [gl];
 					rec2.filters = null;
@@ -116,10 +115,10 @@
 				else if (u == 2){
 					myreviewlist.visible = false;	
 					reviewsivelikedlist.visible = true;
-					placeslist.visible = false;
+					eatenList.visible = false;
 					specialsList.visible = false;
 					myreviewlist.dataProvider = new ArrayCollection();
-					placeslist.dataProvider = new ArrayCollection();
+					eatenList.dataProvider = new ArrayCollection();
 					specialsArray = new ArrayCollection();
 					rec1.filters = null;
 					rec2.filters = [gl];
@@ -143,7 +142,7 @@
 				else if (u == 3){
 					myreviewlist.visible = false;
 					reviewsivelikedlist.visible = false;
-					placeslist.visible = true;
+					eatenList.visible = true;
 					specialsList.visible = false;
 					myreviewlist.dataProvider = new ArrayCollection();
 					reviewsivelikedlist.dataProvider = new ArrayCollection();
@@ -154,8 +153,8 @@
 					rec4.filters = null;
 					listLabel = "Dishes I've Eaten";
 					if (fetechedPlaces){
-						if (placesArray.length > 0){
-							placeslist.dataProvider = placesArray;
+						if (listData.length > 0){
+							eatenList.dataProvider = listData;
 						}
 						else {
 							warn1.text = "No Dishes Eaten";
@@ -163,17 +162,17 @@
 						}
 					}
 					else {
-						getPlacesEaten.send();
+						getDishesEaten.send();
 					}
 				}
 				else if (u == 4){
 					myreviewlist.visible = false;
 					reviewsivelikedlist.visible = false;
-					placeslist.visible = false;
+					eatenList.visible = false;
 					specialsList.visible = true;
 					myreviewlist.dataProvider = new ArrayCollection();
 					reviewsivelikedlist.dataProvider = new ArrayCollection();
-					placeslist.dataProvider = new ArrayCollection();
+					eatenList.dataProvider = new ArrayCollection();
 					rec1.filters = null;
 					rec2.filters = null;
 					rec3.filters = null;
@@ -238,25 +237,42 @@
 				fetechedLikedReviews = true;
 				
 			}
-			public function afterGetPlacesEaten(ev:ResultEvent):void {
+			public function afterGetDishesEaten(ev:ResultEvent):void {
 				var i:uint = 0;
-				placesArray = new ArrayCollection();
+				listData = new ArrayCollection();
+				modData = new ArrayCollection();
+				resData = new ArrayCollection();
 				try{			
-					placesArray = ev.result[0].results.result;		
+					listData = ev.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(ev.result[0].ress.res);
+					}
+					catch(e:Error){}}
+				
+				try{			
+					resData = ev.result[0].ress2.res2;		
 				}
 				catch(e:Error){
 					try{	
-						placesArray.addItem(ev.result[0].results.result);
+						resData.addItem(ev.result[0].ress2.res2);
 					}
-					catch(e:Error){}
-				}
-				for (i=  0; i < placesArray.length; i++){
-					placesArray[i].distance = Number(getDistance(mylat,mylong,placesArray[i].lat,placesArray[i].longa));
-					placesArray[i].viz = true;
-				}
+					catch(e:Error){}}
 				
-				if (placesArray.length > 0){
-					placeslist.dataProvider = placesArray;
+				try{			
+					modData = ev.result[0].ress3.res3;		
+				}
+				catch(e:Error){
+					try{	
+						modData.addItem(ev.result[0].ress3.res3);
+					}
+					catch(e:Error){}}
+				syncmenurestrictions();
+				
+				
+				if (listData.length > 0){
+					eatenList.dataProvider = listData;
 				}
 				else {
 					warn1.text = "No Dishes Eaten";
@@ -301,21 +317,63 @@
 					var tempweekstring:String = currentfilterweekday.charAt(0).toUpperCase()+currentfilterweekday.substring(1,currentfilterweekday.length);
 					var addedheaderlabel:Boolean = false;
 					for (var i:uint = 0; i < backupspecialsData.length; i++){
-						if (backupspecialsData[i].weekday == currentfilterweekday){
-							backupspecialsData[i].type = 1;
-							if (addedheaderlabel == false){
-								addedheaderlabel = true;
-								if (j == 0){
-									specialsArray.addItem({name:"Today",description:"",
-										categoryname:"",type:0,weekday:"",business_picture:""});
-								}
-								else {
-									specialsArray.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
-										categoryname:"",type:0,weekday:"",business_picture:""});
-								}
+						var goodo:Boolean = true;
+						try{
+							if ((backupspecialsData[i].yearly == 'n')&&(goodo)){
+								if (backupspecialsData[i].weekday.toLowerCase() == currentfilterweekday.toLowerCase()){
+									backupspecialsData[i].type = 1;
+									if (addedheaderlabel == false){
+										addedheaderlabel = true;
+										if (j == 0){
+											specialsArray.addItem({name:"Today",description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+										else {
+											specialsArray.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+									}
+									specialsArray.addItem(backupspecialsData[i]);
+								}	
 							}
-							specialsArray.addItem(backupspecialsData[i]);
-						}	
+							else if ((goodo)){
+								var spdatestring1:String = backupspecialsData[i].startdate;
+								var spdatestring2:String = backupspecialsData[i].enddate;
+								var datespan1:Array = new Array();
+								datespan1.push(spdatestring1.substr(0,4));
+								datespan1.push(Number(spdatestring1.substr(5,7).substr(0,2))-1);
+								datespan1.push(spdatestring1.substr(8,spdatestring1.length));
+								var date1:Date = new Date(datespan1[0],datespan1[1],datespan1[2]);
+								var datespan2:Array = new Array();
+								datespan2.push(spdatestring2.substr(0,4));
+								datespan2.push(Number(spdatestring2.substr(5,7).substr(0,2))-1);
+								datespan2.push(spdatestring2.substr(8,spdatestring2.length));
+								var date2:Date = new Date(datespan2[0],datespan2[1],datespan2[2]);
+								
+								var currentdatetime:Number = datevar.getTime();
+								var date1time:Number = date1.getTime();
+								var date2time:Number = date2.getTime();
+								
+								if ((date1.getTime() <= datevar.getTime())&&(date2.getTime() >= datevar.getTime())){
+									backupspecialsData[i].type = 1;
+									if (addedheaderlabel == false){
+										addedheaderlabel = true;
+										if (j == 0){
+											specialsArray.addItem({name:"Today",description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+										else {
+											specialsArray.addItem({name:tempweekstring+", "+monthstring+" "+daystring,description:"",
+												categoryname:"",type:0,weekday:"",business_picture:""});
+										}
+									}
+									specialsArray.addItem(backupspecialsData[i]);
+								}	
+							}
+						}
+						catch(e:Error){
+							var errorstring:String = "";
+						}
 						
 					}
 				}
@@ -364,15 +422,15 @@
 					goingtonext = false;
 				}
 			}
-			public function storeListClick():void {	
+			public function menuListClick():void {	
 				if (goingtonext == false){
 					goingtonext = true;
-					if (placeslist.selectedIndex != -1){
+					if (eatenList.selectedIndex != -1){
 						try{
 							data.homefilterarray = [];
 						}
 						catch(e:Error){}
-						navigator.pushView(StoresDescription, placesArray[placeslist.selectedIndex]);	
+						navigator.pushView(MenuDescription, listData[eatenList.selectedIndex]);	
 					}
 					else {
 						goingtonext = false;
@@ -418,19 +476,21 @@
 			}
 			private function imageSelected( event:MediaEvent ):void
 			{
-				beginappnative();
-				var imagePromise:MediaPromise = event.data;
-				dataSource = imagePromise.open();
-				
-				if( imagePromise.isAsync )
-				{
-					eventSource = dataSource as IEventDispatcher;					
-					eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
+				try{
+					beginappnative();
+					var imagePromise:MediaPromise = event.data;
+					dataSource = imagePromise.open();
+					if( imagePromise.isAsync )
+					{
+						eventSource = dataSource as IEventDispatcher;					
+						eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
+					}
+					else
+					{
+						readMediaData();
+					}	
 				}
-				else
-				{
-					readMediaData();
-				}
+				catch(e:Error){}
 			}
 			private function onDataComplete( event:Event ):void
 			{
@@ -438,14 +498,18 @@
 			}			
 			private function readMediaData():void
 			{
+				try{
 				var imageBytes:ByteArray = new ByteArray();
 				dataSource.readBytes( imageBytes );
 				imageBytes.position = 0;
 				var string:String = imageBytes.readUTFBytes( 300 );
 				upload(imageBytes,serverURL);
+				}
+				catch(e:Error){}
 			}
 			public function upload( data:ByteArray, destination:String):void
 			{	
+				try{
 				var loader:URLLoader = new URLLoader();
 				loader.dataFormat= URLLoaderDataFormat.BINARY;
 				ranfilename = UIDUtil.createUID().substr(0,9);
@@ -456,19 +520,33 @@
 				request.contentType = "application/octet-stream";
 				loader.addEventListener( Event.COMPLETE, uploadComplete );
 				loader.load(request);  
+				}
+				catch(e:Error){}
 				
 			} 
 			private function uploadComplete( event:Event ):void
 			{
+				try{
 				profimage.source = "http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg";
+				profimage.percentWidth = 100;
+				profimage.percentHeight = this.width/(640/300);
+				profimage.scaleMode = "zoom";
+				gap1.height = -1;
+				gap2.height = -2;
 				this.parentApplication.updateProfileImage("http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg");
+				}
+				catch(e:Error){}
 			}
 			public function afterGetUserInfo(ev:ResultEvent):void {
 				try{
 					var newpicture:String = ev.result[0].ress.res.picture;
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
+						profimage.percentWidth = 100;
+						profimage.percentHeight = this.width/(640/300);
 						profimage.scaleMode = "zoom";
+						gap1.height = -1;
+						gap2.height = -2;
 						this.parentDocument.setProfImage(newpicture);
 					
 					}
@@ -554,9 +632,9 @@
 				<useremail>{emailGo}</useremail>	
 			</s:request>
 		</s:HTTPService>
-		<s:HTTPService id="getPlacesEaten" method="GET" resultFormat="array"
-					   url="http://www.groovedish.com/php/mobile/getMyPlacesEaten.php"
-					   result="afterGetPlacesEaten(event)" >
+		<s:HTTPService id="getDishesEaten" method="GET" resultFormat="array"
+					   url="http://www.groovedish.com/php/mobile/getDishesEaten.php"
+					   result="afterGetDishesEaten(event)" >
 			<s:request xmlns="">
 				<useremail>{emailGo}</useremail>	
 			</s:request>
@@ -593,14 +671,15 @@
 				<s:Group  width="100%" >
 					<s:Rect width="100%"  height="100%">
 						<s:fill>
-							<s:SolidColor alpha="1" color="#c4c4c4"/>
+							<s:SolidColor alpha="1" color="#36ccba"/>
 						</s:fill>
 					</s:Rect>
 					<s:Image id="mainprofimage" width="100%" mouseEnabled="false" visible="false"/>
 					<s:VGroup width="100%" id="defaultimggroup"  click="homepicclick(event)"
-							  visible="true" horizontalAlign="center" gap="0">					
-						<s:Image id="profimage"  horizontalCenter="0" width="100%"
-								 height="{this.width/(640/300)}" mouseEnabled="false" verticalCenter="0" 
+							  visible="true" horizontalAlign="center" gap="0">		
+						<s:Group id="gap1"  height="{30/(320/Capabilities.screenDPI)}"/>
+						<s:Image id="profimage"  horizontalCenter="0" 
+								  mouseEnabled="false" verticalCenter="0" 
 								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-default.png')"
@@ -610,6 +689,7 @@
 														source640dpi="@Embed('../assets/640/profile-default.png')"/>
 							</s:source>
 						</s:Image>
+						<s:Group id="gap2"  height="{30/(320/Capabilities.screenDPI)}"/>
 					</s:VGroup>
 				</s:Group>
 				
@@ -714,7 +794,8 @@
 							 horizontalCenter="0" 
 							 verticalScrollPolicy="off"  
 							 horizontalScrollPolicy="off"  	 
-							 contentBackgroundAlpha="0" 
+							 contentBackgroundAlpha="1" 
+							  contentBackgroundColor="#FFFFFF"
 							 itemRenderer="components.ratingsResultProfile"
 							 change="myreviewlistclick();"
 							 click="myreviewlistclick();"  >
@@ -728,7 +809,8 @@
 							 horizontalCenter="0" 
 							 verticalScrollPolicy="off"  
 							 horizontalScrollPolicy="off"  	 
-							 contentBackgroundAlpha="0" 
+							 contentBackgroundAlpha="1" 
+							 contentBackgroundColor="#FFFFFF"
 							 itemRenderer="components.ratingsResultProfile"
 							 change="reviewsivelikedclick();"
 							 click="reviewsivelikedclick();"  >
@@ -737,19 +819,25 @@
 											  variableRowHeight="true" gap="0"/>
 						</s:layout>
 					</s:List>
-					<s:List width="100%" height="{Math.ceil(placesArray.length/2)*(this.width/2)}"
+					<s:List right="{6/(320/Capabilities.screenDPI)}" 
+							left="{6/(320/Capabilities.screenDPI)}"
+							height="{Math.ceil(listData.length/2)*(this.width/2)}"
 							verticalScrollPolicy="off"
 							useVirtualLayout="false" 
-							skinClass="skins.HomeTileListSkin"
-							id="placeslist" 	
+							skinClass="skins.MenuTileListSkin"
+							id="eatenList" 	
+							contentBackgroundAlpha="1" 
+							contentBackgroundColor="#FFFFFF"
 							horizontalScrollPolicy="off" 
-							change="storeListClick();"
-							click="storeListClick();" >
+							change="menuListClick();"
+							click="menuListClick();" >
 					</s:List>
 					<s:List id="specialsList" width="100%"   
 							horizontalScrollPolicy="off"	verticalScrollPolicy="off"
 							itemRenderer="components.specialsResultWithStore" 
 							selectedIndex="1"
+							contentBackgroundAlpha="1" 
+							contentBackgroundColor="#FFFFFF"
 							click="specialsListClick();" >
 						<s:layout>
 							<s:VerticalLayout horizontalAlign="contentJustify" 

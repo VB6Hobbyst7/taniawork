@@ -558,15 +558,19 @@
 							 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 				</s:HGroup>
 			</s:Group>
-			<s:List width="100%" horizontalCenter="0"  height="100%"
+			<s:Group width="100%" horizontalCenter="0" height="100%" >
+			<s:List right="{6/(320/Capabilities.screenDPI)}" height="100%"
+					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 					id="menuList" useVirtualLayout="false" 
 					verticalScrollPolicy="on"  
 					horizontalScrollPolicy="off"  
-					creationComplete="list_creationCompleteHandler(event)"
+					contentBackgroundAlpha="1" 
 					contentBackgroundColor="#FFFFFF"
+					creationComplete="list_creationCompleteHandler(event)"
 					skinClass="skins.MenuTileListSkin"
 					selectedIndex="1" change="menuListClick();"
 					click="menuListClick();"/>
+				</s:Group>
 		</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>

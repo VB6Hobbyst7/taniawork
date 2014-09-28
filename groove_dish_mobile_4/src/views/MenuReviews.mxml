@@ -63,8 +63,10 @@
 	<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
 		<s:List  id="rateList" 
 				 width="{this.width}" 
+				 contentBackgroundAlpha="1" 
+				 contentBackgroundColor="#FFFFFF"
 				 horizontalCenter="0" height="100%"
-				 horizontalScrollPolicy="off" contentBackgroundAlpha="0" 
+				 horizontalScrollPolicy="off" 
 				dataProvider="{rateArray}" 
 				itemRenderer="components.ratingsResultStore"
 				change="rateListChange(event);"  >

@@ -428,7 +428,7 @@
 		</s:VGroup>
 	</s:Scroller>
 	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
-			 styleName="textsize8"  text="No Specials Available" verticalCenter="0"/>
+			 styleName="textsize8"  text="No Specials Available" verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 	<s:Label color="#494949"  id="loadingtext" visible="true" horizontalCenter="0" 
-			 styleName="textsize8"  text="Loading Specials Near You..." verticalCenter="0"/>
+			 styleName="textsize8"  text="Loading Specials Near You..." verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 </s:View>

@@ -310,10 +310,51 @@
 						else {
 							
 						}
-					});
+					});	
+			}
+			
+			public function websiteClick():void {
 				
+				CoreMobile.mobile.showModalYesNoDialog('View Website',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.website)));
+						}
+						else {
+							
+						}
+					});	
+			}
+			
+			public function facebookClick():void {
 				
+				CoreMobile.mobile.showModalYesNoDialog('View Facebook',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.facebook)));
+						}
+						else {
+							
+						}
+					});	
+			}
+			public function twitterClick():void {
 				
+				CoreMobile.mobile.showModalYesNoDialog('View Twitter',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.twitter)));
+						}
+						else {
+							
+						}
+					});	
 			}
 			
 			protected function hoursClick(event:MouseEvent):void
@@ -352,18 +393,7 @@
 				infoback2.color = 0xFFFFFF;
 				infoback3.color = 0xFFFFFF;
 			}
-			public function showThings(u:uint):void {
-				if (u == 1){
-					
-				}
-				else if (u == 2){
-					
-					
-				}
-				else if (u == 3){
-					
-				}
-			}
+
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -632,7 +662,7 @@
 						</s:Rect>
 						<s:HGroup gap="0" width="100%" height="100%">
 							<s:Group id="thing1" height="100%" width="33%" 
-									 click="showThings(1)" verticalCenter="0"
+									 click="websiteClick();" verticalCenter="0"
 									 mouseDown="recDown(1)"  mouseUp="recUp(1)" 
 									 mouseOver="recDown(1)" mouseOut="recUp(1)">
 								<s:Rect width="100%"  height="100%">
@@ -645,11 +675,11 @@
 												verticalCenter="0"
 												contentLoader="{s_imageCache}" >
 									<s:source> 
-										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profilemyreviews1.png')"
-																source240dpi="@Embed('../assets/240/profilemyreviews1.png')"
-																source320dpi="@Embed('../assets/320/profilemyreviews1.png')"
-																source480dpi="@Embed('../assets/480/profilemyreviews1.png')"
-																source640dpi="@Embed('../assets/640/profilemyreviews1.png')"
+										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restaurantwebsite.png')"
+																source240dpi="@Embed('../assets/240/restaurantwebsite.png')"
+																source320dpi="@Embed('../assets/320/restaurantwebsite.png')"
+																source480dpi="@Embed('../assets/480/restaurantwebsite.png')"
+																source640dpi="@Embed('../assets/640/restaurantwebsite.png')"
 																/>
 									</s:source>
 									
@@ -662,7 +692,7 @@
 								</s:Line>
 							</s:Group>
 							<s:Group id="thing2" height="100%" width="37%"
-									 click="showThings(2)"  verticalCenter="0"
+									 click="facebookClick();"  verticalCenter="0"
 									 mouseDown="recDown(2)"  mouseUp="recUp(2)" 
 									 mouseOver="recDown(2)" mouseOut="recUp(2)">
 								<s:Rect width="100%"  height="100%">
@@ -674,11 +704,11 @@
 											   left="{30/(320/Capabilities.screenDPI)}"
 											   contentLoader="{s_imageCache}" >
 									<s:source> 
-										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profilemyreviews1.png')"
-																source240dpi="@Embed('../assets/240/profilemyreviews1.png')"
-																source320dpi="@Embed('../assets/320/profilemyreviews1.png')"
-																source480dpi="@Embed('../assets/480/profilemyreviews1.png')"
-																source640dpi="@Embed('../assets/640/profilemyreviews1.png')"
+										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restaurantfacebook.png')"
+																source240dpi="@Embed('../assets/240/restaurantfacebook.png')"
+																source320dpi="@Embed('../assets/320/restaurantfacebook.png')"
+																source480dpi="@Embed('../assets/480/restaurantfacebook.png')"
+																source640dpi="@Embed('../assets/640/restaurantfacebook.png')"
 																/>
 									</s:source>
 									
@@ -691,7 +721,7 @@
 								</s:Line>
 							</s:Group>
 							<s:Group id="thing3" height="100%" width="30%" 
-									 click="showThings(3)"  verticalCenter="0"
+									 click="twitterClick()"  verticalCenter="0"
 									 mouseDown="recDown(3)"  mouseUp="recUp(3)" 
 									 mouseOver="recDown(3)" mouseOut="recUp(3)">
 								<s:Rect width="100%"  height="100%">
@@ -703,11 +733,11 @@
 											   left="{30/(320/Capabilities.screenDPI)}"
 											   contentLoader="{s_imageCache}" >
 									<s:source> 
-										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profilemyreviews1.png')"
-																source240dpi="@Embed('../assets/240/profilemyreviews1.png')"
-																source320dpi="@Embed('../assets/320/profilemyreviews1.png')"
-																source480dpi="@Embed('../assets/480/profilemyreviews1.png')"
-																source640dpi="@Embed('../assets/640/profilemyreviews1.png')"
+										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restauranttwitter.png')"
+																source240dpi="@Embed('../assets/240/restauranttwitter.png')"
+																source320dpi="@Embed('../assets/320/restauranttwitter.png')"
+																source480dpi="@Embed('../assets/480/restauranttwitter.png')"
+																source640dpi="@Embed('../assets/640/restauranttwitter.png')"
 																/>
 									</s:source>
 									

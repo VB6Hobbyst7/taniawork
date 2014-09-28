@@ -280,6 +280,35 @@ public function viewadd(event:ElementExistenceEvent):void
 		closeMenu();
 	}
 	listmenu.selectedIndex = -1;
+	
+	if (mainNavigator.activeView.className == "Home"){
+		setTab(1);
+	}
+	else if (mainNavigator.activeView.className == "MenuAll"){
+		setTab(2);
+	}
+	else if (mainNavigator.activeView.className == "SpecialsAll"){
+		setTab(3);
+	}
+	else if (mainNavigator.activeView.className == "Restrictions"){
+		setTab(4);
+	}
+	else if (mainNavigator.activeView.className == "Profile"){
+		setTab(5);
+	}
+	else if (mainNavigator.activeView.className == "Login"){
+		hideTabBar();
+	}
+	else if (mainNavigator.activeView.className == "Signup_step1"){
+		hideTabBar();
+	}
+	else if (mainNavigator.activeView.className == "Signup_step2"){
+		hideTabBar();
+	}
+	else {
+		setTab(0);
+	}
+	
 }
 public function setProfImage(s:String):void {
 	profimage.source = s;

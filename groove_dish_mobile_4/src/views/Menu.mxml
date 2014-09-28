@@ -185,7 +185,9 @@
 						 text="Best Price" verticalAlign="middle" verticalCenter="2"/>
 			</s:Group>
 		</s:Group>
-		<s:List width="100%" horizontalCenter="0"  height="100%"
+		<s:Group width="100%" horizontalCenter="0" height="100%" >
+		<s:List right="{6/(320/Capabilities.screenDPI)}" height="100%"
+				left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 				id="menuList" useVirtualLayout="false" 
 				verticalScrollPolicy="on"  
 				horizontalScrollPolicy="off"  
@@ -195,6 +197,7 @@
 				selectedIndex="1" 
 				click="listClick();"
 				change="listClick();"/>
+			</s:Group>
 	</s:VGroup>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 		 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>

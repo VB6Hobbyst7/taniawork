@@ -4,16 +4,20 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:components="components.*"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		viewActivate="init()"  
 		actionBarVisible="false">
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
+			import com.milkmangames.nativeextensions.CoreMobile;
+			import com.milkmangames.nativeextensions.events.CMDialogEvent;
+			
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
+			import flash.net.navigateToURL;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -184,6 +188,65 @@
 				}
 				return "";
 			}
+			public function websiteClick():void {
+				
+				CoreMobile.mobile.showModalYesNoDialog('View Website',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.website)));
+						}
+						else {
+							
+						}
+					});	
+			}
+			
+			public function facebookClick():void {
+				
+				CoreMobile.mobile.showModalYesNoDialog('View Facebook',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.facebook)));
+						}
+						else {
+							
+						}
+					});	
+			}
+			public function twitterClick():void {
+				
+				CoreMobile.mobile.showModalYesNoDialog('View Twitter',"", "Yes", "No").
+					addDismissListener(function(e:CMDialogEvent):void 
+					{
+						if (e.selectedButtonLabel=="Yes")
+						{
+							navigateToURL(new URLRequest(unescape(data.twitter)));
+						}
+						else {
+							
+						}
+					});	
+			}
+			public function recDown(u:uint):void {
+				if (u == 1){
+					recback1.color = 0xEDFAF9;
+				}
+				else if (u == 2){
+					recback2.color = 0xEDFAF9;
+				}
+				else if (u == 3){
+					recback3.color = 0xEDFAF9;
+				}
+			}
+			public function recUp(u:uint):void {
+				recback1.color = 0xFFFFFF;
+				recback2.color = 0xFFFFFF;
+				recback3.color = 0xFFFFFF;
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -335,6 +398,106 @@
 									 fontWeight="bold" horizontalCenter="0"  verticalCenter="2" />
 						</s:Group>
 					</s:Group>				
+				</s:Group>
+				<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+					<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}">
+					<s:Rect width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#FFFFFF"/>
+						</s:fill>
+					</s:Rect>
+					<s:HGroup gap="0" width="100%" height="100%">
+						<s:Group id="thing1" height="100%" width="33%" 
+								 click="websiteClick();" verticalCenter="0"
+								 mouseDown="recDown(1)"  mouseUp="recUp(1)" 
+								 mouseOver="recDown(1)" mouseOut="recUp(1)">
+							<s:Rect width="100%"  height="100%">
+								<s:fill>
+									<s:SolidColor id="recback1" alpha="1" color="#FFFFFF"/>
+								</s:fill>
+							</s:Rect>
+							<s:BitmapImage  id="rec1" 
+											left="{30/(320/Capabilities.screenDPI)}"
+											verticalCenter="0"
+											contentLoader="{s_imageCache}" >
+								<s:source> 
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restaurantwebsite.png')"
+															source240dpi="@Embed('../assets/240/restaurantwebsite.png')"
+															source320dpi="@Embed('../assets/320/restaurantwebsite.png')"
+															source480dpi="@Embed('../assets/480/restaurantwebsite.png')"
+															source640dpi="@Embed('../assets/640/restaurantwebsite.png')"
+															/>
+								</s:source>
+								
+							</s:BitmapImage>
+							<s:Label left="{(60+rec1.width)/(320/Capabilities.screenDPI)}" text="Website"   
+									 styleName="textsize0" id="rec1text"  color="#4d4d4d"  verticalCenter="4"/>
+							
+							<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  > 
+								<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+							</s:Line>
+						</s:Group>
+						<s:Group id="thing2" height="100%" width="37%"
+								 click="facebookClick();"  verticalCenter="0"
+								 mouseDown="recDown(2)"  mouseUp="recUp(2)" 
+								 mouseOver="recDown(2)" mouseOut="recUp(2)">
+							<s:Rect width="100%"  height="100%">
+								<s:fill>
+									<s:SolidColor id="recback2" alpha="1" color="#FFFFFF"/>
+								</s:fill>
+							</s:Rect>
+							<s:BitmapImage id="rec2"  verticalCenter="0"
+										   left="{30/(320/Capabilities.screenDPI)}"
+										   contentLoader="{s_imageCache}" >
+								<s:source> 
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restaurantfacebook.png')"
+															source240dpi="@Embed('../assets/240/restaurantfacebook.png')"
+															source320dpi="@Embed('../assets/320/restaurantfacebook.png')"
+															source480dpi="@Embed('../assets/480/restaurantfacebook.png')"
+															source640dpi="@Embed('../assets/640/restaurantfacebook.png')"
+															/>
+								</s:source>
+								
+							</s:BitmapImage>
+							<s:Label left="{(60+rec2.width)/(320/Capabilities.screenDPI)}" text="Facebook"   
+									 styleName="textsize0" id="rec2text"  color="#4d4d4d"  verticalCenter="4"/>
+							
+							<s:Line right="0" rotation="90" height="100%" verticalCenter="0"  > 
+								<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+							</s:Line>
+						</s:Group>
+						<s:Group id="thing3" height="100%" width="30%" 
+								 click="twitterClick()"  verticalCenter="0"
+								 mouseDown="recDown(3)"  mouseUp="recUp(3)" 
+								 mouseOver="recDown(3)" mouseOut="recUp(3)">
+							<s:Rect width="100%"  height="100%">
+								<s:fill>
+									<s:SolidColor id="recback3" alpha="1" color="#FFFFFF"/>
+								</s:fill>
+							</s:Rect>
+							<s:BitmapImage id="rec3"  verticalCenter="0" 
+										   left="{30/(320/Capabilities.screenDPI)}"
+										   contentLoader="{s_imageCache}" >
+								<s:source> 
+									<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/restauranttwitter.png')"
+															source240dpi="@Embed('../assets/240/restauranttwitter.png')"
+															source320dpi="@Embed('../assets/320/restauranttwitter.png')"
+															source480dpi="@Embed('../assets/480/restauranttwitter.png')"
+															source640dpi="@Embed('../assets/640/restauranttwitter.png')"
+															/>
+								</s:source>
+								
+							</s:BitmapImage>
+							<s:Label left="{(60+rec3.width)/(320/Capabilities.screenDPI)}" text="Twitter"   
+									 styleName="textsize0" id="rec3text"  color="#4d4d4d"  verticalCenter="4"/>
+							
+						</s:Group>		
+					</s:HGroup>
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
 				</s:Group>
 				<s:Group height="{10/(320/Capabilities.screenDPI)}">
 					
