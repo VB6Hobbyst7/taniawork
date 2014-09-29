@@ -5,9 +5,9 @@
 		xmlns:components="components.*"  
 		xmlns:maps="com.google.maps.*" 	
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		viewActivate="init()"
 		title="Review" >
 	<s:navigationContent >

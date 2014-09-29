@@ -399,9 +399,6 @@
 						</s:Group>
 					</s:Group>				
 				</s:Group>
-				<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
-					<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
-				</s:Line>
 				<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}">
 					<s:Rect width="100%"  height="100%">
 						<s:fill>

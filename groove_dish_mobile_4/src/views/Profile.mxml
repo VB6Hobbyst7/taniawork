@@ -4,9 +4,9 @@
 		viewActivate="init()" 
 		creationComplete="init2();"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#FFFFFF"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#FFFFFF"
 		xmlns:components="components.*" >
 	<s:actionContent>	
 	</s:actionContent>
@@ -74,6 +74,8 @@
 				goingtonext = false;
 				setLoginVars();
 				this.title = nameGo.charAt(0).toUpperCase()+nameGo.substring(1,nameGo.length);
+				rateArray.refresh();
+				likeArray.refresh();
 				showThings(1);
 			}
 			public function init2():void {
@@ -203,7 +205,7 @@
 					}
 					catch(e:Error){}
 				}
-				
+				rateArray.refresh();
 				if (rateArray.length > 0){
 					//warn1.visible = false;
 					myreviewlist.dataProvider = rateArray;
@@ -213,6 +215,8 @@
 					warn1.visible = true;
 				}
 				fetechedMyReviews = true;
+			
+				
 			
 			}
 			public function afterGetLiked(ev:ResultEvent):void {				
@@ -226,7 +230,7 @@
 					}
 					catch(e:Error){}
 				}
-				
+				likeArray.refresh();
 				if (likeArray.length > 0){
 					reviewsivelikedlist.dataProvider = likeArray;
 				}
