@@ -19,13 +19,17 @@
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import flash.media.StageWebView;
+			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.IndexChangeEvent;
 			import spark.filters.GlowFilter;
 			import spark.primitives.Graphic;
+			
 			import components.modItem;
+			
 			import views.MenuReviews;
 			import views.StoresDescription;
 			import views.ViewReview;
@@ -254,20 +258,42 @@
 					}
 				}
 				
+				var tempmodificatoins:ArrayCollection = new ArrayCollection();
 				try{			
-					modifications = ev.result[0].results4.result4;	
-					modList.dataProvider = modifications;
+					tempmodificatoins = ev.result[0].results4.result4;	
+					
 				}
 				catch(e:Error){
 					try{
 						
-						modifications.addItem(ev.result[0].results4.result4);
-						modList.dataProvider = modifications;
+						tempmodificatoins.addItem(ev.result[0].results4.result4);
 					}
 					catch(e:Error){
 					}
 				}
 				
+				createIfNotExsist("resvalues");
+				var i:uint = 0;
+				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
+				for (var i:uint = 0; i < tempmodificatoins.length; i++){
+					var useit:Boolean = false;
+					for (var j:uint = 0; j < resvaluesData.length; j++){
+						var stop2:String = "";
+						if (resvaluesData[j].id == tempmodificatoins[i].restrictid){
+							if (resvaluesData[j].chosen == "yes"){
+								useit = true;
+							}
+						}
+					}
+					
+					if (useit){
+						modifications.addItem(tempmodificatoins[i]);
+					}
+				}
+				
+				
+				
+				modList.dataProvider = modifications;
 				//	modList.dataProvider = modifications;
 				reviewList.dataProvider = topreviews;
 				reviewlabel.text = 'Reviews ('+topreviews.length.toString()+')';

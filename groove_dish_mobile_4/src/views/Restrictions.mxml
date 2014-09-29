@@ -104,7 +104,9 @@
 						setTimeout(doublechecklist,150);
 					}
 				}
-				catch(e:Error){}
+				catch(e:Error){
+					setTimeout(doublechecklist,150);
+				}
 				
 			}
 			public function doublechecklist():void {

@@ -154,7 +154,7 @@
 								 color="#4d4d4d"  fontWeight="normal" styleName="textsize0"  verticalAlign="middle"/>
 					</s:Group>
 					
-					<s:HGroup verticalAlign="middle" id="likecont" width="100%" height="100%" horizontalAlign="left" 
+					<s:HGroup verticalAlign="middle" id="likecont" paddingTop="{8/(320/Capabilities.screenDPI)}" width="100%" height="100%" horizontalAlign="left" 
 							  horizontalCenter="0">
 						<s:BitmapImage verticalAlign="middle" verticalCenter="0" contentLoader="{s_imageCache}"  >
 							<s:source>

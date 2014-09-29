@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/15.0">
-<id>com.menutria.menutria</id>
+<id>com.groovedish.groovedish</id>
 <filename>Groovedish</filename>
 <name>Groovedish</name>
 <versionNumber>2.0.0</versionNumber>
@@ -36,9 +36,9 @@
 <key>UIStatusBarStyle</key>
 <string>UIStatusBarStyleLightContent</string>
 <key>FacebookAppID</key>
-<string>1461197797460743</string>
+<string>814930198529452</string>
 <key>FacebookDisplayName</key>
-<string>Menutria</string>
+<string>GrooveDish</string>
 <key>UIDeviceFamily</key> 
 <array> 
     <string>1</string> 
@@ -49,7 +49,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1461197797460743</string>
+				<string>fb814930198529452</string>
 			</array>
 		</dict>
 	</array>
@@ -77,7 +77,7 @@
         <activity android:name="com.facebook.LoginActivity"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar"
                   android:label="Login" />
-				  <provider android:authorities="com.facebook.app.NativeAppCallContentProvider1461197797460743" android:name="com.facebook.NativeAppCallContentProvider" />
+				  <provider android:authorities="com.facebook.app.NativeAppCallContentProvider814930198529452" android:name="com.facebook.NativeAppCallContentProvider" />
 				</application>
 			</manifest>
 		]]></manifestAdditions>

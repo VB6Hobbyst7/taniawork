@@ -123,6 +123,7 @@
 							}
 							
 							if ((sampleimage == "")&&(listData[i].picture != "None")&&
+								(listData[i].picture != "http://www.menutria.com/merchpanel/assets/images/dish_place_wide.png")&&
 								(listData[i].picture != "")&&
 								(listData[i].picture != null)&&
 								(listData[i].picture != "null")){
@@ -133,6 +134,7 @@
 								for (var j:uint = 0; j < listData.length; j++){
 									if ((listData[j].categoryid == listData[i].categoryid)&&(listData[j].picture != "None")&&
 										(listData[j].picture != "")&&
+										(listData[j].picture != "http://www.menutria.com/merchpanel/assets/images/dish_place_wide.png")&&
 										(listData[j].picture != null)&&
 										(listData[j].picture != "null")){
 										foundfix = true;

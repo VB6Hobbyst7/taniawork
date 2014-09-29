@@ -528,11 +528,11 @@
 			{
 				try{
 				profimage.source = "http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg";
-				profimage.percentWidth = 100;
-				profimage.percentHeight = this.width/(640/300);
-				profimage.scaleMode = "zoom";
-				gap1.height = -1;
-				gap2.height = -2;
+				//profimage.percentWidth = 100;
+				//profimage.percentHeight = this.width/(640/300);
+				//profimage.scaleMode = "zoom";
+				//gap1.height = -1;
+				//gap2.height = -2;
 				this.parentApplication.updateProfileImage("http://www.groovedish.com/uploadify/profileimages/"+ranfilename+".jpg");
 				}
 				catch(e:Error){}
@@ -542,11 +542,11 @@
 					var newpicture:String = ev.result[0].ress.res.picture;
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
-						profimage.percentWidth = 100;
-						profimage.percentHeight = this.width/(640/300);
-						profimage.scaleMode = "zoom";
-						gap1.height = -1;
-						gap2.height = -2;
+						//profimage.percentWidth = 100;
+						//profimage.percentHeight = this.width/(640/300);
+						//profimage.scaleMode = "zoom";
+						//gap1.height = -1;
+						//gap2.height = -2;
 						this.parentDocument.setProfImage(newpicture);
 					
 					}
@@ -678,8 +678,9 @@
 					<s:VGroup width="100%" id="defaultimggroup"  click="homepicclick(event)"
 							  visible="true" horizontalAlign="center" gap="0">		
 						<s:Group id="gap1"  height="{30/(320/Capabilities.screenDPI)}"/>
-						<s:Image id="profimage"  horizontalCenter="0" 
-								  mouseEnabled="false" verticalCenter="0" 
+						<s:BitmapImage id="profimage"  width="{300/(320/Capabilities.screenDPI)}"
+									   height="{300/(320/Capabilities.screenDPI)}"  horizontalCenter="0" 
+								  verticalCenter="0"  smooth="true" 
 								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-default.png')"
@@ -688,7 +689,13 @@
 														source480dpi="@Embed('../assets/480/profile-default.png')"
 														source640dpi="@Embed('../assets/640/profile-default.png')"/>
 							</s:source>
-						</s:Image>
+							<s:mask>
+								<s:BorderContainer id="bmpMask"
+												   cornerRadius="{180/(320/Capabilities.screenDPI)}"
+												   width="{300/(320/Capabilities.screenDPI)}"
+												   height="{300/(320/Capabilities.screenDPI)}" />
+							</s:mask>
+						</s:BitmapImage>
 						<s:Group id="gap2"  height="{30/(320/Capabilities.screenDPI)}"/>
 					</s:VGroup>
 				</s:Group>

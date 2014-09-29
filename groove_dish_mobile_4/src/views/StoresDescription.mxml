@@ -185,7 +185,7 @@
 					}
 			
 				}
-				openstatus = "TODO";		
+				openstatus = "Open Now";		
 				popupholder1.textl = hrstext;
 				
 			}

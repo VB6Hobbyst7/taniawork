@@ -12,7 +12,7 @@ import views.Home;
 import views.Login;
 import views.MenuAll;
 import views.StoresDescription;
-public static const FACEBOOK_APP_ID:String="1461197797460743";
+public static const FACEBOOK_APP_ID:String="814930198529452";
 public function initz(event:FlexEvent):void
 {
 	
@@ -103,7 +103,9 @@ public function doFacebookStuff():void {
 				try{
 					fsemail = myProfile.email();
 				}
-				catch(e:Error){}
+				catch(e:Error){
+					fsemail = "error@gmail.com";
+				}
 				
 				try{
 					fsname = myProfile.name.toString();

@@ -495,6 +495,9 @@
 							
 						</s:Group>		
 					</s:HGroup>
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  top="0" > 
+						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
 					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
 						<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 					</s:Line>
