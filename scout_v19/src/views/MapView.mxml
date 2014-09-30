@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:esri="http://www.esri.com/2008/ags"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"
+		menuKeyPressed="menupress(event)"
+		backgroundColor="#FFFFFF"
+		title="Map" name="map"
+		viewActivate="init()"
+		viewDeactivate="deac(event)">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="goback();"/>
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import com.distriqt.extension.nativemaps.NativeMaps;
+			import com.distriqt.extension.nativemaps.events.NativeMapEvent;
+			import com.distriqt.extension.nativemaps.objects.LatLng;
+			import com.distriqt.extension.nativemaps.objects.LatLngBounds;
+			import com.distriqt.extension.nativemaps.objects.MapMarker;
+			import com.distriqt.extension.nativemaps.objects.MapMarkerColour;
+			import com.distriqt.extension.nativemaps.objects.MapOptions;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			private var devKey : String = "3269bde10987c4588095221ba3986769a726784abojbGsOk3TToXIK6zq8dgjUXWYzCuINIODJ+LXgzkfFrtbPAOuaSRMWmavD9SFqLiBW1RUwGCou04RPL9DlrX6Bgxwo1hIMQj63w/MfLfE3EY2Oau9vca4bZNI4lJZWpix8YRqxvgHJ95rs5FSPUx3hBqJsT8oQ9/H6XTpTEQ9e8pNzHziFM4gdD9B1Y8vAgXtSuSp2+ZzcdZdhxl1EJX+JdDNORWUPNrSJr5L/51R6U8gXipG+VkEgPX1kAYOan3knS6vkYwiWwaDezTEN7AlSludXq3msFsu242nvJZBCis16KIaZL0Kft2Ps3SHqGv+QrMGcd74LcMZOSy3s8IA==";
+			private function init():void {
+				calculateActionbarVals();
+				setLoginVars();
+				try{
+					NativeMaps.init(devKey);
+					NativeMaps.service.createMap( this.width, this.height, 0, actionbarheight+statusbuffertop+4 );
+					//NativeMaps.service.setCentre( new LatLng(mylat, mylong), 11, true );
+					
+					
+					var bounds:LatLngBounds = new LatLngBounds( new LatLng(53.596924, -113.666954), new LatLng(53.440500, -113.283463) );
+					NativeMaps.service.setBounds( bounds, 10, false );
+					
+					var options:MapOptions = NativeMaps.service.mapOptions;
+					options.trafficEnabled = false;
+					options.compassEnabled = true;
+					options.zoomControlsEnabled = true;
+					options.zoomGesturesEnabled = true;
+					options.scrollGesturesEnabled = true;
+					options.tiltGesturesEnabled = false;
+					options.rotateGesturesEnabled = false;
+					options.myLocationButtonEnabled = true;
+					NativeMaps.service.setMapOptions( options );
+					NativeMaps.service.addEventListener( NativeMapEvent.MARKER_INFO_WINDOW_TOUCHED, map_infoWindowTouchedHandler );
+					
+					listData = data.listData;
+					for (var i:uint = 0; i < listData.length; i++){
+						var marker2:MapMarker = new MapMarker(listData[i].id.toString());
+						marker2.title = unescape(listData[i].business_name);
+						marker2.info = unescape(listData[i].business_address1);
+						marker2.setPosition( new LatLng(listData[i].lat,listData[i].longa) );
+						marker2.draggable = true; // this was false
+						marker2.animatesDrop = true; // this was flalse
+						marker2.infoWindowEnabled = true;
+						marker2.showInfoWindowButton = true; // this was false
+						//marker2.customIconId = "myCustomIcon";
+						
+						if (Capabilities.version.indexOf("AND") != -1)
+							marker2.colour = MapMarkerColour.AND_ROSE;
+						else
+							marker2.colour = MapMarkerColour.IOS_GREEN;
+						
+						NativeMaps.service.addMarker( marker2 )
+						
+					}	
+					
+				}
+				catch(e:Error){
+					navigator.popView();
+				}
+			}
+			
+			private function map_infoWindowTouchedHandler( event:NativeMapEvent ):void
+			{
+				try{
+					NativeMaps.service.destroyMap();
+					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				}
+				catch(e:Error){}
+				
+			}
+			public function gogofinal(u:uint):void {
+				navigator.pushView(StoresDescription,listData[u]);
+			}
+			public function deac(event:ViewNavigatorEvent):void
+			{
+				try{
+					this.parentApplication.addswipefunctions();
+				}
+				catch(e:Error){}
+				
+			}
+			public function goback():void {
+				try{
+					NativeMaps.service.destroyMap();
+					
+				}
+				catch(e:Error){}
+				navigator.popView();
+				
+			}
+		]]>
+	</fx:Script>
+</s:View>
