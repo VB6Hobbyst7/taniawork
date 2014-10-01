@@ -67,8 +67,9 @@ public function creationcomplete(event:FlexEvent):void
 	mainNavigator.defaultPushTransition = svt;
 	mainNavigator.defaultPopTransition = svt2;
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
+	NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.NORMAL;
 	initGPS();
-	startRate();
+	
 	if (getDPIHeight() == 640){
 		actionbarheight = 172;	
 	}
@@ -108,7 +109,8 @@ public function creationcomplete(event:FlexEvent):void
 }
 
 public function startRate():void {
-	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",0,3,0);
+	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",3,0,0);
+	RateBox.rateBox.useTestMode();
 }
 
 public function nativeKeyDown(event:KeyboardEvent):void
@@ -389,7 +391,7 @@ public function dropalldatatables():void {
 }
 public function initz(event:FlexEvent):void
 {
-	
+	startRate();
 	pm.load();
 	try{
 		loadedview = true; 
