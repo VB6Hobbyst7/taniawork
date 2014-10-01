@@ -31,7 +31,8 @@ import spark.transitions.CrossFadeViewTransition;
 import spark.transitions.SlideViewTransition;
 import spark.transitions.SlideViewTransitionMode;
 import spark.transitions.ViewTransitionDirection;
-
+import com.milkmangames.nativeextensions.*;
+import com.milkmangames.nativeextensions.events.*;
 import views.Home;
 import views.MapView;
 public var pm:PersistenceManager = new PersistenceManager();
@@ -100,6 +101,14 @@ public function creationcomplete(event:FlexEvent):void
 	loadStuff(resData);
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
 }
+
+public function startRate():void {
+	if (RateBox.isSupported())
+	{
+		RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",0,3,0);
+	}
+}
+
 public function nativeKeyDown(event:KeyboardEvent):void
 {
 	var key:uint = event.keyCode;

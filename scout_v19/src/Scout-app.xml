@@ -89,6 +89,7 @@
 <extensionID>com.milkmangames.extensions.CoreMobile</extensionID>
     
     <extensionID>com.distriqt.NativeMaps</extensionID>
-        <extensionID>com.milkmangames.extensions.RateBox</extensionID>
+        
+    <extensionID>com.milkmangames.extensions.RateBox</extensionID>
     </extensions>
 </application>
