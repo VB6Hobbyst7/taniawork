@@ -87,10 +87,15 @@
 			{
 				try{
 					NativeMaps.service.destroyMap();
-					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
 				}
 				catch(e:Error){}
 				
+				try{
+					
+				}
+				catch(e:Error){
+					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				}
 			}
 			public function gogofinal(u:uint):void {
 				navigator.pushView(StoresDescription,listData[u]);
