@@ -28,10 +28,8 @@ public function startapplyingdata():void {
 	visibleindexes = new Array();
 	var i:uint = 0;
 	for (i = 0; i < listData.length; i++){
-		if (listData[i].hideall != true){
 			listData[i].viz = false;
 			storeList.dataProvider.addItem(listData[i]);
-		}	
 	}	
 	
 	var visibleindexestemp:Array =  storeList.dataGroup.getItemIndicesInView().toString().split(",");
@@ -158,9 +156,5 @@ public function afterti(ev:TimerEvent):void {
 	freetoload = true;
 }
 public function vizwait(index:uint):void {
-	try{
-		storeList.dataProvider.getItemAt(index).viz = true;
-	}
-	catch(e:Error){}
-	
+	storeList.dataProvider.getItemAt(index).viz = true;
 }
