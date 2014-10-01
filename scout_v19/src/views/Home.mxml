@@ -260,7 +260,7 @@
 								source480dpi="@Embed('../assets/480/calgary.jpg')"
 								source640dpi="@Embed('../assets/640/calgary.jpg')"/>
 	</fx:Declarations>
-	<s:VGroup gap="0" width="{this.width}" height="100%" verticalAlign="middle"  horizontalAlign="center"  >
+	<s:VGroup gap="0" width="{this.width}" height="100%" verticalAlign="top"  horizontalAlign="center"  >
 		<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  verticalAlign="middle" >
 			<s:Group width="{this.width*0.4}"   click="homepicclick(event)"
 					 mouseDown="gDown(event);" mouseOver="gOver(event);"

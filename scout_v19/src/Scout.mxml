@@ -27,15 +27,15 @@
 	
 	<s:Group  id="menu"  height="100%"  width="{this.width/1.15}" 
 			  x="{0-(this.width/1.15)}">
-		<s:VGroup width="{this.width/1.15}" height="100%" paddingTop="0" gap="0">
-			
+		<s:VGroup width="{this.width/1.15}" height="100%" verticalAlign="top" 
+				  top="0" paddingTop="0" gap="0">
 			<s:Group  width="{this.width/1.15}">
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="0.95" color="#FFFFFF"/>
 					</s:fill>
 				</s:Rect>
-				<s:HGroup gap="0" width="{this.width}" height="{this.height*0.25}"  
+				<s:HGroup gap="0" width="{this.width}" height="{mainNavigator.height*0.25}"  
 						  verticalAlign="middle" >
 					<s:Group width="{this.width*0.4}">
 						<s:BitmapImage id="profimage" alpha="1" horizontalCenter="0" 
@@ -57,13 +57,13 @@
 						</s:BitmapImage>
 					</s:Group>
 					<s:VGroup gap="{10/(320/Capabilities.screenDPI)}" width="{this.width*0.6}"  verticalAlign="middle" horizontalAlign="left" >
-						<s:Label color="#737171" text="{nameGo}"  maxWidth="{(this.width/1.15)*0.50}"
+						<s:Label color="#737171" id="parentnameo" text="{nameGo}"  maxWidth="{(this.width/1.15)*0.50}"
 								 maxDisplayedLines="1"  styleName="textsize8" verticalAlign="middle"/>
-						<s:Label color="#737171" text="{cityGo}" styleName="textsize1" verticalAlign="middle"/>
+						<s:Label color="#737171" id="parentcityo" text="{cityGo}" styleName="textsize1" verticalAlign="middle"/>
 					</s:VGroup>
 				</s:HGroup>
 			</s:Group>
-			<s:Line width="100%"> 
+			<s:Line width="100%" right="0" left="0"> 
 				<s:stroke><s:SolidColorStroke color="0x060606" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
 			</s:Line>
 			<s:List id="listmenu" height="100%" contentBackgroundColor="#FFFFFF" 

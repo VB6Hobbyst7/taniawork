@@ -114,6 +114,10 @@
 					amountout = loyaltyList.selectedItem.amount;
 					selectedRewardID = loyaltyList.selectedItem.id;
 					rewardDescription = loyaltyList.selectedItem.name;
+					sharePopup.descriptiontext = rewardDescription;
+					sharePopup.menuname = data.business_name;
+					sharePopup.dishImg = data.business_picture;
+					
 					openRewardPopup();
 					loyaltyList.selectedIndex = -1;	
 				}
@@ -264,7 +268,8 @@
 		<s:VGroup width="100%" paddingTop="0" gap="0"  horizontalAlign="center" height="100%" >
 			
 			<s:Group>
-				<s:Image x="0" id="img1" width="{this.width}" height="{this.width/(16/9)}" scaleMode="zoom"/>
+				<s:Image x="0" id="img1" width="{this.width}"
+						 height="{this.width/(16/9)}" scaleMode="zoom"/>
 				<s:Image  width="{this.width}"  bottom="0"
 						  contentLoader="{s_imageCache}" 
 						  scaleMode="stretch">

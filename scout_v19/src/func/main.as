@@ -1,6 +1,7 @@
 import com.google.analytics.GATracker;
 import com.milkmangames.nativeextensions.GVFacebookFriend;
 import com.milkmangames.nativeextensions.GoViral;
+import com.milkmangames.nativeextensions.RateBox;
 import com.milkmangames.nativeextensions.events.GVFacebookEvent;
 
 import flash.data.SQLConnection;
@@ -11,12 +12,14 @@ import flash.events.Event;
 import flash.events.GeolocationEvent;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.events.TransformGestureEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.filesystem.File;
 import flash.sensors.Geolocation;
 import flash.system.Capabilities;
 import flash.ui.Keyboard;
+import flash.utils.Timer;
 
 import mx.collections.ArrayCollection;
 import mx.core.DPIClassification;
@@ -31,8 +34,9 @@ import spark.transitions.CrossFadeViewTransition;
 import spark.transitions.SlideViewTransition;
 import spark.transitions.SlideViewTransitionMode;
 import spark.transitions.ViewTransitionDirection;
-import com.milkmangames.nativeextensions.*;
-import com.milkmangames.nativeextensions.events.*;
+
+import org.osmf.events.TimeEvent;
+
 import views.Home;
 import views.MapView;
 public var pm:PersistenceManager = new PersistenceManager();
@@ -266,17 +270,19 @@ public function reloadProfInfo():void {
 	resData = new ArrayCollection(stmt.getResult().data);	
 	
 	if (resData.length > 0){
-		nameGo = resData[0].name;
 		emailGo = resData[0].email;
-		cityGo = resData[0].city;
+		nameGo = unescape(resData[0].name);
+		cityGo = unescape(resData[0].city);		
+		cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
 		getUserInfo.send();
 	}
 }
 public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Number = -113.54009):void {
 	if (r.length != 0){
-		nameGo = r[0].name;
+		nameGo = unescape(r[0].name);
 		emailGo = r[0].email;
-		cityGo = r[0].city;
+		cityGo = unescape(r[0].city);
+		cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
 		getUserInfo.send();
 		if (mainNavigator.firstView == null){
 			if (mainNavigator.activeView == null){
@@ -610,6 +616,11 @@ public function investigateFacebookCallback():void {
 	var temparray:ArrayCollection = getDatabaseArray("select * from facebookcallback");
 	if (temparray.length > 0){
 		facebookwait.visible = true;
+		var ti:Timer = new Timer(4000,0);
+		ti.addEventListener(TimerEvent.TIMER, aftertiface);
 	}
 	doQuery("delete from facebookcallback");
+}
+public function aftertiface(ev:TimerEvent):void {
+	facebookwait.visible = false;
 }

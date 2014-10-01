@@ -233,8 +233,7 @@
 				searchClick();
 			}
 			public function goToMap():void {
-				navigator.pushView(MapView,
-					{mylat:this.mylat,mylong:this.mylong});
+				navigator.pushView(MapView,{mylat:this.mylat,mylong:this.mylong,listData:listData});
 			}
 			public function calllocationupdate():void {
 				try{

@@ -37,7 +37,8 @@ public function setLoginVars():void {
 		if (resData.length != 0){
 			emailGo = resData[0].email;
 			nameGo = unescape(resData[0].name);
-			cityGo = unescape(resData[0].city);
+			cityGo = unescape(resData[0].city);		
+			cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
 		}
 		else {
 			emailGo = "none";
@@ -239,10 +240,10 @@ public function calculateActionbarVals():void {
 	
 	if (Capabilities.version.indexOf('IOS') > -1){
 		if (getDPIHeight2() == 320){
-			statusbuffertop = 30;
+			statusbuffertop = 40;
 		}
 		else if (getDPIHeight2() == 160){
-			statusbuffertop = 15;
+			statusbuffertop = 20;
 		}
 	}
 }
