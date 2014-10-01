@@ -25,7 +25,10 @@
 			import com.distriqt.extension.nativemaps.objects.MapMarkerColour;
 			import com.distriqt.extension.nativemaps.objects.MapOptions;
 			import mx.collections.ArrayCollection;
-			import mx.events.FlexEvent;			
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;	
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
@@ -52,37 +55,132 @@
 					options.myLocationButtonEnabled = true;
 					NativeMaps.service.setMapOptions( options );
 					NativeMaps.service.addEventListener( NativeMapEvent.MARKER_INFO_WINDOW_TOUCHED, map_infoWindowTouchedHandler );
-					listData = data.listData;
+					
 					
 					if (NativeMaps.service.markers.length <= 0){
 						NativeMaps.service.clearMap();
 					}
-						for (var i:uint = 0; i < listData.length; i++){
-							var marker2:MapMarker = new MapMarker(listData[i].id.toString());
-							marker2.title = unescape(listData[i].business_name);
-							marker2.info = unescape(listData[i].business_address1);
-							marker2.setPosition( new LatLng(listData[i].lat,listData[i].longa) );
-							marker2.draggable = true; // this was false
-							marker2.animatesDrop = true; // this was flalse
-							marker2.infoWindowEnabled = true;
-							marker2.showInfoWindowButton = true; // this was false
-							//marker2.customIconId = "myCustomIcon";
-							
-							if (Capabilities.version.indexOf("AND") != -1)
-								marker2.colour = MapMarkerColour.AND_ROSE;
-							else
-								marker2.colour = MapMarkerColour.IOS_GREEN;
-							
-							NativeMaps.service.addMarker( marker2 )
-							
-						}	
+					
+					if (data.listData != null){
+						if (data.listData.length > 0){
+							listData = data.listData;
+							for (var i:uint = 0; i < listData.length; i++){
+								var marker2:MapMarker = new MapMarker(listData[i].id.toString());
+								marker2.title = unescape(listData[i].business_name);
+								marker2.info = unescape(listData[i].business_address1);
+								marker2.setPosition( new LatLng(listData[i].lat,listData[i].longa) );
+								marker2.draggable = true; // this was false
+								marker2.animatesDrop = true; // this was flalse
+								marker2.infoWindowEnabled = true;
+								marker2.showInfoWindowButton = true; // this was false
+								if (Capabilities.version.indexOf("AND") != -1)
+									marker2.colour = MapMarkerColour.AND_ROSE;
+								else
+									marker2.colour = MapMarkerColour.IOS_GREEN;
+								NativeMaps.service.addMarker( marker2 )
+								
+							}	
+						}
+						else {
+							getLocations.send();
+						}
+					}
+					else {
+						getLocations.send();
+					}
+					
 					
 				}
 				catch(e:Error){
 					this.parentApplication.mainNavigator.popView();
 				}
 			}
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				var i:uint = 0;
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;
+					for (i=  0; i < listData.length; i++){
+						listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
+					}
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(event.result[0].ress.res);
+						listData[0].distance = getDistance(mylat,mylong,listData[0].lat,listData[0].longa);
+					}
+					catch(e:Error){}
+				}
+				
+				if (listData.length > 0){
+					createIfNotExsist("merchusers");
+					doQuery("delete from merchusers");
+					for (i = 0; i < listData.length; i++){
+						doQuery("insert into merchusers values(" +
+							""+listData[i].id+""+","+
+							""+listData[i].merchid+""+","+
+							"'"+listData[i].business_name+"'"+","+
+							"'"+listData[i].business_number+"'"+","+
+							"'"+listData[i].business_description+"'"+","+
+							"'"+listData[i].business_picture+"'"+","+
+							"'"+listData[i].business_picture2+"'"+","+
+							"'"+listData[i].business_address1+"'"+","+
+							"'"+listData[i].business_city+"'"+","+
+							"'"+listData[i].business_locality+"'"+","+
+							"'"+listData[i].business_postalcode+"'"+","+
+							"'"+listData[i].business_country+"'"+","+
+							"'"+listData[i].lat+"'"+","+
+							"'"+listData[i].longa+"'"+","+
+							"'"+listData[i].facebook+"'"+","+
+							"'"+listData[i].twitter+"'"+","+
+							"'"+listData[i].website+"'"+","+
+							"'"+listData[i].categoryname+"'"+","+
+							"'"+listData[i].email+"'"+","+
+							"'"+listData[i].loyaltyval+"'"+","+
+							"'"+listData[i].distance+"')");
+					}
+					
+				}	
+				
+				listData.refresh();
+				
+				for (var i:uint = 0; i < listData.length; i++){
+					var marker2:MapMarker = new MapMarker(listData[i].id.toString());
+					marker2.title = unescape(listData[i].business_name);
+					marker2.info = unescape(listData[i].business_address1);
+					marker2.setPosition( new LatLng(listData[i].lat,listData[i].longa) );
+					marker2.draggable = true; // this was false
+					marker2.animatesDrop = true; // this was flalse
+					marker2.infoWindowEnabled = true;
+					marker2.showInfoWindowButton = true; // this was false
+					if (Capabilities.version.indexOf("AND") != -1)
+						marker2.colour = MapMarkerColour.AND_ROSE;
+					else
+						marker2.colour = MapMarkerColour.IOS_GREEN;
+					NativeMaps.service.addMarker( marker2 )
+					
+				}
+			} 
+			public function degreesToRadians(degrees:Number):Number {	
+				return degrees * Math.PI / 180;
+			}
 			
+			public function radiansToDegrees(radians:Number):Number{
+				return radians * 180 / Math.PI;
+			}
+			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+				var R1:Number = 6371;
+				var dLat:Number = degreesToRadians(lat2-lat1);
+				var dLon:Number = degreesToRadians(lon2-lon1);
+				var lat1:Number = degreesToRadians(lat1);
+				var lat2:Number = degreesToRadians(lat2);
+				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+				var d:Number = R1 * c;
+				return d.toString();	
+			}
 			private function map_infoWindowTouchedHandler( event:NativeMapEvent ):void
 			{
 				if (allreadygone == false){
@@ -131,4 +229,11 @@
 			}
 		]]>
 	</fx:Script>
+	<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+				   url="http://www.scoutcard.ca/php/mobile_v2/getLocations.php"
+				   result="afterGetLocations(event)" >	
+		<s:request xmlns="">
+			<versionnumber>3</versionnumber>		
+		</s:request>
+	</s:HTTPService>	
 </s:View>

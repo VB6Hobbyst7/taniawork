@@ -44,7 +44,7 @@ public var pm:PersistenceManager = new PersistenceManager();
 
 public static const FACEBOOK_APP_ID:String="1424621771149692";
 [Bindable]
-public var VERSIONID:Number = 10;
+public var VERSIONID:Number = 11;
 public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 public var resData:ArrayCollection = new ArrayCollection();
 [Bindable]
@@ -109,8 +109,7 @@ public function creationcomplete(event:FlexEvent):void
 }
 
 public function startRate():void {
-	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",3,0,0);
-	RateBox.rateBox.useTestMode();
+	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",5,0,0);
 }
 
 public function nativeKeyDown(event:KeyboardEvent):void
@@ -618,6 +617,7 @@ public function investigateFacebookCallback():void {
 		facebookwait.visible = true;
 		var ti:Timer = new Timer(4000,0);
 		ti.addEventListener(TimerEvent.TIMER, aftertiface);
+		ti.start();
 	}
 	doQuery("delete from facebookcallback");
 }

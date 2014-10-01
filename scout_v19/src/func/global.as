@@ -20,6 +20,8 @@ public var nameGo:String = "";
 public var cityGo:String = "";
 [Bindable]
 public var slideduration:Number = 250;
+public var mylat:Number = 53.536979;
+public var mylong:Number = -113.296852;
 protected var sqlConnection:SQLConnection;
 [Bindable]
 public var actionbarheight:Number = 0;
@@ -51,6 +53,18 @@ public function setLoginVars():void {
 		nameGo = "none";
 		cityGo = "none";
 	}	
+	
+	
+	try{
+		createIfNotExsist("gps");
+		var gpstemparray:ArrayCollection = new ArrayCollection();
+		gpstemparray = getDatabaseArray("select * from gps");
+		if (gpstemparray.length > 0){
+			mylat = gpstemparray[0].lat;
+			mylong = gpstemparray[0].longa;	
+		}
+	}
+	catch(e:Error) {}
 }
 
 public function createIfNotExsist(s:String):void {
@@ -79,6 +93,7 @@ public function createIfNotExsist(s:String):void {
 			"website varchar(255)," +
 			"categoryname varchar(255)," +
 			"email varchar(255)," +
+			"loyaltyval varchar(255)," +
 			"distance varchar(255))";							
 	}
 	 else if (s == "gps"){

@@ -150,6 +150,7 @@
 									"'"+listData[i].website+"'"+","+
 									"'"+listData[i].categoryname+"'"+","+
 									"'"+listData[i].email+"'"+","+
+									"'"+listData[i].loyaltyval+"'"+","+
 									"'"+listData[i].distance+"')");
 							}
 							
@@ -233,7 +234,7 @@
 				searchClick();
 			}
 			public function goToMap():void {
-				navigator.pushView(MapView,{mylat:this.mylat,mylong:this.mylong,listData:listData});
+				navigator.pushView(MapView,{listData:listData});
 			}
 			public function calllocationupdate():void {
 				try{

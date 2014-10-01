@@ -135,15 +135,7 @@
 				return true;
 			}
 			public function goToMap():void {
-				createIfNotExsist("gps");
-				var gpstemparray:ArrayCollection = new ArrayCollection();
-				gpstemparray = getDatabaseArray("select * from gps");
-				if (gpstemparray.length > 0){
-					navigator.pushView(MapView,{mylat:gpstemparray[0].lat,mylong:gpstemparray[0].longa});
-				}
-				else {
-					navigator.pushView(MapView,{mylat:53.536979,mylong:-113.296852});
-				}
+				navigator.pushView(MapView,{listData:getDatabaseArray("select * from merchusers")});
 			}
 			public function gobacktohome(event:FlexEvent):void {
 				event.preventDefault();

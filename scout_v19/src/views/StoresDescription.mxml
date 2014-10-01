@@ -277,7 +277,7 @@
 					</s:source>
 				</s:Image>
 				<s:Label id="selectedTitle"  bottom="{10/(320/Capabilities.screenDPI)}" 
-						 paddingLeft="{20/(320/Capabilities.screenDPI)}"
+						 paddingLeft="{20/(320/Capabilities.screenDPI)}" maxWidth="{this.width-(40/(320/Capabilities.screenDPI))}"
 						 paddingRight="{10/(320/Capabilities.screenDPI)}" width="100%" color="#FFFFFF"
 						 styleName="textsize3" text="{data.business_name}"/>
 			</s:Group>

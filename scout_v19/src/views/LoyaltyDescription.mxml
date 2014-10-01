@@ -5,7 +5,7 @@
 		xmlns:mobile="spark.skins.mobile.*"
 		menuKeyPressed="menupress(event)"
 		backgroundColor="#c5c5c5" visible="true" 
-		viewActivate="onActivate(event)" 
+		viewActivate="onActivate(event)" activate="onacti()"
 		title="{data.business_name}" >
 	<s:navigationContent >
 		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -39,6 +39,7 @@
 			public var rewardDescription:String = "";
 			public function onActivate(event:Event):void
 			{
+				sharePopup.endShare();
 				navigator.activeView.mouseChildren = true;
 				warn.visible = false;
 				setLoginVars();				
@@ -117,6 +118,7 @@
 					sharePopup.descriptiontext = rewardDescription;
 					sharePopup.menuname = data.business_name;
 					sharePopup.dishImg = data.business_picture;
+					sharePopup.bmpData = img1.bitmapData;
 					
 					openRewardPopup();
 					loyaltyList.selectedIndex = -1;	
@@ -234,10 +236,11 @@
 			public function startShare():void {
 				infopopup.visible = false;
 				sharePopup.startShare();
-				
-				
 			}
-
+			public function onacti():void
+			{
+				sharePopup.endShare();
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		

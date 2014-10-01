@@ -43,6 +43,10 @@
 				shareText.setFocus();
 
 			}
+			public function endShare():void {
+				this.visible = false;
+				
+			}
 			public function backOnShare():void {
 				this.visible = false;
 			}
@@ -56,9 +60,12 @@
 						GoViral.goViral.authenticateWithFacebook("email,public_profile,user_birthday,user_location");
 					}
 					else {		
+						
+						var canUseShareDialog:Boolean=GoViral.goViral.isFacebookShareDialogAvailable();
+						
 						try{
 							GoViral.goViral.showFacebookShareDialog(
-								"scoutcard",
+								menuname,
 								menuname,
 								descriptiontext,
 								"http://www.scoutcard.ca",
@@ -70,7 +77,6 @@
 											break;
 										case GVFacebookEvent.FB_DIALOG_FAILED:
 											this.visible = false;
-											//shareText.text = "The Share Dialog has failed:"+e.errorMessage
 											break;
 										case GVFacebookEvent.FB_DIALOG_FINISHED:
 											this.visible = false;
@@ -82,8 +88,12 @@
 							shareText.text = "FB ADOBE ERROR";
 							this.visible = false;
 						}	
-					}
-					
+						
+						if (!canUseShareDialog)
+						{
+							postOldFeedDialog();
+						}
+					}	
 					
 					
 				}
@@ -93,7 +103,7 @@
 					{
 						// show a twitter status post dialog
 						GoViral.goViral.showTweetSheetWithImage(
-							menuname,
+							shareText.text,
 							bmpData).addDialogListener(function(e:GVTwitterEvent):void {
 								switch(e.type)
 								{
@@ -102,7 +112,6 @@
 										break;
 									case GVTwitterEvent.TW_DIALOG_FAILED:
 										this.visible = false;
-									//	shareText.text = "Twitter dialog failed.";
 										break;
 									case GVTwitterEvent.TW_DIALOG_CANCELED:
 										this.visible = false;
@@ -111,6 +120,34 @@
 							});
 					}
 				}
+			}
+			/** Post to the facebook wall / feed via the classic web dialog.  The native dialog is now preferred if available. */
+			private function postOldFeedDialog():void
+			{
+				GoViral.goViral.showFacebookFeedDialog(
+					menuname,
+					descriptiontext,
+					shareText.text,
+					descriptiontext,
+					"http://www.scoutcard.ca",
+					dishImg,
+					{actions:{name:"ScoutCard",link:"http://www.scoutcard.ca"}}
+				).addDialogListener(function(e:GVFacebookEvent):void {
+					trace("oldfeed.response");
+					switch(e.type)
+					{
+						case GVFacebookEvent.FB_DIALOG_CANCELED:
+							this.visible = false;
+							break;
+						case GVFacebookEvent.FB_DIALOG_FAILED:
+							this.visible = false;
+							break;
+						case GVFacebookEvent.FB_DIALOG_FINISHED:
+							this.visible = false;
+							break;
+					}
+				});
+				
 			}
 			public function switchShare(u:uint):void{
 				shareType = u;
