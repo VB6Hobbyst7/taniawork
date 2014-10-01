@@ -9,10 +9,7 @@ public var g:Geolocation = new Geolocation();
 public function onactivate(event:Event):void
 {
 	investigateFacebookCallback();
-	try{
-		RateBox.rateBox.onLaunch();	
-	}
-	catch(e:Error){}
+	RateBox.rateBox.onLaunch();	
 	
 	try{
 		stage.frameRate=60; 

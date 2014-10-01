@@ -91,10 +91,10 @@
 				catch(e:Error){}
 				
 				try{
-					
+					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
 				}
 				catch(e:Error){
-					navigator.pushView(StoresDescription,listData[Number(event.markerId)]);
+				
 				}
 			}
 			public function gogofinal(u:uint):void {

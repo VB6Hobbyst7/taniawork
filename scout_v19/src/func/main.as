@@ -39,6 +39,7 @@ import org.osmf.events.TimeEvent;
 
 import views.Home;
 import views.MapView;
+import views.Settings;
 public var pm:PersistenceManager = new PersistenceManager();
 
 public static const FACEBOOK_APP_ID:String="1424621771149692";
@@ -107,10 +108,7 @@ public function creationcomplete(event:FlexEvent):void
 }
 
 public function startRate():void {
-	if (RateBox.isSupported())
-	{
-		RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",0,3,0);
-	}
+	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",0,3,0);
 }
 
 public function nativeKeyDown(event:KeyboardEvent):void
