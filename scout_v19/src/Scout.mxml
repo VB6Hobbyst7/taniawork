@@ -16,6 +16,48 @@
   frameRate="60"
   resizeForSoftKeyboard="true"
   mouseUp="overAllMouseUp(event)" xmlns:components="components.*" >
+	<fx:Style source="./main.css"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.data.SQLConnection;
+			import flash.data.SQLStatement;
+			import flash.desktop.NativeApplication;
+			import flash.desktop.SystemIdleMode;
+			import flash.events.Event;
+			import flash.events.GeolocationEvent;
+			import flash.events.MouseEvent;
+			import flash.events.TransformGestureEvent;
+			import flash.filesystem.File;
+			import flash.sensors.Geolocation;
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.Group;
+			import spark.core.ContentCache;
+			import spark.events.ElementExistenceEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.transitions.CrossFadeViewTransition;
+			import components.mainmenulistitem;
+			import views.Activity;
+			import views.Home;
+			import views.Loyalty;
+			import views.Settings;
+			import views.Signin;
+			import views.Stores;
+			[Bindable]
+			public var obarheight:Number = 0;
+		]]>
+	</fx:Script>
+	<fx:Style source="./main.css"/>
+	<fx:Script source="func/smallglobal.as"/>
+	<fx:Script source="func/global.as"/>
+	<fx:Script source="func/gps.as"/>
+	<fx:Script source="func/slidermenu.as"/>
+	<fx:Script source="func/main.as"/>
+	<fx:Script source="func/coreMobileFunctions.as" />
+	<fx:Script source="func/rate.as"/>
 	<s:ViewNavigator width="100%" height="100%"
 					 id="mainNavigator"
 					 backgroundColor="#5b5b5b"
@@ -89,47 +131,26 @@
 		</s:Image>
 	</s:Group>
 	<components:facebookwaitpopup width="100%" height="100%" visible="false" id="facebookwait"/>
-	<fx:Style source="./main.css"/>
-	<fx:Script>
-		<![CDATA[
-			import flash.data.SQLConnection;
-			import flash.data.SQLStatement;
-			import flash.desktop.NativeApplication;
-			import flash.desktop.SystemIdleMode;
-			import flash.events.Event;
-			import flash.events.GeolocationEvent;
-			import flash.events.MouseEvent;
-			import flash.events.TransformGestureEvent;
-			import flash.filesystem.File;
-			import flash.sensors.Geolocation;
-			import mx.collections.ArrayCollection;
-			import mx.core.DPIClassification;
-			import mx.events.EffectEvent;
-			import mx.events.FlexEvent;
-			import mx.rpc.events.ResultEvent;
-			import spark.components.Group;
-			import spark.core.ContentCache;
-			import spark.events.ElementExistenceEvent;
-			import spark.events.IndexChangeEvent;
-			import spark.transitions.CrossFadeViewTransition;
-			import components.mainmenulistitem;
-			import views.Activity;
-			import views.Home;
-			import views.Loyalty;
-			import views.Settings;
-			import views.Signin;
-			import views.Stores;
-			[Bindable]
-			public var obarheight:Number = 0;
-		]]>
-	</fx:Script>
-	<fx:Style source="./main.css"/>
-	<fx:Script source="func/smallglobal.as"/>
-	<fx:Script source="func/global.as"/>
-	<fx:Script source="func/gps.as"/>
-	<fx:Script source="func/slidermenu.as"/>
-	<fx:Script source="func/main.as"/>
-	<fx:Script source="func/rate.as"/>
+	<s:Group id="internetwarn" width="98%"  height="15%" top="50" horizontalCenter="0"  visible="false">
+		<s:Rect width="100%" height="100%" >
+			<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
+			<s:stroke><s:SolidColorStroke color="#7f8080" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Rect>
+		<s:HGroup horizontalAlign="left" gap="30" verticalCenter="0"
+				  horizontalCenter="0" verticalAlign="middle">
+			<s:BitmapImage id="badimg" visible="true"
+						   verticalCenter="0" horizontalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/offline.png')"
+											source240dpi="@Embed('assets/240/offline.png')"
+											source320dpi="@Embed('assets/320/offline.png')"
+											source480dpi="@Embed('assets/480/offline.png')"
+											source640dpi="@Embed('assets/640/offline.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label color="#6b6a6a" text="Network Unavailable" styleName="textsize6"/>
+		</s:HGroup>
+	</s:Group>
 	<fx:Declarations>	
 		<s:MultiDPIBitmapSource id="menu_settings"
 								source160dpi="@Embed('assets/160/settingsslider.png')"

@@ -59,6 +59,7 @@ protected function afterappcomplete(event:FlexEvent):void
 }
 public function creationcomplete(event:FlexEvent):void
 {
+	startCoreMobile();
 	svt.duration = slideduration;
 	svt.direction =  ViewTransitionDirection.LEFT;
 	svt2.duration = slideduration;
