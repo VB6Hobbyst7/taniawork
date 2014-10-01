@@ -50,14 +50,18 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
+			import com.google.analytics.debug._Style;
+			
 			import flash.events.Event;
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.collections.Sort;
 			import mx.collections.SortField;
 			import mx.events.FlexEvent;
 			import mx.events.PropertyChangeEvent;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
@@ -135,7 +139,13 @@
 				return true;
 			}
 			public function goToMap():void {
-				navigator.pushView(MapView,{listData:getDatabaseArray("select * from merchusers")});
+				var templistData:ArrayCollection = new ArrayCollection();
+				try{
+					templistData = getDatabaseArray("select * from merchusers");	
+				}
+				catch(e:Error){}
+				
+				navigator.pushView(MapView,{listData:templistData});
 			}
 			public function gobacktohome(event:FlexEvent):void {
 				event.preventDefault();

@@ -68,8 +68,6 @@
 			import spark.events.ViewNavigatorEvent;
 			[Bindable]
 			public var listData:ArrayCollection = new ArrayCollection();
-			public var mylat:Number = 53.536979;
-			public var mylong:Number = -113.296852;
 			[Bindable]
 			public var busy:Boolean = true;
 			[Bindable]
@@ -85,13 +83,6 @@
 				clickedallready = false;
 				setLoginVars();
 				busy = true;
-				createIfNotExsist("gps");
-				var gpstemparray:ArrayCollection = new ArrayCollection();
-				gpstemparray = getDatabaseArray("select * from gps");
-				if (gpstemparray.length > 0){
-					mylat = gpstemparray[0].lat;
-					mylong = gpstemparray[0].longa;	
-				}
 				calllocationupdate(); 
 			}	
 			public function afterGetLocations(event:ResultEvent):void

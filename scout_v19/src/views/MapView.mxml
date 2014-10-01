@@ -229,11 +229,13 @@
 			}
 		]]>
 	</fx:Script>
-	<s:HTTPService id="getLocations" method="GET" resultFormat="array"
-				   url="http://www.scoutcard.ca/php/mobile_v2/getLocations.php"
-				   result="afterGetLocations(event)" >	
-		<s:request xmlns="">
-			<versionnumber>3</versionnumber>		
-		</s:request>
-	</s:HTTPService>	
+	<fx:Declarations>
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/mobile_v2/getLocations.php"
+					   result="afterGetLocations(event)" >	
+			<s:request xmlns="">
+				<versionnumber>3</versionnumber>		
+			</s:request>
+		</s:HTTPService>	
+	</fx:Declarations>
 </s:View>
