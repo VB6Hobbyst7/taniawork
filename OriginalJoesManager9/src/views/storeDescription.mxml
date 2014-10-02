@@ -49,12 +49,16 @@
 			<s:calloutContent>
 				<s:HGroup verticalAlign="middle">
 					<s:Label text="From:"/>
-					<s:DateSpinner height="75" change="datechanger(event)" 
+					<s:DateSpinner height="75" change="datechanger(event)"  
+								   maxDate="{maxDate}"  
+								    minDate="{minDate}"
 								   id="datefrom" displayMode="date" />
 				</s:HGroup>
 				<s:HGroup  verticalAlign="middle">
 					<s:Label text="To:"/>
 					<s:DateSpinner height="75" change="datechanger(event)"
+								   maxDate="{maxDate}"
+								   minDate="{minDate}"
 								   id="dateto" displayMode="date" />
 				</s:HGroup>	
 				<s:Button id="clearbtn" label="Clear" click="cleardates();" 
@@ -77,7 +81,7 @@
 			import mx.events.PropertyChangeEvent;
 			import mx.events.ResizeEvent;
 			import mx.rpc.events.ResultEvent;
-			import mx.utils.*;
+			import mx.utils.ObjectUtil;
 			
 			import spark.effects.Fade;
 			import spark.events.IndexChangeEvent;
@@ -99,7 +103,11 @@
 			public var storeid:String = "";
 			[Bindable]
 			public var usedates:Boolean = false;
-		
+			[Bindable]
+			public var maxDate:Date = new Date();
+			[Bindable]
+			public var minDate:Date = new Date();
+			
 			public function tOver(ev:MouseEvent):void {
 				ev.currentTarget.setStyle("textDecoration","underline");
 			}
@@ -118,6 +126,7 @@
 				ev.currentTarget.filters = [];
 			}
 			public function afterGetChecklists(ev:ResultEvent):void {
+				minDate = new Date(maxDate.fullYear, --maxDate.month, 0);
 				var stop:String = "";
 				busy = false;
 				listdata = new ArrayCollection();
@@ -168,6 +177,9 @@
 			}
 			protected function init(event:FlexEvent):void
 			{
+				
+				
+				
 				try{
 					storeid = data.storeid;
 					busy = true;
