@@ -33,7 +33,7 @@
 			{
 			//	fileName = "K://wamp/www/clinicaltrialsparser/bin-debug/data/ntc"+fileIndex.toString()+".xml";
 				resArray = new ArrayCollection();
-				for (fileIndex = 18000; fileIndex < 35980; fileIndex++){
+				for (fileIndex = 8000; fileIndex < 17930; fileIndex++){
 					trace("doing: "+fileIndex.toString());
 					fileName = "C:/data/"+fileIndex.toString()+".xml";
 					var file:File = new File(fileName);
@@ -75,15 +75,8 @@
 						sponsor = stripHtmlTags(sponsor);
 					}
 					
-					
-					intervention = text.substring(text.indexOf("<intervention>")+14,text.indexOf("</intervention>"));
-					if (intervention.indexOf("<intervention>") != -1){
-						intervention = intervention.substring(intervention.indexOf("<intervention>")+14,intervention.indexOf("</intervention>"));
-					}
-					else {
-						intervention = stripHtmlTags(intervention);
-					}
-				
+					intervention = text.substring(text.indexOf("<intervention>")+14,text.lastIndexOf("</intervention>"));
+					intervention = stripHtmlTags(intervention);
 					
 					var j:RegExp = new RegExp("\n","g");
 					intervention = intervention.replace(j,",");
@@ -100,6 +93,28 @@
 					}
 					
 					var j:RegExp = new RegExp(", ","g");
+					intervention = intervention.replace(j,",");
+					
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					intervention = intervention.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
 					intervention = intervention.replace(j,",");
 					
 					
@@ -123,8 +138,53 @@
 						description = "";
 					}
 					
+					
+					
+					var condition:String = text.substring(text.indexOf("<condition>")+("<condition>").length,text.lastIndexOf("</condition>"));
+					condition = stripHtmlTags(condition);
+					var j:RegExp = new RegExp("\n","g");
+					condition = condition.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					condition = condition.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					condition = condition.replace(j,",");
+					
+					var j:RegExp = new RegExp(",,","g");
+					condition = condition.replace(j,",");
+					
+				
+					
+					var phase:String = text.substring(text.indexOf("<phase>")+("<phase>").length,text.indexOf("</phase>"));
+					var overall_status:String = text.substring(text.indexOf("<overall_status>")+("<overall_status>").length,text.indexOf("</overall_status>"));
+					var gender:String = text.substring(text.indexOf("<gender>")+("<gender>").length,text.indexOf("</gender>"));
+					var study_design:String = text.substring(text.indexOf("<study_design>")+("<study_design>").length,text.indexOf("</study_design>"));
+					var firstreceived_date:String = text.substring(text.indexOf("<firstreceived_date>")+("<firstreceived_date>").length,text.indexOf("</firstreceived_date>"));
+					var verification_date:String = text.substring(text.indexOf("<verification_date>")+("<verification_date>").length,text.indexOf("</verification_date>"));
+					var eligibility:String = text.substring(text.indexOf("<eligibility>")+("<eligibility>").length,text.indexOf("</eligibility>"));
+					eligibility = stripHtmlTags(eligibility);
+					var location_countries:String = text.substring(text.indexOf("<location_countries>")+("<location_countries>").length,text.indexOf("</location_countries>"));
+					location_countries = stripHtmlTags(location_countries,"",",");
+					var source:String = text.substring(text.indexOf("<source>")+("<source>").length,text.indexOf("</source>"));
+					var j2:RegExp = new RegExp("\n","g");
+					location_countries = location_countries.replace(j2,"");
+					
+					
+					////new part 3
+					var minimum_age:String = text.substring(text.indexOf("<minimum_age>")+("<minimum_age>").length,text.indexOf("</minimum_age>"));
+					var maximum_age:String = text.substring(text.indexOf("<maximum_age>")+("<maximum_age>").length,text.indexOf("</maximum_age>"));
+					var org_study_id:String = text.substring(text.indexOf("<org_study_id>")+("<org_study_id>").length,text.indexOf("</org_study_id>"));
+					var lastchanged_date:String = text.substring(text.indexOf("<lastchanged_date>")+("<lastchanged_date>").length,text.indexOf("</lastchanged_date>"));
+					var url:String = text.substring(text.indexOf("<url>")+("<url>").length,text.indexOf("</url>"));
+
+
+
 					resArray.addItem({nctid:nctid,brieftitle:fixText(brieftitle),officialtitle:fixText(officialtitle),
-						summary:summary,description:description,sponsor:fixText(sponsor),intervention:intervention,studytype:studytype});
+						summary:summary,description:description,sponsor:fixText(sponsor),intervention:intervention,studytype:studytype,
+						condition:condition,phase:phase,overall_status:overall_status,gender:gender,study_design:study_design,firstreceived_date:firstreceived_date,
+						verification_date:verification_date,eligibility:eligibility,location_countries:location_countries,source:source,
+						minimum_age:minimum_age,maximum_age:maximum_age,org_study_id:org_study_id,lastchanged_date:lastchanged_date,url:url});
 					
 					
 
@@ -133,7 +193,8 @@
 				}	
 				
 				
-				var meshcsv:String = "nctid,brieftitle,intervention,officialtitle,summary,description,sponsor,studytype\r\n"
+				var meshcsv:String = "nctid,brieftitle,intervention,officialtitle,summary,description,sponsor,studytype,condition,phase,overall_status,gender," +
+					"study_design,firstreceived_date,verifcaiton_date,eligibility,location_countries,source,min_age,max_age,original_study_id,lastchanged_date,url\r\n"
 				for (var u:uint = 0; u < resArray.length; u++){
 					meshcsv = meshcsv + "\"" + 
 						resArray[u].nctid+ "\"" + ","+ "\"" +
@@ -143,7 +204,22 @@
 						resArray[u].summary+ "\"" + ","+ "\"" +
 						resArray[u].description+ "\"" + ","+ "\"" +
 						resArray[u].sponsor+ "\"" + ","+ "\"" +
-						resArray[u].studytype+ "\"" +
+						resArray[u].studytype+ "\"" + ","+ "\"" +
+						resArray[u].condition+ "\"" + ","+ "\"" +
+						resArray[u].phase+ "\"" + ","+ "\"" +
+						resArray[u].overall_status+ "\"" + ","+ "\"" +
+						resArray[u].gender+ "\"" + ","+ "\"" +
+						resArray[u].study_design+ "\"" + ","+ "\"" +
+						resArray[u].firstreceived_date+ "\"" + ","+ "\"" +
+						resArray[u].verification_date+ "\"" + ","+ "\"" +
+						resArray[u].verification_date+ "\"" + ","+ "\"" +
+						resArray[u].location_countries+ "\"" + ","+ "\"" +
+						resArray[u].source+ "\"" + ","+ "\"" +
+						resArray[u].minimum_age+ "\"" + ","+ "\"" +
+						resArray[u].maximum_age+ "\"" + ","+ "\"" +
+						resArray[u].org_study_id+ "\"" + ","+ "\"" +
+						resArray[u].lastchanged_date+ "\"" + ","+ "\"" +
+						resArray[u].url+ "\"" +
 						"\r\n";
 					
 				}
@@ -185,12 +261,12 @@
 					var stop:String = "";
 				}
 			}
-			public static function stripHtmlTags(html:String, tags:String = ""):String
+			public static function stripHtmlTags(html:String, tags:String = "",delim:String = ""):String
 			{
 				var i:uint = 0;
 				var tagRegExp:RegExp = new RegExp("<([^>\\s]+)(\\s[^>]+)*>", "g");
 				var tmpRE:RegExp = new RegExp("([\+\*\$\/])","g");
-				html = html.replace(tagRegExp, "");
+				html = html.replace(tagRegExp, delim);
 				html = html.replace(tmpRE, "");
 				return html;
 			}
