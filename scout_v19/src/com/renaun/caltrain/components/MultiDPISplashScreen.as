@@ -15,6 +15,10 @@ package com.renaun.caltrain.components
 		private var SplashImage240:Class; 
 		[Embed(source="/assets/splashlogo_High.png")] 
 		private var SplashImage320:Class; 
+		[Embed(source="/assets/splashlogo_Higher.png")] 
+		private var SplashImage480:Class;
+		[Embed(source="/assets/splashlogo_Highest.png")] 
+		private var SplashImage640:Class;
 		[Embed(source="/assets/Default-568h@2x.png")] 
 		private var iphone5image:Class; 
 		public function MultiDPISplashScreen() 
@@ -23,23 +27,27 @@ package com.renaun.caltrain.components
 		} 
 		override mx_internal function getImageClass(aspectRatio:String, dpi:Number, resolution:Number):Class 
 		{ 
-			if (resolution > 1000){
+			var wi:Number = Capabilities.screenResolutionX;
+			var hi:Number = Capabilities.screenResolutionY;
+			if (((wi == 640)&& (hi == 1136))||((wi == 1136)&& (hi == 640))){
 				return iphone5image;
 			}
-			else if (dpi == DPIClassification.DPI_160)
-			{
-				if (Capabilities.screenResolutionX < 512 && Capabilities.screenResolutionY < 512
-					|| Capabilities.cpuArchitecture == "x86")
-					return SplashImage160;
-				else
-					return SplashImage320;
+			else if (dpi == DPIClassification.DPI_160){
+				return SplashImage160;
 			}
-			else if (dpi == DPIClassification.DPI_240) 
+			else if (dpi == DPIClassification.DPI_160){
 				return SplashImage240; 
-			else if (dpi == DPIClassification.DPI_320) 
+			}
+			else if (dpi == DPIClassification.DPI_160){
 				return SplashImage320; 
+			}
+			else if (dpi == DPIClassification.DPI_160){
+				return SplashImage480; 
+			}
+			else if (dpi == DPIClassification.DPI_160){
+				return SplashImage640; 
+			}
 			return SplashImage320; 
 		} 
 	} 
 }
-
