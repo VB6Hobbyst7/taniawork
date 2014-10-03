@@ -533,7 +533,7 @@
 						  mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 						  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
 					<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
-							 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+							 styleName="textsize1" text="Category" verticalAlign="middle" verticalCenter="0"/>
 					<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv1label" mouseEnabled="false"  
 							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
 							 text="All" verticalAlign="middle" verticalCenter="0"/>

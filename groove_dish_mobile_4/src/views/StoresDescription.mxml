@@ -191,7 +191,6 @@
 			}
 			public function afterGetTopRated(ev:ResultEvent):void {
 				this.parentApplication.hideloading();
-				
 				storetoprateddata = new ArrayCollection();
 				try{			
 					storetoprateddata = ev.result[0].results.result;		
@@ -763,7 +762,7 @@
 							change="menuitemclick();"
 							click="menuitemclick();"
 							id="topratedlist"  horizontalScrollPolicy="off" 
-							itemRenderer="components.menuResult">
+							itemRenderer="components.topRatedDish">
 						<s:layout>
 							<s:VerticalLayout horizontalAlign="contentJustify"  
 											  variableRowHeight="true" gap="0"/>

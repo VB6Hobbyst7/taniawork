@@ -14,25 +14,18 @@
 		<![CDATA[
 			import com.milkmangames.nativeextensions.CoreMobile;
 			import com.milkmangames.nativeextensions.events.CMDialogEvent;
-			
 			import flash.events.MouseEvent;
 			import flash.filesystem.File;
 			import flash.net.navigateToURL;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			import mx.rpc.events.ResultEvent;
-			
 			import spark.events.ViewNavigatorEvent;
-			
-			import components.ratingsResultStore;
 			[Bindable]
 			public var finaldate:String = "";
 			[Bindable]
 			public var likemode:Number = -1;
 			public function init():void
-			{
-				
+			{	
 				if (data.liked == 'yes'){
 					likemode = 1;
 				}
@@ -279,8 +272,9 @@
 		<s:VGroup height="100%" paddingTop="0" gap="{30/(320/Capabilities.screenDPI)}" 
 				  horizontalCenter="0" verticalCenter="0"  width="{this.width}"  maxWidth="{this.width}" >
 			<s:Group width="100%" height="{img1.height}"   id="megacont"  >
-				<s:BitmapImage id="img1"  width="{this.width}"  maxWidth="{this.width}" scaleMode="zoom"
-							   top="0"  height="{this.width/(640/300)}" smooth="true" 
+				<s:BitmapImage id="img1"  width="100%"  maxWidth="{this.width}"
+							   scaleMode="zoom" smooth="true" 
+							   top="0"  height="{this.width/(16/9)}" 
 							   source="{data.picture}"  contentLoader="{s_imageCache}" />
 				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
 							   scaleMode="stretch"	contentLoader="{s_imageCache}"   >
@@ -322,6 +316,21 @@
 							  maxDisplayedLines="1"
 							  verticalAlign="middle"></s:Label>
 				</s:Group>
+				<s:Group bottom="{20/(320/Capabilities.screenDPI)}" right="{30/(320/Capabilities.screenDPI)}">
+					<s:Rect width="100%"  height="100%" radiusX="5" radiusY="5">
+						<s:fill>
+							<s:SolidColor alpha="0.7" color="#c4c4c4"/>
+						</s:fill>
+					</s:Rect>
+					<s:Label  color="#FFFFFF" 
+							  paddingBottom="10" paddingLeft="15"
+							  paddingRight="15" paddingTop="10" 
+							  text="{finaldate}"  fontWeight="bold"
+							  horizontalCenter="0" verticalCenter="3"
+							  styleName="textsize5" 
+							  maxDisplayedLines="1"
+							  verticalAlign="middle"></s:Label>
+				</s:Group>
 			</s:Group>
 			
 			<s:VGroup width="{this.width}"  maxWidth="{this.width}" 
@@ -341,13 +350,12 @@
 						<s:Label id="selectedTitle"  maxDisplayedLines="1" 
 								paddingTop="{2/(320/Capabilities.screenDPI)}"
 								 width="100%" color="#4d4d4d"  verticalCenter="0" maxWidth="{this.width*0.70}"
-								 styleName="textsize4" fontWeight="bold" text="{data.name}"/>
+								 styleName="textsize3" fontWeight="bold" text="{data.name}"/>
 						<s:Label  color="#36ccba" fontWeight="bold" click="gotobusiness();"
-								
 								  mouseDown="gDown(event)" mouseOver="gOver(event)" 
-								  mouseUp="gOut(event)" mouseOut="gOut(event)"
-								  styleName="textsize3" text="{data.business_name+ ' • ' + finaldate }"
-								  verticalAlign="middle"/>
+								  mouseUp="gOut(event)" mouseOut="gOut(event)" maxDisplayedLines="1" 
+								  styleName="textsize2" text="{data.business_name}"
+								  verticalAlign="middle"  maxWidth="{this.width*0.70}"/>
 					</s:VGroup>
 				</s:HGroup>
 				
