@@ -154,16 +154,12 @@
 				</s:Group>
 			</s:Group>
 			<s:Group  width="{this.width/1.15}" click="goProfile(event)">
-				<s:Rect width="100%"  height="100%">
-					<s:fill>
-						<s:SolidColor alpha="1" color="#c4c4c4"/>
-					</s:fill>
-				</s:Rect>
+				
 				<s:VGroup width="100%" id="defaultimggroup" horizontalAlign="center" gap="0">
-					<s:Image  id="profimage" 
-							  height="{(this.width/1.15)/(640/300)}" 
-							  width="{this.width/1.15}" 
-							  horizontalCenter="0" verticalCenter="0"  contentLoader="{s_imageCache}" >
+					<s:BitmapImage id="profimage"  width="{300/(320/Capabilities.screenDPI)}"
+								   height="{300/(320/Capabilities.screenDPI)}"  horizontalCenter="0" 
+								   verticalCenter="0"  smooth="true" 
+								   contentLoader="{s_imageCache}" >
 						<s:source>
 							<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/profile-default.png')"
 													source240dpi="@Embed('assets/240/profile-default.png')"
@@ -171,7 +167,13 @@
 													source480dpi="@Embed('assets/480/profile-default.png')"
 													source640dpi="@Embed('assets/640/profile-default.png')"/>
 						</s:source>
-					</s:Image>
+						<s:mask>
+							<s:BorderContainer id="bmpMask"
+											   cornerRadius="{180/(320/Capabilities.screenDPI)}"
+											   width="{300/(320/Capabilities.screenDPI)}"
+											   height="{300/(320/Capabilities.screenDPI)}" />
+						</s:mask>
+					</s:BitmapImage>
 				</s:VGroup>
 			</s:Group>
 			<s:List id="listmenu" height="100%"

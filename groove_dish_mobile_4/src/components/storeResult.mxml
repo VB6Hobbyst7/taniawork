@@ -7,7 +7,10 @@
 	<fx:Script source="../func/tileSizerMenu.as"/>
 	<fx:Script>
 		<![CDATA[
+			import flash.net.dns.AAAARecord;
+			
 			import mx.events.FlexEvent;
+			import mx.graphics.IFill;
 			import mx.graphics.SolidColorStroke;
 			
 			import spark.components.Group;
@@ -130,70 +133,35 @@
 					else {
 						bmpImg.source = unescape(data.business_picture);
 					}
+					bmpImg.scaleMode = "zoom";
 					bmpImg.contentLoader = s_imageCache;
 					bmpImg.width = neededwidth;
-					bmpImg.height = neededwidth*(300/640);
-					v1.addElement(bmpImg);
-					
-					var hg:HGroup = new HGroup();
-					hg.horizontalAlign = "center";
-					hg.paddingTop = 0; 
-					hg.percentWidth = 100;
-					hg.maxWidth = neededwidth;
-					hg.gap = 0;
-					hg.verticalAlign = "middle";
-					hg.mouseEnabled = false;
+					bmpImg.height = neededwidth*(414/622)-(gapo*2);
+					bmpImg.bottom = 0;
+					var gr5:Group = new Group();
+					gr5.width = neededwidth;
+					gr5.height = neededwidth*(414/622);
+					gr5.addElement(bmpImg);
 					
 					
-					
-					var stroke1:SolidColorStroke = new SolidColorStroke();
-					stroke1.color = 0xe6e6e6;
-					stroke1.weight = 1/(320/Capabilities.screenDPI);
-					var line1:Line = new Line();
-					line1.right = 0;
-					line1.left = 0;
-					line1.bottom = 0;
-					line1.stroke = stroke1;
-					var line2:Line = new Line();
-					line2.top = 0;
-					line2.bottom = 0;
-					line2.right = 0;
-					line2.stroke = stroke1;
-					line2.rotation = 90;
-					var line3:Line = new Line();
-					line3.right = 0;
-					line3.left = 0;
-					line3.bottom = 0;
-					line3.stroke = stroke1;
-					var line4:Line = new Line();
-					line4.top = 0;
-					line4.bottom = 0;
-					line4.right = 0;
-					line4.stroke = stroke1;
-					line4.rotation = 90;
-					var line5:Line = new Line();
-					line5.right = 0;
-					line5.left = 0;
-					line5.bottom = 0;
-					line5.stroke = stroke1;
-					var line6:Line = new Line();
-					line6.top = 0;
-					line6.bottom = 0;
-					line6.right = 0;
-					line6.stroke = stroke1;
-					line6.rotation = 90;
-					
-					var g1:Group = new Group();
-					g1.width = neededwidth/3;
-					g1.height = 50/(320/Capabilities.screenDPI);
-					g1.mouseEnabled = false;
+					var gr6:Group = new Group();
+					var rc6:Rect = new Rect();
+					rc6.fill = new SolidColor(0x36ccba, 0.95);
+					rc6.percentHeight = 100;
+					rc6.percentWidth = 100;
+					rc6.radiusX =9;
+					rc6.radiusY = 9;
 					var l1:Label = new Label();
 					l1.setStyle("textAlign","center");
 					l1.horizontalCenter = 0;
-					l1.verticalCenter = 0;
-					l1.styleName = "textsize1";
+					l1.verticalCenter = 3;
+					l1.styleName = "textsize0";
 					l1.setStyle("fontWeight","bold");
-					l1.setStyle("color","#36ccba");
+					l1.setStyle("color","#ffffff");
+					l1.setStyle("paddingLeft",10);
+					l1.setStyle("paddingRight",10);
+					l1.setStyle("paddingBottom",5);
+					l1.setStyle("paddingTop",5);
 					var ratingstring:String =unescape(data.rating.toString());
 					var ratingnumber:Number = Number(unescape(data.rating));
 					if (ratingnumber == 0){
@@ -206,10 +174,8 @@
 					else {
 						l1.text = ratingnumber.toPrecision(2).toString();
 					}
-					g1.addElement(line1);
-					g1.addElement(line2);
-					g1.addElement(l1);
-					
+					gr6.addElement(rc6);
+					gr6.addElement(l1);
 					var pricelabel:String = "";
 					if (data.price == 1){
 						pricelabel  = "$";
@@ -226,52 +192,37 @@
 					else if (data.price == 5){
 						pricelabel  = "$$$$$";
 					}
-					var g2:Group = new Group();
-					g2.width = neededwidth/3;
-					g2.height = 50/(320/Capabilities.screenDPI);
-					g2.mouseEnabled = false;
+					var gr7:Group = new Group();
+					var rc7:Rect = new Rect();
+					rc7.radiusX = 9;
+					rc7.radiusY = 9;
+					rc7.fill = new SolidColor(0xc4c4c4, 0.95);
+					rc7.percentHeight = 100;
+					rc7.percentWidth = 100;
 					var l2:Label = new Label();
 					l2.setStyle("textAlign","center");
 					l2.horizontalCenter = 0;
-					l2.verticalCenter = 0;
+					l2.setStyle("paddingLeft",10);
+					l2.setStyle("paddingRight",10);
+					l2.setStyle("paddingBottom",5);
+					l2.setStyle("paddingTop",5);
+					l2.verticalCenter = 3;
 					l2.styleName = "textsize0";
-					l2.setStyle("color","#999999");
+					l2.setStyle("color","#ffffff");
 					l2.text = pricelabel;
-					g2.addElement(line3);
-					g2.addElement(line4);
-					g2.addElement(l2);
+					gr7.addElement(rc7);
+					gr7.addElement(l2);
 					
-					var g3:Group = new Group();
-					g3.width = neededwidth/3;
-					g3.height = 50/(320/Capabilities.screenDPI);
-					g3.mouseEnabled = false;
-					var l3:Label = new Label();
-					l3.setStyle("textAlign","center");
-					l3.horizontalCenter = 0;
-					l3.verticalCenter = 0;
-					l3.styleName =  "textsize0";
-					l3.setStyle("color","#999999");
-					if ((unescape(data.distance) != '')&&(unescape(data.distance) != 'null')&&(unescape(data.distance) != null)){
-						var dist:Number = Number(unescape(data.distance));
-						if (dist >= 1){
-							l3.text = dist.toFixed(1)+ " km";
-						}
-						else {
-							dist = dist * 1000;
-							l3.text = dist.toFixed(0)+ " m";
-						}
-					}
-					else {
-						l3.text = "";
-					}
-					g3.addElement(line5);
+					var hg2:HGroup = new HGroup();
+					hg2.paddingLeft = 15;
+					hg2.gap = 15;
+					hg2.addElement(gr6);
+					hg2.addElement(gr7);
+					hg2.bottom = 15;
+					gr5.addElement(hg2)
+					v1.addElement(gr5);
 					
-					g3.addElement(l3);
-					
-					
-					hg.addElement(g1);
-					hg.addElement(g2);
-					hg.addElement(g3);
+
 					
 					var v2:VGroup = new VGroup();
 					v2.width = neededwidth;
@@ -295,26 +246,52 @@
 					
 					var g4:Group = new Group();
 					g4.width = neededwidth;
-					
+					var newdist:String = "";
+					if ((unescape(data.distance) != '')&&(unescape(data.distance) != 'null')&&(unescape(data.distance) != null)){
+						var dist:Number = Number(unescape(data.distance));
+						if (dist >= 1){
+							newdist = dist.toFixed(1)+ " km";
+						}
+						else {
+							dist = dist * 1000;
+							newdist = dist.toFixed(0)+ " m";
+						}
+					}
+					else {
+						newdist = "";
+					}
+					var hg3:HGroup = new HGroup();
+					hg3.gap = 0;
+					hg3.paddingLeft = 20/(320/Capabilities.screenDPI);
 					var l6:Label = new Label();
-					l6.width = neededwidth-(20/(320/Capabilities.screenDPI));
-					l6.setStyle("paddingLeft",10/(320/Capabilities.screenDPI));
+					l6.maxWidth = neededwidth-(20/(320/Capabilities.screenDPI));
 					l6.setStyle("fontWeight","bold");
 					l6.horizontalCenter = 0;
 					l6.verticalCenter = 0;
 					l6.left = 0;
 					l6.styleName =  "textsize0";
 					l6.setStyle("color","#4d4d4d");
-					l6.text = unescape(data.categoryname);
+					l6.text = unescape(data.categoryname+" •");
 					l6.maxDisplayedLines = 1;
 					l6.setStyle("verticalAlign","middle");
 					
+					var l7:Label = new Label();
+					l7.horizontalCenter = 0;
+					l7.verticalCenter = 0;
+					l7.styleName =  "textsize0";
+					l7.setStyle("color","#4d4d4d");
+					l7.text = unescape(" "+newdist);
+					l7.maxDisplayedLines = 1;
+					l7.setStyle("verticalAlign","middle");
+					
+					hg3.addElement(l6);
+					hg3.addElement(l7);
+					
 					v2.addElement(l5);
-					g4.addElement(l6);
+					g4.addElement(hg3);
 					v2.addElement(g4);
 					
 					
-					v1.addElement(hg);
 					v1.addElement(v2);
 				}		
 			}
