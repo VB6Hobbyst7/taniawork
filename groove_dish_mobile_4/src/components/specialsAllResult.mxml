@@ -22,7 +22,7 @@
 				else {
 					bmpImg.source = data.picture;
 				}
-				
+				bmpImg.scaleMode = "letterbox";
 				bmpImg.width = setheightval*(640/300);//this.height;//-((75/(320/Capabilities.screenDPI))*data.divtype)
 				bmpImg.height = setheightval;//thi	s.height;//-((75/(320/Capabilities.screenDPI))*data.divtype);
 				bmpImg.maxHeight = this.height;

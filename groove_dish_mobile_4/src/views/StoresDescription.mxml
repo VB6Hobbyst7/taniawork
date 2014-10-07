@@ -440,19 +440,19 @@
 			<s:Group width="100%" height="{img1.height}"   id="megacont"  >
 				<s:BitmapImage id="img1"  width="100%"  maxWidth="{this.width}"
 							   scaleMode="zoom" smooth="true" 
-							   top="0"  height="{this.width/(16/9)}" 
+							   top="0" height="{this.width/(3/2)}"
 							   source="{unescape(data.business_picture)}" 
 							   contentLoader="{s_imageCache}" />
-				<s:BitmapImage id="shaddow"  width="100%" height="{img1.height}"  top="0"
-							   scaleMode="stretch"	contentLoader="{s_imageCache}"   >
-					<s:source>
-						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowflipped.png')"
-												source240dpi="@Embed('../assets/240/pictureshadowflipped.png')"
-												source320dpi="@Embed('../assets/320/pictureshadowflipped.png')"
-												source480dpi="@Embed('../assets/480/pictureshadowflipped.png')"
-												source640dpi="@Embed('../assets/640/pictureshadowflipped.png')"/>
-					</s:source>
-				</s:BitmapImage>
+				<s:BitmapImage id="shaddow"  height="{img1.height}" width="{img1.width}"  top="0"
+								scaleMode="stretch"	contentLoader="{s_imageCache}"   >
+					 <s:source>
+						 <s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/pictureshadowflipped.png')"
+												 source240dpi="@Embed('../assets/240/pictureshadowflipped.png')"
+												 source320dpi="@Embed('../assets/320/pictureshadowflipped.png')"
+												 source480dpi="@Embed('../assets/480/pictureshadowflipped.png')"
+												 source640dpi="@Embed('../assets/640/pictureshadowflipped.png')"/>
+					 </s:source>
+				 </s:BitmapImage>
 				<s:Group width="{this.width*0.30}" height="{this.width*0.30}"  visible="false" 
 						 mouseEnabledWhereTransparent="true" id="backbutton"  left="0"  
 						 mouseDown="navigator.popView();">

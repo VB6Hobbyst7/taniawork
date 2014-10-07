@@ -147,7 +147,7 @@
 					}
 					bmpImg.contentLoader = s_imageCache;
 					bmpImg.width = neededwidth;
-					bmpImg.height = neededwidth*(300/640);
+					bmpImg.height = neededwidth/(3/2);
 					v1.addElement(bmpImg);
 					
 					var hg:HGroup = new HGroup();

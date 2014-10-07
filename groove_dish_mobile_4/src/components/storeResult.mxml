@@ -136,7 +136,7 @@
 					bmpImg.scaleMode = "zoom";
 					bmpImg.contentLoader = s_imageCache;
 					bmpImg.width = neededwidth;
-					bmpImg.height = neededwidth*(414/622)-(gapo*2);
+					bmpImg.height = neededwidth/(3/2)-(gapo*2);
 					bmpImg.bottom = 0;
 					var gr5:Group = new Group();
 					gr5.width = neededwidth;

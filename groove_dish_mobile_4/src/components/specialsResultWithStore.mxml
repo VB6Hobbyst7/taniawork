@@ -41,7 +41,7 @@
 				bmpImg.percentWidth = 100*data.type;
 				bmpImg.height = this.width*(300/640)*data.type;
 				bmpImg.contentLoader = s_imageCache;
-
+				bmpImg.scaleMode = "letterbox";
 				if (data.yearly == 'y'){
 					var date1:String = data.startdate;
 					date1 = date1.substring(5,date1.length);
