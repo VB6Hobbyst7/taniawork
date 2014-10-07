@@ -115,7 +115,7 @@
 	<fx:Declarations>		
 		<s:HTTPService id="getactivity" method="GET" 
 					   resultFormat="array" 	
-					   url="http://www.scoutcard.ca/php/mobile_v2/getActivityList.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/getActivityList.php"
 					   result="afterGetActivity(event)" >	
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>	

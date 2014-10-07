@@ -259,7 +259,7 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
-					   url="http://www.scoutcard.ca/php/mobile_v2/getLocations.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/getLocations.php"
 					   result="afterGetLocations(event)" >	
 			<s:request xmlns="">
 				<versionnumber>3</versionnumber>		

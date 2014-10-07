@@ -200,7 +200,7 @@
 		<fx:String id="fsbirthyear"/>
 		<s:HTTPService id="syncfacebook" method="GET" 
 					   resultFormat="array" 
-					   url="http://www.scoutcard.ca/php/mobile_v2/syncfacebook.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/syncfacebook.php"
 					   result="aftersyncfacebook(event)" >
 			<s:request xmlns="">
 				<id>{fsid}</id>	
@@ -216,7 +216,7 @@
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
-					   url="http://www.scoutcard.ca/php/mobile_v2/getUserInfo.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/getUserInfo.php"
 					   result="afterGetUserInfo(event)" >	
 			<s:request xmlns="">
 				<emailGo>{emailGo}</emailGo>		

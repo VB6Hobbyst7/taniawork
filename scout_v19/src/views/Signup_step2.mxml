@@ -93,11 +93,11 @@
 		<s:RadioButtonGroup id="gendergroup"/>
 		<s:HTTPService id="createNewUser" method="GET" 
 					   resultFormat="array" 
-					   url="http://www.scoutcard.ca/php/mobile_v2/createUser.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/createUser.php"
 					   result="afterCreateNewUser(event)" >
 			<s:request xmlns="">
 				<email>{data.email}</email>		
-				<nameo>{data.nameo}</nameo>		
+				<name>{data.nameo}</name>		
 				<password>{data.password}</password>		
 				<city>{ncity.text}</city>		
 				<locality>{provlist.selectedItem.label}</locality>		

@@ -53,7 +53,7 @@
 	
 		<s:HTTPService id="changePassword" method="GET" 
 					   resultFormat="array" 
-					   url="http://www.scoutcard.ca/php/mobile_v2/changePassword.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/changePassword.php"
 					   result="afterChangePassword(event)" >
 			<s:request xmlns="">
 				<oldpass>{oldpassword.text}</oldpass>

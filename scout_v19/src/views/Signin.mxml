@@ -100,7 +100,7 @@
 		<fx:String id="passid" />
 		<s:HTTPService id="checkLogin" method="POST" 
 					   resultFormat="array" 
-					   url="http://www.scoutcard.ca/php/mobile_v2/checkLogin.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/checkLogin.php"
 					   result="afterCheckLogin(event)" >
 			<s:request xmlns="">
 				<userid>{userid}</userid>		

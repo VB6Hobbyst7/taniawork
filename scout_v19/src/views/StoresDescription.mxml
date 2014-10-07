@@ -228,7 +228,7 @@
 	</fx:Script>
 	<fx:Declarations>		
 		<s:HTTPService id="getLocationInfo" method="GET" resultFormat="array"
-					   url="http://www.scoutcard.ca/php/mobile_v2/getLocationInfo.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/getLocationInfo.php"
 					   result="afterGetLocationInfo(event)" >	
 			<s:request xmlns="">
 				<versionnumber>3</versionnumber>	
@@ -236,7 +236,7 @@
 			</s:request>
 		</s:HTTPService>	
 		<s:HTTPService id="sendrating" method="POST" resultFormat="text"
-					   url="http://www.scoutcard.ca/php/mobile_v2/submitrating.php"
+					   url="http://www.scoutcard.ca/php/mobile_v3/submitrating.php"
 					   result="afterSubmitRating(event)" >	
 			<s:request xmlns="">
 				<versionnumber>3</versionnumber>	
