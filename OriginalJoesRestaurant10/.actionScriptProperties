@@ -48,7 +48,9 @@
         <anePaths/>
         <newLaunchParams/>
         <modifiedLaunchParams/>
-        <newPackagingParams/>
+        <newPackagingParams>
+          <Parameter location="placeBefore" name="-useLegacyAOT" placeBefore="-provisioning-profile" value="yes"/>
+        </newPackagingParams>
         <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
