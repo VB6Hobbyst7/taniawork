@@ -51,10 +51,12 @@ public class Gui{
 	public static Statement statement = null;
 	public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
 	public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
+	public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
+
 	public PreparedStatement preparedStatement = null;
 	public java.util.ArrayList<String>  fileArray = new java.util.ArrayList<String>();
     public String filepath = "C:/Users/mark/Desktop/app-pubmed-scopus-3.csv";
-	public int numberofcores = 4;
+	public int numberofcores = 6;
 	public int counter = 0;
     public Gui(){
         f.setJMenuBar(mb);
@@ -113,7 +115,7 @@ public class Gui{
 				  			if (((tarray[i] == null)||(tarray[i].isAlive() == false))&&(foundthreadtouse == false)){
 				  				try{
 				  					foundthreadtouse = true;
-				  					NotifyingThread newThread = new processbook(nextLine,dataArray,dataArray2);
+				  					NotifyingThread newThread = new processbook(nextLine,dataArray,dataArray2,dataArray3);
 				  					tarray[i] = newThread;
 				  					tarray[i].start();	
 				  				}
@@ -148,7 +150,7 @@ public class Gui{
   				if (i != 0){
   					writer.append("\n");
   				}
-  				writer.append("INSERT INTO [Profile.Import].[Person] VALUES ('"+Integer.toString(i+1)+"',"+dataArray.get(i)+");");
+  				writer.append("INSERT INTO [Profile.Import].[Person] VALUES ("+dataArray.get(i)+");");
   			
   			}
   			writer.close();
@@ -168,15 +170,35 @@ public class Gui{
   				if (i != 0){
   					writer.append("\n");
   				}
-  				writer.append("INSERT INTO [Profile.Import].[PersonAffiliation] VALUES ('"+Integer.toString(i+1)+"',"+dataArray2.get(i)+");");
+  				writer.append("INSERT INTO [Profile.Import].[PersonAffiliation] VALUES ("+dataArray2.get(i)+");");
   			}
   			writer.close();
       	} catch (IOException e) {
   			e.printStackTrace();
   		}
-    	  try {
+    	/*  try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {}
+    	  
+    	  try {
+        		System.out.println("Writing file -- C:/Users/mark/Desktop/table3.sql");
+    			@SuppressWarnings("resource")
+    			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table3.sql");
+    		//writer.append("\"internalusername\",\"title\",\"emailaddr\",\"primaryaffiliation\",\"affiliationorder\",\"institutionname\",\"institutionabbreviation\",\"departmentname\",\"departmentvisible\",\"divisionname\",\"facultyrank\",\"facultyrankorder\"");
+    			//writer.append("\n");
+    			for (int i = 0; i < dataArray3.size()-1; i++){
+    				if (i != 0){
+    					writer.append("\n");
+    				}
+    				writer.append("INSERT INTO [Profile.Data].[Publication.PubMed.Disambiguation] VALUES ('"+Integer.toString(i+1)+"',"+dataArray3.get(i)+",NULL,NULL);");
+    			}
+    			writer.close();
+        	} catch (IOException e) {
+    			e.printStackTrace();
+    		}*/
+      	  try {
+  				Thread.sleep(4000);
+  			} catch (InterruptedException e) {}
       	System.exit(0); 
       }
     public void updateVisuals(){

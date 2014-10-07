@@ -28,11 +28,13 @@ public class processbook extends NotifyingThread
    public String souroundingvar = "'";
    public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
-   public processbook(String[] line,java.util.ArrayList<String> dataArray,java.util.ArrayList<String> dataArray2)
+   public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
+   public processbook(String[] line,java.util.ArrayList<String> dataArray,java.util.ArrayList<String> dataArray2,java.util.ArrayList<String> dataArray3)
    {
       this.line = line;
       this.dataArray = dataArray;
       this.dataArray2 = dataArray2;
+      this.dataArray3 = dataArray3;
    }
    @Override
    public void doRun() {   
@@ -63,10 +65,14 @@ public class processbook extends NotifyingThread
 		authors = authors.replace("??", "");
 		authors = authors.replace("?", "");
 		String[] author = authors.split(";");
-		
+		int tempcounter = 0;
 		for (int i = 0; i < author.length; i++){
-			String dstring = "";
+			String pstring = line[0]+Integer.toString(tempcounter);
+			//dataArray3.add(pstring);
+			String dstring = pstring+",";
 			String[] authorvars = author[i].split(",");
+			
+			
 			//////////////////     Table: [Profile.Import].[Person]     ////////////////////
 			//internalusername
 			String internalusername = getRandomString(5);
@@ -79,10 +85,11 @@ public class processbook extends NotifyingThread
 				}
 			}
 			//dstring = souroundingvar+internalusername+souroundingvar+",";
-			//firstname
-			dstring = dstring+souroundingvar+authorvars[0].trim()+souroundingvar+",";
-			//middlename&lastname
+		
+			//firstname&middlename
 			dstring = dstring+getAuthorSplit(authorvars[1].trim())+",";
+			//lastname
+			dstring = dstring+souroundingvar+authorvars[0].trim()+souroundingvar+",";
 			//displayname
 			dstring = dstring+souroundingvar+authorvars[0].trim()+" "+authorvars[1].trim()+souroundingvar+",";
 			//suffix
@@ -130,7 +137,7 @@ public class processbook extends NotifyingThread
 			dstring = dstring + "1";
 			dataArray.add(dstring);
 			/////////////////////    Table: [Profile.Import].[PersonAffiliation]      ////////////////////
-			String astring = "";
+			String astring = pstring+",";
 			//internalusername
 			//astring = souroundingvar+internalusername+souroundingvar+",";
 			//title
@@ -144,40 +151,45 @@ public class processbook extends NotifyingThread
 			//institutionname
 			String inst = "";
 			String department = "";
+			
+			Boolean foundexactinst = false;
+			Boolean foundexactdepartment = false;
 				
-			if (authorvars.length > 3){
-				if ((isAfill(authorvars[2]))&&(isAfill(authorvars[3]))&&(isAfill(authorvars[4]))){
-					department = authorvars[2];
-					inst = authorvars[4];	
+			for (int k = authorvars.length-1; k > 1; k--){
+				if ((inst.length() == 0)&&(isAfill(authorvars[k]))&&(foundexactinst == false)){
+					if (isInst(authorvars[k])){
+						inst = authorvars[k];
+						foundexactinst = true;
+					}
+					else {
+						inst = authorvars[k];
+					}
+					
 				}
-				else if ((isAfill(authorvars[2]))&&(isAfill(authorvars[3]))){
-					department = authorvars[2];
-					inst = authorvars[3];					
-				}
-				else if (isAfill(authorvars[3])){
-					inst = authorvars[3];
-				}
-				else if (isAfill(authorvars[2])){
-					inst = authorvars[2];
-				}
-				else {
-					String stop0 = "";
+				else if ((isAfill(authorvars[k]))&&(foundexactdepartment == false)){
+					if ((isInst(authorvars[k]))||(authorvars[k].toLowerCase().compareTo(inst.toLowerCase()) == 0)){
+						foundexactdepartment = true;
+					}
+					else if (isDepart(authorvars[k])){
+						department = authorvars[k];
+						foundexactdepartment = true;
+					}
+					else {
+						if ((department.length() > 0)&&(containsbaddeaprtmentwords(authorvars[k]) == false)){
+							department = authorvars[k].trim()+" "+department;
+						}
+						else if (department.length() == 0){
+							department = authorvars[k].trim()+" "+department;
+						}
+						
+					}
+					
 				}
 			}
-			else if (authorvars.length > 2){
-				if (isAfill(authorvars[2])){
-					inst = authorvars[2];
-				}
-				else {
-					String stop0 = "";
-				}
-			} 
-			
-			inst = inst.trim();
 			department = department.trim();
-				
-			
-			String instsmall = "";
+			inst = inst.trim();
+
+		/*	String instsmall = "";
 			if (inst.length() > 49){
 				instsmall = inst.substring(0,49);
 			}
@@ -185,11 +197,21 @@ public class processbook extends NotifyingThread
 				instsmall = inst;
 			}
 			
+			if (instsmall.compareTo("and Genetics") == 0){
+				String stopasdfsd = "";
+			}
+			*/
 			
 			
-			astring = astring+souroundingvar+instsmall+souroundingvar+",";
+			
+			
+			
+			
+			
+			
+			astring = astring+souroundingvar+inst+souroundingvar+",";
 			//institutionabbreviation
-			astring = astring+souroundingvar+instsmall+souroundingvar+",";
+			astring = astring+souroundingvar+inst+souroundingvar+",";
 			//departmentname
 			astring = astring+souroundingvar+department+souroundingvar+",";
 			//departmentvisible
@@ -209,7 +231,7 @@ public class processbook extends NotifyingThread
 			
 			
 			
-			
+			tempcounter++;
 		
 		}
 		}
@@ -217,7 +239,36 @@ public class processbook extends NotifyingThread
 		
     }
 	
-	
+	public Boolean containsbaddeaprtmentwords(String s){
+		if (s.contains("Harvard Medical School")){
+			return true;
+		}
+		else if (s.contains("Institute of High Energy Physics")){
+			return true;
+		}
+		else if (s.contains("Institute of Biology 3 Center for Systems Biology (ZBSA)")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		else if (s.contains("test")){
+			return true;
+		}
+		return false;
+	}
 	
 	public String isGoodLocation(String s){
 		s = s.toLowerCase();
@@ -380,6 +431,45 @@ public class processbook extends NotifyingThread
 		return false;
 	}
 	
+	public Boolean isInst(String s){
+		s = s.toLowerCase();
+		
+		if (s.contains("college")){
+			return true;
+		} 
+		else if (s.contains("univ")){
+			return true;
+		}
+		else if (s.contains("inst.")){
+			return true;
+		}
+		else if (s.contains("institut")){
+			return true;
+		}
+
+		return false;
+	}
+	
+	public Boolean isDepart(String s){
+		s = s.toLowerCase();
+		
+		if (s.contains("depart")){
+			return true;
+		}
+		else if (s.contains("dept")){
+			return true;
+		}
+		else if (s.contains(" unit")){
+			return true;
+		}
+		else if (s.contains("division")){
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
 	public String getAuthorSplit(String s){
 		String total = "";
 		if (s.contains(".")){
@@ -387,14 +477,34 @@ public class processbook extends NotifyingThread
 			s = s.substring(s.indexOf(".")+1,s.length());
 			if (s.contains(".")){
 				String last = s.substring(0,s.indexOf("."));
-				total = souroundingvar+last+souroundingvar+","+souroundingvar+first+souroundingvar;
+				
+				last = last.replaceAll("\\.", "");
+				last = last.replaceAll("-", "");
+				last = last.trim();
+				
+				
+				first = first.replaceAll("\\.", "");
+				first = first.replaceAll("-", "");
+				first = first.trim();
+				
+				total = souroundingvar+first+souroundingvar+","+souroundingvar+last+souroundingvar;
 			}
 			else {
-				total = souroundingvar+souroundingvar+","+souroundingvar+first+souroundingvar;
+				
+				first = first.replaceAll("\\.", "");
+				first = first.replaceAll("-", "");
+				first = first.trim();
+				
+				total = souroundingvar+first+souroundingvar+","+souroundingvar+souroundingvar;
 			}
 		}
 		else {
-			total = souroundingvar+souroundingvar+","+souroundingvar+s+souroundingvar;
+			
+			s = s.replaceAll("\\.", "");
+			s = s.replaceAll("-", "");
+			s = s.trim();
+			
+			total = souroundingvar+s+souroundingvar+","+souroundingvar+souroundingvar;
 		}
 		return total;
 	}
