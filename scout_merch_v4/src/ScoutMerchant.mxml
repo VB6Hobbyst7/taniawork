@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   runtimeDPIProvider="com.renaun.mobile.dpi.CustomDPIProvider"
+			   preloader="com.renaun.caltrain.components.MultiDPISplashScreen"
+			   creationComplete="init1();" activate="init2()"
+			   backgroundColor="#FFFFFF" 
+			   splashScreenScaleMode="zoom"
+			   frameRate="60" >
+	<fx:Style source="main.css"/>
+	<fx:Script source="func/smallglobal.as"/>
+	<fx:Script source="func/coreMobileFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import spark.transitions.CrossFadeViewTransition;
+			import spark.transitions.SlideViewTransition;
+			import spark.transitions.SlideViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			import views.Home;
+			import views.Signin;
+			[Bindable]
+			public var actionbarheight:Number = 0;
+			public var svt:SlideViewTransition = new SlideViewTransition();
+			public var svt2:SlideViewTransition = new SlideViewTransition();
+			[Bindable]
+			public var slideduration:Number = 250;
+			
+			public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
+			public var resData:ArrayCollection = new ArrayCollection();
+			public function init1():void {
+				
+				startCoreMobile();
+				
+				svt.duration = slideduration;
+				svt.direction =  ViewTransitionDirection.LEFT;
+				svt2.duration = slideduration;
+				svt2.direction =  ViewTransitionDirection.RIGHT;
+				svt2.mode = SlideViewTransitionMode.UNCOVER;
+				home.defaultPushTransition = svt;
+				home.defaultPopTransition = svt2;
+				NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
+				switch (applicationDPI)
+				{
+					case DPIClassification.DPI_640:
+					{
+						actionbarheight = 172;
+						break;
+					}
+					case DPIClassification.DPI_480:
+					{
+						actionbarheight = 129;					
+						break;
+					}
+					case DPIClassification.DPI_320:
+					{
+						actionbarheight = 86;
+						break;
+					}
+					case DPIClassification.DPI_240:
+					{
+						actionbarheight = 65;
+						break;
+					}
+					default:
+					{
+						actionbarheight = 43;
+						break;
+					}
+				}
+				verifyDataTablesViaVersion();
+				createIfNotExsist("localuser");
+				resData = getDatabaseArray( "SELECT email, merchid, locationid  FROM localuser");				
+				loadStuff(resData);
+				
+			}
+			public function init2():void {
+				recheckInternet();
+			}
+			public function loadStuff(r:ArrayCollection):void {
+				if (r.length != 0){
+					emailGo = r[0].email;
+					merchid = r[0].merchid.toString();
+					locationid = r[0].locationid.toString();
+					if (home.firstView == null){
+						if (home.activeView == null){
+							home.pushView(Home,null,null,crosstrans);
+						}
+					}
+				}
+				else {
+					home.pushView(Signin,null,null,crosstrans);
+				}
+			}
+			public function logout():void {
+				dropalldatatables();
+				home.pushView(Signin);
+			}
+			public function verifyDataTablesViaVersion():void {
+				createIfNotExsist("versionhistory");
+				var resData:ArrayCollection = getDatabaseArray("SELECT version from versionhistory");
+				if (resData.length != 0){
+					var versiontocheck:String = resData[0].version;
+					if (versiontocheck != VERSIONID.toString()){
+						dropalldatatables();
+					}
+					doQuery( "update versionhistory set version = ('"+VERSIONID.toString()+"')");
+				}
+				else {
+					doQuery("insert into versionhistory values ('"+VERSIONID.toString()+"')");
+					dropalldatatables();
+				}
+			}
+			public function dropalldatatables():void {
+				try{
+					var stmt:SQLStatement = new SQLStatement();
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					stmt = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "delete from localuser";
+					stmt.execute();
+					
+					doQuery("DROP TABLE localuser");
+					emailGo = "none";
+					merchid = "-1";
+					locationid = "-1";
+					locationname = "ERROR";
+				}
+				catch(e:Error){}
+			}
+			public function nativeKeyDown(event:KeyboardEvent):void
+			{
+				var key:uint = event.keyCode;
+				if (key == Keyboard.BACK){
+					event.preventDefault();
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:ViewNavigator id="home" width="100%" height="100%"/>
+	<s:Group id="internetwarn" width="98%" click="recheckInternet();"
+			 height="15%" top="50" horizontalCenter="0" visible="false">
+		<s:Rect width="100%" height="100%" >
+			<s:fill><s:SolidColor alpha="1" color="#fcfbfb"/></s:fill>
+			<s:stroke><s:SolidColorStroke color="#7f8080" weight="{4/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Rect>
+		<s:HGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0" verticalAlign="middle">
+			<s:BitmapImage id="badimg" visible="true"
+						   verticalCenter="0" horizontalCenter="0"
+						   contentLoader="{s_imageCache}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('assets/160/offline.png')"
+											source240dpi="@Embed('assets/240/offline.png')"
+											source320dpi="@Embed('assets/320/offline.png')"
+											source480dpi="@Embed('assets/480/offline.png')"
+											source640dpi="@Embed('assets/640/offline.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Label color="#6b6a6a" text="The Internet Appears to be Offline" styleName="textsize6"/>
+		</s:HGroup>
+		
+	</s:Group>
+</s:Application>

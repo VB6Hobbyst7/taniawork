@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"  viewActivate="init(event)"
+		title="Account" name="Account" 
+		backgroundColor="#f2f3f4"  
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="navigator.popView();"/>
+	</s:navigationContent>
+	<fx:Script source="../func/smallglobal.as" />
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			public function init(event:ViewNavigatorEvent):void
+			{
+				enableHardwareKeyListeners();
+				setLoginVars();
+				if (merchid == "-1"){
+					navigator.pushView(Signin);
+				}
+			}	
+			public function signoutclick():void {
+				this.parentApplication.logout();
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup horizontalAlign="center" width="100%" paddingTop="{30/(320/Capabilities.screenDPI)}" 
+			  gap="{40/(320/Capabilities.screenDPI)}">	
+		<s:BitmapImage  contentLoader="{s_imageCache}">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/scoutdog.png')"
+										source240dpi="@Embed('../assets/240/scoutdog.png')"
+										source320dpi="@Embed('../assets/320/scoutdog.png')"
+										source480dpi="@Embed('../assets/480/scoutdog.png')"
+										source640dpi="@Embed('../assets/640/scoutdog.png')"/>
+			</s:source>
+		</s:BitmapImage>
+		<s:Group width="100%" >
+			<s:Rect id="textback1" width="{signout_btn.width}" 
+					height="{signout_btn.height}" 
+					horizontalCenter="0" verticalCenter="0"
+					radiusX="{10/(320/Capabilities.screenDPI)}" 
+					radiusY="{10/(320/Capabilities.screenDPI)}" >
+				<s:fill>
+					<s:SolidColor alpha="1" color="#FFFFFF"/>
+				</s:fill>
+			</s:Rect>
+			<s:TextInput editable="false"   focusAlpha="0"
+						 width="{textback1.width}"
+						 height="{textback1.height}" text="{locationname}"
+						 verticalCenter="0" fontFamily="Arial"
+						 horizontalCenter="0"
+						 borderVisible="false"
+						 contentBackgroundAlpha="0"/>
+		</s:Group>
+		<components:signout_btn id="signout_btn" click="signoutclick();" />
+	</s:VGroup>
+</s:View>

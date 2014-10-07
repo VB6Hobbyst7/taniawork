@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Sign In" name="signin"
+		backKeyPressed="donothing(event)"
+		backgroundColor="#f2f3f4"  creationComplete="activ(event)"
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent >
+	</s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				busy = true;
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				busy = false;
+				if (ev.result[0].ress.message == "ok"){
+					var stop:String = "";
+					var locationarray:ArrayCollection = new ArrayCollection();
+					try{
+						locationarray = ev.result[0].ress.location;
+					}
+					catch(e:Error){
+						try{
+							locationarray.addItem( ev.result[0].ress.location);
+						}
+						catch(e:Error){}
+					}
+					navigator.pushView(locationchoice,{
+						email:ev.result[0].ress.email,
+						merchid:ev.result[0].ress.merchid,
+						locations:locationarray});
+				}
+				else {
+					//bad login
+					popupholder1.textl = ev.result[0].ress.message;
+					popupholder1.visible = true;
+				}
+			}
+			
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+			public function activ(event:FlexEvent):void
+			{
+				enableHardwareKeyListeners();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v3/checkLogin_merch.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>
+				<versionnumber>3</versionnumber>	
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{40/(320/Capabilities.screenDPI)}" width="100%" 
+				  horizontalCenter="0" verticalCenter="0"  
+				  paddingTop="{30/(320/Capabilities.screenDPI)}"
+				  bottom="0" horizontalAlign="center" verticalAlign="top">
+			<s:Label text="Sign In to your Account" color="#737171"  styleName="textsize5"/>
+			<s:VGroup horizontalAlign="center" width="100%" 
+					  gap="{10/(320/Capabilities.screenDPI)}">	
+				<s:Group width="100%" >
+					<s:Rect id="textback1" width="{continue_btn.width}" 
+							height="{continue_btn.height}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}" 
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill>
+							<s:SolidColor alpha="1" color="#FFFFFF"/>
+						</s:fill>
+					</s:Rect>
+					<s:TextInput id="userNameInput"   focusAlpha="0"
+								 width="{textback1.width}"
+								 height="{textback1.height}"
+								 verticalCenter="0" fontFamily="Arial"
+								 horizontalCenter="0"
+								 borderVisible="false"
+								 contentBackgroundAlpha="0"
+								 prompt="Email"/>
+				</s:Group>
+				<s:Group width="100%">
+					<s:Rect id="textback2" width="{continue_btn.width}" 
+							height="{continue_btn.height}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill>
+							<s:SolidColor alpha="1" color="#FFFFFF"/>
+						</s:fill>
+					</s:Rect>
+					<s:TextInput id="userPasswordInput"   focusAlpha="0"
+								 width="{textback2.width}"
+								 height="{textback2.height}"
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 displayAsPassword="true" fontFamily="Arial"
+								 contentBackgroundAlpha="0"
+								 prompt="Password"
+								 borderVisible="false"
+								 keyDown="userPasswordInput_keyDownHandler(event)"/>
+				</s:Group>
+				<components:continue_btn id="continue_btn" click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
+			</s:VGroup>
+			
+			
+			
+		</s:VGroup>
+	</s:Scroller>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+	<components:genericpopup id="popupholder1" textl="Sorry Incorrect Information" width="100%" height="100%"/>
+</s:View>
