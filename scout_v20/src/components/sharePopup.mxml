@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  visible="false" 
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script>
+		<![CDATA[
+			import com.milkmangames.nativeextensions.GVFacebookFriend;
+			import com.milkmangames.nativeextensions.GoViral;
+			import com.milkmangames.nativeextensions.events.GVFacebookEvent;
+			import com.milkmangames.nativeextensions.events.GVTwitterEvent;
+			
+			import spark.filters.GlowFilter;
+			[Bindable]
+			public var textl:String = "";
+			[Bindable]
+			public var dishImg:String = "";
+			[Bindable]
+			public var itemid:String = "";
+			[Bindable]
+			public var menuname:String = "";
+			[Bindable]
+			public var businessname:String = "";
+			[Bindable]
+			public var descriptiontext:String = "";
+			[Bindable]
+			public var mypic:String = "";
+			[Bindable]
+			public var email:String = "";
+			[Bindable]
+			public var locationid:String = "";
+			[Bindable]
+			public var shareType:uint = 0;
+			[Bindable]
+			public var bmpData:BitmapData;
+			public function startShare():void {
+				stage.focus = null;
+				var gl:GlowFilter = new GlowFilter(0x3397da,1,20,20,5,1,true);
+				shareType = 0;
+				sharefacebook.filters = [gl];
+				sharetwitter.filters = [];
+				shareText.text = "";
+				this.visible = true;
+				shareText.setFocus();
+
+			}
+			public function endShare():void {
+				this.visible = false;
+				
+			}
+			public function backOnShare():void {
+				this.visible = false;
+			}
+			public function forwardOnShare():void {
+				
+				if (shareType == 0){
+					//share facebook
+					
+					if(!GoViral.goViral.isFacebookAuthenticated())
+					{
+						GoViral.goViral.authenticateWithFacebook("email,public_profile,user_birthday,user_location");
+					}
+					else {		
+						
+						var canUseShareDialog:Boolean=GoViral.goViral.isFacebookShareDialogAvailable();
+						
+						try{
+							GoViral.goViral.showFacebookShareDialog(
+								menuname,
+								menuname,
+								descriptiontext,
+								"http://www.scoutcard.ca",
+								dishImg).addDialogListener(function(e:GVFacebookEvent):void {
+									switch(e.type)
+									{
+										case GVFacebookEvent.FB_DIALOG_CANCELED:
+											this.visible = false;
+											break;
+										case GVFacebookEvent.FB_DIALOG_FAILED:
+											this.visible = false;
+											break;
+										case GVFacebookEvent.FB_DIALOG_FINISHED:
+											this.visible = false;
+											break;
+									}
+								});
+						}
+						catch(e:Error){
+							shareText.text = "FB ADOBE ERROR";
+							this.visible = false;
+						}	
+						
+						if (!canUseShareDialog)
+						{
+							postOldFeedDialog();
+						}
+					}	
+					
+					
+				}
+				else {
+					//share twitter
+					if(GoViral.goViral.isTweetSheetAvailable())
+					{
+						// show a twitter status post dialog
+						GoViral.goViral.showTweetSheetWithImage(
+							shareText.text,
+							bmpData).addDialogListener(function(e:GVTwitterEvent):void {
+								switch(e.type)
+								{
+									case GVTwitterEvent.TW_DIALOG_FINISHED:
+										this.visible = false;
+										break;
+									case GVTwitterEvent.TW_DIALOG_FAILED:
+										this.visible = false;
+										break;
+									case GVTwitterEvent.TW_DIALOG_CANCELED:
+										this.visible = false;
+										break;
+								}
+							});
+					}
+				}
+			}
+			/** Post to the facebook wall / feed via the classic web dialog.  The native dialog is now preferred if available. */
+			private function postOldFeedDialog():void
+			{
+				GoViral.goViral.showFacebookFeedDialog(
+					menuname,
+					descriptiontext,
+					shareText.text,
+					descriptiontext,
+					"http://www.scoutcard.ca",
+					dishImg,
+					{actions:{name:"ScoutCard",link:"http://www.scoutcard.ca"}}
+				).addDialogListener(function(e:GVFacebookEvent):void {
+					trace("oldfeed.response");
+					switch(e.type)
+					{
+						case GVFacebookEvent.FB_DIALOG_CANCELED:
+							this.visible = false;
+							break;
+						case GVFacebookEvent.FB_DIALOG_FAILED:
+							this.visible = false;
+							break;
+						case GVFacebookEvent.FB_DIALOG_FINISHED:
+							this.visible = false;
+							break;
+					}
+				});
+				
+			}
+			public function switchShare(u:uint):void{
+				shareType = u;
+				var gl:GlowFilter = new GlowFilter(0x3397da,1,20,20,15,1,true);
+				if (u == 0){
+					sharefacebook.filters = [gl];
+					sharetwitter.filters = [];
+				}
+				else {
+					sharefacebook.filters = [];
+					sharetwitter.filters = [gl];
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Script source="../func/global.as"/>
+	<s:Group width="100%" height="100%"  
+			 horizontalCenter="0" verticalCenter="0">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="0.5" color="#000000"/>
+			</s:fill>
+		</s:Rect>
+	<s:Group width="90%" horizontalCenter="0" height="50%" top="{10/(320/Capabilities.screenDPI)}">
+	<s:Rect width="100%"  height="100%"
+			radiusX="{10/(320/Capabilities.screenDPI)}"
+			radiusY="{10/(320/Capabilities.screenDPI)}">
+		<s:fill>
+			<s:SolidColor alpha="1" color="#3397da"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group  mouseDown="backOnShare();"   left="0" top="0" 
+			  mouseEnabledWhereTransparent="true"  
+			  width="{100/(320/Capabilities.screenDPI)}" 
+			  height="{75/(320/Capabilities.screenDPI)}">
+		<s:BitmapImage id="backimg" contentLoader="{s_imageCache}"
+					   horizontalCenter="0" verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/back.png')"
+										source240dpi="@Embed('../assets/240/back.png')"
+										source320dpi="@Embed('../assets/320/back.png')"
+										source480dpi="@Embed('../assets/480/back.png')"
+										source640dpi="@Embed('../assets/640/back.png')"/>
+			</s:source>
+		</s:BitmapImage>
+	</s:Group>
+	<s:Group horizontalCenter="0" top="0"  height="{75/(320/Capabilities.screenDPI)}">
+		<s:Label color="#FFFFFF" fontWeight="bold" styleName="textsize5" 
+				 text="Share" horizontalCenter="0" verticalCenter="2" textAlign="center"/>
+	</s:Group>
+	<s:Group  mouseDown="forwardOnShare();" right="0" top="0" 
+			  mouseEnabledWhereTransparent="true"  
+			  width="{100/(320/Capabilities.screenDPI)}" 
+			  height="{75/(320/Capabilities.screenDPI)}">
+		<s:BitmapImage id="checkshare"  width="{backimg.width}" height="{backimg.height}" scaleMode="stretch" smooth="true"
+					   visible="true"  contentLoader="{s_imageCache}"
+					   horizontalCenter="0" verticalCenter="0">
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/checkwhite.png')"
+										source240dpi="@Embed('../assets/240/checkwhite.png')"
+										source320dpi="@Embed('../assets/320/checkwhite.png')"
+										source480dpi="@Embed('../assets/480/checkwhite.png')"
+										source640dpi="@Embed('../assets/640/checkwhite.png')"/>
+			</s:source>
+		</s:BitmapImage>
+	</s:Group>
+	<s:Group x="0" top="{75/(320/Capabilities.screenDPI)}" bottom="{60/(320/Capabilities.screenDPI)}" width="100%" >
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup width="100%" horizontalAlign="center" paddingTop="{30/(320/Capabilities.screenDPI)}" gap="{20/(320/Capabilities.screenDPI)}">
+			<s:TextInput id="shareText" width="95%" top="10"  returnKeyLabel="done"
+						borderVisible="false"
+						color="#5D5D5D" fontFamily="Arial" horizontalCenter="0" 						
+						contentBackgroundAlpha="0" contentBackgroundColor="#FFFFFF"
+						prompt="Write someting about this dish"/>
+		</s:VGroup>
+	</s:Group>
+	<s:Group width="100%" bottom="0" height="{70/(320/Capabilities.screenDPI)}">
+		<s:Rect width="100%"  height="100%"
+				radiusX="{10/(320/Capabilities.screenDPI)}"
+				radiusY="{10/(320/Capabilities.screenDPI)}">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#f2f2f2"/>
+			</s:fill>
+		</s:Rect>
+		<s:HGroup paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+				  top="{20/(320/Capabilities.screenDPI)}"
+				  bottom="{20/(320/Capabilities.screenDPI)}"
+				  width="100%" gap="{80/(320/Capabilities.screenDPI)}" 
+				  verticalAlign="middle">
+			<s:BitmapImage contentLoader="{s_imageCache}" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-share.png')"
+											source240dpi="@Embed('../assets/240/rate-share.png')"
+											source320dpi="@Embed('../assets/320/rate-share.png')"
+											source480dpi="@Embed('../assets/480/rate-share.png')"
+											source640dpi="@Embed('../assets/640/rate-share.png')"/>
+				</s:source>
+			</s:BitmapImage>
+			<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(0)">
+				<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharefacebook">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-facebook.png')"
+												source240dpi="@Embed('../assets/240/rate-facebook.png')"
+												source320dpi="@Embed('../assets/320/rate-facebook.png')"
+												source480dpi="@Embed('../assets/480/rate-facebook.png')"
+												source640dpi="@Embed('../assets/640/rate-facebook.png')"/>
+					</s:source>
+				</s:BitmapImage>
+			</s:Group>
+			<s:Group width="100" height="100%"  mouseEnabledWhereTransparent="true" mouseDown="switchShare(1)">
+				<s:BitmapImage horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"  id="sharetwitter">
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/rate-twitter.png')"
+												source240dpi="@Embed('../assets/240/rate-twitter.png')"
+												source320dpi="@Embed('../assets/320/rate-twitter.png')"
+												source480dpi="@Embed('../assets/480/rate-twitter.png')"
+												source640dpi="@Embed('../assets/640/rate-twitter.png')"/>
+					</s:source>
+				</s:BitmapImage>
+			</s:Group>
+		</s:HGroup>
+	</s:Group>
+	</s:Group>
+	</s:Group>
+</s:Group>

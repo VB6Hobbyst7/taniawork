@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"
+		backgroundColor="#FFFFFF" 
+		destructionPolicy="never"
+		mouseDown="listFingerDown();"
+		backKeyPressed="gobacktohome(event)"
+		menuKeyPressed="menupress(event)"
+		mouseUp="listFingerUp();"
+		mouseOut="listFingerUp();"
+		backgroundAlpha="1"  
+		title="Locations"
+		viewActivate="init()" 
+		creationComplete="init2()">
+	<s:navigationContent >
+		<components:backbutton width="{this.width*0.1}"
+							   mouseEnabledWhereTransparent="true"
+							   height="100%"   mouseDown="gobacktohome2();"/>
+	</s:navigationContent>
+	<s:titleContent>
+		<s:Group  width="100%" height="65%">
+			<s:Rect width="100%"  height="100%"
+					radiusX="{30/(320/Capabilities.screenDPI)}"
+					radiusY="{30/(320/Capabilities.screenDPI)}">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#f6f5f5"/>
+				</s:fill>
+				<s:stroke>
+					<s:SolidColorStroke color="#abaaaa" weight="{1.5/(320/Capabilities.screenDPI)}"/>
+				</s:stroke>
+			</s:Rect>
+			<s:TextInput id="key" width="95%" height="90%" 
+						 paddingLeft="{45/(320/Capabilities.screenDPI)}" styleName="textsize1"
+						 horizontalCenter="0" verticalCenter="0"  focusAlpha="0"
+						 borderVisible="false" contentBackgroundAlpha="0" color="#949393" 
+						 prompt="Search for businesses..."  maxChars="20"  fontFamily="Arial" fontWeight="normal"
+						 keyUp="press(event);" returnKeyLabel="search"/>
+			<s:BitmapImage contentLoader="{s_imageCache}"  verticalCenter="0" left="{20/(320/Capabilities.screenDPI)}">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/glass.png')"
+											source240dpi="@Embed('../assets/240/glass.png')"
+											source320dpi="@Embed('../assets/320/glass.png')"
+											source480dpi="@Embed('../assets/480/glass.png')"
+											source640dpi="@Embed('../assets/640/glass.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		</s:Group>
+	</s:titleContent>
+	<s:actionContent>
+		<components:mapbutton width="{this.width*0.1}" 
+							  mouseEnabledWhereTransparent="true"
+							   height="100%"  mouseDown="goToMap()"  />
+	</s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script source="../func/listLoading.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var busy:Boolean = true;
+			[Bindable]
+			public var updatedone:Boolean = false;
+			[Bindable]
+			public var isFingerDown:Boolean = false;
+			
+			public function init():void {
+				clickedallready = false;
+			}
+			protected function init2():void
+			{
+				clickedallready = false;
+				setLoginVars();
+				busy = true;
+				calllocationupdate(); 
+			}	
+			public function afterGetLocations(event:ResultEvent):void
+			{
+				busy = false;
+				var i:uint = 0;
+				var old:Boolean = false;
+				var stmt:SQLStatement = new SQLStatement();
+				try{
+					if (event.result[0].response == "old"){
+						old = true;
+					}
+				}
+				catch(e:Error){}
+				
+				if (old){
+					updatecont.visible = true;
+				}
+				else if (isFingerDown == false){
+						listData = new ArrayCollection();
+						try{			
+							listData = event.result[0].ress.res;
+							for (i=  0; i < listData.length; i++){
+								listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
+							}
+						}
+						catch(e:Error){
+							try{
+								listData.addItem(event.result[0].ress.res);
+								listData[0].distance = getDistance(mylat,mylong,listData[0].lat,listData[0].longa);
+							}
+							catch(e:Error){}
+						}
+						
+						if (listData.length > 0){
+							createIfNotExsist("merchusers");
+							doQuery("delete from merchusers");
+							for (i = 0; i < listData.length; i++){
+								doQuery("insert into merchusers values(" +
+									""+listData[i].id+""+","+
+									""+listData[i].merchid+""+","+
+									"'"+listData[i].business_name+"'"+","+
+									"'"+listData[i].business_number+"'"+","+
+									"'"+listData[i].business_description+"'"+","+
+									"'"+listData[i].business_picture+"'"+","+
+									"'"+listData[i].business_picture2+"'"+","+
+									"'"+listData[i].business_address1+"'"+","+
+									"'"+listData[i].business_city+"'"+","+
+									"'"+listData[i].business_locality+"'"+","+
+									"'"+listData[i].business_postalcode+"'"+","+
+									"'"+listData[i].business_country+"'"+","+
+									"'"+listData[i].lat+"'"+","+
+									"'"+listData[i].longa+"'"+","+
+									"'"+listData[i].facebook+"'"+","+
+									"'"+listData[i].twitter+"'"+","+
+									"'"+listData[i].website+"'"+","+
+									"'"+listData[i].categoryname+"'"+","+
+									"'"+listData[i].email+"'"+","+
+									"'"+listData[i].loyaltyval+"'"+","+
+									"'"+listData[i].distance+"')");
+							}
+							
+						}	
+					
+					
+					var dataSortField:SortField = new SortField();
+					dataSortField.name = "distance";
+					dataSortField.numeric = true;
+					var numericDataSort:Sort = new Sort();
+					numericDataSort.fields = [dataSortField];
+					listData.sort = numericDataSort;
+					listData.refresh();
+					searchClick();	
+				}
+			} 
+			public function degreesToRadians(degrees:Number):Number {	
+				return degrees * Math.PI / 180;
+			}
+			
+			public function radiansToDegrees(radians:Number):Number{
+				return radians * 180 / Math.PI;
+			}
+			public function getDistance(lat1:Number, lon1:Number, lat2:Number, lon2:Number):String {
+				var R1:Number = 6371;
+				var dLat:Number = degreesToRadians(lat2-lat1);
+				var dLon:Number = degreesToRadians(lon2-lon1);
+				var lat1:Number = degreesToRadians(lat1);
+				var lat2:Number = degreesToRadians(lat2);
+				var a:Number = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+				var c:Number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+				var d:Number = R1 * c;
+				return d.toString();	
+			}
+			public var clickedallready:Boolean = false;
+			public function storeListClick():void {	
+				if (clickedallready == false){
+					if (storeList.selectedIndex != -1){
+						clickedallready = true;
+						navigator.pushView(StoresDescription, listData[storeList.selectedIndex]);	
+					}
+				}
+				
+			}
+			public function searchClick():void
+			{	
+				if (key.text.length > 0){
+					listData.filterFunction = filterCompleted;
+				//	sortListByDistance();
+					refreshList();
+				}
+				else {
+					listData.filterFunction = returnall;
+					//sortListByDistance();
+					refreshList();
+				}	
+			}
+			public function sortListByDistance():void {
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "distance";
+				dataSortField.numeric = true;
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				listData.sort = numericDataSort;
+			}
+			public function refreshList():void {
+				listData.refresh();
+				startapplyingdata();
+			}
+			private function filterCompleted(item:Object):Boolean{
+				if((item.business_name.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1)||
+					(item.categoryname.toString().toLowerCase().indexOf(key.text.toLowerCase()) != -1))
+					return true;
+				return false;
+			}
+			private function returnall(item:Object):Boolean{
+				return true;
+			}
+			public function press(event:KeyboardEvent):void {
+				searchClick();
+			}
+			public function goToMap():void {
+				navigator.pushView(MapView,{listData:listData});
+			}
+			public function calllocationupdate():void {
+				try{
+					getLocations.cancel();
+				}
+				catch(e:Error){}
+				
+				try{
+					getLocations.send();
+				}
+				catch(e:Error){}
+			}
+			public function listFingerDown():void {
+				isFingerDown = true;
+			}
+			public function listFingerUp():void {
+				isFingerDown = false;
+			}
+			public function gobacktohome(event:FlexEvent):void {
+				event.preventDefault();
+				gobacktohome2();
+			}
+			public function gobacktohome2():void {
+				var slideTrans:SlideViewTransition = new SlideViewTransition();
+				slideTrans.duration = slideduration;
+				slideTrans.direction = ViewTransitionDirection.RIGHT;
+				slideTrans.mode = SlideViewTransitionMode.UNCOVER;  //or COVER and PUSH modes
+				navigator.pushView(Home, null,null,slideTrans);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>		
+		<s:HTTPService id="getLocations" method="GET" resultFormat="array"
+					   url="http://www.scoutcard.ca/php/mobile_v3/getLocations.php"
+					   result="afterGetLocations(event)" >	
+			<s:request xmlns="">
+				<versionnumber>3</versionnumber>		
+			</s:request>
+		</s:HTTPService>	
+	</fx:Declarations>
+	<s:Group width="100%" height="100%" visible="true" id="listCont" >
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#737171"/>
+			</s:fill>
+		</s:Rect>
+			<s:List id="storeList" 
+					useVirtualLayout="false" 
+					verticalScrollPolicy="on"   
+				    width="100%" bottom="0" 
+					top="{2/(320/Capabilities.screenDPI)}"
+					creationComplete="list_creationCompleteHandler(event)"
+					horizontalScrollPolicy="off" 
+					skinClass="skins.TileListSkin"
+					selectedIndex="1" 
+					click="storeListClick();"
+					change="storeListClick();" >
+			</s:List>
+		<s:Label  id="warno" color="#FFFFFF" maxWidth="{this.width-30}" text="Finding Businesses Nearby..."
+				  visible="{busy}"  styleName="textsize6"
+				  horizontalCenter="0" verticalAlign="middle"
+				  verticalCenter="0"/>
+	</s:Group>
+	<components:updateContainer id="updatecont" visible="false"/>
+	<s:Line left="0" right="0"  top="0" > 
+		<s:stroke><s:SolidColorStroke color="0xbababa" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:View>
