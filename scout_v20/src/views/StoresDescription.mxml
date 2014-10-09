@@ -235,7 +235,7 @@
 				<locationid>{data.id}</locationid>		
 			</s:request>
 		</s:HTTPService>	
-		<s:HTTPService id="sendrating" method="POST" resultFormat="text"
+		<s:HTTPService id="sendrating" method="GET" resultFormat="text"
 					   url="http://www.scoutcard.ca/php/mobile_v3/submitrating.php"
 					   result="afterSubmitRating(event)" >	
 			<s:request xmlns="">
