@@ -44,39 +44,36 @@
 			}
 			public function afterCreateNewUser(ev:ResultEvent):void {
 				busy = false;
-				if (ev.result[0].ress.message == "ok"){
-					AddNewLocalUser(data.email,data.nameo,ncity.text.toLocaleUpperCase());
+				if (ev.result[0].result.message == "ok"){
+					AddNewLocalUser(ev.result[0].result.email,ev.result[0].result.name,ev.result[0].result.city);
 				}
 				else {
 					popupholder1.visible = true;
-					popupholder1.textl = ev.result[0].ress.message;
+					popupholder1.textl = ev.result[0].result.message;
 				}
 			}
-			public function AddNewLocalUser(email:String,name:String,city:String):void
+			public function AddNewLocalUser(tempemail:String,tempname:String,tempcity:String):void
 			{
-				var stmt:SQLStatement = new SQLStatement();
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "CREATE TABLE IF NOT EXISTS localuser (" +
-					"email varchar(255)," +
-					"name varchar(255)," +
-					"city varchar(255)," +
-					"active varchar(255))";
-				stmt.execute();
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "delete FROM localuser;";
-				stmt.execute();
-				stmt = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
-				stmt.parameters[":email"] = email;
-				stmt.parameters[":name"] = escape(name);
-				stmt.parameters[":city"] = escape(city);
-				stmt.parameters[":active"] = "yes";
-				stmt.execute();
-				this.parentDocument.refresh(email);	
+				busy = true;	
+				createIfNotExsist("localuser");
+				doQuery("delete FROM localuser;");
+				doQuery("insert into localuser values ('"+escape(tempemail)+"','"+escape(tempname)+"','"+escape(tempcity)+"','y');");
+				getLocalUsers();
+			}
+			protected function getLocalUsers():void
+			{
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM localuser");
+				if (resData.length != 0){
+					//good login
+					popupholder1.visible = false;
+					this.parentDocument.refresh();			
+				}
+				else {
+					//bad login
+					popupholder1.textl = "The app was not able to save to the local database. Contact Administrator";
+					popupholder1.visible = true;
+				}
+				busy = false;
 			}
 			public function provChange():void {
 				
@@ -105,7 +102,7 @@
 				<birthday>{nbirthday.text}</birthday>		
 				<birthmonth>{nbirthmonth.text}</birthmonth>		
 				<birthyear>{nbirthyear.text}</birthyear>		
-				<versionnumber>3</versionnumber>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

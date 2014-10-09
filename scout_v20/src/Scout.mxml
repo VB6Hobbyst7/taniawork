@@ -212,14 +212,14 @@
 				<birthday>{fsbirthday}</birthday>		
 				<birthmonth>{fsbirthmonth}</birthmonth>		
 				<birthyear>{fsbirthyear}</birthyear>	
-				<versionnumber>3</versionnumber>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="getUserInfo" method="GET" resultFormat="array"
 					   url="http://www.scoutcard.ca/php/mobile_v3/getUserInfo.php"
 					   result="afterGetUserInfo(event)" >	
 			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>		
+				<email>{email}</email>		
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

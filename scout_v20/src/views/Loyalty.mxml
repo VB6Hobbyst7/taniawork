@@ -91,11 +91,11 @@
 				else {
 						loyaltyArray =  new ArrayCollection();
 						try{
-							loyaltyArray = ev.result[0].ress.res;
+							loyaltyArray = ev.result[0].results.result;
 						}
 						catch(e:Error){
 							try{
-								loyaltyArray.addItem( ev.result[0].ress.res);
+								loyaltyArray.addItem( ev.result[0].results.result);
 							}
 							catch(e:Error){}
 						}
@@ -166,8 +166,8 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/getloyaltyList.php"
 					   result="afterGetloyalty(event)" >	
 			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-				<versionnumber>3</versionnumber>	
+				<email>{email}</email>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

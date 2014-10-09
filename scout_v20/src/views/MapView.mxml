@@ -100,14 +100,14 @@
 				var i:uint = 0;
 				listData = new ArrayCollection();
 				try{			
-					listData = event.result[0].ress.res;
+					listData = event.result[0].results.result;
 					for (i=  0; i < listData.length; i++){
 						listData[i].distance = getDistance(mylat,mylong,listData[i].lat,listData[i].longa);
 					}
 				}
 				catch(e:Error){
 					try{
-						listData.addItem(event.result[0].ress.res);
+						listData.addItem(event.result[0].results.result);
 						listData[0].distance = getDistance(mylat,mylong,listData[0].lat,listData[0].longa);
 					}
 					catch(e:Error){}
@@ -118,27 +118,27 @@
 					doQuery("delete from merchusers");
 					for (i = 0; i < listData.length; i++){
 						doQuery("insert into merchusers values(" +
-							""+listData[i].id+""+","+
-							""+listData[i].merchid+""+","+
-							"'"+listData[i].business_name+"'"+","+
-							"'"+listData[i].business_number+"'"+","+
-							"'"+listData[i].business_description+"'"+","+
-							"'"+listData[i].business_picture+"'"+","+
-							"'"+listData[i].business_picture2+"'"+","+
-							"'"+listData[i].business_address1+"'"+","+
-							"'"+listData[i].business_city+"'"+","+
-							"'"+listData[i].business_locality+"'"+","+
-							"'"+listData[i].business_postalcode+"'"+","+
-							"'"+listData[i].business_country+"'"+","+
-							"'"+listData[i].lat+"'"+","+
-							"'"+listData[i].longa+"'"+","+
-							"'"+listData[i].facebook+"'"+","+
-							"'"+listData[i].twitter+"'"+","+
-							"'"+listData[i].website+"'"+","+
-							"'"+listData[i].categoryname+"'"+","+
-							"'"+listData[i].email+"'"+","+
-							"'"+listData[i].loyaltyval+"'"+","+
-							"'"+listData[i].distance+"')");
+							""+escape(listData[i].id)+""+","+
+							""+escape(listData[i].merchid)+""+","+
+							"'"+escape(listData[i].business_name)+"'"+","+
+							"'"+escape(listData[i].business_number)+"'"+","+
+							"'"+escape(listData[i].business_description)+"'"+","+
+							"'"+escape(listData[i].business_picture)+"'"+","+
+							"'"+escape(listData[i].business_picture2)+"'"+","+
+							"'"+escape(listData[i].business_address1)+"'"+","+
+							"'"+escape(listData[i].business_city)+"'"+","+
+							"'"+escape(listData[i].business_locality)+"'"+","+
+							"'"+escape(listData[i].business_postalcode)+"'"+","+
+							"'"+escape(listData[i].business_country)+"'"+","+
+							"'"+escape(listData[i].lat)+"'"+","+
+							"'"+escape(listData[i].longa)+"'"+","+
+							"'"+escape(listData[i].facebook)+"'"+","+
+							"'"+escape(listData[i].twitter)+"'"+","+
+							"'"+escape(listData[i].website)+"'"+","+
+							"'"+escape(listData[i].categoryname)+"'"+","+
+							"'"+escape(listData[i].email)+"'"+","+
+							"'"+escape(listData[i].loyaltyval)+"'"+","+
+							"'"+escape(listData[i].distance)+"')");
 					}
 					
 				}	
@@ -234,7 +234,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/getLocations.php"
 					   result="afterGetLocations(event)" >	
 			<s:request xmlns="">
-				<versionnumber>3</versionnumber>		
+				<versionnumber>{VERSIONID}</versionnumber>		
 			</s:request>
 		</s:HTTPService>	
 	</fx:Declarations>

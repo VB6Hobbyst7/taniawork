@@ -13,11 +13,13 @@ import spark.transitions.SlideViewTransitionMode;
 import spark.transitions.ViewTransitionDirection;
 import views.Home;
 [Bindable]
-public var emailGo:String = "";
+public var email:String = "";
 [Bindable]
 public var nameGo:String = "";
 [Bindable]
 public var cityGo:String = "";
+[Bindable]
+public var password:String = "";
 [Bindable]
 public var slideduration:Number = 250;
 public var mylat:Number = 53.536979;
@@ -27,29 +29,31 @@ protected var sqlConnection:SQLConnection;
 public var actionbarheight:Number = 0;
 [Bindable]
 public var statusbuffertop:Number = 0;
+[Bindable]
+public var VERSIONID:Number = 12;
 public function setLoginVars():void {
 	try{
 		sqlConnection = new SQLConnection();
 		sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
 		var stmt:SQLStatement = new SQLStatement();
 		stmt.sqlConnection = sqlConnection;
-		stmt.text = "SELECT email, name, city, active FROM localuser where active = 'yes'";
+		stmt.text = "SELECT * from localuser";
 		stmt.execute();
 		var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
 		if (resData.length != 0){
-			emailGo = resData[0].email;
+			email = unescape(resData[0].email);
 			nameGo = unescape(resData[0].name);
 			cityGo = unescape(resData[0].city);		
 			cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
 		}
 		else {
-			emailGo = "none";
+			email = "none";
 			nameGo = "none";
 			cityGo = "none";
 		}	
 	}
 	catch(e:Error) {
-		emailGo = "none";
+		email = "none";
 		nameGo = "none";
 		cityGo = "none";
 	}	

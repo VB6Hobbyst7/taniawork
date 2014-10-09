@@ -21,65 +21,50 @@
 			[Bindable]
 			public var busy:Boolean = false;
 			public static const FACEBOOK_APP_ID:String="1424621771149692";
-			public function authorizeLogin(username:String,userpassword:String):void{	
+			public function authorizeLogin(tempemail:String,temppassword:String):void{	
 				busy = true;
-				userid = username;
-				passid = userpassword;
+				email = tempemail;
+				password = temppassword;
 				checkLogin.send();
 			}
 			public function afterCheckLogin(ev:ResultEvent):void {
 				busy = false;
-				if (ev.result[0].ress.message == "ok"){
-					AddNewLocalUser(ev.result[0].ress.email,
-						ev.result[0].ress.name,
-						ev.result[0].ress.city);
+				if (ev.result[0].result.message == "ok"){
+					AddNewLocalUser(ev.result[0].result.email,ev.result[0].result.name,ev.result[0].result.city);
 				}
 				else {
 					//bad login
-					popupholder1.textl = ev.result[0].ress.message;
+					popupholder1.textl = ev.result[0].result.message;
 					popupholder1.visible = true;
 				}
 			}
-			public function AddNewLocalUser(email:String,name:String,city:String):void
+			public function AddNewLocalUser(tempemail:String,tempname:String,tempcity:String):void
 			{
-				busy = true;
+				busy = true;	
 				createIfNotExsist("localuser");
-				sqlConnection = new SQLConnection();
-				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "delete FROM localuser;";
-				stmt.execute();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
-				stmt.parameters[":email"] = email;
-				stmt.parameters[":name"] = escape(name);
-				stmt.parameters[":city"] = escape(city);
-				stmt.parameters[":active"] = "yes";
-				stmt.execute();
+				doQuery("delete FROM localuser;");
+				doQuery("insert into localuser values ('"+escape(tempemail)+"','"+escape(tempname)+"','"+escape(tempcity)+"','y');");
 				getLocalUsers();
 			}
 			protected function getLocalUsers():void
 			{
-				var stmt:SQLStatement = new SQLStatement();
-				stmt.sqlConnection = sqlConnection;
-				stmt.text = "SELECT email, name, city, active FROM localuser";
-				stmt.execute();
-				var resData:ArrayCollection = new ArrayCollection(stmt.getResult().data);
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM localuser");
 				if (resData.length != 0){
 					//good login
-					for (var i:uint = 0; i < resData.length; i++){
-							popupholder1.visible = false;
-							this.parentDocument.refresh(resData[i].email);	
-					}			
+					popupholder1.visible = false;
+					this.parentDocument.refresh();			
 				}
-				else {}
+				else {
+					//bad login
+					popupholder1.textl = "The app was not able to save to the local database. Contact Administrator";
+					popupholder1.visible = true;
+				}
 				busy = false;
 			}
-			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			protected function passwordInput_keyDownHandler(event:KeyboardEvent):void
 			{
 				if (event.keyCode == 13){
-					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+					authorizeLogin(emailInput.text,passwordInput.text);	
 				}
 			}
 			public function signupclick(event:MouseEvent):void
@@ -91,21 +76,17 @@
 				createIfNotExsist("facebookcallback");
 				doQuery("insert into facebookcallback values (1);");
 				this.parentApplication.facebookloging();
-			}		
-			
+			}			
 		]]>
 	</fx:Script>
 	<fx:Declarations>	
-		<fx:String id="userid" />
-		<fx:String id="passid" />
-		<s:HTTPService id="checkLogin" method="POST" 
-					   resultFormat="array" 
+		<s:HTTPService id="checkLogin" method="GET" resultFormat="array" 
 					   url="http://www.scoutcard.ca/php/mobile_v3/checkLogin.php"
 					   result="afterCheckLogin(event)" >
 			<s:request xmlns="">
-				<userid>{userid}</userid>		
-				<passid>{passid}</passid>
-				<versionnumber>3</versionnumber>	
+				<email>{email}</email>		
+				<password>{password}</password>
+				<versionnumber>{VERSIONID}</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
@@ -129,7 +110,7 @@
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
 							</s:fill>
 						</s:Rect>
-						<s:TextInput id="userNameInput"   focusAlpha="0"
+						<s:TextInput id="emailInput"   focusAlpha="0"
 									 width="{textback1.width}"
 									 height="{textback1.height}"
 									 verticalCenter="0" fontFamily="Arial"
@@ -148,7 +129,7 @@
 								<s:SolidColor alpha="1" color="#FFFFFF"/>
 							</s:fill>
 						</s:Rect>
-						<s:TextInput id="userPasswordInput"   focusAlpha="0"
+						<s:TextInput id="passwordInput"   focusAlpha="0"
 									 width="{textback2.width}"
 									 height="{textback2.height}"
 									 verticalCenter="0"
@@ -157,12 +138,10 @@
 									 contentBackgroundAlpha="0"
 									 prompt="Password"
 									 borderVisible="false"
-									 keyDown="userPasswordInput_keyDownHandler(event)"/>
+									 keyDown="passwordInput_keyDownHandler(event)"/>
 					</s:Group>
-					<components:continue_btn id="continue_btn" click="authorizeLogin(userNameInput.text,userPasswordInput.text)" />
+					<components:continue_btn id="continue_btn" click="authorizeLogin(emailInput.text,passwordInput.text)" />
 				</s:VGroup>
-				
-
 				<s:Group verticalCenter="0" width="{continue_btn.width}" >
 					<s:Label left="0" text="Need an Account?" verticalCenter="0" color="#737171"
 							 styleName="textsize4"/>

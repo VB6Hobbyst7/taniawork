@@ -64,7 +64,7 @@
 					cityback.source = edmonton;
 				}
 				try{
-					var code:String = emailGo;
+					var code:String = email;
 					var sp:Sprite = new Sprite();
 					var qr:QRCode = new QRCode();
 					qr.encode(code+"formalendofstatement");
@@ -138,7 +138,6 @@
 				fa.duration = 500;
 				fa.play();
 			}
-			
 			protected function closeQR():void
 			{
 				qrholder.visible = false;
@@ -154,28 +153,21 @@
 			}
 			private function imageSelected( event:MediaEvent ):void
 			{
-				dlog( "Media selected..." );
-				
 				var imagePromise:MediaPromise = event.data;
 				dataSource = imagePromise.open();
 				
 				if( imagePromise.isAsync )
 				{
-					dlog( "Asynchronous media promise." );
 					eventSource = dataSource as IEventDispatcher;
-				//	dlog( eventSource );
-					
 					eventSource.addEventListener( Event.COMPLETE, onDataComplete );                
 				}
 				else
 				{
-					dlog( "Synchronous media promise." );
 					readMediaData();
 				}
 			}
 			private function onDataComplete( event:Event ):void
 			{
-				dlog("Data load complete");
 				readMediaData();
 			}			
 			private function readMediaData():void
@@ -188,41 +180,25 @@
 			}
 			public function upload( data:ByteArray, destination:String):void
 			{	
-				dlog( "Uploading..." );
 				var loader:URLLoader = new URLLoader();
 				loader.dataFormat= URLLoaderDataFormat.BINARY;
 				ranfilename = UIDUtil.createUID().substr(0,9);
-				var urlString:String = destination + "?email=" + emailGo+"&filename="+ranfilename;
+				var urlString:String = destination + "?email=" + email+"&filename="+ranfilename;
 				var request:URLRequest = new URLRequest( urlString );
 				request.data = data;
 				request.method = URLRequestMethod.POST;
 				request.contentType = "application/octet-stream";
 				loader.addEventListener( Event.COMPLETE, uploadComplete );
-				loader.addEventListener(IOErrorEvent.IO_ERROR, ioError );
 				loader.load(request);           
 			} 
 			private function uploadComplete( event:Event ):void
 			{
-				dlog( "Upload successful." );
 				profimage.source = "http://www.scoutcard.ca/uploadify/profileimages/"+ranfilename+".jpg";
 				this.parentDocument.setProfImage("http://www.scoutcard.ca/uploadify/profileimages/"+ranfilename+".jpg");
 			}
-		
-			private function ioError( error:IOErrorEvent ):void
-			{
-				dlog( "Upload failed: " + error.text );
-			}
-			
-			private function mediaError( error:ErrorEvent ):void
-			{
-				dlog( "Error:" + error.text );
-			}
-			public function dlog(s:String):void {
-				//debuginput.text = debuginput.text + " ---- " + s;
-			}
 			public function afterGetUserInfo(ev:ResultEvent):void {
 				try{
-					var newpicture:String = ev.result[0].ress.res.picture;
+					var newpicture:String = ev.result[0].results.result.picture;
 					if (newpicture.length > 1){
 						profimage.source = newpicture;
 						this.parentDocument.setProfImage(newpicture);
@@ -236,7 +212,6 @@
 				fa.duration = 500;
 				fa.play();
 			}
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -244,7 +219,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/getUserInfo.php"
 					   result="afterGetUserInfo(event)" >	
 			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>		
+				<email>{email}</email>		
 			</s:request>
 		</s:HTTPService>	
 		<s:MultiDPIBitmapSource id="edmonton"
@@ -438,16 +413,4 @@
 		</s:Group>
 	</s:Group>
 	</s:Group>
-
-	
-	
-	
-	
-	
-	
-	
-	<!--s:Group width="100%" height="20%" bottom="0">
-		<s:TextArea  contentBackgroundColor="#FFFFFF" color="#000000" width="100%" height="100%"
-					 id="debuginput" visible="true"/>
-	</s:Group-->
 </s:View>

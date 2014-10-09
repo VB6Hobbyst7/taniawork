@@ -43,8 +43,6 @@ import views.Settings;
 public var pm:PersistenceManager = new PersistenceManager();
 
 public static const FACEBOOK_APP_ID:String="1424621771149692";
-[Bindable]
-public var VERSIONID:Number = 11;
 public var crosstrans:CrossFadeViewTransition = new CrossFadeViewTransition(); 
 public var resData:ArrayCollection = new ArrayCollection();
 [Bindable]
@@ -250,6 +248,10 @@ public function viewadd(event:ElementExistenceEvent):void
 		closeMenu();
 	}	
 }
+public function refresh():void {
+	reloadProfInfo();
+	mainNavigator.pushView(Home);
+}
 public function goProfile(event:MouseEvent):void
 {
 	mainNavigator.pushView(Home);
@@ -270,7 +272,7 @@ public function reloadProfInfo():void {
 	resData = new ArrayCollection(stmt.getResult().data);	
 	
 	if (resData.length > 0){
-		emailGo = resData[0].email;
+		email = unescape(resData[0].email);
 		nameGo = unescape(resData[0].name);
 		cityGo = unescape(resData[0].city);		
 		cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
@@ -280,7 +282,7 @@ public function reloadProfInfo():void {
 public function loadStuff(r:ArrayCollection,mylat:Number = 53.55921, mylong:Number = -113.54009):void {
 	if (r.length != 0){
 		nameGo = unescape(r[0].name);
-		emailGo = r[0].email;
+		email = r[0].email;
 		cityGo = unescape(r[0].city);
 		cityGo = cityGo.substr(0,1).toUpperCase()+cityGo.substr(1,cityGo.length);
 		getUserInfo.send();
@@ -415,54 +417,24 @@ public function initz(event:FlexEvent):void
 	}
 	catch(e:Error){	
 	}	
-	
-	
 	checkfacebookin();
 }
 catch(e:Error){}
 	
 }
-public function checkfacebookin():void {
-	doFacebookStuff();
-}
 private function onFacebookEvent(e:GVFacebookEvent):void
 {
 	try{
-		var s:String = "";
 		switch(e.type)
 		{
-			case GVFacebookEvent.FB_LOGGED_IN:
-				
+			case GVFacebookEvent.FB_LOGGED_IN:	
 				checkfacebookin();
-				s = "Logged in to facebook:"+GoViral.VERSION+
-				",denied: ["+GoViral.goViral.getDeclinedFacebookPermissions()+
-				"], profile permission?"+GoViral.goViral.isFacebookPermissionGranted("public_profile");
-				break;
-			case GVFacebookEvent.FB_LOGGED_OUT:
-				s = "Logged out of facebook.";
-				break;
-			case GVFacebookEvent.FB_LOGIN_CANCELED:
-				s = "Canceled facebook login.";
-				break;
-			case GVFacebookEvent.FB_LOGIN_FAILED:
-				s = "Login failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId;
-				break;
-			case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_FAILED:
-			case GVFacebookEvent.FB_READ_PERMISSIONS_FAILED:
-				s =  "perms failed:"+e.errorMessage+",sn?"+e.shouldNotifyFacebookUser+",cat?"+e.facebookErrorCategoryId+","+e.permissions;
-				break;
-			case GVFacebookEvent.FB_READ_PERMISSIONS_UPDATED:
-			case GVFacebookEvent.FB_PUBLISH_PERMISSIONS_UPDATED:
-				s = "Perms updated:"+e.permissions;
 		}
 	}
 	catch(e:Error){}
-	
-	
 }
-public function refresh(email:String):void {
-	reloadProfInfo();
-	mainNavigator.pushView(Home);
+public function checkfacebookin():void {
+	doFacebookStuff();
 }
 public function facebookloging():void {
 	if(!GoViral.goViral.isFacebookAuthenticated())
@@ -479,12 +451,10 @@ public function doFacebookStuff():void {
 			if (e.type==GVFacebookEvent.FB_REQUEST_RESPONSE)
 			{
 				var myProfile:GVFacebookFriend=e.friends[0];
-				var rex:RegExp = /[\s\r\n]+/gim;
 				fsid = myProfile.id.toString();
 				
 				try{
 					fsemail = myProfile.email();
-					fsemail = fsemail.replace(rex,'');
 				}
 				catch(e:Error){}
 				
@@ -505,10 +475,8 @@ public function doFacebookStuff():void {
 							myProfile.properties.user_location.toString().indexOf(","));
 					}
 					catch(e:Error){
-						
 						fscity = "";
 					}
-					
 				}
 				
 				try{
@@ -523,13 +491,9 @@ public function doFacebookStuff():void {
 							myProfile.properties.user_location.toString().length);
 					}
 					catch(e:Error){
-						
 						fslocality = "";
-					}
-					
+					}				
 				}
-				
-				
 				
 				try{
 					fsgender = myProfile.gender.toString().substr(0,1);
@@ -538,14 +502,11 @@ public function doFacebookStuff():void {
 					fsgender = "";
 				}
 				
-				
 				var tempBirthString:String = "";
 				try{
 					tempBirthString = myProfile.properties["birthday"].toString();
 				}
 				catch(e:Error){}
-				
-				
 				
 				try{
 					fsbirthmonth = tempBirthString.substr(0,tempBirthString.indexOf("/"));
@@ -555,7 +516,6 @@ public function doFacebookStuff():void {
 					fsbirthmonth = "0";
 				}
 				
-				
 				try{
 					fsbirthday = tempBirthString.substr(0,tempBirthString.indexOf("/"));
 					tempBirthString = tempBirthString.substring(tempBirthString.indexOf("/")+1,tempBirthString.length);
@@ -564,14 +524,12 @@ public function doFacebookStuff():void {
 					fsbirthday = "0";
 				}
 				
-				
 				try{
 					fsbirthyear = tempBirthString;
 				}
 				catch(e:Error){
 					fsbirthyear = "0";
 				}
-				
 				
 				syncfacebook.send();			
 			}
@@ -581,19 +539,14 @@ public function doFacebookStuff():void {
 	catch(e:Error){
 	
 	}
-	
 }
 public function aftersyncfacebook(ev:ResultEvent):void {
 	createIfNotExsist("localuser");
 	doQuery("delete FROM localuser;");
-	var stmt:SQLStatement = new SQLStatement();
-	stmt.sqlConnection = sqlConnection;
-	stmt.text = "INSERT into localuser values(:email,:name,:city,:active)";
-	stmt.parameters[":email"] = fsemail;
-	stmt.parameters[":name"] = escape(fsname);
-	stmt.parameters[":city"] = escape(fscity);
-	stmt.parameters[":active"] = "yes";
-	stmt.execute();
+	var tempemail:String = ev.result[0].result.email;
+	var tempname:String = ev.result[0].result.name;
+	var tempcity:String = ev.result[0].result.city;
+	doQuery("insert into localuser values ('"+escape(tempemail)+"','"+escape(tempname)+"','"+escape(tempcity)+"','y');");
 	reloadProfInfo();
 	if (mainNavigator.activeView.name.toLocaleLowerCase().indexOf('sign') != -1){
 		facebookwait.visible = false;
@@ -602,7 +555,7 @@ public function aftersyncfacebook(ev:ResultEvent):void {
 }
 public function afterGetUserInfo(ev:ResultEvent):void {
 	try{
-		var newpicture:String = ev.result[0].ress.res.picture;
+		var newpicture:String = ev.result[0].results.result.picture;
 		if (newpicture.length > 1){
 			profimage.source = newpicture;
 			profimage.scaleMode = "zoom";

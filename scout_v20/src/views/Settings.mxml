@@ -27,13 +27,13 @@
 					stmt.sqlConnection = sqlConnection;
 					stmt.text = "delete from localuser";
 					stmt.execute();
-					emailGo = "";
+					email = "";
 					nameGo = "";
 					cityGo = "";
 					this.parentApplication.logout();
 				}
 				catch(e:Error){
-					emailGo = "";
+					email = "";
 					nameGo = "";
 					cityGo = "";
 					this.parentApplication.logout();
@@ -92,7 +92,7 @@
 							 verticalCenter="0" verticalAlign="middle" 
 							 textAlign="center"  mouseEnabled="false"
 							 styleName="textsize1"  color="#474646"/>
-					<s:Label text="{emailGo}"
+					<s:Label text="{email}"
 							 verticalCenter="0" verticalAlign="middle" 
 							 textAlign="center"  mouseEnabled="false"
 							 styleName="textsize1"  color="#474646"/>

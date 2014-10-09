@@ -68,11 +68,11 @@
 				else if (isFingerDown == false){
 					activityArray =  new ArrayCollection();
 					try{
-						activityArray = ev.result[0].ress.res;					
+						activityArray = ev.result[0].results.result;					
 					}
 					catch(e:Error){
 						try{
-							activityArray.addItem( ev.result[0].ress.res);
+							activityArray.addItem( ev.result[0].results.result);
 						}
 						catch(e:Error){}
 					}	
@@ -118,8 +118,8 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/getActivityList.php"
 					   result="afterGetActivity(event)" >	
 			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
-				<versionnumber>3</versionnumber>	
+				<email>{email}</email>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>

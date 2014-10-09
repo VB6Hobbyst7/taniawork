@@ -81,7 +81,7 @@
 			}
 			public function afterGetLocationInfo(ev:ResultEvent):void {
 				var stop:String = "";
-				var tempArray:ArrayCollection = ev.result[0].ress.res;				
+				var tempArray:ArrayCollection = ev.result[0].results.result;				
 				for (var i:uint = 0; i < tempArray.length; i++){
 					if (tempArray[i].weekday == 1){
 						weekday1.text = "" + tempArray[i].opentime + " - " + tempArray[i].closetime;
@@ -109,12 +109,12 @@
 			protected function viewrewards(event:MouseEvent):void
 			{
 				if ((data.amount == null)||(data.amount == 'null')){
-					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
-						emailGo:emailGo,business_name:data.business_name,amount:'0',loyaltyval:data.loyaltyval});
+					navigator.pushView(LoyaltyDescription, {id:data.id,merchid:data.merchid,business_picture:data.business_picture,
+						email:email,business_name:data.business_name,amount:'0',loyaltyval:data.loyaltyval});
 				}
 				else {
-					navigator.pushView(LoyaltyDescription, {id:data.id,business_picture:data.business_picture,
-						emailGo:emailGo,business_name:data.business_name,amount:data.amount,loyaltyval:data.loyaltyval});
+					navigator.pushView(LoyaltyDescription, {id:data.id,merchid:data.merchid,business_picture:data.business_picture,
+						email:email,business_name:data.business_name,amount:data.amount,loyaltyval:data.loyaltyval});
 				}
 			}	
 			
@@ -231,7 +231,7 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/getLocationInfo.php"
 					   result="afterGetLocationInfo(event)" >	
 			<s:request xmlns="">
-				<versionnumber>3</versionnumber>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 				<locationid>{data.id}</locationid>		
 			</s:request>
 		</s:HTTPService>	
@@ -239,9 +239,9 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/submitrating.php"
 					   result="afterSubmitRating(event)" >	
 			<s:request xmlns="">
-				<versionnumber>3</versionnumber>	
+				<versionnumber>{VERSIONID}</versionnumber>	
 				<locationid>{data.id}</locationid>	
-				<emailGo>{emailGo}</emailGo>	
+				<email>{email}</email>	
 				<reviewValue>{ratingvalue}</reviewValue>	
 				<reviewText>{ratingtextinput.text}</reviewText>	
 			</s:request>

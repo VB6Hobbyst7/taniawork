@@ -58,11 +58,11 @@
 				loyaltyArray = new ArrayCollection();
 				try{
 					try{
-						loyaltyArray = ev.result[0].ress.res;
+						loyaltyArray = ev.result[0].results.result;
 					}
 					catch(e:Error){
 						try{
-							loyaltyArray.addItem(ev.result[0].ress.res);
+							loyaltyArray.addItem(ev.result[0].results.result);
 						}
 						catch(e:Error){}
 					}
@@ -249,8 +249,8 @@
 					   url="https://www.scoutcard.ca/php/mobile_v3/getLoyaltyDescription.php"
 					   result="afterGetLoyaltyDescription(event)" >	
 			<s:request xmlns="">
-				<merchid>{data.id}</merchid>	
-				<emailGo>{emailGo}</emailGo>
+				<merchid>{data.merchid}</merchid>	
+				<email>{email}</email>
 			</s:request>
 		</s:HTTPService>
 		<s:HTTPService id="goredeem" method="GET" 
@@ -258,9 +258,9 @@
 					   url="http://www.scoutcard.ca/php/mobile_v3/redeemloyalty.php"
 					   result="afterRedeem(event)" >	
 			<s:request xmlns="">
-				<emailGo>{emailGo}</emailGo>	
+				<email>{email}</email>	
 				<loyaltyid>{selectedRewardID}</loyaltyid>
-				<merchid>{data.id}</merchid>
+				<merchid>{data.merchid}</merchid>
 				<newa>{amountout-spendout}</newa>
 				<amount>{amountout}</amount>
 				<spend>{spendout}</spend>

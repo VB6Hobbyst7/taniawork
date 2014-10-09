@@ -43,7 +43,7 @@
 			}
 			public function afterChangePassword(ev:ResultEvent):void {
 				busy = false;
-				logWarningTextinfo.text = ev.result[0].ress.message;
+				logWarningTextinfo.text = ev.result[0].result.message;
 				popupholder1.visible = true;
 				
 			}			
@@ -58,7 +58,7 @@
 			<s:request xmlns="">
 				<oldpass>{oldpassword.text}</oldpass>
 				<newpass>{newpassword1.text}</newpass>
-				<email>{emailGo}</email>
+				<email>{email}</email>
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
