@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:layouts="org.flexlayouts.layouts.*"
+		xmlns:c="components.*"
+		xmlns:d="dao.*" 
+		contentBackgroundAlpha="1" contentBackgroundColor="#FFFFFF"
+		backgroundAlpha="1" backgroundColor="#f5f5f5"
+		title="OJ's Checklist Utility"
+		dataChange="dataChange(event)" 
+		activate="init()" 
+		creationComplete="init2(event)">
+	<s:actionContent>	
+		<s:Button id="submitbtn" label="Submit" color="#177af9"  fontWeight="normal" styleName="textsize4"
+				  textShadowAlpha="0" visible="false" click="submitCheckList(event)" />
+	</s:actionContent>
+	<fx:Script source="../func/globalFunctions.as"/>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			import flash.net.URLLoader;
+			import flash.net.URLRequest;
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.formatters.DateFormatter;
+			import mx.graphics.SolidColorStroke;
+			import mx.rpc.events.ResultEvent;
+			import spark.components.DateSpinner;
+			import spark.components.HGroup;
+			import spark.components.RadioButton;
+			import spark.components.SpinnerList;
+			import spark.components.SpinnerListContainer;
+			import spark.components.TextArea;
+			import spark.components.TextInput;
+			import spark.components.VGroup;
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			import spark.primitives.Line;
+			import spark.transitions.CrossFadeViewTransition;
+			
+			import events.ReportEvent;
+			[Bindable]
+			public var storeid:String = "1";
+			[Bindable]
+			protected var busy:Boolean = false;
+			[Bindable]
+			public var checklistidout:String = "";
+			[Bindable]
+			public var citemsdata:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var answerarrayid:Array = new Array();
+			[Bindable]
+			public var answerarrayavalue:Array = new Array();
+			protected var locationDirty:Boolean = false;
+			[Bindable]
+			public var ltype:String = "previous";
+			[Bindable]
+			public var listoftemps:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var tempselectindex:Number = 0;
+			[Bindable]
+			public var completionstatus:String = "";
+			[Bindable]
+			public var answerdate:String = "";
+			public function init():void {
+			}
+			public function submitCheckList(event:MouseEvent):void
+			{
+				answerarrayid = new Array();
+				answerarrayavalue = new Array();
+				var checklistid:String = "";
+				for (var i:uint = 0; i < citemsdata.length; i++){
+					var valuee:String = citemsdata[i].avalue;
+					if (valuee == "errornovalue"){
+						if (citemsdata[i].type == '0'){
+							
+						}
+						else if (citemsdata[i].type == '1'){
+							var CurrentDateTime:Date = new Date();
+							var CurrentDF:DateFormatter = new DateFormatter();
+							CurrentDF.formatString = "EEE MMM DD LL:NN:SS"
+							var DateTimeString:String = CurrentDF.format(CurrentDateTime);
+							valuee = DateTimeString;
+						}
+						else if (citemsdata[i].type == '2'){
+							valuee = "-20ºC";
+						}
+						else if (citemsdata[i].type == '3'){
+							valuee = "yes";
+						}
+						else if (citemsdata[i].type == '4'){
+							
+						}
+						
+					}
+					else if (citemsdata[i].type == '1'){
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+						valuee = valuee.substring(0,valuee.lastIndexOf(" "));
+					}
+					answerarrayid.push(citemsdata[i].id);
+					answerarrayavalue.push(valuee);
+					checklistid = citemsdata[i].checklistid;
+				}
+				busy = true;
+				
+				var url:String = "http://enactforum.org/originaljoes/v2/restaurant/putAnswers2.php";
+				var request:URLRequest = new URLRequest(url);
+				request.method = URLRequestMethod.POST;
+				var requestVars:URLVariables = new URLVariables();
+				requestVars.myObject = com.adobe.serialization.json.JSON.encode(answerarrayid);
+				requestVars.myObject2 = com.adobe.serialization.json.JSON.encode(answerarrayavalue);
+				requestVars.myObject3 = com.adobe.serialization.json.JSON.encode(storeid);
+				requestVars.myObject4 = com.adobe.serialization.json.JSON.encode(checklistid);
+				requestVars.myObject5 = com.adobe.serialization.json.JSON.encode(answerdate);
+				request.data = requestVars;
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, afterload);
+				loader.load(request);
+			}
+			public function afterload(ev:Event):void {
+				busy = false;
+				warn.visible = true;
+				vlist.visible = false;
+				var stop:String = "";
+				dispatchEvent(new ReportEvent(ReportEvent.EDIT_EXPENSE, {finished:true}));
+			}
+			public function dataChange(event:FlexEvent):void
+			{
+				busy = true;
+				submitbtn.visible = false;
+				citemsdata = new ArrayCollection();
+				if (this.data != null){
+					if (this.data.id != 0){
+						checklistidout = this.data.id.toString();
+						this.storeid = this.data.storeid;
+						this.title = this.data.name;
+						ltype = this.data.ltype;
+						vlist.visible = false;
+						warn2.visible = true;
+						warn2.text = "Loading Checklist";
+						answerdate = this.data.answerdate;
+						completionstatus = this.data.status2;
+						getCheckListItems.send();
+					}
+				
+				}
+			}
+			public function change1(e:TextOperationEvent):void {
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";			
+				var ans:String = e.currentTarget.text;
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;		
+			}
+			public function change2(e:Event):void {
+				
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = e.currentTarget.selectedDate.toString();
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;	
+			}
+			public function change3(e:IndexChangeEvent):void {
+				
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = listoftemps[e.currentTarget.selectedIndex].temp.toString();
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;	
+			}
+			public function change4(e:MouseEvent):void {
+				var s:String = e.currentTarget.id;
+				var ans:String = s.substring(0,1);
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				var ans2:String = "";
+				if (ans == 'n'){
+					ans2 = 'no';
+				}
+				else if (ans == 'y'){
+					ans2 = 'yes';
+				}
+				
+				citemsdata[Number(s)].avalue = ans2;
+				citemsdata[Number(s)].preanswer = ans2;	
+			}
+			public function change5(e:TextOperationEvent):void {
+				var s:String = e.currentTarget.id;
+				s = s.substring(1,s.length);
+				var stop:String = "";
+				
+				var ans:String = e.currentTarget.text;
+				
+				citemsdata[Number(s)].avalue = ans;
+				citemsdata[Number(s)].preanswer = ans;
+				
+				
+				
+			}
+			public function afterGetChecklistItems(ev:ResultEvent):void {
+				warn2.text = "Please Choose a Checklist"; 
+				vlist.visible = true;
+				warn2.visible = false;
+				listoftemps = new ArrayCollection();
+				var i:Number = 0;
+				for (i = -20; i < 81; i++){
+					if (i == 0){
+						listoftemps.addItem({temp:"Select Temp"});
+						tempselectindex = listoftemps.length-1;
+					}
+					
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}
+				
+				var stop:String = "";
+				vlist.removeAllElements();
+				busy = false;
+				warn.visible = false;
+				//cListList.visible = true;
+				citemsdata = new ArrayCollection();
+				try{
+					citemsdata = ev.result[0].res;
+					submitbtn.visible = true;
+				}
+				catch(e:Error){
+					try{
+						citemsdata.addItem(ev.result[0].res);
+						submitbtn.visible = true;
+					}
+					catch(e:Error){
+						citemsdata.addItem({id:-1,checklistid:-1,name:"Empty Checklist Contact Manager",type:"-1",alert:"-1"});
+					}
+				}
+				
+				
+				for (i = 0; i < citemsdata.length; i++){
+					var gr:VGroup = new VGroup();
+					gr.verticalAlign = 'middle';
+					gr.width = this.width*0.48;
+					gr.percentHeight = 100;
+					gr.gap = 10/(132/Capabilities.screenDPI);
+					var ta:TextArea = new TextArea();
+					var temptexto:String = citemsdata[i].name;
+					ta.enabled = false;				
+					ta.text = citemsdata[i].name;
+					ta.setStyle("wordWrap", true);
+					ta.mouseChildren = false;
+					ta.mouseEnabled = false;
+					ta.percentWidth = 98;
+					ta.setStyle('borderVisible',false);
+					ta.setStyle('color',"0x000000");
+					ta.setStyle('autoCapitalize','sentence');
+					ta.setStyle('contentBackgroundAlpha',0);
+					ta.editable = false;
+					ta.validateSize(true);
+					gr.addElement(ta);
+					
+					if ((citemsdata[i].preanswer != "errornovalue")
+						&&(citemsdata[i].preanswer != "")
+						&&(citemsdata[i].preanswer != null)){
+						citemsdata[i].avalue = citemsdata[i].preanswer;
+					}
+					
+					if (citemsdata[i].type == '0'){
+						var ti:TextArea = new TextArea();
+						ti.height = 75;
+						ti.percentWidth = 95;
+						
+						
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ti.text = citemsdata[i].preanswer;
+						}
+						ti.id = "d"+i.toString();
+						ti.addEventListener(TextOperationEvent.CHANGE, change1);
+						
+						gr.addElement(ti);
+					}
+					else if (citemsdata[i].type == '1'){
+						var ds:DateSpinner = new DateSpinner();
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ds.selectedDate = citemsdata[i].preanswer;
+						}
+						ds.percentWidth = 95
+						ds.id = "d"+i.toString();
+						ds.addEventListener(Event.CHANGE, change2);
+						gr.addElement(ds);
+					}
+					else if (citemsdata[i].type == '2'){
+						var sc:SpinnerListContainer = new SpinnerListContainer();
+						var sl:SpinnerList = new SpinnerList();
+						sc.horizontalCenter = 0;
+						sc.percentWidth = 50;
+						sc.height = 150/(132/Capabilities.screenDPI);
+						sl.percentHeight = 100;
+						sl.percentWidth = 50;
+						sl.labelField = 'temp';
+						sl.dataProvider = listoftemps;
+						sl.selectedIndex = 1;
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							for (var j:uint = 0; j < listoftemps.length; j++){
+								if (listoftemps[j].temp == citemsdata[i].preanswer){
+									sl.selectedIndex = j;
+								}
+							}
+						}
+						else {
+							sl.selectedIndex = 1;
+						}
+						sl.id = "d"+i.toString();
+						sl.addEventListener(IndexChangeEvent.CHANGE, change3);
+						sc.addElement(sl)
+						gr.addElement(sc);
+					}
+					else if (citemsdata[i].type == '3'){
+						var hg:HGroup = new HGroup();
+						var r1:RadioButton = new RadioButton();
+						var r2:RadioButton = new RadioButton();
+						
+					
+						r1.label = "Yes";
+						r2.label = "No";
+						r1.value = 'yes';
+						r2.value = 'no';
+						r1.groupName = 'yesnoalertgroup'+citemsdata[i].id.toString();
+						r2.groupName = 'yesnoalertgroup'+citemsdata[i].id.toString();
+						
+						hg.percentHeight = 100;
+						hg.percentWidth = 95;
+						hg.verticalAlign = 'middle';
+						
+						
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							if (citemsdata[i].preanswer == "yes"){
+								r1.selected = true;
+								r2.selected = false;
+							}
+							else if (citemsdata[i].preanswer == "no"){
+								r1.selected = false;
+								r2.selected = true;
+							}
+						}
+						else {
+							r1.selected = false;
+							r2.selected = false;
+						}
+						
+						r1.id = "y"+i.toString();
+						r2.id = "n"+i.toString();
+						r1.addEventListener(MouseEvent.CLICK, change4);
+						r2.addEventListener(MouseEvent.CLICK, change4);
+						hg.addElement(r1);
+						hg.addElement(r2);
+						hg.paddingLeft =  10/(132/Capabilities.screenDPI);
+						gr.addElement(hg);
+					}
+					else if (citemsdata[i].type == '4'){
+						var ti2:TextInput = new TextInput();
+						ti2.percentWidth = 95;
+						if ((citemsdata[i].preanswer != "errornovalue")
+							&&(citemsdata[i].preanswer != "")
+							&&(citemsdata[i].preanswer != null)){
+							ti2.text = citemsdata[i].preanswer;
+						}
+						ti2.id = "d"+i.toString();
+						ti2.addEventListener(TextOperationEvent.CHANGE, change5);
+						gr.addElement(ti2);
+					}
+					var stroke1:SolidColorStroke = new SolidColorStroke();
+					stroke1.color = 0xc1c0c0;
+					stroke1.weight = 1/(320/Capabilities.screenDPI);
+					var line1:Line = new Line();
+					line1.right = 0;
+					line1.left = 0;
+					line1.width =  this.width*0.4;
+					line1.bottom = 1;
+					line1.stroke = stroke1;
+					gr.addElement(line1);
+					vlist.addElement(gr);
+				}
+				vlist.visible = true;
+				warn2.visible = false;
+				warn.visible = false;
+			}
+			public function afterSubmitAnswers(ev:ResultEvent):void {
+				busy = false;
+				vlist.visible = false;
+				warn.visible = true;
+				warn2.visible = false;
+				var stop:String = "";
+			
+			}
+			protected function init2(event:FlexEvent):void
+			{
+				warn2.visible = true;
+				vlist.visible = false;
+				busy = false;
+				listoftemps = new ArrayCollection();
+				
+				for (var i:Number = -20; i < 81; i++){
+					if (i == 0){
+						listoftemps.addItem({temp:"Select Temp"});
+						tempselectindex = listoftemps.length-1;
+					}
+					
+					listoftemps.addItem({temp:i.toString()+"ºC"});
+				}	
+			}
+			
+		]]>
+	</fx:Script>	
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	<fx:Declarations>
+		<d:ExpenseReportDAO id="srv"/>
+		<s:DateTimeFormatter id="dtf" dateTimePattern="yyyy/MM/dd"/>
+		<s:CurrencyFormatter id="cf" useCurrencySymbol="true"/>
+		<s:CrossFadeViewTransition id="transition" duration="0"/>
+		<s:HTTPService id="getCheckListItems" method="GET" 
+					   resultFormat="array" 
+					   url="http://enactforum.org/originaljoes/v2/manager/getCheckListItemsManage2.php"
+					   result="afterGetChecklistItems(event)" >
+			<s:request xmlns="">
+				<completionstatus>{completionstatus}</completionstatus>
+				<idout>{checklistidout}</idout>		
+				<storeid>{storeid}</storeid>	
+				<answerdate>{answerdate}</answerdate>
+			</s:request>
+		</s:HTTPService>
+	
+	</fx:Declarations>
+	<s:Scroller top="0" bottom="0" 
+				right="{5/(132/Capabilities.screenDPI)}" 
+				left="{5/(132/Capabilities.screenDPI)}" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off">
+		<s:Group  id="vlist" width="100%" height="100%" >
+			<s:layout>
+				<layouts:FlowLayout horizontalGap="{5/(132/Capabilities.screenDPI)}" 
+									verticalGap="{5/(132/Capabilities.screenDPI)}" />
+			</s:layout>
+		</s:Group>
+	</s:Scroller>
+	<s:Label id="warn" visible="false" styleName="textsize8" text="Submission Complete!" 
+			 horizontalCenter="0" verticalCenter="0" />
+	<s:Label id="warn2" visible="false" styleName="textsize8" text="Please Choose a Checklist" 
+			 horizontalCenter="0" verticalCenter="{50/(132/Capabilities.screenDPI)}" />
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

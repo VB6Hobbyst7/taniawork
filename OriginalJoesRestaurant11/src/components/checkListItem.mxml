@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				mouseChildren="false" 
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+		<s:State name="up"/>
+	</s:states>
+	<s:Group width="100%" height="100%" >
+		<s:HGroup width="100%" horizontalCenter="0" height="100%">
+			<s:VGroup width="100%" paddingTop="{5/(132/Capabilities.screenDPI)}" 
+					  paddingBottom="{5/(132/Capabilities.screenDPI)}"
+					  height="100%" verticalAlign="middle" horizontalAlign="left">
+				<s:Label paddingLeft="{10/(132/Capabilities.screenDPI)}" color="#000000"
+						 styleName="textsize2" fontWeight="bold" text="{data.name}"></s:Label>
+				<s:VGroup width="100%" height="50%">
+					<s:Label paddingLeft="{10/(132/Capabilities.screenDPI)}" color="#000000"  
+							 styleName="textsize2" text="Start Time: {data.effectdate + ' - ' + data.datestart}"></s:Label>
+					<s:Label  paddingLeft="{10/(132/Capabilities.screenDPI)}" color="#000000" 
+							  styleName="textsize2" text="End Time: {data.effectdate + ' - ' + data.dateend}"></s:Label>
+				</s:VGroup>
+				<s:Label paddingLeft="{10/(132/Capabilities.screenDPI)}" color="#000000" 
+						 styleName="textsize2" text="Status : {data.status2}"></s:Label>
+			</s:VGroup>	
+		</s:HGroup>
+	</s:Group>
+	<s:Line  left="{10/(132/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="1"/></s:stroke>
+	</s:Line>
+</s:ItemRenderer>
