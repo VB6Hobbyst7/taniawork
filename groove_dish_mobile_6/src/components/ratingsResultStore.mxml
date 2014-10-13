@@ -9,7 +9,6 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
 			protected function init(event:FlexEvent):void
 			{
 				doStuff();
@@ -24,9 +23,7 @@
 						desccont.height = 0;
 					}
 				}
-				catch(e:Error){
-					
-				}
+				catch(e:Error){}
 				
 				if (data.totallikecount == null){
 					data.totallikecount = "0";
@@ -59,8 +56,6 @@
 					ratinglabel.text = "10";
 				}
 				
-				
-				
 				var datedata:String = data.ratingdate;
 				var year:String = datedata.substring(0,datedata.indexOf("-"));
 				datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
@@ -71,48 +66,9 @@
 				var time:String = datedata;
 				var fullmonth:String = getMonth(Number(month));
 				var stop:String = "";
+				datetext.text = fullmonth+" "+day+", "+year;
 			}
-			public function getMonth(u:Number):String{
-				switch (u){
-					case 1 :
-						return "January";
-						break;
-					case 2 :
-						return "February";
-						break;
-					case 3 :
-						return "March";
-						break;
-					case 4 :
-						return "April";
-						break;
-					case 5 :
-						return "May";
-						break;
-					case 6 :
-						return "June";
-						break;
-					case 7 :
-						return "July";
-						break;
-					case 8 :
-						return "August";
-						break;
-					case 9 :
-						return "September";
-						break;
-					case 10 :
-						return "October";
-						break;
-					case 11 :
-						return "November";
-						break;
-					case 12 :
-						return "December";
-						break;
-				}
-				return "";
-			}
+			
 			
 		]]>
 	</fx:Script>
@@ -156,17 +112,34 @@
 					
 					<s:HGroup verticalAlign="middle" id="likecont" paddingTop="{8/(320/Capabilities.screenDPI)}" width="100%" height="100%" horizontalAlign="left" 
 							  horizontalCenter="0">
-						<s:BitmapImage verticalAlign="middle" verticalCenter="0" contentLoader="{s_imageCache}"  >
-							<s:source>
-								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
-														source240dpi="@Embed('../assets/240/triratinggreen.png')"
-														source320dpi="@Embed('../assets/320/triratinggreen.png')"
-														source480dpi="@Embed('../assets/480/triratinggreen.png')"
-														source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
-							</s:source>
-						</s:BitmapImage>
-						<s:Label   text="{data.totallikecount}" height="100%" verticalCenter="0"  color="#36ccba"  fontWeight="bold"
-								   styleName="textsize0" verticalAlign="middle"/>
+						<s:Group>
+							<s:Rect width="100%"  height="100%" 
+									radiusX="{5/(320/Capabilities.screenDPI)}"
+									radiusY="{5/(320/Capabilities.screenDPI)}">
+								<s:stroke>
+									<s:SolidColorStroke color="0x36ccba" weight="{1/(320/Capabilities.screenDPI)}"/>
+								</s:stroke>
+							</s:Rect>
+							<s:HGroup horizontalAlign="center" verticalAlign="middle"
+									  paddingLeft="{15/(320/Capabilities.screenDPI)}"
+									  paddingRight="{15/(320/Capabilities.screenDPI)}" 
+									  paddingTop="{5/(320/Capabilities.screenDPI)}" 
+									  paddingBottom="{5/(320/Capabilities.screenDPI)}">
+								<s:BitmapImage verticalAlign="middle" verticalCenter="0" contentLoader="{s_imageCache}"  >
+									<s:source>
+										<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+																source240dpi="@Embed('../assets/240/triratinggreen.png')"
+																source320dpi="@Embed('../assets/320/triratinggreen.png')"
+																source480dpi="@Embed('../assets/480/triratinggreen.png')"
+																source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
+									</s:source>
+								</s:BitmapImage>
+								<s:Label   text="{data.totallikecount}" height="100%" verticalCenter="0"  color="#36ccba"  fontWeight="bold"
+										   styleName="textsize0" verticalAlign="middle"/>
+							</s:HGroup>
+						</s:Group>
+						<s:Label id="datetext"   color="#808080"  fontWeight="normal"
+								 styleName="textsize0" verticalAlign="middle"/>
 					</s:HGroup>
 				</s:VGroup>
 			</s:HGroup>

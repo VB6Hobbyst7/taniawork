@@ -87,20 +87,8 @@
 				
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
-					reviewPopupGroup.itemimg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
-				}
-				else {
-					reviewPopupGroup.itemimg = data.picture;
 				}
 				img1.visible = true;
-				
-				reviewPopupGroup.itemid = data.id;
-				reviewPopupGroup.type = "menu";
-				reviewPopupGroup.email = emailGo;
-				reviewPopupGroup.locationid = data.locationid;
-				reviewPopupGroup.itemname = data.name;
-				reviewPopupGroup.businessname = data.business_name;
-				reviewPopupGroup.mypic = pictureGo;
 				
 				
 				sharePopup.itemid = data.id;
@@ -127,21 +115,28 @@
 				}
 				
 			}
+			public var savedadditionheight:Number = 0;
+			public function additioncomplete(event:FlexEvent):void {
+				savedadditionheight = additionlbl.height;
+				additionlbl.height = 0;
+			}
 			protected function additionclick(event:MouseEvent):void
 			{
-				if (additiontext.maxDisplayedLines == 4){
-					additiontext.maxDisplayedLines = 30;
+				if (additionlbl.height == 0){
+					additionlbl.height = savedadditionheight;
+					triimage.rotation = 90;
 				}
 				else {
-					additiontext.maxDisplayedLines = 4;
+					savedadditionheight = additionlbl.height;
+					additionlbl.height = 0;
+					triimage.rotation = 0;
 				}
-				
 			}
-		
-			public var additiontext:Label = new Label();
+			public var additionlbl:Label = new Label();
+			public var additiontxt:String = "";
 			public var descriptiontext:Label = new Label();
+			public var triimage:BitmapImage = new BitmapImage();
 			public function afterGetMenuInformation(ev:ResultEvent):void {
-				reviewPopupGroup.reviewText.text = "";
 				topreviews = new ArrayCollection();
 				recentreviews = new ArrayCollection();
 				modifications = new ArrayCollection();
@@ -201,33 +196,55 @@
 				try{
 					var tempatext:String =  ev.result[0].results5.result5.additions;
 					if (tempatext.length > 0){
-						additiontext = new Label();
-						additiontext.styleName = "textsize0";
-						additiontext.setStyle("paddingLeft",30/(320/Capabilities.screenDPI));
-						additiontext.setStyle("paddingRight",30/(320/Capabilities.screenDPI));
-						additiontext.setStyle("color",0x4d4d4d);
-						additiontext.addEventListener(MouseEvent.CLICK, additionclick);
-						additiontext.maxDisplayedLines = 4;
-						additiontext.setStyle("verticalAlign","middle");
-						additiontext.setStyle("lineHeight",35/(320/Capabilities.screenDPI));
-						additiontext.text = tempatext;
-						additiontext.width = this.width;
-						
-						var gr2:Group = new Group();
+						triimage.source = "../assets/"+getDPIHeight().toString()+"/dropdown.png";
+						triimage.right =  30/(320/Capabilities.screenDPI);
+						triimage.verticalAlign = "middle";
+						triimage.verticalCenter = 0;
+						additiontxt = tempatext;
+						additionlbl = new Label();
+						additionlbl.styleName = "textsize0";
+						additionlbl.setStyle("paddingRight",30/(320/Capabilities.screenDPI));
+						additionlbl.setStyle("color",0x4d4d4d);
+						additionlbl.setStyle("verticalAlign","middle");
+						additionlbl.setStyle("lineHeight",35/(320/Capabilities.screenDPI));
+						additionlbl.text = tempatext;
+						//additionlbl.percentHeight = 0;
+						additionlbl.width = this.width;
+						additionlbl.setStyle("paddingBottom",10/(320/Capabilities.screenDPI));
+						additionlbl.setStyle("paddingTop",10/(320/Capabilities.screenDPI));
+					
+
+						var gr3:Group = new Group();
+						var li3:Label = new Label();
+						li3.text = "More Info";
+						li3.setStyle("fontWeight","bold");
+						li3.setStyle("color",0x4d4d4d);
+						li3.left = 0;
+						li3.verticalCenter = 0;
+
+						var gr2:VGroup = new VGroup();
 						gr2.percentWidth = 100;
+						gr2.addEventListener(MouseEvent.CLICK, additionclick);
+						gr2.paddingLeft = 30/(320/Capabilities.screenDPI);
+						gr2.gap = 10/(320/Capabilities.screenDPI);
 						var li2:Line = new Line();
-						li2.left = 30/(320/Capabilities.screenDPI);
 						li2.right = 0;
 						li2.bottom = 0;
-						
+						li2.width = this.width-(30/(320/Capabilities.screenDPI));
 						var stroke2:SolidColorStroke = new SolidColorStroke();
 						stroke2.color = 0xb2b2b2;
 						stroke2.weight = 1/(320/Capabilities.screenDPI);
 						li2.stroke = stroke2;
 						
+						var gr33:Group = new Group();
+						gr33.width = this.width-(30/(320/Capabilities.screenDPI));
+						gr33.addElement(li3);
+						gr33.addElement(triimage);
 						
+						additionlbl.addEventListener(FlexEvent.CREATION_COMPLETE, additioncomplete);
+						gr2.addElement(gr33);
+						gr2.addElement(additionlbl);
 						gr2.addElement(li2);
-						dishinfosection.addElement(additiontext);
 						dishinfosection.addElement(gr2);
 						
 					}
@@ -369,6 +386,20 @@
 				}
 				catch(e:Error){}
 			}
+			public function startReview():void {
+				var tempimgimg:String = "";
+				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+					img1.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";	
+					tempimgimg = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";	
+				}
+				else {
+					tempimgimg = data.picture;
+				}
+			
+				navigator.pushView(Rate,{itemid:data.id,type:"menu",locationid:data.locationid,itemname:data.name,
+					businessname:data.business_name,mypic:pictureGo,itemimg:tempimgimg});
+				
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>		
@@ -489,7 +520,7 @@
 						<s:Label id="selectedTitle"  width="{this.width-100}" 
 								 color="#4d4d4d" paddingRight="{30/(320/Capabilities.screenDPI)}"
 								 styleName="textsize6" fontWeight="bold" text="{data.name}"/>
-						<s:Label  color="#36ccba" fontWeight="bold" click="gotobusiness();"
+						<s:Label  color="#4d4d4d" fontWeight="bold" click="gotobusiness();"
 								  mouseDown="gDown(event)" mouseOver="gOver(event)" 
 								  mouseUp="gOut(event)" mouseOut="gOut(event)"
 								  styleName="textsize3" text="{data.business_name}"
@@ -500,8 +531,8 @@
 				
 				
 				</s:VGroup>
-				<s:Group width="100%"  horizontalCenter="0"  verticalCenter="0">
-					<s:Group click="reviewPopupGroup.startReview();" height="{60/(320/Capabilities.screenDPI)}" 
+				<s:Group width="{this.width}"  horizontalCenter="0"  verticalCenter="0">
+					<s:Group click="startReview();" height="{60/(320/Capabilities.screenDPI)}" 
 							 mouseDown="gDown(event)" mouseOver="gOver(event)"
 							 mouseUp="gOut(event)" mouseOut="gOut(event)"
 							 width="{this.width/2-(40/(320/Capabilities.screenDPI))}" left="{30/(320/Capabilities.screenDPI)}">
@@ -611,5 +642,4 @@
 	
 	
 	<components:sharePopup id="sharePopup"  width="100%" height="100%" visible="false"/>
-	<components:ratePopup height="100%" width="100%" id="reviewPopupGroup" visible="false"/>
 </s:View>

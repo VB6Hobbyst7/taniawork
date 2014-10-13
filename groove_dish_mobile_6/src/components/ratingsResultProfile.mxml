@@ -26,8 +26,7 @@
 					else {
 						desccont.percentHeight = 100;
 					}
-			
-					
+
 					if (data.totallikecount == null){
 						data.totallikecount = "0";
 					}
@@ -58,9 +57,7 @@
 						ratingnumber = 10;
 						ratinglabel.text = "10";
 					}
-					
-					
-					
+
 					var datedata:String = data.ratingdate;
 					var year:String = datedata.substring(0,datedata.indexOf("-"));
 					datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
@@ -74,48 +71,6 @@
 					datetext.text = fullmonth+" "+day+", "+year+" at "+time;
 				}
 			}
-			public function getMonth(u:Number):String{
-				switch (u){
-					case 1 :
-						return "January";
-						break;
-					case 2 :
-						return "February";
-						break;
-					case 3 :
-						return "March";
-						break;
-					case 4 :
-						return "April";
-						break;
-					case 5 :
-						return "May";
-						break;
-					case 6 :
-						return "June";
-						break;
-					case 7 :
-						return "July";
-						break;
-					case 8 :
-						return "August";
-						break;
-					case 9 :
-						return "September";
-						break;
-					case 10 :
-						return "October";
-						break;
-					case 11 :
-						return "November";
-						break;
-					case 12 :
-						return "December";
-						break;
-				}
-				return "";
-			}
-			
 		]]>
 	</fx:Script>
 <s:Group width="{this.width}"  mouseEnabled="false"   id="megacont"  >
@@ -155,7 +110,6 @@
 					<s:Label width="100%" visible="{data.ratingdescription.length != 0}" height="100%" verticalCenter="0"  maxDisplayedLines="3"  text="{data.ratingdescription}" 
 							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0"  verticalAlign="middle"/>
 				</s:Group>
-				
 				<s:HGroup verticalAlign="middle" id="likecont" paddingBottom="{8/(320/Capabilities.screenDPI)}" paddingTop="0" width="100%" height="100%" horizontalAlign="left" 
 						  horizontalCenter="0">
 					<s:BitmapImage verticalAlign="middle" verticalCenter="0" contentLoader="{s_imageCache}"  >

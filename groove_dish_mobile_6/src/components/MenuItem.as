@@ -1,8 +1,11 @@
 package components
 {
 	import flash.system.Capabilities;
+	
 	import mx.events.FlexEvent;
+	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
+	
 	import spark.components.Group;
 	import spark.components.HGroup;
 	import spark.components.Image;
@@ -12,6 +15,8 @@ package components
 	import spark.core.ContentCache;
 	import spark.primitives.BitmapImage;
 	import spark.primitives.Line;
+	import spark.primitives.Rect;
+
 	public class MenuItem extends ItemRenderer
 	{
 		static public const s_imageCache:ContentCache = new ContentCache();
@@ -121,82 +126,50 @@ package components
 		public function loadrest():void {
 			var neededwidth:Number = this.parent.width/2-gapo;
 			if (addedallitems == false){
+				var rc7:Rect = new Rect();
+				var gg1:Group = new Group();
+				gg1.width = neededwidth;
+				gg1.height = neededwidth/(3/2);
 				addedallitems = true;
 				var bmpImg:BitmapImage = new BitmapImage();
 				if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					rc7.fill = new SolidColor(0x4d4d4d, 0.95);
 				}
 				else if (data.picture.indexOf("dish") != -1){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					rc7.fill = new SolidColor(0x4d4d4d, 0.95);
 				}
 				else {
 					bmpImg.source = data.picture;
+					rc7.fill = new SolidColor(0xc4c4c4, 0.95);
 				}
 				bmpImg.contentLoader = s_imageCache;
 				bmpImg.width = neededwidth;
 				bmpImg.height = neededwidth/(3/2);
-				v1.addElement(bmpImg);
+				bmpImg.top = 0;
+				gg1.addElement(bmpImg);
 				
-				var hg:HGroup = new HGroup();
-				hg.horizontalAlign = "center";
-				hg.paddingTop = 0; 
-				hg.percentWidth = 100;
-				hg.maxWidth = neededwidth;
-				hg.gap = 0;
-				hg.verticalAlign = "middle";
-				
-				
-				
-				
-				var stroke1:SolidColorStroke = new SolidColorStroke();
-				stroke1.color = 0xe6e6e6;
-				stroke1.weight = 1/(320/Capabilities.screenDPI);
-				var line1:Line = new Line();
-				line1.right = 0;
-				line1.left = 0;
-				line1.bottom = 0;
-				line1.stroke = stroke1;
-				var line2:Line = new Line();
-				line2.top = 0;
-				line2.bottom = 0;
-				line2.right = 0;
-				line2.stroke = stroke1;
-				line2.rotation = 90;
-				var line3:Line = new Line();
-				line3.right = 0;
-				line3.left = 0;
-				line3.bottom = 0;
-				line3.stroke = stroke1;
-				var line4:Line = new Line();
-				line4.top = 0;
-				line4.bottom = 0;
-				line4.right = 0;
-				line4.stroke = stroke1;
-				line4.rotation = 90;
-				var line5:Line = new Line();
-				line5.right = 0;
-				line5.left = 0;
-				line5.bottom = 0;
-				line5.stroke = stroke1;
-				var line6:Line = new Line();
-				line6.top = 0;
-				line6.bottom = 0;
-				line6.right = 0;
-				line6.stroke = stroke1;
-				line6.rotation = 90;
-				
-				var g1:Group = new Group();
-				g1.width = neededwidth/3;
-				g1.height = 50/(320/Capabilities.screenDPI);
+				var gr6:Group = new Group();
+				var rc6:Rect = new Rect();
+				rc6.fill = new SolidColor(0x36ccba, 0.95);
+				rc6.percentHeight = 100;
+				rc6.percentWidth = 100;
+				rc6.radiusX =9;
+				rc6.radiusY = 9;
 				var l1:Label = new Label();
 				l1.setStyle("textAlign","center");
 				l1.horizontalCenter = 0;
-				l1.verticalCenter = 0;
-				l1.styleName = "textsize1";
+				l1.verticalCenter = 3;
+				l1.styleName = "textsize0";
 				l1.setStyle("fontWeight","bold");
-				l1.setStyle("color","#36ccba");
-				var ratingstring:String =data.rating.toString();
-				var ratingnumber:Number = Number(data.rating);
+				l1.setStyle("color","#ffffff");
+				l1.setStyle("paddingLeft",10);
+				l1.setStyle("paddingRight",10);
+				l1.setStyle("paddingBottom",5);
+				l1.setStyle("paddingTop",5);
+				var ratingstring:String =unescape(data.rating.toString());
+				var ratingnumber:Number = Number(unescape(data.rating));
 				if (ratingnumber == 0){
 					l1.text = "-";
 				}
@@ -207,53 +180,40 @@ package components
 				else {
 					l1.text = ratingnumber.toPrecision(2).toString();
 				}
-				g1.addElement(line1);
-				g1.addElement(line2);
-				g1.addElement(l1);
+				gr6.addElement(rc6);
+				gr6.addElement(l1);
 				
+				var gr7:Group = new Group();
 				
-				var g2:Group = new Group();
-				g2.width = neededwidth/3;
-				g2.height = 50/(320/Capabilities.screenDPI);
+				rc7.radiusX = 9;
+				rc7.radiusY = 9;
+				
+				rc7.percentHeight = 100;
+				rc7.percentWidth = 100;
 				var l2:Label = new Label();
 				l2.setStyle("textAlign","center");
 				l2.horizontalCenter = 0;
-				l2.verticalCenter = 0;
+				l2.setStyle("paddingLeft",10);
+				l2.setStyle("paddingRight",10);
+				l2.setStyle("paddingBottom",5);
+				l2.setStyle("paddingTop",5);
+				l2.verticalCenter = 3;
 				l2.styleName = "textsize0";
-				l2.setStyle("color","#999999");
-				l2.text = "  $"+Number(data.cost).toFixed(2);
-				g2.addElement(line3);
-				g2.addElement(line4);
-				g2.addElement(l2);
+				l2.setStyle("color","#ffffff");
+				l2.text =  " $"+Number(data.cost).toFixed(2);;
+				gr7.addElement(rc7);
+				gr7.addElement(l2);
 				
-				var g3:Group = new Group();
-				g3.width = neededwidth/3;
-				g3.height = 50/(320/Capabilities.screenDPI);
-				var l3:Label = new Label();
-				l3.setStyle("textAlign","center");
-				l3.horizontalCenter = 0;
-				l3.verticalCenter = 0;
-				l3.styleName =  "textsize0";
-				l3.setStyle("color","#999999");
-				if (data.goodforme == false){
-					var bmpImg2:Image = new Image();
-					bmpImg2.source = "../assets/"+getDPIHeight().toString()+"/alertlarge.png";
-					bmpImg2.right = 20/(320/Capabilities.screenDPI);
-					bmpImg2.verticalCenter = 0;
-					//bmpImg2.contentLoader = s_imageCache;
-					g3.addElement(bmpImg2);
-				}
+				var hg2:HGroup = new HGroup();
+				hg2.paddingLeft = 15;
+				hg2.gap = 15;
+				hg2.addElement(gr6);
+				hg2.addElement(gr7);
+				hg2.bottom = 15;
+				gg1.addElement(hg2)
+				v1.addElement(gg1);
 				
-				
-				
-				
-				g3.addElement(line5);
-				
-				
-				
-				hg.addElement(g1);
-				hg.addElement(g2);
-				hg.addElement(g3);
+			
 				
 				var v2:VGroup = new VGroup();
 				v2.width = neededwidth;
@@ -263,7 +223,6 @@ package components
 				
 				var l4:Label = new Label();
 				l4.width = neededwidth-(20/(320/Capabilities.screenDPI));
-				l4.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
 				l4.setStyle("fontWeight","bold");
 				l4.horizontalCenter = 0;
 				l4.verticalCenter = 0;
@@ -290,15 +249,20 @@ package components
 				l6.text = data.categoryname;
 				l6.maxDisplayedLines = 1;
 				l6.setStyle("verticalAlign","middle");
-				
-				v2.addElement(l4);
+				var hg4:HGroup = new HGroup();
+				hg4.gap = 5/(320/Capabilities.screenDPI);
+				hg4.paddingLeft = 20/(320/Capabilities.screenDPI);
+				if (data.goodforme == false){
+					var bmpImg2:Image = new Image();
+					bmpImg2.source = "../assets/"+getDPIHeight().toString()+"/alertlarge.png";
+					bmpImg2.contentLoader = s_imageCache;
+					hg4.addElement(bmpImg2);
+				}
+				hg4.addElement(l4);
+				v2.addElement(hg4);
 				g4.addElement(l6);
-				
 				v2.addElement(g4);
-				
-				v1.addElement(hg);
-				v1.addElement(v2);
-				
+				v1.addElement(v2);	
 			}	
 		}
 		public function getDPIHeight():Number {

@@ -36,12 +36,12 @@
 				if (data.yearly == 'y'){
 					var date1:String = data.startdate;
 					date1 = date1.substring(5,date1.length);
-					var month1:String = getMonth(Number(date1.substring(0,2)));
+					var month1:String = getMonth2(Number(date1.substring(0,2)));
 					date1 = date1.substring(3,date1.length);
 					
 					var date2:String = data.enddate;
 					date2 = date2.substring(5,date2.length);
-					var month2:String = getMonth(Number(date2.substring(0,2)));
+					var month2:String = getMonth2(Number(date2.substring(0,2)));
 					date2 = date2.substring(3,date2.length);
 					
 					
@@ -140,7 +140,7 @@
 					likeback.alpha = 1;
 				}
 			}
-			public function getMonth(u:Number):String{
+			public function getMonth2(u:Number):String{
 				switch (u){
 					case 1 :
 						return "Jan";
