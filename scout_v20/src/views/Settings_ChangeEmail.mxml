@@ -27,7 +27,6 @@
 				setLoginVars();	
 				busy = false;
 			}
-			
 			public function subChanges():void {
 				if (checkFields()){
 					busy = true;
@@ -49,7 +48,6 @@
 				return true;
 			}
 			public function afterUpdateEmail(ev:ResultEvent):void {
-				
 				busy = false;
 				if (ev.result[0].result.message == "ok"){
 					popupholder1.visible = true;
@@ -140,8 +138,6 @@
 							 prompt="Confirm Email" color="#333333" 
 							 borderVisible="false"/>
 			</s:Group>
-			
-			
 			<components:submit_btn id="submit_btn" click="subChanges();"/>
 		</s:VGroup>
 	</s:Scroller>

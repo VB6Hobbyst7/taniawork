@@ -106,11 +106,9 @@ public function creationcomplete(event:FlexEvent):void
 	loadStuff(resData);
 	this.addEventListener(TransformGestureEvent.GESTURE_SWIPE,onSwipe);
 }
-
 public function startRate():void {
-	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",5,0,0);
+	RateBox.create("730533771","Rate This App","If you like this app, please rate it!","Rate Now","Ask Me Later","Don't ask again",5,0,1,1);
 }
-
 public function nativeKeyDown(event:KeyboardEvent):void
 {
 	var key:uint = event.keyCode;

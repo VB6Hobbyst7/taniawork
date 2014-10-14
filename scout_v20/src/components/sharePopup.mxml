@@ -176,7 +176,7 @@
 				<s:SolidColor alpha="0.5" color="#000000"/>
 			</s:fill>
 		</s:Rect>
-	<s:Group width="90%" horizontalCenter="0" height="50%" top="{10/(320/Capabilities.screenDPI)}">
+	<s:Group width="90%" horizontalCenter="0" height="45%" top="{10/(320/Capabilities.screenDPI)}">
 	<s:Rect width="100%"  height="100%"
 			radiusX="{10/(320/Capabilities.screenDPI)}"
 			radiusY="{10/(320/Capabilities.screenDPI)}">

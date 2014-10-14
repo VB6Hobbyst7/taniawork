@@ -569,9 +569,7 @@
 							<s:Label id="weekday7" text="Closed" horizontalCenter="0" verticalCenter="0" 
 									 color="#3c4042"  styleName="textsize2" fontWeight="normal" />
 						</s:VGroup>
-					</s:HGroup>
-						
-				
+					</s:HGroup>				
 			</s:VGroup>
 			</s:Scroller>
 			<s:Group width="100%" height="15%" bottom="0">
@@ -589,10 +587,6 @@
 			</s:Group>
 		</s:Group>
 	</s:Group>
-	
-	
-	
-	
 	
 	<s:Group id="ratingpopup" width="100%" height="100%" visible="false" alpha="0">
 		<s:Rect width="100%" height="100%">
