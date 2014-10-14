@@ -41,8 +41,11 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
+			import flash.utils.setTimeout;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.components.Image;
@@ -293,30 +296,24 @@
 			}
 			public function populatelist():void {
 				var srt:Sort = new Sort();
+				addcatsep = false;
 				if (currentselectmode == 1){
-					srt.fields = [new SortField("distance")];
-					listData.sort = srt;
-					listData.refresh();
+					srt.fields = [new SortField("distance")];	
 				}
 				else if (currentselectmode == 2){
 					srt.fields = [new SortField("categoryname")];
-					listData.sort = srt;
-					listData.refresh();
 				}
 				else if (currentselectmode == 3){
 					srt.fields = [new SortField("rating",!reverse,true)];
-					listData.sort = srt;
-					listData.refresh();
 				}
 				else if (currentselectmode == 4){
 					srt.fields = [new SortField("price",!reverse,true)];
-					listData.sort = srt;
-					listData.refresh();
 				}
+				listData.sort = srt;
+				listData.refresh();
 				extraitemarray = new ArrayCollection();
 				extraitemarray.addItem({name:"map",url:staticmapimageurl,viz:true});
-				setTimeout(	startapplyingdata,50);
-				
+				setTimeout(	startapplyingdata,500);
 				
 				this.parentDocument.hideBusy();
 			}
@@ -413,7 +410,6 @@
 			public function filterClick(u:uint):void {
 				listData.filterFunction = allFilter;
 				listData.refresh();
-				startapplyingdata();
 				
 				var fadein:Fade = new Fade();
 				fadein.alphaFrom = 0;
@@ -819,13 +815,13 @@
 					  mouseEnabled="true" mouseEnabledWhereTransparent="true" mouseOut="gOut(event)"
 					  mouseOver="gOver(event)" mouseUp="gOut(event)" 
 					  paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle" >
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" color="#4d4d4d" styleName="textsize1" text="Near" 
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false" color="#2dad9e" styleName="textsize1" text="Sort" 
 						 verticalAlign="middle" verticalCenter="0"/>
 				
 				<s:Group left="{90/(320/Capabilities.screenDPI)}" right="{20/(320/Capabilities.screenDPI)}"  verticalCenter="0">
 					
 					<s:Label id="svi1" visible="true" left="0"  mouseEnabled="false"
-							 color="#4d4d4d" fontWeight="bold" styleName="textsize1"
+							 color="#4d4d4d"  styleName="textsize1"  fontWeight="bold"
 							 text="Current Location" verticalCenter="0"/>
 					<s:TextInput id="svi2" height="90%" right="{10/(320/Capabilities.screenDPI)}" width="80%" verticalCenter="0" color="#b2b2b2" styleName="textsize1"
 								 visible="false" click="svilabelclick();" fontFamily="Arial" keyUp="postalpress(event);" left="0" prompt="Enter Postal Code"
@@ -840,8 +836,8 @@
 					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					 mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					 paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" 
-						 styleName="textsize1" text="Cuisine" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#2dad9e" 
+						 styleName="textsize1" text="Sort" verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{115/(320/Capabilities.screenDPI)}" id="sv2label" mouseEnabled="false"  color="#4d4d4d" fontWeight="bold" styleName="textsize1"
 						 text="All" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
@@ -849,7 +845,7 @@
 					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					 mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					 paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#4d4d4d" styleName="textsize1" text="Rating"
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#2dad9e" styleName="textsize1" text="Sort"
 						 verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv3label" width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
 						 mouseEnabled="false" styleName="textsize1" text="Highest"
@@ -859,8 +855,8 @@
 					 mouseEnabled="false" mouseEnabledWhereTransparent="false"
 					 mouseOver="gOver(event)" mouseOut="gOut(event)" mouseUp="gOut(event)"
 					 paddingLeft="{30/(320/Capabilities.screenDPI)}" gap="{15/(320/Capabilities.screenDPI)}" verticalAlign="middle">
-				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#4d4d4d" mouseEnabled="false" styleName="textsize1"
-						 text="Price" verticalAlign="middle" verticalCenter="0"/>
+				<s:Label left="{29/(320/Capabilities.screenDPI)}" color="#2dad9e" mouseEnabled="false" styleName="textsize1"
+						 text="Sort" verticalAlign="middle" verticalCenter="0"/>
 				<s:Label left="{93/(320/Capabilities.screenDPI)}" id="sv4label" width="{117/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold" mouseEnabled="false"
 						 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 			</s:HGroup>
@@ -868,10 +864,12 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List  right="{6/(320/Capabilities.screenDPI)}" left="{6/(320/Capabilities.screenDPI)}"  height="100%"
+			<s:List  right="{6/(320/Capabilities.screenDPI)}" 
+					 left="{6/(320/Capabilities.screenDPI)}"  height="100%"
 					useVirtualLayout="false" 
 					skinClass="skins.HomeTileListSkin"
 					id="dataList" 	
+					selectedIndex="1" 
 					creationComplete="listComplete(event)"
 					horizontalScrollPolicy="off" 
 					change="dataListClick();"

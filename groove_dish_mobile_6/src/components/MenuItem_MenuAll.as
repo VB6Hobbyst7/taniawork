@@ -147,6 +147,7 @@ package components
 				bmpImg.width = neededwidth;
 				bmpImg.height = neededwidth/(3/2);
 				bmpImg.top = 0;
+				bmpImg.scaleMode = "zoom";
 				gg1.addElement(bmpImg);
 				
 				var gr6:Group = new Group();
@@ -163,8 +164,8 @@ package components
 				l1.styleName = "textsize0";
 				l1.setStyle("fontWeight","bold");
 				l1.setStyle("color","#ffffff");
-				l1.setStyle("paddingLeft",10);
-				l1.setStyle("paddingRight",10);
+				l1.setStyle("paddingLeft",15);
+				l1.setStyle("paddingRight",15);
 				l1.setStyle("paddingBottom",5);
 				l1.setStyle("paddingTop",5);
 				var ratingstring:String =unescape(data.rating.toString());
@@ -199,7 +200,18 @@ package components
 				l2.verticalCenter = 3;
 				l2.styleName = "textsize0";
 				l2.setStyle("color","#ffffff");
-				l2.text =  " $"+Number(data.cost).toFixed(2);;
+				
+				var tempText:String = Number(data.cost).toFixed(2);
+				try{
+					if (tempText.substr(tempText.length-2,tempText.length) == "00"){
+						tempText = tempText.substr(0,tempText.length-3);
+					}
+				}
+				catch(e:Error){
+					
+				}
+				l2.text =  "$"+tempText;
+				
 				gr7.addElement(rc7);
 				gr7.addElement(l2);
 				
@@ -240,9 +252,10 @@ package components
 				l4.horizontalCenter = 0;
 				l4.verticalCenter = 0;
 				l4.styleName =  "textsize1";
-				l4.setStyle("color","#36ccba");
+				l4.setStyle("color","#4d4d4d");
 				l4.text = data.name;
 				l4.maxDisplayedLines = 1;
+				l4.percentHeight = 100;
 				l4.setStyle("verticalAlign","middle");
 				
 				var hg5:HGroup = new HGroup();
@@ -256,26 +269,8 @@ package components
 				l55.text = " • "+tempdisttext;
 				l55.maxDisplayedLines = 1;
 				l55.setStyle("verticalAlign","middle");
-				
-				
-				var l5:Label = new Label();
-				l5.width = neededwidth/2;
-				l5.setStyle("fontWeight","bold");
-				l5.styleName =  "textsize0";
-				l5.setStyle("color","#4d4d4d");
-				l5.text = data.business_name;
-				l5.maxDisplayedLines = 1;
-				l5.setStyle("verticalAlign","middle");
-				hg5.addElement(l5);
-				hg5.addElement(l55);
-				
-				var g4:Group = new Group();
-				g4.width = neededwidth;
-				
 				var l6:Label = new Label();
-				l6.width = neededwidth-(20/(320/Capabilities.screenDPI));
-				l6.setStyle("paddingLeft",10/(320/Capabilities.screenDPI));
-				l6.setStyle("fontWeight","bold");
+				l6.maxWidth = neededwidth/2;
 				l6.horizontalCenter = 0;
 				l6.verticalCenter = 0;
 				l6.left = 0;
@@ -284,9 +279,25 @@ package components
 				l6.text = data.categoryname;
 				l6.maxDisplayedLines = 1;
 				l6.setStyle("verticalAlign","middle");
+				hg5.addElement(l6);
+				hg5.addElement(l55);
+				
+
+				var l5:Label = new Label();
+				l5.width = neededwidth;
+				l5.setStyle("fontWeight","bold");
+				l5.styleName =  "textsize0";
+				l5.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
+				l5.setStyle("color","#4d4d4d");
+				l5.text = data.business_name;
+				l5.maxDisplayedLines = 1;
+				l5.setStyle("verticalAlign","middle");
+
 				var hg4:HGroup = new HGroup();
 				hg4.gap = 5/(320/Capabilities.screenDPI);
 				hg4.paddingLeft = 20/(320/Capabilities.screenDPI);
+				hg4.verticalAlign = "middle";
+				hg4.verticalCenter = 0;
 				if (data.goodforme == false){
 					var bmpImg2:Image = new Image();
 					bmpImg2.source = "../assets/"+getDPIHeight().toString()+"/alertlarge.png";
@@ -295,9 +306,8 @@ package components
 				}
 				hg4.addElement(l4);
 				v2.addElement(hg4);
+				v2.addElement(l5);
 				v2.addElement(hg5);
-				g4.addElement(l6);
-				v2.addElement(g4);
 				v1.addElement(v2);	
 			}	
 		}

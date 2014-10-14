@@ -16,48 +16,29 @@ package components
 	import spark.primitives.BitmapImage;
 	import spark.primitives.Line;
 	import spark.primitives.Rect;
-
 	public class StoreItem extends ItemRenderer
 	{
 		static public const s_imageCache:ContentCache = new ContentCache();
-		[Bindable]
 		public var v1:VGroup = new VGroup();
 		public var addedallitems:Boolean = false;
 		public var gapo:uint = 3;
+		public var subvalue:uint = 25;
 		public function StoreItem()
 		{
 			super();
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, init);
 			this.addEventListener(FlexEvent.DATA_CHANGE, dchange);
-			this.autoDrawBackground = false;
 		}
 		public function init(event:FlexEvent):void {
 			if (data != null){
 				var neededwidth:Number = this.parent.width/2-gapo;
+				v1.width = neededwidth;
 				v1.percentHeight = 100;
-				v1.gap= 0;
+				v1.gap = 0;
 				v1.mouseEnabled = false;
-				v1.mouseEnabledWhereTransparent = false;
-				v1.horizontalAlign =  "center";
-				v1.verticalAlign = "middle";
-				v1.horizontalCenter = 0;
-				v1.verticalCenter = 0;
-				v1.id = "megacont";
-				v1.name = "megacont";
 				this.addElement(v1);
-				if ((addedallitems == false)){
-					if (unescape(data.name) == "Loading More Items"){
-						v1.width = neededwidth;
-						var ll:Label = new Label();
-						ll.width = neededwidth;
-						ll.horizontalCenter = 0;
-						ll.top = 50/(320/Capabilities.screenDPI);
-						ll.styleName = styleManager.getStyleDeclaration("textsize3");
-						ll.setStyle("color",0x36ccba);
-						ll.text = unescape(data.name);
-						v1.addElement(ll);
-					}
-					else if (unescape(data.name) == "map"){
+				if (addedallitems == false){
+					if (unescape(data.name) == "map"){
 						this.width = this.parent.width;
 						v1.width = this.parent.width;
 						var bmpImg:BitmapImage = new BitmapImage();
@@ -67,44 +48,40 @@ package components
 						v1.addElement(bmpImg);
 					}
 					else {
-						this.width = neededwidth;
-						v1.width = neededwidth;
 						loadrest();
 					}
-				}
-				else {
-					this.width = neededwidth;
 				}
 			}
 		}
 		public function dchange(event:FlexEvent):void {
 			if (data != null){
-				try{
-					var neededwidth:Number = this.parent.width/2-gapo;
-					if ((addedallitems == false)){
-						if (unescape(data.name) == "Loading More Items"){
-							v1.width = neededwidth;
-							this.width = neededwidth;
-						}
-						else if (unescape(data.name) == "map"){
-							this.width = this.parent.width;
-							v1.width = this.parent.width;
-						}
-						else {
-							this.width = neededwidth;
-							v1.width = neededwidth;
-							loadrest();
-						}
+				var neededwidth:Number = this.parent.width/2-gapo;
+				if (addedallitems == false){
+					if (unescape(data.name) == "map"){
+						
 					}
 					else {
-						this.width = neededwidth;
-						v1.removeAllElements();
-						addedallitems = false;
-						init(event);
-					}
+						loadrest();
+					}	
 				}
-				catch(ev:Error){}
-			}	
+				else {
+					v1.removeAllElements();
+					addedallitems = false;
+					if (unescape(data.name) == "map"){
+						this.width = this.parent.width;
+						v1.width = this.parent.width;
+						var bmpImg:BitmapImage = new BitmapImage();
+						bmpImg.source = unescape(data.url);
+						bmpImg.width = this.parent.width;
+						bmpImg.height = this.parent.width/(16/7)+(gapo*6);
+						v1.addElement(bmpImg);
+					}
+					else {
+						loadrest();
+					}	
+					
+				}
+			}		
 		}
 		public function loadrest():void {
 			var neededwidth:Number = this.parent.width/2-gapo;
@@ -131,8 +108,6 @@ package components
 				gr5.width = neededwidth;
 				gr5.height = neededwidth*(414/622);
 				gr5.addElement(bmpImg);
-				
-				
 				var gr6:Group = new Group();
 				var rc6:Rect = new Rect();
 				rc6.fill = new SolidColor(0x36ccba, 0.95);
@@ -147,8 +122,8 @@ package components
 				l1.styleName = "textsize0";
 				l1.setStyle("fontWeight","bold");
 				l1.setStyle("color","#ffffff");
-				l1.setStyle("paddingLeft",10);
-				l1.setStyle("paddingRight",10);
+				l1.setStyle("paddingLeft",15);
+				l1.setStyle("paddingRight",15);
 				l1.setStyle("paddingBottom",5);
 				l1.setStyle("paddingTop",5);
 				var ratingstring:String =unescape(data.rating.toString());
@@ -209,17 +184,13 @@ package components
 				hg2.addElement(gr7);
 				hg2.bottom = 15;
 				gr5.addElement(hg2)
-				v1.addElement(gr5);
-				
-				
+				v1.addElement(gr5);			
 				
 				var v2:VGroup = new VGroup();
 				v2.width = neededwidth;
 				v2.gap = 8/(320/Capabilities.screenDPI);
 				v2.paddingTop = 18/(320/Capabilities.screenDPI);
 				v2.paddingBottom = 10/(320/Capabilities.screenDPI);
-				
-				
 				
 				var l5:Label = new Label();
 				l5.width = neededwidth-(20/(320/Capabilities.screenDPI));

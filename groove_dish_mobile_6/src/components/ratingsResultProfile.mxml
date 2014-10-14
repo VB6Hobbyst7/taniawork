@@ -20,12 +20,18 @@
 			public function doStuff():void {
 				if (data != null){
 			
-					if (data.ratingdescription.length < 5){
-						desccont.height = -1;
+					if (data.ratingdescription != null){
+						if (data.ratingdescription.length < 5){
+							desccont.height = -1;
+						}
+						else {
+							desccont.percentHeight = 100;
+						}
 					}
 					else {
-						desccont.percentHeight = 100;
+						desccont.height = -1;
 					}
+					
 
 					if (data.totallikecount == null){
 						data.totallikecount = "0";

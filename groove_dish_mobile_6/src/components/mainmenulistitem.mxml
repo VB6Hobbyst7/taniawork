@@ -26,9 +26,13 @@
 	<s:BitmapImage left="{30/(320/Capabilities.screenDPI)}" verticalCenter="0"  
 	 filters.hovered="{[selectionglow]}" contentLoader="{s_imageCache}"
 	 filters.normal="[]"  source="{data.img}"/>
-	<s:Label left="{90/(320/Capabilities.screenDPI)}" color="#FFFFFF" 
+	<s:Label left="{90/(320/Capabilities.screenDPI)}" color="#efefef" 
 			 styleName="textsize1" text="{data.name}" verticalCenter="0"
 			 filters.normal="[]" fontWeight="bold"
+			 filters.hovered="{[selectionglow]}"/>
+	<s:Label right="{30/(320/Capabilities.screenDPI)}" color="#efefef"  visible="{data.typet == 1}"
+			 styleName="textsize0" text="Profile" verticalCenter="0"
+			 filters.normal="[]"
 			 filters.hovered="{[selectionglow]}"/>
 	<s:Line  left="0" right="0"  bottom="0" > 
 		<s:stroke><s:SolidColorStroke color="#8d8d8d" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>

@@ -8,8 +8,7 @@
 		backgroundAlpha="1"
 		backgroundColor="#e5e5e5"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
-		title="Menu">
+		contentBackgroundColor="#e5e5e5">
 	<s:navigationContent >
 		<components:BackButton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
 							   height="100%"   mouseDown="navigator.popView(); "/>
@@ -59,6 +58,10 @@
 						listData.addItem(ev.result[0].ress.res);
 					}
 					catch(e:Error){}}
+				
+				if (listData.length > 0){
+					this.title = listData[0].business_name;
+				}
 				
 				try{			
 					resData = ev.result[0].ress2.res2;		

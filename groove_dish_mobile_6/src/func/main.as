@@ -63,12 +63,12 @@ protected function creationcomplete(event:FlexEvent):void
 
 	calculateActionbarVals();
 		
-	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6"},
-		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true},
-		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643"},
-		{name:"Dishes",img:menu_dish,colorid:"0xfcb643"},
-		{name:"Specials",img:menu_ratings,colorid:"0xfcb643"},
-		{name:"Settings",img:menu_settings,colorid:"0xfcb643"}
+	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6", typet:1},
+		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true, typet:0},
+		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643", typet:0},
+		{name:"Dishes",img:menu_dish,colorid:"0xfcb643", typet:0},
+		{name:"Specials",img:menu_ratings,colorid:"0xfcb643", typet:0},
+		{name:"Settings",img:menu_settings,colorid:"0xfcb643", typet:0}
 	]);
 	verifyDataTablesViaVersion();
 	createIfNotExsist("localuser");

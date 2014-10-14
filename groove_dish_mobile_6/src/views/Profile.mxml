@@ -566,6 +566,7 @@
 					}
 				}
 				catch(e:Error){}
+				profimage.visible = true;
 				var fa:Fade = new Fade();
 				fa.alphaFrom = 0;
 				fa.alphaTo = 1;
@@ -694,7 +695,7 @@
 						<s:Group id="gap1"  height="{30/(320/Capabilities.screenDPI)}"/>
 						<s:BitmapImage id="profimage"  width="{300/(320/Capabilities.screenDPI)}"
 									   height="{300/(320/Capabilities.screenDPI)}"  horizontalCenter="0" 
-								  verticalCenter="0"  smooth="true" 
+								  verticalCenter="0"  smooth="true"  visible="false"
 								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-default.png')"

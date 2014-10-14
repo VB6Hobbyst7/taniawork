@@ -1,5 +1,6 @@
 import flash.events.TimerEvent;
 import flash.utils.Timer;
+
 import mx.collections.ArrayCollection;
 import mx.events.FlexEvent;
 import mx.events.PropertyChangeEvent;
@@ -13,12 +14,18 @@ public function startapplyingdata():void {
 	currentamountloaded = 0;
 	listData.refresh();
 	dataList.selectedIndex = -1;
-	if (dataList.dataProvider != null){
+	try{
+		dataList.dataProvider.removeAll();
+	}
+	catch(e:Error){
+		dataList.dataProvider = new ArrayCollection();
+	}
+/*	if (dataList.dataProvider != null){
 		dataList.dataProvider.removeAll();
 	}
 	else {
 		dataList.dataProvider = new ArrayCollection();
-	}
+	}*/
 
 	var i:uint = 0;
 	for (i = 0; i < extraitemarray.length; i++){
