@@ -45,6 +45,11 @@
 			{			
 				this.parentApplication.facebookwait.visible = false;
 				setLoginVars();	
+				
+				if (email.indexOf("scouttemp") != -1){
+					navigator.pushView(Settings_ChangeEmail);
+				}
+				
 				try{
 				navigator.activeView.mouseChildren = true;
 				

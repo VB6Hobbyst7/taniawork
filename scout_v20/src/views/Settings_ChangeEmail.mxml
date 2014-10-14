@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="Scout"  name="changeProf"
+		viewActivate="activ(event)"
+		backgroundColor="#f2f3f4" 
+		contentBackgroundColor="#f2f3f4">
+	<s:navigationContent ></s:navigationContent>
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/smallglobal.as"/>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable]
+			public var newemail:String = "";
+			[Bindable]
+			public var busy:Boolean = false;
+			public function activ(event:ViewNavigatorEvent):void
+			{
+				setLoginVars();	
+				busy = false;
+			}
+			
+			public function subChanges():void {
+				if (checkFields()){
+					busy = true;
+					newemail = nemail.text;
+					updateEmail.send();
+				}
+				else {
+					popupholder1.textl = "Information Provided was Invalid";
+					popupholder1.visible = true;	
+				}
+			}
+			public function checkFields():Boolean {
+				if ((nemail.text == "")
+					||(nconfemail.text == "")
+					||(nemail.text != nconfemail.text)
+				){	
+					return false;	
+				}
+				return true;
+			}
+			public function afterUpdateEmail(ev:ResultEvent):void {
+				
+				busy = false;
+				if (ev.result[0].result.message == "ok"){
+					popupholder1.visible = true;
+					popupholder1.textl = "You have successfully updated your email. You will now be asked to login.";
+					setTimeout(logout,4000);
+				}
+				else {
+					popupholder1.visible = true;
+					popupholder1.textl = ev.result[0].result.message;
+				}
+
+			}
+			public function logout():void {
+				try{
+					sqlConnection = new SQLConnection();
+					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+					var stmt:SQLStatement = new SQLStatement();
+					stmt.sqlConnection = sqlConnection;
+					stmt.text = "delete from localuser";
+					stmt.execute();
+					email = "";
+					nameGo = "";
+					cityGo = "";
+					this.parentApplication.logout();
+				}
+				catch(e:Error){
+					email = "";
+					nameGo = "";
+					cityGo = "";
+					this.parentApplication.logout();
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:HTTPService id="updateEmail" method="GET" 
+					   resultFormat="array" 
+					   url="http://www.scoutcard.ca/php/mobile_v3/updateEmail.php"
+					   result="afterUpdateEmail(event)" >
+			<s:request xmlns="">
+				<email>{newemail}</email>		
+				<oldemail>{email}</oldemail>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}" width="100%" 
+				  horizontalCenter="0" verticalCenter="0"  
+				  paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  bottom="0" horizontalAlign="center" verticalAlign="top">
+			
+			
+			<s:Label  text="There was an error syncing your email. Please enter your email address. "
+					  mouseEnabled="false" maxWidth="{this.width*0.95}"
+					  verticalAlign="middle" textAlign="center"
+					  styleName="textsize8" color="#0aaae5"/>
+			<s:Group width="100%" >
+				<s:Rect width="{submit_btn.width}" 
+						height="{submit_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="nemail"   focusAlpha="0"
+							 width="{submit_btn.width}"
+							 height="{submit_btn.height}"
+							 verticalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 prompt="Email" color="#333333" 
+							 borderVisible="false"/>
+			</s:Group>
+			<s:Group width="100%" >
+				<s:Rect width="{submit_btn.width}" 
+						height="{submit_btn.height}" 
+						horizontalCenter="0" verticalCenter="0"
+						radiusX="{10/(320/Capabilities.screenDPI)}"
+						radiusY="{10/(320/Capabilities.screenDPI)}" >
+					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+				</s:Rect>
+				<s:TextInput id="nconfemail"   focusAlpha="0"
+							 width="{submit_btn.width}"
+							 height="{submit_btn.height}"
+							 verticalCenter="0"
+							 horizontalCenter="0" fontFamily="Arial"
+							 contentBackgroundAlpha="0"
+							 prompt="Confirm Email" color="#333333" 
+							 borderVisible="false"/>
+			</s:Group>
+			
+			
+			<components:submit_btn id="submit_btn" click="subChanges();"/>
+		</s:VGroup>
+	</s:Scroller>
+	<components:genericpopup id="popupholder1"  width="100%" height="100%"/>
+	<s:BusyIndicator visible="{busy}" verticalCenter="0" horizontalCenter="0"/>
+</s:View>

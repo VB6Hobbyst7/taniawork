@@ -110,7 +110,7 @@
 					else {
 						redeembtn.enabled = false;
 					}
-					
+					rewardheaderlabel.text = loyaltyList.selectedItem.name;
 					spendout = loyaltyList.selectedItem.spend;
 					amountout = loyaltyList.selectedItem.amount;
 					selectedRewardID = loyaltyList.selectedItem.id;
@@ -429,10 +429,14 @@
 				</s:Rect>
 				<s:VGroup width="100%" height="100%" top="0"  gap="{60/(320/Capabilities.screenDPI)}"
 						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label  id="rewardheaderlabel"
+							 maxWidth="{this.width*0.85}"  mouseEnabled="false"
+							 verticalAlign="middle" textAlign="center"
+							 styleName="textsize10" color="#0aaae5"/>
 					<s:Label text="Hand your device to a staff member"
 							 maxWidth="{this.width*0.85}"  mouseEnabled="false"
 							 verticalAlign="middle" textAlign="center"
-							 styleName="textsize10" color="#626364"/>
+							 styleName="textsize8" color="#626364"/>
 					<s:Group click="goredeem.send();"
 							 mouseDown="gDown(event);" mouseOver="gOver(event);"
 							 mouseOut="gOut(event);" mouseUp="gOut(event);">
@@ -504,7 +508,7 @@
 			</s:VGroup>
 			
 			
-			<s:Group id="cb" height="15%" left="0" right="{3/(320/Capabilities.screenDPI)}" bottom="0" 
+			<s:Group id="cb" height="15%" left="1" right="{5/(320/Capabilities.screenDPI)}" bottom="4" 
 					 click="closeInfoPopup();"
 					 mouseDown="gDown(event);" mouseOver="gOver(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);">
@@ -513,7 +517,7 @@
 						 bottomLeftRadiusY="{20/(320/Capabilities.screenDPI)}"
 						 bottomRightRadiusX="{20/(320/Capabilities.screenDPI)}"
 						 bottomRightRadiusY="{20/(320/Capabilities.screenDPI)}">
-					<s:fill><s:SolidColor alpha="1" color="#0aaae5"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#727272"/></s:fill>
 				</s:Rect>
 				<s:Label text="Close" color="#FFFFFF" styleName="textsize6"
 						 mouseEnabled="false" horizontalCenter="0" verticalCenter="0"/>
