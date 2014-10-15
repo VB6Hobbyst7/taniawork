@@ -16,13 +16,13 @@ package components
 	import spark.primitives.BitmapImage;
 	import spark.primitives.Line;
 	import spark.primitives.Rect;
+	
 	public class StoreItem extends ItemRenderer
 	{
 		static public const s_imageCache:ContentCache = new ContentCache();
 		public var v1:VGroup = new VGroup();
 		public var addedallitems:Boolean = false;
-		public var gapo:uint = 3;
-		public var subvalue:uint = 25;
+		public var gapo:uint = 4;
 		public function StoreItem()
 		{
 			super();
@@ -30,84 +30,87 @@ package components
 			this.addEventListener(FlexEvent.DATA_CHANGE, dchange);
 		}
 		public function init(event:FlexEvent):void {
-			if (data != null){
-				var neededwidth:Number = this.parent.width/2-gapo;
-				v1.width = neededwidth;
-				v1.percentHeight = 100;
-				v1.gap = 0;
-				v1.mouseEnabled = false;
-				this.addElement(v1);
-				if (addedallitems == false){
-					if (unescape(data.name) == "map"){
-						this.width = this.parent.width;
-						v1.width = this.parent.width;
-						var bmpImg:BitmapImage = new BitmapImage();
-						bmpImg.source = unescape(data.url);
-						bmpImg.width = this.parent.width;
-						bmpImg.height = this.parent.width/(16/7)+(gapo*6);
-						v1.addElement(bmpImg);
-					}
-					else {
-						loadrest();
-					}
+			var neededwidth:Number = this.parent.width/2-gapo;
+			v1.width = neededwidth;
+			v1.percentHeight = 100;
+			v1.gap = 0;
+			v1.mouseEnabled = false;
+			this.addElement(v1);
+			if ((data.viz == true)&&(addedallitems == false)){
+				if (unescape(data.name) == "map"){
+					this.width = this.parent.width;
+					v1.width = this.parent.width;
+					var bmpImg:BitmapImage = new BitmapImage();
+					bmpImg.source = unescape(data.url);
+					bmpImg.width = this.parent.width;
+					bmpImg.height = this.parent.width/(16/7)+(gapo*6);
+					v1.addElement(bmpImg);
+				}
+				else {
+					loadrest();
 				}
 			}
 		}
 		public function dchange(event:FlexEvent):void {
 			if (data != null){
 				var neededwidth:Number = this.parent.width/2-gapo;
-				if (addedallitems == false){
+				if ((data.viz == true)&&(addedallitems == false)){
 					if (unescape(data.name) == "map"){
 						
 					}
 					else {
 						loadrest();
-					}	
+					}
 				}
 				else {
 					v1.removeAllElements();
 					addedallitems = false;
-					if (unescape(data.name) == "map"){
-						this.width = this.parent.width;
-						v1.width = this.parent.width;
-						var bmpImg:BitmapImage = new BitmapImage();
-						bmpImg.source = unescape(data.url);
-						bmpImg.width = this.parent.width;
-						bmpImg.height = this.parent.width/(16/7)+(gapo*6);
-						v1.addElement(bmpImg);
+					if (data.viz){
+						if (unescape(data.name) == "map"){
+							this.width = this.parent.width;
+							v1.width = this.parent.width;
+							var bmpImg:BitmapImage = new BitmapImage();
+							bmpImg.source = unescape(data.url);
+							bmpImg.width = this.parent.width;
+							bmpImg.height = this.parent.width/(16/7)+(gapo*6);
+							v1.addElement(bmpImg);
+						}
+						else {
+							loadrest();
+						}
 					}
-					else {
-						loadrest();
-					}	
 					
 				}
-			}		
+			}
 		}
 		public function loadrest():void {
 			var neededwidth:Number = this.parent.width/2-gapo;
 			if (addedallitems == false){
-				this.width = neededwidth;
+				var rc7:Rect = new Rect();
+				var gg1:Group = new Group();
+				gg1.width = neededwidth;
+				gg1.height = neededwidth/(3/2);
 				addedallitems = true;
 				var bmpImg:BitmapImage = new BitmapImage();
-				if ((unescape(data.business_picture) == "None")||(unescape(data.business_picture) == "")||
-					(unescape(data.business_picture) == null)||(unescape(data.business_picture) == "null")){
+				if ((data.business_picture == "None")||(data.business_picture == "")||(data.business_picture == null)||(data.business_picture == "null")){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					rc7.fill = new SolidColor(0x4d4d4d, 0.95);
 				}
-				else if (unescape(data.business_picture).indexOf("dish") != -1){
+				else if (data.business_picture.indexOf("dish") != -1){
 					bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_wide.png";
+					rc7.fill = new SolidColor(0x4d4d4d, 0.95);
 				}
 				else {
-					bmpImg.source = unescape(data.business_picture);
+					bmpImg.source = data.business_picture;
+					rc7.fill = new SolidColor(0xc4c4c4, 0.95);
 				}
-				bmpImg.scaleMode = "zoom";
 				bmpImg.contentLoader = s_imageCache;
 				bmpImg.width = neededwidth;
 				bmpImg.height = neededwidth/(3/2);
-				bmpImg.bottom = 0;
-				var gr5:Group = new Group();
-				gr5.width = neededwidth;
-				gr5.height = neededwidth*(414/622);
-				gr5.addElement(bmpImg);
+				bmpImg.top = 0;
+				bmpImg.scaleMode = "zoom";
+				gg1.addElement(bmpImg);
+				
 				var gr6:Group = new Group();
 				var rc6:Rect = new Rect();
 				rc6.fill = new SolidColor(0x36ccba, 0.95);
@@ -140,6 +143,25 @@ package components
 				}
 				gr6.addElement(rc6);
 				gr6.addElement(l1);
+				
+				var gr7:Group = new Group();
+				
+				rc7.radiusX = 9;
+				rc7.radiusY = 9;
+				
+				rc7.percentHeight = 100;
+				rc7.percentWidth = 100;
+				var l2:Label = new Label();
+				l2.setStyle("textAlign","center");
+				l2.horizontalCenter = 0;
+				l2.setStyle("paddingLeft",10);
+				l2.setStyle("paddingRight",10);
+				l2.setStyle("paddingBottom",5);
+				l2.setStyle("paddingTop",5);
+				l2.verticalCenter = 3;
+				l2.styleName = "textsize0";
+				l2.setStyle("color","#ffffff");
+				
 				var pricelabel:String = "";
 				if (data.price == 1){
 					pricelabel  = "$";
@@ -156,24 +178,8 @@ package components
 				else if (data.price == 5){
 					pricelabel  = "$$$$$";
 				}
-				var gr7:Group = new Group();
-				var rc7:Rect = new Rect();
-				rc7.radiusX = 9;
-				rc7.radiusY = 9;
-				rc7.fill = new SolidColor(0xc4c4c4, 0.95);
-				rc7.percentHeight = 100;
-				rc7.percentWidth = 100;
-				var l2:Label = new Label();
-				l2.setStyle("textAlign","center");
-				l2.horizontalCenter = 0;
-				l2.setStyle("paddingLeft",10);
-				l2.setStyle("paddingRight",10);
-				l2.setStyle("paddingBottom",5);
-				l2.setStyle("paddingTop",5);
-				l2.verticalCenter = 3;
-				l2.styleName = "textsize0";
-				l2.setStyle("color","#ffffff");
-				l2.text = pricelabel;
+				
+				l2.text =  pricelabel;
 				gr7.addElement(rc7);
 				gr7.addElement(l2);
 				
@@ -183,8 +189,23 @@ package components
 				hg2.addElement(gr6);
 				hg2.addElement(gr7);
 				hg2.bottom = 15;
-				gr5.addElement(hg2)
-				v1.addElement(gr5);			
+				gg1.addElement(hg2)
+				v1.addElement(gg1);
+				
+				var tempdisttext:String = "";
+				if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
+					var dist:Number = data.distance;
+					if (dist >= 1){
+						tempdisttext = dist.toFixed(1)+ " km";
+					}
+					else {
+						dist = dist * 1000;
+						tempdisttext = dist.toFixed(0)+ " m";
+					}
+				}
+				else {
+					tempdisttext = "";
+				}
 				
 				var v2:VGroup = new VGroup();
 				v2.width = neededwidth;
@@ -192,75 +213,44 @@ package components
 				v2.paddingTop = 18/(320/Capabilities.screenDPI);
 				v2.paddingBottom = 10/(320/Capabilities.screenDPI);
 				
-				var l5:Label = new Label();
-				l5.width = neededwidth-(20/(320/Capabilities.screenDPI));
-				l5.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
-				l5.setStyle("fontWeight","bold");
-				l5.horizontalCenter = 0;
-				l5.verticalCenter = 0;
-				l5.styleName =  "textsize0";
-				l5.setStyle("color","#4d4d4d");
-				l5.text = unescape(data.business_name);
-				l5.maxDisplayedLines = 1;
-				l5.setStyle("verticalAlign","middle");
+				var hg5:HGroup = new HGroup();
+				hg5.paddingLeft = 20/(320/Capabilities.screenDPI);
+				hg5.gap = 0;
 				
-				var g4:Group = new Group();
-				g4.width = neededwidth;
-				var newdist:String = "";
-				if ((unescape(data.distance) != '')&&(unescape(data.distance) != 'null')&&(unescape(data.distance) != null)){
-					var dist:Number = Number(unescape(data.distance));
-					if (dist >= 1){
-						newdist = dist.toFixed(1)+ " km";
-					}
-					else {
-						dist = dist * 1000;
-						newdist = dist.toFixed(0)+ " m";
-					}
-				}
-				else {
-					newdist = "";
-				}
-				var hg3:HGroup = new HGroup();
-				hg3.gap = 0;
-				hg3.paddingLeft = 20/(320/Capabilities.screenDPI);
+				var l55:Label = new Label();
+				l55.percentWidth = 100;
+				l55.styleName =  "textsize0";
+				l55.setStyle("color","#4d4d4d");
+				l55.text = " • "+tempdisttext;
+				l55.maxDisplayedLines = 1;
+				l55.setStyle("verticalAlign","middle");
 				var l6:Label = new Label();
-				l6.maxWidth = neededwidth-(20/(320/Capabilities.screenDPI));
-				l6.setStyle("fontWeight","bold");
+				l6.maxWidth = neededwidth/2;
 				l6.horizontalCenter = 0;
 				l6.verticalCenter = 0;
 				l6.left = 0;
+				l6.setStyle("fontWeight", "bold");
 				l6.styleName =  "textsize0";
 				l6.setStyle("color","#4d4d4d");
-				l6.text = unescape(data.categoryname+" •");
+				l6.text = data.categoryname;
 				l6.maxDisplayedLines = 1;
 				l6.setStyle("verticalAlign","middle");
-				
-				var l7:Label = new Label();
-				l7.horizontalCenter = 0;
-				l7.verticalCenter = 0;
-				l7.styleName =  "textsize0";
-				l7.setStyle("color","#4d4d4d");
-				l7.text = unescape(" "+newdist);
-				l7.maxDisplayedLines = 1;
-				l7.setStyle("verticalAlign","middle");
-				
-				hg3.addElement(l6);
-				hg3.addElement(l7);
+				hg5.addElement(l6);
+				hg5.addElement(l55);
+				var l5:Label = new Label();
+				l5.width = neededwidth;
+				l5.setStyle("fontWeight","bold");
+				l5.styleName =  "textsize0";
+				l5.setStyle("paddingLeft",20/(320/Capabilities.screenDPI));
+				l5.setStyle("color","#4d4d4d");
+				l5.text = data.business_name;
+				l5.maxDisplayedLines = 1;
+				l5.setStyle("verticalAlign","middle");
 				
 				v2.addElement(l5);
-				
-				
-				var rc8:Rect = new Rect();
-				rc8.fill = new SolidColor(0xFFFFFF, 1);
-				rc8.percentHeight = 100;
-				rc8.percentWidth = 100;
-				this.addElement(rc8);
-				g4.addElement(hg3);
-				v2.addElement(g4);
-				
-				
-				v1.addElement(v2);
-			}
+				v2.addElement(hg5);
+				v1.addElement(v2);	
+			}	
 		}
 		public function getDPIHeight():Number {
 			var _runtimeDPI:int;

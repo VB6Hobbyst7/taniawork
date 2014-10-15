@@ -313,8 +313,7 @@
 				listData.refresh();
 				extraitemarray = new ArrayCollection();
 				extraitemarray.addItem({name:"map",url:staticmapimageurl,viz:true});
-				setTimeout(	startapplyingdata,500);
-				
+				setTimeout(	startapplyingdata,50);
 				this.parentDocument.hideBusy();
 			}
 			public function press(event:KeyboardEvent):void {
@@ -543,7 +542,7 @@
 					fadeout.play();
 					fadein.play();
 					currentselectmode = u;
-					setTimeout(	populatelist,500);
+					setTimeout(	populatelist,50);
 					
 				}
 			}
