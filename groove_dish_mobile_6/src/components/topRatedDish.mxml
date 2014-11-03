@@ -43,7 +43,17 @@
 							var n:Number = Number(data.rating);
 							nameLabel.text =  data.name;
 							catLabel2.text = data.categoryname;
-							costLabel.text = "  $"+Number(data.cost).toFixed(2);
+							var tempText:String = Number(data.cost).toFixed(2);
+							try{
+								if (tempText.substr(tempText.length-2,tempText.length) == "00"){
+									tempText = tempText.substr(0,tempText.length-3);
+								}
+							}
+							catch(e:Error){
+								
+							}
+							
+							costLabel.text = "  $"+tempText;
 							bmpImg.width = setheightval;
 							bmpImg.height = setheightval-2;
 							bmpImg.verticalCenter = 0;

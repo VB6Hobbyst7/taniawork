@@ -61,6 +61,7 @@ s|TextInput {
 	skinClass: ClassReference("spark.skins.mobile.TextInputSkin");
 	showPromptWhenFocused:false;
 	fontFamily: "HelveticaNeue";
+	focusAlpha: 0;
 	
 }
 s|Label

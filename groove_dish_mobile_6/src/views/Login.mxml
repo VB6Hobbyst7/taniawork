@@ -6,9 +6,9 @@
 		title="login" 
 		name="sign0"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		actionBarVisible="false" 
 		viewActivate="init()"
 		xmlns:cs="cs.*" >
@@ -16,11 +16,16 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.events.MouseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Move;
 			import spark.events.ViewNavigatorEvent;
 			public function init():void {	
 				createIfNotExsist("localuser");
+				this.currentState = 'tutorial';
+					
 				
 			}	
 			public function loginClick(event:MouseEvent):void
@@ -95,6 +100,78 @@
 			{		
 				this.parentApplication.facebookloging();
 			}
+			
+			
+			[Bindable]
+			public var istutdown:Boolean = false;
+			public var diff:Number = 0;
+			protected function tutdown(event:MouseEvent):void
+			{
+				istutdown = true;
+			}
+			
+			protected function tutup(event:MouseEvent):void
+			{
+				istutdown = false;
+				diff = 0;
+				var mo:Move = new Move();
+				if (tutbox.x >= 0){
+					mo.xTo = 0;
+					mo.target = tutbox;
+					mo.duration = 200;
+					mo.play();
+				}
+				else {
+					if ((tutbox.x < (0))&&(tutbox.x > (0-(this.width/2)))){
+						mo.xTo = 0;
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-(this.width/2)))&&(tutbox.x > (0-(this.width+(this.width/2))))){
+						mo.xTo = 0-this.width;
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-(this.width+(this.width/2))))&&(tutbox.x > (0-((this.width*2)+(this.width/2))))){
+						mo.xTo = 0-(this.width*2);
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-((this.width*2)+(this.width/2))))&&(tutbox.x > (0-((this.width*3)+(this.width/2))))){
+						mo.xTo = 0-(this.width*3);
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-((this.width*3)+(this.width/2))))&&(tutbox.x > (0-((this.width*4)+(this.width/2))))){
+						mo.xTo = 0-(this.width*4);
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-((this.width*4)+(this.width/2))))&&(tutbox.x > (0-((this.width*5)+(this.width/2))))){
+						this.currentState = "welcome";
+					}
+				}
+			}
+			protected function tutmove(event:MouseEvent):void
+			{
+				if (istutdown){
+					if (diff != 0) {
+						if (diff > this.mouseX){
+							tutbox.x = tutbox.x-(diff-this.mouseX);
+						}
+						else if (diff < this.mouseX){
+							tutbox.x = tutbox.x-(diff-this.mouseX);
+						}
+					}
+					diff = this.mouseX;
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>	
@@ -112,10 +189,67 @@
 		</s:HTTPService>
 	</fx:Declarations>
 	<s:states>
+		<s:State name="tutorial" />
 		<s:State name="welcome"/>
 		<s:State name="login"/>
 	</s:states>
-	<s:BitmapImage width="100%" height="100%"
+	<s:HGroup id="tutbox" height="100%" x="0" 
+			  mouseDown="tutdown(event)" mouseUp="tutup(event)" 
+			  mouseMove="tutmove(event)" includeIn="tutorial" 
+			  width="{this.width*5}" gap="0">
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut1.png')"
+										source240dpi="@Embed('../assets/240/tut1.png')"
+										source320dpi="@Embed('../assets/320/tut1.png')"
+										source480dpi="@Embed('../assets/480/tut1.png')"
+										source640dpi="@Embed('../assets/640/tut1.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut2.png')"
+										source240dpi="@Embed('../assets/240/tut2.png')"
+										source320dpi="@Embed('../assets/320/tut2.png')"
+										source480dpi="@Embed('../assets/480/tut2.png')"
+										source640dpi="@Embed('../assets/640/tut2.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut3.png')"
+										source240dpi="@Embed('../assets/240/tut3.png')"
+										source320dpi="@Embed('../assets/320/tut3.png')"
+										source480dpi="@Embed('../assets/480/tut3.png')"
+										source640dpi="@Embed('../assets/640/tut3.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut4.png')"
+										source240dpi="@Embed('../assets/240/tut4.png')"
+										source320dpi="@Embed('../assets/320/tut4.png')"
+										source480dpi="@Embed('../assets/480/tut4.png')"
+										source640dpi="@Embed('../assets/640/tut4.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut5.png')"
+										source240dpi="@Embed('../assets/240/tut5.png')"
+										source320dpi="@Embed('../assets/320/tut5.png')"
+										source480dpi="@Embed('../assets/480/tut5.png')"
+										source640dpi="@Embed('../assets/640/tut5.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		
+	</s:HGroup>
+	<s:BitmapImage width="100%" height="100%" includeIn="welcome,login"
 			 scaleMode="zoom"  
 			 contentLoader="{s_imageCache}" >
 		<s:source>
