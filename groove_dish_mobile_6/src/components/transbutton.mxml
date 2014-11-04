@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 width="{550/(320/Capabilities.screenDPI)}" 
-		 height="{100/(320/Capabilities.screenDPI)}" 
+		 height="{75/(320/Capabilities.screenDPI)}" 
 		 mouseOver="gOver(event);" mouseDown="gDown(event);"
 		 mouseOut="gOut(event);" mouseUp="gOut(event);" >
 	<fx:Script source="../func/global.as"/>
