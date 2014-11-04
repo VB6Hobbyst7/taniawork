@@ -123,6 +123,10 @@ public function createIfNotExsist(s:String):void {
 			"city varchar(255)," +
 			"picture varchar(255))";
 	}
+	else if (s == "introtasks"){
+		stmt.text = "CREATE TABLE IF NOT EXISTS introtasks (" +
+			"name varchar(255))";
+	}
 	else if (s == "specials"){
 		stmt.text = "CREATE TABLE IF NOT EXISTS specials (" +
 			"id int(255)," +

@@ -4,7 +4,7 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:components="components.*" 
 		title="login" 
-		name="sign0"
+		name="sign0" destructionPolicy="never"
 		backgroundAlpha="1"
 		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
@@ -24,9 +24,14 @@
 			import spark.events.ViewNavigatorEvent;
 			public function init():void {	
 				createIfNotExsist("localuser");
-				this.currentState = 'tutorial';
-					
-				
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'logintutorial';");
+				if (resData.length != 0){
+					this.currentState = 'welcome';
+				}
+				else {
+					this.currentState = 'tutorial';
+				}	
 			}	
 			public function loginClick(event:MouseEvent):void
 			{	
@@ -153,6 +158,7 @@
 						mo.play();
 					}
 					else if ((tutbox.x <= (0-((this.width*4)+(this.width/3))))&&(tutbox.x > (0-((this.width*5)+(this.width/3))))){
+						doQuery("insert into introtasks values('logintutorial')");
 						this.currentState = "welcome";
 					}
 				}
@@ -188,9 +194,25 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
+	<s:transitions>
+		<s:Transition fromState="blank" toState="welcome">
+			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[backimage,v11]}"/>  
+		</s:Transition>
+		<s:Transition fromState="blank" toState="tutorial">
+			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[tutbox]}"/>    
+		</s:Transition>
+		<s:Transition fromState="tutorial" toState="welcome">
+			<s:Parallel>
+				<s:Fade duration="300" alphaFrom="1" alphaTo="0" targets="{[tutbox]}"/>   
+				<s:Fade duration="300" startDelay="300" alphaFrom="0" alphaTo="1" targets="{[backimage,v11]}"/>   
+			</s:Parallel>
+		</s:Transition>
+		
+	</s:transitions>
 	<s:states>
-		<s:State name="tutorial" />
+		<s:State name="blank"/>
 		<s:State name="welcome"/>
+		<s:State name="tutorial" />
 		<s:State name="login"/>
 	</s:states>
 	<s:HGroup id="tutbox" height="100%" x="0" 
@@ -249,7 +271,7 @@
 		</s:BitmapImage>
 		
 	</s:HGroup>
-	<s:BitmapImage width="100%" height="100%" includeIn="welcome,login"
+	<s:BitmapImage id="backimage" width="100%" height="100%" includeIn="welcome,login"
 			 scaleMode="zoom"  
 			 contentLoader="{s_imageCache}" >
 		<s:source>

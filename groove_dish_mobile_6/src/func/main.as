@@ -22,7 +22,7 @@ import spark.transitions.ViewTransitionDirection;
 import views.Home;
 import views.Login;
 [Bindable]
-public var VERSIONID:Number = 14;
+public var VERSIONID:Number = 1;
 [Bindable]
 public var durationofmovment:Number = 50;
 public var searchLocation:String;
@@ -60,9 +60,8 @@ protected function creationcomplete(event:FlexEvent):void
 	NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, nativeKeyDown);
 	NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.NORMAL;
 	initGPS();
-
+	verifyDataTablesViaVersion();
 	calculateActionbarVals();
-		
 	homeitems = new ArrayCollection([{name:"Profile",img:menu_account,colorid:"0x50bcb6", typet:1},
 		{name:"Home",img:menu_home,colorid:"0xef4056", selected:true, typet:0},
 		{name:"Restrictions",img:menu_restrictions,colorid:"0xfcb643", typet:0},
@@ -70,7 +69,7 @@ protected function creationcomplete(event:FlexEvent):void
 		{name:"Specials",img:menu_ratings,colorid:"0xfcb643", typet:0},
 		{name:"Settings",img:menu_settings,colorid:"0xfcb643", typet:0}
 	]);
-	verifyDataTablesViaVersion();
+	
 	createIfNotExsist("localuser");
 	var resData:ArrayCollection = getDatabaseArray( "SELECT * FROM localuser");
 	if (resData.length != 0){
@@ -482,12 +481,26 @@ public function verifyDataTablesViaVersion():void {
 }
 public function dropalldatatables():void {
 	try{
-		doQuery("DROP TABLE merchusers");
+		doQuery("DROP TABLE merchusers");	
+	}
+	catch(e:Error){}
+	try{
 		doQuery("DROP TABLE specials");
-		doQuery("DROP TABLE localuser");
+	}
+	catch(e:Error){}
+	try{
+		doQuery("DROP TABLE introtasks");
+	}
+	catch(e:Error){}
+	try{
+		doQuery("DROP TABLE localuser");	
+	}
+	catch(e:Error){}
+	try{
 		doQuery("DROP TABLE dishes");
 	}
 	catch(e:Error){}
+	
 	if (loadedview == false){
 		mainNavigator.pushView(Login,null,null,crosstrans);	
 	}

@@ -407,10 +407,10 @@
 					goingtonext = true;
 					if (myreviewlist.selectedIndex != -1){
 						if (selectedThing == 1){
-							navigator.pushView(ViewReview, rateArray[myreviewlist.selectedIndex]);	
+							navigator.pushView(ViewReviewEdit, rateArray[myreviewlist.selectedIndex]);	
 						}
 						else {
-							navigator.pushView(ViewReview, likeArray[myreviewlist.selectedIndex]);	
+							navigator.pushView(ViewReviewEdit, likeArray[myreviewlist.selectedIndex]);	
 						}
 						
 					}

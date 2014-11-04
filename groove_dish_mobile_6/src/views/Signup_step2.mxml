@@ -30,7 +30,7 @@
 					createNewUser.send();
 				}
 				else {
-					popupholder1.textl = "\r\n\r\nInformation Provided was Invalid";
+					popupholder1.text2 = "Information Provided was Invalid";
 					popupholder1.visible = true;	
 				}
 			}
@@ -51,7 +51,7 @@
 				}
 				else {
 					popupholder1.visible = true;
-					popupholder1.logWarningTextinfo.text = ev.result[0].ress.message;
+					popupholder1.text2 = ev.result[0].ress.message;
 				}
 			}
 			public function AddNewLocalUser(email:String,name:String,city:String):void
@@ -299,5 +299,5 @@
 			</s:VGroup>
 		</s:Group>
 	</s:Group>
-	<components:genericpopup id="popupholder1" styleo="textsize13"  textl="Sorry Incorrect Information" width="100%" height="100%"/>
+	<components:genericpopup id="popupholder1"  icontext="bottomhomegreen.png" text1="Warning" text2="The Information You Have Entered is Incorrect"  width="100%" height="100%"/>
 </s:View>

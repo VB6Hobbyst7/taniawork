@@ -6,12 +6,15 @@
 			[Bindable]
 			public var text1:String = "";
 			[Bindable]
-			public var text2:String = "";
-			[Bindable]
 			public var icontext:String = "";
 		]]>
 	</fx:Script>
 	<fx:Script source="../func/global.as"/>
+	<s:states>
+		<s:State name="step1"/>
+		<s:State name="step2"/>
+		<s:State name="step3" />
+	</s:states>
 	<s:Group width="100%" height="100%" >
 		<s:Rect width="100%" height="100%">
 			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
@@ -34,7 +37,7 @@
 								    height="{55/(320/Capabilities.screenDPI)}"
 									 scaleMode="stretch" smooth="true"
 								   horizontalCenter="0" verticalCenter="0" contentLoader="{s_imageCache}"/>
-					<s:Label text="{text1}"  mouseEnabled="false" fontWeight="bold" verticalAlign="middle"
+					<s:Label  mouseEnabled="false" fontWeight="bold" verticalAlign="middle"
 							 verticalCenter="5" horizontalCenter="0" height="100%"
 							 styleName="textsize4" color="#36ccba"/>
 				</s:HGroup>	
@@ -50,8 +53,7 @@
 							 paddingBottom="{30/(320/Capabilities.screenDPI)}"
 							 paddingRight="{30/(320/Capabilities.screenDPI)}"
 							 color="#4d4d4d" maxWidth="{this.parentApplication.width-(120/(320/Capabilities.screenDPI))}"
-							 styleName="textsize1"
-							 text="{text2}"/>
+							 styleName="textsize1"/>
 				</s:Group>
 				<s:Line  left="0" right="0"  top="0" width="100%"  > 
 					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>

@@ -15,8 +15,6 @@ import views.StoresDescription;
 public static const FACEBOOK_APP_ID:String="814930198529452";
 public function initz(event:FlexEvent):void
 {
-	
-	//
 	pm.load();
 	try{
 		loadedview = true; 
@@ -40,7 +38,6 @@ public function initz(event:FlexEvent):void
 		}
 		catch(e:Error){	
 		}	
-		
 		
 		checkfacebookin();
 	}
