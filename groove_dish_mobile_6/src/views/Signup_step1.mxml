@@ -5,9 +5,9 @@
 		xmlns:components="components.*" 
 		name="sign1"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		actionBarVisible="false" viewActivate="init()" >
 	<s:navigationContent >
 		<components:BackButton width="{this.width*0.15}" mouseEnabledWhereTransparent="true"
@@ -47,23 +47,12 @@
 			}	
 		]]>
 	</fx:Script>
-	<s:BitmapImage width="100%" height="100%"
-				   scaleMode="zoom"  
-				   contentLoader="{s_imageCache}" >
-		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/loginbackground.png')"
-									source240dpi="@Embed('../assets/240/loginbackground.png')"
-									source320dpi="@Embed('../assets/320/loginbackground.png')"
-									source480dpi="@Embed('../assets/480/loginbackground.png')"
-									source640dpi="@Embed('../assets/640/loginbackground.png')"/>
-		</s:source>
-	</s:BitmapImage>
 	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}"
+		<s:VGroup gap="{35/(320/Capabilities.screenDPI)}"
 				  horizontalCenter="0" top="0"
 				  paddingTop="{100/(320/Capabilities.screenDPI)}"
 				  horizontalAlign="center" verticalAlign="top">
-			<s:Label width="95%" color="#FFFFFF" styleName="fontsize7" fontWeight="bold" text="Sign Up : Step 1"
+			<s:Label width="95%" color="#4d4d4d" styleName="fontsize7" fontWeight="bold" text="Sign Up : Step 1"
 					 textAlign="center"/>
 			
 			
@@ -73,7 +62,7 @@
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#EEEEEE"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="nemail"   fontFamily="Arial" 
 							 width="{550/(320/Capabilities.screenDPI)}"
@@ -92,7 +81,7 @@
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#EEEEEE"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="nname"   fontFamily="Arial" 
 							 width="{550/(320/Capabilities.screenDPI)}"
@@ -112,7 +101,7 @@
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#EEEEEE"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="npassword"   fontFamily="Arial" 
 							 width="{550/(320/Capabilities.screenDPI)}"
@@ -132,7 +121,7 @@
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#EEEEEE"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="npassword2"   fontFamily="Arial" 
 							 width="{550/(320/Capabilities.screenDPI)}"

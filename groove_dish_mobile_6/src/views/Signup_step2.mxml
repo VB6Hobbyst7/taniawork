@@ -5,9 +5,9 @@
 		xmlns:components="components.*" 
 		name="sign2"
 		backgroundAlpha="1"
-		backgroundColor="#e5e5e5"
+		backgroundColor="#ffffff"
 		contentBackgroundAlpha="1"
-		contentBackgroundColor="#e5e5e5"
+		contentBackgroundColor="#ffffff"
 		viewActivate="init();"
 		actionBarVisible="false" >
 	<s:navigationContent >
@@ -104,32 +104,21 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
-	<s:BitmapImage width="100%" height="100%"
-				   scaleMode="zoom"  
-				   contentLoader="{s_imageCache}" >
-		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/loginbackground.png')"
-									source240dpi="@Embed('../assets/240/loginbackground.png')"
-									source320dpi="@Embed('../assets/320/loginbackground.png')"
-									source480dpi="@Embed('../assets/480/loginbackground.png')"
-									source640dpi="@Embed('../assets/640/loginbackground.png')"/>
-		</s:source>
-	</s:BitmapImage>
 	<s:Scroller left="0" right="0" top="0" bottom="0" verticalScrollPolicy="on" horizontalScrollPolicy="off" >
-		<s:VGroup gap="{20/(320/Capabilities.screenDPI)}"
+		<s:VGroup gap="{35/(320/Capabilities.screenDPI)}"
 				  horizontalCenter="0" top="0"
-				  paddingTop="{40/(320/Capabilities.screenDPI)}"
+				  paddingTop="{100/(320/Capabilities.screenDPI)}"
 				  horizontalAlign="center" verticalAlign="top">
-			<s:Label width="95%" color="#FFFFFF"
-					 styleName="fontsize7" fontWeight="bold" text="Sign Up : Step 2"
-			textAlign="center"/>
+			<s:Label width="95%" color="#4d4d4d"
+					 styleName="fontsize7" fontWeight="bold" 
+					 text="Sign Up : Step 2" textAlign="center"/>
 			<s:Group width="100%" >
 				<s:Rect width="{continue_btn.width}" 
 						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
 				</s:Rect>
 				<s:TextInput id="ncity"   focusAlpha="0"
 							 width="{continue_btn.width}"
@@ -140,9 +129,6 @@
 							 prompt="City"
 							 borderVisible="false"/>
 			</s:Group>
-			
-			
-			
 			<s:Group width="100%" mouseOver="gOver(event);" mouseDown="gDown(event);"
 					 mouseOut="gOut(event);" mouseUp="gOut(event);" click="{provpopup.visible = true}">
 				<s:Rect id="reco" width="{continue_btn.width}" 
@@ -150,52 +136,37 @@
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
 				</s:Rect>
 				<s:Label   id="provlabel" text="Province" color="#bbbbbb" mouseEnabled="false"
 						   styleName="textsize3" x="{reco.x + (15/(320/Capabilities.screenDPI))}" 
 						   verticalCenter="0"></s:Label>
 			</s:Group>
-			
-			
-			
-			
 			<s:Group width="100%" >
-				<s:Rect width="{continue_btn.width}" 
-						height="{continue_btn.height}" 
-						horizontalCenter="0" verticalCenter="0"
-						radiusX="{10/(320/Capabilities.screenDPI)}"
-						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
-				</s:Rect>
-				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI))}" horizontalAlign="center"
-						   horizontalCenter="0" verticalCenter="0">
+				<s:HGroup  width="{reco.width}" horizontalAlign="center"
+						   horizontalCenter="0" verticalCenter="0"
+						   height="{continue_btn.height}" >
 					<s:TextInput id="nbirthday" width="33%" prompt="Day"  maxChars="2"
-								 softKeyboardType="number"  fontFamily="Arial"
-								 restrict="0-9"
+								 softKeyboardType="number"  fontFamily="Arial" height="{continue_btn.height}" 
+								 restrict="0-9"  contentBackgroundColor="#eeeeee"
 								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthmonth" width="33%" prompt="Mon" maxChars="2"
-								 softKeyboardType="number" fontFamily="Arial"
-								 restrict="0-9"
+								 softKeyboardType="number" fontFamily="Arial" height="{continue_btn.height}" 
+								 restrict="0-9" contentBackgroundColor="#eeeeee"
 								 borderVisible="false" focusAlpha="0"/>
 					<s:TextInput id="nbirthyear" width="33%" prompt="Year"  maxChars="4"
-								 softKeyboardType="number" fontFamily="Arial"
-								 restrict="0-9"
+								 softKeyboardType="number" fontFamily="Arial" height="{continue_btn.height}" 
+								 restrict="0-9" contentBackgroundColor="#eeeeee"
 								 borderVisible="false" focusAlpha="0"/>
 				</s:HGroup>
-				
 			</s:Group>
-			
-			
-			
-			
 			<s:Group width="100%" >
 				<s:Rect width="{continue_btn.width}" 
 						height="{continue_btn.height}" 
 						horizontalCenter="0" verticalCenter="0"
 						radiusX="{10/(320/Capabilities.screenDPI)}"
 						radiusY="{10/(320/Capabilities.screenDPI)}" >
-					<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+					<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
 				</s:Rect>
 				<s:HGroup  width="{reco.width-(30/(320/Capabilities.screenDPI))}" 
 						   gap="{25/(320/Capabilities.screenDPI)}" horizontalAlign="center"

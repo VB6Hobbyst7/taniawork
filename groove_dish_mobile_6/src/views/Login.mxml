@@ -152,15 +152,10 @@
 						mo.play();
 					}
 					else if ((tutbox.x <= (0-((this.width*3)+(this.width/3))))&&(tutbox.x > (0-((this.width*4)+(this.width/3))))){
-						mo.xTo = 0-(this.width*4);
-						mo.target = tutbox;
-						mo.duration = 200;
-						mo.play();
-					}
-					else if ((tutbox.x <= (0-((this.width*4)+(this.width/3))))&&(tutbox.x > (0-((this.width*5)+(this.width/3))))){
 						doQuery("insert into introtasks values('logintutorial')");
 						this.currentState = "welcome";
 					}
+		
 				}
 			}
 			protected function tutmove(event:MouseEvent):void
@@ -196,7 +191,7 @@
 	</fx:Declarations>
 	<s:transitions>
 		<s:Transition fromState="blank" toState="welcome">
-			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[backimage,v11]}"/>  
+			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[v11]}"/>  
 		</s:Transition>
 		<s:Transition fromState="blank" toState="tutorial">
 			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[tutbox]}"/>    
@@ -204,7 +199,7 @@
 		<s:Transition fromState="tutorial" toState="welcome">
 			<s:Parallel>
 				<s:Fade duration="300" alphaFrom="1" alphaTo="0" targets="{[tutbox]}"/>   
-				<s:Fade duration="300" startDelay="300" alphaFrom="0" alphaTo="1" targets="{[backimage,v11]}"/>   
+				<s:Fade duration="300" startDelay="300" alphaFrom="0" alphaTo="1" targets="{[v11]}"/>   
 			</s:Parallel>
 		</s:Transition>
 		
@@ -259,35 +254,14 @@
 										/>
 			</s:source>
 		</s:BitmapImage>
-		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
-			<s:source>
-				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut5.png')"
-										source240dpi="@Embed('../assets/240/tut5.png')"
-										source320dpi="@Embed('../assets/320/tut5.png')"
-										source480dpi="@Embed('../assets/480/tut5.png')"
-										source640dpi="@Embed('../assets/640/tut5.png')"
-										/>
-			</s:source>
-		</s:BitmapImage>
-		
 	</s:HGroup>
-	<s:BitmapImage id="backimage" width="100%" height="100%" includeIn="welcome,login"
-			 scaleMode="zoom"  
-			 contentLoader="{s_imageCache}" >
-		<s:source>
-			<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/loginbackground.png')"
-									source240dpi="@Embed('../assets/240/loginbackground.png')"
-									source320dpi="@Embed('../assets/320/loginbackground.png')"
-									source480dpi="@Embed('../assets/480/loginbackground.png')"
-									source640dpi="@Embed('../assets/640/loginbackground.png')"/>
-		</s:source>
-	</s:BitmapImage>
+	
 	<s:Scroller left="0"  id="v11" includeIn="welcome"
 				right="0" top="0" bottom="0" 
 				verticalScrollPolicy="on" 
 				horizontalScrollPolicy="off" >
 		<s:Group width="100%" height="100%">
-			<s:VGroup  gap="{25/(320/Capabilities.screenDPI)}" width="95%" horizontalCenter="0" verticalCenter="0" 
+			<s:VGroup  gap="{35/(320/Capabilities.screenDPI)}" width="95%" horizontalCenter="0" verticalCenter="0" 
 					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
 				<s:BitmapImage contentLoader="{s_imageCache}"  >
 					<s:source>
@@ -310,9 +284,10 @@
 					</s:source>
 				</s:BitmapImage>
 				<!--components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/-->
-				<components:transbutton textLabel="Sign Up" horizontalCenter="0" click="createNewClick(event)"/>
-				<components:transbutton textLabel="Sign In" horizontalCenter="0" click="loginClick(event)"/>
-				<components:transbutton textLabel="Sign In With Facebook" horizontalCenter="0" click="facebookLogin()"/>
+				<components:transbutton textLabel="Sign In with Facebook" horizontalCenter="0" click="facebookLogin()"/>
+				<components:transbutton textLabel="Sign Up with Email" horizontalCenter="0" click="createNewClick(event)"/>
+				<components:transbutton textLabel="Login" horizontalCenter="0" click="loginClick(event)"/>
+			
 						
 			</s:VGroup>
 		</s:Group>
@@ -320,23 +295,23 @@
 	<s:Scroller left="0" id="v2" includeIn="login" right="0" top="0" bottom="0" 
 				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
 		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
-			<s:VGroup bottom="0" width="95%" height="100%" gap="{25/(320/Capabilities.screenDPI)}" horizontalAlign="center"
-					  horizontalCenter="0" paddingTop="{40/(320/Capabilities.screenDPI)}" verticalAlign="top" verticalCenter="0">
-				<s:Label width="95%" color="#FFFFFF" styleName="fontsize7" fontWeight="bold" text="Sign In"
+			<s:VGroup bottom="0" width="95%" height="100%" gap="{35/(320/Capabilities.screenDPI)}" horizontalAlign="center"
+					  horizontalCenter="0" paddingTop="{100/(320/Capabilities.screenDPI)}" verticalAlign="top" verticalCenter="0">
+				<s:Label width="95%" color="#4d4d4d" styleName="fontsize7" fontWeight="bold" text="Sign In"
 						 textAlign="center"/>
 				
 				
 				<s:Group width="100%" >
 					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
-							height="{100/(320/Capabilities.screenDPI)}" 
+							height="{75/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
-						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+						<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="userNameInput" 
 								 width="{550/(320/Capabilities.screenDPI)}" 
-								 height="{100/(320/Capabilities.screenDPI)}" 
+								 height="{75/(320/Capabilities.screenDPI)}" 
 								 verticalCenter="0"
 								 horizontalCenter="0"
 								 color="#7777777"  contentBackgroundAlpha="0"
@@ -346,15 +321,15 @@
 				
 				<s:Group width="100%" >
 					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
-							height="{100/(320/Capabilities.screenDPI)}" 
+							height="{75/(320/Capabilities.screenDPI)}" 
 							horizontalCenter="0" verticalCenter="0"
 							radiusX="{10/(320/Capabilities.screenDPI)}"
 							radiusY="{10/(320/Capabilities.screenDPI)}" >
-						<s:fill><s:SolidColor alpha="1" color="#FFFFFF"/></s:fill>
+						<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
 					</s:Rect>
 					<s:TextInput id="userPasswordInput" 
 								 width="{550/(320/Capabilities.screenDPI)}" 
-								 height="{100/(320/Capabilities.screenDPI)}" 
+								 height="{75/(320/Capabilities.screenDPI)}" 
 								 verticalCenter="0"
 								 horizontalCenter="0"
 								 displayAsPassword="true"
