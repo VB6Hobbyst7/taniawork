@@ -17,18 +17,22 @@
 </initialWindow>
   <supportedLanguages>en</supportedLanguages>
 	<icon>
-		<image16x16>assets/icons/icon-16.png</image16x16>
 		<image29x29>assets/icons/icon-29.png</image29x29>
-		<image32x32>assets/icons/icon-32.png</image32x32>
-		<image36x36>assets/icons/icon-36.png</image36x36>
-		<image48x48>assets/icons/icon-48.png</image48x48>
-		<image57x57>assets/icons/icon-57.png</image57x57>
-		<image72x72>assets/icons/icon-72.png</image72x72>
+		<image40x40>assets/icons/icon-40.png</image40x40>
+		<image44x44>assets/icons/icon-44.png</image44x44>
+		<image50x50>assets/icons/icon-50.png</image50x50>
+		<image58x58>assets/icons/icon-58.png</image58x58>
+		<image66x66>assets/icons/icon-66.png</image66x66>
+		<image75x75>assets/icons/icon-75.png</image75x75>
 		<image76x76>assets/icons/icon-76.png</image76x76>
+		<image80x80>assets/icons/icon-80.png</image80x80>
+		<image87x87>assets/icons/icon-87.png</image87x87>
 		<image114x114>assets/icons/icon-114.png</image114x114>
 		<image120x120>assets/icons/icon-120.png</image120x120>
-		<image128x128>assets/icons/icon-128.png</image128x128>
 		<image152x152>assets/icons/icon-152.png</image152x152>
+		<image180x180>assets/icons/icon-180.png</image180x180>
+		<image512x512>assets/icons/icon-512.png</image512x512>
+		<image1024x1024>assets/icons/icon-1024.png</image1024x1024>
 	</icon>
 <iPhone>
 <requestedDisplayResolution>high</requestedDisplayResolution>
