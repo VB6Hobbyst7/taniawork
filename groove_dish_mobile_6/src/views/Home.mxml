@@ -101,7 +101,13 @@
 			{
 				dataList.selectedIndex = -1;
 				goingtonext  = false;	
-				startup();			
+				startup();	
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'home';");
+				if (resData.length == 0){
+					doQuery("insert into introtasks values('home')");
+					popupholder1.visible = true;
+				}
 			}
 			public function init2():void{
 				//creation complete			
@@ -942,4 +948,5 @@
 			</s:Group>
 		</s:Group>
 	</s:VGroup>	
+	<components:genericpopup id="popupholder1" icontext="bottomhomegreen.png"  text1="Home" text2="Here you can search for restaurants within your area! You can also sort them based on cuisine, price, and rating! Click the icon in the top-right for additional filters."  width="100%" height="100%"/>
 </s:View>

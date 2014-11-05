@@ -23,6 +23,7 @@
 			import spark.effects.Move;
 			import spark.events.ViewNavigatorEvent;
 			public function init():void {	
+				this.parentDocument.hideBusy();
 				createIfNotExsist("localuser");
 				createIfNotExsist("introtasks");
 				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'logintutorial';");

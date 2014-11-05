@@ -75,8 +75,12 @@
 			public function init():void
 			{		
 				goingtonext = false;
-				//setLoginVars();	
-				
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'menuall';");
+				if (resData.length == 0){
+					doQuery("insert into introtasks values('menuall')");
+					popupholder1.visible = true;
+				}	
 			}
 			public function init2():void {
 				this.parentDocument.showBusy();
@@ -916,4 +920,5 @@
 			 styleName="textsize8"  text="Loading Dishes Near You..." verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
 			 styleName="textsize8"  text="No Items Available" verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
+	<components:genericpopup id="popupholder1" icontext="bottomdishesgreen.png"  text1="Dishes" text2="Here you can search for dishes within your area! You can also sort them based on cuisine, price, and rating! Click on the icon in the top-right for additional filters."  width="100%" height="100%"/>
 </s:View>

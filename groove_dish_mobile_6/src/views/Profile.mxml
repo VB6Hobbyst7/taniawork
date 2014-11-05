@@ -68,6 +68,13 @@
 			public var listLabel:String = "";
 			public function init():void
 			{
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'profile';");
+				if (resData.length == 0){
+					doQuery("insert into introtasks values('profile')");
+					popupholder1.visible = true;
+				}
+				
 				gl.color = 0x36ccba;
 				gl.strength = 50;
 				gl.inner = true;
@@ -870,4 +877,5 @@
 				</s:VGroup>
 			</s:Scroller>
 		</s:Group>
+	<components:genericpopup id="popupholder1" icontext="bottomprofilegreen.png"  text1="Profile" text2="Keep track of the reviews you have written and liked, the dishes you have eaten, and the specials you have favourited!"  width="100%" height="100%"/>
 </s:View>

@@ -158,9 +158,19 @@
 			public function populatelist():void {
 				specialsData = new ArrayCollection();
 				var datevar:Date = new Date();
+				var todaysdate:Date = new Date();
+				if (reverse){
+					datevar.setDate(datevar.getDate() + 6);
+				}
 				for (var j:uint = 0; j < 7; j++){
 					if (j != 0){
-						datevar.setDate(datevar.getDate() + 1);
+						if (reverse){
+							datevar.setDate(datevar.getDate() - 1);
+						}
+						else {
+							datevar.setDate(datevar.getDate() + 1);
+						}
+						
 					}
 					var weekdaynum:Number = datevar.day;
 					var yearnum:Number = datevar.fullYear;
@@ -190,7 +200,7 @@
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
-										if (j == 0){
+										if (datevar.toDateString() == todaysdate.toDateString()){
 											specialsData.addItem({name:"Today",description:"",
 												categoryname:"",type:0,weekday:"",business_picture:""});
 										}
@@ -224,7 +234,7 @@
 									backupspecialsData[i].type = 1;
 									if (addedheaderlabel == false){
 										addedheaderlabel = true;
-										if (j == 0){
+										if (datevar.toDateString() == todaysdate.toDateString()){
 											specialsData.addItem({name:"Today",description:"",
 												categoryname:"",type:0,weekday:"",business_picture:""});
 										}
@@ -304,13 +314,9 @@
 					this.parentApplication.showloading();
 				}
 				else {
-					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
-					if (dataArray.length != 0){
-						specialsData = dataArray;
-						calculateDistanceandmap();	
-						currentselectmode = 0;
-						populatelist();
-					}
+					calculateDistanceandmap();	
+					currentselectmode = 0;
+					populatelist();
 				}
 			}
 			public function addressPress(event:KeyboardEvent):void {
@@ -321,26 +327,22 @@
 					this.parentApplication.showloading();
 				}
 				else {
-					var dataArray:ArrayCollection = getDatabaseArray("SELECT * FROM merchusers");
-					if (dataArray.length != 0){
-						specialsData = dataArray;
-						calculateDistanceandmap();	
-						currentselectmode = 0;
-						populatelist();
-					}
+					calculateDistanceandmap();	
+					currentselectmode = 0;
+					populatelist();
 				}
 			}
 			public function calculateDistanceandmap():void {
-				if (specialsData.length > 0){
+				if (backupspecialsData.length > 0){
 					var i:uint = 0;
-					for (i=  0; i < specialsData.length; i++){
-						specialsData[i].distance = Number(getDistance(mylat,mylong,specialsData[i].lat,specialsData[i].longa));
+					for (i=  0; i < backupspecialsData.length; i++){
+						backupspecialsData[i].distance = Number(getDistance(mylat,mylong,backupspecialsData[i].lat,backupspecialsData[i].longa));
 					}
 				}
 			}
 			public function filterClick(u:uint):void {
-				specialsData.filterFunction = allFilter;
-				specialsData.refresh();
+				backupspecialsData.filterFunction = allFilter;
+				backupspecialsData.refresh();
 				
 				var fadein:Fade = new Fade();
 				fadein.alphaFrom = 0;
@@ -465,12 +467,13 @@
 				dropDownContainer.visible = false;
 			}
 			public function filter1Click():void {
+				backupspecialsData.filterFunction = allFilter;
 				if (filterList1.selectedItem.name == "Nearby"){
 					svi1.visible = true;
 					svi2.visible = false;
 					svi3.visible = false;
-					for (var i:uint =  0; i < specialsData.length; i++){
-						specialsData[i].distance = Number(getDistance(mylat,mylong,specialsData[i].lat,specialsData[i].longa));
+					for (var i:uint =  0; i < backupspecialsData.length; i++){
+						backupspecialsData[i].distance = Number(getDistance(mylat,mylong,backupspecialsData[i].lat,backupspecialsData[i].longa));
 					}
 					populatelist();
 				}
@@ -485,6 +488,7 @@
 					svi3.visible = true;
 				}
 				goFilterScreen(0);
+				backupspecialsData.filterFunction = allFilter;
 				
 			}
 			public function filter2Click():void {
@@ -505,13 +509,12 @@
 				return false;
 			}
 			public function filter3Click():void {
-				if (filterList3.selectedItem.name == "Highest"){
-					
+				backupspecialsData.filterFunction = allFilter;
+				if (filterList3.selectedItem.name == "Recent"){				
 					currentselectmode = 3;
 					reverse = false;
 				}
-				else if (filterList3.selectedItem.name == "Lowest"){
-					
+				else if (filterList3.selectedItem.name == "Oldest"){
 					currentselectmode = 3;
 					reverse = true;
 				}
@@ -707,7 +710,7 @@
 					<s:Label left="{29/(320/Capabilities.screenDPI)}" mouseEnabled="false"  color="#2dad9e" styleName="textsize1" text="Sort"
 							 verticalAlign="middle" verticalCenter="0"/>
 					<s:Label left="{107/(320/Capabilities.screenDPI)}" id="sv3label" width="{124/(320/Capabilities.screenDPI)}" color="#4d4d4d" fontWeight="bold"
-							 mouseEnabled="false" styleName="textsize1" text="Highest"
+							 mouseEnabled="false" styleName="textsize1" text="Recent"
 							 verticalAlign="middle" verticalCenter="0"/>
 				</s:HGroup>
 			</s:Group>
