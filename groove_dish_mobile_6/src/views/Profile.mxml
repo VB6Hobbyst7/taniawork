@@ -21,18 +21,15 @@
 			import flash.media.CameraRoll;
 			import flash.media.MediaPromise;
 			import flash.net.dns.AAAARecord;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
-			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			import spark.filters.GlowFilter;
-			
 			import skins.HomeTileListSkin;
 			private var mediaSource:CameraRoll = new CameraRoll();
 			public var imageLoader:Loader; 
@@ -702,7 +699,7 @@
 						<s:Group id="gap1"  height="{30/(320/Capabilities.screenDPI)}"/>
 						<s:BitmapImage id="profimage"  width="{300/(320/Capabilities.screenDPI)}"
 									   height="{300/(320/Capabilities.screenDPI)}"  horizontalCenter="0" 
-								  verticalCenter="0"  smooth="true"  visible="false"
+								  verticalCenter="0"  smooth="true"  visible="false" scaleMode="zoom"
 								 contentLoader="{s_imageCache}" >
 							<s:source>
 								<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/profile-default.png')"

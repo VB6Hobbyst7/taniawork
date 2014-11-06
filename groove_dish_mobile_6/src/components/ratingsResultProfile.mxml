@@ -85,7 +85,7 @@
 			  paddingBottom="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}">
 		<s:HGroup width="100%" verticalAlign="middle" gap="{20/(320/Capabilities.screenDPI)}">
 			<s:VGroup id="vg1" verticalAlign="top" height="100%" horizontalAlign="left">
-				<s:BitmapImage id="bmpImg"  contentLoader="{s_imageCache}"  height="75" width="75">
+				<s:BitmapImage id="bmpImg" scaleMode="zoom"  contentLoader="{s_imageCache}"  height="75" width="75">
 					<s:mask>
 						<s:BorderContainer id="bmpMask" 
 										   cornerRadius="{20/(320/Capabilities.screenDPI)}"

@@ -4,13 +4,10 @@
 	<fx:Script source="../func/global.as"/>
 	<fx:Script>
 		<![CDATA[		
-			import views.RestrictionInfo;
 			public function infoclick(event:MouseEvent):void
 			{
 				data.infostatus = true;	
-				this.parentApplication.mainNavigator.pushView(RestrictionInfo,{description:data.user_description, name:data.name});
 			}
-			
 		]]>
 	</fx:Script>
 	<s:states>
@@ -44,7 +41,7 @@
 				 text="{data.name}" visible.hovered="false" visible.selected="false" visible.normal="true"
 				 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
 				 color="#4d4d4d"/>
-		<s:Group right="0" width="{90/(320/Capabilities.screenDPI)}" 
+		<s:Group right="0" width="{90/(320/Capabilities.screenDPI)}" visible="{data.user_description != null}" 
 				 height="{90/(320/Capabilities.screenDPI)}"  click="infoclick(event)" 
 				 mouseEnabledWhereTransparent="true"   verticalCenter="0">
 			<s:BitmapImage id="infoimage" contentLoader="{s_imageCache}" horizontalCenter="0" verticalCenter="0">
