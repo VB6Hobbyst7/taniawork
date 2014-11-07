@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*" 
+		title="login" 
+		name="sign0" destructionPolicy="never"
+		backgroundAlpha="1"
+		backgroundColor="#ffffff"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#ffffff"
+		actionBarVisible="false" 
+		viewActivate="init()"
+		xmlns:cs="cs.*" >
+	<fx:Script source="../func/global.as" />
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.Move;
+			import spark.events.ViewNavigatorEvent;
+			public function init():void {
+				this.parentApplication.removeswipefunctions();
+				this.parentDocument.hideBusy();
+				createIfNotExsist("localuser");
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'logintutorial'");
+				if (resData.length != 0){
+					this.currentState = 'welcome';
+				}
+				else {
+					this.currentState = 'tutorial';
+				}	
+			}	
+			public function loginClick(event:MouseEvent):void
+			{	
+				this.currentState = 'login';
+				logWarning.visible = false;
+			}
+			public function createNewClick(event:MouseEvent):void {
+				navigator.pushView(Signup_step1);	
+			}
+			public function backToLoginOptions():void {
+				this.currentState = 'welcome';
+				try{
+					logWarning.visible = false;
+				}
+				catch(e:Error){}
+			}
+			public function authorizeLogin(username:String,userpassword:String):void{	
+				userid = username;
+				passid = userpassword;
+				checkLogin.send();
+			}
+			public function afterCheckLogin(ev:ResultEvent):void {
+				if (ev.result[0].res.message == "ok"){
+					AddNewLocalUser(ev.result[0].res.email,
+						ev.result[0].res.name,
+						ev.result[0].res.city);
+				}
+				else {
+					//bad login
+					logWarning.text = ev.result[0].res.message;
+					logWarning.visible = true;
+				}
+			}
+			
+			public function AddNewLocalUser(email:String,name:String,city:String):void
+			{
+				this.parentApplication.showloading();
+				doQuery("delete FROM localuser;");
+				sqlConnection = new SQLConnection();
+				sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
+				var stmt:SQLStatement = new SQLStatement();
+				stmt.sqlConnection = sqlConnection;
+				stmt.text = "INSERT into localuser values(:email,:name,:city,:picture)";
+				stmt.parameters[":email"] = email;
+				stmt.parameters[":name"] = name;
+				stmt.parameters[":city"] = city;
+				stmt.parameters[":picture"] = "";
+				stmt.execute();
+				getLocalUsers();
+			}
+			protected function getLocalUsers():void
+			{
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM localuser");
+				if (resData.length != 0){
+					//good login
+					for (var i:uint = 0; i < resData.length; i++){
+						hidekeyboard();
+						this.parentDocument.refresh(resData[i].email);		
+					}			
+				}
+				else {
+				}
+			}
+			protected function userPasswordInput_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == 13){
+					authorizeLogin(userNameInput.text,userPasswordInput.text);	
+				}
+			}
+			public function facebookLogin():void
+			{		
+				this.parentApplication.facebookloging();
+			}
+			
+			
+			[Bindable]
+			public var istutdown:Boolean = false;
+			public var diff:Number = 0;
+			protected function tutdown(event:MouseEvent):void
+			{
+				istutdown = true;
+			}
+			
+			protected function tutup(event:MouseEvent):void
+			{
+				istutdown = false;
+				diff = 0;
+				var mo:Move = new Move();
+				if (tutbox.x >= 0){
+					mo.xTo = 0;
+					mo.target = tutbox;
+					mo.duration = 200;
+					mo.play();
+				}
+				else {
+					if ((tutbox.x < (0))&&(tutbox.x > (0-(this.width/3)))){
+						mo.xTo = 0;
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-(this.width/3)))&&(tutbox.x > (0-(this.width+(this.width/3))))){
+						mo.xTo = 0-this.width;
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-(this.width+(this.width/3))))&&(tutbox.x > (0-((this.width*2)+(this.width/3))))){
+						mo.xTo = 0-(this.width*2);
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-((this.width*2)+(this.width/3))))&&(tutbox.x > (0-((this.width*3)+(this.width/3))))){
+						mo.xTo = 0-(this.width*3);
+						mo.target = tutbox;
+						mo.duration = 200;
+						mo.play();
+					}
+					else if ((tutbox.x <= (0-((this.width*3)+(this.width/3))))&&(tutbox.x > (0-((this.width*4)+(this.width/3))))){
+						doQuery("insert into introtasks values('logintutorial')");
+						this.currentState = "welcome";
+					}
+		
+				}
+			}
+			protected function tutmove(event:MouseEvent):void
+			{
+				if (istutdown){
+					if (diff != 0) {
+						if (diff > this.mouseX){
+							tutbox.x = tutbox.x-(diff-this.mouseX);
+						}
+						else if (diff < this.mouseX){
+							tutbox.x = tutbox.x-(diff-this.mouseX);
+						}
+					}
+					diff = this.mouseX;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<fx:String id="userid" />
+		<fx:String id="passid" />
+		<s:RadioButtonGroup id="gender"/>
+		<s:HTTPService id="checkLogin" method="POST" 
+					   resultFormat="array" 
+					   url="http://www.groovedish.com/php/mobile/checkLogin.php"
+					   result="afterCheckLogin(event)" >
+			<s:request xmlns="">
+				<userid>{userid}</userid>		
+				<passid>{passid}</passid>		
+			</s:request>
+		</s:HTTPService>
+	</fx:Declarations>
+	<s:transitions>
+		<s:Transition fromState="blank" toState="welcome">
+			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[v11]}"/>  
+		</s:Transition>
+		<s:Transition fromState="blank" toState="tutorial">
+			<s:Fade duration="300" alphaFrom="0" alphaTo="1" targets="{[tutbox]}"/>    
+		</s:Transition>
+		<s:Transition fromState="tutorial" toState="welcome">
+			<s:Parallel>
+				<s:Fade duration="300" alphaFrom="1" alphaTo="0" targets="{[tutbox]}"/>   
+				<s:Fade duration="300" startDelay="300" alphaFrom="0" alphaTo="1" targets="{[v11]}"/>   
+			</s:Parallel>
+		</s:Transition>
+		
+	</s:transitions>
+	<s:states>
+		<s:State name="blank"/>
+		<s:State name="welcome"/>
+		<s:State name="tutorial" />
+		<s:State name="login"/>
+	</s:states>
+	<s:HGroup id="tutbox" height="100%" x="0" 
+			  mouseDown="tutdown(event)" mouseUp="tutup(event)" 
+			  mouseMove="tutmove(event)" includeIn="tutorial" 
+			  width="{this.width*5}" gap="0">
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut1.png')"
+										source240dpi="@Embed('../assets/240/tut1.png')"
+										source320dpi="@Embed('../assets/320/tut1.png')"
+										source480dpi="@Embed('../assets/480/tut1.png')"
+										source640dpi="@Embed('../assets/640/tut1.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut2.png')"
+										source240dpi="@Embed('../assets/240/tut2.png')"
+										source320dpi="@Embed('../assets/320/tut2.png')"
+										source480dpi="@Embed('../assets/480/tut2.png')"
+										source640dpi="@Embed('../assets/640/tut2.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut3.png')"
+										source240dpi="@Embed('../assets/240/tut3.png')"
+										source320dpi="@Embed('../assets/320/tut3.png')"
+										source480dpi="@Embed('../assets/480/tut3.png')"
+										source640dpi="@Embed('../assets/640/tut3.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+		<s:BitmapImage contentLoader="{s_imageCache}" height="100%" width="{this.width}" scaleMode="letterbox" smooth="true"   >
+			<s:source>
+				<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/tut4.png')"
+										source240dpi="@Embed('../assets/240/tut4.png')"
+										source320dpi="@Embed('../assets/320/tut4.png')"
+										source480dpi="@Embed('../assets/480/tut4.png')"
+										source640dpi="@Embed('../assets/640/tut4.png')"
+										/>
+			</s:source>
+		</s:BitmapImage>
+	</s:HGroup>
+	
+	<s:Scroller left="0"  id="v11" includeIn="welcome"
+				right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" 
+				horizontalScrollPolicy="off" >
+		<s:Group width="100%" height="100%">
+			<s:VGroup  gap="{35/(320/Capabilities.screenDPI)}" width="95%" horizontalCenter="0" verticalCenter="0" 
+					   paddingTop="{20/(320/Capabilities.screenDPI)}" bottom="0" horizontalAlign="center" verticalAlign="middle">
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/shield.png')"
+												source240dpi="@Embed('../assets/240/shield.png')"
+												source320dpi="@Embed('../assets/320/shield.png')"
+												source480dpi="@Embed('../assets/480/shield.png')"
+												source640dpi="@Embed('../assets/640/shield.png')"
+												/>
+					</s:source>
+				</s:BitmapImage>
+				<s:BitmapImage contentLoader="{s_imageCache}"  >
+					<s:source>
+						<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/groovedish.png')"
+												source240dpi="@Embed('../assets/240/groovedish.png')"
+												source320dpi="@Embed('../assets/320/groovedish.png')"
+												source480dpi="@Embed('../assets/480/groovedish.png')"
+												source640dpi="@Embed('../assets/640/groovedish.png')"
+												/>
+					</s:source>
+				</s:BitmapImage>
+				<!--components:transbutton textLabel="Guest Access" horizontalCenter="0" click="guestSignIn(event)"/-->
+				<components:transbutton textLabel="Sign In with Facebook" horizontalCenter="0" click="facebookLogin()"/>
+				<components:transbutton textLabel="Sign Up with Email" horizontalCenter="0" click="createNewClick(event)"/>
+				<components:transbutton textLabel="Login" horizontalCenter="0" click="loginClick(event)"/>
+			
+						
+			</s:VGroup>
+		</s:Group>
+	</s:Scroller>
+	<s:Scroller left="0" id="v2" includeIn="login" right="0" top="0" bottom="0" 
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup width="100%" height="100%"  horizontalAlign="center"  >
+			<s:VGroup bottom="0" width="95%" height="100%" gap="{35/(320/Capabilities.screenDPI)}" horizontalAlign="center"
+					  horizontalCenter="0" paddingTop="{100/(320/Capabilities.screenDPI)}" verticalAlign="top" verticalCenter="0">
+				<s:Label width="95%" color="#4d4d4d" styleName="fontsize7" fontWeight="bold" text="Sign In"
+						 textAlign="center"/>
+				
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{75/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="userNameInput" 
+								 width="{550/(320/Capabilities.screenDPI)}" 
+								 height="{75/(320/Capabilities.screenDPI)}" 
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 color="#7777777"  contentBackgroundAlpha="0"
+								 fontFamily="Arial"  borderVisible="false"
+								 prompt="Email"/>
+				</s:Group>
+				
+				<s:Group width="100%" >
+					<s:Rect width="{550/(320/Capabilities.screenDPI)}" 
+							height="{75/(320/Capabilities.screenDPI)}" 
+							horizontalCenter="0" verticalCenter="0"
+							radiusX="{10/(320/Capabilities.screenDPI)}"
+							radiusY="{10/(320/Capabilities.screenDPI)}" >
+						<s:fill><s:SolidColor alpha="1" color="#eeeeee"/></s:fill>
+					</s:Rect>
+					<s:TextInput id="userPasswordInput" 
+								 width="{550/(320/Capabilities.screenDPI)}" 
+								 height="{75/(320/Capabilities.screenDPI)}" 
+								 verticalCenter="0"
+								 horizontalCenter="0"
+								 displayAsPassword="true"
+								 keyDown="userPasswordInput_keyDownHandler(event)" 
+								 color="#7777777"  contentBackgroundAlpha="0"
+								 fontFamily="Arial"  borderVisible="false"
+								 prompt="Password"/>
+				</s:Group>
+				
+
+				<!--components:transbutton textLabel="Sign In" horizontalCenter="0" 
+										click="authorizeLogin(userNameInput.text,userPasswordInput.text)" /-->	
+				<components:transbutton textLabel="Sign In" horizontalCenter="0" 
+										click="authorizeLogin('bieber@ualberta.ca','bieber77')" />
+				<components:transbutton textLabel="Cancel" horizontalCenter="0"  click="backToLoginOptions();"/>	
+
+				<s:Label top="210" fontFamily="_sans" visible="false"  color="#FFFFFF" id="logWarning"
+						 fontWeight="bold" horizontalCenter="0"
+						 text="Sorry Incorrect Information"/>
+			</s:VGroup>
+		</s:VGroup>
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"  
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[		
+			public function infoclick(event:MouseEvent):void
+			{
+				data.infostatus = true;	
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>   
+	<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}">
+		<s:Rect width="100%"  height="100%">
+			<s:fill>
+				<s:SolidColor alpha="1" color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+
+		<s:Group left="{30/(320/Capabilities.screenDPI)}"   verticalCenter="0">
+			<s:BitmapImage id="checkimage" visible.hovered="true" visible.selected="true" visible.normal="false" contentLoader="{s_imageCache}" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/checkblue.png')"
+											source240dpi="@Embed('../assets/240/checkblue.png')"
+											source320dpi="@Embed('../assets/320/checkblue.png')"
+											source480dpi="@Embed('../assets/480/checkblue.png')"
+											source640dpi="@Embed('../assets/640/checkblue.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		</s:Group>
+		<s:Label id="hl1" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible.hovered="true" visible.selected="true" visible.normal="false"
+				 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+				 color="#36ccba"/>
+		<s:Label id="hl2" fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+				 text="{data.name}" visible.hovered="false" visible.selected="false" visible.normal="true"
+				 left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+				 color="#4d4d4d"/>
+		<s:Group right="0" width="{90/(320/Capabilities.screenDPI)}" visible="{data.user_description != null}" 
+				 height="{90/(320/Capabilities.screenDPI)}"  click="infoclick(event)" 
+				 mouseEnabledWhereTransparent="true"   verticalCenter="0">
+			<s:BitmapImage id="infoimage" contentLoader="{s_imageCache}" horizontalCenter="0" verticalCenter="0">
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/info.png')"
+											source240dpi="@Embed('../assets/240/info.png')"
+											source320dpi="@Embed('../assets/320/info.png')"
+											source480dpi="@Embed('../assets/480/info.png')"
+											source640dpi="@Embed('../assets/640/info.png')"/>
+				</s:source>
+			</s:BitmapImage>
+		</s:Group>
+		<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+			<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+		</s:Line>	
+	</s:Group>
+</s:ItemRenderer>

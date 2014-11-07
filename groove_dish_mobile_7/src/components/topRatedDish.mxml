@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 	
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				dataChange="dchange()" creationComplete="init()"
+				mouseChildren="false"  autoDrawBackground="false"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			public var setheightval:Number = 150/(320/Capabilities.screenDPI);
+			protected function init():void
+			{
+				doStuff();
+			}	
+			protected function dchange():void
+			{
+				doStuff();
+			}
+			public function doStuff():void {
+				try{
+					if (data != null)
+					{
+							var ratingstring:String = "";
+							var ratingnumber:Number = 0;
+							
+							ratingstring = data.rating.toString();
+							ratingnumber = Number(data.rating);
+							
+							if (ratingnumber == 0){
+								ratinglabel.text = "-";
+							}
+							else if (ratingnumber >= 10){
+								ratingnumber = 10;
+								ratinglabel.text = "10";
+							}
+							else {
+								ratinglabel.text = ratingnumber.toPrecision(2).toString();
+							}
+							
+							megacont.height = setheightval
+							var n:Number = Number(data.rating);
+							nameLabel.text =  data.name;
+							catLabel2.text = data.categoryname;
+							var tempText:String = Number(data.cost).toFixed(2);
+							try{
+								if (tempText.substr(tempText.length-2,tempText.length) == "00"){
+									tempText = tempText.substr(0,tempText.length-3);
+								}
+							}
+							catch(e:Error){
+								
+							}
+							
+							costLabel.text = "  $"+tempText;
+							bmpImg.width = setheightval;
+							bmpImg.height = setheightval-2;
+							bmpImg.verticalCenter = 0;
+							bmpImg.maxHeight = this.height;
+							if ((data.picture == "None")||(data.picture == "")||(data.picture == null)||(data.picture == "null")){
+								bmpImg.source = "assets/"+getDPIHeight().toString()+"/dish_place_square.png";
+							}
+							else {
+								bmpImg.source = data.picture;
+							}
+							bmpImg.contentLoader = s_imageCache;
+							
+							var tempwidth:Number = this.parentApplication.width - bmpImg.width - ratinggroup.width - (60/(320/Capabilities.screenDPI));
+							catLabel2.maxWidth = tempwidth - costLabel.width;
+							nameLabel.maxWidth = tempwidth;
+					}
+				}
+				catch(e:Error){}
+			}
+		]]>
+	</fx:Script>
+	<s:Group id="megacont" 
+			 width="{this.width}" 
+			 height="{200/(320/Capabilities.screenDPI)}"  
+			 mouseEnabled="false" >
+		<s:HGroup width="{this.width-(this.height)}"
+				  gap="0" paddingTop="{20/(320/Capabilities.screenDPI)}"
+				  paddingBottom="{20/(320/Capabilities.screenDPI)}" 
+				  paddingLeft="{30/(320/Capabilities.screenDPI)}" 
+				  verticalAlign="middle" height="90%" verticalCenter="0">
+			<s:VGroup width="20%" id="ratinggroup" horizontalAlign="center">
+				<s:Group  height="{65/(320/Capabilities.screenDPI)}" 
+						  width="{65/(320/Capabilities.screenDPI)}" 
+						  horizontalCenter="0" verticalCenter="0">
+					<s:Rect radiusX="{15/(320/Capabilities.screenDPI)}"
+							radiusY="{15/(320/Capabilities.screenDPI)}" 
+							width="100%"  height="100%">
+						<s:fill>
+							<s:SolidColor alpha="1" color="#b3b3b3"/>
+						</s:fill>
+					</s:Rect>
+					<s:Label id="ratinglabel" color="#FFFFFF" horizontalCenter="0" styleName="textsize4"
+							 fontWeight="bold" verticalCenter="3"/>
+				</s:Group>	
+			</s:VGroup>
+			<s:VGroup width="100%" 
+					  paddingLeft="{10/(320/Capabilities.screenDPI)}"
+					  paddingTop="{10/(320/Capabilities.screenDPI)}"
+					  paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+					  paddingRight="{10/(320/Capabilities.screenDPI)}">
+				<s:Label id="nameLabel" width="90%" color="#4d4d4d"
+						 maxDisplayedLines="1" 
+						 fontWeight="bold" styleName="textsize4"
+						 verticalAlign="middle"></s:Label>
+				<s:HGroup width="100%" gap="0">
+					<s:Label id="catLabel2"  color="#4d4d4d" fontWeight="bold"
+							 styleName="textsize1" maxDisplayedLines="1"
+							 verticalAlign="middle"></s:Label>
+					<s:Label id="costLabel" color="#36ccba"  fontWeight="bold"
+							 styleName="textsize1"
+							 verticalAlign="middle"></s:Label>
+				</s:HGroup>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Image id="bmpImg" right="0"  scaleMode="zoom" />
+	</s:Group>
+	<s:Line  left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:ItemRenderer>
