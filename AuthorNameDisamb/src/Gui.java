@@ -55,8 +55,8 @@ public class Gui{
 
 	public PreparedStatement preparedStatement = null;
 	public java.util.ArrayList<String>  fileArray = new java.util.ArrayList<String>();
-    public String filepath = "C:/Users/mark/Desktop/app-pubmed-scopus-3.csv";
-	public int numberofcores = 6;
+    public String filepath = "C:/Users/mark/Desktop/Bone Marrow/1970s/ovid-pubmed-scopus-15_temp.csv";
+	public int numberofcores = 1;
 	public int counter = 0;
     public Gui(){
         f.setJMenuBar(mb);
@@ -140,12 +140,10 @@ public class Gui{
 	  writetocsvfile();
 	  }
     public void writetocsvfile() {
-      	try {
+     /* 	try {
       		System.out.println("Writing file -- C:/Users/mark/Desktop/table1.sql");
   			@SuppressWarnings("resource")
   			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table1.sql");
-  			//writer.append("\"internalusername\",\"firstname\",\"middlename\",\"lastname\",\"displayname\",\"suffix\",\"addressline1\",\"addressline2\",\"addressline3\",\"addressline4\",\"addressstring\",\"City\",\"State\",\"Zip\",\"building\",\"room\",\"floor\",\"latitude\",\"longitude\",\"phone\",\"fax\",\"emailaddr\",\"isactive\",\"isvisible\"");
-  			//writer.append("\n");
   			for (int i = 0; i < dataArray.size()-1; i++){
   				if (i != 0){
   					writer.append("\n");
@@ -164,8 +162,6 @@ public class Gui{
       		System.out.println("Writing file -- C:/Users/mark/Desktop/table2.sql");
   			@SuppressWarnings("resource")
   			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table2.sql");
-  		//writer.append("\"internalusername\",\"title\",\"emailaddr\",\"primaryaffiliation\",\"affiliationorder\",\"institutionname\",\"institutionabbreviation\",\"departmentname\",\"departmentvisible\",\"divisionname\",\"facultyrank\",\"facultyrankorder\"");
-  			//writer.append("\n");
   			for (int i = 0; i < dataArray2.size()-1; i++){
   				if (i != 0){
   					writer.append("\n");
@@ -176,6 +172,30 @@ public class Gui{
       	} catch (IOException e) {
   			e.printStackTrace();
   		}
+    	
+    	
+    	  try {
+		Thread.sleep(4000);
+	} catch (InterruptedException e) {}*/
+  
+  try {
+		System.out.println("Writing file -- C:/Users/mark/Desktop/AuthorReferenceTable.csv");
+		@SuppressWarnings("resource")
+		FileWriter writer = new FileWriter("C:/Users/mark/Desktop/AuthorReferenceTable.csv");
+		writer.append("pmid,firstname,middlename,lastname,displayname,country,address,inst,department,pmidlist");		
+		writer.append("\n");
+		for (int i = 0; i < dataArray.size()-1; i++){
+			if (i != 0){
+				writer.append("\n");
+			}
+			writer.append(dataArray.get(i));
+		}
+		writer.close();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+    	
+    	
     	/*  try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {}

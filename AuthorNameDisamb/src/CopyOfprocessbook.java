@@ -26,14 +26,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import au.com.bytecode.opencsv.CSVReader;
-public class processbook extends NotifyingThread
+public class CopyOfprocessbook extends NotifyingThread
 {
    public String[] line;
-   public String souroundingvar = "\"";
+   public String souroundingvar = "'";
    public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
-   public processbook(String[] line,java.util.ArrayList<String> dataArray,java.util.ArrayList<String> dataArray2,java.util.ArrayList<String> dataArray3)
+   public CopyOfprocessbook(String[] line,java.util.ArrayList<String> dataArray,java.util.ArrayList<String> dataArray2,java.util.ArrayList<String> dataArray3)
    {
       this.line = line;
       this.dataArray = dataArray;
@@ -71,8 +71,10 @@ public class processbook extends NotifyingThread
 		String[] author = authors.split(";");
 		int tempcounter = 0;
 		for (int i = 0; i < author.length; i++){
-			String authoridstring = line[0]+Integer.toString(tempcounter);
+			String pstring = line[0]+Integer.toString(tempcounter);
 			String art = "";
+			//dataArray3.add(pstring);
+			String dstring = pstring+",";
 			String[] authorvars = author[i].split(",");
 			if (authorvars.length > 1){
 			
@@ -91,25 +93,116 @@ public class processbook extends NotifyingThread
 			
 				//firstname&middlename
 				String firstmiddletemp = getAuthorSplit(authorvars[1].trim());
-				String FIRSTNAME = firstmiddletemp.substring(0,firstmiddletemp.indexOf(","));
-				String MIDDLENAME = firstmiddletemp.substring(firstmiddletemp.indexOf(",")+1,firstmiddletemp.length());
-				FIRSTNAME = FIRSTNAME.replaceAll(pattern2, "");
-				MIDDLENAME = MIDDLENAME.replaceAll(pattern2, "");
-
-				
-				String LASTNAME = authorvars[0].trim();
+				dstring = dstring+firstmiddletemp+",";
+				//lastname
+				dstring = dstring+souroundingvar+authorvars[0].trim()+souroundingvar+",";
 				//displayname
-				String DISPLAYNAME = authorvars[0].trim()+" "+authorvars[1].trim();
+				dstring = dstring+souroundingvar+authorvars[0].trim()+" "+authorvars[1].trim()+souroundingvar+",";
+				//suffix
+				dstring = dstring+nulllineString+",";
+				//addressline1
+				dstring = dstring+nulllineString+",";
+				//addressline2
+				dstring = dstring+nulllineString+",";
+				//addressline3
+				dstring = dstring+nulllineString+",";
+				//addressline4
+				dstring = dstring+nulllineString+",";
 				//addressstring
-				String COUNTRY = "";
-				String ADDRESS = "";
+				String tempcountry = "";
 				if (authorvars.length > 2){
-					ADDRESS = isGoodLocation(authorvars[authorvars.length-3].trim()+",")+isGoodLocation(authorvars[authorvars.length-2].trim()+",")+authorvars[authorvars.length-1].trim();
-					ADDRESS = ADDRESS.trim();
-					COUNTRY = authorvars[authorvars.length-1].trim();
+					String tempaddy = souroundingvar+isGoodLocation(authorvars[authorvars.length-3].trim()+",")+isGoodLocation(authorvars[authorvars.length-2].trim()+",")+authorvars[authorvars.length-1].trim()+souroundingvar+",";
+					tempaddy = tempaddy.trim();
+					dstring = dstring+tempaddy;
+					tempcountry = authorvars[authorvars.length-1].trim();
 				}
+				else {
+					dstring = dstring +nulllineString+",";
+				}
+				//sate
+				dstring = dstring +nulllineString+",";
+				//city
+				dstring = dstring +nulllineString+",";
+				//zip
+				dstring = dstring +nulllineString+",";
+				//building
+				dstring = dstring +nulllineString+",";
+				//room
+				dstring = dstring +nulllineString+",";
+				//floor
+				dstring = dstring +nulllineString+",";
+				//lat
+				dstring = dstring + nullline+",";
+				//long
+				dstring = dstring + nullline+",";
+				//phone
+				dstring = dstring +nulllineString+",";
+				//fax
+				dstring = dstring +nulllineString+",";
+				//emailaddr
+				dstring = dstring +nulllineString+",";
+				//isactive
+				dstring = dstring + "1,";
+				//isvisible
+				dstring = dstring + "1";
+				dataArray.add(dstring);
 				
 				
+				
+				 URL getpmidurl = null;
+					try {
+						getpmidurl = new URL("http://enactforum.org/authordis/getpmids.php?first="+"");
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				        URLConnection yc = null;
+						try {
+							yc = getpmidurl.openConnection();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				        BufferedReader in = null;
+						try {
+							in = new BufferedReader(
+							                        new InputStreamReader(
+							                        yc.getInputStream()));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				        String inputLine;
+
+				        try {
+							while ((inputLine = in.readLine()) != null) 
+							    System.out.println(inputLine);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				        try {
+							in.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				        
+				        
+				        
+				/////////////////////    Table: [Profile.Import].[PersonAffiliation]      ////////////////////
+				String astring = pstring+",";
+				//internalusername
+				//astring = souroundingvar+internalusername+souroundingvar+",";
+				//title
+				astring = astring+nulllineString+",";
+				//emailaddr
+				astring = astring+nullline+",";
+				//primaryaffiliation
+				astring = astring+"1,";
+				//affilliationorder
+				astring = astring+"1,";
+				//institutionname
 				String inst = "";
 				String department = "";
 				
@@ -150,68 +243,48 @@ public class processbook extends NotifyingThread
 				department = department.trim();
 				inst = inst.trim();
 
-
-				
-				
-				URL getpmidurl = null;
-				try {
-					getpmidurl = new URL("http://enactforum.org/authordis/getpmids.php?first="+FIRSTNAME+"&middle="+MIDDLENAME+"&last="+LASTNAME+"&inst="+inst+"&pmid="+pmid1);
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
+			/*	String instsmall = "";
+				if (inst.length() > 49){
+					instsmall = inst.substring(0,49);
 				}
-		        URLConnection yc = null;
-				try {
-					yc = getpmidurl.openConnection();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				else {
+					instsmall = inst;
 				}
-		        BufferedReader in = null;
-				try {
-					in = new BufferedReader(
-					                        new InputStreamReader(
-					                        yc.getInputStream()));
-				} catch (IOException e) {
-					e.printStackTrace();
+				
+				if (instsmall.compareTo("and Genetics") == 0){
+					String stopasdfsd = "";
 				}
-		        String inputLine;
-	        	String resultpmids = "";
-		        try {
-					while ((inputLine = in.readLine()) != null) 
-					resultpmids = resultpmids + inputLine;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		        try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			        
-		        String temppmidlist = resultpmids.substring(0, resultpmids.indexOf("</PMIDList>"));
-		        temppmidlist = temppmidlist.substring(10);
-		        if (temppmidlist.length() > 2){
-		        	String pattern11 = "</PMID><PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern11, ",");
-		        	String pattern12 = "<PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern12, "");
-		        	String pattern13 = "</PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern13, "");
-		        }
-				String PMIDLIST = temppmidlist;
+				*/
 				
 				
 				
 				
-				dataArray.add(souroundingvar+pmid1+souroundingvar+","+
-						souroundingvar+FIRSTNAME+souroundingvar+","+
-						souroundingvar+MIDDLENAME+souroundingvar+","+
-						souroundingvar+LASTNAME+souroundingvar+","+
-						souroundingvar+DISPLAYNAME+souroundingvar+","+
-						souroundingvar+COUNTRY+souroundingvar+","+
-						souroundingvar+ADDRESS+souroundingvar+","+
-						souroundingvar+inst+souroundingvar+","+
-						souroundingvar+department+souroundingvar+","+
-						souroundingvar+PMIDLIST+souroundingvar);
+				
+				
+				
+				
+				astring = astring+souroundingvar+inst+souroundingvar+",";
+				//institutionabbreviation
+				astring = astring+souroundingvar+inst+souroundingvar+",";
+				//departmentname
+				astring = astring+souroundingvar+department+souroundingvar+",";
+				//departmentvisible
+				if (department.length() > 0){
+					astring = astring+"1,";
+				}
+				else {
+					astring = astring+"0,";
+				}	
+				//divisionname
+				astring = astring+nullline+",";
+				//facultyrank
+				astring = astring+nullline+",";
+				//facultyrankorder
+				astring = astring+nullline;
+				dataArray2.add(astring);
+				
+				
+				
 				tempcounter++;
 			}
 			
