@@ -22,6 +22,11 @@
 					la2.setStyle("color","#5e5c5c");
 					stroko.color = 0x747474;
 				}
+				
+				var tempname:String = "";
+				tempname = data.name;
+				tempname = tempname.replace("\\","");
+				data.name = tempname;
 			}
 			protected function onchange(event:FlexEvent):void
 			{
@@ -39,6 +44,12 @@
 					la2.setStyle("color","#5e5c5c");
 					stroko.color = 0x747474;
 				}
+				
+				var tempname:String = "";
+				tempname = data.name;
+				tempname = tempname.replace("\\","");
+				data.name = tempname;
+			
 			}
 		]]>
 	</fx:Script>

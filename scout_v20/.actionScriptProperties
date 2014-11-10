@@ -21,9 +21,9 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark_dmv.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_dmv.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/air/airframework.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/air/applicationupdater_ui.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_flashflexkit.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/air/applicationupdater_ui.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/air/airframework.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
@@ -45,9 +45,9 @@
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
-    <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="C:/Users/Ninja/Dropbox/Scout/scoutproffiles/ios/production/cascoutcardscout.mobileprovision" releasePackageType="ipa-app-store">
+    <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="C:/Users/Ninja/Dropbox/Scout/scoutproffiles/ios/Development/Developmentprofile.mobileprovision" releasePackageType="ipa-app-store">
       <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
-      <airSettings airCertificatePath="C:/Users/Ninja/Dropbox/Scout/scoutproffiles/ios/production/Certificates.p12" airTimestamp="true" anePathSet="true" version="1">
+      <airSettings airCertificatePath="C:/Users/Ninja/Dropbox/Scout/scoutproffiles/ios/Development/Certificates.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
           <anePathEntry path="libs/com.distriqt.NativeMaps.ane"/>

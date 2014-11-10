@@ -45,39 +45,40 @@
 				){	
 					return false;	
 				}
+				
+				if (nemail.text.indexOf("@") == -1){
+					return false;
+				}
+				
+				if (nemail.text.indexOf(".") == -1){
+					return false;
+				}
+				
+				if (nemail.text.indexOf(" ") != -1){
+					return false;
+				}
+				
+				if (nemail.text.indexOf("'") != -1){
+					return false;
+				}
+				
+				if (nemail.text.indexOf("\"") != -1){
+					return false;
+				}
+				
 				return true;
 			}
 			public function afterUpdateEmail(ev:ResultEvent):void {
 				busy = false;
 				if (ev.result[0].result.message == "ok"){
 					popupholder1.visible = true;
-					popupholder1.textl = "You have successfully updated your email. You will now be asked to login.";
-					setTimeout(logout,4000);
+					popupholder1.textl = "You have successfully updated your email.";				
+					doQuery("update localuser set email = '"+nemail.text+"';");
+					navigator.pushView(Home);
 				}
 				else {
 					popupholder1.visible = true;
 					popupholder1.textl = ev.result[0].result.message;
-				}
-
-			}
-			public function logout():void {
-				try{
-					sqlConnection = new SQLConnection();
-					sqlConnection.open(File.applicationStorageDirectory.resolvePath("localuser.db"));
-					var stmt:SQLStatement = new SQLStatement();
-					stmt.sqlConnection = sqlConnection;
-					stmt.text = "delete from localuser";
-					stmt.execute();
-					email = "";
-					nameGo = "";
-					cityGo = "";
-					this.parentApplication.logout();
-				}
-				catch(e:Error){
-					email = "";
-					nameGo = "";
-					cityGo = "";
-					this.parentApplication.logout();
 				}
 			}
 		]]>

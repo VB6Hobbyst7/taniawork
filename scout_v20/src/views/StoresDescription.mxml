@@ -37,36 +37,61 @@
 	
 			public function init(event:Event):void
 			{
-				if (data.facebook.length > 10){
-					
+				try{
+					if (data.facebook.length > 10){
+						
+					}
+					else {
+						fbbutton.alpha = 0.5;
+						fbbutton.mouseEnabled = false;
+						fbbutton.enabled = false;
+						fbbutton.mouseChildren = false;
+					}
 				}
-				else {
+				catch(e:Error){
 					fbbutton.alpha = 0.5;
 					fbbutton.mouseEnabled = false;
 					fbbutton.enabled = false;
 					fbbutton.mouseChildren = false;
-
 				}
 				
-				if (data.website.length > 10){
-					
+				try{
+					if (data.website.length > 10){
+						webbutton.alpha = 0.5;
+						webbutton.mouseEnabled = false;
+						webbutton.enabled = false;
+						webbutton.mouseChildren = false;
+					}
+					else {
+						webbutton.alpha = 0.5;
+						webbutton.mouseEnabled = false;
+						webbutton.enabled = false;
+						webbutton.mouseChildren = false;
+					}
 				}
-				else {
-					webbutton.alpha = 0.5;
-					webbutton.mouseEnabled = false;
-					webbutton.enabled = false;
-					webbutton.mouseChildren = false;
+				catch(e:Error){
+					
 				}
 				
-				if (data.twitter.length > 10){
-					
+				
+				try{
+					if (data.twitter.length > 10){
+						
+					}
+					else {
+						twbutton.alpha = 0.5;
+						twbutton.mouseEnabled = false;
+						twbutton.enabled = false;
+						twbutton.mouseChildren = false;
+					}
 				}
-				else {
+				catch(e:Error){
 					twbutton.alpha = 0.5;
 					twbutton.mouseEnabled = false;
 					twbutton.enabled = false;
 					twbutton.mouseChildren = false;
 				}
+				
 				navigator.activeView.mouseChildren = true;
 				starclick(0);
 				busy = true;
