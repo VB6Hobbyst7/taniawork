@@ -17,7 +17,6 @@ package components
 	public class MenuItem extends ItemRenderer
 	{
 		static public const s_imageCache:ContentCache = new ContentCache();
-	
 		public var addedallitems:Boolean = false;
 		public var gapo:uint = 4;
 		public function MenuItem()
@@ -178,8 +177,7 @@ package components
 			hg2.bottom = 15;
 			gg1.addElement(hg2)
 			v1.addElement(gg1);
-			
-			
+
 			var tempdisttext:String = "";
 			if ((data.distance != '')&&(data.distance != 'null')&&(data.distance != null)){
 				var dist:Number = data.distance;
@@ -212,10 +210,7 @@ package components
 			l4.maxDisplayedLines = 1;
 			l4.percentHeight = 100;
 			l4.setStyle("verticalAlign","middle");
-			
-		
-			
-	
+
 			var l6:Label = new Label();
 			l6.maxWidth = neededwidth;
 			l6.horizontalCenter = 0;
@@ -227,9 +222,7 @@ package components
 			l6.text = data.categoryname;
 			l6.maxDisplayedLines = 1;
 			l6.setStyle("verticalAlign","middle");
-			
-		
-			
+
 			var hg4:HGroup = new HGroup();
 			hg4.gap = 5/(320/Capabilities.screenDPI);
 			hg4.paddingLeft = 20/(320/Capabilities.screenDPI);

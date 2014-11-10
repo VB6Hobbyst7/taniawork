@@ -174,24 +174,24 @@
 					srt.fields = [new SortField("categoryname")];
 					//change below 
 					addcatsep = true;
-					dataList.top = -50;
+					dataList.top = -50/(320/Capabilities.screenDPI);
 				}
 				else if (u == 2){
 					srt.fields = [new SortField("rating",!reverse,true)];
 					addcatsep = false;
-					dataList.top = 150;
+					dataList.top = 150/(320/Capabilities.screenDPI);
 				}
 				else if (u == 3){
 					srt.fields = [new SortField("cost",!reverse,true)];
 					addcatsep = false;
-					dataList.top = 150;
+					dataList.top = 150/(320/Capabilities.screenDPI);
 				}
 				else if (u == 33){
 					addcatsep = true;
 					srt.fields = [new SortField("categoryname")];
 					//change below
 					addcatsep = true;
-					dataList.top = -50;
+					dataList.top = -50/(320/Capabilities.screenDPI);
 				}
 				listData.sort = srt;
 				listData.refresh();
@@ -464,7 +464,9 @@
 		</s:HTTPService>
 	</fx:Declarations>
 		<s:Group width="100%" height="100%" >
-			<s:List right="{6/(320/Capabilities.screenDPI)}" top="-50" bottom="0"
+			<s:List right="{6/(320/Capabilities.screenDPI)}"
+					top="{-50/(320/Capabilities.screenDPI)}"
+					bottom="0"
 					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
 					id="dataList" useVirtualLayout="false" 
 					verticalScrollPolicy="on" 
@@ -522,7 +524,7 @@
 							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
 				</s:HGroup>
 			</s:Group>
-			<s:Group width="100%" maxWidth="{this.width}" top="75" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Group width="100%" maxWidth="{this.width}" top="{75/(320/Capabilities.screenDPI)}" height="{75/(320/Capabilities.screenDPI)}">
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="1" color="#f2f2f2"/>

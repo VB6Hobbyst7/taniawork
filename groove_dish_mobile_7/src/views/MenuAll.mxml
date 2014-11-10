@@ -243,16 +243,23 @@
 				var srt:Sort = new Sort();
 				addcatsep = false;
 				if (currentselectmode == 1){
+					addcatsep = false;
+					dataList.top = 150/(320/Capabilities.screenDPI);
 					srt.fields = [new SortField("distance")];
 				}
 				else if (currentselectmode == 2){
 					addcatsep = true;
+					dataList.top = -50/(320/Capabilities.screenDPI);
 					srt.fields = [new SortField("categoryname")];
 				}
 				else if (currentselectmode == 3){
+					addcatsep = false;
+					dataList.top = 150/(320/Capabilities.screenDPI);
 					srt.fields = [new SortField("rating",!reverse,true)];
 				}
 				else if (currentselectmode == 4){
+					addcatsep = false;
+					dataList.top = 150/(320/Capabilities.screenDPI);
 					srt.fields = [new SortField("cost",!reverse,true)];
 				}
 				listData.sort = srt;
@@ -692,8 +699,21 @@
 								source480dpi="@Embed('../assets/480/close.png')"
 								source640dpi="@Embed('../assets/640/close.png')"/>
 	</fx:Declarations>
-	<s:VGroup width="100%" gap="-1" height="100%" horizontalAlign="center">
-		<s:Group id="filterarea" visible="true" width="100%" 
+	<s:Group width="100%"  height="100%" >
+		<s:List right="{6/(320/Capabilities.screenDPI)}" 
+				top="{-50/(320/Capabilities.screenDPI)}"
+				left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
+				 bottom="0"
+				id="dataList" useVirtualLayout="false" 
+				verticalScrollPolicy="on"   
+				creationComplete="listComplete(event)"
+				horizontalScrollPolicy="off"  
+				contentBackgroundColor="#FFFFFF"
+				skinClass="skins.MenuTitleSkin_MenuAll"
+				selectedIndex="1" 
+				change="dataListClick();"
+				click="dataListClick();"/>
+		<s:Group id="filterarea" visible="true" width="100%"  top="0"
 				 height="{75/(320/Capabilities.screenDPI)}">
 			<s:Rect width="100%"  height="100%">
 				<s:fill>
@@ -755,7 +775,7 @@
 						 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
 			</s:HGroup>
 		</s:Group>
-		<s:Group width="100%" maxWidth="{this.width}" 
+		<s:Group width="100%" maxWidth="{this.width}"  top="{75/(320/Capabilities.screenDPI)}"
 				 height="{75/(320/Capabilities.screenDPI)}">
 			<s:Rect width="100%"  height="100%">
 
@@ -837,18 +857,7 @@
 		</s:Group>
 		
 		<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List right="{6/(320/Capabilities.screenDPI)}" 
-					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
-					height="{this.height-(150/(320/Capabilities.screenDPI))}"
-					id="dataList" useVirtualLayout="false" 
-					verticalScrollPolicy="on"   
-					creationComplete="listComplete(event)"
-					horizontalScrollPolicy="off"  
-					contentBackgroundColor="#FFFFFF"
-					skinClass="skins.MenuTitleSkin_MenuAll"
-					selectedIndex="1" 
-					change="dataListClick();"
-					click="dataListClick();"/>
+			
 			
 			<s:Group id="nofind" visible="false" width="100%" height="100%">
 				<s:Rect width="100%"  height="100%">
@@ -915,7 +924,7 @@
 				</s:List>
 			</s:Group>
 		</s:Group>
-	</s:VGroup>
+	</s:Group>
 	<s:Label color="#494949"  id="loadingtext" visible="true" horizontalCenter="0" 
 			 styleName="textsize8"  text="Loading Dishes Near You..." verticalCenter="{-50/(320/Capabilities.screenDPI)}"/>
 	<s:Label color="#494949"  id="warn" visible="false" horizontalCenter="0" 
