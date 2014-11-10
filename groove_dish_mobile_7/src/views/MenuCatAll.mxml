@@ -174,20 +174,24 @@
 					srt.fields = [new SortField("categoryname")];
 					//change below 
 					addcatsep = true;
+					dataList.top = -50;
 				}
 				else if (u == 2){
 					srt.fields = [new SortField("rating",!reverse,true)];
 					addcatsep = false;
+					dataList.top = 150;
 				}
 				else if (u == 3){
 					srt.fields = [new SortField("cost",!reverse,true)];
 					addcatsep = false;
+					dataList.top = 150;
 				}
 				else if (u == 33){
 					addcatsep = true;
 					srt.fields = [new SortField("categoryname")];
 					//change below
 					addcatsep = true;
+					dataList.top = -50;
 				}
 				listData.sort = srt;
 				listData.refresh();
@@ -459,8 +463,18 @@
 			</s:request>
 		</s:HTTPService>
 	</fx:Declarations>
-		<s:VGroup width="100%" gap="0" height="100%" horizontalAlign="center">
-			<s:Group id="filterarea" width="100%" height="{75/(320/Capabilities.screenDPI)}">
+		<s:Group width="100%" height="100%" >
+			<s:List right="{6/(320/Capabilities.screenDPI)}" top="-50" bottom="0"
+					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
+					id="dataList" useVirtualLayout="false" 
+					verticalScrollPolicy="on" 
+					horizontalScrollPolicy="off" 
+					contentBackgroundAlpha="0" 
+					creationComplete="listComplete(event)"
+					skinClass="skins.MenuTitleSkin"
+					selectedIndex="1" change="dataListClick();"
+					click="dataListClick();"/>
+			<s:Group id="filterarea" width="100%" top="0" height="{75/(320/Capabilities.screenDPI)}">
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="1" color="#8eddce"/>
@@ -508,7 +522,7 @@
 							 mouseEnabledWhereTransparent="true" mouseEnabled="true"/>
 				</s:HGroup>
 			</s:Group>
-			<s:Group width="100%" maxWidth="{this.width}" height="{75/(320/Capabilities.screenDPI)}">
+			<s:Group width="100%" maxWidth="{this.width}" top="75" height="{75/(320/Capabilities.screenDPI)}">
 				<s:Rect width="100%"  height="100%">
 					<s:fill>
 						<s:SolidColor alpha="1" color="#f2f2f2"/>
@@ -566,20 +580,11 @@
 							 styleName="textsize1" text="Highest" verticalAlign="middle" verticalCenter="0"/>
 				</s:HGroup>
 			</s:Group>
-			<s:Group width="100%" horizontalCenter="0" height="100%" >
-			<s:List right="{6/(320/Capabilities.screenDPI)}" height="100%"
-					left="{6/(320/Capabilities.screenDPI)}" horizontalCenter="0"
-					id="dataList" useVirtualLayout="false" 
-					verticalScrollPolicy="on"  
-					horizontalScrollPolicy="off"  
-					contentBackgroundAlpha="1" 
-					contentBackgroundColor="#FFFFFF"
-					creationComplete="listComplete(event)"
-					skinClass="skins.MenuTitleSkin"
-					selectedIndex="1" change="dataListClick();"
-					click="dataListClick();"/>
-				</s:Group>
-		</s:VGroup>
+			
+		
+		
+		
+		</s:Group>
 	<s:Label color="#FFFFFF"  id="warn" visible="false" horizontalCenter="0" 
 			 styleName="textsize20"  text="No Items Available" verticalCenter="0"/>
 	<s:Group id="nofind" visible="false" width="100%" height="100%">
@@ -592,7 +597,7 @@
 				 text="No Results Found" color="#8c8c8c"/>
 	</s:Group>
 	
-	<s:Group id="dropDownContainer"  visible="false" alpha="0" width="100%" bottom="0" top="{filterarea.height*2}">
+	<s:Group id="dropDownContainer"  visible="false" alpha="0" width="100%" bottom="0" top="{filterarea.height*2-2}">
 		<s:Rect width="100%"  height="100%">
 			<s:fill>
 				<s:SolidColor alpha="0.8" color="#FFFFFF"/>

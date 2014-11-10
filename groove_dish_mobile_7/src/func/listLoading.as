@@ -18,13 +18,6 @@ public function startapplyingdata():void {
 	catch(e:Error){
 		dataList.dataProvider = new ArrayCollection();
 	}
-/*	if (dataList.dataProvider != null){
-		dataList.dataProvider.removeAll();
-	}
-	else {
-		dataList.dataProvider = new ArrayCollection();
-	}*/
-
 	var i:uint = 0;
 	for (i = 0; i < extraitemarray.length; i++){
 		try{
@@ -72,12 +65,6 @@ public function dolistupdate():void {
 	}
 	for (var i:uint = amountallreadyinlist; i < amounttogoto; i++){
 		if (listData[i].hideall != true){
-			/*if (addcatsep){
-			if (lastcat != listData[i].categoryname){
-			lastcat = listData[i].categoryname;
-			dataList.dataProvider.addItem({name:"catsep",catname:listData[i].categoryname,viz:true});
-			}
-			}*/
 			if (addcatsep){
 				if (lastcat != listData[i].categoryname){
 					lastcat = listData[i].categoryname;

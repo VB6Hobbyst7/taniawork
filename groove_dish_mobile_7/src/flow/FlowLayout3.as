@@ -1,68 +1,40 @@
 package flow
 {
 import mx.core.ILayoutElement;
+
 import spark.components.supportClasses.GroupBase;
 import spark.layouts.supportClasses.LayoutBase;
-public class FlowLayout4 extends LayoutBase
+
+public class FlowLayout3 extends LayoutBase
 {
+    //---------------------------------------------------------------
+    //
+    //  Class properties
+    //
+    //---------------------------------------------------------------
+    
+    //---------------------------------------------------------------
+    //  horizontalGap
+    //---------------------------------------------------------------
+    
     private var _horizontalGap:Number = 0;
     
     public function set horizontalGap(value:Number):void
     {
         _horizontalGap = value;
+        
+        // We must invalidate the layout
         var layoutTarget:GroupBase = target;
         if (layoutTarget)
-        {
-            layoutTarget.invalidateSize();
             layoutTarget.invalidateDisplayList();
-        }
     }
-    override public function measure():void
-    {
-        var totalWidth:Number = 0;
-        var totalHeight:Number = 0;
-
-        // loop through the elements
-        var layoutTarget:GroupBase = target;
-        var count:int = layoutTarget.numElements;
-        for (var i:int = 0; i < count; i++)
-        {
-            // get the current element, we're going to work with the
-            // ILayoutElement interface
-            var element:ILayoutElement = useVirtualLayout ? 
-                layoutTarget.getVirtualElementAt(i) :
-                layoutTarget.getElementAt(i);
-            
-            // In virtualization scenarios, the element returned could
-            // still be null. Look at the typical element instead.
-            if (!element)
-                element = typicalLayoutElement;
-
-            // Find the preferred sizes    
-            var elementWidth:Number = element.getPreferredBoundsWidth();
-            var elementHeight:Number = element.getPreferredBoundsHeight();
-            
-            totalWidth += elementWidth;
-            totalHeight = Math.max(totalHeight, elementHeight);
-        }
-        if (count > 0){
-            totalWidth += (count - 1) * _horizontalGap;
-			totalHeight += (count - 1) * _horizontalGap;
-		}
-	
-        layoutTarget.measuredWidth = totalWidth;
-        layoutTarget.measuredHeight = totalHeight;
-        
-        // Since we really can't fit the content in space any
-        // smaller than this, set the measured minimum size
-        // to be the same as the measured size.
-        // If the container is clipping and scrolling, it will
-        // ignore these limits and will still be able to 
-        // shrink below them.
-        layoutTarget.measuredMinWidth = totalWidth;
-        layoutTarget.measuredMinHeight = totalHeight; 
-    }
-
+    
+    //---------------------------------------------------------------
+    //
+    //  Class methods
+    //
+    //---------------------------------------------------------------
+    
     override public function updateDisplayList(containerWidth:Number,
                                                containerHeight:Number):void
     {
@@ -102,7 +74,7 @@ public class FlowLayout4 extends LayoutBase
                 
                 // Move down by elementHeight, we're assuming all 
                 // elements are of equal height
-                y += elementHeight+ _horizontalGap;
+                y += elementHeight;
             }
             
             // Position the element
