@@ -8,17 +8,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import au.com.bytecode.opencsv.CSVReader;
-
 import com.sun.xml.internal.txw2.Document;
-
+import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -36,6 +33,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 public class Gui{
     private JFrame f = new JFrame("Basic GUI"); //create Frame
     private JPanel pnlStart = new JPanel(); // North quadrant 
@@ -52,11 +52,11 @@ public class Gui{
 	public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
 	public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
 	public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
-
+	public authorentry[] authordataarray;
 	public PreparedStatement preparedStatement = null;
 	public java.util.ArrayList<String>  fileArray = new java.util.ArrayList<String>();
-    public String filepath = "C:/Users/mark/Desktop/Bone Marrow/1970s/ovid-pubmed-scopus-15_temp.csv";
-	public int numberofcores = 1;
+    public String filepath = "C:/Users/Ninja/Desktop/Bone Marrow/1970s/ovid-pubmed-scopus-15.csv";
+	public int numberofcores = 8;
 	public int counter = 0;
     public Gui(){
         f.setJMenuBar(mb);
@@ -98,6 +98,42 @@ public class Gui{
         f.setVisible(true);
   		beginMultiThreading();
     }  
+    static final Comparator<authorentry> ORDER_BY_FIRSTNAME = new Comparator<authorentry>() {
+    	public int compare(authorentry a1, authorentry a2) {
+    		if ((a1 != null)&&(a2 != null)){
+    			return a1.firstname.compareTo(a2.firstname);
+    		}
+    		return 0;	
+    	}
+    };
+    static final Comparator<authorentry> ORDER_BY_LASTNAME = new Comparator<authorentry>() {
+    	public int compare(authorentry a1, authorentry a2) {
+    		if ((a1 != null)&&(a2 != null)){
+    			return a1.lastname.compareTo(a2.lastname);
+    		}
+    		return 0;	
+    	}
+    };
+    static final Comparator<authorentry> ORDER_BY_MIDDLENAME = new Comparator<authorentry>() {
+    	public int compare(authorentry a1, authorentry a2) {
+    		if ((a1 != null)&&(a2 != null)){
+    			return a1.middlename.compareTo(a2.middlename);
+    		}
+    		return 0;	
+    	}
+    };
+    static final Comparator<authorentry> ORDER_BY_RULES = new Comparator<authorentry>() {
+    	public int compare(authorentry a1, authorentry a2) {
+    		int i = ORDER_BY_LASTNAME.compare(a1,a2);
+    		if(i == 0){
+    			i = ORDER_BY_FIRSTNAME.compare(a1,a2);
+    			if(i == 0){
+    				i = ORDER_BY_MIDDLENAME.compare(a1,a2);
+    			}
+    		}
+    		return i;
+    	}
+    };
     public void beginMultiThreading(){	
     	Thread tarray[] = new Thread[numberofcores];
     	  CSVReader reader = null;
@@ -115,7 +151,7 @@ public class Gui{
 				  			if (((tarray[i] == null)||(tarray[i].isAlive() == false))&&(foundthreadtouse == false)){
 				  				try{
 				  					foundthreadtouse = true;
-				  					NotifyingThread newThread = new processbook(nextLine,dataArray,dataArray2,dataArray3);
+				  					NotifyingThread newThread = new processbook(nextLine,dataArray);
 				  					tarray[i] = newThread;
 				  					tarray[i].start();	
 				  				}
@@ -137,106 +173,143 @@ public class Gui{
     	    try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {}
-	  writetocsvfile();
+    	    
+    	    Boolean threadstillinuse = false;
+    		do {
+    			threadstillinuse = false;
+    			for (int u = 0; u < numberofcores; u++){
+		  			if (((tarray[u] == null)||(tarray[u].isAlive() == false))){
+		  				
+		  			}
+		  			else {
+		  				threadstillinuse = true;
+		  			}
+		  			
+		  		  try {
+		  				Thread.sleep(250);
+		  			} catch (InterruptedException e) {}
+    			}
+    		}while(threadstillinuse);
+
+    		int i = 0;
+    		authordataarray = new authorentry[dataArray.size()];
+    		for (i = 0; i < dataArray.size()-1; i++){
+    			String datastring = dataArray.get(i);
+    			List<String> items = Arrays.asList(datastring.split("\\s*,\\s*"));
+    			authordataarray[i] = new authorentry();
+    			authordataarray[i].pmid = items.get(0).replace("\"", "");
+    			authordataarray[i].firstname = items.get(1).replace("\"", "");
+    			authordataarray[i].middlename = items.get(2).replace("\"", "");
+    			authordataarray[i].lastname = items.get(3).replace("\"", "");
+    			authordataarray[i].displayname = items.get(4).replace("\"", "");
+    			authordataarray[i].country = items.get(5).replace("\"", "");
+    			authordataarray[i].address = items.get(6).replace("\"", "");
+    			authordataarray[i].inst = items.get(7).replace("\"", "");
+    			authordataarray[i].department = items.get(8).replace("\"", "");
+    			authordataarray[i].pmidlist = items.get(9).replace("\"", "");
+    		}
+    		Arrays.sort(authordataarray, ORDER_BY_RULES);
+    		for (i = 0; i < authordataarray.length; i++){
+    			java.util.ArrayList<authorentry>  tempauthorarray = new java.util.ArrayList<authorentry>();
+    			tempauthorarray.add(authordataarray[i]);
+    			for (int j = i+1; j < authordataarray.length; j++){
+        			if ((authordataarray[i].lastname.compareTo(authordataarray[j].lastname) == 0)&&
+        					(authordataarray[i].firstname.compareTo(authordataarray[j].firstname) == 0)){
+        				tempauthorarray.add(authordataarray[j]);
+        			}
+        			else {
+        				if (tempauthorarray.size() > 1){
+        					parsesimilarauthors(tempauthorarray);
+        				}
+        				i = j-1;
+        				j = authordataarray.length;
+        			}
+        		}
+    		}
+    		writetocsvfile();
 	  }
+    public void parsesimilarauthors(java.util.ArrayList<authorentry>  tempauthorarray){
+    	for (int i = 0; i < tempauthorarray.size(); i++){
+    		java.util.ArrayList<authorentry>  tempauthorarray2 = new java.util.ArrayList<authorentry>();
+    		if (tempauthorarray.get(i).middlename.length() == 0){
+    			for (int j = 0; j < tempauthorarray.size(); j++){
+            		if ((j != i)&&(tempauthorarray.get(j).middlename.length() != 0)){
+            			//compare similar authors and determine matches by adding middle names to missings
+            			tempauthorarray2.add(tempauthorarray.get(j));
+            		}
+            	}
+    			//look at the list and determine which one this person is closer too. 
+    			if (tempauthorarray2.size() > 0){
+    				Boolean allsamemiddle = true;
+    				for (int k = 0; k < tempauthorarray2.size(); k++){
+    					for (int l = 0; l < tempauthorarray2.size(); l++){
+        					if (tempauthorarray2.get(k).middlename.compareTo(tempauthorarray2.get(l).middlename) != 0){
+        						allsamemiddle = false;
+        					}
+        				}
+    				}
+    				
+    				if (allsamemiddle){
+    					String stop = "";
+    				}
+    				else {
+    					String stop2 = "";
+    				}
+    			}
+    		}
+    	}
+    }
     public void writetocsvfile() {
-     /* 	try {
-      		System.out.println("Writing file -- C:/Users/mark/Desktop/table1.sql");
-  			@SuppressWarnings("resource")
-  			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table1.sql");
-  			for (int i = 0; i < dataArray.size()-1; i++){
-  				if (i != 0){
-  					writer.append("\n");
-  				}
-  				writer.append("INSERT INTO [Profile.Import].[Person] VALUES ("+dataArray.get(i)+");");
-  			
-  			}
-  			writer.close();
-      	} catch (IOException e) {
-  			e.printStackTrace();
-  		}
-      	try {
-			Thread.sleep(4000);
-		} catch (InterruptedException e) {}
-    	try {
-      		System.out.println("Writing file -- C:/Users/mark/Desktop/table2.sql");
-  			@SuppressWarnings("resource")
-  			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table2.sql");
-  			for (int i = 0; i < dataArray2.size()-1; i++){
-  				if (i != 0){
-  					writer.append("\n");
-  				}
-  				writer.append("INSERT INTO [Profile.Import].[PersonAffiliation] VALUES ("+dataArray2.get(i)+");");
-  			}
-  			writer.close();
-      	} catch (IOException e) {
-  			e.printStackTrace();
-  		}
-    	
-    	
-    	  try {
-		Thread.sleep(4000);
-	} catch (InterruptedException e) {}*/
-  
-  try {
-		System.out.println("Writing file -- C:/Users/mark/Desktop/AuthorReferenceTable.csv");
+		try {
+		String souroundingvar = "\"";
+		System.out.println("Writing file -- C:/Users/Ninja/Desktop/AuthorReferenceTable.csv");
 		@SuppressWarnings("resource")
-		FileWriter writer = new FileWriter("C:/Users/mark/Desktop/AuthorReferenceTable.csv");
-		writer.append("pmid,firstname,middlename,lastname,displayname,country,address,inst,department,pmidlist");		
+		FileWriter writer = new FileWriter("C:/Users/Ninja/Desktop/AuthorReferenceTable.csv");
+		writer.append("pmid,firstname,middlename,lastname,displayname,country,address,inst,department,pmidlist,edited");		
 		writer.append("\n");
-		for (int i = 0; i < dataArray.size()-1; i++){
+		for (int i = 0; i < authordataarray.length-1; i++){
 			if (i != 0){
 				writer.append("\n");
+		}		
+		writer.append(souroundingvar+authordataarray[i].pmid+souroundingvar+","+
+				souroundingvar+authordataarray[i].firstname+souroundingvar+","+
+				souroundingvar+authordataarray[i].middlename+souroundingvar+","+
+				souroundingvar+authordataarray[i].lastname+souroundingvar+","+
+				souroundingvar+authordataarray[i].displayname+souroundingvar+","+
+				souroundingvar+authordataarray[i].country+souroundingvar+","+
+				souroundingvar+authordataarray[i].address+souroundingvar+","+
+				souroundingvar+authordataarray[i].inst+souroundingvar+","+
+				souroundingvar+authordataarray[i].department+souroundingvar+","+
+				souroundingvar+authordataarray[i].pmidlist+souroundingvar+","+
+						souroundingvar+authordataarray[i].edited+souroundingvar);
 			}
-			writer.append(dataArray.get(i));
+			writer.close();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
 		}
-		writer.close();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-    	
-    	
-    	/*  try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {}
-    	  
-    	  try {
-        		System.out.println("Writing file -- C:/Users/mark/Desktop/table3.sql");
-    			@SuppressWarnings("resource")
-    			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table3.sql");
-    		//writer.append("\"internalusername\",\"title\",\"emailaddr\",\"primaryaffiliation\",\"affiliationorder\",\"institutionname\",\"institutionabbreviation\",\"departmentname\",\"departmentvisible\",\"divisionname\",\"facultyrank\",\"facultyrankorder\"");
-    			//writer.append("\n");
-    			for (int i = 0; i < dataArray3.size()-1; i++){
-    				if (i != 0){
-    					writer.append("\n");
-    				}
-    				writer.append("INSERT INTO [Profile.Data].[Publication.PubMed.Disambiguation] VALUES ('"+Integer.toString(i+1)+"',"+dataArray3.get(i)+",NULL,NULL);");
-    			}
-    			writer.close();
-        	} catch (IOException e) {
-    			e.printStackTrace();
-    		}*/
-      	  try {
-  				Thread.sleep(4000);
-  			} catch (InterruptedException e) {}
-      	System.exit(0); 
-      }
+		try {
+			Thread.sleep(4000);
+		} 
+		catch (InterruptedException e) {}
+		System.exit(0); 
+    }
     public void updateVisuals(){
-    	Runnable setTextRun = new Runnable() {
-		        public void run() {
-		          jl1.setText(Integer.toString(counter));	
-		          jl1.validate();
-		          jl3.setText(Integer.toString(numberofcores));
-					f.validate();
-		        }
-		      };
-		      try {
-				SwingUtilities.invokeAndWait(setTextRun);
-			} catch (InterruptedException e2) {
-				e2.printStackTrace();
-			} catch (InvocationTargetException e2) {
-				e2.printStackTrace();
-			}
+		Runnable setTextRun = new Runnable() {
+		public void run() {
+		      jl1.setText(Integer.toString(counter));	
+		      jl1.validate();
+		      jl3.setText(Integer.toString(numberofcores));
+				f.validate();
+		    }
+		  };
+		  try {
+			SwingUtilities.invokeAndWait(setTextRun);
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+		} catch (InvocationTargetException e2) {
+			e2.printStackTrace();
+		}
     }
 	public boolean isInteger( String input )  
 	{  

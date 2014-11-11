@@ -1,3 +1,60 @@
+ /* 	try {
+	System.out.println("Writing file -- C:/Users/mark/Desktop/table1.sql");
+	@SuppressWarnings("resource")
+	FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table1.sql");
+	for (int i = 0; i < dataArray.size()-1; i++){
+		if (i != 0){
+			writer.append("\n");
+		}
+		writer.append("INSERT INTO [Profile.Import].[Person] VALUES ("+dataArray.get(i)+");");
+	
+	}
+	writer.close();
+} catch (IOException e) {
+	e.printStackTrace();
+}
+try {
+	Thread.sleep(4000);
+} catch (InterruptedException e) {}
+try {
+	System.out.println("Writing file -- C:/Users/mark/Desktop/table2.sql");
+	@SuppressWarnings("resource")
+	FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table2.sql");
+	for (int i = 0; i < dataArray2.size()-1; i++){
+		if (i != 0){
+			writer.append("\n");
+		}
+		writer.append("INSERT INTO [Profile.Import].[PersonAffiliation] VALUES ("+dataArray2.get(i)+");");
+	}
+	writer.close();
+} catch (IOException e) {
+	e.printStackTrace();
+}
+
+
+try {
+Thread.sleep(4000);
+} catch (InterruptedException e) {}*/
+    	/*  try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {}
+    	  
+    	  try {
+        		System.out.println("Writing file -- C:/Users/mark/Desktop/table3.sql");
+    			@SuppressWarnings("resource")
+    			FileWriter writer = new FileWriter("C:/Users/mark/Desktop/table3.sql");
+    		//writer.append("\"internalusername\",\"title\",\"emailaddr\",\"primaryaffiliation\",\"affiliationorder\",\"institutionname\",\"institutionabbreviation\",\"departmentname\",\"departmentvisible\",\"divisionname\",\"facultyrank\",\"facultyrankorder\"");
+    			//writer.append("\n");
+    			for (int i = 0; i < dataArray3.size()-1; i++){
+    				if (i != 0){
+    					writer.append("\n");
+    				}
+    				writer.append("INSERT INTO [Profile.Data].[Publication.PubMed.Disambiguation] VALUES ('"+Integer.toString(i+1)+"',"+dataArray3.get(i)+",NULL,NULL);");
+    			}
+    			writer.close();
+        	} catch (IOException e) {
+    			e.printStackTrace();
+    		}*/
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

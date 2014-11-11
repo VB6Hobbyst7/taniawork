@@ -33,12 +33,10 @@ public class processbook extends NotifyingThread
    public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
-   public processbook(String[] line,java.util.ArrayList<String> dataArray,java.util.ArrayList<String> dataArray2,java.util.ArrayList<String> dataArray3)
+   public processbook(String[] line,java.util.ArrayList<String> dataArray)
    {
       this.line = line;
       this.dataArray = dataArray;
-      this.dataArray2 = dataArray2;
-      this.dataArray3 = dataArray3;
    }
    @Override
    public void doRun() {   
@@ -59,10 +57,8 @@ public class processbook extends NotifyingThread
 		try {
 			authors = new String(ptext,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 		authors = Normalizer.normalize(authors, Normalizer.Form.NFD);
 		authors = authors.replaceAll("[^\\p{ASCII}]", "");
 		authors = authors.replace("???", "");
@@ -75,32 +71,13 @@ public class processbook extends NotifyingThread
 			String art = "";
 			String[] authorvars = author[i].split(",");
 			if (authorvars.length > 1){
-			
-				//////////////////     Table: [Profile.Import].[Person]     ////////////////////
-				//internalusername
-				String internalusername = getRandomString(5);
-				
-				
-				if (internalusername.contains("ankiewicz")){
-					String astop55 = "";
-					if (internalusername.contains("?")){
-						String astop5555 = "";
-					}
-				}
-				//dstring = souroundingvar+internalusername+souroundingvar+",";
-			
-				//firstname&middlename
 				String firstmiddletemp = getAuthorSplit(authorvars[1].trim());
 				String FIRSTNAME = firstmiddletemp.substring(0,firstmiddletemp.indexOf(","));
 				String MIDDLENAME = firstmiddletemp.substring(firstmiddletemp.indexOf(",")+1,firstmiddletemp.length());
 				FIRSTNAME = FIRSTNAME.replaceAll(pattern2, "");
 				MIDDLENAME = MIDDLENAME.replaceAll(pattern2, "");
-
-				
 				String LASTNAME = authorvars[0].trim();
-				//displayname
 				String DISPLAYNAME = authorvars[0].trim()+" "+authorvars[1].trim();
-				//addressstring
 				String COUNTRY = "";
 				String ADDRESS = "";
 				if (authorvars.length > 2){
@@ -108,7 +85,6 @@ public class processbook extends NotifyingThread
 					ADDRESS = ADDRESS.trim();
 					COUNTRY = authorvars[authorvars.length-1].trim();
 				}
-				
 				
 				String inst = "";
 				String department = "";
@@ -149,11 +125,10 @@ public class processbook extends NotifyingThread
 				}
 				department = department.trim();
 				inst = inst.trim();
-
-
 				
-				
-				URL getpmidurl = null;
+				String inputLine;
+	        	String resultpmids = "";
+	        	/*URL getpmidurl = null;
 				try {
 					getpmidurl = new URL("http://enactforum.org/authordis/getpmids.php?first="+FIRSTNAME+"&middle="+MIDDLENAME+"&last="+LASTNAME+"&inst="+inst+"&pmid="+pmid1);
 				} catch (MalformedURLException e1) {
@@ -173,8 +148,7 @@ public class processbook extends NotifyingThread
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		        String inputLine;
-	        	String resultpmids = "";
+		        
 		        try {
 					while ((inputLine = in.readLine()) != null) 
 					resultpmids = resultpmids + inputLine;
@@ -185,8 +159,8 @@ public class processbook extends NotifyingThread
 					in.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
-			        
+				}     
+		     
 		        String temppmidlist = resultpmids.substring(0, resultpmids.indexOf("</PMIDList>"));
 		        temppmidlist = temppmidlist.substring(10);
 		        if (temppmidlist.length() > 2){
@@ -197,10 +171,8 @@ public class processbook extends NotifyingThread
 		        	String pattern13 = "</PMID>";
 		        	temppmidlist = temppmidlist.replaceAll(pattern13, "");
 		        }
-				String PMIDLIST = temppmidlist;
-				
-				
-				
+				String PMIDLIST = temppmidlist;*/
+	        	String PMIDLIST = "";
 				
 				dataArray.add(souroundingvar+pmid1+souroundingvar+","+
 						souroundingvar+FIRSTNAME+souroundingvar+","+
@@ -214,12 +186,8 @@ public class processbook extends NotifyingThread
 						souroundingvar+PMIDLIST+souroundingvar);
 				tempcounter++;
 			}
-			
-		
 		}
 		}
-		
-		
     }
 	
 	public Boolean containsbaddeaprtmentwords(String s){
