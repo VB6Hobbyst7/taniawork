@@ -11,6 +11,7 @@ public class authorentry extends Object
 	public String department = "";
 	public String pmidlist = "";
 	public String edited = "false";
+	public int tempid = 0;
 	public authorentry(){
 	 
 	} 

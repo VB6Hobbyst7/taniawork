@@ -1,35 +1,11 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.Random;
-
-import org.jsoup.Jsoup;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import au.com.bytecode.opencsv.CSVReader;
 public class processbook extends NotifyingThread
 {
    public String[] line;
    public String souroundingvar = "\"";
+   public String seperator = ";";
    public java.util.ArrayList<String>  dataArray = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray2 = new java.util.ArrayList<String>();
    public java.util.ArrayList<String>  dataArray3 = new java.util.ArrayList<String>();
@@ -43,8 +19,6 @@ public class processbook extends NotifyingThread
 	   process(this.line);	
    }
 	public void process(String[] line){
-		String nullline = "NULL";
-		String nulllineString = "''";
 		if (line[4].compareTo("[No author name available]") != 0){
 		String authors = line[17];
 		String pmid1 = line[0];
@@ -125,64 +99,16 @@ public class processbook extends NotifyingThread
 				}
 				department = department.trim();
 				inst = inst.trim();
-				
-				String inputLine;
-	        	String resultpmids = "";
-	        	/*URL getpmidurl = null;
-				try {
-					getpmidurl = new URL("http://enactforum.org/authordis/getpmids.php?first="+FIRSTNAME+"&middle="+MIDDLENAME+"&last="+LASTNAME+"&inst="+inst+"&pmid="+pmid1);
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
-				}
-		        URLConnection yc = null;
-				try {
-					yc = getpmidurl.openConnection();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-		        BufferedReader in = null;
-				try {
-					in = new BufferedReader(
-					                        new InputStreamReader(
-					                        yc.getInputStream()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		        
-		        try {
-					while ((inputLine = in.readLine()) != null) 
-					resultpmids = resultpmids + inputLine;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		        try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}     
-		     
-		        String temppmidlist = resultpmids.substring(0, resultpmids.indexOf("</PMIDList>"));
-		        temppmidlist = temppmidlist.substring(10);
-		        if (temppmidlist.length() > 2){
-		        	String pattern11 = "</PMID><PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern11, ",");
-		        	String pattern12 = "<PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern12, "");
-		        	String pattern13 = "</PMID>";
-		        	temppmidlist = temppmidlist.replaceAll(pattern13, "");
-		        }
-				String PMIDLIST = temppmidlist;*/
 	        	String PMIDLIST = "";
-				
-				dataArray.add(souroundingvar+pmid1+souroundingvar+","+
-						souroundingvar+FIRSTNAME+souroundingvar+","+
-						souroundingvar+MIDDLENAME+souroundingvar+","+
-						souroundingvar+LASTNAME+souroundingvar+","+
-						souroundingvar+DISPLAYNAME+souroundingvar+","+
-						souroundingvar+COUNTRY+souroundingvar+","+
-						souroundingvar+ADDRESS+souroundingvar+","+
-						souroundingvar+inst+souroundingvar+","+
-						souroundingvar+department+souroundingvar+","+
+				dataArray.add(souroundingvar+pmid1+souroundingvar+seperator+
+						souroundingvar+FIRSTNAME+souroundingvar+seperator+
+						souroundingvar+MIDDLENAME+souroundingvar+seperator+
+						souroundingvar+LASTNAME+souroundingvar+seperator+
+						souroundingvar+DISPLAYNAME+souroundingvar+seperator+
+						souroundingvar+COUNTRY+souroundingvar+seperator+
+						souroundingvar+ADDRESS+souroundingvar+seperator+
+						souroundingvar+inst+souroundingvar+seperator+
+						souroundingvar+department+souroundingvar+seperator+
 						souroundingvar+PMIDLIST+souroundingvar);
 				tempcounter++;
 			}
@@ -198,24 +124,6 @@ public class processbook extends NotifyingThread
 			return true;
 		}
 		else if (s.contains("Institute of Biology 3 Center for Systems Biology (ZBSA)")){
-			return true;
-		}
-		else if (s.contains("test")){
-			return true;
-		}
-		else if (s.contains("test")){
-			return true;
-		}
-		else if (s.contains("test")){
-			return true;
-		}
-		else if (s.contains("test")){
-			return true;
-		}
-		else if (s.contains("test")){
-			return true;
-		}
-		else if (s.contains("test")){
 			return true;
 		}
 		return false;
@@ -357,6 +265,9 @@ public class processbook extends NotifyingThread
 		if (s.contains("department")){
 			return true;
 		}
+		else if (s.contains("dept.")){
+			return true;
+		}
 		else if (s.contains("college")){
 			return true;
 		} 
@@ -414,6 +325,12 @@ public class processbook extends NotifyingThread
 		else if (s.contains("laborat")){
 			return true;
 		}
+		else if (s.contains("lab.")){
+			return true;
+		}
+		else if (s.contains("med.")){
+			return true;
+		}
 		else if (s.contains("academ")){
 			return true;
 		}
@@ -455,6 +372,9 @@ public class processbook extends NotifyingThread
 		if (s.contains("depart")){
 			return true;
 		}
+		if (s.contains("dept.")){
+			return true;
+		}
 		else if (s.contains("dept")){
 			return true;
 		}
@@ -462,6 +382,9 @@ public class processbook extends NotifyingThread
 			return true;
 		}
 		else if (s.contains("division")){
+			return true;
+		}
+		else if (s.contains("lab.")){
 			return true;
 		}
 		

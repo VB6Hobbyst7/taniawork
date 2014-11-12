@@ -8,14 +8,18 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import au.com.bytecode.opencsv.CSVReader;
+
 import com.sun.xml.internal.txw2.Document;
 import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -24,8 +28,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -98,6 +106,7 @@ public class Gui{
         f.setVisible(true);
   		beginMultiThreading();
     }  
+   
     static final Comparator<authorentry> ORDER_BY_FIRSTNAME = new Comparator<authorentry>() {
     	public int compare(authorentry a1, authorentry a2) {
     		if ((a1 != null)&&(a2 != null)){
@@ -171,9 +180,10 @@ public class Gui{
 			} catch (IOException e) {e.printStackTrace();}
     	    
     	    try {
-				Thread.sleep(4000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {}
     	    
+    	    //Start of wait for threads to be finished
     	    Boolean threadstillinuse = false;
     		do {
     			threadstillinuse = false;
@@ -190,12 +200,13 @@ public class Gui{
 		  			} catch (InterruptedException e) {}
     			}
     		}while(threadstillinuse);
-
+    		//end of wait for threads to be finished. 
+    		
     		int i = 0;
     		authordataarray = new authorentry[dataArray.size()];
     		for (i = 0; i < dataArray.size()-1; i++){
     			String datastring = dataArray.get(i);
-    			List<String> items = Arrays.asList(datastring.split("\\s*,\\s*"));
+    			List<String> items = Arrays.asList(datastring.split("\\s*;\\s*"));
     			authordataarray[i] = new authorentry();
     			authordataarray[i].pmid = items.get(0).replace("\"", "");
     			authordataarray[i].firstname = items.get(1).replace("\"", "");
@@ -208,57 +219,74 @@ public class Gui{
     			authordataarray[i].department = items.get(8).replace("\"", "");
     			authordataarray[i].pmidlist = items.get(9).replace("\"", "");
     		}
+    		int counter = 0;
     		Arrays.sort(authordataarray, ORDER_BY_RULES);
-    		for (i = 0; i < authordataarray.length; i++){
+    		tarray = new Thread[numberofcores];
+    		for (i = 0; i < authordataarray.length-1; i++){
     			java.util.ArrayList<authorentry>  tempauthorarray = new java.util.ArrayList<authorentry>();
     			tempauthorarray.add(authordataarray[i]);
-    			for (int j = i+1; j < authordataarray.length; j++){
+    			authordataarray[i].tempid = i;
+    			for (int j = i+1; j < authordataarray.length-1; j++){
         			if ((authordataarray[i].lastname.compareTo(authordataarray[j].lastname) == 0)&&
         					(authordataarray[i].firstname.compareTo(authordataarray[j].firstname) == 0)){
+        				authordataarray[j].tempid = j;
         				tempauthorarray.add(authordataarray[j]);
         			}
         			else {
         				if (tempauthorarray.size() > 1){
-        					parsesimilarauthors(tempauthorarray);
+        					Boolean foundthreadtouse = false;
+        					do {
+        				  		for (int p = 0; p < numberofcores; p++){
+        				  			if (((tarray[p] == null)||(tarray[p].isAlive() == false))&&(foundthreadtouse == false)){
+        				  				try{
+        				  					foundthreadtouse = true;
+        				  					NotifyingThread newThread = new processauthor(authordataarray,tempauthorarray);
+        				  					tarray[p] = newThread;
+        				  					tarray[p].start();	
+        				  				}
+        								catch(Exception StringIndexOutOfBoundsException){}
+        				  			}
+        				  		}
+        				  		if (foundthreadtouse == false){
+        				  			try {
+        								Thread.sleep(2000);
+        							} catch (InterruptedException e) {}
+        				  		}
+        					} while (foundthreadtouse == false);	
         				}
         				i = j-1;
         				j = authordataarray.length;
         			}
         		}
+    			System.out.println("Doing item : "+Integer.toString(i));
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {}
     		}
+    		
+    		 //Start of wait for threads to be finished
+    	    threadstillinuse = false;
+    		do {
+    			threadstillinuse = false;
+    			for (int u = 0; u < numberofcores; u++){
+		  			if (((tarray[u] == null)||(tarray[u].isAlive() == false))){
+		  				
+		  			}
+		  			else {
+		  				threadstillinuse = true;
+		  			}
+		  			
+		  		  try {
+		  				Thread.sleep(250);
+		  			} catch (InterruptedException e) {}
+    			}
+    		}while(threadstillinuse);
+    		//end of wait for threads to be finished. 
+
+    		Arrays.sort(authordataarray, ORDER_BY_RULES);
     		writetocsvfile();
 	  }
-    public void parsesimilarauthors(java.util.ArrayList<authorentry>  tempauthorarray){
-    	for (int i = 0; i < tempauthorarray.size(); i++){
-    		java.util.ArrayList<authorentry>  tempauthorarray2 = new java.util.ArrayList<authorentry>();
-    		if (tempauthorarray.get(i).middlename.length() == 0){
-    			for (int j = 0; j < tempauthorarray.size(); j++){
-            		if ((j != i)&&(tempauthorarray.get(j).middlename.length() != 0)){
-            			//compare similar authors and determine matches by adding middle names to missings
-            			tempauthorarray2.add(tempauthorarray.get(j));
-            		}
-            	}
-    			//look at the list and determine which one this person is closer too. 
-    			if (tempauthorarray2.size() > 0){
-    				Boolean allsamemiddle = true;
-    				for (int k = 0; k < tempauthorarray2.size(); k++){
-    					for (int l = 0; l < tempauthorarray2.size(); l++){
-        					if (tempauthorarray2.get(k).middlename.compareTo(tempauthorarray2.get(l).middlename) != 0){
-        						allsamemiddle = false;
-        					}
-        				}
-    				}
-    				
-    				if (allsamemiddle){
-    					String stop = "";
-    				}
-    				else {
-    					String stop2 = "";
-    				}
-    			}
-    		}
-    	}
-    }
+   
     public void writetocsvfile() {
 		try {
 		String souroundingvar = "\"";
