@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"  visible="false"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var text1:String = "";
+			[Bindable]
+			public var icontext:String = "";
+		]]>
+	</fx:Script>
+	<fx:Script source="../func/global.as"/>
+	<s:states>
+		<s:State name="step1"/>
+		<s:State name="step2"/>
+		<s:State name="step3" />
+	</s:states>
+	<s:Group width="100%" height="100%" >
+		<s:Rect width="100%" height="100%">
+			<s:fill><s:SolidColor alpha="0.5" color="#000000"/></s:fill>
+		</s:Rect>
+		<s:Group left="{30/(320/Capabilities.screenDPI)}" right="{30/(320/Capabilities.screenDPI)}" 
+				 horizontalCenter="0" verticalCenter="0"
+				 mouseDownOutside="{this.visible = false}">
+			<s:Rect width="100%" height="100%" radiusX="{8/(320/Capabilities.screenDPI)}" radiusY="{8/(320/Capabilities.screenDPI)}">
+				<s:fill><s:SolidColor alpha="1" color="#ffffff"/></s:fill>
+			</s:Rect>
+			<s:VGroup width="100%"  gap="0"
+					  paddingTop="{30/(320/Capabilities.screenDPI)}"
+					  horizontalCenter="0" verticalCenter="0">
+				<s:Group width="100%" height="100%">
+					<s:HGroup width="100%"   gap="{20/(320/Capabilities.screenDPI)}"
+							  paddingBottom="{10/(320/Capabilities.screenDPI)}" 
+							  verticalCenter="0" verticalAlign="middle"
+							  paddingLeft="{30/(320/Capabilities.screenDPI)}"
+							  paddingRight="{30/(320/Capabilities.screenDPI)}">
+						<s:BitmapImage id="icimg" source="{'../assets/'+getDPIHeight()+'/'+icontext}" 
+									   smooth="true" contentLoader="{s_imageCache}"/>
+						<s:Label  mouseEnabled="false" fontWeight="bold" verticalAlign="middle" textAlign="center"
+								  horizontalCenter="0" height="{icimg.height}" text="{text1}"
+								  styleName="textsize4" color="#36ccba"/>
+					</s:HGroup>	
+					<s:BitmapImage right="{30/(320/Capabilities.screenDPI)}"
+								   contentLoader="{s_imageCache}" visible="false" visible.step2="true"
+								   verticalCenter="0">
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/alertlarge.png')"
+													source240dpi="@Embed('../assets/240/alertlarge.png')"
+													source320dpi="@Embed('../assets/320/alertlarge.png')"
+													source480dpi="@Embed('../assets/480/alertlarge.png')"
+													source640dpi="@Embed('../assets/640/alertlarge.png')"/>
+						</s:source>
+					</s:BitmapImage>
+				</s:Group>
+				
+				<s:Group width="100%">
+					<s:Line left="{30/(320/Capabilities.screenDPI)}" right="{30/(320/Capabilities.screenDPI)}" > 
+						<s:stroke><s:SolidColorStroke color="#36ccba" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
+				</s:Group>
+			
+				<s:Group width="100%">
+					<s:Label paddingLeft="{30/(320/Capabilities.screenDPI)}"
+							 paddingTop="{30/(320/Capabilities.screenDPI)}"
+							 paddingBottom="{30/(320/Capabilities.screenDPI)}"
+							 paddingRight="{30/(320/Capabilities.screenDPI)}"
+							 text.step1="Select any dietary restrictions that apply to you, and our menus will be customized to only display what is safe for you to eat!"
+							 text.step2="Dishes will display red exclamation mark if they require modification(s) in order to be safe to eat. Look for the modification instructions on the dish page!"
+							 text.step3="Always inform your server of any dietary restrictions you may have! GrooveDish displays restriction information for dishes only: inmost cases specials and drinks require you to speak with the server. You and the restaurant are still responsible for your safety. Please see our Terms of Use for more information. Happy dining!"
+							 color="#4d4d4d" width="{this.parentApplication.width-(120/(320/Capabilities.screenDPI))}"
+							 styleName="textsize0"/>
+				</s:Group>
+				<s:Group height="{30/(320/Capabilities.screenDPI)}"/>
+				<s:Line  left="0" right="0"  top="0" width="100%"  > 
+					<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+				</s:Line>
+				<s:HGroup width="100%">
+					<s:Group width="49%" height="100%"
+							 click.step2="{this.currentState = 'step1'}"
+							 click.step3="{this.currentState = 'step2'}"
+							 mouseDown="gDown(event);" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Label width="100%"
+								 paddingBottom="{20/(320/Capabilities.screenDPI)}" 
+								 paddingTop="{30/(320/Capabilities.screenDPI)}"
+								 textAlign="center"
+								 text="Back"  mouseEnabled="false" fontWeight="bold"
+								 styleName="textsize3" 
+								 color.step1="#cccccc"
+								 color.step2="#36ccba"
+								 color.step3="#36ccba"/>
+					</s:Group>
+					<s:Line  left="0" right="0"  top="0"  height="100%"  rotation="90" > 
+						<s:stroke><s:SolidColorStroke color="0x525f64" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+					</s:Line>
+					<s:Group width="49%" height="100%"
+							 click.step1="{this.currentState = 'step2'}"
+							 click.step2="{this.currentState = 'step3'}"
+							 click.step3="{this.visible = false}"
+							 mouseDown="gDown(event);" mouseOver="gOver(event);"
+							 mouseOut="gOut(event);" mouseUp="gOut(event);">
+						<s:Label paddingBottom="{20/(320/Capabilities.screenDPI)}" 
+								 paddingTop="{30/(320/Capabilities.screenDPI)}"
+								 width="100%"
+								 textAlign="center"
+								 text.step1="Next"  
+								 text.step2="Next"  
+								 text.step3="Continue"  
+								 mouseEnabled="false" fontWeight="bold"
+								 styleName="textsize3" color="#36ccba"/>
+					</s:Group>
+				</s:HGroup>
+			</s:VGroup>
+		</s:Group>
+	</s:Group>
+</s:Group>

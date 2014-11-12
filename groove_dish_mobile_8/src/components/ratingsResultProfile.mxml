@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				dataChange="dchange()"
+				creationComplete="init(event)"
+				mouseOver="gOver(event);" mouseDown="gDown(event);"
+				mouseOut="gOut(event);" mouseUp="gOut(event);">
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			protected function init(event:FlexEvent):void
+			{
+				doStuff();
+			}
+			public function dchange():void
+			{
+				doStuff();
+			}
+			public function doStuff():void {
+				if (data != null){
+			
+					if (data.ratingdescription != null){
+						if (data.ratingdescription.length < 5){
+							desccont.height = -1;
+						}
+						else {
+							desccont.percentHeight = 100;
+						}
+					}
+					else {
+						desccont.height = -1;
+					}
+					
+
+					if (data.totallikecount == null){
+						data.totallikecount = "0";
+					}
+					
+					if ((data.picture == "None")||(data.picture == "")||
+						(data.picture == null)||(data.picture == "null")){
+						bmpImg.source = "assets/"+getDPIHeight().toString()+"/profile-dark.png";
+						bmpImg.scaleMode = "stretch";
+						bmpImg.smooth = true;
+					}
+					else {
+						bmpImg.source = data.picture;
+						bmpImg.smooth = false;
+					}
+					
+					if ((data.ratingdescription == null)||(data.ratingdescription.length < 4)){
+						data.ratingdescription = "";	
+					}
+					var ratingstring:String = "";
+					var ratingnumber:Number = 0;		
+					ratingstring = data.rating.toString();
+					ratingnumber = Number(data.rating);
+					if (ratingnumber == 0){
+						ratinglabel.text = "-";
+					}
+					
+					if (ratingnumber >= 10){
+						ratingnumber = 10;
+						ratinglabel.text = "10";
+					}
+
+					var datedata:String = data.ratingdate;
+					var year:String = datedata.substring(0,datedata.indexOf("-"));
+					datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+					var month:String = datedata.substring(0,datedata.indexOf("-"));
+					datedata = datedata.substring(datedata.indexOf("-")+1,datedata.length);
+					var day:String = datedata.substring(0,datedata.indexOf(" "));
+					datedata = datedata.substring(datedata.indexOf(" ")+1,datedata.length);
+					var time:String = datedata;
+					var fullmonth:String = getMonth(Number(month));
+					var stop:String = "";
+					datetext.text = fullmonth+" "+day+", "+year+" at "+time;
+				}
+			}
+		]]>
+	</fx:Script>
+<s:Group width="{this.width}"  mouseEnabled="false"   id="megacont"  >
+	<s:VGroup width="100%" height="100%"  gap="10"
+			  paddingTop="{30/(320/Capabilities.screenDPI)}" paddingRight="{30/(320/Capabilities.screenDPI)}"
+			  paddingBottom="{30/(320/Capabilities.screenDPI)}" paddingLeft="{30/(320/Capabilities.screenDPI)}">
+		<s:HGroup width="100%" verticalAlign="middle" gap="{20/(320/Capabilities.screenDPI)}">
+			<s:VGroup id="vg1" verticalAlign="top" height="100%" horizontalAlign="left">
+				<s:BitmapImage id="bmpImg" scaleMode="zoom"  contentLoader="{s_imageCache}"  height="75" width="75">
+					<s:mask>
+						<s:BorderContainer id="bmpMask" 
+										   cornerRadius="{20/(320/Capabilities.screenDPI)}"
+										   width="{75/(320/Capabilities.screenDPI)}"
+										   height="{75/(320/Capabilities.screenDPI)}" />
+					</s:mask>
+				</s:BitmapImage>
+			</s:VGroup>
+			<s:VGroup verticalAlign="top" height="100%" maxWidth="{this.parent.width-vg1.width-60}" gap="{8/(320/Capabilities.screenDPI)}" horizontalAlign="left">
+				<s:HGroup height="100%" width="100%" horizontalAlign="left" verticalAlign="middle">
+					<s:Label id="ratinglabel"  text="{data.rating}" color="#36ccba"  fontWeight="bold"
+							 styleName="textsize1" verticalAlign="middle"/>
+					<s:Label  text="{data.name}"
+							  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+					<s:BitmapImage contentLoader="{s_imageCache}" verticalAlign="middle" verticalCenter="0"  >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/trirating.png')"
+													source240dpi="@Embed('../assets/240/trirating.png')"
+													source320dpi="@Embed('../assets/320/trirating.png')"
+													source480dpi="@Embed('../assets/480/trirating.png')"
+													source640dpi="@Embed('../assets/640/trirating.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:Label  text="{data.menuname}" width="100%" maxDisplayedLines="1"
+							  color="#4d4d4d"  fontWeight="bold" styleName="textsize1" verticalAlign="middle"/>
+				</s:HGroup>
+				<s:Group width="100%" id="desccont" >
+					<s:Label width="100%" visible="{data.ratingdescription.length != 0}" height="100%" verticalCenter="0"  maxDisplayedLines="3"  text="{data.ratingdescription}" 
+							 color="#4d4d4d"  fontWeight="normal" styleName="textsize0"  verticalAlign="middle"/>
+				</s:Group>
+				<s:HGroup verticalAlign="middle" id="likecont" paddingBottom="{8/(320/Capabilities.screenDPI)}" paddingTop="0" width="100%" height="100%" horizontalAlign="left" 
+						  horizontalCenter="0">
+					<s:BitmapImage verticalAlign="middle" verticalCenter="0" contentLoader="{s_imageCache}"  >
+						<s:source>
+							<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/triratinggreen.png')"
+													source240dpi="@Embed('../assets/240/triratinggreen.png')"
+													source320dpi="@Embed('../assets/320/triratinggreen.png')"
+													source480dpi="@Embed('../assets/480/triratinggreen.png')"
+													source640dpi="@Embed('../assets/640/triratinggreen.png')"/>
+						</s:source>
+					</s:BitmapImage>
+					<s:Label   text="{data.totallikecount}" height="100%" verticalCenter="0"  color="#36ccba"  fontWeight="bold"
+							   styleName="textsize0" verticalAlign="middle"/>
+				</s:HGroup>
+				<s:Label  text="{data.business_name}"  color="#4d4d4d"  fontWeight="bold"
+						  styleName="textsize0" verticalAlign="middle"/>
+				
+				
+				<s:Label id="datetext"   color="#808080"  fontWeight="normal"
+						 styleName="textsize0" verticalAlign="middle"/>
+			</s:VGroup>
+		</s:HGroup>
+	</s:VGroup>		
+	<s:Line left="{30/(320/Capabilities.screenDPI)}" right="0"  bottom="0" > 
+		<s:stroke><s:SolidColorStroke color="0xb2b2b2" weight="{1/(320/Capabilities.screenDPI)}"/></s:stroke>
+	</s:Line>
+</s:Group>
+</s:ItemRenderer>

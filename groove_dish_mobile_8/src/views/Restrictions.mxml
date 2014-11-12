@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="components.*"
+		xmlns:maps="com.google.maps.*" 	
+		backgroundAlpha="1"
+		backgroundColor="#e5e5e5"
+		contentBackgroundAlpha="1"
+		contentBackgroundColor="#e5e5e5"
+		viewActivate="init()" actionBarVisible="true"
+		title="Restrictions"   >
+	<s:actionContent></s:actionContent>
+	<fx:Script source="../func/global.as"/>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			import flash.filesystem.File;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.transitions.SlideViewTransition;
+			import spark.transitions.SlideViewTransitionMode;
+			import spark.transitions.ViewTransitionDirection;
+			[Bindable]
+			public var alphatitle:String = "Restrictions";
+			[Bindable]
+			public var togstatus:Boolean = false;
+			[Bindable]
+			public var catArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var alerArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var listData:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var onoffstatus:uint = 0;
+			public function init():void
+			{
+				createIfNotExsist("introtasks");
+				var resData:ArrayCollection = getDatabaseArray("SELECT * FROM introtasks where name = 'restrictions';");
+				if (resData.length == 0){
+					doQuery("insert into introtasks values('restrictions')");
+					popupholder1.visible = true;
+				}
+				setLoginVars();
+				createIfNotExsist("resvalues");
+				getRestrictions.send();
+			}		
+			public function usermenuclick():void {
+				navigator.pushView(AccountSettings);
+			}
+			public function goback(ev:MouseEvent):void {
+				navigator.popView();
+			}
+			public function afterGetRestrictions(event:ResultEvent):void
+			{
+				var i:uint = 0;
+				var j:uint = 0;
+				createIfNotExsist("resvalues");
+				var resvaluesData:ArrayCollection = getDatabaseArray("SELECT * FROM resvalues");
+				listData = new ArrayCollection();
+				try{			
+					listData = event.result[0].ress.res;		
+				}
+				catch(e:Error){
+					try{
+						listData.addItem(event.result[0].ress.res);
+					}
+					catch(e:Error){}
+				}	
+				
+				for (j = 0; j < listData.length; j++){
+					listData[j].chosen = 'no';
+					
+				}
+				if (resvaluesData.length > 0){
+					for (i = 0; i<resvaluesData.length; i++){
+						for (j = 0; j < listData.length; j++){
+							if (resvaluesData[i].id == listData[j].id){
+								listData[j].chosen = resvaluesData[i].chosen;
+							}
+						}
+					}
+				}
+				listData.refresh();
+				resList.dataProvider = listData;
+				for (i = 0; i < listData.length; i++){
+					if (listData[i].chosen == 'yes'){
+						resList.selectedIndices.push(i);
+					}
+				}
+				updateResDatabase();
+				resList.enabled = true;
+			} 
+			public function res_listClick(event:IndexChangeEvent):void
+			{		
+				try{
+					
+					if(resList.selectedItem.infostatus == true){
+						resList.selectedItem.infostatus = false;
+						popupholder2.text1 = resList.selectedItem.name;
+						popupholder2.text2 = resList.selectedItem.user_description;
+						popupholder2.visible = true;
+						
+					}
+					setTimeout(doublechecklist,150);
+				}
+				catch(e:Error){
+					setTimeout(doublechecklist,150);
+				}
+				
+			}
+			public function doublechecklist():void {
+				for (var j:uint = 0; j < listData.length; j++){
+					listData[j].chosen = 'no';	
+				}
+				for (var i:uint  = 0; i < resList.selectedIndices.length; i++){
+					listData[resList.selectedIndices[i]].chosen = 'yes'	
+				}
+				updateResDatabase();
+			}
+			
+			
+			
+			public function onoffclick():void {
+				if (onoffstatus == 1){
+					eatenimage.source = onoff1;
+					onoffstatus = 0;
+					resList.enabled = true;
+				}
+				else {
+					eatenimage.source = onoff2;
+					onoffstatus = 1;
+					resList.enabled = false;
+					for (var i:uint = 0; i < listData.length; i++){
+						listData[i].chosen = 'no';
+					}
+					listData.refresh();
+					resList.dataProvider = listData;
+					updateResDatabase();
+				}	
+			}
+			public function updateResDatabase():void{		
+				doQuery("delete from resvalues");
+				for (var i:uint = 0; i < listData.length; i++){
+					doQuery("insert into resvalues values ("+listData[i].id+",'"+listData[i].name+"','"+listData[i].chosen+"')");
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>	
+		<s:MultiDPIBitmapSource id="onoff1"
+								source160dpi="@Embed('../assets/160/onoff1.png')"
+								source240dpi="@Embed('../assets/240/onoff1.png')"
+								source320dpi="@Embed('../assets/320/onoff1.png')"
+								source480dpi="@Embed('../assets/480/onoff1.png')"
+								source640dpi="@Embed('../assets/640/onoff1.png')"/>
+		<s:MultiDPIBitmapSource id="onoff2"
+								source160dpi="@Embed('../assets/160/onoff2.png')"
+								source240dpi="@Embed('../assets/240/onoff2.png')"
+								source320dpi="@Embed('../assets/320/onoff2.png')"
+								source480dpi="@Embed('../assets/480/onoff2.png')"
+								source640dpi="@Embed('../assets/640/onoff2.png')"/>
+		<s:HTTPService id="getRestrictions" method="GET" resultFormat="array"
+					   url="http://www.groovedish.com/php/mobile/getMyRestrictions.php"
+					   result="afterGetRestrictions(event)"/>
+	</fx:Declarations>
+	<s:Scroller left="0" horizontalCenter="0" verticalCenter="0" id="v2" right="0" height="100%"
+				verticalScrollPolicy="on" horizontalScrollPolicy="off" >
+		<s:VGroup gap="0" width="100%" height="100%">
+		<s:Group width="100%" height="{90/(320/Capabilities.screenDPI)}"  >
+			<s:Rect width="100%"  height="100%" horizontalCenter="0"  top="0">
+				<s:fill>
+					<s:SolidColor alpha="1" color="#ffffff"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label  fontFamily="HelveticaNeuecff" styleName="textsize1" fontWeight="bold"
+					  text="Enable Restrictions" 
+					  left="{85/(320/Capabilities.screenDPI)}"  verticalCenter="3"
+					  color="#4d4d4d"/>
+			<s:Image  id="eatenimage"  click="onoffclick();" right="{20/(320/Capabilities.screenDPI)}" contentLoader="{s_imageCache}"
+					  verticalCenter="0" mouseEnabled="false"  visible="true" >
+				<s:source>
+					<s:MultiDPIBitmapSource source160dpi="@Embed('../assets/160/onoff1.png')"
+											source240dpi="@Embed('../assets/240/onoff1.png')"
+											source320dpi="@Embed('../assets/320/onoff1.png')"
+											source480dpi="@Embed('../assets/480/onoff1.png')"
+											source640dpi="@Embed('../assets/640/onoff1.png')"/>
+				</s:source>
+			</s:Image>
+			<s:Line  left="0" right="0" bottom="0" > 
+				<s:stroke>
+					<s:SolidColorStroke color="0xcccccc" weight="{1/(320/Capabilities.screenDPI)}"/>
+				</s:stroke>
+			</s:Line>	
+		</s:Group>			
+		<s:List width="100%" horizontalCenter="0" contentBackgroundAlpha="1" 
+				id="resList" contentBackgroundColor="#e8e8e8" height="100%" 
+				itemRenderer="components.restrictResult"  allowMultipleSelection="true"
+				change="res_listClick(event)"    >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="contentJustify" gap="0"/>
+			</s:layout>
+		</s:List>
+	</s:VGroup>	
+		</s:Scroller>
+	<components:genericpopup id="popupholder2" icontext="bottomrestrictionsgreen.png"   width="100%" height="100%"/>
+	<components:restrictionstartpopup id="popupholder1" icontext="bottomrestrictionsgreen.png"  text1="Restrictions"  width="100%" height="100%"/>
+</s:View>
