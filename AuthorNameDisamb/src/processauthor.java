@@ -32,7 +32,6 @@ public class processauthor extends NotifyingThread
 	   process(this.tempauthorarray);	
    }
    public void process(java.util.ArrayList<authorentry>  tempauthorarray){
-	 
 	    	Boolean pmidfetched = false;
 	    	Boolean atleastonehadmiddleinital = false;
 	    	int i = 0;
@@ -62,7 +61,7 @@ public class processauthor extends NotifyingThread
 	    					//all the middle names are the same so its prob gonna be the same too. 
 	    					authordataarray[tempauthorarray.get(i).tempid].middlename = tempauthorarray2.get(0).middlename;
 	    					authordataarray[tempauthorarray.get(i).tempid].displayname = tempauthorarray2.get(0).displayname;
-	    					authordataarray[tempauthorarray.get(i).tempid].edited = "true";
+	    					authordataarray[tempauthorarray.get(i).tempid].edited = "1";
 	    				}
 	    				else {
 	    					//some entries are different so a more complex method is needed. 
@@ -83,14 +82,16 @@ public class processauthor extends NotifyingThread
 	    					String mainpmidlist = tempauthorarray.get(i).pmidlist;
 	    					String mainfirstname = tempauthorarray.get(i).firstname;
 	    					String mainlastname = tempauthorarray.get(i).lastname;
-	    					
+	    					if (tempauthorarray.get(0).lastname.trim().toLowerCase().compareTo("mullan") == 0){
+	    		    			String stop1 = "";
+	    		    		}
 	    					for (int j = 0; j < tempauthorarray.size(); j++){
+	    						tempauthorarray.get(j).temprelationval = 0.0;
 	    	            		if ((j != i)&&(tempauthorarray.get(j).middlename.length() != 0)){
 	    	            			//compare similar authors and determine possible matches
-	    	            			if ((foundpmidlistmatch == false)&&(comparePmidLists(mainpmidlist,tempauthorarray.get(j).pmidlist))){
-	    	            				authordataarray[tempauthorarray.get(i).tempid].middlename = tempauthorarray.get(j).middlename;
-	    	            				authordataarray[tempauthorarray.get(i).tempid].displayname = tempauthorarray.get(j).displayname;
-	    	        					authordataarray[tempauthorarray.get(i).tempid].edited = "true";
+	    	            			Double relationval = comparePmidLists(mainpmidlist,tempauthorarray.get(j).pmidlist);
+	    	            			if (relationval != 0.0){
+	    	            				tempauthorarray.get(j).temprelationval = relationval;
 	    	            				foundpmidlistmatch = true;
 	    	            			} 
 	    	            			tempauthorarray2.add(tempauthorarray.get(j));
@@ -98,12 +99,31 @@ public class processauthor extends NotifyingThread
 	    	            	}
 
 	    					if (foundpmidlistmatch == false){
-	    						//We need to proceed with further analysis
+	    						//We need to proceed with further analysis because no match was found
 	    						String stop2 = "";
 	    					}
 	    					else {
-	    						//found match was sucessfull
+	    						//found match was sucessfull now compare matches and rank temprelationval
 	    						String stop3 = "";
+	    						String maxmiddlename = "";
+	    						String maxdisplayname = "";
+	    						Double maxrelationval = 0.0;
+	    						for (int j = 0; j < tempauthorarray2.size(); j++){
+	    							if (tempauthorarray2.get(j).temprelationval > maxrelationval){
+	    								maxrelationval = tempauthorarray2.get(j).temprelationval;
+	    								maxmiddlename = tempauthorarray2.get(j).middlename;
+	    								maxdisplayname = tempauthorarray2.get(j).displayname;
+	    							}
+	    						}
+	    						
+	    						if (maxdisplayname.length() > 0){
+	    							authordataarray[tempauthorarray.get(i).tempid].middlename = maxmiddlename;
+    	            				authordataarray[tempauthorarray.get(i).tempid].displayname = maxdisplayname;
+    	        					authordataarray[tempauthorarray.get(i).tempid].edited = "1";
+	    						}
+	    						else {
+	    							System.out.println("Huge Error Check Now");
+	    						}
 	    					}
 	    				}
 	    			}
@@ -127,22 +147,22 @@ public class processauthor extends NotifyingThread
 	    		for (int k = 0; k < tempauthorarray.size(); k++){	    			
 	    			for (int l = 0; l < tempauthorarray.size(); l++){
 	    				if (l != k){
-	    					if (comparePmidLists(tempauthorarray.get(k).pmidlist,tempauthorarray.get(l).pmidlist)){
+	    					if (comparePmidLists(tempauthorarray.get(k).pmidlist,tempauthorarray.get(l).pmidlist) != 0.0){
 	    						String tempmiddleinital = "";
 	    						if ((tempauthorarray.get(k).middlename.length() == 0)&&(tempauthorarray.get(l).middlename.length() != 0)){
 	    							tempauthorarray.get(k).middlename = tempauthorarray.get(l).middlename;
-	    							tempauthorarray.get(k).edited = "phase2fix";
+	    							tempauthorarray.get(k).edited = "2";
 	    						}
 	    						else if ((tempauthorarray.get(k).middlename.length() != 0)&&(tempauthorarray.get(l).middlename.length() == 0)){
 	    							tempauthorarray.get(l).middlename = tempauthorarray.get(k).middlename;
-	    							tempauthorarray.get(l).edited = "phase2fix";
+	    							tempauthorarray.get(l).edited = "2";
 	    						}
 	    						else if ((tempauthorarray.get(k).middlename.length() == 0)&&(tempauthorarray.get(l).middlename.length() == 0)){
 	    							//neither have one so set it to middlenameinc
 	    							tempauthorarray.get(k).middlename = Integer.toString(middlenameinc);
 	    							tempauthorarray.get(l).middlename = Integer.toString(middlenameinc);
-	    							tempauthorarray.get(l).edited = "phase2fix";
-	    							tempauthorarray.get(k).edited = "phase2fix";
+	    							tempauthorarray.get(l).edited = "2";
+	    							tempauthorarray.get(k).edited = "2";
 	    							middlenameinc++;
 	    						}
 	    					}
@@ -150,24 +170,30 @@ public class processauthor extends NotifyingThread
 	    			}
 	    		}
 	    		
-	    		if (tempauthorarray.get(0).lastname.trim().toLowerCase().compareTo("Beutler") == 0){
+	    		//now that we have chunked up the different middles names by 1,2,3...ect we need to make sure it wasnt just a person who moved
+	    		if (tempauthorarray.get(0).lastname.trim().toLowerCase().compareTo("richter") == 0){
 	    			String stop1 = "";
 	    		}
 	    		String stop88 = "";
+	    		//now lock in all the edits to the original data
+    			for (int k = 0; k < tempauthorarray.size(); k++){
+    				authordataarray[tempauthorarray.get(k).tempid].middlename = tempauthorarray.get(k).middlename;
+    				authordataarray[tempauthorarray.get(k).tempid].displayname = tempauthorarray.get(k).displayname;
+					authordataarray[tempauthorarray.get(k).tempid].edited = "2";
+	    		}
 	    	}
-	    	
 	    	//Finish by merging all address info of similar authors
 	    	for (i = 0; i < tempauthorarray.size(); i++){
 	    		
 	    	}
 	    }
-	    public Boolean comparePmidLists(String pmidlist1, String pmidlist2){
-	    	String[] pmidlistone = pmidlist1.split(",");
-	    	String[] pmidlisttwo = pmidlist2.split(",");
+	    public Double comparePmidLists(String pmidlist1, String pmidlist2){
+	    	String[] pmidlistone = pmidlist1.split(";");
+	    	String[] pmidlisttwo = pmidlist2.split(";");
 	    	Arrays.sort(pmidlistone, NumberSort);
 	    	Arrays.sort(pmidlisttwo, NumberSort);
-	    	int wins = 0;
-			int losses = 0;
+	    	Double wins = 0.0;
+	    	Double losses = 0.0;
 	    	for (int i = 0; i < pmidlistone.length; i++){
 	    		Boolean foundmatch = false;
 	    		for (int j = 0; j < pmidlisttwo.length; j++){
@@ -185,15 +211,15 @@ public class processauthor extends NotifyingThread
 	    	}
 	    	//interperate wins vs losses and see if its significant to declar a match
 	    	if (wins > losses){
-	    		return true;
+	    		return (wins/(wins+losses));
 	    	}
 	    	//BACKWARDS THIS TIME JUST IN CASE
-	    	wins = 0;
-			losses = 0;
+	    	wins = 0.0;
+			losses = 0.0;
 	    	for (int i = 0; i < pmidlisttwo.length; i++){
 	    		Boolean foundmatch = false;
 	    		for (int j = 0; j < pmidlistone.length; j++){
-	    			if (pmidlistone[i].compareTo(pmidlisttwo[j]) == 0){
+	    			if (pmidlisttwo[i].compareTo(pmidlistone[j]) == 0){
 	    				foundmatch = true;
 	    			}
 	    		}
@@ -207,10 +233,10 @@ public class processauthor extends NotifyingThread
 	    	}
 	    	//interperate wins vs losses and see if its significant to declare a match
 	    	if (wins > losses){
-	    		return true;
+	    		return (wins/(wins+losses));
 	    	}
 	    	
-	    	return false;
+	    	return 0.0;
 	    }
 	    public String getPmidsOfAuthor(String FIRSTNAME,String MIDDLENAME, String LASTNAME, String inst, String pmid1,String country){
 	    	String inputLine;
@@ -248,7 +274,7 @@ public class processauthor extends NotifyingThread
 	        temppmidlist = temppmidlist.substring(10);
 	        if (temppmidlist.length() > 2){
 	        	String pattern11 = "</PMID><PMID>";
-	        	temppmidlist = temppmidlist.replaceAll(pattern11, ",");
+	        	temppmidlist = temppmidlist.replaceAll(pattern11, ";");
 	        	String pattern12 = "<PMID>";
 	        	temppmidlist = temppmidlist.replaceAll(pattern12, "");
 	        	String pattern13 = "</PMID>";

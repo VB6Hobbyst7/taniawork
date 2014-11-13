@@ -10,7 +10,10 @@ public class authorentry extends Object
 	public String inst = "";
 	public String department = "";
 	public String pmidlist = "";
+	public String year = "";
+	public String coauthors = "";
 	public String edited = "false";
+	public Double temprelationval;
 	public int tempid = 0;
 	public authorentry(){
 	 

@@ -22,6 +22,8 @@ public class processbook extends NotifyingThread
 		if (line[4].compareTo("[No author name available]") != 0){
 		String authors = line[17];
 		String pmid1 = line[0];
+		String YEAR = line[6];
+		String COAUTHORS = line[4];
 		String pattern = "'";
 		authors = authors.replaceAll(pattern, "");
 		String pattern2 = "\"";
@@ -109,7 +111,9 @@ public class processbook extends NotifyingThread
 						souroundingvar+ADDRESS+souroundingvar+seperator+
 						souroundingvar+inst+souroundingvar+seperator+
 						souroundingvar+department+souroundingvar+seperator+
-						souroundingvar+PMIDLIST+souroundingvar);
+						souroundingvar+PMIDLIST+souroundingvar+seperator+
+						souroundingvar+YEAR+souroundingvar+seperator+
+						souroundingvar+COAUTHORS+souroundingvar);
 				tempcounter++;
 			}
 		}

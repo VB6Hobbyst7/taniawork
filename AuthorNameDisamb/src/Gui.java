@@ -63,8 +63,9 @@ public class Gui{
 	public authorentry[] authordataarray;
 	public PreparedStatement preparedStatement = null;
 	public java.util.ArrayList<String>  fileArray = new java.util.ArrayList<String>();
-    public String filepath = "C:/Users/Ninja/Desktop/Bone Marrow/1970s/ovid-pubmed-scopus-15.csv";
-	public int numberofcores = 8;
+   // public String filepath = "C:/Users/Ninja/Desktop/Bone Marrow/1970s/ovid-pubmed-scopus-15_half.csv";
+    public String filepath = "C:/Users/Ninja/Desktop/app-pubmed-scopus-3.csv";
+    public int numberofcores = 8;
 	public int counter = 0;
     public Gui(){
         f.setJMenuBar(mb);
@@ -153,7 +154,9 @@ public class Gui{
     	  String [] nextLine;
     	    try {
 				while ((nextLine = reader.readNext()) != null) {
-					if (counter != 0){
+					 CharSequence cs1 = "mullan";
+					 String tempstring = nextLine[4].toString().toLowerCase();
+					if ((counter != 0)&&(tempstring.contains(cs1))){
 					Boolean foundthreadtouse = false;
 					do {
 				  		for (int i = 0; i < numberofcores; i++){
@@ -218,6 +221,8 @@ public class Gui{
     			authordataarray[i].inst = items.get(7).replace("\"", "");
     			authordataarray[i].department = items.get(8).replace("\"", "");
     			authordataarray[i].pmidlist = items.get(9).replace("\"", "");
+    			authordataarray[i].year = items.get(10).replace("\"", "");
+    			authordataarray[i].coauthors = items.get(11).replace("\"", "");
     		}
     		int counter = 0;
     		Arrays.sort(authordataarray, ORDER_BY_RULES);
@@ -258,14 +263,39 @@ public class Gui{
         				j = authordataarray.length;
         			}
         		}
-    			System.out.println("Doing item : "+Integer.toString(i));
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {}
+    			//do for the final last block 
+    			if (tempauthorarray.size() > 1){
+					Boolean foundthreadtouse = false;
+					do {
+				  		for (int p = 0; p < numberofcores; p++){
+				  			if (((tarray[p] == null)||(tarray[p].isAlive() == false))&&(foundthreadtouse == false)){
+				  				try{
+				  					foundthreadtouse = true;
+				  					NotifyingThread newThread = new processauthor(authordataarray,tempauthorarray);
+				  					tarray[p] = newThread;
+				  					tarray[p].start();	
+				  				}
+								catch(Exception StringIndexOutOfBoundsException){}
+				  			}
+				  		}
+				  		if (foundthreadtouse == false){
+				  			try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {}
+				  		}
+					} while (foundthreadtouse == false);	
+				}
+    			if (i % 10 == 0) {
+    				System.out.println("Doing item : "+Integer.toString(i)+"/"+Integer.toString(authordataarray.length-1));
+    				try {
+    					Thread.sleep(1);
+    				} catch (InterruptedException e) {}
+    			}	
     		}
     		
     		 //Start of wait for threads to be finished
     	    threadstillinuse = false;
+    	   int limitcounter = 0;
     		do {
     			threadstillinuse = false;
     			for (int u = 0; u < numberofcores; u++){
@@ -277,10 +307,11 @@ public class Gui{
 		  			}
 		  			
 		  		  try {
-		  				Thread.sleep(250);
+		  				Thread.sleep(500);
 		  			} catch (InterruptedException e) {}
     			}
-    		}while(threadstillinuse);
+    			//limitcounter++;
+    		}while((threadstillinuse)&&(limitcounter < 1000));
     		//end of wait for threads to be finished. 
 
     		Arrays.sort(authordataarray, ORDER_BY_RULES);
@@ -293,13 +324,14 @@ public class Gui{
 		System.out.println("Writing file -- C:/Users/Ninja/Desktop/AuthorReferenceTable.csv");
 		@SuppressWarnings("resource")
 		FileWriter writer = new FileWriter("C:/Users/Ninja/Desktop/AuthorReferenceTable.csv");
-		writer.append("pmid,firstname,middlename,lastname,displayname,country,address,inst,department,pmidlist,edited");		
+		writer.append("pmid,year,firstname,middlename,lastname,displayname,country,address,inst,department,coauthors,pmidlist,edited");		
 		writer.append("\n");
 		for (int i = 0; i < authordataarray.length-1; i++){
 			if (i != 0){
 				writer.append("\n");
 		}		
 		writer.append(souroundingvar+authordataarray[i].pmid+souroundingvar+","+
+				souroundingvar+authordataarray[i].year+souroundingvar+","+
 				souroundingvar+authordataarray[i].firstname+souroundingvar+","+
 				souroundingvar+authordataarray[i].middlename+souroundingvar+","+
 				souroundingvar+authordataarray[i].lastname+souroundingvar+","+
@@ -308,6 +340,7 @@ public class Gui{
 				souroundingvar+authordataarray[i].address+souroundingvar+","+
 				souroundingvar+authordataarray[i].inst+souroundingvar+","+
 				souroundingvar+authordataarray[i].department+souroundingvar+","+
+				souroundingvar+authordataarray[i].coauthors+souroundingvar+","+
 				souroundingvar+authordataarray[i].pmidlist+souroundingvar+","+
 						souroundingvar+authordataarray[i].edited+souroundingvar);
 			}
