@@ -99,36 +99,6 @@ public Data[] execute()
 					int step = 1;
 					this.logger.log(1,"Doing Bieber Method");
 
-					//get country lat and long info
-				    String country_lat_long_array[][] = new String[232][3];
-					String tempfile ="C:/country_full_lat_long.csv";
-					StringBuilder rs2 = new StringBuilder();
-			    	BufferedReader reader;
-			    	int counter2 = 0;
-					try {
-						reader = new BufferedReader( new FileReader (tempfile));
-						String         line = null;
-				    	String ls = System.getProperty("line.separator");
-			    	    try {
-							while( ( line = reader.readLine() ) != null ) {
-								String tempstring = line.toString();
-								String[] temparray = tempstring.split(",");
-								country_lat_long_array[counter2][0] = temparray[0];
-								country_lat_long_array[counter2][1] = temparray[1];
-								country_lat_long_array[counter2][2] = temparray[2];
-								counter2++;
-							}
-							
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} 
-					catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-					
-					
-					
 					String authorColumn = SupportedFileTypes.CitationFormat.getAuthorColumnByName(fileFormat);
 /*  82: 74 */       GraphContainer gc = GraphContainer.initializeGraph(dataTable, authorColumn, authorColumn, false, metaData, this.logger, this.progressMonitor);
 					Graph outputGraph = gc.buildGraph(authorColumn, authorColumn, "|", false, this.logger);
@@ -199,26 +169,14 @@ public Data[] execute()
 								afdata = afdata.substring(0, afdata.indexOf(";"));
 							}
 							
-							afdata = afdata.substring(afdata.lastIndexOf(",")+2,afdata.length());
+							afdata = afdata.substring(afdata.indexOf(",")+2,afdata.length());
 							
-						
+							String lat = afdata.substring(0,afdata.indexOf(","));
+							afdata = afdata.substring(afdata.indexOf(",")+2,afdata.length());
+							String longa = afdata;
 							
-							if (afdata.length() != 0){
-								String lat = "0";
-								String longa = "0";
-								for (int j = 0; j < country_lat_long_array.length-1; j++){
-									if (country_lat_long_array[j][0].toLowerCase().contains(afdata.toLowerCase())){
-										lat = country_lat_long_array[j][1];
-										longa = country_lat_long_array[j][2];
-									}
-								}
-								outputGraph.getNode(i).setDouble("lat",Double.parseDouble(lat));
-								outputGraph.getNode(i).setDouble("long",Double.parseDouble(longa));
-							}
-							else {
-								outputGraph.getNode(i).setDouble("lat",Double.parseDouble("0.0"));
-								outputGraph.getNode(i).setDouble("long",Double.parseDouble("0.0"));
-							}
+							outputGraph.getNode(i).setDouble("lat",Double.parseDouble(lat));
+							outputGraph.getNode(i).setDouble("long",Double.parseDouble(longa));
 							
 						}
 						catch (Exception ex ){
